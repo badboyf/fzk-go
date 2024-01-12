@@ -1,0 +1,93 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣官方题解",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/leetcode-solution/avatar_1582018938.png",
+          "userSlug": "leetcode-solution"
+        },
+        "username": "LeetCode-Solution"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法一：哈希表\n\n**思路与算法**\n\n我们可以用哈希表来统计数组 $\\textit{arr}$ 中每种字符串的频数。\n\n统计完成后，我们顺序遍历数组，如果遍历到的字符串在数组中出现频数为 $1$，则我们将计数 $k$ 减去 $1$。当上述操作后 $k$ 到达 $0$ 时，对应的字符串即为第 $k$ 个独一无二的字符串，我们返回该字符串作为答案。若遍历完成数组，$k$ 仍未到达 $0$，则该数组中不存在第 $k$ 个独一无二的字符串，此时我们返回 $-1$。\n\n**代码**\n\n```C++ [sol1-C++]\nclass Solution {\npublic:\n    string kthDistinct(vector<string>& arr, int k) {\n        // 维护 arr 中每个字符串的频数\n        unordered_map<string, int> freq;\n        for (const string& s: arr){\n            if (!freq.count(s)){\n                freq[s] = 0;\n            }\n            ++freq[s];\n        }\n        // 遍历 arr 寻找第 k 个独一无二的字符串\n        for (const string& s: arr){\n            if (freq[s] == 1){\n                --k;\n                if (k == 0){\n                    return s;\n                }\n            }\n        }\n        return \"\";\n    }\n};\n```\n\n\n```Python [sol1-Python3]\nclass Solution:\n    def kthDistinct(self, arr: List[str], k: int) -> str:\n        # 维护 arr 中每个字符串的频数\n        freq = Counter(arr)\n        # 遍历 arr 寻找第 k 个独一无二的字符串\n        for s in arr:\n            if freq[s] == 1:\n                k -= 1\n                if k == 0:\n                    return s\n        return \"\"\n```\n\n\n**复杂度分析**\n\n- 时间复杂度：$O(\\sum_i n_i)$，即数组 $\\textit{arr}$ 中字符串长度总和，其中 $n_i$ 为字符串 $\\textit{arr}[i]$ 的长度。即为维护频数哈希表和寻找第 $k$ 个独一无二的字符串的时间复杂度。\n\n- 空间复杂度：$O(\\sum_i n_i)$，即为哈希集合的空间开销。",
+      "createdAt": "2021-10-31T16:10:13.510318+00:00",
+      "hitCount": 629,
+      "identifier": "jaTCId",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "javabao-li-ha-xi-biao-by-latiao-f-j9q0",
+        "title": "java暴力哈希表"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "kth-distinct-string-in-an-array"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "zha-zhu-zhi-jian-de-pan-zi-by-leetcode-s-r92u",
+      "status": "PREPUBLISH",
+      "summary": "方法一：哈希表 思路与算法 我们可以用哈希表来统计数组 $\\textit{arr}$ 中每种字符串的频数。 统计完成后，我们顺序遍历数组，如果遍历到的字符串在数组中出现频数为 $1$，则我们将计数 $k$ 减去 $1$。当上述操作后 $k$ 到达 $0$ 时，对应的字符串即为第 $k$ 个独一无二的字符串，我们返回该字",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Hash Table",
+          "nameTranslated": "哈希表",
+          "slug": "hash-table",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "String",
+          "nameTranslated": "字符串",
+          "slug": "string",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "数组中第 K 个独一无二的字符串",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 1,
+        "id": 1077086,
+        "viewCount": 535
+      },
+      "uuid": "jaTCId",
+      "videosInfo": []
+    }
+  }
+}

@@ -1,0 +1,86 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "ffreturn",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/ffreturn/avatar_1608859813.png",
+          "userSlug": "ffreturn"
+        },
+        "username": "ffreturn"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "![image.png](https://pic.leetcode-cn.com/1636258028-fHIXtX-image.png)\n\n### 解题思路\n思路\n- 递归的前序遍历来构建\n- 遍历过程记录每个点，直接插入到一个哈希的set里，该set后续便于直接find来查找\n\n### 代码\n\n```cpp\n/**\n * Definition for a binary tree node.\n * struct TreeNode {\n *     int val;\n *     TreeNode *left;\n *     TreeNode *right;\n *     TreeNode() : val(0), left(nullptr), right(nullptr) {}\n *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}\n *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}\n * };\n */\nclass FindElements {\nprivate:\n    unordered_set<int> s;\n\n    void dfs(TreeNode* curr, int val)\n    {\n        if (curr != nullptr)\n        {\n            curr->val = val;\n            s.insert(val);\n            dfs(curr->left, 2*val + 1);\n            dfs(curr->right, 2*val + 2);\n        }\n    }\npublic:\n    FindElements(TreeNode* root) {\n        dfs(root, 0);\n    }\n\n    bool find(int target) {\n        \n        return s.find(target) != s.end();\n    }\n};\n\n/**\n * Your FindElements object will be instantiated and called as such:\n * FindElements* obj = new FindElements(root);\n * bool param_1 = obj->find(target);\n */\n```",
+      "createdAt": "2021-11-07T04:07:28.986324+00:00",
+      "hitCount": 46,
+      "identifier": "GKZJxg",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "c-shuang-bai-di-gui-jian-shu-wei-yun-sua-dbhf",
+        "title": "【C++】双百 递归建树 + 位运算查找"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "find-elements-in-a-contaminated-binary-tree"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "1261-cjian-dan-yi-dong-de-shen-du-you-xi-tw8w",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n思路\n\n递归的前序遍历来构建\n遍历过程记录每个点，直接插入到一个哈希的set里，该set后续便于直接find来查找\n\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "哈希",
+          "nameTranslated": "",
+          "slug": "ha-xi",
+          "tagType": "ADDITIONAL_TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "DFS",
+          "nameTranslated": "",
+          "slug": "dfs",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1636258028-fHIXtX-image.png",
+      "title": "1261. c++简单易懂的深度优先解法",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1088425,
+        "viewCount": 40
+      },
+      "uuid": "GKZJxg",
+      "videosInfo": []
+    }
+  }
+}

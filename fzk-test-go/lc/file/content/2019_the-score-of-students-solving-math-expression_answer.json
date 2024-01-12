@@ -1,0 +1,98 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "zaozhe",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/zaozhe/avatar_1543734014.png",
+          "userSlug": "zaozhe"
+        },
+        "username": "zaozhe"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "## 思路\r\n这个题难点在于对运算顺序自由组合时，不知道怎么做组合。\r\n其实可以简单的把一个表达式，拆分成 \r\n`总表达式 = (左侧表达式) 运算符 (右侧表达式)` \r\n的形式，先计算左侧表达式所有可能结果，再计算右侧表达式所有可能结果，再两两组合得到总表达式的所有结果。\r\n\r\n具体操作时，对于一个总表达式，枚举它内部所有的运算符位置，然后每次计算左和右。可以观察到，左和右表达式显然长度≤总表达式长度，不难想到应该用 $dp$ 来解。\r\n\r\n具体代码时，使用区间 $dp$ 的方法，使用一个二维数组 $dp[i][j]$ 表示字符串 $s[i..j]$ 总共可以通过调换计算顺序，得到哪些计算结果。\r\n\r\n如此一来，假设我们知道了两个区间结果 $dp[i][k]$ 和 $dp[k][j]$，那我们就可以通过 \r\n$$dp[i][j]=\\{x ○ y | x \\in dp[i][k] \\ and \\ y \\in dp[k][j] \\}$$\r\n来一步步从小区间扩大到大区间。\r\n\r\n## Step 1：统计回答\r\n#### 思路\r\n因为**错误的计算结果可能有很多种**，所以我们先对所有学生提交的结果做一个简单统计，后续就不需要每次都 $O(N)$ 遍历了。\r\n\r\n#### 代码及注释\r\n```\r\n// 所有学生答案都在[0, 1000]，因此开一个差不多大小的空间即可\r\nvector<int> count(1024); \r\nfor(auto p : answer){\r\n  count[p]++;\r\n}\r\n```\r\n\r\n## Step 2：计算正确结果\r\n#### 思路\r\n使用加法入栈，乘法直接将栈顶元素做乘法的方法，计算正确结果。\r\n\r\n#### 解释\r\n顺序遍历时\r\n- 对于 `a + b ...`，由于不知道  `b` 之后是否涉及到乘法运算，因此不可以直接将 `a` 与 `b` 相加，而是应该暂时把两个数都放在栈中；\r\n- 对于 `a * b ...`，乘法运算优先级最高，因此此处直接计算 `a * b` 的值，并更新栈顶的 `a` 的值为 `a * b`\r\n\r\n#### 代码及注释\r\n\r\n```cpp\r\nstack<int> st;\r\nst.push(s[0] - '0'); // 第一个元素入栈\r\nfor(int i = 1; i < s.length(); i += 2){\r\n    if(s[i] == '+'){ // 加法运算，暂不做，存到栈顶\r\n        st.push(s[i + 1] - '0');\r\n    }\r\n    else{ // 乘法运算，直接做\r\n        st.top() *= (s[i + 1] - '0');\r\n    }\r\n}\r\n// 弹栈，计算所有加法运算\r\nint right = 0;\r\nwhile(st.size() > 0){\r\n    right += st.top();\r\n    st.pop();\r\n}\r\n// 正确的得分 = 5 * 正确人数\r\nint ans = 5 * count[right];\r\n```\r\n\r\n## Step 3：枚举所有可能结果\r\n#### 思路\r\n这一步中，使用区间 $dp$ 的方法，使用一个二维数组 $dp[i][j]$ 表示字符串 $s[i..j]$ 总共可以通过调换计算顺序，得到哪些计算结果，$dp[i][j]$ 是一个集合。\r\n\r\n#### 初始化\r\n初始条件时，是 $i=j$，此时 $dp[i][j] = {s[i] - '0'}$\r\n\r\n#### 递推关系\r\n对于一个区间 $dp[i][j]$，我们有 $dp[i][j] = \\{dp[i][k] ○ dp[k][j] \\}$ 其中 $i≤k≤j$，符号 `○` 表示加号或乘号关系。\r\n\r\n#### 额外Tips\r\n这里需要引入一个剪枝，否则会因为爆 `int` 而出错。就是**如果中间的某个计算结果已经超过 $1000$ 了，应该直接忽略**。\r\n\r\n这是因为无论是加法还是乘法，都是一个不减的操作，当计算结果已经超过 $1000$ 时，无论如何组合，则最终表达式的值一定不在学生猜测范围 $[0,1000]$ 内，因此可以忽略。\r\n\r\n#### 代码及注释\r\n```\r\n// 开空间，dp为n*n的数组，每一项为一个集合\r\nint len = s.length();\r\nvector<vector<unordered_set<int>>> dp(len + 2, vector<unordered_set<int>>(len + 2));\r\n// 初始化，对于i=j情况，能组成的值为其本身\r\nfor(int j = 0; j < len; j += 2){\r\n    dp[j][j].insert(s[j] - '0');\r\n}\r\n// 枚举步伐，不断增大，即 step = j-i\r\nfor(int step = 2; step < len; step += 2){\r\n    // 枚举开始位置 i\r\n    for(int i = 0; i + step < len; i += 2){\r\n        // 枚举左半部分长度 t\r\n        for(int t = 0; t < step; t += 2){\r\n            // x是左半部分所有可能值\r\n            // y是右半部分所有可能值\r\n            for(auto x : dp[i][i + t]){\r\n                for(auto y : dp[i + t + 2][i + step]){\r\n                    // 根据中间连接符是+/*，来计算连接后的值\r\n                    if(s[i + t + 1] == '+'){\r\n                        // 因为学生猜测结果均在 [0,1000]，因此超限的值可以直接忽略。\r\n                        if(x + y <= 1000)\r\n                        dp[i][i + step].insert(x + y);\r\n                    }\r\n                    else{\r\n                        if(x * y <= 1000)\r\n                        dp[i][i + step].insert(x * y);\r\n                    }\r\n                }\r\n            }\r\n        }\r\n    }\r\n}\r\n```\r\n\r\n## Step 4：统计所有错误结果\r\n#### 思路\r\n上一步计算的 `dp[0][len-1]` 就是整个字符串，所有可能的计算结果。结合第一步统计的学生答案，做累加\r\n\r\n#### 代码及注释\r\n```\r\nfor(auto p : dp[0][len - 1]){\r\n    if(p != right){ // 只有错误答案需要统计，防止二次统计正确同学\r\n        ans += 2 * count[p];\r\n    }\r\n}\r\n```\r\n\r\n## Step 5：完整代码及注释\r\n```\r\nclass Solution {\r\npublic:\r\n    int scoreOfStudents(string s, vector<int>& answers) {\r\n        // Step 1：统计所有学生答案\r\n        // 所有学生答案都在[0, 1000]，因此开一个差不多大小的空间即可\r\n        vector<int> count(1024);\r\n        for(auto p : answers){\r\n            count[p]++;\r\n        }\r\n        \r\n        // Step 2：计算正确结果\r\n                stack<int> st;\r\n        st.push(s[0] - '0'); // 第一个元素入栈\r\n        for(int i = 1; i < s.length(); i += 2){\r\n            if(s[i] == '+'){ // 加法运算，暂不做，存到栈顶\r\n                st.push(s[i + 1] - '0');\r\n            }\r\n            else{ // 乘法运算，直接做\r\n                st.top() *= (s[i + 1] - '0');\r\n            }\r\n        }\r\n        // 弹栈，计算所有加法运算\r\n        int right = 0;\r\n        while(st.size() > 0){\r\n            right += st.top();\r\n            st.pop();\r\n        }\r\n        // 正确的得分 = 5 * 正确人数\r\n        int ans = 5 * count[right];\r\n        \r\n        // Step 3：枚举所有可能结果\r\n        // 开空间，dp为n*n的数组，每一项为一个集合\r\n        int len = s.length();\r\n        vector<vector<unordered_set<int>>> dp(len + 2, vector<unordered_set<int>>(len + 2));\r\n        // 初始化，对于i=j情况，能组成的值为其本身\r\n        for(int j = 0; j < len; j += 2){\r\n            dp[j][j].insert(s[j] - '0');\r\n        }\r\n        // 枚举步伐，不断增大，即 step = j-i\r\n        for(int step = 2; step < len; step += 2){\r\n            // 枚举开始位置 i\r\n            for(int i = 0; i + step < len; i += 2){\r\n                // 枚举左半部分长度 t\r\n                for(int t = 0; t < step; t += 2){\r\n                    // x是左半部分所有可能值\r\n                    // y是右半部分所有可能值\r\n                    for(auto x : dp[i][i + t]){\r\n                        for(auto y : dp[i + t + 2][i + step]){\r\n                            // 根据中间连接符是+/*，来计算连接后的值\r\n                            if(s[i + t + 1] == '+'){\r\n                                // 因为学生猜测结果均在 [0,1000]，因此超限的值可以直接忽略。\r\n                                if(x + y <= 1000)\r\n                                dp[i][i + step].insert(x + y);\r\n                            }\r\n                            else{\r\n                                if(x * y <= 1000)\r\n                                dp[i][i + step].insert(x * y);\r\n                            }\r\n                        }\r\n                    }\r\n                }\r\n            }\r\n        }\r\n        // Step 4：统计顺序错误同学得分\r\n        for(auto p : dp[0][len - 1]){\r\n            if(p != right){ // 只有错误答案需要统计，防止二次统计正确同学\r\n\t            ans += 2 * count[p];\r\n\t        }\r\n\t    }\r\n        return ans;\r\n    }\r\n};\r\n```",
+      "createdAt": "2021-09-26T04:34:37.935064+00:00",
+      "hitCount": 1851,
+      "identifier": "S7vFvf",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "qu-jian-dpha-xi-biao-by-endlesscheng-62fj",
+        "title": "区间 DP+哈希表"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "the-score-of-students-solving-math-expression"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 35,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": false,
+      "slug": "qu-jian-dpzong-zuo-you-by-zaozhe-gion",
+      "status": "PUBLISHED",
+      "summary": "思路\n这个题难点在于对运算顺序自由组合时，不知道怎么做组合。\n其实可以简单的把一个表达式，拆分成\n总表达式 = (左侧表达式) 运算符 (右侧表达式)\n的形式，先计算左侧表达式所有可能结果，再计算右侧表达式所有可能结果，再两两组合得到总表达式的所有结果。\n具体操作时，对于一个总表达式，枚举它内部所有的运算符位置，然后每",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Dynamic Programming",
+          "nameTranslated": "动态规划",
+          "slug": "dynamic-programming",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "dp",
+          "nameTranslated": "",
+          "slug": "dp",
+          "tagType": "ADDITIONAL_TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "区间",
+          "nameTranslated": "",
+          "slug": "qu-jian",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "",
+      "title": "区间DP，总=左○右",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 13,
+        "id": 1018323,
+        "viewCount": 1224
+      },
+      "uuid": "S7vFvf",
+      "videosInfo": []
+    }
+  }
+}

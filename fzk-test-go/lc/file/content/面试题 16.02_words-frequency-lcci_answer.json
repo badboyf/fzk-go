@@ -1,0 +1,72 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "飞鸟",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/7aughing-nashgue/avatar_1605015234.png",
+          "userSlug": "lzxjack"
+        },
+        "username": "lzxjack"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n\n传入`book`时，将每个单词放入`Map`并计数，每次`get`时，只需取出响应值即可。\n\n### 代码\n\n```javascript\nclass WordsFrequency {\n    constructor(book) {\n        this.map = new Map();\n        for (const item of book) {\n            // 计数\n            this.map.set(item, (this.map.get(item) || 0) + 1);\n        }\n    }\n    get(word) {\n        // 若没出现过，则为0\n        return this.map.get(word) || 0;\n    }\n}\n```",
+      "createdAt": "2021-10-26T01:36:56.780586+00:00",
+      "hitCount": 128,
+      "identifier": "4RYqfU",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "java-hashmap-by-songhouhou",
+        "title": "Java  HashMap"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "words-frequency-lcci"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "map-javascript-by-lzxjack-gzrg",
+      "status": "PUBLISHED",
+      "summary": "解题思路\n传入book时，将每个单词放入Map并计数，每次get时，只需取出响应值即可。\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "JavaScript",
+          "nameTranslated": "",
+          "slug": "javascript",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "【Map】JavaScript",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1067003,
+        "viewCount": 112
+      },
+      "uuid": "4RYqfU",
+      "videosInfo": []
+    }
+  }
+}

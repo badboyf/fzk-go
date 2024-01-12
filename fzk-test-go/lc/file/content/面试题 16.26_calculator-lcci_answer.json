@@ -1,0 +1,72 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "yelantf",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/yelantf/avatar_1628565392.png",
+          "userSlug": "yelantf"
+        },
+        "username": "yelantf"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "其实想到了单栈的话进一步思考，这题可以不用栈直接做出来。😂\n\n简单来说，就是将表达式看作一个个积项相加。比如1+2*3/6-3/2*3，看作1、2*3/6、(-3)/2*3三项。\n每次处理，其实我们只需要处理当前的一项，前面的项可以直接累加起来。\n\n因此我们可以维护两个操作数num1, num2，其中num1表示当前项之前所有项的和（不包括当前项），num2表示当前项目前计算所得的值。\n\n于是我们迭代进行处理，遇到一个完整的数字，我们对它前面的操作符进行分情况操作。\n如果是加减号，代表这个数字是一个新的项，我们将num2累加到num1中，num2储存这个数字作为当前项的暂时的值。\n如果是乘除号，代表这个数字仍然属于当前项，我们将这个数字计算到num2中。\n\n为了简化编码且不影响结果，假设第一个数字前面的操作符为+，且在表达式最后加入一个非数字非空格的哨兵字符，使得最后一个数字也能被相同的处理。\n初始化两项为0，最后将剩余两项之和返回即可。\n\n```cpp\nclass Solution {\npublic:\n    int calculate(string s) {\n        char prev_op = '+';\n        s.push_back('x'); //哨兵字符\n        int num1 = 0, num2 = 0, num = 0;\n        for(char c:s){\n            if(c==' ') continue;\n            else if(isdigit(c)) num = num*10 + (c-'0');\n            else {\n                //数字已经扫描完\n                if(prev_op=='+'||prev_op=='-') {\n                    num1 += num2;\n                    num2 = prev_op=='+'?num:-num;\n                }else if(prev_op=='*') num2 *= num;\n                else num2 /= num;\n                prev_op = c;\n                num = 0;\n            }\n        }\n        return num1 + num2;\n    }\n};\n```\n",
+      "createdAt": "2021-10-16T11:04:20.158102+00:00",
+      "hitCount": 584,
+      "identifier": "rBw8gx",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "shu-ju-jie-gou-he-suan-fa-shi-yong-zhan-h9r0r",
+        "title": "【数据结构和算法】使用栈解决，视频演示"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "calculator-lcci"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 3,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "zhe-ti-bu-yong-zhan-bu-yong-di-gui-de-sh-chrs",
+      "status": "PREPUBLISH",
+      "summary": "其实想到了单栈的话进一步思考，这题可以不用栈直接做出来。😂\n简单来说，就是将表达式看作一个个积项相加。比如1+23/6-3/23，看作1、23/6、(-3)/23三项。\n每次处理，其实我们只需要处理当前的一项，前面的项可以直接累加起来。\n因此我们可以维护两个操作数num1, num2，其中num1表示当前项之前所有项的",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "这题不用栈，不用递归的实现，思路简单",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1050493,
+        "viewCount": 481
+      },
+      "uuid": "rBw8gx",
+      "videosInfo": []
+    }
+  }
+}

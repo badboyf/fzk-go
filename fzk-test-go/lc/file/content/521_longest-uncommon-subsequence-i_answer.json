@@ -1,0 +1,77 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣 (LeetCode)",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/uploaded_files/2021/03/73c9f099-abbe-4d94-853f-f8abffd459cd/leetcode.png",
+          "userSlug": "leetcode"
+        },
+        "username": "LeetCode"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法一：暴力解法 【超出时间限制】\n\n暴力解法中，生成两个字符串所有的子序列共 $2^n$ 个，将其存储在 hashmap 中，并记录每个子序列出现的次数。然后找出出现次数为 $1$ 的最长子序列。如果不存在这样的子序列，返回 $-1$。 \n\n```java [solution1-Java]\npublic class Solution {\n    public int findLUSlength(String a, String b) {\n        HashMap < String, Integer > map = new HashMap < > ();\n        for (String s: new String[] {a, b}) {\n            for (int i = 0; i < (1 << s.length()); i++) {\n                String t = \"\";\n                for (int j = 0; j < s.length(); j++) {\n                    if (((i >> j) & 1) != 0)\n                        t += s.charAt(j);\n                }\n                if (map.containsKey(t))\n                    map.put(t, map.get(t) + 1);\n                else\n                    map.put(t, 1);\n            }\n        }\n        int res = -1;\n        for (String s: map.keySet()) {\n            if (map.get(s) == 1)\n                res = Math.max(res, s.length());\n        }\n        return res;\n    }\n}\n```\n\n**复杂度分析**\n\n* 时间复杂度：$O(2^x+2^y)$，其中 $x$ 和 $y$ 是字符串 $a$ 和 $b$ 的长度，子序列的数量为 $2^x+2^y$。\n\n* 空间复杂度：$O(2^x+2^y)$，共生成 $2^x+2^y$ 个子序列。\n\n\n#### 方法二：简单解法 【通过】\n\n**算法**\n\n字符串 $a$ 和 $b$ 共有 3 种情况：\n\n* $a=b$。如果两个字符串相同，则没有特殊子序列，返回 -1。\n\n* $length(a)=length(b)$ 且 $a \\ne b$。例如：$abc$ 和 $abd$。这种情况下，一个字符串一定不会是另外一个字符串的子序列，因此可以将任意一个字符串看作是特殊子序列，返回 $length(a)$ 或 $length(b)$。\n\n* $length(a) \\ne length(b)$。例如：$abcd$ 和 $abc$。这种情况下，长的字符串一定不会是短字符串的子序列，因此可以将长字符串看作是特殊子序列，返回 $max(length(a),length(b))$。\n\n```java [solution2-Java]\npublic class Solution {\n    public int findLUSlength(String a, String b) {\n        if (a.equals(b))\n            return -1;\n        return Math.max(a.length(), b.length());\n    }\n}\n```\n\n**复杂度分析**\n\n* 时间复杂度：$O(min(x,y))$，其中 $x$ 和 $y$ 是字符串 $a$ 和 $b$ 的长度。方法 equals 的时间复杂度为 $min(x,y)$。\n\n* 空间复杂度：$O(1)$，无需额外空间。",
+      "createdAt": "2020-02-10T06:14:59.731971+00:00",
+      "hitCount": 11728,
+      "identifier": "HqBJ8k",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "qi-xi-suan-fa-521-zui-chang-te-shu-xu-lie-i-by-gua",
+        "title": "七夕算法：521. 最长特殊序列 Ⅰ"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "longest-uncommon-subsequence-i"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 8,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "zui-chang-te-shu-xu-lie-i-by-leetcode",
+      "status": "PUBLISHED",
+      "summary": "方法一：暴力解法 【超出时间限制】 暴力解法中，生成两个字符串所有的子序列共 $2^n$ 个，将其存储在 hashmap 中，并记录每个子序列出现的次数。然后找出出现次数为 $1$ 的最长子序列。如果不存在这样的子序列，返回 $-1$。  java [solution1-Java] public class Solut",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "最长特殊序列 I",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 45,
+        "id": 90636,
+        "viewCount": 10493
+      },
+      "uuid": "HqBJ8k",
+      "videosInfo": []
+    }
+  }
+}

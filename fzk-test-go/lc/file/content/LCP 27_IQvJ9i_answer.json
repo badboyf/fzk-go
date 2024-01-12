@@ -1,0 +1,76 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "edwin",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/default_avatar.png",
+          "userSlug": "edwin-w"
+        },
+        "username": "edwin-w"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n哇塞，这个题真的是，前前后后折腾了两天。\n起初看题目的时候就留意到有各种提示和限制，猜测一定是有非常巧妙的解法，但想必都是高手过招出其不意，自己还是老老实实研究用何种数据结构表示，如何步进。于是各种转换加条件加循环，好不容易搞出了点眉目，测试还能通过，一提交就超出时间限制，后来的时间几乎就一直在与这个问题做斗争。\n分享一下斗争的过程（没有兴趣可以直接看下面的最终版说明）：\n一开始顺着题解里一位大神的思路，每个孔最多只能折射到另外两个孔，所以孔与孔之间实际上会形成一个固定的线路，只要一开始计算出所有的线路，在投进光线的时候就能根据这些线路找到最近的打开着的孔。假设所有的孔都是闭合的，一束光线从A孔射出，必定会再回到A孔，但转角的孔会原路返回。所以理想情况下，光线最终要么回到初始孔A成回环状，要么从一个角射出，到另一个角结束。\n创建二维数组```new int[2*(n+m)][2]```，分别表示黑盒上的孔和每个孔正负方向上相邻的孔，创建黑盒的时候遍历所有孔，如果该孔还没有计算出相邻孔，则进入计算并将计算过程中的所有相邻孔的数据设置到该数组中。在调用开孔接口时，沿着该数组步进，遇到打开的孔则返回该孔，遇到转角孔则直接返回初始孔，否则调转方向继续步进。提交后仍然还是超出时间限制，于是想到可能初始时计算量太多，又将上面二维数组的赋值过程放到open中，每次步进时，若在数组中查到则使用数组中的数据，否则再进入计算并缓存数据。\n这样搞了很久，发现还是没有从根据上解决问题。因为我每次计算仍然要将index转为黑盒边上的坐标，才能方便计算，但实际计算也并不方便，仍有许许多多的位置判断。所以根本问题是我计算的过程太过复杂了，如果不用转换坐标直接计算就好了，于是就有了今天的版本。\n最终版说明：\n每个孔的index由0开始从左上角顺时针增加，上下边长为m，左右边长为n，所以右上角的index为m，右下角为m+n，左下角为2m+n，光线与边呈45度角。\n![image.png](https://pic.leetcode-cn.com/1614250430-VHPlMm-image.png)\n\ndirection=1时，每束光两头的index是互补的，它们的和都为2m+2n；\ndirection=-1时，光线两头的index也互补，但有两个和，分别为2m和4m+2n，但index不可能超过2m+2n，这个值也即两个和的临界点；\n带入这三个公式就可以简化路径计算了，再次提交便成功了，开心！\n\n### 代码\n\n```java\nclass BlackBox {\n    int n, m;\n    int[] data;\n\n    public BlackBox(int n, int m) {\n        this.n = n;\n        this.m = m;\n        this.data = new int[2*(n+m)];\n    }\n\n    public int open(int index, int direction) {\n        data[index] = 1;\n        int target = reflectTo(index, direction);\n        return target==-1 ? index : target;\n    }\n\n    public void close(int index) {\n        this.data[index] = 0;\n    }\n\n\n    private int reflectTo(int index, int direction){\n        while(true) {\n            int nextIndex = -1;\n            //方向为1时带入公式 2m+2n-index\n            if (direction > 0) nextIndex = 2 * (m + n) - index;\n            //方向为-1时带入公式 2m-index\n            else nextIndex = 2 * m - index;\n            //纠正方向为-1时结果为负数的情况，实际公式为 4m+2n-index\n            if (nextIndex < 0) nextIndex += 2 * (m + n);\n\n            //检查该点位是否打开，打开则直接返回\n            if(data[nextIndex]==1) return nextIndex;\n            //未打开，但该点位为角，返回-1表示将沿原路返回初始点位\n            if(nextIndex==0 || nextIndex==m || nextIndex==m+n || nextIndex==m+n+m) return -1;\n            //否则将继续遍历\n            index = nextIndex;\n            direction = -direction;\n        }\n    }\n}\n```",
+      "createdAt": "2021-02-25T11:11:22.624782+00:00",
+      "hitCount": 184,
+      "identifier": "xyJokK",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "jian-dan-mo-ni-by-wu-li-h8",
+        "title": "简单模拟"
+      },
+      "position": 2,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "yu-chu-li-chu-suo-you-de-zu-by-zerotrac2",
+        "title": "预处理出所有的循环"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "IQvJ9i"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 3,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "qi-shi-jiu-shi-yi-ge-shu-xue-wen-ti-zhao-pnxh",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n哇塞，这个题真的是，前前后后折腾了两天。\n起初看题目的时候就留意到有各种提示和限制，猜测一定是有非常巧妙的解法，但想必都是高手过招出其不意，自己还是老老实实研究用何种数据结构表示，如何步进。于是各种转换加条件加循环，好不容易搞出了点眉目，测试还能通过，一提交就超出时间限制，后来的时间几乎就一直在与这个问题做斗",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1614250430-VHPlMm-image.png",
+      "title": "其实就是一个数学问题，找到公式就好办了",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 621915,
+        "viewCount": 139
+      },
+      "uuid": "xyJokK",
+      "videosInfo": []
+    }
+  }
+}

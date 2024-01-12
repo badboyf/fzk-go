@@ -1,0 +1,98 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "𝓧𝓨𝓕𝓢 🍁",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/detachmliu/avatar_1629352356.png",
+          "userSlug": "xy_fs"
+        },
+        "username": "xy_fs"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "> 这是一道中等规模的模拟题，思路对了就还好~\r\n\r\n### 题意概述\r\n\r\n黑白棋盘，当下了一颗黑子后，如果能沿着 `[上，下，左，右，左上，左下，右上，右下]` 连续找到白棋，且最终能遇到黑子拦截，则将这条路径上所有的白子翻转为黑子，翻转后得到的新黑子能触发连锁反应。\r\n\r\n现在给你一次下黑子的机会，问最多能翻转多少颗白子。 \r\n\r\n## 思路\r\n\r\n**1. 对棋盘每个空格进行讨论**\r\n\r\n这道题很明显找不出什么实质性的最优解规律，只能枚举每个空格下黑子的情况，看哪个格子能得到最优解。\r\n\r\n**2. 每一次模拟前复制棋盘**\r\n\r\n由于需要模拟每个空格下黑棋后的棋盘变化，不复制一份棋盘的话，每次模拟结束时需要还原现场，比较麻烦。\r\n\r\n```java\r\nfor (int i = 0; i < n; i++) {\r\n    for (int j = 0; j < m; j++) {\r\n        if (board[i][j] == '.') {\r\n            // copy the board\r\n            // To Do..\r\n        }\r\n    }\r\n}\r\n```\r\n\r\n**3. 下黑子后进行八个方向的模拟**\r\n\r\n将八个方向的横纵坐标的步长用数组保存，方便遍历的同时，可以简化代码：\r\n\r\n```java\r\nfinal int[] dir_x = { 1, -1, 0, 0, 1, 1, -1, -1 };\r\nfinal int[] dir_y = { 0, 0, -1, 1, -1, 1, -1, 1 };\r\n```\r\n\r\n接着对每一个方向进行模拟搜索，如果 「 连续遇到白子，且最后可以遇到黑子 」 ，则表示被搜索到的 `白子` 都可以被翻转成 `黑子`。反之，我们需要还原现场，当作这个方向上什么都没有发生过。\r\n\r\n```java\r\nprivate LinkedList<Integer> search(char[][] arr, int x, int y, int step_x, int step_y) {\r\n    // 保存白子下标\r\n    LinkedList<Integer> temp = new LinkedList<>();\r\n    boolean flag = false;\r\n    \r\n    while (check(x, y)) {\r\n        if (arr[x][y] != 'O') {\r\n            // 遇到不是白子时，可能是黑子或者空格\r\n            // 如果是黑子，则代表这个方向搜索到的白子可以被翻转\r\n            flag = arr[x][y] == 'X';\r\n            break;\r\n        } else {\r\n            // 保存白子（新黑子）下标并翻转\r\n            temp.add(x * 10 + y);\r\n            arr[x][y] = 'X';\r\n        }\r\n        x += step_x;\r\n        y += step_y;\r\n    }\r\n    if (!flag) {\r\n        // 需要还原现场，将保存的新黑子下标还原成白子\r\n        while (!temp.isEmpty()) {\r\n            var pos = temp.poll();\r\n            arr[pos / 10][pos % 10] = 'O';\r\n        }\r\n    }\r\n\r\n    // 如果该方向有效，返回所有新黑子的下标位置，否则是空数组\r\n    return temp;\r\n}\r\n\r\nprivate boolean check(int x, int y) {\r\n    // 检查下标是否有效\r\n    return x >= 0 && x < n && y >= 0 && y < m;\r\n}\r\n```\r\n\r\n**4. 对每一轮的新黑子进行连锁反应讨论**\r\n\r\n既然是连锁反应，操作会很套娃，因此可以使用递归来帮助我们简化代码。\r\n\r\n```java\r\nprivate int process(char[][] arr, int x, int y) {\r\n    // 存储每一颗 黑子 在八个方向上得到的 新黑子位置\r\n    LinkedList<Integer> q = new LinkedList<>();\r\n    \r\n    for (int i = 0; i < 8; i++) {\r\n        int new_x = x + dir_x[i];\r\n        int new_y = y + dir_y[i];\r\n        // addAll：存下第 i 个方向搜索到的所有新黑子下标位置\r\n        q.addAll(search(arr, new_x, new_y, dir_x[i], dir_y[i]));\r\n    }\r\n\r\n\r\n    // q.size() 正是 当前黑子 能翻转的白子数量\r\n    int res = q.size();\r\n    while (!q.isEmpty()) {\r\n        var pos = q.poll();\r\n        // 递归调用，每一颗 新黑子 都可以当作 你所下的第一颗黑子\r\n        res += process(arr, pos / 10, pos % 10);\r\n    }\r\n\r\n    return res;\r\n}\r\n```\r\n\r\n---\r\n\r\n## 总代码\r\n\r\n```Java []\r\nclass Solution {\r\n    final int[] dir_x = { 1, -1, 0, 0, 1, 1, -1, -1 };\r\n    final int[] dir_y = { 0, 0, -1, 1, -1, 1, -1, 1 };\r\n    int n, m;\r\n\r\n    public int flipChess(String[] chessboard) {\r\n        n = chessboard.length;\r\n        m = chessboard[0].length();\r\n        char[][] board = copyBoard(chessboard);\r\n\r\n        int res = 0;\r\n        for (int i = 0; i < n; i++) {\r\n            for (int j = 0; j < m; j++) {\r\n                if (board[i][j] == '.') {\r\n                    char[][] copy = copyBoard(chessboard);\r\n                    copy[i][j] = 'X';\r\n                    int cnt = process(copy, i, j);\r\n                    res = Math.max(res, cnt);\r\n                }\r\n            }\r\n        }\r\n\r\n        return res;\r\n    }\r\n\r\n    private char[][] copyBoard(String[] chessboard) {\r\n        char[][] board = new char[n][m];\r\n        int idx = 0;\r\n\r\n        for (var line : chessboard) {\r\n            board[idx++] = line.toCharArray();\r\n        }\r\n\r\n        return board;\r\n    }\r\n\r\n    private int process(char[][] arr, int x, int y) {\r\n        LinkedList<Integer> q = new LinkedList<>();\r\n        \r\n        for (int i = 0; i < 8; i++) {\r\n            int new_x = x + dir_x[i];\r\n            int new_y = y + dir_y[i];\r\n            q.addAll(search(arr, new_x, new_y, dir_x[i], dir_y[i]));\r\n        }\r\n\r\n        int res = q.size();\r\n        while (!q.isEmpty()) {\r\n            var pos = q.poll();\r\n            res += process(arr, pos / 10, pos % 10);\r\n        }\r\n\r\n        return res;\r\n    }\r\n\r\n    private LinkedList<Integer> search(char[][] arr, int x, int y, int step_x, int step_y) {\r\n        LinkedList<Integer> temp = new LinkedList<>();\r\n        boolean flag = false;\r\n\r\n        while (check(x, y)) {\r\n            if (arr[x][y] != 'O') {\r\n                flag = arr[x][y] == 'X';\r\n                break;\r\n            } else {\r\n                temp.add(x * 10 + y);\r\n                arr[x][y] = 'X';\r\n            }\r\n            x += step_x;\r\n            y += step_y;\r\n        }\r\n        if (!flag) {\r\n            while (!temp.isEmpty()) {\r\n                var pos = temp.poll();\r\n                arr[pos / 10][pos % 10] = 'O';\r\n            }\r\n        }\r\n\r\n        return temp;\r\n    }\r\n\r\n    private boolean check(int x, int y) {\r\n        return x >= 0 && x < n && y >= 0 && y < m;\r\n    }\r\n}\r\n```\r\n```C++ []\r\nclass Solution {\r\npublic:\r\n    constexpr static int dir_x[] = { 1, -1, 0, 0, 1, 1, -1, -1 };\r\n    constexpr static int dir_y[] = { 0, 0, -1, 1, -1, 1, -1, 1 };\r\n    int n, m;\r\n\r\n    int flipChess(vector<string>& chessboard) {\r\n        n = chessboard.size();\r\n        m = chessboard[0].size();\r\n        \r\n        int res = 0;\r\n        for (int i = 0; i < n; i++) {\r\n            for (int j = 0; j < m; j++) {\r\n                if (chessboard[i][j] == '.') {\r\n                    vector<string> copy{ chessboard.begin(), chessboard.end() };\r\n                    copy[i][j] = 'X';\r\n                    int cnt = process(copy, i, j);\r\n                    res = std::max(res, cnt);\r\n                }\r\n            }\r\n        }\r\n\r\n        return res;\r\n    }\r\n\r\n    int process(vector<string>& board, int x, int y) {\r\n        vector<int> q;\r\n\r\n        for (int i = 0; i < 8; i++) {\r\n            int new_x = x + dir_x[i];\r\n            int new_y = y + dir_y[i];\r\n            auto temp = search(board, new_x, new_y, dir_x[i], dir_y[i]);\r\n            q.insert(q.end(), temp.begin(), temp.end());\r\n        }\r\n\r\n        int res = q.size();\r\n        while (!q.empty()) {\r\n            int pos = q.back();\r\n            q.pop_back();\r\n            res += process(board, pos / 10, pos % 10);\r\n        }\r\n\r\n        return res;\r\n    }\r\n    \r\n    vector<int> search(vector<string>& board, int x, int y, int step_x, int step_y) {\r\n        vector<int> temp;\r\n        bool flag = false;\r\n\r\n        while (check(x, y)) {\r\n            if (board[x][y] != 'O') {\r\n                flag = (board[x][y] == 'X');\r\n                break;\r\n            } else {\r\n                temp.push_back(x * 10 + y);\r\n                board[x][y] = 'X';\r\n            }\r\n            x += step_x;\r\n            y += step_y;\r\n        }\r\n        if (!flag) {\r\n            while (!temp.empty()) {\r\n                int pos = temp.back();\r\n                temp.pop_back();\r\n                board[pos / 10][pos % 10] = 'O';\r\n            }\r\n        }\r\n\r\n        return temp;\r\n    }\r\n\r\n    bool check(int x, int y) {\r\n        return x >= 0 && x < n && y >= 0 & y < m;\r\n    }\r\n};\r\n```",
+      "createdAt": "2021-09-14T11:48:37.500707+00:00",
+      "hitCount": 613,
+      "identifier": "P1c2qu",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "bao-li-mei-ju-by-endlesscheng-dbco",
+        "title": "暴力枚举"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "fHi6rV"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 3,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "xyfs-mo-ni-ti-si-lu-zheng-que-zui-zhong-9ddsw",
+      "status": "PREPUBLISH",
+      "summary": "这是一道中等规模的模拟题，思路对了就还好~\n\n题意概述\n黑白棋盘，当下了一颗黑子后，如果能沿着 [上，下，左，右，左上，左下，右上，右下] 连续找到白棋，且最终能遇到黑子拦截，则将这条路径上所有的白子翻转为黑子，翻转后得到的新黑子能触发连锁反应。\n现在给你一次下黑子的机会，问最多能翻转多少颗白子。\n思路\n1. 对棋盘",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Recursion",
+          "nameTranslated": "递归",
+          "slug": "recursion",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Simulation",
+          "nameTranslated": "模拟",
+          "slug": "simulation",
+          "tagType": "TOPIC"
+        }
+      ],
+      "thumbnail": "",
+      "title": "模拟题，思路正确最重要~",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 2,
+        "id": 997678,
+        "viewCount": 459
+      },
+      "uuid": "P1c2qu",
+      "videosInfo": []
+    }
+  }
+}

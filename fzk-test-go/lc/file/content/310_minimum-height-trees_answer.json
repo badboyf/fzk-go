@@ -1,0 +1,96 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "小鑫",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/xiao-xin-28/avatar_1589239752.png",
+          "userSlug": "xiao-xin-28"
+        },
+        "username": "xiao-xin-28"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### BFS 超级简单 注释超级详细\r\n#### 简单分析过程：\r\n1. 首先，我们看了样例，发现这个树并不是二叉树，是多叉树。\r\n2. 然后，我们可能想到的解法是：根据题目的意思，就挨个节点遍历bfs，统计下每个节点的高度，然后用map存储起来，后面查询这个高度的集合里最小的就可以了。\r\n4. 但是这样会超时的。\r\n5. 于是我们看图（题目介绍里面的图）分析一下，发现，越是靠里面的节点越有可能是最小高度树。\r\n6. 所以，我们可以这样想，我们可以倒着来。\r\n7. 我们从边缘开始，先找到所有出度为1的节点，然后把所有出度为1的节点进队列，然后不断地bfs，最后找到的就是两边同时向中间靠近的节点，那么这个中间节点就相当于把整个距离二分了，那么它当然就是到两边距离最小的点啦，也就是到其他叶子节点最近的节点了。\r\n8. 然后，就可以写代码了。\r\n```\r\nimport java.util.ArrayList;\r\nimport java.util.LinkedList;\r\nimport java.util.List;\r\nimport java.util.Queue;\r\n\r\npublic class FindMinHeightTrees {\r\n    public List<Integer> findMinHeightTrees(int n, int[][] edges) {\r\n        List<Integer> res = new ArrayList<>();\r\n        /*如果只有一个节点，那么他就是最小高度树*/\r\n        if (n == 1) {\r\n            res.add(0);\r\n            return res;\r\n        }\r\n        /*建立各个节点的出度表*/\r\n        int[] degree = new int[n];\r\n        /*建立图关系，在每个节点的list中存储相连节点*/\r\n        List<List<Integer>> map = new ArrayList<>();\r\n        for (int i = 0; i < n; i++) {\r\n            map.add(new ArrayList<>());\r\n        }\r\n        for (int[] edge : edges) {\r\n            degree[edge[0]]++;\r\n            degree[edge[1]]++;/*出度++*/\r\n            map.get(edge[0]).add(edge[1]);/*添加相邻节点*/\r\n            map.get(edge[1]).add(edge[0]);\r\n        }\r\n        /*建立队列*/\r\n        Queue<Integer> queue = new LinkedList<>();\r\n        /*把所有出度为1的节点，也就是叶子节点入队*/\r\n        for (int i = 0; i < n; i++) {\r\n            if (degree[i] == 1) queue.offer(i);\r\n        }\r\n        /*循环条件当然是经典的不空判断*/\r\n        while (!queue.isEmpty()) {\r\n            res = new ArrayList<>();/*这个地方注意，我们每层循环都要new一个新的结果集合，\r\n            这样最后保存的就是最终的最小高度树了*/\r\n            int size = queue.size();/*这是每一层的节点的数量*/\r\n            for (int i = 0; i < size; i++) {\r\n                int cur = queue.poll();\r\n                res.add(cur);/*把当前节点加入结果集，不要有疑问，为什么当前只是叶子节点为什么要加入结果集呢?\r\n                因为我们每次循环都会新建一个list，所以最后保存的就是最后一个状态下的叶子节点，\r\n                这也是很多题解里面所说的剪掉叶子节点的部分，你可以想象一下图，每层遍历完，\r\n                都会把该层（也就是叶子节点层）这一层从队列中移除掉，\r\n                不就相当于把原来的图给剪掉一圈叶子节点，形成一个缩小的新的图吗*/\r\n                List<Integer> neighbors = map.get(cur);\r\n                /*这里就是经典的bfs了，把当前节点的相邻接点都拿出来，\r\n                * 把它们的出度都减1，因为当前节点已经不存在了，所以，\r\n                * 它的相邻节点们就有可能变成叶子节点*/\r\n                for (int neighbor : neighbors) {\r\n                    degree[neighbor]--;\r\n                    if (degree[neighbor] == 1) {\r\n                        /*如果是叶子节点我们就入队*/\r\n                        queue.offer(neighbor);\r\n                    }\r\n                }\r\n            }\r\n        }\r\n        return res;/*返回最后一次保存的list*/\r\n    }\r\n\r\n}\r\n\r\n```\r\n觉得不错的小伙伴们，可以在下方评论或者点个赞支持一下，谢谢啦。\r\n",
+      "createdAt": "2020-05-11T23:28:47.684638+00:00",
+      "hitCount": 25240,
+      "identifier": "1EbOYW",
+      "isEditorsPick": false,
+      "isMostPopular": true,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "c-lin-jie-biao-tuo-bu-pai-xu-by-accl-k-5vvi",
+        "title": "C++, 邻接表 + 拓扑排序"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "minimum-height-trees"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 159,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 12,
+          "reactionType": "AWESOME"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "CONFUSED"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "zui-rong-yi-li-jie-de-bfsfen-xi-jian-dan-zhu-shi-x",
+      "status": "PUBLISHED",
+      "summary": "BFS 超级简单 注释超级详细\n 简单分析过程：\n\n首先，我们看了样例，发现这个树并不是二叉树，是多叉树。\n然后，我们可能想到的解法是：根据题目的意思，就挨个节点遍历bfs，统计下每个节点的高度，然后用map存储起来，后面查询这个高度的集合里最小的就可以了。\n但是这样会超时的。\n于是我们看图（题目介绍里面的图）分析一下",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Breadth-First Search",
+          "nameTranslated": "广度优先搜索",
+          "slug": "breadth-first-search",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Graph",
+          "nameTranslated": "图",
+          "slug": "graph",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "最容易理解的bfs，分析简单，注释详细",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 44,
+        "id": 242910,
+        "viewCount": 15828
+      },
+      "uuid": "1EbOYW",
+      "videosInfo": []
+    }
+  }
+}

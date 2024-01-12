@@ -1,0 +1,83 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "wsyuan",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/default_avatar.png",
+          "userSlug": "wsyuan"
+        },
+        "username": "wsyuan"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "# 1.分析\r\n`minimum >= actual` 恒成立的\r\n假定对于2个任务，任务1：`[m1, n1]`，任务2：`[m2, n2]`，有：\r\n`n1 - m1 = d1`，`n2 - m2 = d2`，`n2 - n1 = h >= 0`\r\n再设完成所有任务需要的能量为`y`。\r\n（1）`d1 == d2` --> `n1 - m1 == n2 - m2` --> `n2 - n1 == m2 - m1 = h`\r\n先做任务1，那么需要确保 `y >= n1`；做完任务1后又需要确保能够开启任务2，也就是 `y - m1 >= n2`。\r\n**那么也就有 `y >= m1 + n2 = m1 + (n1 + h) = (m1 + h) + n1 = m2 + n1`。**\r\n所以可以从 `y >= m1 + n2 = m2 + n1` 看出，此时先做任务1与先做任务2，对最小的`y`取值是没有影响的。\r\n（2）`d1 != d2`\r\ni）先做任务1\r\n做完任务1后又要保证能够开启任务2，有 `y >= n1 && y - m1 >= n2`，所以有 `y >= m1 + n2 = (n1 - d1) + n2 = (n1 + n2) - d1`。\r\nii）先做任务2\r\n做完任务2后又要保证能够开启任务1, 有 `y >= n2 && y - m2 >= n1`，所以有 `y >= m2 + n1 = (n2 - d2) + n1 = (n1 + n2) - d2`。\r\n**综上所述：**\r\n因为式子中并未出现 `h`，所以与 `n1`、`n2` 的大小顺序无关。\r\n为了使得`y`尽可能的小：\r\n（1）在 `d1 != d2` 时，我们先执行 `minimum - actual` 较大的任务即可；\r\n（2）在 `d1 == d2` 时，按照任意顺序执行任务均可。\r\n# 2.思路\r\n对任务数组，按照 `minimum - actual` 的值进行降序排序。\r\n因为必须执行完所有任务，那么完成所有任务的最少初始能量 >= 完成所有任务需要耗费的实际能量 恒成立，初始化为`sum{tasks[i][0]}`。\r\n```\r\nclass Solution {\r\n    public int minimumEffort(int[][] tasks) {\r\n        // 确保有 tasks[i][1] >= tasks[i][0], 也就是开启该任务所需要的能量 >= 完成该任务所需要的能量\r\n        // 获取任务的数量\r\n        int n = tasks.length;\r\n        // 特殊情况判断\r\n        if (n == 0) {\r\n            return 0;\r\n        }\r\n        if (n == 1) {\r\n            // 只有1个任务\r\n            return tasks[0][1];\r\n        }\r\n\r\n        // 对 tasks 按照 tasks[i][1] - tasks[i][0] 降序排序\r\n        Arrays.sort(tasks, (o1, o2) -> {\r\n            // (o2[1] - o2[0]) - (o1[1] - o1[0]) > 0 就交换顺序\r\n            // 也就是 d2 > d1 就交换顺序\r\n            return (o2[1] - o2[0]) - (o1[1] - o1[0]);\r\n        });\r\n\r\n        // 完成所有任务的 最少 初始能量, 初始化\r\n        int res = 0;\r\n        for (int[] task : tasks) {\r\n            res += task[0];\r\n        }\r\n\r\n        // 创建变量, 记录执行完上一个任务后, 剩余的能量; 初始化\r\n        int remainEnergy = res;\r\n        for (int[] task : tasks) {\r\n            // 判断执行完上一个任务后, 剩余的能量, 能否用来开启当前任务\r\n            if (remainEnergy < task[1]) {\r\n                // 不能开启当前任务, 那么计算需要补充多少能量, 才能开启当前任务\r\n                // 补充时, res 与 remainEnergy 均需要补充\r\n                // 补充能量\r\n                int supplyEnergy = task[1] - remainEnergy;\r\n                res += supplyEnergy;\r\n                remainEnergy += supplyEnergy;\r\n            }\r\n            // 执行当前任务\r\n            remainEnergy -= task[0];\r\n        }\r\n        return res;\r\n    }\r\n}\r\n```\r\n![微信图片_20211004181427.png](https://pic.leetcode-cn.com/1633342478-fZMJQu-%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20211004181427.png)\r\n\r\n",
+      "createdAt": "2021-10-04T10:16:00.623306+00:00",
+      "hitCount": 212,
+      "identifier": "WU3bnN",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "xu-zhang-sheng-shi-de-xian-gan-diao-dui-hlv7b",
+        "title": "虚张声势的，先干掉。对倒序的理解"
+      },
+      "position": 2,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "wan-cheng-suo-you-ren-wu-de-zui-shao-chu-shi-neng-",
+        "title": "完成所有任务的最少初始能量"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "minimum-initial-energy-to-finish-tasks"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 3,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "java-zhi-xing-yong-shi-ji-bai-10000-by-w-4scn",
+      "status": "PREPUBLISH",
+      "summary": "1.分析\nminimum >= actual 恒成立的\n假定对于2个任务，任务1：[m1, n1]，任务2：[m2, n2]，有：\nn1 - m1 = d1，n2 - m2 = d2，n2 - n1 = h >= 0\n再设完成所有任务需要的能量为y。\n（1）d1 == d2 --> n1 - m1 == n2 - m2",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Greedy",
+          "nameTranslated": "贪心",
+          "slug": "greedy",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1633342478-fZMJQu-%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20211004181427.png",
+      "title": "通俗易懂",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1030887,
+        "viewCount": 161
+      },
+      "uuid": "WU3bnN",
+      "videosInfo": []
+    }
+  }
+}

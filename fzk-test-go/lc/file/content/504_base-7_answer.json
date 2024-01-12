@@ -1,0 +1,100 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "Benhao",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/qubenhao/avatar_1614513369.png",
+          "userSlug": "himymben"
+        },
+        "username": "himymBen"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n此处撰写解题思路\n\n### 代码\n\n```Python3 []\nBASE = 7\nclass Solution:\n    def convertToBase7(self, num: int) -> str:\n        if not num:\n            return str(num)\n        sign = num < 0\n        num = abs(num)\n        ans = []\n        while num:\n            ans.append(str(num % BASE))\n            num //= BASE\n        return (\"-\" if sign else \"\") + \"\".join(ans[::-1])\n```\n```Go []\nfunc convertToBase7(num int) string {\n    if num == 0 {\n        return \"0\"\n    }\n\n    reverseString := func(runes []rune) string {\n        for from, to := 0, len(runes)-1; from < to; from, to = from+1, to-1 {\n            runes[from], runes[to] = runes[to], runes[from]\n        }\n        return string(runes)\n    }\n    base := 7\n    sign := num < 0\n    if sign {\n        num *= -1\n    }\n    ans := make([]rune, 0)\n    for num > 0 {\n        ans = append(ans, rune(num % base) + '0')\n        num /= base\n    }\n    if sign {\n        ans = append(ans, '-')\n    }\n    return reverseString(ans)\n}\n```\n```Java []\nclass Solution {\n    private static final int BASE = 7;\n    public String convertToBase7(int num) {\n        StringBuilder sb = new StringBuilder();\n        boolean sign = num < 0;\n        if(sign)\n            num *= -1;\n        do{\n            sb.append(num%BASE + \"\");\n            num/=BASE;\n        }while(num > 0);\n        if(sign)\n            sb.append(\"-\");\n        return sb.reverse().toString();\n    }\n}\n```\n```JavaScript []\n/**\n * @param {number} num\n * @return {string}\n */\nconst BASE = 7;\nvar convertToBase7 = function(num) {\n    const sign = num < 0, ans = [];\n    if(sign){\n        num *= -1;\n    }\n    do{\n        ans.push(num%BASE + \"\");\n        num = Math.floor(num/BASE);\n    }while(num > 0);\n    if(sign)\n        ans.push(\"-\");\n    return ans.reverse().join(\"\");\n};\n```",
+      "createdAt": "2021-11-10T11:46:56.035126+00:00",
+      "hitCount": 253,
+      "identifier": "w5svIq",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "zhe-ge-1xing-dai-ma-de-shuang-bai-ti-jie-r59o",
+        "title": "这个1行代码的双百题解，简直不要太。。。。"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "base-7"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "pythonjavajavascriptgo-zhan-zhuan-xiang-752fe",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n此处撰写解题思路\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Go",
+          "nameTranslated": "",
+          "slug": "golang",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "JavaScript",
+          "nameTranslated": "",
+          "slug": "javascript",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python3",
+          "nameTranslated": "",
+          "slug": "python3",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "[Python/Java/JavaScript/Go] 辗转相除法解决所有进制转换问题 ",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 1,
+        "id": 1094928,
+        "viewCount": 212
+      },
+      "uuid": "w5svIq",
+      "videosInfo": []
+    }
+  }
+}

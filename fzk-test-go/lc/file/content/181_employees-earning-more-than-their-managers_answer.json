@@ -1,0 +1,87 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣 (LeetCode)",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/uploaded_files/2021/03/73c9f099-abbe-4d94-853f-f8abffd459cd/leetcode.png",
+          "userSlug": "leetcode"
+        },
+        "username": "LeetCode"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法 1：使用 `WHERE` 语句\n\n**算法**\n\n如下面表格所示，表格里存有每个雇员经理的信息，我们也许需要从这个表里获取两次信息。\n\n```sql\nSELECT *\nFROM Employee AS a, Employee AS b\n;\n```\n>注意：关键词 'AS' 是可选的\n\n| Id | Name  | Salary | ManagerId | Id | Name  | Salary | ManagerId |\n|----|-------|--------|-----------|----|-------|--------|-----------|\n| 1  | Joe   | 70000  | 3         | 1  | Joe   | 70000  | 3         |\n| 2  | Henry | 80000  | 4         | 1  | Joe   | 70000  | 3         |\n| 3  | Sam   | 60000  |           | 1  | Joe   | 70000  | 3         |\n| 4  | Max   | 90000  |           | 1  | Joe   | 70000  | 3         |\n| 1  | Joe   | 70000  | 3         | 2  | Henry | 80000  | 4         |\n| 2  | Henry | 80000  | 4         | 2  | Henry | 80000  | 4         |\n| 3  | Sam   | 60000  |           | 2  | Henry | 80000  | 4         |\n| 4  | Max   | 90000  |           | 2  | Henry | 80000  | 4         |\n| 1  | Joe   | 70000  | 3         | 3  | Sam   | 60000  |           |\n| 2  | Henry | 80000  | 4         | 3  | Sam   | 60000  |           |\n| 3  | Sam   | 60000  |           | 3  | Sam   | 60000  |           |\n| 4  | Max   | 90000  |           | 3  | Sam   | 60000  |           |\n| 1  | Joe   | 70000  | 3         | 4  | Max   | 90000  |           |\n| 2  | Henry | 80000  | 4         | 4  | Max   | 90000  |           |\n| 3  | Sam   | 60000  |           | 4  | Max   | 90000  |           |\n| 4  | Max   | 90000  |           | 4  | Max   | 90000  |           |\n> 前 3 列来自表格 a ，后 3 列来自表格 b\n\n从两个表里使用 Select 语句可能会导致产生 [笛卡尔乘积](https://baike.baidu.com/item/%E7%AC%9B%E5%8D%A1%E5%B0%94%E4%B9%98%E7%A7%AF/6323173?fr=aladdin) 。在这种情况下，输出会产生 4*4=16 个记录。然而我们只对雇员工资高于经理的人感兴趣。所以我们应该用 `WHERE` 语句加 2 个判断条件。\n\n\n```sql\nSELECT\n    *\nFROM\n    Employee AS a,\n    Employee AS b\nWHERE\n    a.ManagerId = b.Id\n        AND a.Salary > b.Salary\n;\n```\n\n| Id | Name | Salary | ManagerId | Id | Name | Salary | ManagerId |\n|----|------|--------|-----------|----|------|--------|-----------|\n| 1  | Joe  | 70000  | 3         | 3  | Sam  | 60000  |           |\n\n由于我们只需要输出雇员的名字，所以我们修改一下上面的代码，得到最终解法：\n\n**MySQL**\n\n```sql\nSELECT\n    a.Name AS 'Employee'\nFROM\n    Employee AS a,\n    Employee AS b\nWHERE\n    a.ManagerId = b.Id\n        AND a.Salary > b.Salary\n;\n```\n\n#### 方法 2：使用 `JOIN` 语句\n\n**算法**\n\n实际上， `JOIN` 是一个更常用也更有效的将表连起来的办法，我们使用 `ON` 来指明条件。\n\n```sql\nSELECT\n     a.NAME AS Employee\nFROM Employee AS a JOIN Employee AS b\n     ON a.ManagerId = b.Id\n     AND a.Salary > b.Salary\n;\n```",
+      "createdAt": "2019-06-18T12:51:50.894834+00:00",
+      "hitCount": 98709,
+      "identifier": "Sy9Vth",
+      "isEditorsPick": false,
+      "isMostPopular": true,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "chao-guo-jing-li-de-shou-ru-de-yuan-gong-2r7p",
+        "title": "超过经理的收入的员工"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "employees-earning-more-than-their-managers"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 100,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 10,
+          "reactionType": "CONFUSED"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 4,
+          "reactionType": "AWESOME"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 0,
+          "reactionType": "THUMBS_DOWN"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "chao-guo-jing-li-shou-ru-de-yuan-gong-by-leetcode",
+      "status": "PUBLISHED",
+      "summary": "§ 方法 1：使用 WHERE 语句\n算法\n如下面表格所示，表格里存有每个雇员经理的信息，我们也许需要从这个表里获取两次信息。\n\n注意：关键词 'AS' 是可选的\n\n\n\n\nId\nName\nSalary\nManagerId\nId\nName\nSalary\nManagerId\n\n\n\n\n1\nJoe\n70000\n3\n1\nJoe\n",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "MySQL",
+          "nameTranslated": "",
+          "slug": "mysql",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "超过经理收入的员工",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 114,
+        "id": 9579,
+        "viewCount": 75598
+      },
+      "uuid": "Sy9Vth",
+      "videosInfo": []
+    }
+  }
+}

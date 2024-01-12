@@ -1,0 +1,150 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣官方题解",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/leetcode-solution/avatar_1582018938.png",
+          "userSlug": "leetcode-solution"
+        },
+        "username": "LeetCode-Solution"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 📺 视频题解  \n![20. 有效的括号(1).mp4](fd5011ac-7ea5-4797-86ae-56c2b5e2b21b)\n\n### 📖 文字题解\n#### 方法一：栈\n\n判断括号的有效性可以使用「栈」这一数据结构来解决。\n\n我们遍历给定的字符串 $s$。当我们遇到一个左括号时，我们会期望在后续的遍历中，有一个相同类型的右括号将其闭合。由于**后遇到的左括号要先闭合**，因此我们可以将这个左括号放入栈顶。\n\n当我们遇到一个右括号时，我们需要将一个相同类型的左括号闭合。此时，我们可以取出栈顶的左括号并判断它们是否是相同类型的括号。如果不是相同的类型，或者栈中并没有左括号，那么字符串 $s$ 无效，返回 $\\text{False}$。为了快速判断括号的类型，我们可以使用哈希表存储每一种括号。哈希表的键为右括号，值为相同类型的左括号。\n\n在遍历结束后，如果栈中没有左括号，说明我们将字符串 $s$ 中的所有左括号闭合，返回 $\\text{True}$，否则返回 $\\text{False}$。\n\n注意到有效字符串的长度一定为偶数，因此如果字符串的长度为奇数，我们可以直接返回 $\\text{False}$，省去后续的遍历判断过程。\n\n```C++ [sol1-C++]\nclass Solution {\npublic:\n    bool isValid(string s) {\n        int n = s.size();\n        if (n % 2 == 1) {\n            return false;\n        }\n\n        unordered_map<char, char> pairs = {\n            {')', '('},\n            {']', '['},\n            {'}', '{'}\n        };\n        stack<char> stk;\n        for (char ch: s) {\n            if (pairs.count(ch)) {\n                if (stk.empty() || stk.top() != pairs[ch]) {\n                    return false;\n                }\n                stk.pop();\n            }\n            else {\n                stk.push(ch);\n            }\n        }\n        return stk.empty();\n    }\n};\n```\n\n```Java [sol1-Java]\nclass Solution {\n    public boolean isValid(String s) {\n        int n = s.length();\n        if (n % 2 == 1) {\n            return false;\n        }\n\n        Map<Character, Character> pairs = new HashMap<Character, Character>() {{\n            put(')', '(');\n            put(']', '[');\n            put('}', '{');\n        }};\n        Deque<Character> stack = new LinkedList<Character>();\n        for (int i = 0; i < n; i++) {\n            char ch = s.charAt(i);\n            if (pairs.containsKey(ch)) {\n                if (stack.isEmpty() || stack.peek() != pairs.get(ch)) {\n                    return false;\n                }\n                stack.pop();\n            } else {\n                stack.push(ch);\n            }\n        }\n        return stack.isEmpty();\n    }\n}\n```\n\n```Python [sol1-Python3]\nclass Solution:\n    def isValid(self, s: str) -> bool:\n        if len(s) % 2 == 1:\n            return False\n        \n        pairs = {\n            \")\": \"(\",\n            \"]\": \"[\",\n            \"}\": \"{\",\n        }\n        stack = list()\n        for ch in s:\n            if ch in pairs:\n                if not stack or stack[-1] != pairs[ch]:\n                    return False\n                stack.pop()\n            else:\n                stack.append(ch)\n        \n        return not stack\n```\n\n```JavaScript [sol1-JavaScript]\nvar isValid = function(s) {\n    const n = s.length;\n    if (n % 2 === 1) {\n        return false;\n    }\n    const pairs = new Map([\n        [')', '('],\n        [']', '['],\n        ['}', '{']\n    ]);\n    const stk = [];\n    for (let ch of s){\n        if (pairs.has(ch)) {\n            if (!stk.length || stk[stk.length - 1] !== pairs.get(ch)) {\n                return false;\n            }\n            stk.pop();\n        } \n        else {\n            stk.push(ch);\n        }\n    };\n    return !stk.length;\n};\n```\n\n```golang [sol1-Golang]\nfunc isValid(s string) bool {\n    n := len(s)\n    if n % 2 == 1 {\n        return false\n    }\n    pairs := map[byte]byte{\n        ')': '(',\n        ']': '[',\n        '}': '{',\n    }\n    stack := []byte{}\n    for i := 0; i < n; i++ {\n        if pairs[s[i]] > 0 {\n            if len(stack) == 0 || stack[len(stack)-1] != pairs[s[i]] {\n                return false\n            }\n            stack = stack[:len(stack)-1]\n        } else {\n            stack = append(stack, s[i])\n        }\n    }\n    return len(stack) == 0\n}\n```\n\n```C [sol1-C]\nchar pairs(char a) {\n    if (a == '}') return '{';\n    if (a == ']') return '[';\n    if (a == ')') return '(';\n    return 0;\n}\n\nbool isValid(char* s) {\n    int n = strlen(s);\n    if (n % 2 == 1) {\n        return false;\n    }\n    int stk[n + 1], top = 0;\n    for (int i = 0; i < n; i++) {\n        char ch = pairs(s[i]);\n        if (ch) {\n            if (top == 0 || stk[top - 1] != ch) {\n                return false;\n            }\n            top--;\n        } else {\n            stk[top++] = s[i];\n        }\n    }\n    return top == 0;\n}\n```\n\n**复杂度分析**\n\n- 时间复杂度：$O(n)$，其中 $n$ 是字符串 $s$ 的长度。\n\n- 空间复杂度：$O(n + |\\Sigma|)$，其中 $\\Sigma$ 表示字符集，本题中字符串只包含 $6$ 种括号，$|\\Sigma| = 6$。栈中的字符数量为 $O(n)$，而哈希表使用的空间为 $O(|\\Sigma|)$，相加即可得到总空间复杂度。",
+      "createdAt": "2020-08-13T13:37:35.291743+00:00",
+      "hitCount": 344049,
+      "identifier": "yImdE3",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "valid-parentheses-fu-zhu-zhan-fa-by-jin407891080",
+        "title": "有效的括号（辅助栈法，极简+图解）"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "valid-parentheses"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 273,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 22,
+          "reactionType": "AWESOME"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 17,
+          "reactionType": "CONFUSED"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "THUMBS_DOWN"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "you-xiao-de-gua-hao-by-leetcode-solution",
+      "status": "PUBLISHED",
+      "summary": "📺 视频题解\n📖 文字题解\n 方法一：栈\n判断括号的有效性可以使用「栈」这一数据结构来解决。\n我们遍历给定的字符串 s。当我们遇到一个左括号时，我们会期望在后续的遍历中，有一个相同类型的右括号将其闭合。由于后遇到的左括号要先闭合，因此我们可以将这个左括号放入栈顶。\n当我们遇到一个右括号时，我们需要将一个相同类型的左",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Stack",
+          "nameTranslated": "栈",
+          "slug": "stack",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Hash Table",
+          "nameTranslated": "哈希表",
+          "slug": "hash-table",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "String",
+          "nameTranslated": "字符串",
+          "slug": "string",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C",
+          "nameTranslated": "",
+          "slug": "c",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Go",
+          "nameTranslated": "",
+          "slug": "golang",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "JavaScript",
+          "nameTranslated": "",
+          "slug": "javascript",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "有效的括号",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 356,
+        "id": 373578,
+        "viewCount": 227010
+      },
+      "uuid": "yImdE3",
+      "videosInfo": [
+        {
+          "__typename": "VideoInfoNode",
+          "coverUrl": "https://video.leetcode-cn.com/image/cover/051DE93E7D334DA0BD85876F465CF6F6-6-2.png",
+          "duration": 200.512,
+          "videoId": "fd17b172afa64d9ca1db74392d8294cd"
+        }
+      ]
+    }
+  }
+}

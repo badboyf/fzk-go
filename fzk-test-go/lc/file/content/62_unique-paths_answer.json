@@ -1,0 +1,143 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣官方题解",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/leetcode-solution/avatar_1582018938.png",
+          "userSlug": "leetcode-solution"
+        },
+        "username": "LeetCode-Solution"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 📺 视频题解  \n![62. 不同路径.mp4](48ac43ed-52de-41d2-88f7-a6d88792e243)\n\n### 📖 文字题解\n#### 方法一：动态规划\n\n**思路与算法**\n\n我们用 $f(i, j)$ 表示从左上角走到 $(i, j)$ 的路径数量，其中 $i$ 和 $j$ 的范围分别是 $[0, m)$ 和 $[0, n)$。\n\n由于我们每一步只能从向下或者向右移动一步，因此要想走到 $(i, j)$，如果向下走一步，那么会从 $(i-1, j)$ 走过来；如果向右走一步，那么会从 $(i, j-1)$ 走过来。因此我们可以写出动态规划转移方程：\n\n$$\nf(i, j) = f(i-1, j) + f(i, j-1)\n$$\n\n需要注意的是，如果 $i=0$，那么 $f(i-1,j)$ 并不是一个满足要求的状态，我们需要忽略这一项；同理，如果 $j=0$，那么 $f(i,j-1)$ 并不是一个满足要求的状态，我们需要忽略这一项。\n\n初始条件为 $f(0,0)=1$，即从左上角走到左上角有一种方法。\n\n最终的答案即为 $f(m-1,n-1)$。\n\n**细节**\n\n为了方便代码编写，我们可以将所有的 $f(0, j)$ 以及 $f(i, 0)$ 都设置为边界条件，它们的值均为 $1$。\n\n**代码**\n\n```C++ [sol1-C++]\nclass Solution {\npublic:\n    int uniquePaths(int m, int n) {\n        vector<vector<int>> f(m, vector<int>(n));\n        for (int i = 0; i < m; ++i) {\n            f[i][0] = 1;\n        }\n        for (int j = 0; j < n; ++j) {\n            f[0][j] = 1;\n        }\n        for (int i = 1; i < m; ++i) {\n            for (int j = 1; j < n; ++j) {\n                f[i][j] = f[i - 1][j] + f[i][j - 1];\n            }\n        }\n        return f[m - 1][n - 1];\n    }\n};\n```\n\n```Java [sol1-Java]\nclass Solution {\n    public int uniquePaths(int m, int n) {\n        int[][] f = new int[m][n];\n        for (int i = 0; i < m; ++i) {\n            f[i][0] = 1;\n        }\n        for (int j = 0; j < n; ++j) {\n            f[0][j] = 1;\n        }\n        for (int i = 1; i < m; ++i) {\n            for (int j = 1; j < n; ++j) {\n                f[i][j] = f[i - 1][j] + f[i][j - 1];\n            }\n        }\n        return f[m - 1][n - 1];\n    }\n}\n```\n\n```Python [sol1-Python3]\nclass Solution:\n    def uniquePaths(self, m: int, n: int) -> int:\n        f = [[1] * n] + [[1] + [0] * (n - 1) for _ in range(m - 1)]\n        print(f)\n        for i in range(1, m):\n            for j in range(1, n):\n                f[i][j] = f[i - 1][j] + f[i][j - 1]\n        return f[m - 1][n - 1]\n```\n\n```Golang [sol1-Golang]\nfunc uniquePaths(m, n int) int {\n    dp := make([][]int, m)\n    for i := range dp {\n        dp[i] = make([]int, n)\n        dp[i][0] = 1\n    }\n    for j := 0; j < n; j++ {\n        dp[0][j] = 1\n    }\n    for i := 1; i < m; i++ {\n        for j := 1; j < n; j++ {\n            dp[i][j] = dp[i-1][j] + dp[i][j-1]\n        }\n    }\n    return dp[m-1][n-1]\n}\n```\n\n```C [sol1-C]\nint uniquePaths(int m, int n) {\n    int f[m][n];\n    for (int i = 0; i < m; ++i) {\n        f[i][0] = 1;\n    }\n    for (int j = 0; j < n; ++j) {\n        f[0][j] = 1;\n    }\n    for (int i = 1; i < m; ++i) {\n        for (int j = 1; j < n; ++j) {\n            f[i][j] = f[i - 1][j] + f[i][j - 1];\n        }\n    }\n    return f[m - 1][n - 1];\n}\n```\n\n```JavaScript [sol1-JavaScript]\nvar uniquePaths = function(m, n) {\n    const f = new Array(m).fill(0).map(() => new Array(n).fill(0));\n    for (let i = 0; i < m; i++) {\n        f[i][0] = 1;\n    }\n    for (let j = 0; j < n; j++) {\n        f[0][j] = 1;\n    }\n    for (let i = 1; i < m; i++) {\n        for (let j = 1; j < n; j++) {\n            f[i][j] = f[i - 1][j] + f[i][j - 1];\n        }\n    }\n    return f[m - 1][n - 1];\n};\n```\n\n**复杂度分析**\n\n- 时间复杂度：$O(mn)$。\n\n- 空间复杂度：$O(mn)$，即为存储所有状态需要的空间。注意到 $f(i, j)$ 仅与第 $i$ 行和第 $i-1$ 行的状态有关，因此我们可以使用滚动数组代替代码中的二维数组，使空间复杂度降低为 $O(n)$。此外，由于我们交换行列的值并不会对答案产生影响，因此我们总可以通过交换 $m$ 和 $n$ 使得 $m \\leq n$，这样空间复杂度降低至 $O(\\min(m, n))$。\n\n#### 方法二：组合数学\n\n**思路与算法**\n\n从左上角到右下角的过程中，我们需要移动 $m+n-2$ 次，其中有 $m-1$ 次向下移动，$n-1$ 次向右移动。因此路径的总数，就等于从 $m+n-2$ 次移动中选择 $m-1$ 次向下移动的方案数，即组合数：\n\n$$\n{\\Large C}_{m+n-2}^{m-1} = \\binom{m+n-2}{m-1} = \\frac{(m+n-2)(m+n-3)\\cdots n}{(m-1)!} = \\frac{(m+n-2)!}{(m-1)!(n-1)!}\n$$\n\n因此我们直接计算出这个组合数即可。计算的方法有很多种：\n\n- 如果使用的语言有组合数计算的 API，我们可以调用 API 计算；\n\n- 如果没有相应的 API，我们可以使用 $\\frac{(m+n-2)(m+n-3)\\cdots n}{(m-1)!}$ 进行计算。\n\n**代码**\n\n```C++ [sol2-C++]\nclass Solution {\npublic:\n    int uniquePaths(int m, int n) {\n        long long ans = 1;\n        for (int x = n, y = 1; y < m; ++x, ++y) {\n            ans = ans * x / y;\n        }\n        return ans;\n    }\n};\n```\n\n```Java [sol2-Java]\nclass Solution {\n    public int uniquePaths(int m, int n) {\n        long ans = 1;\n        for (int x = n, y = 1; y < m; ++x, ++y) {\n            ans = ans * x / y;\n        }\n        return (int) ans;\n    }\n}\n```\n\n```Python [sol2-Python3]\nclass Solution:\n    def uniquePaths(self, m: int, n: int) -> int:\n        return comb(m + n - 2, n - 1)\n```\n\n```Golang [sol2-Golang]\nfunc uniquePaths(m, n int) int {\n    return int(new(big.Int).Binomial(int64(m+n-2), int64(n-1)).Int64())\n}\n```\n\n```C [sol2-C]\nint uniquePaths(int m, int n) {\n    long long ans = 1;\n    for (int x = n, y = 1; y < m; ++x, ++y) {\n        ans = ans * x / y;\n    }\n    return ans;\n}\n```\n\n```JavaScript [sol2-JavaScript]\nvar uniquePaths = function(m, n) {\n    let ans = 1;\n    for (let x = n, y = 1; y < m; ++x, ++y) {\n        ans = Math.floor(ans * x / y);\n    }\n    return ans;\n};\n```\n\n\n**复杂度分析**\n\n- 时间复杂度：$O(m)$。由于我们交换行列的值并不会对答案产生影响，因此我们总可以通过交换 $m$ 和 $n$ 使得 $m \\leq n$，这样空间复杂度降低至 $O(\\min(m, n))$。\n\n- 空间复杂度：$O(1)$。",
+      "createdAt": "2020-12-08T14:58:52.397351+00:00",
+      "hitCount": 108264,
+      "identifier": "2qEvzu",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "dong-tai-gui-hua-by-powcai-2",
+        "title": "动态规划"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "unique-paths"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 110,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 6,
+          "reactionType": "AWESOME"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 3,
+          "reactionType": "CONFUSED"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "THUMBS_DOWN"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "bu-tong-lu-jing-by-leetcode-solution-hzjf",
+      "status": "PUBLISHED",
+      "summary": "📺 视频题解 📖 文字题解 方法一：动态规划 思路与算法 我们用 $f(i, j)$ 表示从左上角走到 $(i, j)$ 的路径数量，其中 $i$ 和 $j$ 的范围分别是 $[0, m)$ 和 $[0, n)$。 由于我们每一步只能从向下或者向右移动一步，因此要想走到 $(i, j)$，如果向下走一步，那么会从 $(",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Math",
+          "nameTranslated": "数学",
+          "slug": "math",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Dynamic Programming",
+          "nameTranslated": "动态规划",
+          "slug": "dynamic-programming",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C",
+          "nameTranslated": "",
+          "slug": "c",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Go",
+          "nameTranslated": "",
+          "slug": "golang",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "JavaScript",
+          "nameTranslated": "",
+          "slug": "javascript",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "不同路径",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 224,
+        "id": 514311,
+        "viewCount": 77103
+      },
+      "uuid": "2qEvzu",
+      "videosInfo": [
+        {
+          "__typename": "VideoInfoNode",
+          "coverUrl": "https://video.leetcode-cn.com/image/cover/B1F0C6C45CCC47789D27B73C6C2A3109-6-2.png",
+          "duration": 235.8187,
+          "videoId": "10592bc26bd04a1bb51e91df315b60ef"
+        }
+      ]
+    }
+  }
+}

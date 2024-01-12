@@ -1,0 +1,101 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣 (LeetCode)",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/uploaded_files/2021/03/73c9f099-abbe-4d94-853f-f8abffd459cd/leetcode.png",
+          "userSlug": "leetcode"
+        },
+        "username": "LeetCode"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法一：深度优先搜索【通过】\n\n**思路**\n\n序列化二叉树。\n\n```python [snippet1-Python]\n   1\n  / \\\n 2   3\n    / \\\n   4   5\n```\n\n例如上面这棵树序列化结果为 `1,2,#,#,3,4,#,#,5,#,#`。每棵不同子树的序列化结果都是唯一的。\n\n\n**算法**\n\n使用深度优先搜索，其中递归函数返回当前子树的序列化结果。把每个节点开始的子树序列化结果保存在 $map$ 中，然后判断是否存在重复的子树。\n\n```python [solution1-Python]\nclass Solution(object):\n    def findDuplicateSubtrees(self, root):\n        count = collections.Counter()\n        ans = []\n        def collect(node):\n            if not node: return \"#\"\n            serial = \"{},{},{}\".format(node.val, collect(node.left), collect(node.right))\n            count[serial] += 1\n            if count[serial] == 2:\n                ans.append(node)\n            return serial\n\n        collect(root)\n        return ans\n```\n\n```java [solution1-Java]\nclass Solution {\n    Map<String, Integer> count;\n    List<TreeNode> ans;\n    public List<TreeNode> findDuplicateSubtrees(TreeNode root) {\n        count = new HashMap();\n        ans = new ArrayList();\n        collect(root);\n        return ans;\n    }\n\n    public String collect(TreeNode node) {\n        if (node == null) return \"#\";\n        String serial = node.val + \",\" + collect(node.left) + \",\" + collect(node.right);\n        count.put(serial, count.getOrDefault(serial, 0) + 1);\n        if (count.get(serial) == 2)\n            ans.add(node);\n        return serial;\n    }\n}\n```\n\n**复杂度分析**\n\n* 时间复杂度：$O(N^2)$，其中 $N$ 是二叉树上节点的数量。遍历所有节点，在每个节点处序列化需要时间 $O(N)$。\n\n* 空间复杂度：$O(N^2)$，`count` 的大小。\n\n\n#### 方法二：唯一标识符【通过】\n\n**思路**\n\n假设每棵子树都有一个唯一标识符：只有当两个子树的 id 相同时，认为这两个子树是相同的。\n\n一个节点 `node` 的左孩子 id 为 `x`，右孩子 id 为 `y`，那么该节点的 id 为 `(node.val, x, y)`。\n\n**算法**\n\n如果三元组 `(node.val, x, y)` 第一次出现，则创建一个这样的三元组记录该子树。如果已经出现过，则直接使用该子树对应的 id。\n\n```python [solution2-Python]\nclass Solution(object):\n    def findDuplicateSubtrees(self, root):\n        trees = collections.defaultdict()\n        trees.default_factory = trees.__len__\n        count = collections.Counter()\n        ans = []\n        def lookup(node):\n            if node:\n                uid = trees[node.val, lookup(node.left), lookup(node.right)]\n                count[uid] += 1\n                if count[uid] == 2:\n                    ans.append(node)\n                return uid\n\n        lookup(root)\n        return ans\n```\n\n```java [solution2-Java]\nclass Solution {\n    int t;\n    Map<String, Integer> trees;\n    Map<Integer, Integer> count;\n    List<TreeNode> ans;\n\n    public List<TreeNode> findDuplicateSubtrees(TreeNode root) {\n        t = 1;\n        trees = new HashMap();\n        count = new HashMap();\n        ans = new ArrayList();\n        lookup(root);\n        return ans;\n    }\n\n    public int lookup(TreeNode node) {\n        if (node == null) return 0;\n        String serial = node.val + \",\" + lookup(node.left) + \",\" + lookup(node.right);\n        int uid = trees.computeIfAbsent(serial, x-> t++);\n        count.put(uid, count.getOrDefault(uid, 0) + 1);\n        if (count.get(uid) == 2)\n            ans.add(node);\n        return uid;\n    }\n}\n```\n\n**复杂度分析**\n\n* 时间复杂度：$O(N)$，其中 $N$ 二叉树上节点的数量，每个节点都需要访问一次。\n\n* 空间复杂度：$O(N)$，每棵子树的存储空间都为 $O(1)$。",
+      "createdAt": "2019-12-31T03:44:45.213446+00:00",
+      "hitCount": 30759,
+      "identifier": "VP75rJ",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "hou-xu-bian-li-xu-lie-hua-hashcun-chu-by-k940",
+        "title": "后序遍历+序列化+hash存储"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "find-duplicate-subtrees"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 36,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "AWESOME"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "CONFUSED"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "THUMBS_DOWN"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "xun-zhao-zhong-fu-de-zi-shu-by-leetcode",
+      "status": "PUBLISHED",
+      "summary": " 方法一：深度优先搜索【通过】\n思路\n序列化二叉树。\n例如上面这棵树序列化结果为 1,2,#,#,3,4,#,#,5,#,#。每棵不同子树的序列化结果都是唯一的。\n算法\n使用深度优先搜索，其中递归函数返回当前子树的序列化结果。把每个节点开始的子树序列化结果保存在 map 中，然后判断是否存在重复的子树。\n复杂度分析\n\n",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Depth-First Search",
+          "nameTranslated": "深度优先搜索",
+          "slug": "depth-first-search",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "寻找重复的子树",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 59,
+        "id": 65175,
+        "viewCount": 20871
+      },
+      "uuid": "VP75rJ",
+      "videosInfo": []
+    }
+  }
+}

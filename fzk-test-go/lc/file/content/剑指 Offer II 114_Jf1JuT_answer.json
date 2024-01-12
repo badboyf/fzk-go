@@ -1,0 +1,128 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "SloanCheng",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/sloancheng/avatar_1637562932.png",
+          "userSlug": "sloancheng"
+        },
+        "username": "SloanCheng"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "根据题意，需要从给出的字符串数组中找出出现字母之间的顺序。\n各字符串中在字符串数组words中已经是按递增顺序排列，我们可以通过比较数组中两两相邻的字符串中的对应字符得出字符比较大小的结果。\n例如，给定字符串数组words = [\"wrt\",\"wrf\",\"er\",\"ett\",\"rftt\"].\n因为words[0] < words[1],可知't' < 'f';\n   words[1] < words[2],可知‘w' < 'e';\n   words[2] < words[3],可知'r' < 't';后续比较规律相同。\n对于此类题应该通过具体的例子抽象出相应规律。\n另外通过提交我发现有一个特殊输入words = [\"abc\",\"ab\"]，后一个字符串是前一个字符串的前缀，即前一个字符串长度大于后一个，这就违背了题目说明的字符串数组是递增排列，这就是一个不合法的无效输入，应返回空字符串\"\".\n\n通过以上分析，我们可以把这个问题抽象成一个图遍历问题，字符表示图节点，排在靠前顺序的字符有一条指向靠后顺序字符的有向边，而最靠前的字符表示入度为0的节点，通过广度优先遍历每次把所有入度为0的节点放进队列，在遍历过程中队列中的节点顺序就是字符之间的相对顺序(之一，因为由给定的条件无法判断唯一顺序，同时拓扑排序如果成功那么也不一定有唯一解)。\n\n明白此问题的算法思想以后，就转换成了建图再BFS遍历的过程。用一个HashMap来表示图节点之间的关系，key表示该字符，value表示顺序排在该字符之后的所有字符，即该字符key有一条指向value中各个字符的有向边，又因为字符不用重复保存，只需一条边表示两个字符之间的关系，我们就用HashSet做value表示该字符集合。这样建立好字符之间的顺序关系以后，由于需要使用拓扑排序，我们还需要用一个数组或者哈希表保存每个字符的入度数量，因为此题输入只有小写字母，只用一个空间为26的数组保存即可。代码如下：\n```\nclass Solution {\n    public String alienOrder(String[] words) {\n        Map<Character, Set<Character>> graph = new HashMap<>();\n        int[] inDegree = new int[26];\n        Queue<Character> q = new LinkedList<>();\n        StringBuilder sb = new StringBuilder();\n        //把出现的字符保存在图HashMap里，每个不重复字符对应一个表示有序的有向边\n        for(String word : words){\n            for(char ch : word.toCharArray()){\n                graph.putIfAbsent(ch, new HashSet<>());\n            }\n        }\n        //两两比较相邻字符串之间的关系\n        for(int i = 1; i < words.length; ++i){\n            String w1 = words[i-1];\n            String w2 = words[i];\n            if(checkPre(w1,w2) && !w1.equals(w2)) return \"\"; //检查为不合法输入\n            for(int j = 0; j < Math.min(w1.length(), w2.length()); ++j){\n                char c1 = w1.charAt(j);\n                char c2 = w2.charAt(j);\n                //找到不同的字符才说明有顺序关系，把前一个字符指向后一字符，同时后一字符的入度+1\n                if(c1 != c2){\n                    if(!graph.get(c1).contains(c2)){\n                        graph.get(c1).add(c2);\n                        inDegree[c2 - 'a']++;\n                    }\n                    break;\n                }\n            }\n        }\n        //把所有入度为0的字符先加入队列，准备拓扑排序\n        for(char ch : graph.keySet()){\n            if(inDegree[ch - 'a'] == 0) q.offer(ch);\n        }\n        while(!q.isEmpty()){\n            char node = q.poll();\n            //从队列出来的这个字符肯定是入度为0，可以确定它的顺序，就把它加进字符顺序的结果里\n            sb.append(node);\n            //取出当前出来的节点以后，该节点所有的出度(有向边指向所有节点的节点入度)都要减1，若有入度为0的节点字符出现，把它加进队列准备之后的拓扑排序遍历\n            for(char next : graph.get(node)){\n                inDegree[next - 'a']--;\n                if(inDegree[next - 'a'] == 0) q.offer(next);\n            }\n        }\n        如果结果集里的字符数量和图中所有节点数量相同，说明拓扑排序成功，返回结果集，否则不成功，不存在合法字母顺序\n        return sb.length() == graph.size() ? sb.toString() : \"\";\n    }\n\n    public boolean checkPre(String s1, String s2){\n        int m = s1.length(), n = s2.length();\n        if(m < n) return false;\n        int i = 0, j = 0;\n        while(i < m && j < n){\n            if(s2.charAt(j) != s1.charAt(i)) return false;\n            i++;\n            j++;\n        }\n        return true;\n    }\n}\n```\n![截屏2021-10-22 下午2.28.50.png](https://pic.leetcode-cn.com/1634884170-TGdWcY-%E6%88%AA%E5%B1%8F2021-10-22%20%E4%B8%8B%E5%8D%882.28.50.png)\n速度时间复杂度还可以。\n\n",
+      "createdAt": "2021-10-22T06:32:26.348011+00:00",
+      "hitCount": 391,
+      "identifier": "SOKApD",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "c-miao-dong-tuo-bu-pai-xu-ying-yong-114-3f941",
+        "title": "C++ 秒懂 拓扑排序应用（114. 外星文字典）"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "Jf1JuT"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 13,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "tu-bfstuo-bu-pai-xu-suan-fa-by-sloanchen-08qb",
+      "status": "PREPUBLISH",
+      "summary": "根据题意，需要从给出的字符串数组中找出出现字母之间的顺序。\n各字符串中在字符串数组words中已经是按递增顺序排列，我们可以通过比较数组中两两相邻的字符串中的对应字符得出字符比较大小的结果。\n例如，给定字符串数组words = [\"wrt\",\"wrf\",\"er\",\"ett\",\"rftt\"].\n因为words[0] <",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Breadth-First Search",
+          "nameTranslated": "广度优先搜索",
+          "slug": "breadth-first-search",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Graph",
+          "nameTranslated": "图",
+          "slug": "graph",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Topological Sort",
+          "nameTranslated": "拓扑排序",
+          "slug": "topological-sort",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Queue",
+          "nameTranslated": "队列",
+          "slug": "queue",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Map",
+          "nameTranslated": "",
+          "slug": "map",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Array",
+          "nameTranslated": "数组",
+          "slug": "array",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Hash Table",
+          "nameTranslated": "哈希表",
+          "slug": "hash-table",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "String",
+          "nameTranslated": "字符串",
+          "slug": "string",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1634884170-TGdWcY-%E6%88%AA%E5%B1%8F2021-10-22%20%E4%B8%8B%E5%8D%882.28.50.png",
+      "title": "图BFS+拓扑排序算法",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 14,
+        "id": 1061033,
+        "viewCount": 270
+      },
+      "uuid": "SOKApD",
+      "videosInfo": []
+    }
+  }
+}

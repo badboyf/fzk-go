@@ -1,0 +1,84 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣 (LeetCode)",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/uploaded_files/2021/03/73c9f099-abbe-4d94-853f-f8abffd459cd/leetcode.png",
+          "userSlug": "leetcode"
+        },
+        "username": "LeetCode"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "####  方法一：记录索引\n因为我们想知道 `N` 二进制下连续 `1` 之间的距离，所以我们记录 `1` 在二进制表示中的位置。例如，若 `N = 22 = 0b10110`。则我们会记下 `A = [1, 2, 4]`。则我们可以在数组中计算我们的答案。\n\n**算法：**\n\n在列表 `A` 中记录数字 `N` 二进制表示中 `1` 的位置。\n\n要找到二进制表示中连续的 `1` 的最长距离，就是找到数组 `A` 中相邻元素差的最大值。\n\n```python [solution1-Python]\nclass Solution(object):\n    def binaryGap(self, N):\n        A = [i for i in xrange(32) if (N >> i) & 1]\n        if len(A) < 2: return 0\n        return max(A[i+1] - A[i] for i in xrange(len(A) - 1))\n```\n\n```java [solution1-Java]\nclass Solution {\n    public int binaryGap(int N) {\n        int[] A = new int[32];\n        int t = 0;\n        for (int i = 0; i < 32; ++i)\n            if (((N >> i) & 1) != 0)\n                A[t++] = i;\n\n        int ans = 0;\n        for (int i = 0; i < t - 1; ++i)\n            ans = Math.max(ans, A[i+1] - A[i]);\n        return ans;\n    }\n}\n```\n\n**复杂度分析**\n\n* 时间复杂度：$O(\\log N)$。\n* 空间复杂度：$O(\\log N)$，数组 `A` 所使用的空间。\n\n\n\n####  方法二：一次遍历\n在方法一中我们用数组 `A` 记录了数字 `N` 二进制表示中的 `1` 的位置。\n\n因为我们只关心连续的 `1`，因此我们不需要存储整个数组。只需要记住前一个 `1` 的位置。\n\n**算法：**\n\n我们用 `last` 存储上一个 `1` 的位置。如果数字 `N` 在第 `i` 个位置为 `1`，则我们的候选答案为 `i - last`，然后更新 `last = i`。\n\n```python [solution2-Python]\nclass Solution(object):\n    def binaryGap(self, N):\n        last = None\n        ans = 0\n        for i in xrange(32):\n            if (N >> i) & 1:\n                if last is not None:\n                    ans = max(ans, i - last)\n                last = i\n        return ans\n```\n\n```java [solution2-Java]\nclass Solution {\n    public int binaryGap(int N) {\n        int last = -1, ans = 0;\n        for (int i = 0; i < 32; ++i)\n            if (((N >> i) & 1) > 0) {\n                if (last >= 0)\n                    ans = Math.max(ans, i - last);\n                last = i;\n            }\n\n        return ans;\n    }\n}\n```\n\n**复杂度分析**\n\n* 时间复杂度：$O(\\log N)$。\n* 空间复杂度：$O(1)$。",
+      "createdAt": "2018-07-16T13:58:26.271427+00:00",
+      "hitCount": 12725,
+      "identifier": "INn4mi",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "868-er-jin-zhi-jian-ju-by-zhan-ke-ji-qiu-9fcp",
+        "title": "868. 二进制间距"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "binary-gap"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 5,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "er-jin-zhi-jian-ju-by-leetcode",
+      "status": "PUBLISHED",
+      "summary": "思路\n由于我们想要检查数字 N 的二进制表示法中连续的 1 之间的距离，让我们先记录下该二进制表示中每个 1 的索引。例如，如果 N = 22 = 0b10110，那么我们将记录 A = [1, 2, 4]。这使得我们可以容易地继续，原问题被转换为关于数组中相邻值的问题。\n算法\n创建一个关于索引 i 的列表 A， N ",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "二进制间距",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 12,
+        "id": 3530,
+        "viewCount": 5728
+      },
+      "uuid": "INn4mi",
+      "videosInfo": []
+    }
+  }
+}

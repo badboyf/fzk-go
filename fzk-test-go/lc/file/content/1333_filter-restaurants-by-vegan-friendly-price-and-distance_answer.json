@@ -1,0 +1,86 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "ffreturn",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/ffreturn/avatar_1608859813.png",
+          "userSlug": "ffreturn"
+        },
+        "username": "ffreturn"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "![image.png](https://pic.leetcode-cn.com/1637155126-ajMlOa-image.png)\n\n\n### 解题思路\n过滤加排序即可\n\n### 代码\n\n```cpp\n\nclass Solution {\npublic:\n    vector<int> filterRestaurants(vector<vector<int>>& restaurants, int veganFriendly, int maxPrice, int maxDistance) {\n        vector<int> res;\n        // 这里id不是严格顺序，后续排序方便，会直接用一个map表来构建\n        unordered_map<int, vector<int>*> id2res;\n        \n        for (vector<int>& restaurant : restaurants)\n        {\n            if (restaurant[2] < veganFriendly || restaurant[3] > maxPrice || restaurant[4] > maxDistance)\n            {\n                continue;\n            }\n\n            res.push_back(restaurant[0]);\n            id2res[restaurant[0]] = &restaurant;\n        }\n\n        sort(res.begin(), res.end(), [&id2res](int a, int b) {\n\n            return (*id2res[a])[1] == (*id2res[b])[1] ? a > b : (*id2res[a])[1] > (*id2res[b])[1];\n        });\n\n        return res;\n    }\n};\n```",
+      "createdAt": "2021-11-17T13:19:22.710430+00:00",
+      "hitCount": 14,
+      "identifier": "2zQmX6",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "java-wei-yi-xing-dai-ma-by-aerysnan",
+        "title": "Java (伪)一行代码"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "filter-restaurants-by-vegan-friendly-price-and-distance"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "1333-czhong-gui-zhong-ju-de-pai-xu-jie-f-9t6h",
+      "status": "PUBLISHED",
+      "summary": "解题思路\n过滤加排序即可\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Sorting",
+          "nameTranslated": "排序",
+          "slug": "sorting",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "梦想",
+          "nameTranslated": "",
+          "slug": "meng-xiang",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1637155126-ajMlOa-image.png",
+      "title": "1333. c++中规中矩的排序解法",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1107419,
+        "viewCount": 14
+      },
+      "uuid": "2zQmX6",
+      "videosInfo": []
+    }
+  }
+}

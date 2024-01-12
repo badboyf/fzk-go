@@ -1,0 +1,89 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣 (LeetCode)",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/uploaded_files/2021/03/73c9f099-abbe-4d94-853f-f8abffd459cd/leetcode.png",
+          "userSlug": "leetcode"
+        },
+        "username": "LeetCode"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法一：递归\n\n本方法非常简单。创建方法 `construct(nums, l, r)`，用于找出在数组 $nums$ 中从 $l$ 到 $r$ 索引（不包含第 $r$ 个位置）中最大二叉树的根节点。\n\n算法步骤如下：\n\n1. 首先调用 `construct(nums, 0, n)`，其中 $n$ 是数组 $nums$ 的长度。\n\n2. 在索引范围 $(l:r-1)$ 内找到最大值的索引，将 $nums[max\\_i]$ 作为根节点。\n\n3. 调用 `construct(nums, l, max_i)` 创建根节点的左孩子。递归执行此操作，创建根节点的整个左子树。\n\n4. 类似的，调用 `construct(nums, max_i + 1, r)` 创建根节点的右子树。\n\n5. 方法 `construct(nums, 0, n)` 返回最大二叉树的根节点。\n\n```java [solution1-Java]\npublic class Solution {\n    public TreeNode constructMaximumBinaryTree(int[] nums) {\n        return construct(nums, 0, nums.length);\n    }\n    public TreeNode construct(int[] nums, int l, int r) {\n        if (l == r)\n            return null;\n        int max_i = max(nums, l, r);\n        TreeNode root = new TreeNode(nums[max_i]);\n        root.left = construct(nums, l, max_i);\n        root.right = construct(nums, max_i + 1, r);\n        return root;\n    }\n    public int max(int[] nums, int l, int r) {\n        int max_i = l;\n        for (int i = l; i < r; i++) {\n            if (nums[max_i] < nums[i])\n                max_i = i;\n        }\n        return max_i;\n    }\n}\n```\n\n**复杂度分析**\n\n* 时间复杂度：$O(n^2)$。方法 `construct` 一共被调用 $n$ 次。每次递归寻找根节点时，需要遍历当前索引范围内所有元素找出最大值。一般情况下，每次遍历的复杂度为 $O(\\log n)$，总复杂度为 $O\\big(n\\log n\\big)$。最坏的情况下，数组 $nums$ 有序，总的复杂度为 $O(n^2)$。\n\n* 空间复杂度：$O(n)$。递归调用深度为 $n$。平均情况下，长度为 $n$ 的数组递归调用深度为 $O(\\log n)$。",
+      "createdAt": "2019-12-31T03:44:45.788337+00:00",
+      "hitCount": 25362,
+      "identifier": "wWrm0H",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "lindi-gui-si-lu-by-linniu-mzgf",
+        "title": "[Lin]递归思路"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "maximum-binary-tree"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 21,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "CONFUSED"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 0,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "zui-da-er-cha-shu-by-leetcode",
+      "status": "PUBLISHED",
+      "summary": " 方法一：递归\n本方法非常简单。创建方法 construct(nums, l, r)，用于找出在数组 nums 中从 l 到 r 索引（不包含第 r 个位置）中最大二叉树的根节点。\n算法步骤如下：\n\n\n首先调用 construct(nums, 0, n)，其中 n 是数组 nums 的长度。\n\n\n在索引范围 (l:r-",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Recursion",
+          "nameTranslated": "递归",
+          "slug": "recursion",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "最大二叉树",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 52,
+        "id": 65177,
+        "viewCount": 19665
+      },
+      "uuid": "wWrm0H",
+      "videosInfo": []
+    }
+  }
+}

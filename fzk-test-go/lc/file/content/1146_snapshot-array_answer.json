@@ -1,0 +1,76 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "offer快到碗里来~",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/zhouzihong/avatar_1626862997.png",
+          "userSlug": "zhouzihong"
+        },
+        "username": "zhouzihong"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "![image.png](https://pic.leetcode-cn.com/1632828657-iIxGMc-image.png)\r\n\r\n抽象图一二ij\r\n```\r\nclass SnapshotArray {\r\npublic:\r\n    vector<map<int,int>>idx2id2num;\r\n    int curId=0;\r\n    SnapshotArray(int length) {\r\n        map<int,int>tmp;\r\n        tmp[0]=0;\r\n        for(int i=0;i<length;i++)idx2id2num.push_back(tmp);\r\n    }\r\n    void set(int index, int val) {\r\n        idx2id2num[index][curId]=val;\r\n    }\r\n    int snap() {\r\n        curId++;\r\n        return curId-1;\r\n    }\r\n    int get(int index, int snap_id) {\r\n        if(idx2id2num[index].size()==0)return 0;\r\n        auto it=idx2id2num[index].upper_bound(snap_id);\r\n        it--;\r\n        return it->second;\r\n    }\r\n};\r\n```\r\n",
+      "createdAt": "2021-09-28T11:31:16.839709+00:00",
+      "hitCount": 138,
+      "identifier": "XvH7rp",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "java-shi-yong-treemapzhi-xu-ji-xing-dai-ma-by-forz",
+        "title": "Java 使用TreeMap，只需几行代码"
+      },
+      "position": 2,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "1146-czhong-gui-zhong-ju-de-mapjie-fa-by-267y",
+        "title": "1146. c++中规中矩的map解法"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "snapshot-array"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "ji-lu-si-kao-guo-cheng-by-zhouzihong-w7uk",
+      "status": "PREPUBLISH",
+      "summary": "抽象图一二ij",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1632828657-iIxGMc-image.png",
+      "title": "【记录思考过程】",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1022731,
+        "viewCount": 123
+      },
+      "uuid": "XvH7rp",
+      "videosInfo": []
+    }
+  }
+}

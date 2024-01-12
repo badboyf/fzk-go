@@ -1,0 +1,79 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "hans774882968",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/hans774882968/avatar_1612233100.png",
+          "userSlug": "hans774882968"
+        },
+        "username": "hans774882968"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "不妨考虑把树进行”裁剪“。如果一个点`u`为根的子树没有苹果，那么`u`子树应该剪掉，剩下的点都保留。于是我们获得了一棵新树。这棵新树的所有叶子必定都是苹果（否则这个点**本应被剪枝掉**）。\n\n因为这棵新树的每个点的子树都有苹果，所以它的每条边都至少需要走2次，且走2次已经足够。因此设新树的大小为`m`，答案就是`2*(m-1)`。那么我们可以只用1次dfs就完成统计过程，注意不需要显式地建出这棵新树。\n\n另外，有一个反例证明了，不能默认编号小的点为父亲：`[[0,2],[1,2]]`。\n\n#### 代码\n\n```js\n\"use strict\";\n//[[0,2],[1,2]]这个反例证明了，即使满足e[0]<e[1]，也不一定就是编号小的点为父亲！\nvar minTime = function(n, edges, hasApple) {\n  let G = Array.from({length: n}, () => [])\n  for (let e of edges) G[e[0]].push(e[1]), G[e[1]].push(e[0])\n  let ans = 0\n  let dfs = (u, ufa) => {\n    let sz = hasApple[u]\n    for (let v of G[u]) {\n      if (v === ufa) continue\n      let vsz = dfs(v, u)\n      if (vsz) ans += 2\n      sz += vsz\n    }\n    return sz\n  }\n  dfs(0, -1)\n  return ans\n};\n```\n\n",
+      "createdAt": "2021-10-05T03:49:22.194691+00:00",
+      "hitCount": 190,
+      "identifier": "X6q2g5",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "di-gui-lian-shi-qian-xiang-xing-cun-tu-b-252x",
+        "title": "递归（链式前向星存图）"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "minimum-time-to-collect-all-apples-in-a-tree"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "bu-fang-kao-lu-cai-jian-zhe-ke-shu-by-ha-vyff",
+      "status": "PREPUBLISH",
+      "summary": "不妨考虑把树进行”裁剪“。如果一个点u为根的子树没有苹果，那么u子树应该剪掉，剩下的点都保留。于是我们获得了一棵新树。这棵新树的所有叶子必定都是苹果（否则这个点本应被剪枝掉）。\n因为这棵新树的每个点的子树都有苹果，所以它的每条边都至少需要走2次，且走2次已经足够。因此设新树的大小为m，答案就是2*(m-1)。那么我们可",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "JavaScript",
+          "nameTranslated": "",
+          "slug": "javascript",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "DFS",
+          "nameTranslated": "",
+          "slug": "dfs",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "",
+      "title": "不妨考虑裁剪这棵树",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 2,
+        "id": 1031652,
+        "viewCount": 142
+      },
+      "uuid": "X6q2g5",
+      "videosInfo": []
+    }
+  }
+}

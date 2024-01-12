@@ -1,0 +1,86 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "ffreturn",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/ffreturn/avatar_1608859813.png",
+          "userSlug": "ffreturn"
+        },
+        "username": "ffreturn"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "![image.png](https://pic.leetcode-cn.com/1637645570-FLecKc-image.png)\n\n\n### 解题思路\n思路\n- 如果是奇数，那么单个字符即可\n- 如果是偶数，加一个不一样字符即可\n\n### 代码\n\n```cpp\n\nclass Solution {\npublic:\n    string generateTheString(int n) {\n        string res(n, 'x');\n        if (n %2 == 0)\n        {\n            res[0] = 'y';\n        }\n\n        return res;\n    }\n};\n```",
+      "createdAt": "2021-11-23T05:32:52.728408+00:00",
+      "hitCount": 9,
+      "identifier": "t2wq0c",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "c-yu-yan-zhi-jie-fa-by-wei-zk-hz9y",
+        "title": "C 语言 直接法"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "generate-a-string-with-characters-that-have-odd-counts"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "1374-cchao-100de-tan-xin-jie-fa-by-ffret-oe5t",
+      "status": "PUBLISHED",
+      "summary": "解题思路\n思路\n\n如果是奇数，那么单个字符即可\n如果是偶数，加一个不一样字符即可\n\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Greedy",
+          "nameTranslated": "贪心",
+          "slug": "greedy",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "梦想",
+          "nameTranslated": "",
+          "slug": "meng-xiang",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1637645570-FLecKc-image.png",
+      "title": "1374. c++超100的贪心解法",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1117499,
+        "viewCount": 9
+      },
+      "uuid": "t2wq0c",
+      "videosInfo": []
+    }
+  }
+}

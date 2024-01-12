@@ -1,0 +1,145 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣官方题解",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/leetcode-solution/avatar_1582018938.png",
+          "userSlug": "leetcode-solution"
+        },
+        "username": "LeetCode-Solution"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 📺 视频题解  \n![36. leetcode 787.mp4](99bb4429-7e71-4b20-9651-8abb74f8400b)\n\n### 📖 文字题解\n#### 前言\n\n本题和[「1928. 规定时间内到达终点的最小花费」](https://leetcode-cn.com/problems/minimum-cost-to-reach-destination-in-time/)是类似的题。读者在解决本题后，可以尝试解决该题。\n\n#### 方法一：动态规划\n\n**思路与算法**\n\n我们用 $f[t][i]$ 表示通过恰好 $t$ 次航班，从出发城市 $\\textit{src}$ 到达城市 $i$ 需要的最小花费。在进行状态转移时，我们可以枚举最后一次航班的起点 $j$，即：\n\n$$\nf[t][i] = \\min_{(j, i) \\in \\textit{flights}} \\big\\{ f[t-1][j] + \\textit{cost}(j, i) \\big\\}\n$$\n\n其中 $(j, i) \\in \\textit{flights}$ 表示在给定的航班数组 $\\textit{flights}$ 中存在从城市 $j$ 出发到达城市 $i$ 的航班，$\\textit{cost}(j, i)$ 表示该航班的花费。该状态转移方程的意义在于，枚举最后一次航班的起点 $j$，那么前 $t-1$ 次航班的最小花费为 $f[t-1][j]$ 加上最后一次航班的花费 $\\textit{cost}(j, i)$ 中的最小值，即为 $f[t][i]$。\n\n由于我们最多只能中转 $k$ 次，也就是最多搭乘 $k+1$ 次航班，最终的答案即为\n\n$$\nf[1][\\textit{dst}], f[2][\\textit{dst}], \\cdots, f[k+1][\\textit{dst}]\n$$\n中的最小值。\n\n**细节**\n\n当 $t=0$ 时，状态 $f[t][i]$ 表示不搭乘航班到达城市 $i$ 的最小花费，因此有：\n\n$$\nf[t][i] = \\begin{cases}\n0, & i = \\textit{src} \\\\\n\\infty, & i \\neq \\textit{src}\n\\end{cases}\n$$\n\n也就是说，如果 $i$ 是出发城市 $\\textit{src}$，那么花费为 $0$；否则 $f[0][i]$ 不是一个合法的状态，由于在状态转移方程中我们需要求出的是最小值，因此可以将不合法的状态置为极大值 $\\infty$。根据题目中给出的数据范围，航班的花费不超过 $10^4$，最多搭乘航班的次数 $k+1$ 不超过 $101$，那么在实际的代码编写中，我们只要使得极大值大于 $10^4 \\times 101$，就可以将表示不合法状态的极大值与合法状态的花费进行区分。\n\n在状态转移中，我们需要使用二重循环枚举 $t$ 和 $i$，随后枚举所有满足 $(j, i) \\in \\textit{flights}$ 的 $j$，这样做的劣势在于没有很好地利用数组 $\\textit{flights}$，为了保证时间复杂度较优，需要将 $\\textit{flights}$ 中的所有航班存储在一个新的邻接表中。一种可行的解决方法是，我们只需要使用一重循环枚举 $t$，随后枚举 $\\textit{flights}$ 中的每一个航班 $(j, i, \\textit{cost})$，并用 $f[t-1][j] + \\textit{cost}$ 更新 $f[t][i]$，这样就免去了邻接表的使用。\n\n注意到 $f[t][i]$ 只会从 $f[t-1][..]$ 转移而来，因此我们也可以使用两个长度为 $n$ 的一维数组进行状态转移，减少空间的使用。\n\n**代码**\n\n下面的代码使用二维数组进行状态转移。\n\n```C++ [sol11-C++]\nclass Solution {\nprivate:\n    static constexpr int INF = 10000 * 101 + 1;\n\npublic:\n    int findCheapestPrice(int n, vector<vector<int>>& flights, int src, int dst, int k) {\n        vector<vector<int>> f(k + 2, vector<int>(n, INF));\n        f[0][src] = 0;\n        for (int t = 1; t <= k + 1; ++t) {\n            for (auto&& flight: flights) {\n                int j = flight[0], i = flight[1], cost = flight[2];\n                f[t][i] = min(f[t][i], f[t - 1][j] + cost);\n            }\n        }\n        int ans = INF;\n        for (int t = 1; t <= k + 1; ++t) {\n            ans = min(ans, f[t][dst]);\n        }\n        return (ans == INF ? -1 : ans);\n    }\n};\n```\n\n```Java [sol11-Java]\nclass Solution {\n    public int findCheapestPrice(int n, int[][] flights, int src, int dst, int k) {\n        final int INF = 10000 * 101 + 1;\n        int[][] f = new int[k + 2][n];\n        for (int i = 0; i < k + 2; ++i) {\n            Arrays.fill(f[i], INF);\n        }\n        f[0][src] = 0;\n        for (int t = 1; t <= k + 1; ++t) {\n            for (int[] flight : flights) {\n                int j = flight[0], i = flight[1], cost = flight[2];\n                f[t][i] = Math.min(f[t][i], f[t - 1][j] + cost);\n            }\n        }\n        int ans = INF;\n        for (int t = 1; t <= k + 1; ++t) {\n            ans = Math.min(ans, f[t][dst]);\n        }\n        return ans == INF ? -1 : ans;\n    }\n}\n```\n\n```C# [sol11-C#]\npublic class Solution {\n    public int FindCheapestPrice(int n, int[][] flights, int src, int dst, int k) {\n        const int INF = 10000 * 101 + 1;\n        int[,] f = new int[k + 2, n];\n        for (int i = 0; i < k + 2; ++i) {\n            for (int j = 0; j < n; ++j) {\n                f[i, j] = INF;\n            }\n        }\n        f[0, src] = 0;\n        for (int t = 1; t <= k + 1; ++t) {\n            foreach (int[] flight in flights) {\n                int j = flight[0], i = flight[1], cost = flight[2];\n                f[t, i] = Math.Min(f[t, i], f[t - 1, j] + cost);\n            }\n        }\n        int ans = INF;\n        for (int t = 1; t <= k + 1; ++t) {\n            ans = Math.Min(ans, f[t, dst]);\n        }\n        return ans == INF ? -1 : ans;\n    }\n}\n```\n\n```Python [sol11-Python3]\nclass Solution:\n    def findCheapestPrice(self, n: int, flights: List[List[int]], src: int, dst: int, k: int) -> int:\n        f = [[float(\"inf\")] * n for _ in range(k + 2)]\n        f[0][src] = 0\n        for t in range(1, k + 2):\n            for j, i, cost in flights:\n                f[t][i] = min(f[t][i], f[t - 1][j] + cost)\n        \n        ans = min(f[t][dst] for t in range(1, k + 2))\n        return -1 if ans == float(\"inf\") else ans\n```\n\n```JavaScript [sol11-JavaScript]\nvar findCheapestPrice = function(n, flights, src, dst, k) {\n    const INF = 10000 * 101 + 1;\n    const f = new Array(k + 2).fill(0).map(() => new Array(n).fill(INF));\n    f[0][src] = 0;\n    for (let t = 1; t <= k + 1; ++t) {\n        for (const flight of flights) {\n            const j = flight[0], i = flight[1], cost = flight[2];\n            f[t][i] = Math.min(f[t][i], f[t - 1][j] + cost);\n        }\n    }\n    let ans = INF;\n    for (let t = 1; t <= k + 1; ++t) {\n        ans = Math.min(ans, f[t][dst]);\n    }\n    return ans == INF ? -1 : ans;\n};\n```\n\n```go [sol11-Golang]\nfunc findCheapestPrice(n int, flights [][]int, src int, dst int, k int) int {\n    const inf = 10000*101 + 1\n    f := make([][]int, k+2)\n    for i := range f {\n        f[i] = make([]int, n)\n        for j := range f[i] {\n            f[i][j] = inf\n        }\n    }\n    f[0][src] = 0\n    for t := 1; t <= k+1; t++ {\n        for _, flight := range flights {\n            j, i, cost := flight[0], flight[1], flight[2]\n            f[t][i] = min(f[t][i], f[t-1][j]+cost)\n        }\n    }\n    ans := inf\n    for t := 1; t <= k+1; t++ {\n        ans = min(ans, f[t][dst])\n    }\n    if ans == inf {\n        ans = -1\n    }\n    return ans\n}\n\nfunc min(a, b int) int {\n    if a < b {\n        return a\n    }\n    return b\n}\n```\n\n```C [sol11-C]\nint findCheapestPrice(int n, int** flights, int flightsSize, int* flightsColSize, int src, int dst, int k) {\n    int f[k + 2][n];\n    memset(f, 0x3f, sizeof(f));\n    f[0][src] = 0;\n    for (int t = 1; t <= k + 1; ++t) {\n        for (int k = 0; k < flightsSize; k++) {\n            int j = flights[k][0], i = flights[k][1], cost = flights[k][2];\n            f[t][i] = fmin(f[t][i], f[t - 1][j] + cost);\n        }\n    }\n    int ans = 0x3f3f3f3f;\n    for (int t = 1; t <= k + 1; ++t) {\n        ans = fmin(ans, f[t][dst]);\n    }\n    return (ans == 0x3f3f3f3f ? -1 : ans);\n}\n```\n\n下面的代码使用两个一维数组进行状态转移。\n\n```C++ [sol12-C++]\nclass Solution {\nprivate:\n    static constexpr int INF = 10000 * 101 + 1;\n\npublic:\n    int findCheapestPrice(int n, vector<vector<int>>& flights, int src, int dst, int k) {\n        vector<int> f(n, INF);\n        f[src] = 0;\n        int ans = INF;\n        for (int t = 1; t <= k + 1; ++t) {\n            vector<int> g(n, INF);\n            for (auto&& flight: flights) {\n                int j = flight[0], i = flight[1], cost = flight[2];\n                g[i] = min(g[i], f[j] + cost);\n            }\n            f = move(g);\n            ans = min(ans, f[dst]);\n        }\n        return (ans == INF ? -1 : ans);\n    }\n};\n```\n\n```Java [sol12-Java]\nclass Solution {\n    public int findCheapestPrice(int n, int[][] flights, int src, int dst, int k) {\n        final int INF = 10000 * 101 + 1;\n        int[] f = new int[n];\n        Arrays.fill(f, INF);\n        f[src] = 0;\n        int ans = INF;\n        for (int t = 1; t <= k + 1; ++t) {\n            int[] g = new int[n];\n            Arrays.fill(g, INF);\n            for (int[] flight : flights) {\n                int j = flight[0], i = flight[1], cost = flight[2];\n                g[i] = Math.min(g[i], f[j] + cost);\n            }\n            f = g;\n            ans = Math.min(ans, f[dst]);\n        }\n        return ans == INF ? -1 : ans;\n    }\n}\n```\n\n```C# [sol12-C#]\npublic class Solution {\n    public int FindCheapestPrice(int n, int[][] flights, int src, int dst, int k) {\n        const int INF = 10000 * 101 + 1;\n        int[] f = new int[n];\n        Array.Fill(f, INF);\n        f[src] = 0;\n        int ans = INF;\n        for (int t = 1; t <= k + 1; ++t) {\n            int[] g = new int[n];\n            Array.Fill(g, INF);\n            foreach (int[] flight in flights) {\n                int j = flight[0], i = flight[1], cost = flight[2];\n                g[i] = Math.Min(g[i], f[j] + cost);\n            }\n            f = g;\n            ans = Math.Min(ans, f[dst]);\n        }\n        return ans == INF ? -1 : ans;\n    }\n}\n```\n\n```Python [sol12-Python3]\nclass Solution:\n    def findCheapestPrice(self, n: int, flights: List[List[int]], src: int, dst: int, k: int) -> int:\n        f = [float(\"inf\")] * n\n        f[src] = 0\n        ans = float(\"inf\")\n        for t in range(1, k + 2):\n            g = [float(\"inf\")] * n\n            for j, i, cost in flights:\n                g[i] = min(g[i], f[j] + cost)\n            f = g\n            ans = min(ans, f[dst])\n        \n        return -1 if ans == float(\"inf\") else ans\n```\n\n```JavaScript [sol12-JavaScript]\nvar findCheapestPrice = function(n, flights, src, dst, k) {\n    const INF = 10000 * 101 + 1;\n    let f = new Array(n).fill(INF);\n    f[src] = 0;\n    let ans = INF;\n    for (let t = 1; t <= k + 1; ++t) {\n        const g = new Array(n).fill(INF);\n        for (const flight of flights) {\n            const j = flight[0], i = flight[1], cost = flight[2];\n            g[i] = Math.min(g[i], f[j] + cost);\n        }\n        f = g;\n        ans = Math.min(ans, f[dst]);\n    }\n    return ans == INF ? -1 : ans;\n};\n```\n\n```go [sol12-Golang]\nfunc findCheapestPrice(n int, flights [][]int, src int, dst int, k int) int {\n    const inf = 10000*101 + 1\n    f := make([]int, n)\n    for i := range f {\n        f[i] = inf\n    }\n    f[src] = 0\n    ans := inf\n    for t := 1; t <= k+1; t++ {\n        g := make([]int, n)\n        for i := range g {\n            g[i] = inf\n        }\n        for _, flight := range flights {\n            j, i, cost := flight[0], flight[1], flight[2]\n            g[i] = min(g[i], f[j]+cost)\n        }\n        f = g\n        ans = min(ans, f[dst])\n    }\n    if ans == inf {\n        ans = -1\n    }\n    return ans\n}\n\nfunc min(a, b int) int {\n    if a < b {\n        return a\n    }\n    return b\n}\n```\n\n```C [sol12-C]\nint findCheapestPrice(int n, int** flights, int flightsSize, int* flightsColSize, int src, int dst, int k) {\n    int f[n];\n    memset(f, 0x3f, sizeof(f));\n    f[src] = 0;\n    int ans = 0x3f3f3f3f;\n    for (int t = 1; t <= k + 1; ++t) {\n        int g[n];\n        memset(g, 0x3f, sizeof(g));\n        for (int k = 0; k < flightsSize; k++) {\n            int j = flights[k][0], i = flights[k][1], cost = flights[k][2];\n            g[i] = fmin(g[i], f[j] + cost);\n        }\n        memcpy(f, g, sizeof(f));\n        ans = fmin(ans, f[dst]);\n    }\n    return (ans == 0x3f3f3f3f ? -1 : ans);\n}\n```\n\n**复杂度分析**\n\n- 时间复杂度：$O((m+n)k)$，其中 $m$ 是数组 $\\textit{flights}$ 的长度。状态的数量为 $O(nk)$，对于固定的 $t$，我们需要 $O(m)$ 的时间计算出所有 $f[t][..]$ 的值，因此总时间复杂度为 $O((m+n)k)$。\n\n- 空间复杂度：$O(nk)$ 或 $O(n)$，即为存储状态需要的空间。\n\n---\n视频题解看不够？还想了解更多图论相关扩展知识？就现在，点击图片立刻前往 LeetBook，打牢基础，冲刺秋招！\n\n[![image.png](https://pic.leetcode-cn.com/1626759288-qtqMJf-image.png){:style=\"max-height:150px\"}](https://leetcode-cn.com/leetbook/detail/graph/)",
+      "createdAt": "2021-08-23T11:38:54.005501+00:00",
+      "hitCount": 40931,
+      "identifier": "kYp0AV",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "gong-shui-san-xie-xiang-jie-bellman-ford-dc94",
+        "title": "【宫水三叶】运用 Bellman Ford 求解有限制的最短路问题"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "cheapest-flights-within-k-stops"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 61,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 5,
+          "reactionType": "CONFUSED"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 5,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "k-zhan-zhong-zhuan-nei-zui-bian-yi-de-ha-abzi",
+      "status": "PREPUBLISH",
+      "summary": "📺 视频题解\n📖 文字题解\n 前言\n本题和「1928. 规定时间内到达终点的最小花费」是类似的题。读者在解决本题后，可以尝试解决该题。\n 方法一：动态规划\n思路与算法\n我们用 f[t][i] 表示通过恰好 t 次航班，从出发城市 \\textit{src} 到达城市 i 需要的最小花费。在进行状态转移时，我们可以枚举最后",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Graph",
+          "nameTranslated": "图",
+          "slug": "graph",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Dynamic Programming",
+          "nameTranslated": "动态规划",
+          "slug": "dynamic-programming",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Shortest Path",
+          "nameTranslated": "最短路",
+          "slug": "shortest-path",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C#",
+          "nameTranslated": "",
+          "slug": "csharp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Go",
+          "nameTranslated": "",
+          "slug": "golang",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "JavaScript",
+          "nameTranslated": "",
+          "slug": "javascript",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1626759288-qtqMJf-image.png",
+      "title": "K 站中转内最便宜的航班",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 120,
+        "id": 954402,
+        "viewCount": 22213
+      },
+      "uuid": "kYp0AV",
+      "videosInfo": [
+        {
+          "__typename": "VideoInfoNode",
+          "coverUrl": "https://video.leetcode-cn.com/image/cover/8962DA9FE7924A58BCFD8CE84E4035A3-6-2.png",
+          "duration": 519.872,
+          "videoId": "08b70a183c2f46a49f2e492348cda946"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,91 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣 (LeetCode)",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/uploaded_files/2021/03/73c9f099-abbe-4d94-853f-f8abffd459cd/leetcode.png",
+          "userSlug": "leetcode"
+        },
+        "username": "LeetCode"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 哈希映射：\n\n对于包含一个 `.` 的域名 `x.y`，我们需要统计的是 `x.y` 和 `y`；对于包含两个 `.` 的域名 `a.b.c`，我们需要统计的是 `a.b.c`，`b.c` 和 `c`。在统计这些字符串时，我们可以使用哈希映射（HashMap）。统计结束之后，我们遍历哈希映射并输出结果。\n\n```Java [sol1]\nclass Solution {\n    public List<String> subdomainVisits(String[] cpdomains) {\n        Map<String, Integer> counts = new HashMap();\n        for (String domain: cpdomains) {\n            String[] cpinfo = domain.split(\"\\\\s+\");\n            String[] frags = cpinfo[1].split(\"\\\\.\");\n            int count = Integer.valueOf(cpinfo[0]);\n            String cur = \"\";\n            for (int i = frags.length - 1; i >= 0; --i) {\n                cur = frags[i] + (i < frags.length - 1 ? \".\" : \"\") + cur;\n                counts.put(cur, counts.getOrDefault(cur, 0) + count);\n            }\n        }\n\n        List<String> ans = new ArrayList();\n        for (String dom: counts.keySet())\n            ans.add(\"\" + counts.get(dom) + \" \" + dom);\n        return ans;\n    }\n}\n```\n\n```Python [sol1]\nclass Solution(object):\n    def subdomainVisits(self, cpdomains):\n        ans = collections.Counter()\n        for domain in cpdomains:\n            count, domain = domain.split()\n            count = int(count)\n            frags = domain.split('.')\n            for i in xrange(len(frags)):\n                ans[\".\".join(frags[i:])] += count\n\n        return [\"{} {}\".format(ct, dom) for dom, ct in ans.items()]\n```\n\n**复杂度分析**\n\n* 时间复杂度：$O(N)$，其中 $N$ 是数组 `cpdomains` 的长度，这里假设 `cpdomains` 中每个元素的长度都是常数级别的。\n\n* 空间复杂度：$O(N)$，用于存储哈希映射。",
+      "createdAt": "2019-10-29T06:22:04.961034+00:00",
+      "hitCount": 6371,
+      "identifier": "yv8jex",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "javazi-yu-ming-fang-wen-ji-shu-by-leet-4-yr9m",
+        "title": "java子域名访问计数"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "subdomain-visit-count"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 5,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "zi-yu-ming-fang-wen-ji-shu-by-leetcode",
+      "status": "PUBLISHED",
+      "summary": "§ 哈希映射：\n对于包含一个 . 的域名 x.y，我们需要统计的是 x.y 和 y；对于包含两个 . 的域名 a.b.c，我们需要统计的是 a.b.c，b.c 和 c。在统计这些字符串时，我们可以使用哈希映射（HashMap）。统计结束之后，我们遍历哈希映射并输出结果。\n复杂度分析\n\n\n时间复杂度：O(N)，其中 N ",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Hash Table",
+          "nameTranslated": "哈希表",
+          "slug": "hash-table",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "子域名访问计数",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 12,
+        "id": 38846,
+        "viewCount": 5078
+      },
+      "uuid": "yv8jex",
+      "videosInfo": []
+    }
+  }
+}

@@ -1,0 +1,86 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "稳健",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/zhi-xing-qie-wen-jian-69/avatar_1612197356.png",
+          "userSlug": "wen-jian-69"
+        },
+        "username": "wen-jian-69"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 记忆化搜索 - 自顶向下\r\n定义区间[l, r]求result的括号方案数\r\n```java\r\nclass Solution {\r\n    Integer[][][] memo;\r\n    public int countEval(String s, int result) {\r\n        int n = s.length();\r\n        memo = new Integer[n][n][2];\r\n        return dfs(0, n - 1, s, result);\r\n    }\r\n    int dfs(int l, int r, String s, int result) { //区间[l, r]求result的括号方案数\r\n        if (l > r) return 0;\r\n        if (l == r) {\r\n            return (s.charAt(l) - '0') == result ? 1 : 0;\r\n        }\r\n        if (memo[l][r][result] != null) return memo[l][r][result];\r\n        int ans = 0;\r\n        for (int i = l; i <= r; i++) {\r\n            char c = s.charAt(i);\r\n            if (result == 0) {\r\n                if (c == '&') ans += dfs(l, i - 1, s, 0) * dfs(i + 1, r, s, 0) + dfs(l, i - 1, s, 0) * dfs(i + 1, r, s, 1) + dfs(l, i - 1, s, 1) * dfs(i + 1, r, s, 0); //00、01、10\r\n                if (c == '|') ans += dfs(l, i - 1, s, 0) * dfs(i + 1, r, s, 0); //00\r\n                if (c == '^') ans += dfs(l, i - 1, s, 0) * dfs(i + 1, r, s, 0) + dfs(l, i - 1, s, 1) * dfs(i + 1, r, s, 1); //00、11\r\n            } else {\r\n                if (c == '&') ans += dfs(l, i - 1, s, 1) * dfs(i + 1, r, s, 1); //11\r\n                if (c == '|') ans += dfs(l, i - 1, s, 0) * dfs(i + 1, r, s, 1) + dfs(l, i - 1, s, 1) * dfs(i + 1, r, s, 0) + dfs(l, i - 1, s, 1) * dfs(i + 1, r, s, 1); //01、10、11\r\n                if (c == '^') ans += dfs(l, i - 1, s, 0) * dfs(i + 1, r, s, 1) + dfs(l, i - 1, s, 1) * dfs(i + 1, r, s, 0); //10、01\r\n            }\r\n        }\r\n        return memo[l][r][result] = ans;\r\n    }\r\n}\r\n```\r\n### 区间DP - 自底向上\r\n定义`dp[i][j][k]`为在区间`[i, j]`求k的括号方案数\r\n```java\r\nclass Solution {\r\n    public int countEval(String s, int result) {\r\n        int n = s.length();\r\n        int[][][] dp = new int[n][n][2];\r\n        for (int i = 0; i < n; i++) {\r\n            dp[i][i][0] = (s.charAt(i) - '0' == 0 ? 1 : 0);\r\n            dp[i][i][1] = (s.charAt(i) - '0' == 1 ? 1 : 0);\r\n        }\r\n        for (int len = 2; len <= n; len++) {\r\n            for (int l = 0; l + (len - 1) < n; l++) {\r\n                int r = l + (len - 1);\r\n                for (int i = l; i <= r; i++) {\r\n                    char c = s.charAt(i);\r\n                    if (c == '&') {\r\n                        dp[l][r][0] += dp[l][i - 1][0] * dp[i + 1][r][0] + dp[l][i - 1][0] * dp[i + 1][r][1] + dp[l][i - 1][1] * dp[i + 1][r][0];\r\n                        dp[l][r][1] += dp[l][i - 1][1] * dp[i + 1][r][1];\r\n                    }\r\n                    if (c == '|') {\r\n                        dp[l][r][0] += dp[l][i - 1][0] * dp[i + 1][r][0];\r\n                        dp[l][r][1] += dp[l][i - 1][0] * dp[i + 1][r][1] + dp[l][i - 1][1] * dp[i + 1][r][0] + dp[l][i - 1][1] * dp[i + 1][r][1];\r\n                    }\r\n                    if (c == '^') {\r\n                        dp[l][r][0] += dp[l][i - 1][0] * dp[i + 1][r][0] + dp[l][i - 1][1] * dp[i + 1][r][1];\r\n                        dp[l][r][1] += dp[l][i - 1][0] * dp[i + 1][r][1] + dp[l][i - 1][1] * dp[i + 1][r][0];\r\n                    }\r\n                }\r\n            }\r\n        }\r\n        return dp[0][n - 1][result];\r\n    }\r\n}\r\n```\r\n",
+      "createdAt": "2021-11-08T07:31:05.506677+00:00",
+      "hitCount": 201,
+      "identifier": "Ufbspw",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "qu-jian-dpfen-zhi-suan-fa-by-whbsurpass-bsry",
+        "title": "区间DP/分治算法"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "boolean-evaluation-lcci"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "mian-shi-ti-0814-bu-er-yun-suan-ji-yi-hu-lmie",
+      "status": "PREPUBLISH",
+      "summary": "记忆化搜索 - 自顶向下\n定义区间[l, r]求result的括号方案数\n区间DP - 自底向上\n定义dp[i][j][k]为在区间[i, j]求k的括号方案数",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Memoization",
+          "nameTranslated": "记忆化搜索",
+          "slug": "memoization",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Dynamic Programming",
+          "nameTranslated": "动态规划",
+          "slug": "dynamic-programming",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "【面试题 08.14. 布尔运算】【记忆化搜索】【区间DP】Java实现",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1090680,
+        "viewCount": 141
+      },
+      "uuid": "Ufbspw",
+      "videosInfo": []
+    }
+  }
+}

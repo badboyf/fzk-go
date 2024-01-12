@@ -1,0 +1,77 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "vanilla111",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/vanilla111/avatar_1566265236.png",
+          "userSlug": "vanilla111"
+        },
+        "username": "vanilla111"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "首先我们得想到二分，但是要做到这一点感觉需要一定的刷题经验，比如看到**查找目标值、有序、时间复杂度O(logn)等信息**，大概率就是二分了。\n\n其次我们再来回答以下问题，\n\n1. 数组的特征？\n    - 数组长度为奇数\n    - 递增排列\n    - 只有一个数数量为1，其余为2\n    - **每一对数字的下标要么是(奇数，偶数)，要么是(偶数，奇数)**\n2. 目标值的特征？\n    - 只有一个，也就是说它跟前后两个都不相同\n3. 二分查找过程中中间值`nums[mid]`的特征？有三种情况\n    - 它跟它后面一个数字相同\n    - 它跟它前面一个数字相同\n    - 它就是答案\n4. 如何判断答案在哪一个可行区间内，也就是如何淘汰不可能的答案？\n    - 前面提到了下标的奇偶性，聪明的你一定想到了二分的关键，那就是如果`mid`所对应的一对数字下标是`(奇数，偶数)`，那么目标一定在`mid`之前，如果下标是`(偶数，奇数)`，目标一定在`mid`之后\n\n``` java\nclass Solution {\n    public int singleNonDuplicate(int[] nums) {\n        int n = nums.length, l = 0, r = n - 1;\n        int ans = -1;\n        while (l <= r) {\n            int mid = l + (r - l) / 2;\n            if (mid < n - 1 && nums[mid] == nums[mid + 1]) {\n                if (mid % 2 == 0) {\n                    l = mid + 2;\n                } else {\n                    r = mid - 1;\n                }\n            } else if (mid > 0 && nums[mid] == nums[mid - 1]) {\n                if (mid % 2 == 0) {\n                    r = mid - 2;\n                } else {\n                    l = mid + 1;\n                }\n            } else {\n                ans = nums[mid];\n                break;\n            }\n        }\n        // 由于题目的性质，ans一定会被找到，所以不会返回-1\n        return ans;\n    }\n}\n```\n",
+      "createdAt": "2021-09-07T03:16:31.422672+00:00",
+      "hitCount": 1315,
+      "identifier": "81bh2t",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "yi-huo-by-mei-56-t9z3",
+        "title": "异或"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "skFtm2"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 17,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "java-xiao-lu-100yi-bu-bu-dai-ni-er-fen-b-hwqa",
+      "status": "PREPUBLISH",
+      "summary": "首先我们得想到二分，但是要做到这一点感觉需要一定的刷题经验，比如看到查找目标值、有序、时间复杂度O(logn)等信息，大概率就是二分了。\n其次我们再来回答以下问题，\n\n数组的特征？\n\n数组长度为奇数\n递增排列\n只有一个数数量为1，其余为2\n每一对数字的下标要么是(奇数，偶数)，要么是(偶数，奇数)\n\n\n目标值的特征？",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "Java 效率100%，一步步带你二分",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 12,
+        "id": 983199,
+        "viewCount": 960
+      },
+      "uuid": "81bh2t",
+      "videosInfo": []
+    }
+  }
+}

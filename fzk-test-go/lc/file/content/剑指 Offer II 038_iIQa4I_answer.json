@@ -1,0 +1,76 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "我要出去乱说",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/wo-yao-chu-qu-luan-shuo/avatar_1613985810.png",
+          "userSlug": "wo-yao-chu-qu-luan-shuo"
+        },
+        "username": "wo-yao-chu-qu-luan-shuo"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "这个题的实质是找到每个数右边第一个比它大的数，就是单调栈问题。思路：\r\n\r\n1. 遍历数组，让数组的下标入栈，注意栈内只存储下标，且栈内下标表示的温度按降序排列；\r\n2. 遍历的同时比较栈顶元素所在位置的温度与当前温度的大小；\r\n3. 若当前温度更低则继续将当前下标入栈，否则就是找到了栈顶温度右边第一个比它高的温度，这时弹出栈顶，在结果数组中填入当前温度与栈顶温度的间隔天数。\r\n\r\n```cpp\r\nclass Solution {\r\npublic:\r\n    vector<int> dailyTemperatures(vector<int>& temperatures) {\r\n        vector<int> res(temperatures.size(), 0);\r\n        stack<int> stk;\r\n\r\n        for (int i = 0; i < temperatures.size(); ++ i)\r\n        {\r\n            //栈不为空，且当前温度比栈顶温度高的情况\r\n            while (!stk.empty() && temperatures[i] > temperatures[stk.top()])\r\n            {\r\n                int prev = stk.top();\r\n                stk.pop();\r\n                res[prev] = i - prev;\r\n            }\r\n\r\n            stk.push(i);\r\n        }\r\n\r\n        return res;\r\n    }\r\n};\r\n```",
+      "createdAt": "2021-10-29T15:14:51.580274+00:00",
+      "hitCount": 527,
+      "identifier": "EnWkzz",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "c-yu-yan-dan-diao-zhan-by-suckerfish-min-iduw",
+        "title": "C 语言 单调栈"
+      },
+      "position": 2,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "java-liang-chong-fang-fa-jie-jue-bian-li-qjni",
+        "title": "Java 两种方法解决【遍历、栈】"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "iIQa4I"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 3,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": false,
+      "slug": "jian-zhi-offer-ii-038-mei-ri-wen-du-dan-54qi1",
+      "status": "PREPUBLISH",
+      "summary": "这个题的实质是找到每个数右边第一个比它大的数，就是单调栈问题。思路：\n\n遍历数组，让数组的下标入栈，注意栈内只存储下标，且栈内下标表示的温度按降序排列；\n遍历的同时比较栈顶元素所在位置的温度与当前温度的大小；\n若当前温度更低则继续将当前下标入栈，否则就是找到了栈顶温度右边第一个比它高的温度，这时弹出栈顶，在结果数组中填",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "剑指 Offer II 038. 每日温度（单调栈）",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1073562,
+        "viewCount": 404
+      },
+      "uuid": "EnWkzz",
+      "videosInfo": []
+    }
+  }
+}

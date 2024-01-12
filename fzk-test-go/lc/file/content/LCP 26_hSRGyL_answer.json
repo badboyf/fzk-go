@@ -1,0 +1,83 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "Justin Yuan",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/yuan-zhi-b/avatar_1593483519.png",
+          "userSlug": "yuan-zhi-b"
+        },
+        "username": "yuan-zhi-b"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "图是无向的，一个node最多有3条边，3个subree里至少有2个要有device，否则不管device装哪里，没装置的2个subtree（head node）出发到device的距离肯定都是一样的。\n第一遍dfs，从root出发dfs找出第一个有3条边的node，如果没有这样的node就说明是条直线，直接返回1。\n第二遍dfs，以这node为起点向三个方向遍历，找出三个subtree各自的最低需求，总和就是所要结果，因为是3选2，如果有2边的需求是0，这两边要增加1个设备，如果3边都是0则安装2个。dfs内部，可以假设当前subtree的外围（parent）已经有device了，遇到有2个children的情况，两边至少要安装1个device（否则两个children到外围device的距离就相等了），这时两个children的需求如果都是0，返回1，只要有一个不是0，返回两个children的sum（递归）。\n```\n    def navigation(self, root: TreeNode) -> int:\n        start,startParent=None,None\n        graph=defaultdict(list)\n        def dfs(node,parent): #find startNode and draw graph\n            nonlocal start,startParent\n            if not node:\n                return\n            if parent:\n                graph[parent].append(node)\n                graph[node].append(parent)\n            if not start and parent and node.left and node.right:\n                start,startParent=node,parent\n            dfs(node.left,node)\n            dfs(node.right,node)\n        dfs(root,None)\n        if not start:\n            return 1\n        def dfs2(node,parent):\n            nxts=[nxt for nxt in graph[node] if nxt!=parent]\n            if not nxts:\n                return 0\n            if len(nxts)==1:\n                return dfs2(nxts[0],node)\n            # if two children, at least must have device\n            a=dfs2(nxts[0],node)\n            b=dfs2(nxts[1],node)\n            return 1 if a==0 and b==0 else a+b\n        a=dfs2(start.left,start)\n        b=dfs2(start.right,start)\n        c=dfs2(startParent,start)\n        if [a,b,c]==[0,0,0]:\n            return 2\n        compensate=1 if sorted([a,b,c])[:2]==[0,0] else 0\n        return sum([a,b,c])+compensate\n```",
+      "createdAt": "2021-02-09T03:10:17.266767+00:00",
+      "hitCount": 421,
+      "identifier": "s7EcJi",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "shu-xing-dp-by-lwpyr",
+        "title": "树形DP"
+      },
+      "position": 5,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "rang-ren-tou-tu-de-shu-xing-dong-tai-gui-hua-by-he",
+        "title": "让人头秃的树型动态规划"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "hSRGyL"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "python3-dfs-jie-dian-de-3ge-fang-xiang-b-dan9",
+      "status": "PREPUBLISH",
+      "summary": "图是无向的，一个node最多有3条边，3个subree里至少有2个要有device，否则不管device装哪里，没装置的2个subtree（head node）出发到device的距离肯定都是一样的。\n第一遍dfs，从root出发dfs找出第一个有3条边的node，如果没有这样的node就说明是条直线，直接返回1。\n第",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python3",
+          "nameTranslated": "",
+          "slug": "python3",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "【Python3】DFS 节点的3个方向必须有2个安装装置",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 598365,
+        "viewCount": 312
+      },
+      "uuid": "s7EcJi",
+      "videosInfo": []
+    }
+  }
+}

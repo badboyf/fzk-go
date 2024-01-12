@@ -1,0 +1,124 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣官方题解",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/leetcode-solution/avatar_1582018938.png",
+          "userSlug": "leetcode-solution"
+        },
+        "username": "LeetCode-Solution"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法一：递归\n\n**思路与算法**\n\n首先我们需要了解什么是二叉树的前序遍历：按照访问根节点——左子树——右子树的方式遍历这棵树，而在访问左子树或者右子树的时候，我们按照同样的方式遍历，直到遍历完整棵树。因此整个遍历过程天然具有递归的性质，我们可以直接用递归函数来模拟这一过程。\n\n定义 `preorder(root)` 表示当前遍历到 `root` 节点的答案。按照定义，我们只要首先将 `root` 节点的值加入答案，然后递归调用 `preorder(root.left)` 来遍历 `root` 节点的左子树，最后递归调用 `preorder(root.right)` 来遍历 `root` 节点的右子树即可，递归终止的条件为碰到空节点。\n\n**代码**\n\n```C++ [sol1-C++]\nclass Solution {\npublic:\n    void preorder(TreeNode *root, vector<int> &res) {\n        if (root == nullptr) {\n            return;\n        }\n        res.push_back(root->val);\n        preorder(root->left, res);\n        preorder(root->right, res);\n    }\n\n    vector<int> preorderTraversal(TreeNode *root) {\n        vector<int> res;\n        preorder(root, res);\n        return res;\n    }\n};\n```\n\n```Java [sol1-Java]\nclass Solution {\n    public List<Integer> preorderTraversal(TreeNode root) {\n        List<Integer> res = new ArrayList<Integer>();\n        preorder(root, res);\n        return res;\n    }\n\n    public void preorder(TreeNode root, List<Integer> res) {\n        if (root == null) {\n            return;\n        }\n        res.add(root.val);\n        preorder(root.left, res);\n        preorder(root.right, res);\n    }\n}\n```\n\n```Python [sol1-Python3]\nclass Solution:\n    def preorderTraversal(self, root: TreeNode) -> List[int]:\n        def preorder(root: TreeNode):\n            if not root:\n                return\n            res.append(root.val)\n            preorder(root.left)\n            preorder(root.right)\n        \n        res = list()\n        preorder(root)\n        return res\n```\n\n```Golang [sol1-Golang]\nfunc preorderTraversal(root *TreeNode) (vals []int) {\n    var preorder func(*TreeNode)\n    preorder = func(node *TreeNode) {\n        if node == nil {\n            return\n        }\n        vals = append(vals, node.Val)\n        preorder(node.Left)\n        preorder(node.Right)\n    }\n    preorder(root)\n    return\n}\n```\n\n```C [sol1-C]\nvoid preorder(struct TreeNode* root, int* res, int* resSize) {\n    if (root == NULL) {\n        return;\n    }\n    res[(*resSize)++] = root->val;\n    preorder(root->left, res, resSize);\n    preorder(root->right, res, resSize);\n}\n\nint* preorderTraversal(struct TreeNode* root, int* returnSize) {\n    int* res = malloc(sizeof(int) * 2000);\n    *returnSize = 0;\n    preorder(root, res, returnSize);\n    return res;\n}\n```\n\n**复杂度分析**\n\n- 时间复杂度：$O(n)$，其中 $n$ 是二叉树的节点数。每一个节点恰好被遍历一次。\n  \n- 空间复杂度：$O(n)$，为递归过程中栈的开销，平均情况下为 $O(\\log n)$，最坏情况下树呈现链状，为 $O(n)$。\n\n#### 方法二：迭代\n\n**思路与算法**\n\n我们也可以用迭代的方式实现方法一的递归函数，两种方式是等价的，区别在于递归的时候隐式地维护了一个栈，而我们在迭代的时候需要显式地将这个栈模拟出来，其余的实现与细节都相同，具体可以参考下面的代码。\n\n<![ppt1](https://assets.leetcode-cn.com/solution-static/144/1.png),![ppt2](https://assets.leetcode-cn.com/solution-static/144/2.png),![ppt3](https://assets.leetcode-cn.com/solution-static/144/3.png),![ppt4](https://assets.leetcode-cn.com/solution-static/144/4.png),![ppt5](https://assets.leetcode-cn.com/solution-static/144/5.png),![ppt6](https://assets.leetcode-cn.com/solution-static/144/6.png),![ppt7](https://assets.leetcode-cn.com/solution-static/144/7.png),![ppt8](https://assets.leetcode-cn.com/solution-static/144/8.png),![ppt9](https://assets.leetcode-cn.com/solution-static/144/9.png),![ppt10](https://assets.leetcode-cn.com/solution-static/144/10.png),![ppt11](https://assets.leetcode-cn.com/solution-static/144/11.png),![ppt12](https://assets.leetcode-cn.com/solution-static/144/12.png),![ppt13](https://assets.leetcode-cn.com/solution-static/144/13.png),![ppt14](https://assets.leetcode-cn.com/solution-static/144/14.png)>\n\n**代码**\n\n```C++ [sol2-C++]\nclass Solution {\npublic:\n    vector<int> preorderTraversal(TreeNode* root) {\n        vector<int> res;\n        if (root == nullptr) {\n            return res;\n        }\n\n        stack<TreeNode*> stk;\n        TreeNode* node = root;\n        while (!stk.empty() || node != nullptr) {\n            while (node != nullptr) {\n                res.emplace_back(node->val);\n                stk.emplace(node);\n                node = node->left;\n            }\n            node = stk.top();\n            stk.pop();\n            node = node->right;\n        }\n        return res;\n    }\n};\n```\n\n```Java [sol2-Java]\nclass Solution {\n    public List<Integer> preorderTraversal(TreeNode root) {\n        List<Integer> res = new ArrayList<Integer>();\n        if (root == null) {\n            return res;\n        }\n\n        Deque<TreeNode> stack = new LinkedList<TreeNode>();\n        TreeNode node = root;\n        while (!stack.isEmpty() || node != null) {\n            while (node != null) {\n                res.add(node.val);\n                stack.push(node);\n                node = node.left;\n            }\n            node = stack.pop();\n            node = node.right;\n        }\n        return res;\n    }\n}\n```\n\n```Python [sol2-Python3]\nclass Solution:\n    def preorderTraversal(self, root: TreeNode) -> List[int]:\n        res = list()\n        if not root:\n            return res\n        \n        stack = []\n        node = root\n        while stack or node:\n            while node:\n                res.append(node.val)\n                stack.append(node)\n                node = node.left\n            node = stack.pop()\n            node = node.right\n        return res\n```\n\n```Golang [sol2-Golang]\nfunc preorderTraversal(root *TreeNode) (vals []int) {\n    stack := []*TreeNode{}\n    node := root\n    for node != nil || len(stack) > 0 {\n        for node != nil {\n            vals = append(vals, node.Val)\n            stack = append(stack, node)\n            node = node.Left\n        }\n        node = stack[len(stack)-1].Right\n        stack = stack[:len(stack)-1]\n    }\n    return\n}\n```\n\n```C [sol2-C]\nint* preorderTraversal(struct TreeNode* root, int* returnSize) {\n    int* res = malloc(sizeof(int) * 2000);\n    *returnSize = 0;\n    if (root == NULL) {\n        return res;\n    }\n\n    struct TreeNode* stk[2000];\n    struct TreeNode* node = root;\n    int stk_top = 0;\n    while (stk_top > 0 || node != NULL) {\n        while (node != NULL) {\n            res[(*returnSize)++] = node->val;\n            stk[stk_top++] = node;\n            node = node->left;\n        }\n        node = stk[--stk_top];\n        node = node->right;\n    }\n    return res;\n}\n```\n\n**复杂度分析**\n\n- 时间复杂度：$O(n)$，其中 $n$ 是二叉树的节点数。每一个节点恰好被遍历一次。\n  \n- 空间复杂度：$O(n)$，为迭代过程中显式栈的开销，平均情况下为 $O(\\log n)$，最坏情况下树呈现链状，为 $O(n)$。\n\n#### 方法三：Morris 遍历\n\n**思路与算法**\n\n有一种巧妙的方法可以在线性时间内，只占用常数空间来实现前序遍历。这种方法由 J. H. Morris 在 1979 年的论文「Traversing Binary Trees Simply and Cheaply」中首次提出，因此被称为 Morris 遍历。\n\nMorris 遍历的核心思想是利用树的大量空闲指针，实现空间开销的极限缩减。其前序遍历规则总结如下：\n\n1. 新建临时节点，令该节点为 `root`；\n\n2. 如果当前节点的左子节点为空，将当前节点加入答案，并遍历当前节点的右子节点；\n\n3. 如果当前节点的左子节点不为空，在当前节点的左子树中找到当前节点在中序遍历下的前驱节点：\n   \n   - 如果前驱节点的右子节点为空，将前驱节点的右子节点设置为当前节点。然后将当前节点加入答案，并将前驱节点的右子节点更新为当前节点。当前节点更新为当前节点的左子节点。\n   \n   - 如果前驱节点的右子节点为当前节点，将它的右子节点重新设为空。当前节点更新为当前节点的右子节点。\n\n4. 重复步骤 2 和步骤 3，直到遍历结束。\n\n这样我们利用 Morris 遍历的方法，前序遍历该二叉树，即可实现线性时间与常数空间的遍历。\n\n**代码**\n\n```C++ [sol3-C++]\nclass Solution {\npublic:\n    vector<int> preorderTraversal(TreeNode *root) {\n        vector<int> res;\n        if (root == nullptr) {\n            return res;\n        }\n\n        TreeNode *p1 = root, *p2 = nullptr;\n\n        while (p1 != nullptr) {\n            p2 = p1->left;\n            if (p2 != nullptr) {\n                while (p2->right != nullptr && p2->right != p1) {\n                    p2 = p2->right;\n                }\n                if (p2->right == nullptr) {\n                    res.emplace_back(p1->val);\n                    p2->right = p1;\n                    p1 = p1->left;\n                    continue;\n                } else {\n                    p2->right = nullptr;\n                }\n            } else {\n                res.emplace_back(p1->val);\n            }\n            p1 = p1->right;\n        }\n        return res;\n    }\n};\n```\n\n```Java [sol3-Java]\nclass Solution {\n    public List<Integer> preorderTraversal(TreeNode root) {\n        List<Integer> res = new ArrayList<Integer>();\n        if (root == null) {\n            return res;\n        }\n\n        TreeNode p1 = root, p2 = null;\n\n        while (p1 != null) {\n            p2 = p1.left;\n            if (p2 != null) {\n                while (p2.right != null && p2.right != p1) {\n                    p2 = p2.right;\n                }\n                if (p2.right == null) {\n                    res.add(p1.val);\n                    p2.right = p1;\n                    p1 = p1.left;\n                    continue;\n                } else {\n                    p2.right = null;\n                }\n            } else {\n                res.add(p1.val);\n            }\n            p1 = p1.right;\n        }\n        return res;\n    }\n}\n```\n\n```Python [sol3-Python3]\nclass Solution:\n    def preorderTraversal(self, root: TreeNode) -> List[int]:\n        res = list()\n        if not root:\n            return res\n        \n        p1 = root\n        while p1:\n            p2 = p1.left\n            if p2:\n                while p2.right and p2.right != p1:\n                    p2 = p2.right\n                if not p2.right:\n                    res.append(p1.val)\n                    p2.right = p1\n                    p1 = p1.left\n                    continue\n                else:\n                    p2.right = None\n            else:\n                res.append(p1.val)\n            p1 = p1.right\n        \n        return res\n```\n\n```Golang [sol3-Golang]\nfunc preorderTraversal(root *TreeNode) (vals []int) {\n    var p1, p2 *TreeNode = root, nil\n    for p1 != nil {\n        p2 = p1.Left\n        if p2 != nil {\n            for p2.Right != nil && p2.Right != p1 {\n                p2 = p2.Right\n            }\n            if p2.Right == nil {\n                vals = append(vals, p1.Val)\n                p2.Right = p1\n                p1 = p1.Left\n                continue\n            }\n            p2.Right = nil\n        } else {\n            vals = append(vals, p1.Val)\n        }\n        p1 = p1.Right\n    }\n    return\n}\n```\n\n```C [sol3-C]\nint* preorderTraversal(struct TreeNode* root, int* returnSize) {\n    int* res = malloc(sizeof(int) * 2000);\n    *returnSize = 0;\n    if (root == NULL) {\n        return res;\n    }\n\n    struct TreeNode *p1 = root, *p2 = NULL;\n\n    while (p1 != NULL) {\n        p2 = p1->left;\n        if (p2 != NULL) {\n            while (p2->right != NULL && p2->right != p1) {\n                p2 = p2->right;\n            }\n            if (p2->right == NULL) {\n                res[(*returnSize)++] = p1->val;\n                p2->right = p1;\n                p1 = p1->left;\n                continue;\n            } else {\n                p2->right = NULL;\n            }\n        } else {\n            res[(*returnSize)++] = p1->val;\n        }\n        p1 = p1->right;\n    }\n    return res;\n}\n```\n\n**复杂度分析**\n\n- 时间复杂度：$O(n)$，其中 $n$ 是二叉树的节点数。没有左子树的节点只被访问一次，有左子树的节点被访问两次。\n  \n- 空间复杂度：$O(1)$。只操作已经存在的指针（树的空闲指针），因此只需要常数的额外空间。",
+      "createdAt": "2020-10-26T15:07:50.576873+00:00",
+      "hitCount": 146507,
+      "identifier": "tCVVK9",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "leetcodesuan-fa-xiu-lian-dong-hua-yan-shi-xbian-2",
+        "title": "史上最全遍历二叉树详解"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "binary-tree-preorder-traversal"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 97,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 12,
+          "reactionType": "CONFUSED"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 5,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "er-cha-shu-de-qian-xu-bian-li-by-leetcode-solution",
+      "status": "PUBLISHED",
+      "summary": "方法一：递归 思路与算法 首先我们需要了解什么是二叉树的前序遍历：按照访问根节点——左子树——右子树的方式遍历这棵树，而在访问左子树或者右子树的时候，我们按照同样的方式遍历，直到遍历完整棵树。因此整个遍历过程天然具有递归的性质，我们可以直接用递归函数来模拟这一过程。 定义 preorder(root) 表示当前遍历到 ",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Tree",
+          "nameTranslated": "树",
+          "slug": "tree",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Recursion",
+          "nameTranslated": "递归",
+          "slug": "recursion",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C",
+          "nameTranslated": "",
+          "slug": "c",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Go",
+          "nameTranslated": "",
+          "slug": "golang",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "二叉树的前序遍历",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 149,
+        "id": 461821,
+        "viewCount": 98358
+      },
+      "uuid": "tCVVK9",
+      "videosInfo": []
+    }
+  }
+}

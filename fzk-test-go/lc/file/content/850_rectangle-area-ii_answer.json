@@ -1,0 +1,91 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣 (LeetCode)",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/uploaded_files/2021/03/73c9f099-abbe-4d94-853f-f8abffd459cd/leetcode.png",
+          "userSlug": "leetcode"
+        },
+        "username": "LeetCode"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法一：容斥原理\n\n**思路**\n\n假设我们有两个矩形 $A$ 和 $B$，它们叠加后覆盖的总面积为：\n\n$$\n|A \\cup B| = |A| + |B| - |A \\cap B|\n$$\n\n假设我们有三个矩形 $A, B, C$，它们叠加后覆盖的总面积为：\n\n$$\n|A \\cup B \\cup C| = |A| + |B| + |C| - |A \\cap B| - |A \\cap C| - |B \\cap C| + |A \\cap B \\cap C|\n$$\n\n假设我们有四个矩形 $A, B, C, D$，它们叠加后覆盖的总面积为：\n\n$$\n\\begin{align}\n|A \\cup B \\cup C \\cup D| =\\,&\\left( |A| + |B| + |C| + |D| \\right) - \\\\\n\\,&\\left(|A \\cap B| + |A \\cap C| + |A \\cap D| + |B \\cap C| + |B \\cap D| + |C \\cap D|\\right) +\\\\\n\\,&\\left(|A \\cap B \\cap C| + |A \\cap B \\cap D| + |A \\cap C \\cap D| + |B \\cap C \\cap D|\\right) -\\\\\n\\,&\\left(|A \\cap B \\cap C \\cap D|\\right)\n\\end{align}\n$$\n\n可以使用维恩图证明这一点。\n\n$n$ 个矩形 $A_1, A_2, \\cdots , A_n$ 重叠后的总面积为：\n\n$$\n\\bigg|\\bigcup_{i=1}^n A_i\\bigg| = \\sum_{\\emptyset \\neq S \\subseteq [n]} (-1)^{|S| + 1} \\bigg| \\bigcap_{i \\in S} A_i \\bigg|\n$$\n\n**算法**\n\n如果我们不知道上述原理，可以使用 $\\bigg|\\bigcup_{i=1}^n A_i\\bigg|$ 范围内任意一点验证上述原理的正确性。假设有一点在所有的矩形 $A_i (i \\in S)$ 中，并且令 $|S| = n$。在等式右边，该点被计算了 $\\binom{n}{1} - \\binom{n}{2} + \\binom{n}{3} - \\cdots \\pm \\binom{n}{n}$ 次。考虑 $(1 - 1)^n$ 的二项展开，实际上它等于 1。\n\n从*矩形面积 I* 中可知，两个轴平行矩形的交集要么是一个新的矩形，要么为空。因此 $\\bigcap_{i \\in S} A_i$ 要么是一个新矩形，要么为空。\n\n算法流程如下：对于 $\\{1, 2, 3, \\cdots, N\\}$（$N$ 是矩形的数量）的每个子集 $S$，计算该子集的交集 $\\bigcap_{i \\in S} A_i$ 和它的面积，将结果带入公式得到所有矩形叠加后的覆盖总面积。\n\n```java [solution1-Java]\nclass Solution {\n    public int rectangleArea(int[][] rectangles) {\n        int N = rectangles.length;\n\n        long ans = 0;\n        for (int subset = 1; subset < (1<<N); ++subset) {\n            int[] rec = new int[]{0, 0, 1_000_000_000, 1_000_000_000};\n            int parity = -1;\n            for (int bit = 0; bit < N; ++bit)\n                if (((subset >> bit) & 1) != 0) {\n                    rec = intersect(rec, rectangles[bit]);\n                    parity *= -1;\n                }\n            ans += parity * area(rec);\n        }\n\n        long MOD = 1_000_000_007;\n        ans %= MOD;\n        if (ans < 0) ans += MOD;\n        return (int) ans;\n    }\n\n    public long area(int[] rec) {\n        long dx = Math.max(0, rec[2] - rec[0]);\n        long dy = Math.max(0, rec[3] - rec[1]);\n        return dx * dy;\n    }\n\n    public int[] intersect(int[] rec1, int[] rec2) {\n        return new int[]{\n            Math.max(rec1[0], rec2[0]),\n            Math.max(rec1[1], rec2[1]),\n            Math.min(rec1[2], rec2[2]),\n            Math.min(rec1[3], rec2[3]),\n        };\n    }\n}\n```\n\n```python [solution1-Python]\nclass Solution(object):\n    def rectangleArea(self, rectangles):\n        def intersect(rec1, rec2):\n            return [max(rec1[0], rec2[0]),\n                    max(rec1[1], rec2[1]),\n                    min(rec1[2], rec2[2]),\n                    min(rec1[3], rec2[3])]\n\n        def area(rec):\n            dx = max(0, rec[2] - rec[0])\n            dy = max(0, rec[3] - rec[1])\n            return dx * dy\n\n        ans = 0\n        for size in xrange(1, len(rectangles) + 1):\n            for group in itertools.combinations(rectangles, size):\n                ans += (-1) ** (size + 1) * area(reduce(intersect, group))\n\n        return ans % (10**9 + 7)\n```\n\n**复杂度分析**\n\n* 时间复杂度：$O(N * 2^N)$，其中 $N$ 是矩形的数量。 \n\n* 空间复杂度：$O(N)$。\n\n#### 方法二：坐标压缩\n\n**思路**\n\n![](https://pic.leetcode-cn.com/Figures/850/example.png){:width=400}\n\n假设矩形列表为 `[[0,0,200,200],[100,0,200,300],[100,0,300,100]]`，而不是 `rectangles = [[0,0,2,2],[1,0,2,3],[1,0,3,1]]`，那么答案会扩大 100 倍。\n\n如果矩形列表为 `rectangles = [[0,0,2,2],[1,0,2,3],[1,0,30002,1]]`，只有蓝色区域的区域的面积为 3000，其他区域均为 1。\n\n我们的思想如下：首先获取所有的 `x` 和 `y` 坐标，将它们重新映射到 `0, 1, 2, ...` 等等。例如将 `rectangles  = [[0,0,200,200],[100,0,200,300],[100,0,300,100]]` 映射到 `[[0,0,2,2],[1,0,2,3],[1,0,3,1]]`。然后，使用暴力解法计算总覆盖面积。但是因为每个矩形实际上可能表示更大的面积，所以最后需要调整。\n\n**算法**\n\n将所有 `x` 和 `y` 坐标映射到 `0, 1, 2, ...`。\n\n然后使用暴力解法，在网格上标记每个映射后的矩形。例如对于映射后的矩形 `(rx1, ry1, rx2, ry2)`，标记满足 `rx1 <= x < rx2` 且 `ry1 <= y < ry2` 的网格 `grid[x][y] = True`。\n\n如果 `x` 映射得到 `rx`，则可以通过逆映射 `imapy` 从 `rx` 得到 `x`，即 `imapx(rx) = x`。每个网格 `grid[rx][ry]` 代表的实际矩形面积为 `(imapx(rx+1) - imapx(rx)) * (imapy(ry+1) - imapy(ry))`。\n\n```java [solution2-Java]\nclass Solution {\n    public int rectangleArea(int[][] rectangles) {\n        int N = rectangles.length;\n        Set<Integer> Xvals = new HashSet();\n        Set<Integer> Yvals = new HashSet();\n\n        for (int[] rec: rectangles) {\n            Xvals.add(rec[0]);\n            Xvals.add(rec[2]);\n            Yvals.add(rec[1]);\n            Yvals.add(rec[3]);\n        }\n\n        Integer[] imapx = Xvals.toArray(new Integer[0]);\n        Arrays.sort(imapx);\n        Integer[] imapy = Yvals.toArray(new Integer[0]);\n        Arrays.sort(imapy);\n\n        Map<Integer, Integer> mapx = new HashMap();\n        Map<Integer, Integer> mapy = new HashMap();\n        for (int i = 0; i < imapx.length; ++i)\n            mapx.put(imapx[i], i);\n        for (int i = 0; i < imapy.length; ++i)\n            mapy.put(imapy[i], i);\n\n        boolean[][] grid = new boolean[imapx.length][imapy.length];\n        for (int[] rec: rectangles)\n            for (int x = mapx.get(rec[0]); x < mapx.get(rec[2]); ++x)\n                for (int y = mapy.get(rec[1]); y < mapy.get(rec[3]); ++y)\n                    grid[x][y] = true;\n\n        long ans = 0;\n        for (int x = 0; x < grid.length; ++x)\n            for (int y = 0; y < grid[0].length; ++y)\n                if (grid[x][y])\n                    ans += (long) (imapx[x+1] - imapx[x]) * (imapy[y+1] - imapy[y]);\n\n        ans %= 1_000_000_007;\n        return (int) ans;\n    }\n}\n```\n\n```python [solution2-Python]\nclass Solution(object):\n    def rectangleArea(self, rectangles):\n        N = len(rectangles)\n        Xvals, Yvals = set(), set()\n        for x1, y1, x2, y2 in rectangles:\n            Xvals.add(x1); Xvals.add(x2)\n            Yvals.add(y1); Yvals.add(y2)\n\n        imapx = sorted(Xvals)\n        imapy = sorted(Yvals)\n        mapx = {x: i for i, x in enumerate(imapx)}\n        mapy = {y: i for i, y in enumerate(imapy)}\n\n        grid = [[0] * len(imapy) for _ in imapx]\n        for x1, y1, x2, y2 in rectangles:\n            for x in xrange(mapx[x1], mapx[x2]):\n                for y in xrange(mapy[y1], mapy[y2]):\n                    grid[x][y] = 1\n\n        ans = 0\n        for x, row in enumerate(grid):\n            for y, val in enumerate(row):\n                if val:\n                    ans += (imapx[x+1] - imapx[x]) * (imapy[y+1] - imapy[y])\n        return ans % (10**9 + 7)\n```\n\n**复杂度分析**\n\n* 时间复杂度：$O(N^3)$，其中 $N$ 是矩形的数量。\n\n* 空间复杂度：$O(N^2)$。\n\n\n#### 方法三：线性扫描\n\n**思想**\n\n将每个矩形都看作是一条从底部传递到顶部的水平线段，把从底部到顶部中间的区域称为活动区域，底部边和顶部边称为水平间隔。每个矩形都会更新两次，即在底部添加水平间隔和顶部删除水平间隔。那么 `N` 个矩形共有 `2 * N` 次更新，且每次最多更新 `N` 个水平间隔。\n\n**算法**\n\n例如矩形 `rec = [1,0,3,1]`，第一次更新是在 `y = 0` 时添加水平间隔 `[1, 3]`，第二次更新是在 `y = 1` 时删除水平间隔。这里需要注意添加和删除的多重性。如果在 `y = 0` 时，添加了两条水平间隔 `[1, 3]` 和 `[0, 2]`，那么在 `y = 1` 时只会删除 `[1, 3]`，不影响 `[0, 2]`。\n\n为每个矩形创建添加和删除事件，然后以 `y` 从小到大的顺序处理所有事件。存在一个问题，在处理 `add(x1, x2)` 和 `remove(x1, x2)` 事件时如何查询到位于同一 `y` 坐标的其他水平间隔。\n\n因为 `remove(...)` 操作总是在 `add(...)` 之后，因此可以把所有的水平间隔以 `y` 坐标由小到大的顺序排列。然后使用类似于 LeetCode  [合并区间](https://leetcode-cn.com/problems/merge-intervals/)问题实现查询操作 `query()`。\n\n```java [solution3-Java]\nclass Solution {\n    public int rectangleArea(int[][] rectangles) {\n        int OPEN = 0, CLOSE = 1;\n        int[][] events = new int[rectangles.length * 2][];\n        int t = 0;\n        for (int[] rec: rectangles) {\n            events[t++] = new int[]{rec[1], OPEN, rec[0], rec[2]};\n            events[t++] = new int[]{rec[3], CLOSE, rec[0], rec[2]};\n        }\n\n        Arrays.sort(events, (a, b) -> Integer.compare(a[0], b[0]));\n\n        List<int[]> active = new ArrayList();\n        int cur_y = events[0][0];\n        long ans = 0;\n        for (int[] event: events) {\n            int y = event[0], typ = event[1], x1 = event[2], x2 = event[3];\n\n            // Calculate query\n            long query = 0;\n            int cur = -1;\n            for (int[] xs: active) {\n                cur = Math.max(cur, xs[0]);\n                query += Math.max(xs[1] - cur, 0);\n                cur = Math.max(cur, xs[1]);\n            }\n\n            ans += query * (y - cur_y);\n\n            if (typ == OPEN) {\n                active.add(new int[]{x1, x2});\n                Collections.sort(active, (a, b) -> Integer.compare(a[0], b[0]));\n            } else {\n                for (int i = 0; i < active.size(); ++i)\n                    if (active.get(i)[0] == x1 && active.get(i)[1] == x2) {\n                        active.remove(i);\n                        break;\n                    }\n            }\n\n            cur_y = y;\n        }\n\n        ans %= 1_000_000_007;\n        return (int) ans;\n    }\n}\n```\n\n```python [solution3-Python]\nclass Solution(object):\n    def rectangleArea(self, rectangles):\n        # Populate events\n        OPEN, CLOSE = 0, 1\n        events = []\n        for x1, y1, x2, y2 in rectangles:\n            events.append((y1, OPEN, x1, x2))\n            events.append((y2, CLOSE, x1, x2))\n        events.sort()\n\n        def query():\n            ans = 0\n            cur = -1\n            for x1, x2 in active:\n                cur = max(cur, x1)\n                ans += max(0, x2 - cur)\n                cur = max(cur, x2)\n            return ans\n\n        active = []\n        cur_y = events[0][0]\n        ans = 0\n        for y, typ, x1, x2 in events:\n            # For all vertical ground covered, update answer\n            ans += query() * (y - cur_y)\n\n            # Update active intervals\n            if typ is OPEN:\n                active.append((x1, x2))\n                active.sort()\n            else:    \n                active.remove((x1, x2))\n\n            cur_y = y\n\n        return ans % (10**9 + 7)\n```\n\n**复杂度分析**\n\n* 时间复杂度：$O(N^2 \\log N)$，其中 $N$ 是矩形的数量。\n\n* 空间复杂度：$O(N)$。\n\n\n#### 方法四：线段树\n\n**思路和算法**\n\n为了使用线段树的思想，也需要支持和*方法三*一样的 `add(x1, x2)`，`remove(x1, x2)` 和 `query()` 操作。\n\n关于更多线段树的知识，可以参考题目：[最长递增子序列的个数](https://leetcode-cn.com/problems/number-of-longest-increasing-subsequence)，[掉落的方块](https://leetcode-cn.com/problems/falling-squares)。\n\n```java [solution4-Java]\nclass Solution {\n    public int rectangleArea(int[][] rectangles) {\n        int OPEN = 1, CLOSE = -1;\n        int[][] events = new int[rectangles.length * 2][];\n        Set<Integer> Xvals = new HashSet();\n        int t = 0;\n        for (int[] rec: rectangles) {\n            events[t++] = new int[]{rec[1], OPEN, rec[0], rec[2]};\n            events[t++] = new int[]{rec[3], CLOSE, rec[0], rec[2]};\n            Xvals.add(rec[0]);\n            Xvals.add(rec[2]);\n        }\n\n        Arrays.sort(events, (a, b) -> Integer.compare(a[0], b[0]));\n\n        Integer[] X = Xvals.toArray(new Integer[0]);\n        Arrays.sort(X);\n        Map<Integer, Integer> Xi = new HashMap();\n        for (int i = 0; i < X.length; ++i)\n            Xi.put(X[i], i);\n\n        Node active = new Node(0, X.length - 1, X);\n        long ans = 0;\n        long cur_x_sum = 0;\n        int cur_y = events[0][0];\n\n        for (int[] event: events) {\n            int y = event[0], typ = event[1], x1 = event[2], x2 = event[3];\n            ans += cur_x_sum * (y - cur_y);\n            cur_x_sum = active.update(Xi.get(x1), Xi.get(x2), typ);\n            cur_y = y;\n\n        }\n\n        ans %= 1_000_000_007;\n        return (int) ans;\n    }\n}\n\nclass Node {\n    int start, end;\n    Integer[] X;\n    Node left, right;\n    int count;\n    long total;\n\n    public Node(int start, int end, Integer[] X) {\n        this.start = start;\n        this.end = end;\n        this.X = X;\n        left = null;\n        right = null;\n        count = 0;\n        total = 0;\n    }\n\n    public int getRangeMid() {\n        return start + (end - start) / 2;\n    }\n\n    public Node getLeft() {\n        if (left == null) left = new Node(start, getRangeMid(), X);\n        return left;\n    }\n\n    public Node getRight() {\n        if (right == null) right = new Node(getRangeMid(), end, X);\n        return right;\n    }\n\n    public long update(int i, int j, int val) {\n        if (i >= j) return 0;\n        if (start == i && end == j) {\n            count += val;\n        } else {\n            getLeft().update(i, Math.min(getRangeMid(), j), val);\n            getRight().update(Math.max(getRangeMid(), i), j, val);\n        }\n\n        if (count > 0) total = X[end] - X[start];\n        else total = getLeft().total + getRight().total;\n\n        return total;\n    }\n}\n```\n\n```python [solution4-Python]\nclass Node(object):\n    def __init__(self, start, end):\n        self.start, self.end = start, end\n        self.total = self.count = 0\n        self._left = self._right = None\n\n    @property\n    def mid(self):\n        return (self.start + self.end) / 2\n\n    @property\n    def left(self):\n        self._left = self._left or Node(self.start, self.mid)\n        return self._left\n\n    @property\n    def right(self):\n        self._right = self._right or Node(self.mid, self.end)\n        return self._right\n\n    def update(self, i, j, val):\n        if i >= j: return 0\n        if self.start == i and self.end == j:\n            self.count += val\n        else:\n            self.left.update(i, min(self.mid, j), val)\n            self.right.update(max(self.mid, i), j, val)\n\n        if self.count > 0:\n            self.total = X[self.end] - X[self.start]\n        else:\n            self.total = self.left.total + self.right.total\n\n        return self.total\n\nclass Solution(object):\n    def rectangleArea(self, rectangles):\n        OPEN, CLOSE = 1, -1\n        events = []\n        global X\n        X = set()\n        for x1, y1, x2, y2 in rectangles:\n            events.append((y1, OPEN, x1, x2))\n            events.append((y2, CLOSE, x1, x2))\n            X.add(x1)\n            X.add(x2)\n        events.sort()\n\n        X = sorted(X)\n        Xi = {x: i for i, x in enumerate(X)}\n\n        active = Node(0, len(X) - 1)\n        ans = 0\n        cur_x_sum = 0\n        cur_y = events[0][0]\n\n        for y, typ, x1, x2 in events:\n            ans += cur_x_sum * (y - cur_y)\n            cur_x_sum = active.update(Xi[x1], Xi[x2], typ)\n            cur_y = y\n\n        return ans % (10**9 + 7)\n```\n\n**复杂度分析**\n\n* 时间复杂度：$O(N \\log N)$，其中$N$ 是矩形的数量。\n\n* 空间复杂度：$O(N)$。",
+      "createdAt": "2019-12-03T07:06:29.764372+00:00",
+      "hitCount": 8046,
+      "identifier": "wckBrr",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "xian-duan-shu-chi-san-hua-sao-miao-xian-by-halfros",
+        "title": "线段树 + 离散化 + 扫描线"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "rectangle-area-ii"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 17,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "ju-xing-mian-ji-ii-by-leetcode",
+      "status": "PUBLISHED",
+      "summary": " 方法一：容斥原理\n思路\n假设我们有两个矩形 A 和 B，它们叠加后覆盖的总面积为：\n|A \\cup B| = |A| + |B| - |A \\cap B|\n\n假设我们有三个矩形 A, B, C，它们叠加后覆盖的总面积为：\n|A \\cup B \\cup C| = |A| + |B| + |C| - |A \\cap B|",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Segment Tree",
+          "nameTranslated": "线段树",
+          "slug": "segment-tree",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/Figures/850/example.png",
+      "title": "矩形面积 II",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 17,
+        "id": 49384,
+        "viewCount": 5257
+      },
+      "uuid": "wckBrr",
+      "videosInfo": []
+    }
+  }
+}

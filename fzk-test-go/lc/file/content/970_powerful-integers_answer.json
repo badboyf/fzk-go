@@ -1,0 +1,86 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣 (LeetCode)",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/uploaded_files/2021/03/73c9f099-abbe-4d94-853f-f8abffd459cd/leetcode.png",
+          "userSlug": "leetcode"
+        },
+        "username": "LeetCode"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法：暴力法\n\n**思路**\n\n如果 $x^i > \\text{bound}$，那么 $x^i + y^j$ 也不可能小于等于 `bound`。  对于 $y^j$ 也是同样的道理。\n\n因此，我们只需要对于所有的 $0 \\leq i, j \\leq \\log_x(\\text{bound}) < 18$ 生成一遍答案就行了。\n\n我们可以用一个 `HashSet` 来存储所有不同的答案。\n\n```java [AV4vVh9p-Java]\nclass Solution { \n    public List<Integer> powerfulIntegers(int x, int y, int bound) {\n        Set<Integer> seen = new HashSet();\n        for (int i = 0; i < 18 && Math.pow(x, i) <= bound; ++i)\n            for (int j = 0; j < 18 && Math.pow(y, j) <= bound; ++j) {\n                int v = (int) Math.pow(x, i) + (int) Math.pow(y, j);\n                if (v <= bound)\n                    seen.add(v);\n            }\n\n        return new ArrayList(seen);\n    }\n}\n```\n```python [AV4vVh9p-Python]\nclass Solution(object): \n    def powerfulIntegers(self, x, y, bound):\n        ans = set()\n        # 2**18 > bound\n        for i in xrange(18):\n            for j in xrange(18):\n                v = x**i + y**j\n                if v <= bound:\n                    ans.add(v)\n        return list(ans)\n```\n\n\n**复杂度分析**\n\n* 时间复杂度：$O(\\log^2{\\text{bound}})$。\n\n* 空间复杂度：$O(\\log^2{\\text{bound}})$。\n\n\n\n",
+      "createdAt": "2019-01-11T12:57:07.201410+00:00",
+      "hitCount": 7728,
+      "identifier": "nhcaXe",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "c0msmei-ju-by-monologue-s-iiak",
+        "title": "c++0ms枚举"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "powerful-integers"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 4,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "qiang-zheng-shu-by-leetcode",
+      "status": "PUBLISHED",
+      "summary": "思路\n如果 x^i > \\text{bound}，那么 x^i + y^j 也不可能小于等于 bound。  对于 y^j 也是同样的道理。\n因此，我们只需要对于所有的 0 \\leq i, j \\leq \\log_x(\\text{bound}) < 18 生成一遍答案就行了。\n我们可以用一个 HashSet 来存储所有",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Hash Table",
+          "nameTranslated": "哈希表",
+          "slug": "hash-table",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Math",
+          "nameTranslated": "数学",
+          "slug": "math",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "强整数",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 17,
+        "id": 3580,
+        "viewCount": 5186
+      },
+      "uuid": "nhcaXe",
+      "videosInfo": []
+    }
+  }
+}

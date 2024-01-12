@@ -1,0 +1,72 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "刷题就此开始吧！",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/liu-yong-qi/avatar_1634986562.png",
+          "userSlug": "liu-yong-qi"
+        },
+        "username": "liu-yong-qi"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n看看就好。。\n记得点赞呀！！！\n心情好的话  给个关注呀！！\n\n### 代码\n\n```cpp\nclass Solution {\n public:\n  int countGoodRectangles(vector<vector<int>>& rectangles) {\n    vector<int> min_val;\n    transform(rectangles.begin(), rectangles.end(), back_inserter(min_val),\n              [](const vector<int>& rectangle) {\n                return min(rectangle[0], rectangle[1]);\n              });\n    return count(min_val.begin(), min_val.end(),\n                 *max_element(min_val.begin(), min_val.end()));\n  }\n};\n\n\n## 致敬作者\nhttps://leetcode-cn.com/u/cyh_ustc/",
+      "createdAt": "2021-10-16T09:21:37.501426+00:00",
+      "hitCount": 87,
+      "identifier": "4AxOOo",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "jian-dan-ti-san-chong-si-lu-by-ydq-2-xg2e",
+        "title": "三种思路"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "number-of-rectangles-that-can-form-the-largest-square"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "3-xing-dai-ma-by-liu-yong-qi-mo3j",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n看看就好。。\n记得点赞呀！！！\n心情好的话  给个关注呀！！\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "3 行代码。。。。",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1050382,
+        "viewCount": 84
+      },
+      "uuid": "4AxOOo",
+      "videosInfo": []
+    }
+  }
+}

@@ -1,0 +1,119 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "温柔一刀123",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/wen-rou-yi-dao-123/avatar_1602559228.png",
+          "userSlug": "wen-rou-yi-dao-123"
+        },
+        "username": "wen-rou-yi-dao-123"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n1、先把words按照单词长度排序，这样就保证了一个word插入字典的时候，如果它是连接词，那么构成它的更短的词肯定都存在于字典中了。这里有个坑要注意，如果words中有空字符串\"\"，记得把它扔掉。\n2、然后按顺序判断某个word是否是连接词。具体方法就是DFS回溯，依次检查该word的每一个字符是否存在于字典中，找到一个更短的单词的时候进入DFS的下一层继续寻找。如果在某个地方匹配失败，则回溯，在上一个匹配的地方继续寻找更长的匹配单词。最后如果word全部匹配成功，则说明它是一个连接词。这里有两个细节：a、因为题目说了words中的单词都不相同，所以能够DFS成功，一定是由多个单词组成的。b、单纯的DFS在面对连续的相同字符时会超时（比如\"a\",\"aa\",\"aaa\"...\"aaaa...\"这种用例），所以要加上记忆化，如果某个位置已经证明了不可行，那么通过其它路径来到该位置时就可以直接返回失败。\n3、判断完成之后，将这个单词加入字典。\n4、所有单词遍历完成后，我们就得到了想要的答案。\n\n### 复杂度分析\n时间复杂度：通过记忆化，每个单词的每个字符只需要DFS访问大概两次，插入字典访问一次，所以总的时间复杂度是O(sum(words[i].length))\n空间复杂度：创建字典树的空间，大概是26*O(sum(words[i].length))\n\n### 吐槽\n最后[@LeetCode](/u/leetcode/), 强烈吐槽一下，“连接词的定义为：一个字符串完全是由至少两个给定数组中的单词组成的”，这句话里面，两个到底是怎么理解的？？？反正我看到[\"a\",\"aa\"]的预期答案是[\"aa\"]的时候，真的震惊了，整个人都不好了。还有，为什么[\"\",\"a\"]不能输出[\"a\"]，毕竟\"a\"也可以理解为\"\"+\"a\"。建议题目描述还是更严谨一点吧。\n\n### 代码\n\n```cpp\nbool stringCompare(const string& s1, const string& s2) {\n    return s1.size() < s2.size();\n}\n\nclass TrieNode {\npublic:\n    TrieNode() {\n        memset(next, 0, sizeof(TrieNode*) * 26);\n        isEnd = false;\n    }\n\n    bool isEnd;\n    TrieNode* next[26];\n};\n\nclass Trie {\npublic:\n    Trie() {\n        root = new TrieNode;\n    }\n\n    void insert(string& word) {\n        TrieNode* current = root;\n\n        for (char c : word) {\n            int index = c - 'a';\n            if (current->next[index] == NULL) {\n                current->next[index] = new TrieNode;\n            }\n\n            current = current->next[index];\n        }\n\n        current->isEnd = true;\n    }\n\n    bool isConcatenatedWord(string& word) {\n        vector<bool> visited(word.size(), false);\n\n        return DFS(word, 0, visited);\n    }\n\n    bool DFS(string& word, int start, vector<bool>& visited) {\n        int i, size = word.size();\n        TrieNode* current = root;\n\n        if (start == size) {\n            return true;\n        }\n\n        if (visited[start]) {\n            return false;\n        }\n\n        for (i = start; i < size; ++i) {\n            int index = word[i] - 'a';\n            if (current->next[index] == NULL) {\n                break;\n            }\n\n            current = current->next[index];\n            if (current->isEnd) {\n                if (DFS(word, i + 1, visited)) {\n                    return true;\n                }\n            }\n        }\n\n        visited[start] = true;\n        return false;\n    }\n\nprivate:\n    TrieNode* root;\n};\n\nclass Solution {\npublic:\n    vector<string> findAllConcatenatedWordsInADict(vector<string>& words) {\n        vector<string> concatenatedWords;\n        Trie trie;\n\n        sort(words.begin(), words.end(), stringCompare);\n\n        auto iter = words.begin();\n        if (*iter == \"\") {\n            ++iter;\n        }\n\n        for (; iter != words.end(); ++iter) {\n            if (trie.isConcatenatedWord(*iter)) {\n                concatenatedWords.push_back(*iter);\n            }\n\n            trie.insert(*iter);\n        }\n\n        return concatenatedWords;\n    }\n};\n```\n\n![图像 1.png](https://pic.leetcode-cn.com/1614061158-GNOUjw-%E5%9B%BE%E5%83%8F%201.png)\n",
+      "createdAt": "2021-02-23T06:19:47.250497+00:00",
+      "hitCount": 2413,
+      "identifier": "L9ONZf",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "zi-dian-shu-ji-yi-hua-dfshua-ge-tu-jiu-d-co8z",
+        "title": "字典树+记忆化dfs，画个图就懂了"
+      },
+      "position": 4,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "triezi-dian-shu-dfs-by-tristones-d5wg",
+        "title": "Trie字典树 + DFS"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "concatenated-words"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 5,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "AWESOME"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "CONFUSED"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 0,
+          "reactionType": "THUMBS_DOWN"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "zi-dian-shu-hui-su-ji-yi-hua-sou-suo-ge-nny65",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n1、先把words按照单词长度排序，这样就保证了一个word插入字典的时候，如果它是连接词，那么构成它的更短的词肯定都存在于字典中了。这里有个坑要注意，如果words中有空字符串\"\"，记得把它扔掉。\n2、然后按顺序判断某个word是否是连接词。具体方法就是DFS回溯，依次检查该word的每一个字符是否存在于字",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Depth-First Search",
+          "nameTranslated": "深度优先搜索",
+          "slug": "depth-first-search",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Trie",
+          "nameTranslated": "字典树",
+          "slug": "trie",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Memoization",
+          "nameTranslated": "记忆化搜索",
+          "slug": "memoization",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Backtracking",
+          "nameTranslated": "回溯",
+          "slug": "backtracking",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1614061158-GNOUjw-%E5%9B%BE%E5%83%8F%201.png",
+      "title": "字典树+回溯+记忆化搜索，各种绝招全用上！",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 7,
+        "id": 616983,
+        "viewCount": 1637
+      },
+      "uuid": "L9ONZf",
+      "videosInfo": []
+    }
+  }
+}

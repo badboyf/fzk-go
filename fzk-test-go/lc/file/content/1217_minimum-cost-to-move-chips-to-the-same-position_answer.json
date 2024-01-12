@@ -1,0 +1,76 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "qilin2008201",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/qilin2008201/avatar_1616045086.png",
+          "userSlug": "qilin2008201"
+        },
+        "username": "qilin2008201"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n执行结果：\n通过\n显示详情\n执行用时：0 ms, 在所有 C++ 提交中击败了100.00% 的用户\n内存消耗：7.2 MB, 在所有 C++ 提交中击败了52.06% 的用户\n\n通过题意可以发现，如果将偶数位置作为最终位置，则奇数位置筹码移动代价恒为1，偶数位置筹码的移动代价恒为0；\n如果将奇数位置作为最终位置，则偶数位置筹码移动代价恒为1，奇数位置筹码的移动代价恒为0；\n因此这一题先统计数组中奇数和偶数的数量，判断两者大小，以大的作为筹码移动的最终位置（比如奇数多），那所有奇数位置筹码的代价和为零，只要将数组中的偶数位置筹码的个数返回即可\n\n### 代码\n\n```cpp\nclass Solution {\npublic:\n    int minCostToMoveChips(vector<int>& position) \n    {\n        int count1=0,count2=0;//count1存储偶数数量，count2存储奇数数量\n        for(int i=0;i<position.size();i++)\n        {\n            if(position[i]%2==0)\n            {\n                count1++;\n            }\n            else\n            {\n                count2++;\n            }\n        }\n        if(count1>count2)//如果奇数位置筹码数量大于偶数位置筹码数量，则返回偶数位置筹码的数量\n        {\n            return count2;\n        }\n        else\n        {\n            return count1;\n        }\n    }\n};\n```",
+      "createdAt": "2021-03-12T02:17:23.476649+00:00",
+      "hitCount": 1401,
+      "identifier": "bleFNv",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "xie-chu-si-kao-quan-guo-cheng-ru-he-xian-2ymb",
+        "title": "【写出思考全过程】【如何想到奇偶】"
+      },
+      "position": 6,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "wan-chou-ma-shi-pin-pou-xi-by-alton-z-7od9",
+        "title": "玩筹码，视频剖析"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "minimum-cost-to-move-chips-to-the-same-position"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 10,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "cchun-meng-dai-ma-by-qilin2008201-vzk0",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n执行结果：\n通过\n显示详情\n执行用时：0 ms, 在所有 C++ 提交中击败了100.00% 的用户\n内存消耗：7.2 MB, 在所有 C++ 提交中击败了52.06% 的用户\n通过题意可以发现，如果将偶数位置作为最终位置，则奇数位置筹码移动代价恒为1，偶数位置筹码的移动代价恒为0；\n如果将奇数位置作为最终位",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "C++蠢萌代码",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 2,
+        "id": 651183,
+        "viewCount": 1206
+      },
+      "uuid": "bleFNv",
+      "videosInfo": []
+    }
+  }
+}

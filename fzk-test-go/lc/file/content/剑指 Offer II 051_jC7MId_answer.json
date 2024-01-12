@@ -1,0 +1,72 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "not-a-hero",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/not-a-hero/avatar_1632722192.png",
+          "userSlug": "not-a-hero"
+        },
+        "username": "not-a-hero"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n本质：后序遍历，不过多判断下最大的可能值罢了。\n\n### 代码\n\n```java\n/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     int val;\n *     TreeNode left;\n *     TreeNode right;\n *     TreeNode() {}\n *     TreeNode(int val) { this.val = val; }\n *     TreeNode(int val, TreeNode left, TreeNode right) {\n *         this.val = val;\n *         this.left = left;\n *         this.right = right;\n *     }\n * }\n */\nclass Solution {\n    public int maxPathSum(TreeNode root) {\n        if(root==null){\n            return 0;\n        }\n        if(root.left==null&&root.right==null){\n            return root.val;\n        }\n        dfs(root);\n\n        return max;\n\n    }\n\n    int max = Integer.MIN_VALUE;\n\n    public int dfs(TreeNode root) {\n\n        if (root == null) {\n            return 0;\n        }\n\n        //左子树的值\n        int left = dfs(root.left);\n        //右子树的值\n        int right = dfs(root.right);\n\n        //寻找最大值\n        \n        //二个儿子都有用,先算一下最大值，但是返回只能返回一个儿子。\n        if(left>=0&&right>=0){\n            max=Math.max(max,root.val+left+right);\n        }\n        \n        //哪个儿子没用就不算那个儿子。\n        if(left>=0&&right<0){\n            max=Math.max(max,root.val+left);\n        }\n        \n        if(left<0&&right>=0){\n            max=Math.max(max,root.val+right);\n        }\n        \n        //如果左右子树都<0,那还要儿子有屁用？？直接返回自己不就得了。\n        if(left<0&&right<0){\n            max=Math.max(max,root.val);\n             return root.val;\n        }\n\n        //返回给上一层自己儿子优秀的一面！返回最大的一边。\n        return root.val+Math.max(left, right);\n    }\n}\n```",
+      "createdAt": "2021-11-21T12:30:23.039382+00:00",
+      "hitCount": 57,
+      "identifier": "dfkpmW",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "javashi-xian-hou-xu-bian-li-jian-zhi-off-v1wl",
+        "title": "java实现后序遍历(剑指OfferⅡ051.节点之和最大的路径)"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "jC7MId"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "zhi-xing-yong-shi-1-ms-zai-suo-you-java-45bro",
+      "status": "PUBLISHED",
+      "summary": "解题思路\n本质：后序遍历，不过多判断下最大的可能值罢了。\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "执行用时：1 ms, 在所有 Java 提交中击败了54.38% 的用户",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1114499,
+        "viewCount": 45
+      },
+      "uuid": "dfkpmW",
+      "videosInfo": []
+    }
+  }
+}

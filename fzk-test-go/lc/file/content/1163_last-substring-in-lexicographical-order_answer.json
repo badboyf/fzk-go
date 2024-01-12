@@ -1,0 +1,84 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "5cm/s",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/xincept/avatar_1616151418.png",
+          "userSlug": "megurine"
+        },
+        "username": "megurine"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "后缀数组讲解可以看 [Pecco](https://www.zhihu.com/people/one-seventh) 大神的笔记 [算法学习笔记(84): 后缀数组](https://zhuanlan.zhihu.com/p/408261126)\r\n\r\n## 实现\r\n```C++\r\n#define forr(i, x) for(int (i)=1; (i)<=(x); ++(i))\r\n#define rforr(i, x) for(int (i)=x; (i)>=1; --(i))\r\n#define MAXN 400005\r\n#define printlist(l, n) cout << \"[ \"; for(int (i)=0; (i)<(n); ++(i)) {cout << (l)[i] << \" \"; } cout << \"]\" << endl;\r\n#define tag(s) cout << s << \": \"\r\n\r\nint sa[MAXN], rk[MAXN << 1], rkt[MAXN << 1], cnt[MAXN], tmp[MAXN];\r\n\r\nbool eq(int a, int b, int w) { return rk[a] == rk[b] and rk[a + w] == rk[b + w]; }\r\n\r\nclass Solution {\r\npublic:\r\n    string lastSubstring(string s) {\r\n        int n = s.length();\r\n        int size = n * 2;\r\n        memset(rk + 1, 0, size * sizeof(int));\r\n        memset(cnt + 1, 0, 26 * sizeof(int));\r\n        memset(rkt + 1, 0, size * sizeof(int));\r\n        forr(i, n) cnt[rk[i] = s[i - 1] - 96]++;\r\n        forr(i, 26) cnt[i] += cnt[i - 1];\r\n        rforr(i, n) sa[cnt[rk[i]]--] = i;\r\n\r\n        int w = 1, p, m = 26;\r\n        for (; w < n; w <<= 1, p = 0) {\r\n            forr(i, w) tmp[++p] = n - w + i;\r\n            forr(i, n) if (sa[i] > w) tmp[++p] = sa[i] - w;\r\n            memset(cnt + 1, 0, m * sizeof(int));\r\n            forr(i, n) cnt[rkt[i] = rk[tmp[i]]]++;\r\n            forr(i, m) cnt[i] += cnt[i - 1];\r\n            rforr(i, n) sa[cnt[rkt[i]]--] = tmp[i];\r\n            m = 0;\r\n            forr(i, n) rkt[sa[i]] = eq(sa[i], sa[i - 1], w) ? m : ++m;\r\n            if (m == n) break;\r\n            memcpy(rk + 1, rkt + 1, n * sizeof(int));\r\n        }\r\n        return s.substr(sa[n] - 1);\r\n    }\r\n};\r\n```",
+      "createdAt": "2021-11-17T08:50:29.481624+00:00",
+      "hitCount": 89,
+      "identifier": "ijwrul",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "1163-cchao-89de-shuang-zhi-zhen-jie-fa-b-7b5o",
+        "title": "1163. c++超89的双指针解法"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "last-substring-in-lexicographical-order"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "hou-zhui-shu-zu-jie-fa-shi-zai-shi-shuan-i5t7",
+      "status": "PUBLISHED",
+      "summary": "后缀数组讲解可以看 Pecco 大神的笔记 算法学习笔记(84): 后缀数组\n实现",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Suffix Array",
+          "nameTranslated": "后缀数组",
+          "slug": "suffix-array",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "后缀数组解法（实在是双指针WA麻了",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 2,
+        "id": 1106925,
+        "viewCount": 70
+      },
+      "uuid": "ijwrul",
+      "videosInfo": []
+    }
+  }
+}

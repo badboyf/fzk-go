@@ -1,0 +1,102 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "灵茶山艾府",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/endlesscheng/avatar_1589367048.png",
+          "userSlug": "endlesscheng"
+        },
+        "username": "endlesscheng"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "```go\r\ntype LockingTree struct{}\r\n\r\nvar g [][]int\r\nvar who, pa []int\r\n\r\nfunc Constructor(parent []int) (_ LockingTree) {\r\n\tn := len(parent)\r\n\tg = make([][]int, n)\r\n\tfor w := 1; w < n; w++ {\r\n\t\tv := parent[w]\r\n\t\tg[v] = append(g[v], w)\r\n\t}\r\n\twho, pa = make([]int, n), parent\r\n\treturn\r\n}\r\n\r\nfunc (LockingTree) Lock(num, user int) bool {\r\n\tif who[num] > 0 {\r\n\t\treturn false\r\n\t}\r\n\twho[num] = user\r\n\treturn true\r\n}\r\n\r\nfunc (LockingTree) Unlock(num, user int) bool {\r\n\tif who[num] != user {\r\n\t\treturn false\r\n\t}\r\n\twho[num] = 0\r\n\treturn true\r\n}\r\n\r\n// 判断 v 的子孙是否有锁\r\nfunc hasLock(v int) bool {\r\n\tfor _, w := range g[v] {\r\n\t\tif who[w] > 0 || hasLock(w) {\r\n\t\t\treturn true\r\n\t\t}\r\n\t}\r\n\treturn false\r\n}\r\n\r\n// 解锁 v 的所有子孙\r\nfunc unlock(v int) {\r\n\tfor _, w := range g[v] {\r\n\t\twho[w] = 0\r\n\t\tunlock(w)\r\n\t}\r\n}\r\n\r\nfunc (LockingTree) Upgrade(num, user int) bool {\r\n\tfor v := num; v >= 0; v = pa[v] {\r\n\t\tif who[v] > 0 {\r\n\t\t\treturn false\r\n\t\t}\r\n\t}\r\n\tif !hasLock(num) {\r\n\t\treturn false\r\n\t}\r\n\twho[num] = user\r\n\tunlock(num)\r\n\treturn true\r\n}\r\n```",
+      "createdAt": "2021-09-04T16:09:43.483674+00:00",
+      "hitCount": 396,
+      "identifier": "QX4vun",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "wei-rao-li-lun-fei-jing-sai-xuan-shou-de-8xb3",
+        "title": "【微扰理论】非竞赛选手的普通解法 构造一棵树（但我一直以为是二叉树哇..."
+      },
+      "position": 3,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "java-hashmapbao-li-sou-suo-by-ji-bo-lai-ji8z2",
+        "title": "Java HashMap+暴力搜索"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "operations-on-tree"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 5,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "go-dfs-by-endlesscheng-5sm8",
+      "status": "PREPUBLISH",
+      "summary": "[该用户太懒了，只写了 63 行代码]",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Tree",
+          "nameTranslated": "树",
+          "slug": "tree",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Depth-First Search",
+          "nameTranslated": "深度优先搜索",
+          "slug": "depth-first-search",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Design",
+          "nameTranslated": "设计",
+          "slug": "design",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Go",
+          "nameTranslated": "",
+          "slug": "golang",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "Go DFS",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 978666,
+        "viewCount": 321
+      },
+      "uuid": "QX4vun",
+      "videosInfo": []
+    }
+  }
+}

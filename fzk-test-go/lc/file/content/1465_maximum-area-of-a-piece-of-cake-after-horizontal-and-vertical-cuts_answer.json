@@ -1,0 +1,72 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "辜月十二",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/gu-yue-shi-er-9/avatar_1629163280.png",
+          "userSlug": "nilu_cn"
+        },
+        "username": "Nilu_cn"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n思路比较简单，即找出切割后的宽度高度的最大值即为最终答案\n\n![image.png](https://pic.leetcode-cn.com/1631094500-qyCFCg-image.png)\n\n### 代码\n\n```cpp\nclass Solution {\npublic:\n    using ll = long long;\n    static constexpr int mod = 1e9 +7;\n    int maxArea(int h, int w, vector<int>& horizontalCuts, vector<int>& verticalCuts) {\n        //排序\n        sort(horizontalCuts.begin(),horizontalCuts.end());\n        sort(verticalCuts.begin(),verticalCuts.end());\n        int hei=0,wei=0;\n        int pre=0;\n        for(auto i : horizontalCuts){\n            hei = max(hei,i-pre);\n            pre=i;\n        }\n        hei = max(hei,h-pre);   // 比较当前高度与下边界的距离\n        pre=0;\n        for(auto  i : verticalCuts){\n            wei = max(wei,i-pre);\n            pre=i;\n        }\n        wei=max(wei,w-pre);     // 比较当前高度与右边界的距离\n        return ((ll)hei*wei) % mod; //注意转long long，否则会溢出\n    }\n};\n```",
+      "createdAt": "2021-09-08T09:48:54.064485+00:00",
+      "hitCount": 159,
+      "identifier": "qvez5n",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "shu-xue-by-lwlvhy-okqb",
+        "title": "数学"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "maximum-area-of-a-piece-of-cake-after-horizontal-and-vertical-cuts"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "c-by-nilu_cn-n362",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n思路比较简单，即找出切割后的宽度高度的最大值即为最终答案\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1631094500-qyCFCg-image.png",
+      "title": "【C++】",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 986099,
+        "viewCount": 129
+      },
+      "uuid": "qvez5n",
+      "videosInfo": []
+    }
+  }
+}

@@ -1,0 +1,88 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "zzu",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/123-2621/avatar_1628486303.png",
+          "userSlug": "123-2621"
+        },
+        "username": "123-2621"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "**记录前缀和,使用哈希表记录**\r\n```\r\nclass Solution:\r\n    def pathSum(self, root: TreeNode, sum: int) -> int:\r\n        #   当 value 不存在时，默认值为 0\r\n        pre = collections.defaultdict(int)\r\n        pre[0] = 1\r\n        \r\n        def dfs(root, curr):\r\n            if not root:\r\n                return 0\r\n            ret = 0\r\n            curr += root.val\r\n            ret += pre[curr - sum]\r\n            pre[curr] += 1\r\n            ret += dfs(root.left, curr)\r\n            ret += dfs(root.right, curr)\r\n            pre[curr] -= 1\r\n            return ret\r\n        return dfs(root, 0)\r\n```\r\n\r\n**从每一个节点开始遍历**\r\n```\r\nclass Solution:\r\n    def pathSum(self, root: TreeNode, sum: int) -> int:\r\n        def rootSum(root, sum):\r\n            if root is None:\r\n                return 0\r\n            ret = 0\r\n            if root.val == sum:\r\n                ret += 1\r\n            ret += rootSum(root.left, sum - root.val)\r\n            ret += rootSum(root.right, sum - root.val)\r\n            return ret\r\n\r\n        if root is None:\r\n            return 0\r\n        ret = rootSum(root, sum)\r\n        ret += self.pathSum(root.left, sum)\r\n        ret += self.pathSum(root.right, sum)\r\n        return ret\r\n```\r\n",
+      "createdAt": "2021-11-10T09:01:19.220388+00:00",
+      "hitCount": 234,
+      "identifier": "i39ouf",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "yi-pian-wen-zhang-jie-jue-suo-you-er-cha-w3hu",
+        "title": "一篇文章解决所有二叉树路径问题（问题分析+分类模板+题目剖析）"
+      },
+      "position": 4,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "pythongo-di-gui-wei-hu-qian-zhui-he-ge-s-dtls",
+        "title": "[Python/Go] 递归维护前缀和个数 "
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "paths-with-sum-lcci"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 0,
+          "reactionType": "CONFUSED"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "ji-lu-lu-jing-he-de-qian-zhui-he-cong-me-bslg",
+      "status": "PREPUBLISH",
+      "summary": "记录前缀和,使用哈希表记录\n从每一个节点开始遍历",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python3",
+          "nameTranslated": "",
+          "slug": "python3",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "记录路径和的前缀和，从每一个节点开始递归",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 1,
+        "id": 1094641,
+        "viewCount": 165
+      },
+      "uuid": "i39ouf",
+      "videosInfo": []
+    }
+  }
+}

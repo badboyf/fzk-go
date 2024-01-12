@@ -1,0 +1,100 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "EUY",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/euyvvl/avatar_1635000444.png",
+          "userSlug": "euyvvl"
+        },
+        "username": "EUYVVL"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n**一道简单的二分法模板题**\n### 代码\n\n```cpp\nclass Solution {\npublic:\n    vector<int>nums;\n    int maxOperations;\n    bool check(int k){\n        int cnt=maxOperations;\n        for(int i=0;i<nums.size();i++){\n            if(nums[i]<=k){\n                continue;\n            }\n            int num=nums[i]/k;\n            if(nums[i]%k==0){\n                num-=1;\n            }\n            if(num>cnt){\n                return false;\n            }\n            else{\n                cnt-=num;\n            }\n        }\n        return true;\n    }\n    int minimumSize(vector<int>& nums, int maxOperations) {\n        sort(nums.rbegin(),nums.rend());\n        this->nums=nums;\n        this->maxOperations=maxOperations;\n        int LL=1;\n        int RR=*max_element(nums.begin(),nums.end());\n        while(LL<RR){\n            int mid=(LL+RR)/2;\n            if(check(mid)){\n                RR=mid;\n            }\n            else{\n                LL=mid+1;\n            }\n        }\n        return LL;\n    }\n};\n```",
+      "createdAt": "2021-11-14T08:17:13.311985+00:00",
+      "hitCount": 42,
+      "identifier": "A8xEVN",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "ban-zi-ti-by-lianxin-4eux",
+        "title": "板子题"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "minimum-limit-of-balls-in-a-bag"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "er-fen-mo-ban-by-euyvvl-tyv8",
+      "status": "PUBLISHED",
+      "summary": "解题思路\n一道简单的二分法模板题\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Array",
+          "nameTranslated": "数组",
+          "slug": "array",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Math",
+          "nameTranslated": "数学",
+          "slug": "math",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Sorting",
+          "nameTranslated": "排序",
+          "slug": "sorting",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "二分",
+          "nameTranslated": "",
+          "slug": "er-fen",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "",
+      "title": "二分模板",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1101379,
+        "viewCount": 38
+      },
+      "uuid": "A8xEVN",
+      "videosInfo": []
+    }
+  }
+}

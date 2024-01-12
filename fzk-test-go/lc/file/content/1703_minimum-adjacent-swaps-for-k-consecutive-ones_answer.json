@@ -1,0 +1,77 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "熊宝",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/xiong-bao-2/avatar_1592948531.png",
+          "userSlug": "xiong-bao-2"
+        },
+        "username": "xiong-bao-2"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "这篇文章主要针对算法新手\r\n\r\n# 1 总体思路\r\n我们需要移动数组中的1，使出现连续k个1，且移动的次数尽可能地少。直接求最优解是无从下手的，好在我们可以通过适当的暴力枚举来寻找答案。\r\n\r\n显然直觉上最容易想到：我们必定会挑本就「相邻」（指忽略数组里的0）的k个1，把它们移到一块，来完成目标。而不会胡乱地挑k个1，硬把它们移到一块。\r\n\r\n这就给「滑动窗口」这个常用的算法技巧提供了条件。而上述所说的「枚举」，就是枚举这些窗口。\r\n\r\n总体思路就是：\r\n- 找出所有满足条件的窗口，条件是窗口内正好有k个1，且窗口两个端点都是1\r\n- 对每一个窗口，求出把其中k个1移到一块的最小cost，并更新全局最优解minCost\r\n\r\n![1703-1.jpg](https://pic.leetcode-cn.com/1614554243-whdUlh-1703-1.jpg)\r\n\r\n```cpp\r\nint minCost = some_initial_value;\r\n\r\nfor ( i , j ... ) {                         //给出窗口的两个端点[i, j]\r\n    int cost = getCostInWindow(i, j);\r\n    minCost = min(minCost, cost);\r\n}\r\n\r\nreturn minCost;\r\n```\r\n\r\n怎么求窗口的解呢？接着往下看。\r\n\r\n# 2 给定一个窗口，如何求解该窗口的最优解\r\n我们用上图中的第一个窗口为例：\r\n\r\n![1703-2.jpg](https://pic.leetcode-cn.com/1614554268-FBRYAh-1703-2.jpg)\r\n\r\n把所有的1移到一块，似乎不太容易知道该怎么移才最优，因为无法确定最终那些1所在的位置。\r\n\r\n所以我们要**反过来想**，**把0往窗口两端移**，只要所有的0都移到两端了，那么所有的1自然就都在一块了，这时就不需要考虑最终1的位置了。\r\n\r\n对于每一个0，就只有两种选择，要么往左移，要么往右移，该怎么判断呢？看图比较直观：\r\n\r\n![1703-3.jpg](https://pic.leetcode-cn.com/1614554276-dFqMxN-1703-3.jpg)\r\n\r\n上图中的0有两种选择，往窗口左端移，或者往窗口右端移。我们只需要数一下它左边有多少个1，右边有多少个1，就能判断该怎么移了。\r\n\r\n再看一个例子：\r\n\r\n![1703-4.jpg](https://pic.leetcode-cn.com/1614554284-YVXvsv-1703-4.jpg)\r\n\r\n这样，对于每个0，我们都能得到它的cost，那么整个窗口的cost，就是它们的和。\r\n\r\n![1703-5.jpg](https://pic.leetcode-cn.com/1614554465-gvQNXg-1703-5.jpg)\r\n\r\n相信至此，你已经会计算每个窗口的最优解了，这就是贪心算法的思想。\r\n\r\n# 3 在算法上怎么优化\r\n\r\n用上述方法计算，时间复杂度很高。我们来一步步优化。\r\n\r\n### 3.1 合并连续的0\r\n\r\n很明显，对于连续的0，它们的cost都是一样的，那么我们就可以把加法变乘法，即把连续的0，看作一个整体0，**整体0的cost等于其中每个0的cost再乘以0的个数**。\r\n\r\n![1703-6.jpg](https://pic.leetcode-cn.com/1614562342-fzBtFc-1703-6.jpg)\r\n\r\n注意，如果两个1之间没有0，我们就计零个0，它的cost就是假设中间有0时，那些0的cost。\r\n\r\n合并0之后，我们相当于产生了一个新的数组：\r\n\r\n![1703-7.jpg](https://pic.leetcode-cn.com/1614555391-OrXNTO-1703-7.jpg)\r\n\r\n```cpp\r\n//这算是个Easy的题吧，自己试试看\r\n\r\nvector<int> zeros;\r\n\r\nvoid GenerateZeros(const vector<int> &nums) {\r\n    ...\r\n}\r\n```\r\n\r\n这一步的时间复杂度需要O(n)，即扫描nums一遍得到。**如果你写的是O(n^2)，那可不行哦**。\r\n\r\n### 3.2 在zeros数组上，计算第一个窗口的解\r\n\r\n有了zeros数组后，我们来算第一个窗口的解。注意了，在zeros上，窗口的长度是k-1，窗口的端点是`[0, k-2]`。\r\n\r\n对于窗口中每个位置的cost，就像一座山峰一样，两端是1，往中间逐个递增。我们这里第一个窗口的cost是`[1, 2, 2, 1]`。\r\n\r\n把每个位置的cost乘上这个位置0的个数，也就是`zeros[i]`，再求和就得到窗口整体的cost。\r\n\r\n![1703-8.jpg](https://pic.leetcode-cn.com/1614556489-OWZWGu-1703-8.jpg)\r\n\r\n```cpp\r\nint cost = 0;\r\nint left = 0;\r\nint right = k-2\r\n\r\nfor (int i = left; i <= right; i++) {\r\n    cost += zeros[i] * ( ... );         // i位置的cost是多少呢？答案就在上图中\r\n}\r\n```\r\n\r\n好，这一步操作的时间复杂度是O(k)。\r\n\r\n### 3.3 窗口开始滑动\r\n\r\n现在开始滑动窗口，有了zeros数组后，滑动窗口就变得简单许多。不知你有没有注意到：**在nums上，窗口长度是变化的；而在zeros上，窗口长度则是固定的**。\r\n\r\n第一个窗口的解我们用了O(k)才得到，如果之后的每个窗口都像第一个窗口一样用O(k)，那整体就要平方的时间复杂度了。\r\n\r\n我们要利用滑动窗口的特性，即：**下一个窗口的解，可以由前一个窗口的解快速得到**！如果能在O(1)时间解决，那整体就是线性复杂度了。\r\n\r\n问题来了，如果已知上一个窗口的解，怎么求下一个窗口的解呢？试着自己分析下看看！\r\n\r\n如果你自己分析过，应该会发现，根据窗口长度的奇偶性，需要分情况讨论。\r\n\r\n先看窗口长度是偶数的情况：\r\n\r\n![1703-9.jpg](https://pic.leetcode-cn.com/1614557836-eelzww-1703-9.jpg)\r\n\r\n假设当前的窗口从i到j，那么上一个窗口就是从i-1到j-1。我们可以找到一个中点mid，它的cost是不变的，它左边的cost都减少了1，而右边的cost都增加了1。**这就是本题的核心**。\r\n\r\n因为减少/增加的1需要与zeros中的值相乘，所以cost的变化可以通过求zeros上「区间和」来快速得到。\r\n\r\n1. 通过区间端点(i, j)算出中点的坐标mid\r\n2. 求出窗口中点左边，即[i-1, mid-1]范围的区间和\r\n3. 求出窗口中点右边，即[mid+1, j]范围的区间和\r\n4. 更新cost\r\n\r\n```cpp\r\n//窗口长度k-1是偶数的情况\r\nint mid = (i + j) / 2;\r\ncost -= GetRangeSum(i-1, mid-1);\r\ncost += GetRangeSum(mid+1, j);\r\n```\r\n\r\n对于窗口长度是奇数的情况，大同小异，只是分割区间的位置稍有不同：\r\n\r\n![1703-10.jpg](https://pic.leetcode-cn.com/1614564848-MsQpKu-1703-10.jpg)\r\n\r\n```cpp\r\n//窗口长度k-1是奇数的情况\r\nint mid = (i + j) / 2;\r\ncost -= GetRangeSum(i-1, mid-1);\r\ncons += GetRangeSum(mid, j)\r\n```\r\n\r\n从代码的简洁性角度，我们可以合并上述两种情况，窗口的长度是k-1，如果k-1是偶数，即k是奇数，则右区间的起点+1：\r\n\r\n```cpp\r\n//合并上述两种情况\r\nint mid = (i + j) / 2;\r\ncost -= GetRangeSum(i-1, mid-1);\r\ncons += GetRangeSum(mid+k%2, j)\r\n```\r\n\r\n如果`GetRangeSum()`的时间复杂度是O(1)，那么我们更新窗口的时间复杂度也就是O(1)，窗口从头滑到尾，整体就是线性复杂度O(n)。\r\n\r\n### 3.4 数组的区间和\r\n\r\n最后一个目标，就是实现常数复杂度的`GetRangeSum()`，好在这个大家应该不陌生，可以参考LeetCode 303，是个Easy题。通过预先处理，构造出「前缀和」数组后，就能在O(1)时间内得到区间和。\r\n\r\n再次练习一下吧：\r\n\r\n```cpp\r\nvector<int> pre;\r\n\r\nvoid GeneratePresum(vector<int>& zeros) {\r\n    ...                                         //注意，pre的长度要比zeros多1，pre[i]代表zeros前i个数的和\r\n}\r\n\r\nint GetRangeSum(int left, int right) {          //left和right是zeros上的坐标，返回[left, right]区间内的和，包括两个端点\r\n    return pre[right+1] - pre[left];\r\n}\r\n```\r\n\r\n# 4 把所有代码串起来，收工\r\n\r\n```cpp\r\nclass Solution {\r\nprivate:\r\n    vector<int> zeros;\r\n    vector<int> pre {0};\r\n    \r\n    void GenerateZeros(const vector<int> &nums) {\r\n        int n = nums.size(), i = 0;\r\n        while (i < n && nums[i] == 0) i++;\r\n        while (i < n) {\r\n            int j = i+1;\r\n            while (j < n && nums[j] == 0) j++;\r\n            if (j < n) zeros.push_back(j-i-1);\r\n            i = j;\r\n        }\r\n    }\r\n    \r\n    void GeneratePresum(vector<int>& zeros) {\r\n        for (int i = 0; i < zeros.size(); i++) {\r\n            pre.push_back(pre.back() + zeros[i]);\r\n        }\r\n    }\r\n    \r\n    int GetRangeSum(int left, int right) {\r\n        return pre[right+1] - pre[left];\r\n    }\r\n    \r\npublic:\r\n    int minMoves(vector<int>& nums, int k) {\r\n        GenerateZeros(nums);                        //第一步：生成zeros\r\n        \r\n        int cost = 0;                               //第二步：计算第一个窗口的解\r\n        int left = 0, right = k-2;\r\n        for (int i = left; i <= right; i++) {\r\n            cost += zeros[i] * (min(i+1, right-i+1));\r\n        }\r\n        \r\n        int minCost = cost;\r\n        \r\n        GeneratePresum(zeros);                      //第三步：开始滑动窗口\r\n        int i = 1, j = i + k - 2;\r\n        for (; j < zeros.size(); i++, j++) {\r\n            int mid = (i + j) / 2;\r\n            cost -= GetRangeSum(i-1, mid-1);\r\n            cost += GetRangeSum(mid+k%2, j);\r\n            minCost = min(minCost, cost);\r\n        }\r\n        \r\n        return minCost;\r\n    }\r\n};\r\n```\r\n\r\n至此，我们就在线性时间和空间复杂度O(n)下，完成了这道Hard题。\r\n\r\n",
+      "createdAt": "2021-03-01T02:10:08.474248+00:00",
+      "hitCount": 1852,
+      "identifier": "27u71z",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "de-dao-lian-xu-k-ge-1-de-zui-shao-xiang-lpa9i",
+        "title": "得到连续 K 个 1 的最少相邻交换次数"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "minimum-adjacent-swaps-for-k-consecutive-ones"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 30,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 3,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "duo-tu-xin-shou-jiao-cheng-yi-bu-bu-dai-6bps4",
+      "status": "PREPUBLISH",
+      "summary": "这篇文章主要针对算法新手\n1 总体思路\n我们需要移动数组中的1，使出现连续k个1，且移动的次数尽可能地少。直接求最优解是无从下手的，好在我们可以通过适当的暴力枚举来寻找答案。\n显然直觉上最容易想到：我们必定会挑本就「相邻」（指忽略数组里的0）的k个1，把它们移到一块，来完成目标。而不会胡乱地挑k个1，硬把它们移到一块。",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1614554243-whdUlh-1703-1.jpg",
+      "title": "【多图】新手教程，一步步带你写，把Hard分解成Easy",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 7,
+        "id": 627364,
+        "viewCount": 1230
+      },
+      "uuid": "27u71z",
+      "videosInfo": []
+    }
+  }
+}

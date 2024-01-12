@@ -1,0 +1,114 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "还没上岸的转码人",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/default_avatar.png",
+          "userSlug": "simon1024"
+        },
+        "username": "simon1024"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "不难得出本题的答案为：\r\n$$(2^p-1)(2^p - 2)^{2^{p-1}-1}$$\r\n因此只需要快速幂计算答案即可。\r\n\r\n&nbsp;\r\n\r\n这里给出一个简单的证明。\r\n\r\n不难发现，对于每个$x$和$y$的操作，我们只是改变了$x$和$y$的大小，而没有改变$x+y$的大小。\r\n\r\n而根据经典的均值不等式，我们知道：\r\n$$\\sqrt{xy} \\leq \\frac{x + y}{2}$$\r\n\r\n虽然这个不等式对于解决这道题没有什么用（因为我们不是求最大值），但是我相信每个人刚学到这个不等式的时候同时也知道了另一个结论：当$x+y$的值是定值，$|x-y|$越小，$xy$越大；$|x-y|$越大，$xy$越小。这个结论证明起来也比较简单：\r\n$$ xy = \\frac{(x+y)^2-(x - y)^2}{4} $$\r\n\r\n\r\n因此对于任意一个不为$1$也不为$2^p - 2$的数$x$，他的二进制的第$k$位为$1$，那么我们总能找到一个第$k$位为$0$的数$y$，将$x$的第$k$位的$1$交换给$y$后，使$xy$的总乘积变得更小。\r\n\r\n所以，在不断地对每个$x$进行调整，直至他变为$1$后，最后剩下的数一定是：$2^p-1$，$2^{p-1}-1$个$1$和$2^{p-1}-1$个$2^p-2$。它们的总乘积对$10^9+7$的模即为我们的最终答案。\r\n\r\n\r\n\r\n&nbsp;\r\n\r\n需要注意的地方：\r\n1. $2^p-1$很大，需要先取模再乘，不然会溢出。\r\n2. 底数$2^p - 2$很大，需要先取模再进行快速幂计算，不然会溢出。\r\n3. 指数并不需要取模，但并不是不能取模。如果你要对指数取模，应对$10^9+6$取模，而不是$10^9+7$取模。（详细原因见后面）\r\n4. C++中计算$2^p$可以用1LL << p，其余同理。不要用pow(2,p)-1，编译器会给出错误的优化。（但是本身pow的返回值是double，敢用这个的只能说心很大）\r\n5. 如果您是Python选手，请忽略以上所有注意点，pow就完事了。\r\n\r\n&nbsp;\r\n\r\n时间复杂度为$O(p)$。\r\n\r\n```C++ []\r\nconst int mod = 1000000007;\r\nclass Solution {\r\npublic:\r\n    int minNonZeroProduct(int p) \r\n    {\r\n        // 使用非递归的快速幂方法\r\n        // ret为最终的返回值，初始值设为2^p - 1取模后的值\r\n        // k为快速幂的指数\r\n        long long ret = ((1LL << p) - 1) % mod , k = (1LL << p - 1) - 1;\r\n\r\n        // 此写法multi最终额外乘了一次\r\n        // 如果遇到卡常数的矩阵快速幂，有可能导致超时\r\n        for(long long multi = ((1LL << p) - 2) % mod ; k ; k >>= 1)\r\n        {\r\n            if(k & 1) ret = ret * multi % mod;\r\n            multi = multi * multi % mod;\r\n        }\r\n        return ret;\r\n    }\r\n};\r\n```\r\n```Python []\r\nclass Solution:\r\n    def minNonZeroProduct(self, p: int) -> int:\r\n        return (2 ** p - 1) * pow(2 ** p - 2 , 2 ** (p - 1) - 1 , 1000000007) % 1000000007\r\n```\r\n\r\n&nbsp;\r\n\r\n# 指数取模的简单介绍\r\n\r\n首先若$m = k(p - 1) + n$，我们不难得到：\r\n\r\n$$ a^m = a^{k(p - 1) + n} = a^{k(p-1)} \\cdot a^n = (a^{p - 1})^k \\cdot a^n \\equiv (a^{p - 1} \\% p)^k \\cdot a^n (mod\\ p)$$\r\n\r\n而在本题中，我们的取模对象$10^9+7$是一个质数，因此由费马小定理可知：\r\n\r\n$$ a^{p-1} \\equiv 1 (mod\\ p)$$\r\n\r\n因此也就有：\r\n\r\n$$ a^m \\equiv (a^{p - 1} \\% p)^k \\cdot a^n \\equiv 1^k \\cdot a^n \\equiv a^n (mod\\ p)$$\r\n\r\n也就是说我们如果要对质数取模，应当对$p-1$进行取模，而不是对$p$取模。\r\n\r\n&nbsp;\r\n\r\n# 一点推广\r\n\r\n费马小定理有更一般的推广形式————欧拉定理，这里不要求p是一个质数了：\r\n\r\n$$ a^{\\phi(p)} \\equiv 1 (mod\\ p)$$\r\n\r\n$\\phi(p)$是欧拉函数，它的含义是小于$p$且与$p$互质的数的个数。因此我们很容易知道，当$p$是一个质数时，有$\\phi(p) = p - 1$。特别地，$\\phi(p)$是一个积性函数（若$x$，$y$互质，则$\\phi(xy) = \\phi(x) \\phi(y)$），因此我们可以在求质数的线性筛法中，顺带着处理出筛过的每个数的$\\phi(x)$。\r\n\r\n当我们需要对指数进行取模时，则有扩展欧拉定理：\r\n\r\n$$ a^m \\equiv a^{m \\% \\phi(p) + \\phi(p)} (mod \\ p) ， m > \\phi(p) $$",
+      "createdAt": "2021-08-15T04:36:17.350556+00:00",
+      "hitCount": 1449,
+      "identifier": "Ux80nd",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "c-jie-ti-si-lu-xiang-jie-si-lu-kuai-su-m-sst1",
+        "title": "c++ 解题思路详解（思路+快速幂）"
+      },
+      "position": 2,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "tan-xin-ji-qi-shu-xue-zheng-ming-by-endl-uumv",
+        "title": "贪心及其数学证明"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "minimum-non-zero-product-of-the-array-elements"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 11,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 5,
+          "reactionType": "AWESOME"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "THUMBS_DOWN"
+        }
+      ],
+      "rewardEnabled": true,
+      "slug": "ckuai-su-mi-de-ji-ge-zhu-yi-dian-by-simo-yxgh",
+      "status": "PREPUBLISH",
+      "summary": "不难得出本题的答案为：\n(2^p-1)(2^p - 2)^{2^{p-1}-1}\n\n因此只需要快速幂计算答案即可。\n \n这里给出一个简单的证明。\n不难发现，对于每个x和y的操作，我们只是改变了x和y的大小，而没有改变x+y的大小。\n而根据经典的均值不等式，我们知道：\n\\sqrt{xy} \\leq \\frac{x + y",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "JavaScript",
+          "nameTranslated": "",
+          "slug": "javascript",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Ruby",
+          "nameTranslated": "",
+          "slug": "ruby",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "快速幂",
+          "nameTranslated": "",
+          "slug": "kuai-su-mi",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "",
+      "title": "贪心证明以及C++快速幂的几个注意点",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 10,
+        "id": 936760,
+        "viewCount": 978
+      },
+      "uuid": "Ux80nd",
+      "videosInfo": []
+    }
+  }
+}

@@ -1,0 +1,86 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "ffreturn",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/ffreturn/avatar_1608859813.png",
+          "userSlug": "ffreturn"
+        },
+        "username": "ffreturn"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "![image.png](https://pic.leetcode-cn.com/1637037362-wVhGCM-image.png)\n\n\n### 解题思路\n思路，考虑几种情况\n- 空： 直接返回0\n- 1： 直接返回1\n- 其他： 先删除a然后再删除b，那么就是2次\n\n### 代码\n\n```cpp\n\n\nclass Solution {\npublic:\n    int removePalindromeSub(string s) {\n        int n = s.size();\n        if (n == 0)\n        {\n            return 0;\n        }\n\n        int l = 0;\n        int r = n-1;\n        while (l < r)\n        {\n            if (s[l] == s[r])\n            {\n                ++l;\n                --r;\n            }\n            else\n            {\n                return 2;\n            }\n        }\n\n\n        return 1;\n    }\n};\n```",
+      "createdAt": "2021-11-16T04:36:22.936489+00:00",
+      "hitCount": 74,
+      "identifier": "bZSEoQ",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "typescriptji-bai-80kong-zi-fu-chuan-fan-ew7of",
+        "title": "typescript击败80%，空字符串返回0，回文字符串返回1，否则2"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "remove-palindromic-subsequences"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "1332-cchao-100de-mo-ni-jie-fa-by-ffretur-r4m5",
+      "status": "PUBLISHED",
+      "summary": "解题思路\n思路，考虑几种情况\n\n空： 直接返回0\n1： 直接返回1\n其他： 先删除a然后再删除b，那么就是2次\n\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "梦想",
+          "nameTranslated": "",
+          "slug": "meng-xiang",
+          "tagType": "ADDITIONAL_TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Simulation",
+          "nameTranslated": "模拟",
+          "slug": "simulation",
+          "tagType": "TOPIC"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1637037362-wVhGCM-image.png",
+      "title": "1332. c++超100的模拟解法",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 1,
+        "id": 1104592,
+        "viewCount": 66
+      },
+      "uuid": "bZSEoQ",
+      "videosInfo": []
+    }
+  }
+}

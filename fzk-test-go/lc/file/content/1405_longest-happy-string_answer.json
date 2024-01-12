@@ -1,0 +1,76 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "苏州小朋友",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/charleswangxiao-wang/avatar_1629620409.png",
+          "userSlug": "charleswangxiao-wang"
+        },
+        "username": "charleswangxiao-wang"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "```\r\nvector<int> v;\r\n\r\ninline int getbig(int i, int j, int excluded) {\r\n\tif (i == excluded)\r\n\t\treturn j;\r\n\telse if (j == excluded)\r\n\t\treturn i;\r\n\telse\r\n\t\treturn v[i] < v[j] ? j : i;\r\n}\r\n\r\nstring longestDiverseString(int a, int b, int c) {\r\n\tv.push_back(a);\r\n\tv.push_back(b);\r\n\tv.push_back(c);\r\n\tint pre = -1, precnt = 0;\r\n\tstring res;\r\n\twhile (true) {\r\n\t\tint excluded = -1;\r\n\t\tif (precnt == 2)\r\n\t\t\texcluded = pre;\r\n\t\tint next = getbig(2, getbig(1, 0, excluded), excluded);\r\n\t\tif (v[next] == 0)\r\n\t\t\tbreak;\r\n\r\n\t\tv[next]--;\r\n\t\tres.push_back('a' + next);\r\n\t\tif (next == pre)\r\n\t\t\tprecnt++;\r\n\t\telse\r\n\t\t{\r\n\t\t\tpre = next;\r\n\t\t\tprecnt = 1;\r\n\t\t}\r\n\t}\r\n\r\n\treturn res;\r\n}\r\n```\r\n",
+      "createdAt": "2021-08-22T09:55:03.981010+00:00",
+      "hitCount": 491,
+      "identifier": "qjZPqe",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "jian-dan-qing-xi-de-tan-xin-suan-fa-by-s-0y3b",
+        "title": "简单清晰的贪心算法"
+      },
+      "position": 5,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "1405-zui-chang-kuai-le-zi-fu-chuan-dui-b-y2bj",
+        "title": "1405. 最长快乐字符串[堆]"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "longest-happy-string"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "0mstong-guo-bi-jiao-zuo-fa-mei-you-yong-gtw0u",
+      "status": "PREPUBLISH",
+      "summary": "[该用户太懒了，只写了 38 行代码]",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "0ms通过， 比较做法，没有用priority_queue这些，性能特别好,",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 952033,
+        "viewCount": 413
+      },
+      "uuid": "qjZPqe",
+      "videosInfo": []
+    }
+  }
+}

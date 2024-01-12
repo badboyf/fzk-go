@@ -1,0 +1,79 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "何廷",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/mchh-r/avatar_1635945584.png",
+          "userSlug": "htch"
+        },
+        "username": "htch"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "**1、非中序遍历**\r\n```java\r\nclass Solution {\r\n    int add = 0;\r\n    public TreeNode convertBST(TreeNode root) {\r\n        if (root != null) {\r\n            convertBST(root.right);\r\n            root.val += add;\r\n            add = root.val;\r\n            convertBST(root.left);\r\n        }\r\n        return root;\r\n    }\r\n}\r\n```\r\n\r\n**2、中序遍历**\r\n```java\r\nclass Solution {\r\n    //存放中序遍历结果\r\n    List<Integer> list = new LinkedList<>();\r\n\r\n    public TreeNode convertBST(TreeNode root) {\r\n        if (root == null) return null;\r\n        //中序遍历\r\n        inorder(root);\r\n\r\n        //得到 sum:节点的val总和\r\n        int sum = 0;\r\n        for (int i = 0; i < list.size(); i++) {\r\n            sum += list.get(i);\r\n        }\r\n\r\n        //得到所求树中序遍历后的值\r\n        int[] s = new int[list.size()];\r\n        s[0] = sum;\r\n        for (int i = 1; i < list.size(); i++) {\r\n            s[i] = sum - list.get(i - 1);\r\n            sum = s[i];\r\n        }\r\n\r\n        TreeNode cur = root;\r\n        //赋值，得到所求树\r\n        newoider(cur, s);\r\n\r\n        return root;\r\n    }\r\n\r\n    //中序遍历\r\n    private void inorder(TreeNode node) {\r\n        if (node == null) return;\r\n        inorder(node.left);\r\n        list.add(node.val);\r\n        inorder(node.right);\r\n    }\r\n\r\n    //赋值，得到所求树\r\n    int i = 0;\r\n    private void newoider(TreeNode node, int[] s) {\r\n        if (node == null) return;\r\n        newoider(node.left, s);\r\n        node.val = s[i++];\r\n        newoider(node.right, s);\r\n    }\r\n}\r\n```\r\n",
+      "createdAt": "2021-11-27T03:53:22.363725+00:00",
+      "hitCount": 24,
+      "identifier": "mIzoxu",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "xian-qiu-he-zai-ai-zhao-jian-by-cai-zhu-vprer",
+        "title": "先求和，再挨着减"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "w6cpku"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "java-zhong-xu-bian-li-fei-zhong-xu-bian-m6ppo",
+      "status": "PREPUBLISH",
+      "summary": "1、非中序遍历\n2、中序遍历",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "中序遍历",
+          "nameTranslated": "",
+          "slug": "zhong-xu-bian-li",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "",
+      "title": "Java 【中序遍历、非中序遍历】",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1124701,
+        "viewCount": 24
+      },
+      "uuid": "mIzoxu",
+      "videosInfo": []
+    }
+  }
+}

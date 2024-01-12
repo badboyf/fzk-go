@@ -1,0 +1,90 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "励志学好英语",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/mei-ri-li-kou/avatar_1627865657.png",
+          "userSlug": "mei-ri-li-kou"
+        },
+        "username": "mei-ri-li-kou"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n原理：两个相同的数异或后结果为0,任何数与0异或都等于它本身\n\n### 代码\n\n```cpp\nclass Solution {\npublic:\n    vector<int> swapNumbers(vector<int>& numbers) {\n        numbers[0]^=numbers[1];//此时numbers[0]为 (初始)numbers[0]^(初始)numbers[1]\n        numbers[1]^=numbers[0];//此时numbers[1]为 (初始)numbers[1]^(初始)numbers[1]^(初始)numbers[0] = 0^(初始)numbers[0] = (初始)numbers[0]\n        numbers[0]^=numbers[1];//此时 numbers[0] 为 (初始)numbers[1]^(初始)numbers[0]^(初始)numbers[0] = (初始)numbers[1]^0 = (初始)numbers[1]\n        //换位已完成，返回\n        return numbers;\n    }\n};\n```",
+      "createdAt": "2021-11-05T03:38:11.667118+00:00",
+      "hitCount": 272,
+      "identifier": "Zah8Vm",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "jian-dan-de-jia-jian-fa-si-lu-by-relll-1-8jhz",
+        "title": "简单的加减法思路"
+      },
+      "position": 2,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "jian-dan-yi-huo-by-adoring-lederbergck6-t2wz",
+        "title": "简单异或(・∀・(・∀・(・∀・*)"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "swap-numbers-lcci"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "yi-huo-fa-jie-ti-by-mei-ri-li-kou-jawo",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n原理：两个相同的数异或后结果为0,任何数与0异或都等于它本身\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Bit Manipulation",
+          "nameTranslated": "位运算",
+          "slug": "bit-manipulation",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C",
+          "nameTranslated": "",
+          "slug": "c",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "异或法解题",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1085268,
+        "viewCount": 229
+      },
+      "uuid": "Zah8Vm",
+      "videosInfo": []
+    }
+  }
+}

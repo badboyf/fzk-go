@@ -1,0 +1,121 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣官方题解",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/leetcode-solution/avatar_1582018938.png",
+          "userSlug": "leetcode-solution"
+        },
+        "username": "LeetCode-Solution"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法一：二分查找\n\n记选出的数字为 $\\textit{pick}$，猜测的数字为 $x$。根据题目描述，若 $\\texttt{guess}(x)\\le 0$ 则说明 $x\\ge\\textit{pick}$，否则 $x<\\textit{pick}$。\n\n根据这一性质我们可以使用二分查找来求出答案 $\\textit{pick}$。\n\n二分时，记当前区间为 $[\\textit{left},\\textit{right}]$，初始时 $\\textit{left}=1$，$\\textit{right}=n$。记区间中间元素为 $\\textit{mid}$，若有 $\\texttt{guess}(mid)\\le 0$ 则说明 $\\textit{pick} \\in [\\textit{left},\\textit{mid}]$，否则 $\\textit{pick} \\in [\\textit{mid}+1,\\textit{right}]$。当区间左右端点相同时，则说明我们找到了答案，退出循环。\n\n```C++ [sol1-C++]\nclass Solution {\npublic:\n    int guessNumber(int n) {\n        int left = 1, right = n;\n        while (left < right) { // 循环直至区间左右端点相同\n            int mid = left + (right - left) / 2; // 防止计算时溢出\n            if (guess(mid) <= 0) {\n                right = mid; // 答案在区间 [left, mid] 中\n            } else {\n                left = mid + 1; // 答案在区间 [mid+1, right] 中\n            }\n        }\n        // 此时有 left == right，区间缩为一个点，即为答案\n        return left;\n    }\n};\n```\n\n```Java [sol1-Java]\npublic class Solution extends GuessGame {\n    public int guessNumber(int n) {\n        int left = 1, right = n;\n        while (left < right) { // 循环直至区间左右端点相同\n            int mid = left + (right - left) / 2; // 防止计算时溢出\n            if (guess(mid) <= 0) {\n                right = mid; // 答案在区间 [left, mid] 中\n            } else {\n                left = mid + 1; // 答案在区间 [mid+1, right] 中\n            }\n        }\n        // 此时有 left == right，区间缩为一个点，即为答案\n        return left;\n    }\n}\n```\n\n```C# [sol1-C#]\npublic class Solution : GuessGame {\n    public int GuessNumber(int n) {\n        int left = 1, right = n;\n        while (left < right) { // 循环直至区间左右端点相同\n            int mid = left + (right - left) / 2; // 防止计算时溢出\n            if (guess(mid) <= 0) {\n                right = mid; // 答案在区间 [left, mid] 中\n            } else {\n                left = mid + 1; // 答案在区间 [mid+1, right] 中\n            }\n        }\n        // 此时有 left == right，区间缩为一个点，即为答案\n        return left;\n    }\n}\n```\n\n```go [sol1-Golang]\nfunc guessNumber(n int) int {\n    return sort.Search(n, func(x int) bool { return guess(x) <= 0 })\n}\n```\n\n```JavaScript [sol1-JavaScript]\nvar guessNumber = function(n) {\n    let left = 1, right = n;\n    while (left < right) { // 循环直至区间左右端点相同\n        const mid = Math.floor(left + (right - left) / 2); \n        if (guess(mid) <= 0) {\n            right = mid; // 答案在区间 [left, mid] 中\n        } else {\n            left = mid + 1; // 答案在区间 [mid+1, right] 中\n        }\n    }\n    // 此时有 left == right，区间缩为一个点，即为答案\n    return left;\n};\n```\n\n```C [sol1-C]\nint guessNumber(int n) {\n    int left = 1, right = n;\n    while (left < right) {  // 循环直至区间左右端点相同\n        int mid = left + (right - left) / 2;  // 防止计算时溢出\n        if (guess(mid) <= 0) {\n            right = mid;  // 答案在区间 [left, mid] 中\n        } else {\n            left = mid + 1;  // 答案在区间 [mid+1, right] 中\n        }\n    }\n    // 此时有 left == right，区间缩为一个点，即为答案\n    return left;\n}\n```\n\n```Python [sol1-Python3]\nclass Solution:\n    def guessNumber(self, n: int) -> int:\n        left, right = 1, n\n        while left < right:\n            mid = (left + right) // 2\n            if guess(mid) <= 0:\n                right = mid   # 答案在区间 [left, mid] 中\n            else:\n                left = mid + 1   # 答案在区间 [mid+1, right] 中\n        \n        # 此时有 left == right，区间缩为一个点，即为答案\n        return left\n```\n\n**复杂度分析**\n\n- 时间复杂度：$O(\\log n)$。时间复杂度即为二分的次数，每次二分我们将区间的长度减小一半，直至区间长度为 $1$ 时二分终止，而区间初始长度为 $n$，因此二分次数为 $O(\\log n)$。\n\n- 空间复杂度：$O(1)$。",
+      "createdAt": "2021-06-12T00:45:39.865685+00:00",
+      "hitCount": 21059,
+      "identifier": "VSrVq4",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "374-cai-shu-zi-da-xiao-by-chen-wei-f-py0t",
+        "title": "374. 猜数字大小"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "guess-number-higher-or-lower"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 12,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "cai-shu-zi-da-xiao-by-leetcode-solution-qdzu",
+      "status": "PUBLISHED",
+      "summary": "方法一：二分查找 记选出的数字为 $\\textit{pick}$，猜测的数字为 $x$。根据题目描述，若 $\\texttt{guess}(x)\\le 0$ 则说明 $x\\ge\\textit{pick}$，否则 $x<\\textit{pick}$。 根据这一性质我们可以使用二分查找来求出答案 $\\textit{pick}",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Binary Search",
+          "nameTranslated": "二分查找",
+          "slug": "binary-search",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C",
+          "nameTranslated": "",
+          "slug": "c",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C#",
+          "nameTranslated": "",
+          "slug": "csharp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Go",
+          "nameTranslated": "",
+          "slug": "golang",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "JavaScript",
+          "nameTranslated": "",
+          "slug": "javascript",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "猜数字大小",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 88,
+        "id": 824520,
+        "viewCount": 15767
+      },
+      "uuid": "VSrVq4",
+      "videosInfo": []
+    }
+  }
+}

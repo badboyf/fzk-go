@@ -1,0 +1,79 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "Try and try hard",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/try-and-try-hard/avatar_1622700007.png",
+          "userSlug": "hut-ksy"
+        },
+        "username": "hut-ksy"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "不管怎么说，每个位置上只能是0或者1，第i个位置上是n，那么就n个1相加就好。取所有位置最大的就好，比最大位置的n小1的就把相加数中该位置的一个1换成0。小2就两个1换成0。满足最大的就好。\n```java\nclass Solution {\n    public int minPartitions(String n) {\n        int min = 1;\n        char[] str = n.toCharArray();\n        for(int i=0;i<str.length;i++){\n            int j=str[i]-'0';\n            if(j==9) return 9;\n            if(j>min) min=j;\n        }\n        return min;\n    }\n}\n```",
+      "createdAt": "2021-11-20T13:25:01.755441+00:00",
+      "hitCount": 36,
+      "identifier": "AeF1ky",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "you-zui-da-de-shu-jue-ding-by-cai-zhu-e-1ner",
+        "title": "由最大的数决定"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "partitioning-into-minimum-number-of-deci-binary-numbers"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "shi-er-jin-zhi-shu-de-zui-shao-shu-mu-by-zmvy",
+      "status": "PUBLISHED",
+      "summary": "不管怎么说，每个位置上只能是0或者1，第i个位置上是n，那么就n个1相加就好。取所有位置最大的就好，比最大位置的n小1的就把相加数中该位置的一个1换成0。小2就两个1换成0。满足最大的就好。",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Greedy",
+          "nameTranslated": "贪心",
+          "slug": "greedy",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "十-二进制数的最少数目",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1112692,
+        "viewCount": 30
+      },
+      "uuid": "AeF1ky",
+      "videosInfo": []
+    }
+  }
+}

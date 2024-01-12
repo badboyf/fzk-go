@@ -1,0 +1,86 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "YmmSa",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/default_avatar.png",
+          "userSlug": "ymmsa"
+        },
+        "username": "ymmsa"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "AB先后手博弈问题技巧\r\n\r\n1 以元组记录结果dp[0]: 先手获得的最大石子数, dp[1]:后手获得的最大石子数\r\n2 A先手后，以剩下的石子来看， B是先手， A是后手\r\n\r\n\r\n此题dfs搜索先手可以选择的情况，找出最优即可; 增加备忘录dp数组记录结果，减少重复子问题\r\n详细分析见代码注释\r\n\r\n\r\n```\r\nclass Solution {\r\n    // dp[i][j][0]表示 piles[i~end]，m=j先手获得的最大石头数量；\r\n    // dp[i][j][1]表示 piles[i~end]，m=j后手获得的最大石头数量；\r\n    int[][][] dp;\r\n    public int stoneGameII(int[] piles) {\r\n        if (piles.length == 1) {\r\n            return piles[0];\r\n        }\r\n        dp = new int[piles.length][piles.length][2];\r\n        return dfs(piles, 0, 1)[0];\r\n    }\r\n\r\n    public int[] dfs(int[] piles, int start, int m) {\r\n        // 递归结束条件\r\n        if (start == piles.length) {\r\n            return new int[]{0, 0};\r\n        }\r\n\r\n        if (dp[start][m][0] != 0) {\r\n            return dp[start][m];\r\n        }\r\n        int[] max = new int[]{0, 0};\r\n        int sum = 0;\r\n        // 循环先手可能的选择情况，找出最佳选择\r\n        for (int x = 1; x <= 2*m; x++) {\r\n            // 选前x堆石子, 以sum作前i堆石子的总数\r\n            int index = start + x - 1;\r\n            if (index >= piles.length) {\r\n                break;\r\n            }\r\n            sum += piles[index];\r\n            // res[0]是下一轮先手者能获得的最大石子数: 即本轮后手者总体能获得的最大石子数 即 dp[i][j][1]\r\n            // res[1]是下一轮后手者能获得的最大石子数: 即本轮先手者后续还能获得的最大石子数\r\n            // sum是当前选择的石子数目, res[1] + sum就是 本轮先手者 总体能获得的最大石子数 即dp[i][j][0]\r\n            int[] res = dfs(piles, start + x, Math.max(m, x));\r\n            if (res[1] + sum > max[0]) {\r\n                max[0] = res[1] + sum;\r\n                max[1] = res[0];\r\n            }\r\n        }\r\n        dp[start][m] = max;\r\n        return max;\r\n    }\r\n}\r\n```\r\n\r\n\r\n",
+      "createdAt": "2021-11-03T12:45:47.260873+00:00",
+      "hitCount": 144,
+      "identifier": "lLmRsT",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "wa-pian-1140-shi-zi-you-xi-ii-java-zhong-meeu",
+        "title": "【瓦片】1140. 石子游戏 II - Java 中击败了92.93% - 记忆化搜索"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "stone-game-ii"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "javajian-dan-li-jie-de-jie-fa-dfsbei-wan-ma1a",
+      "status": "PREPUBLISH",
+      "summary": "AB先后手博弈问题技巧\n1 以元组记录结果dp[0]: 先手获得的最大石子数, dp[1]:后手获得的最大石子数\n2 A先手后，以剩下的石子来看， B是先手， A是后手\n此题dfs搜索先手可以选择的情况，找出最优即可; 增加备忘录dp数组记录结果，减少重复子问题\n详细分析见代码注释",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "DFS",
+          "nameTranslated": "",
+          "slug": "dfs",
+          "tagType": "ADDITIONAL_TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": " DP",
+          "nameTranslated": "",
+          "slug": "dp-2",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "",
+      "title": "[1140]看不懂请喷我：石子游戏/双人博弈通用解法，记忆化DFS",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1082474,
+        "viewCount": 111
+      },
+      "uuid": "lLmRsT",
+      "videosInfo": []
+    }
+  }
+}

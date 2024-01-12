@@ -1,0 +1,83 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "Malone",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/default_avatar.png",
+          "userSlug": "malone-x"
+        },
+        "username": "malone-x"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n首先要理解题目，我们要选择能装更多单元的箱子，所以按照单元数将数组排序，然后循环储存结果即可\n\n### 代码\n\n```cpp\nclass Solution {\npublic:\n    static bool cmp(vector<int>a,vector<int>b)\n    {\n        return a[1]>b[1];\n    }\n    int maximumUnits(vector<vector<int>>& boxTypes, int truckSize) {\n        int result=0;\n        sort(boxTypes.begin(),boxTypes.end(),cmp);\n        for(int i=0;i<boxTypes.size();++i)\n        {\n            if(truckSize-boxTypes[i][0]>=0)\n            {\n                truckSize-=boxTypes[i][0];\n                result+=boxTypes[i][0]*boxTypes[i][1];\n            }\n            else\n            {\n                result+=truckSize*boxTypes[i][1];\n                break;\n            }\n        }\n        return result;\n    }\n};\n```",
+      "createdAt": "2021-11-08T12:27:19.712614+00:00",
+      "hitCount": 89,
+      "identifier": "otlRpl",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "chun-c-1710-zhuang-qia-che-yi-ci-guo-ji-nimvd",
+        "title": "【纯C】 1710 装卡车 一次过记录一下 良心解析"
+      },
+      "position": 2,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "python3-7xing-pai-xu-jia-bi-jiao-by-shi-xt13s",
+        "title": "python3 7行，排序加比较"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "maximum-units-on-a-truck"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "pai-xu-sou-suo-by-malone-x-cr0w",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n首先要理解题目，我们要选择能装更多单元的箱子，所以按照单元数将数组排序，然后循环储存结果即可\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Greedy",
+          "nameTranslated": "贪心",
+          "slug": "greedy",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "排序+搜索",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1091259,
+        "viewCount": 80
+      },
+      "uuid": "otlRpl",
+      "videosInfo": []
+    }
+  }
+}

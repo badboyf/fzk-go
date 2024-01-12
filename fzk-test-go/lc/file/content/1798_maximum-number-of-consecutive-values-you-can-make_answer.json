@@ -1,0 +1,91 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "zerotrac 🌸",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/zerotrac2/avatar_1628749564.png",
+          "userSlug": "zerotrac2"
+        },
+        "username": "zerotrac2"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法一：数学\n\n**提示 1**\n\n假设数组中若干个元素可以构造出 $[0, x]$ 范围内的所有整数。如果此时我们再多选择一个元素 $y$，那么这些元素可以构造出 $[0, x]$ 以及 $[y, y+x]$ 范围内的所有整数。\n\n**提示 2**\n\n如果我们希望这个多选择的元素 $y$ 使得答案变得更大，那么区间 $[0, x]$ 和 $[y, y+x]$ 需要满足什么要求？\n\n**思路与算法**\n\n由于我们需要从 $0$ 开始构造出尽可能多的**连续**整数，而不在区间 $[0, x]$ 中的最小整数是 $x+1$，因此**如果 $x+1$ 在区间 $[y, y+x]$ 中，那么元素 $y$ 就会使得构造出的连续整数的范围从 $[0, x]$ 增加到 $[0, y+x]$**；否则，元素 $y$ 不会对答案产生任何影响。\n\n由于数组中的元素都是正整数，那么 $x+1 \\leq y+x$ 恒成立，我们只需要求 $y \\leq x+1$ 即可保证 $x+1$ 在区间 $[y, y+x]$ 中。\n\n这样一来，我们只需要找出数组中还未被选的元素中最小的那个作为 $y$ 即可。如果 $y \\leq x+1$，那么就可以更新答案区间，否则剩下更大的元素也不会对答案产生任何影响。\n\n初始时我们没有选择任何元素，对应的区间为 $[0, 0]$。随后我们将数组中的元素升序排序，然后依次判断是否能更新答案区间即可。\n\n**代码**\n\n```C++ [sol1-C++]\nclass Solution {\npublic:\n    int getMaximumConsecutive(vector<int>& coins) {\n        sort(coins.begin(), coins.end());\n        int x = 0;\n        for (int y: coins) {\n            if (y > x + 1) {\n                break;\n            }\n            x += y;\n        }\n        return x + 1;\n    }\n};\n```\n\n```Python [sol1-Python3]\nclass Solution:\n    def getMaximumConsecutive(self, coins: List[int]) -> int:\n        coins.sort()\n        x = 0\n        for y in coins:\n            if y > x + 1:\n                break\n            x += y\n        return x + 1\n```\n\n**复杂度分析**\n\n- 时间复杂度：$O(n \\log n)$，即为排序的时间复杂度。\n\n- 空间复杂度：$O(\\log n)$，即为排序的空间复杂度。\n",
+      "createdAt": "2021-03-20T16:20:56.223131+00:00",
+      "hitCount": 2473,
+      "identifier": "J6F1zb",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "python-5xing-dong-tai-gui-hua-si-lu-by-y-uxlg",
+        "title": "【Python】5行 动态规划思路"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "maximum-number-of-consecutive-values-you-can-make"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 37,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 6,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "ni-neng-gou-zao-chu-lian-xu-zhi-de-zui-d-hlxf",
+      "status": "PUBLISHED",
+      "summary": "方法一：数学\n提示 1\n假设数组中若干个元素可以构造出 [0, x] 范围内的所有整数。如果此时我们再多选择一个元素 y，那么这些元素可以构造出 [0, x] 以及 [y, y+x] 范围内的所有整数。\n提示 2\n如果我们希望这个多选择的元素 y 使得答案变得更大，那么区间 [0, x] 和 [y, y+x] 需要满",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Math",
+          "nameTranslated": "数学",
+          "slug": "math",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python3",
+          "nameTranslated": "",
+          "slug": "python3",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "你能构造出连续值的最大数目",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 18,
+        "id": 669963,
+        "viewCount": 1922
+      },
+      "uuid": "J6F1zb",
+      "videosInfo": []
+    }
+  }
+}

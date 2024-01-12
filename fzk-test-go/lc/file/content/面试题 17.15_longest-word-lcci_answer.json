@@ -1,0 +1,90 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "辜月十二",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/gu-yue-shi-er-9/avatar_1629163280.png",
+          "userSlug": "nilu_cn"
+        },
+        "username": "Nilu_cn"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n对于本题由于需要进行大量单词匹配，很容易想到需要使用到哈希表来加快查询速度，所以本题使用了基于哈希表查询的DFS\n\n### 解题细节\n1. 首先对输入单词进行预处理，将首字母相同的单词放到一起，方便以后的单词查询\n> 为什么通过首字母来存储每一个单词？\n>> 由于后面进行单词匹配的时候，检查每一个单词是否由其他单词所组成，最基本的要求就是首字母需要相同，所以想到先把首字母相同的单词放在一起，直接遍历这个数组里的单词进行匹配，加快匹配\n\n2. 进行单词匹配时，根据首字母遍历整个与其首字母相同的单词，然后首先判断`t.size()<s.size()`,即若该单词若要被其他单词所组合而成，至少当前的长度要比这个匹配的单词要长\n> 比如若当前的单词为`abcd`，正在匹配的单词为与其首字母相同的`abc`单词,此时就满足条件`t.size()<s.size()`；若正在匹配的单词为`abcde`则不符合这个条件\n\n3. 满足了上述条件后，判断第二个条件`s.substr(0,t.size())==t`，即当前单词的前一部分要与当前匹配的单词相同\n> 比如若当前的单词为`abcdef`，正在匹配的单词为与其首字母相同的`abcd`单词,此时就满足条件；若正在匹配的单词为`acde`则不符合这个条件\n\n4. 若满足了以上两个条件，则进行DFS操作，主要思路如下\n    + dfs函数接受输入当前匹配单词的首字母以及整个单词，与上述两个条件类似的遍历整个与当前匹配单词首字母相同的所有单词\n    + 然后若找到满足条件的单词，则继续向下寻找，此时的单词即当前匹配单词除开已经匹配了的单词剩余的字符串`target.substr(s.size())`\n        > 如`abcde`已经匹配了`abc`,则下一次DFS的输入即为`dfs(dfs,'d',\"de\")`\n    + 最终当当前单词被完全匹配后返回true，否则返回false\n\n5. 最后是对答案的处理，如果当前单词DFS结束返回true，即当前单词由多个子单词所构成，则首先判断当前答案的长度与该单词的长度是否相等，所相等则更新答案为字典序较小的单词，若不想等则更新答案为长度较长的单词\n\n6. 此处使用了一个剪枝，若当前单词长度已经比答案的长度还小了，则当前单词就不可能作为答案，直接开始下一轮匹配\n    ```cpp\n    if(ans.size()>s.size())\n        continue;\n    ```\n\n![屏幕截图 2021-09-22 214127.png](https://pic.leetcode-cn.com/1632320036-afrmnp-%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202021-09-22%20214127.png)\n\n### 代码\n\n```cpp\nclass Solution {\npublic:\n    string longestWord(vector<string>& words) {\n        unordered_map<char,vector<string>> record;\n        for(auto& s:words){\n            record[s[0]].emplace_back(s);\n        }\n        string ans=\"\";\n        auto dfs = [&](auto&& dfs,char cur,string target)->bool{\n            bool t = false;\n            for(auto& s: record[cur]){\n                if(s.size()==target.size()&&s==target){\n                    return true;\n                }else if(s.size()<target.size()&&target.substr(0,s.size())==s){\n                    if(dfs(dfs,target[s.size()],target.substr(s.size())))\n                    {\n                        t=true;\n                        break;\n                    }\n                }\n            }\n            return t;\n        };\n        for(auto &s:words){\n            if(ans.size()>s.size())\n                continue;\n            for(auto &t:record[s[0]]){\n                if(t.size()<s.size()&&s.substr(0,t.size())==t&&dfs(dfs,s[t.size()],s.substr(t.size()))){\n                    ans = ans.size()==s.size()?(ans<s?ans:s):s;\n                    break;\n                }\n            }\n        }\n        return ans;\n    }\n};\n```",
+      "createdAt": "2021-09-22T14:14:02.658797+00:00",
+      "hitCount": 501,
+      "identifier": "DoX8nA",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "a-fei-suan-fa-mian-shi-ti-1715-zui-chang-c3vr",
+        "title": "【阿飞算法】面试题 17.15. 最长单词（回溯/动态规划/字典树）"
+      },
+      "position": 2,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "mian-shi-ti-1715-zui-chang-dan-ci-by-lao-dtss",
+        "title": "面试题 17.15. 最长单词"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "longest-word-lcci"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "dfs-cha-xi-dfs-0ms-shuang-bai-jie-fa-xia-39p1",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n对于本题由于需要进行大量单词匹配，很容易想到需要使用到哈希表来加快查询速度，所以本题使用了基于哈希表查询的DFS\n解题细节\n\n首先对输入单词进行预处理，将首字母相同的单词放到一起，方便以后的单词查询\n\n\n为什么通过首字母来存储每一个单词？\n\n由于后面进行单词匹配的时候，检查每一个单词是否由其他单词所组成，最基",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Hash Table",
+          "nameTranslated": "哈希表",
+          "slug": "hash-table",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "DFS",
+          "nameTranslated": "",
+          "slug": "dfs",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1632320036-afrmnp-%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202021-09-22%20214127.png",
+      "title": "【DFS】C++哈希+DFS | 0ms | 双百解法 | 详细步骤",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1011756,
+        "viewCount": 399
+      },
+      "uuid": "DoX8nA",
+      "videosInfo": []
+    }
+  }
+}

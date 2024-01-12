@@ -1,0 +1,83 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "angela",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/angela-x/avatar_1632561041.png",
+          "userSlug": "angela-x"
+        },
+        "username": "angela-x"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n- 在用回溯算法的时候，脑海里面有一颗决策树\n![image.png](https://pic.leetcode-cn.com/1636188072-gAVADc-image.png)\n\n- 在递归前做选择，在递归结束后撤销选择\n\n### 代码\n\n```javascript\n/**\n * @param {number} n\n * @param {number} k\n * @return {number[][]}\n */\nvar combine = function (n, k) {\n  let res = [];\n  if (k <= 0 || n <= 0) return res;\n  let track = [];\n  /**\n   *\n   * @param {*} start 是枚举选择的起点\n   * @param {*} track 是当前构建的路径（组合）\n   */\n  const backtrack = (start, track) => {\n    // 到达树的底部\n    if (k == track.length) {\n      // 拷贝一份track，推入res 结束当前递归\n      return res.push([...track]);\n    }\n    // 注意 i 从 start 开始递增  枚举出所有选择\n    for (let i = start; i <= n; i++) {\n      // 做选择\n      track.push(i);\n      // 向下继续选择\n      backtrack(i + 1, track);\n      // 撤销选择\n      track.pop();\n    }\n  };\n  backtrack(1, track);\n  return res;\n};\n\n\n```",
+      "createdAt": "2021-11-06T08:40:56.365376+00:00",
+      "hitCount": 193,
+      "identifier": "kwL2rm",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "hui-su-by-zealous-clarkexku-k9q8",
+        "title": "回溯"
+      },
+      "position": 20,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "shen-sou-easy-by-ju-hua-tai-lqqz",
+        "title": "深搜easy"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "uUsW3B"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "hui-su-suan-fa-jie-jue-zu-he-wen-ti-by-a-g4ik",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n\n\n在用回溯算法的时候，脑海里面有一颗决策树\n\n\n\n在递归前做选择，在递归结束后撤销选择\n\n\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Backtracking",
+          "nameTranslated": "回溯",
+          "slug": "backtracking",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "JavaScript",
+          "nameTranslated": "",
+          "slug": "javascript",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1636188072-gAVADc-image.png",
+      "title": "回溯算法解决组合问题",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 1,
+        "id": 1087370,
+        "viewCount": 158
+      },
+      "uuid": "kwL2rm",
+      "videosInfo": []
+    }
+  }
+}

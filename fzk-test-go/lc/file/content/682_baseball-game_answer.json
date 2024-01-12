@@ -1,0 +1,87 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣 (LeetCode)",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/uploaded_files/2021/03/73c9f099-abbe-4d94-853f-f8abffd459cd/leetcode.png",
+          "userSlug": "leetcode"
+        },
+        "username": "LeetCode"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法：栈\n\n**思路与算法**\n\n让我们在处理数据时保持栈上每个有效回合的值。栈是理想的，因为我们只处理涉及最后或倒数第二轮的操作。\n\n```java [hfYY8zrG-Java]\nclass Solution {\n    public int calPoints(String[] ops) {\n        Stack<Integer> stack = new Stack();\n\n        for(String op : ops) {\n            if (op.equals(\"+\")) {\n                int top = stack.pop();\n                int newtop = top + stack.peek();\n                stack.push(top);\n                stack.push(newtop);\n            } else if (op.equals(\"C\")) {\n                stack.pop();\n            } else if (op.equals(\"D\")) {\n                stack.push(2 * stack.peek());\n            } else {\n                stack.push(Integer.valueOf(op));\n            }\n        }\n\n        int ans = 0;\n        for(int score : stack) ans += score;\n        return ans;\n    }\n}\n```\n```python [hfYY8zrG-Python]\nclass Solution(object):\n    def calPoints(self, ops):\n        stack = []\n        for op in ops:\n            if op == '+':\n                stack.append(stack[-1] + stack[-2])\n            elif op == 'C':\n                stack.pop()\n            elif op == 'D':\n                stack.append(2 * stack[-1])\n            else:\n                stack.append(int(op))\n\n        return sum(stack)\n```\n\n\n**复杂度分析**\n\n* 复杂度分析：$O(N)$，其中 $N$ 是 `ops` 的长度。我们解析给定数组中的每个元素，然后每个元素执行 $O(1)$ 的工作。\n\n* 空间复杂度：$O(N)$，用于存储 `stack` 的空间。",
+      "createdAt": "2018-11-14T14:45:19.920695+00:00",
+      "hitCount": 28758,
+      "identifier": "FM1eCj",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "682-bang-qiu-bi-sai-by-chen-wei-f-mequ",
+        "title": "682. 棒球比赛"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "baseball-game"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 15,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 0,
+          "reactionType": "THUMBS_DOWN"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 0,
+          "reactionType": "AWESOME"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 0,
+          "reactionType": "CONFUSED"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "bang-qiu-bi-sai-by-leetcode",
+      "status": "PUBLISHED",
+      "summary": "思路与算法\n让我们在处理数据时保持栈上每个有效回合的值。栈是理想的，因为我们只处理涉及最后或倒数第二轮的操作。\n复杂度分析",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "棒球比赛",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 56,
+        "id": 3569,
+        "viewCount": 15456
+      },
+      "uuid": "FM1eCj",
+      "videosInfo": []
+    }
+  }
+}

@@ -1,0 +1,91 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "吴自华",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/lucifer1004/avatar_1623921450.png",
+          "userSlug": "lucifer1004"
+        },
+        "username": "lucifer1004"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "本题数据范围很小，暴力枚举辅料组合就可以通过，但时间复杂度为指数级。\n\n把问题转化为背包问题，可以将时间复杂度降低到多项式级别。\n\n- 因为每种辅料最多可以用两次，所以直接把每种辅料变成两个。\n- 基料必须且只能选一种，可以首先处理好。\n \n之后就按照0-1背包问题的一般做法，依次枚举辅料即可。\n\n- 时间复杂度$\\mathcal{O}(N + M\\cdot MAXC)$。其中$MAXC$为背包的最大容量。本题中$MAXC=20000$，因为答案不可能超过$20000$。\n- 空间复杂度$\\mathcal{O}(MAXC)$。\n\n```cpp\nclass Solution {\npublic:\n    int closestCost(vector<int>& baseCosts, vector<int>& toppingCosts, int target) {\n        vector<bool> can(20001);\n        for (int base : baseCosts)\n            can[base] = true;\n        toppingCosts.insert(toppingCosts.end(), toppingCosts.begin(), toppingCosts.end());\n        for (int topping : toppingCosts) {\n            for (int i = 20000; i >= topping; --i)\n                can[i] = can[i] || can[i - topping];\n        }\n        int min_gap = INT_MAX, ans = 0;\n        for (int i = 1; i <= 20000; ++i)\n            if (can[i] && abs(i - target) < min_gap) {\n                ans = i;\n                min_gap = abs(i - target);\n            }\n        return ans;\n    }\n};\n```",
+      "createdAt": "2021-02-28T04:30:24.976680+00:00",
+      "hitCount": 4711,
+      "identifier": "b8Cf5l",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "liang-chong-xie-fa-de-qing-xi-dfsdui-bi-v0637",
+        "title": "两种写法的清晰dfs，对比理解"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "closest-dessert-cost"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 30,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 3,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "zhuan-hua-wei-0-1bei-bao-qiu-jie-by-luci-o5yt",
+      "status": "PREPUBLISH",
+      "summary": "本题数据范围很小，暴力枚举辅料组合就可以通过，但时间复杂度为指数级。\n把问题转化为背包问题，可以将时间复杂度降低到多项式级别。\n\n因为每种辅料最多可以用两次，所以直接把每种辅料变成两个。\n基料必须且只能选一种，可以首先处理好。\n\n之后就按照0-1背包问题的一般做法，依次枚举辅料即可。\n\n时间复杂度\\mathcal{O}",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Dynamic Programming",
+          "nameTranslated": "动态规划",
+          "slug": "dynamic-programming",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "0-1背包",
+          "nameTranslated": "",
+          "slug": "0-1bei-bao",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "",
+      "title": "转化为0-1背包求解",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 16,
+        "id": 625722,
+        "viewCount": 3198
+      },
+      "uuid": "b8Cf5l",
+      "videosInfo": []
+    }
+  }
+}

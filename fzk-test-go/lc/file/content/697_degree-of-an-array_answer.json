@@ -1,0 +1,131 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣官方题解",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/leetcode-solution/avatar_1582018938.png",
+          "userSlug": "leetcode-solution"
+        },
+        "username": "LeetCode-Solution"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法一：哈希表\n\n**思路及解法**\n\n记原数组中出现次数最多的数为 $x$，那么和原数组的度相同的最短连续子数组，必然包含了原数组中的全部 $x$，且两端恰为 $x$ 第一次出现和最后一次出现的位置。\n\n因为符合条件的 $x$ 可能有多个，即多个不同的数在原数组中出现次数相同。所以为了找到这个子数组，我们需要统计每一个数出现的次数，同时还需要统计每一个数第一次出现和最后一次出现的位置。\n\n在实际代码中，我们使用哈希表实现该功能，每一个数映射到一个长度为 $3$ 的数组，数组中的三个元素分别代表这个数出现的次数、这个数在原数组中第一次出现的位置和这个数在原数组中最后一次出现的位置。当我们记录完所有信息后，我们需要遍历该哈希表，找到元素出现次数最多，且前后位置差最小的数。\n\n**代码**\n\n```C++ [sol1-C++]\nclass Solution {\npublic:\n    int findShortestSubArray(vector<int>& nums) {\n        unordered_map<int, vector<int>> mp;\n        int n = nums.size();\n        for (int i = 0; i < n; i++) {\n            if (mp.count(nums[i])) {\n                mp[nums[i]][0]++;\n                mp[nums[i]][2] = i;\n            } else {\n                mp[nums[i]] = {1, i, i};\n            }\n        }\n        int maxNum = 0, minLen = 0;\n        for (auto& [_, vec] : mp) {\n            if (maxNum < vec[0]) {\n                maxNum = vec[0];\n                minLen = vec[2] - vec[1] + 1;\n            } else if (maxNum == vec[0]) {\n                if (minLen > vec[2] - vec[1] + 1) {\n                    minLen = vec[2] - vec[1] + 1;\n                }\n            }\n        }\n        return minLen;\n    }\n};\n```\n\n```Java [sol1-Java]\nclass Solution {\n    public int findShortestSubArray(int[] nums) {\n        Map<Integer, int[]> map = new HashMap<Integer, int[]>();\n        int n = nums.length;\n        for (int i = 0; i < n; i++) {\n            if (map.containsKey(nums[i])) {\n                map.get(nums[i])[0]++;\n                map.get(nums[i])[2] = i;\n            } else {\n                map.put(nums[i], new int[]{1, i, i});\n            }\n        }\n        int maxNum = 0, minLen = 0;\n        for (Map.Entry<Integer, int[]> entry : map.entrySet()) {\n            int[] arr = entry.getValue();\n            if (maxNum < arr[0]) {\n                maxNum = arr[0];\n                minLen = arr[2] - arr[1] + 1;\n            } else if (maxNum == arr[0]) {\n                if (minLen > arr[2] - arr[1] + 1) {\n                    minLen = arr[2] - arr[1] + 1;\n                }\n            }\n        }\n        return minLen;\n    }\n}\n```\n\n```Python [sol1-Python3]\nclass Solution:\n    def findShortestSubArray(self, nums: List[int]) -> int:\n        mp = dict()\n\n        for i, num in enumerate(nums):\n            if num in mp:\n                mp[num][0] += 1\n                mp[num][2] = i\n            else:\n                mp[num] = [1, i, i]\n        \n        maxNum = minLen = 0\n        for count, left, right in mp.values():\n            if maxNum < count:\n                maxNum = count\n                minLen = right - left + 1\n            elif maxNum == count:\n                if minLen > (span := right - left + 1):\n                    minLen = span\n        \n        return minLen\n```\n\n```JavaScript [sol1-JavaScript]\nvar findShortestSubArray = function(nums) {\n    const mp = {};\n\n    for (const [i, num] of nums.entries()) {\n        if (num in mp) {\n            mp[num][0]++;\n            mp[num][2] = i;\n        } else {\n            mp[num] = [1, i, i];\n        }\n    }\n    \n    let maxNum = 0, minLen = 0;\n    for (const [count, left, right] of Object.values(mp)) {\n        if (maxNum < count) {\n            maxNum = count;\n            minLen = right - left + 1;\n        } else if (maxNum === count) {\n            if (minLen > (right - left + 1)) {\n                minLen = right - left + 1;\n            }\n        }\n    }\n    return minLen;\n};\n```\n\n```go [sol1-Golang]\ntype entry struct{ cnt, l, r int }\n\nfunc findShortestSubArray(nums []int) (ans int) {\n    mp := map[int]entry{}\n    for i, v := range nums {\n        if e, has := mp[v]; has {\n            e.cnt++\n            e.r = i\n            mp[v] = e\n        } else {\n            mp[v] = entry{1, i, i}\n        }\n    }\n    maxCnt := 0\n    for _, e := range mp {\n        if e.cnt > maxCnt {\n            maxCnt, ans = e.cnt, e.r-e.l+1\n        } else if e.cnt == maxCnt {\n            ans = min(ans, e.r-e.l+1)\n        }\n    }\n    return\n}\n\nfunc min(a, b int) int {\n    if a < b {\n        return a\n    }\n    return b\n}\n```\n\n```C [sol1-C]\nstruct HashTable {\n    int key;\n    int num, add1, add2;\n    UT_hash_handle hh;\n};\n\nint findShortestSubArray(int* nums, int numsSize) {\n    struct HashTable* hashTable = NULL;\n    for (int i = 0; i < numsSize; i++) {\n        struct HashTable* tmp;\n        HASH_FIND_INT(hashTable, &nums[i], tmp);\n        if (tmp != NULL) {\n            tmp->num++;\n            tmp->add2 = i;\n        } else {\n            tmp = malloc(sizeof(struct HashTable));\n            tmp->key = nums[i];\n            tmp->num = 1;\n            tmp->add1 = i;\n            tmp->add2 = i;\n            HASH_ADD_INT(hashTable, key, tmp);\n        }\n    }\n    int maxNum = 0, minLen = 0;\n    struct HashTable *s, *tmp;\n    HASH_ITER(hh, hashTable, s, tmp) {\n        if (maxNum < s->num) {\n            maxNum = s->num;\n            minLen = s->add2 - s->add1 + 1;\n        } else if (maxNum == s->num) {\n            if (minLen > s->add2 - s->add1 + 1) {\n                minLen = s->add2 - s->add1 + 1;\n            }\n        }\n    }\n    return minLen;\n}\n```\n\n**复杂度分析**\n\n- 时间复杂度：$O(n)$，其中 $n$ 是原数组的长度，我们需要遍历原数组和哈希表各一次，它们的大小均为 $O(n)$。\n\n- 空间复杂度：$O(n)$，其中 $n$ 是原数组的长度，最坏情况下，哈希表和原数组等大。",
+      "createdAt": "2021-02-19T10:30:59.875811+00:00",
+      "hitCount": 36886,
+      "identifier": "jwzho0",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "xiang-xi-fen-xi-ti-yi-yu-si-lu-jian-ji-d-nvdy",
+        "title": "详细分析题意与思路，简洁代码，看完必懂"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "degree-of-an-array"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 48,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 6,
+          "reactionType": "AWESOME"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "CONFUSED"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "shu-zu-de-du-by-leetcode-solution-ig97",
+      "status": "PREPUBLISH",
+      "summary": "方法一：哈希表 思路及解法 记原数组中出现次数最多的数为 $x$，那么和原数组的度相同的最短连续子数组，必然包含了原数组中的全部 $x$，且两端恰为 $x$ 第一次出现和最后一次出现的位置。 因为符合条件的 $x$ 可能有多个，即多个不同的数在原数组中出现次数相同。所以为了找到这个子数组，我们需要统计每一个数出现的次数",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Array",
+          "nameTranslated": "数组",
+          "slug": "array",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Hash Table",
+          "nameTranslated": "哈希表",
+          "slug": "hash-table",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C",
+          "nameTranslated": "",
+          "slug": "c",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Go",
+          "nameTranslated": "",
+          "slug": "golang",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "JavaScript",
+          "nameTranslated": "",
+          "slug": "javascript",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "数组的度",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 203,
+        "id": 610337,
+        "viewCount": 25469
+      },
+      "uuid": "jwzho0",
+      "videosInfo": []
+    }
+  }
+}

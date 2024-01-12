@@ -1,0 +1,122 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣官方题解",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/leetcode-solution/avatar_1582018938.png",
+          "userSlug": "leetcode-solution"
+        },
+        "username": "LeetCode-Solution"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法一：广度优先搜索\n\n**思路**\n\n本题要求的是 **最短转换序列**，看到最短首先想到的就是 **广度优先搜索**。但是本题没有给出显示的图结构，根据单词转换规则：把每个单词都抽象为一个顶点，如果两个单词可以 **只** 改变一个字母进行转换，那么说明他们之间有一条双向边。因此我们只需要把满足转换条件的点相连，就形成了一张 **图**。根据示例 1 中的输入，我们可以建出下图：\n\n![fig1](https://assets.leetcode-cn.com/solution-static/126/126_fig1.PNG){:width=\"70%\"}\n\n基于该图，我们以 `hit` 为图的起点， 以`cog` 为终点进行**广度优先搜索**，寻找 `hit` 到 `cog` 的最短路径。下图即为答案中的一条路径。\n\n![fig2](https://assets.leetcode-cn.com/solution-static/126/126_fig2.PNG){:width=\"70%\"}\n\n由于要求输出所有的最短路径，因此我们需要记录遍历路径，然后通过「回溯算法（深度优先遍历）」得到所有的最短路径。\n\n**细节**\n\n+ 从一个单词出发，修改每一位字符，将它修改成为 `a` 到 `z` 中的所有字符，看看修改以后是不是在题目中给出的单词列表中；\n+ 有一些边的关系，由于不是最短路径上的边，不可以被记录下来。为此，我们这样做：为扩展出的单词记录附加的属性：层数。即下面代码中的 `steps`。如果当前的单词扩散出去得到的单词的层数在以前出现过，则不应该记录这样的边的关系。\n\n其它细节我们放在「代码」中，细节的部分比较多，读者朋友们需要仔细调试，相信掌握这道题对于大家来说会是一个很不错的编程练习。\n\n\n**代码**\n\n```C++ [sol1-C++]\n#include <iostream>\n#include <string>\n#include <vector>\n#include <set>\n#include <unordered_set>\n#include <unordered_map>\n#include <queue>\n\n\nusing namespace std;\n\nclass Solution {\npublic:\n    vector<vector<string>> findLadders(string beginWord, string endWord, vector<string> &wordList) {\n        vector<vector<string>> res;\n        // 因为需要快速判断扩展出的单词是否在 wordList 里，因此需要将 wordList 存入哈希表，这里命名为「字典」\n        unordered_set<string> dict = {wordList.begin(), wordList.end()};\n        // 修改以后看一下，如果根本就不在 dict 里面，跳过\n        if (dict.find(endWord) == dict.end()) {\n            return res;\n        }\n        // 特殊用例处理\n        dict.erase(beginWord);\n\n        // 第 1 步：广度优先遍历建图\n        // 记录扩展出的单词是在第几次扩展的时候得到的，key：单词，value：在广度优先遍历的第几层\n        unordered_map<string, int> steps = {{beginWord, 0}};\n        // 记录了单词是从哪些单词扩展而来，key：单词，value：单词列表，这些单词可以变换到 key ，它们是一对多关系\n        unordered_map<string, set<string>> from = {{beginWord, {}}};\n        int step = 0;\n        bool found = false;\n        queue<string> q = queue<string>{{beginWord}};\n        int wordLen = beginWord.length();\n        while (!q.empty()) {\n            step++;\n            int size = q.size();\n            for (int i = 0; i < size; i++) {\n                const string currWord = move(q.front());\n                string nextWord = currWord;\n                q.pop();\n                // 将每一位替换成 26 个小写英文字母\n                for (int j = 0; j < wordLen; ++j) {\n                    const char origin = nextWord[j];\n                    for (char c = 'a'; c <= 'z'; ++c) {\n                        nextWord[j] = c;\n                        if (steps[nextWord] == step) {\n                            from[nextWord].insert(currWord);\n                        }\n                        if (dict.find(nextWord) == dict.end()) {\n                            continue;\n                        }\n                        // 如果从一个单词扩展出来的单词以前遍历过，距离一定更远，为了避免搜索到已经遍历到，且距离更远的单词，需要将它从 dict 中删除\n                        dict.erase(nextWord);\n                        // 这一层扩展出的单词进入队列\n                        q.push(nextWord);\n                        // 记录 nextWord 从 currWord 而来\n                        from[nextWord].insert(currWord);\n                        // 记录 nextWord 的 step\n                        steps[nextWord] = step;\n                        if (nextWord == endWord) {\n                            found = true;\n                        }\n                    }\n                    nextWord[j] = origin;\n                }\n            }\n            if (found) {\n                break;\n            }\n        }\n        // 第 2 步：深度优先遍历找到所有解，从 endWord 恢复到 beginWord ，所以每次尝试操作 path 列表的头部\n        if (found) {\n            vector<string> Path = {endWord};\n            dfs(res, endWord, from, Path);\n        }\n        return res;\n    }\n\n    void dfs(vector<vector<string>> &res, const string &Node, unordered_map<string, set<string>> &from,\n             vector<string> &path) {\n        if (from[Node].empty()) {\n            res.push_back({path.rbegin(), path.rend()});\n            return;\n        }\n        for (const string &Parent: from[Node]) {\n            path.push_back(Parent);\n            dfs(res, Parent, from, path);\n            path.pop_back();\n        }\n    }\n};\n```\n```Java [sol1-Java]\nimport java.util.ArrayDeque;\nimport java.util.ArrayList;\nimport java.util.Deque;\nimport java.util.HashMap;\nimport java.util.HashSet;\nimport java.util.LinkedList;\nimport java.util.List;\nimport java.util.Map;\nimport java.util.Queue;\nimport java.util.Set;\n\npublic class Solution {\n\n    public List<List<String>> findLadders(String beginWord, String endWord, List<String> wordList) {\n        List<List<String>> res = new ArrayList<>();\n        // 因为需要快速判断扩展出的单词是否在 wordList 里，因此需要将 wordList 存入哈希表，这里命名为「字典」\n        Set<String> dict = new HashSet<>(wordList);\n        // 特殊用例判断\n        if (!dict.contains(endWord)) {\n            return res;\n        }\n\n        dict.remove(beginWord);\n\n        // 第 1 步：广度优先遍历建图\n        // 记录扩展出的单词是在第几次扩展的时候得到的，key：单词，value：在广度优先遍历的第几层\n        Map<String, Integer> steps = new HashMap<>();\n        steps.put(beginWord, 0);\n        // 记录了单词是从哪些单词扩展而来，key：单词，value：单词列表，这些单词可以变换到 key ，它们是一对多关系\n        Map<String, List<String>> from = new HashMap<>();\n        int step = 1;\n        boolean found = false;\n        int wordLen = beginWord.length();\n        Queue<String> queue = new LinkedList<>();\n        queue.offer(beginWord);\n        while (!queue.isEmpty()) {\n            int size = queue.size();\n            for (int i = 0; i < size; i++) {\n                String currWord = queue.poll();\n                char[] charArray = currWord.toCharArray();\n                // 将每一位替换成 26 个小写英文字母\n                for (int j = 0; j < wordLen; j++) {\n                    char origin = charArray[j];\n                    for (char c = 'a'; c <= 'z'; c++) {\n                        charArray[j] = c;\n                        String nextWord = String.valueOf(charArray);\n                        if (steps.containsKey(nextWord) && step == steps.get(nextWord)) {\n                            from.get(nextWord).add(currWord);\n                        }\n                        if (!dict.contains(nextWord)) {\n                            continue;\n                        }\n                        // 如果从一个单词扩展出来的单词以前遍历过，距离一定更远，为了避免搜索到已经遍历到，且距离更远的单词，需要将它从 dict 中删除\n                        dict.remove(nextWord);\n                        // 这一层扩展出的单词进入队列\n                        queue.offer(nextWord);\n\n                        // 记录 nextWord 从 currWord 而来\n                        from.putIfAbsent(nextWord, new ArrayList<>());\n                        from.get(nextWord).add(currWord);\n                        // 记录 nextWord 的 step\n                        steps.put(nextWord, step);\n                        if (nextWord.equals(endWord)) {\n                            found = true;\n                        }\n                    }\n                    charArray[j] = origin;\n                }\n            }\n            step++;\n            if (found) {\n                break;\n            }\n        }\n\n        // 第 2 步：深度优先遍历找到所有解，从 endWord 恢复到 beginWord ，所以每次尝试操作 path 列表的头部\n        if (found) {\n            Deque<String> path = new ArrayDeque<>();\n            path.add(endWord);\n            dfs(from, path, beginWord, endWord, res);\n        }\n        return res;\n    }\n\n    public void dfs(Map<String, List<String>> from, Deque<String> path, String beginWord, String cur, List<List<String>> res) {\n        if (cur.equals(beginWord)) {\n            res.add(new ArrayList<>(path));\n            return;\n        }\n        for (String precursor : from.get(cur)) {\n            path.addFirst(precursor);\n            dfs(from, path, beginWord, precursor, res);\n            path.removeFirst();\n        }\n    }\n}\n```\n```Python3 []\nfrom collections import defaultdict\nfrom typing import List\nfrom collections import deque\nimport string\n\n\nclass Solution:\n\n    def findLadders(self, beginWord: str, endWord: str, wordList: List[str]) -> List[List[str]]:\n        # 先将 wordList 放到哈希表里，便于判断某个单词是否在 wordList 里\n        word_set = set(wordList)\n        res = []\n        if len(word_set) == 0 or endWord not in word_set:\n            return res\n\n        successors = defaultdict(set)\n        # 第 1 步：使用广度优先遍历得到后继结点列表 successors\n        # key：字符串，value：广度优先遍历过程中 key 的后继结点列表\n\n        found = self.__bfs(beginWord, endWord, word_set, successors)\n        if not found:\n            return res\n        # 第 2 步：基于后继结点列表 successors ，使用回溯算法得到所有最短路径列表\n        path = [beginWord]\n        self.__dfs(beginWord, endWord, successors, path, res)\n        return res\n\n    def __bfs(self, beginWord, endWord, word_set, successors):\n        queue = deque()\n        queue.append(beginWord)\n\n        visited = set()\n        visited.add(beginWord)\n\n        found = False\n        word_len = len(beginWord)\n        next_level_visited = set()\n\n        while queue:\n            current_size = len(queue)\n            for i in range(current_size):\n                current_word = queue.popleft()\n                word_list = list(current_word)\n\n                for j in range(word_len):\n                    origin_char = word_list[j]\n\n                    for k in string.ascii_lowercase:\n                        word_list[j] = k\n                        next_word = ''.join(word_list)\n\n                        if next_word in word_set:\n                            if next_word not in visited:\n                                if next_word == endWord:\n                                    found = True\n\n                                # 避免下层元素重复加入队列\n                                if next_word not in next_level_visited:\n                                    next_level_visited.add(next_word)\n                                    queue.append(next_word)\n\n                                successors[current_word].add(next_word)\n                    word_list[j] = origin_char\n            if found:\n                break\n            # 取两集合全部的元素（并集，等价于将 next_level_visited 里的所有元素添加到 visited 里）\n            visited |= next_level_visited\n            next_level_visited.clear()\n        return found\n\n    def __dfs(self, beginWord, endWord, successors, path, res):\n        if beginWord == endWord:\n            res.append(path[:])\n            return\n\n        if beginWord not in successors:\n            return\n\n        successor_words = successors[beginWord]\n        for next_word in successor_words:\n            path.append(next_word)\n            self.__dfs(next_word, endWord, successors, path, res)\n            path.pop()\n```\n\n\n**复杂度分析**\n\n（复杂度分析很复杂，我们面对算法面试、笔试不需要做严格的复杂度分析。）\n\n#### 拓展\n\n由于本题起点和终点固定，所以可以从起点和终点同时开始进行双向广度优先搜索，可以进一步降低时间复杂度。",
+      "createdAt": "2020-06-06T14:08:14.923408+00:00",
+      "hitCount": 49402,
+      "identifier": "wweE4U",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "xiang-xi-tong-su-de-si-lu-fen-xi-duo-jie-fa-by-3-3",
+        "title": "详细通俗的思路分析，多解法"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "word-ladder-ii"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 51,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 6,
+          "reactionType": "CONFUSED"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "AWESOME"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 0,
+          "reactionType": "THUMBS_DOWN"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "dan-ci-jie-long-ii-by-leetcode-solution",
+      "status": "PUBLISHED",
+      "summary": "方法一：广度优先搜索\n思路\n本题要求的是 最短转换序列，看到最短首先想到的就是 广度优先搜索。但是本题没有给出显示的图结构，根据单词转换规则：把每个单词都抽象为一个顶点，如果两个单词可以 只 改变一个字母进行转换，那么说明他们之间有一条双向边。因此我们只需要把满足转换条件的点相连，就形成了一张 图。根据示例 1 中的",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Breadth-First Search",
+          "nameTranslated": "广度优先搜索",
+          "slug": "breadth-first-search",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Hash Table",
+          "nameTranslated": "哈希表",
+          "slug": "hash-table",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "String",
+          "nameTranslated": "字符串",
+          "slug": "string",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Go",
+          "nameTranslated": "",
+          "slug": "golang",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "https://assets.leetcode-cn.com/solution-static/126/126_fig1.PNG",
+      "title": "单词接龙 II",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 93,
+        "id": 277977,
+        "viewCount": 32265
+      },
+      "uuid": "wweE4U",
+      "videosInfo": []
+    }
+  }
+}

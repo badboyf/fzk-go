@@ -1,0 +1,83 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "飞鸟",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/7aughing-nashgue/avatar_1605015234.png",
+          "userSlug": "lzxjack"
+        },
+        "username": "lzxjack"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n\n- 初始化时，创建两个栈`A`和`B`，`A`是设计的栈，`B`是辅助栈\n- `pop()`：对`A`进行`pop`\n- `peek()`：返回`A`的栈顶元素，若`A`空，返回`-1`\n- `isEmpty()`：返回`A`的长度是否为`0`\n- `push(val)`：\n    - 循环判断若`A`不为空，且`A`栈顶元素小于`val`时，先将`A`栈顶放入`B`\n    - 直到`A`栈顶不小于`val`，将`val`放入`A`\n    - 再将`B`的值都放回`A`\n\n### 代码\n\n```javascript\nclass SortedStack {\n    constructor() {\n        // A设计的栈\n        this.A = [];\n        // B辅助栈\n        this.B = [];\n    }\n    push(val) {\n        // 当A不为空，且A栈顶元素小于val时\n        // 先将A栈顶放入B\n        while (!this.isEmpty() && this.peek() < val) {\n            this.B.push(this.A.pop());\n        }\n        // val放入A\n        this.A.push(val);\n        // 再将B的值都放回A\n        while (this.B.length) {\n            this.A.push(this.B.pop());\n        }\n    }\n    pop() {\n        return this.A.pop();\n    }\n    peek() {\n        return this.A[this.A.length - 1] || -1;\n    }\n    isEmpty() {\n        return !this.A.length;\n    }\n}\n```",
+      "createdAt": "2021-11-01T00:41:23.205463+00:00",
+      "hitCount": 218,
+      "identifier": "SBO52N",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "mo-ao-li-kou-shu-ju-jie-gou-cong-bao-li-8kcjj",
+        "title": "【墨鳌】【力扣数据结构】【从暴力优化】"
+      },
+      "position": 2,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "di-gui-fang-fa-bu-yong-fu-zhu-zhan-by-my-vabc",
+        "title": "递归方法，不用辅助栈"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "sort-of-stacks-lcci"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "wai-jia-fu-zhu-zhan-javascript-by-lzxjac-oq4s",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n\n初始化时，创建两个栈A和B，A是设计的栈，B是辅助栈\npop()：对A进行pop\npeek()：返回A的栈顶元素，若A空，返回-1\nisEmpty()：返回A的长度是否为0\npush(val)：\n\n循环判断若A不为空，且A栈顶元素小于val时，先将A栈顶放入B\n直到A栈顶不小于val，将val放入A\n再将B",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Stack",
+          "nameTranslated": "栈",
+          "slug": "stack",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "JavaScript",
+          "nameTranslated": "",
+          "slug": "javascript",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "【外加辅助栈】JavaScript",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1077214,
+        "viewCount": 180
+      },
+      "uuid": "SBO52N",
+      "videosInfo": []
+    }
+  }
+}

@@ -1,0 +1,110 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "zerotrac 🌸",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/zerotrac2/avatar_1628749564.png",
+          "userSlug": "zerotrac2"
+        },
+        "username": "zerotrac2"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法一：$\\text{manacher}$ 算法 + 扫描线\n\n**前言**\n\n本题**严重超纲**，笔试不太可能考，面试一定不会考（如果在简历里没写是 icpc 选手的前提下考了，请发邮件给 hr 举报没有 b 数的面试官）。题解仅供感兴趣的读者学习使用。\n\n其实做这道题之前我也不会 $\\text{manacher}$ 算法，是去现学的（手动捂脸\n\n**第一步**\n\n第一步当然是要把以每个位置为中心的最长回文串长度求出来。\n\n比较快的 $O(n)$ 做法是使用 $\\text{manacher}$ 算法，比较慢 $O(n \\log n)$ 而且常数较大再而且不是 $100\\%$ 正确的做法是使用字符串哈希。字符串哈希我在这里不打算详细说了，大概就是「枚举中间位置 $O(n)$ + 二分查找回文串长度 $O(\\log n)$ + 字符串哈希判断左右半边是否相同 $O(1)$」。$\\text{manacher}$ 算法的话官方题解里面也出现过：\n\n- [「5. 最长回文子串」的官方题解](https://leetcode-cn.com/problems/longest-palindromic-substring/solution/zui-chang-hui-wen-zi-chuan-by-leetcode-solution/)的方法三\n\n除此之外我比较推荐 [oi-wiki](https://oi-wiki.org/string/manacher/) 上讲 $\\text{manacher}$ 算法的文章，非常详细，我一遍就看懂了。\n\n---\n\n然后现在假设读者知道 $\\text{manacher}$ 算法怎么写了。由于本题只需要找奇数长度的回文串，所以在使用 $\\text{manacher}$ 算法之前，就不需要在字符之间插一个无效字符了。\n\n**第二步**\n\n现在假设读者已经求出了字符串 $s$ 的每个位置为中心的最长回文串长度 $\\textit{span}[i]$，这里 $\\textit{span}[i]$ 表示有一个长度为 $2 \\cdot \\textit{span}[i] - 1$ 的回文串，那么怎么挑两个最长且不重叠的呢？\n\n可以想到使用前缀和后缀和的方法。假设 $\\textit{pre}[i]$ 表示 $s[0..i]$ 中最长回文串的长度，$\\textit{suf}[i]$ 表示 $s[i..n-1]$ 中最长回文串的长度，这样我们枚举 $i$ 作为两个回文串的分界位置，$\\textit{pre}[i] \\cdot \\textit{suf}[i+1]$ 中的最大值即为答案。\n\n现在的问题就是求 $\\textit{pre}[i]$ 和 $\\textit{suf}[i]$ 了。由于这两个玩意是很类似的，因此我们就讲讲 $\\textit{pre}[i]$ 怎么求。要是看了 $\\textit{pre}[i]$ 还不会求 $\\textit{suf}[i]$ 的话，大不了把字符串翻转一下再调用求 $\\textit{pre}[i]$ 的代码。\n\n**第三步**\n\n有些读者可能会想出一个这样的方法：\n\n- 首先我们枚举 $i$，由于以 $s[i]$ 为中心的最长回文串是 $s\\big[i-\\textit{span}[i]+1, i+\\textit{span}[i]-1\\big]$，那么我们将 $\\textit{pre}[i+\\textit{span}-1]$ 更新为其与 $2 \\cdot \\textit{span}[i] - 1$ 的较大值；\n\n- 然后我们再枚举 $i$，将 $\\textit{pre}[i]$ 更新为其与 $\\textit{pre}[i-1]$ 的较大值。\n\n直观上来说，这种方法就是将最长回文串的长度挂载在右边界上，然后求一下前缀和得到 $\\textit{pre}[i]$，可惜这种方法只对了一半。最简单的反例就是，如果 $s$ 整体就是一个类似于 $\\texttt{zyxw...cbabc...wxyz}$ 的回文串，那么这样遍历完只有 $\\textit{pre}[n-1]$ 有值，其余 $\\textit{pre}[..]$ 均为 $1$，这样显然是不正确的。\n\n那么应该如何解决这个问题呢？我们只需要再反着遍历一遍 $i$，将 $\\textit{pre}[i]$ 更新为其与 $\\textit{pre}[i+1] - 2$ 的较大值即可。其妙处就在于：\n\n> 如果以位置 $i+1$ 为右边界，有一个长度为 $\\textit{pre}[i+1]$ 的回文串，那么以位置 $i$ 为右边界，就有一个长度为 $\\textit{pre}[i+1]-2$ 的回文串，也就是将前者的首尾两个字符去掉。\n\n这种方法的本质模型为：\n\n- 我们有一个数组 $\\textit{pre}$，初始时每个元素均为 $0$；\n\n- 我们需要进行 $n$ 次更新操作，每一次更新给定一个右边界 $r$ 以及价值 $v$，将所有下标大于等于 $r$ 的元素更新为其与 $v$ 的较大值，将所有下标小于 $r$ 的元素（假设下标为 $i$）更新为其与 $v - 2(r-i)$ 的较大值；\n\n- 最终返回更新完成后的结果。\n\n**第四步**\n\n写代码！\n\n**代码**\n\n```C++ [sol1-C++]\nclass Solution {\npublic:\n    long long maxProduct(string s) {\n        int n = s.size();\n        vector<int> span(n);\n\n        // manacher\n        for (int i = 0, l = 0, r = -1; i < n; ++i) {\n            span[i] = (i <= r ? min(span[l + r - i], r - i + 1) : 1);\n            while (i - span[i] >= 0 && i + span[i] < n && s[i - span[i]] == s[i + span[i]]) {\n                ++span[i];\n            }\n            if (i + span[i] - 1 > r) {\n                l = i - span[i] + 1;\n                r = i + span[i] - 1;\n            }\n        }\n\n        vector<int> pre(n), suf(n);\n        for (int i = 0; i < n; ++i) {\n            pre[i + span[i] - 1] = max(pre[i + span[i] - 1], span[i] * 2 - 1);\n            suf[i - span[i] + 1] = max(suf[i - span[i] + 1], span[i] * 2 - 1);\n        }\n\n        for (int i = 1; i < n; ++i) {\n            pre[i] = max(pre[i], pre[i - 1]);\n        }\n        for (int i = n - 2; i >= 0; --i) {\n            pre[i] = max(pre[i], pre[i + 1] - 2);\n        }\n        for (int i = n - 2; i >= 0; --i) {\n            suf[i] = max(suf[i], suf[i + 1]);\n        }\n        for (int i = 1; i < n; ++i) {\n            suf[i] = max(suf[i], suf[i - 1] - 2);\n        }\n\n        long long ans = 0;\n        for (int i = 0; i < n - 1; ++i) {\n            ans = max(ans, (long long)pre[i] * suf[i + 1]);\n        }\n        return ans;\n    }\n};\n```\n\n```Python [sol1-Python3]\nclass Solution:\n    def maxProduct(self, s: str) -> int:\n        n = len(s)\n        span = [0] * n\n        l, r = 0, -1\n\n        for i in range(n):\n            span[i] = (min(span[l + r - i], r - i + 1) if i <= r else 1)\n            while i - span[i] >= 0 and i + span[i] < n and s[i - span[i]] == s[i + span[i]]:\n                span[i] += 1\n            if i + span[i] - 1 > r:\n                l = i - span[i] + 1\n                r = i + span[i] - 1\n\n        pre, suf = [0] * n, [0] * n\n        for i in range(n):\n            pre[i + span[i] - 1] = max(pre[i + span[i] - 1], span[i] * 2 - 1)\n            suf[i - span[i] + 1] = max(suf[i - span[i] + 1], span[i] * 2 - 1)\n        \n        for i in range(1, n):\n            pre[i] = max(pre[i], pre[i - 1])\n        for i in range(n - 2, -1, -1):\n            pre[i] = max(pre[i], pre[i + 1] - 2)\n        for i in range(n - 2, -1, -1):\n            suf[i] = max(suf[i], suf[i + 1])\n        for i in range(1, n):\n            suf[i] = max(suf[i], suf[i - 1] - 2)\n\n        ans = max(pre[i] * suf[i + 1] for i in range(n - 1))\n        return ans\n```\n\n**离谱**\n\n[这里](https://www.luogu.com.cn/problem/P4555) 有一道非常类似的题目。\n\n虽然现在 $\\text{manacher}$ 算法在竞赛圈里已经挺普及的了，但在 2012 年，这是个国家集训队难度的考点。\n\n所以说如果程序员找工作，笔试面试考 $\\text{manacher}$ 算法的话，是真的离谱。如果学有余力或者对算法竞赛感兴趣的话，倒可以学一学，尤其是仔细领悟一下 $\\text{manacher}$ 算法时间复杂度证明的部分。\n\n**复杂度分析**\n\n- 时间复杂度：$O(n)$。\n\n- 空间复杂度：$O(n)$。\n",
+      "createdAt": "2021-08-07T16:06:11.142536+00:00",
+      "hitCount": 2566,
+      "identifier": "bL55gE",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "ma-la-che-suan-fa-xiang-xi-tu-jie-by-new-m2zj",
+        "title": "图解思路-马拉车算法"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "maximum-product-of-the-length-of-two-palindromic-substrings"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 25,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 3,
+          "reactionType": "AWESOME"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "CONFUSED"
+        }
+      ],
+      "rewardEnabled": false,
+      "slug": "liang-ge-hui-wen-zi-zi-fu-chuan-chang-du-soyb",
+      "status": "PUBLISHED",
+      "summary": "方法一：\\text{manacher} 算法 + 扫描线\n前言\n本题严重超纲，笔试不太可能考，面试一定不会考（如果在简历里没写是 icpc 选手的前提下考了，请发邮件给 hr 举报没有 b 数的面试官）。题解仅供感兴趣的读者学习使用。\n其实做这道题之前我也不会 \\text{manacher} 算法，是去现学的（手动捂",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "String",
+          "nameTranslated": "字符串",
+          "slug": "string",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Dynamic Programming",
+          "nameTranslated": "动态规划",
+          "slug": "dynamic-programming",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Line Sweep",
+          "nameTranslated": "扫描线",
+          "slug": "line-sweep",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "两个回文子字符串长度的最大乘积",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 24,
+        "id": 921974,
+        "viewCount": 1870
+      },
+      "uuid": "bL55gE",
+      "videosInfo": []
+    }
+  }
+}

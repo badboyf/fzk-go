@@ -1,0 +1,98 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "zerotrac 🌸",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/zerotrac2/avatar_1628749564.png",
+          "userSlug": "zerotrac2"
+        },
+        "username": "zerotrac2"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "重点：\n\n- 技能数量最大为 $16$，我们可以通过状态压缩的方法，使用一个长度不超过 $16$ 的二进制数表示每个技能是否已经有人掌握（掌握为 $1$，未掌握为 $0$）。\n- 写出搜索 + 回溯的方法，加上一层记忆化即可通过本题。\n\n复杂度分析：\n\n- 添加记忆化前：每一个人可以选择或者不选择，总共的搜索数为 $2^n$，每一次搜索需要 $O(1)$ 的时间进行处理，总时间复杂度为 $O(2^n)$。\n- 添加记忆化后：重复的状态只需要计算一次，搜索空间最大为人数 $n$ 乘以技能对应的状态压缩 $2^m$，即为 $n \\cdot 2^m$，每一次搜索需要 $O(1)$ 的时间进行处理，总时间复杂度为 $O(n \\cdot 2^m)$。\n\n```Python [sol1-Python3]\nclass Solution:\n    def smallestSufficientTeam(self, req_skills: List[str], people: List[List[str]]) -> List[int]:\n        m = len(req_skills)\n        n = len(people)\n\n        skill_to_index = dict()\n        for i, skill in enumerate(req_skills):\n            skill_to_index[skill] = i\n        \n        person_mask = [0] * n\n        for i, skills in enumerate(people):\n            for skill in skills:\n                person_mask[i] |= (1 << skill_to_index[skill])\n        \n        @cache\n        def dfs(i: int, skill_mask: int) -> (bool, List[int]):\n            if i == n:\n                if skill_mask == (1 << m) - 1:\n                    return True, []\n                return False, []\n            \n            check1, lst1 = dfs(i + 1, skill_mask | person_mask[i])\n            check2, lst2 = dfs(i + 1, skill_mask)\n\n            if not check1 and not check2:\n                return False, []\n            \n            if not check1:\n                return True, lst2\n            \n            if not check2:\n                return True, lst1 + [i]\n            \n            if len(lst1) + 1 <= len(lst2):\n                return True, lst1 + [i]\n            else:\n                return True, lst2\n        \n        return dfs(0, 0)[1]\n```",
+      "createdAt": "2021-07-16T05:34:18.537774+00:00",
+      "hitCount": 501,
+      "identifier": "RcSZqK",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "shuang-bai-shen-sou-jian-zhi-zhuang-tai-bhf7f",
+        "title": "【双百】深搜+剪枝+状态压缩"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "smallest-sufficient-team"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 8,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": true,
+      "slug": "python-ji-yi-hua-sou-suo-by-zerotrac2-vy1w",
+      "status": "PUBLISHED",
+      "summary": "重点：\n\n技能数量最大为 16，我们可以通过状态压缩的方法，使用一个长度不超过 16 的二进制数表示每个技能是否已经有人掌握（掌握为 1，未掌握为 0）。\n写出搜索 + 回溯的方法，加上一层记忆化即可通过本题。\n\n复杂度分析：\n\n添加记忆化前：每一个人可以选择或者不选择，总共的搜索数为 2^n，每一次搜索需要 O(1)",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Memoization",
+          "nameTranslated": "记忆化搜索",
+          "slug": "memoization",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Dynamic Programming",
+          "nameTranslated": "动态规划",
+          "slug": "dynamic-programming",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Bitmask",
+          "nameTranslated": "状态压缩",
+          "slug": "bitmask",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python3",
+          "nameTranslated": "",
+          "slug": "python3",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "Python 记忆化搜索",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 1,
+        "id": 879017,
+        "viewCount": 361
+      },
+      "uuid": "RcSZqK",
+      "videosInfo": []
+    }
+  }
+}

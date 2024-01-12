@@ -1,0 +1,79 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "用DFS搜到<锅包又>",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/yzboostforest/avatar_1625113111.png",
+          "userSlug": "yzboostforest"
+        },
+        "username": "YZBoostForest"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n执行用时：32 ms, 在所有 Python3 提交中击败了65.91%的用户\n内存消耗：14.9 MB, 在所有 Python3 提交中击败了72.73%的用户\n### 代码\n\n```python3\nclass Solution:\n    def check(self, nums: List[int]) -> bool:\n\n        i = 1\n        while i<len(nums) and nums[i]>=nums[i-1]:\n            i+=1\n\n        j = len(nums)-1\n        while j>0 and nums[j]>=nums[j-1]:\n            j-=1\n            \n        return (i==j and nums[0]>=nums[-1]) or (i==len(nums) and j==0)\n```",
+      "createdAt": "2021-11-26T09:13:50.752542+00:00",
+      "hitCount": 3,
+      "identifier": "Zuo6aY",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "cyu-yan-jie-zhu-ku-han-shu-jin-xing-bi-j-xejc",
+        "title": "C语言，借助库函数进行比较"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "check-if-array-is-sorted-and-rotated"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "zuo-you-bian-li-by-yzboostforest-ao7h",
+      "status": "PUBLISHED",
+      "summary": "解题思路\n执行用时：32 ms, 在所有 Python3 提交中击败了65.91%的用户\n内存消耗：14.9 MB, 在所有 Python3 提交中击败了72.73%的用户\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Array",
+          "nameTranslated": "数组",
+          "slug": "array",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "左右遍历",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1123740,
+        "viewCount": 3
+      },
+      "uuid": "Zuo6aY",
+      "videosInfo": []
+    }
+  }
+}

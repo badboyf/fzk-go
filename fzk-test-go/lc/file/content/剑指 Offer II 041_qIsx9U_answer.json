@@ -1,0 +1,76 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "我要出去乱说",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/wo-yao-chu-qu-luan-shuo/avatar_1613985810.png",
+          "userSlug": "wo-yao-chu-qu-luan-shuo"
+        },
+        "username": "wo-yao-chu-qu-luan-shuo"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "思路：用队列来实现滑动窗口，队列长度就是窗口大小。\r\n\r\n```\r\nclass MovingAverage {\r\nprivate:\r\n    int n = 0;\r\n    int sum = 0;\r\n    queue<int> q;\r\n\r\npublic:\r\n    MovingAverage(int size) {\r\n        n = size;\r\n    }\r\n    \r\n    double next(int val) {\r\n        if (q.size() == n)          //队列已满，队首出队，val从队尾入队\r\n        {\r\n            int tmp = q.front();\r\n            q.pop();\r\n            q.push(val);\r\n            sum = sum - tmp + val;\r\n        }\r\n        else\r\n        {\r\n            q.push(val);\r\n            sum += val;\r\n        }\r\n\r\n        //当队列未满时，长度是不足n的，取平均值时要除以队列的长度\r\n        return (sum * 1.0) / min(n, (int)q.size());\r\n    }\r\n};\r\n```",
+      "createdAt": "2021-11-03T04:55:06.712800+00:00",
+      "hitCount": 404,
+      "identifier": "E7ygpP",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "shua-chuan-jian-zhi-offer-day20-dui-lie-09ber",
+        "title": " 刷穿剑指offer-Day20-队列I-041.滑动窗口的平均值 队列的入门题"
+      },
+      "position": 2,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "jsgao-xiao-lu-jie-fa-by-libra-c1-im4a",
+        "title": "js高效率解法"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "qIsx9U"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": false,
+      "slug": "jian-zhi-offer-ii-041-hua-dong-chuang-ko-2p9d",
+      "status": "PREPUBLISH",
+      "summary": "思路：用队列来实现滑动窗口，队列长度就是窗口大小。",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "剑指 Offer II 041. 滑动窗口的平均值（队列）",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1081638,
+        "viewCount": 350
+      },
+      "uuid": "E7ygpP",
+      "videosInfo": []
+    }
+  }
+}

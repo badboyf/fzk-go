@@ -1,0 +1,118 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "吴自华",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/lucifer1004/avatar_1623921450.png",
+          "userSlug": "lucifer1004"
+        },
+        "username": "lucifer1004"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "> ~~本算法在C++下TLE~~（@oldyan提供了能够AC的C++算法）\n> p.s. 根据最近几次测试，Leetcode上Rust比C++快不少。可能有3~5倍的速度提升。\n> 速度比较：Rust (452 ms) < Java (905 ms) < Go (1216 ms) < C++ (1624 ms) < Python (2928 ms) < Kotlin (3036 ms) \n> 所以，大家一起来用Rust刷题吧！\n\n### 解题思路\n\n首先，对于这一类问题，一般来说使用左开右闭区间$[L,R)$是更优的。因此，我们在离散化时间戳时，将所有区间都按照$[L,R)$的方式来进行处理。\n\n显然，我们应当尽可能晚地执行任务，因为这样的话，当次执行有可能服务于更多的区间。\n\n这里我们引入【槽位】的概念。所谓【槽位】，指的是一个任务当前能够空闲的最大时长。比如一个$[1,6)$的任务，需要投入2的时长，那么它就有3个槽位，因为我们可以在$[4,6)$进行执行，从而空出$[1,4)$。\n\n在离散化之后，我们逐段进行处理。显然，在考虑一段区间时，我们应当以当前剩余槽位最少的任务为准来进行安排。如果当前剩余槽位最少的为1个槽位，那么这个区间的开头最多空出1个位置，而后面的位置都得执行任务。\n\n1. 首先，我们将结束时间在当前时间之前的任务出队。\n2. 我们将当前时刻开始的任务入队。这里，我们在计算出该任务的槽位后，需要加上一个修正项`extra`，后面会说到。\n3. 我们考虑当前槽位最少的那个任务。以它为准进行任务执行之后，如果当前区间空了$k$个位置，那么当前队列中的所有任务的剩余槽位都会减少$k$。显然我们无法对队列中的每个元素进行操作。但我们可以反其道而行之，给之后入队的元素加上`k`。这里，我们把之后入队的元素需要累加的修正量记录在变量`extra`中。\n\n- 时间复杂度$\\mathcal{O}(M\\log M+N\\log N)$，其中$M$是不同的时间戳的数目，$N$是任务的数目。\n\n### 代码\n\n```python [group1-python (2928 ms)]\nfrom heapq import heapify, heappush, heappop\n\nclass Solution:\n    def processTasks(self, tasks: List[List[int]]) -> int:\n        n = len(tasks)\n        ts = set()\n        for s, e, _ in tasks:\n            ts.add(s)\n            ts.add(e + 1)\n\n        vt = sorted(list(ts))\n        mp = dict()\n        for i, t in enumerate(vt):\n            mp[t] = i\n\n        m = len(vt)\n        starts = [[] for _ in range(m)]\n        for i, task in enumerate(tasks):\n            starts[mp[task[0]]].append(i)\n        \n        ans = 0\n        extra = 0 # 关键变量，用于修正优先队列内的数值\n        pq = []\n        heapify(pq)\n\n        for i in range(m - 1):\n            while pq and tasks[pq[0][1]][1] < vt[i]:\n                heappop(pq)\n            \n            for u in starts[i]:\n                heappush(pq, (extra + tasks[u][1] - vt[i] + 1 - tasks[u][2], u))\n\n            current_seg = vt[i + 1] - vt[i]\n\n            if pq:\n                # 减去extra得到实际的空余槽位数目。\n                min_slots = pq[0][0] - extra\n                slots_to_del = current_seg\n\n                # 如果空余槽位最少的那个任务的空余槽位小于当前区间的长度，则当前区间需要安排任务。\n                if min_slots < current_seg:\n                    delta = current_seg - min_slots\n                    ans += delta\n                    slots_to_del -= delta\n\n                # 需要减少当前队列内的任务的空余槽位，这里显然不能逐个修改，所以变为增加之后入队的任务的数值。\n                extra += slots_to_del\n\n        return ans\n```\n\n```rust [group1-rust (452 ms)]\nuse std::collections::*;\n\nimpl Solution {\n    pub fn process_tasks(tasks: Vec<Vec<i32>>) -> i32 {\n        let n = tasks.len();\n\n        // 离散化\n        // 注意这里使用的是[L,R)，也即左闭右开区间\n        let mut ts = BTreeSet::new();\n        for i in 0..n {\n            ts.insert(tasks[i][0]);\n            ts.insert(tasks[i][1] + 1);\n        }\n\n        let vt = ts.into_iter().collect::<Vec<i32>>();\n        let mut mp = HashMap::new();\n        let m = vt.len();\n        for i in 0..m {\n            mp.insert(vt[i], i);\n        }\n        let mut starts = vec![vec![]; m];\n\n        for i in 0..n {\n            starts[*mp.get(&tasks[i][0]).unwrap()].push(i);\n        }\n\n        let mut ans = 0;\n        let mut pq: BinaryHeap<(i32, usize)>= BinaryHeap::new();\n        let mut extra = 0; // 关键变量，用于修正优先队列内的数值\n\n        for i in 0..m - 1 {\n            while !pq.is_empty() && tasks[pq.peek().unwrap().1][1] < vt[i] {\n                pq.pop();\n            }\n\n            for u in starts[i].clone() {\n                // BinaryHeap默认是大根堆，所以取反后入队。\n                pq.push((-(extra + tasks[u][1] - vt[i] + 1 - tasks[u][2]), u));\n            }\n            let current_seg = vt[i + 1] - vt[i];\n\n            if !pq.is_empty() {\n                // 因为是取反后入队的，所以这里需要先取反。\n                // 减去extra得到实际的空余槽位数目。\n                let mut min_slots = -pq.peek().unwrap().0 - extra;\n                let mut slots_to_del = current_seg;\n\n                // 如果空余槽位最少的那个任务的空余槽位小于当前区间的长度，则当前区间需要安排任务。\n                if min_slots < current_seg {\n                    let delta = current_seg - min_slots;\n                    ans += delta;\n                    slots_to_del -= delta;\n                }\n                \n                // 需要减少当前队列内的任务的空余槽位，这里显然不能逐个修改，所以变为增加之后入队的任务的数值。\n                extra += slots_to_del;\n            }\n        }\n\n        ans\n    }\n}\n```\n\n```kotlin [group1-kotlin (3036 ms)]\nimport java.util.*\n\nclass Solution {\n    fun processTasks(tasks: Array<IntArray>): Int {\n        val n = tasks.size\n        val ts = sortedSetOf<Int>()\n        for (task in tasks) {\n            ts.add(task[0])\n            ts.add(task[1] + 1)\n        }\n\n        val vt = ts.toList()\n        val mp = mutableMapOf<Int, Int>()\n        for ((i, t) in vt.withIndex())\n            mp[t] = i\n\n        val m = vt.size\n        val starts = Array<MutableList<Int>>(m) { mutableListOf() }\n        for ((i, task) in tasks.withIndex())\n            starts[mp[task[0]]!!].add(i)\n\n        var ans = 0\n        var extra = 0 // 关键变量，用于修正优先队列内的数值\n        val pq = PriorityQueue<Pair<Int, Int>>(compareBy {it.first})\n\n        for (i in 0 until m - 1) {\n            while (pq.isNotEmpty() && tasks[pq.peek()!!.second][1] < vt[i]) {\n                pq.poll()\n            }\n\n            for (u in starts[i]) {\n                pq.add(Pair(extra + tasks[u][1] - vt[i] + 1 - tasks[u][2], u))\n            }\n\n            val currentSeg = vt[i + 1] - vt[i];\n\n            if (pq.isNotEmpty()) {\n                // 减去extra得到实际的空余槽位数目。\n                val minSlots = pq.peek()!!.first - extra\n                var slotsToDel = currentSeg;\n\n                // 如果空余槽位最少的那个任务的空余槽位小于当前区间的长度，则当前区间需要安排任务。\n                if (minSlots < currentSeg) {\n                    val delta = currentSeg - minSlots\n                    ans += delta\n                    slotsToDel -= delta\n                }\n\n                // 需要减少当前队列内的任务的空余槽位，这里显然不能逐个修改，所以变为增加之后入队的任务的数值。\n                extra += slotsToDel;\n            }\n        }\n\n        return ans\n    }\n}\n```\n\n```go [group1-go (1216 ms)]\npackage main\n\nimport (\n\t\"container/heap\"\n\t\"sort\"\n)\n\ntype Pair struct {\n\ta, b, index int\n}\n\ntype PriorityQueue []*Pair\n\nfunc (pq PriorityQueue) Len() int { return len(pq) }\n\nfunc (pq PriorityQueue) Less(i, j int) bool {\n\treturn pq[i].a < pq[j].a\n}\n\nfunc (pq PriorityQueue) Swap(i, j int) {\n\tpq[i], pq[j] = pq[j], pq[i]\n\tpq[i].index = i\n\tpq[j].index = j\n}\n\nfunc (pq *PriorityQueue) Push(x interface{}) {\n\tn := len(*pq)\n\titem := x.(*Pair)\n\titem.index = n\n\t*pq = append(*pq, item)\n}\n\nfunc (pq *PriorityQueue) Pop() interface{} {\n\told := *pq\n\tn := len(old)\n\titem := old[n-1]\n\told[n-1] = nil\n\titem.index = -1\n\t*pq = old[0 : n-1]\n\treturn item\n}\n\nfunc processTasks(tasks [][]int) int {\n\tvar vt []int\n\n\tn := len(tasks)\n\tts := make(map[int]bool)\n\tfor i := 0; i < n; i++ {\n\t\tts[tasks[i][0]] = true\n\t\tts[tasks[i][1] + 1] = true\n\t}\n\tm := len(ts)\n\tfor key := range ts {\n\t\tvt = append(vt, key)\n\t}\n\tsort.Ints(vt)\n\tmp := make(map[int]int)\n\tfor i := 0; i < m; i++ {\n\t\tmp[vt[i]] = i\n\t}\n\n\tstarts := make([][]int, m)\n\tfor i := 0; i < n; i++ {\n\t\tstarts[mp[tasks[i][0]]] = append(starts[mp[tasks[i][0]]], i)\n\t}\n\n\tans := 0\n\textra := 0\n\tpq := make(PriorityQueue, 0)\n\theap.Init(&pq)\n\n\tfor i := 0; i < m - 1; i++ {\n\t\tfor len(pq) > 0 {\n\t\t\tif tasks[pq[0].b][1] < vt[i] {\n\t\t\t\theap.Pop(&pq)\n\t\t\t} else {\n\t\t\t\tbreak\n\t\t\t}\n\t\t}\n\n\t\tfor _, u := range starts[i] {\n\t\t\theap.Push(&pq, &Pair{a: extra + tasks[u][1] - vt[i] + 1 - tasks[u][2], b: u})\n\t\t}\n\n\t\tcurrentSeg := vt[i + 1] - vt[i]\n\t\tif len(pq) > 0 {\n\t\t\tminSlots := pq[0].a - extra\n\t\t\tslotsToDel := currentSeg\n\t\t\tif minSlots < currentSeg {\n\t\t\t\tdelta := currentSeg - minSlots\n\t\t\t\tans += delta\n\t\t\t\tslotsToDel -= delta\n\t\t\t}\n\t\t\textra += slotsToDel\n\t\t}\n\t}\n\n\treturn ans\n}\n```\n\n```java [group1-java (905 ms)]\nimport java.util.*;\nimport java.util.stream.Collectors;\nimport java.util.stream.Stream;\n\nclass Pair {\n    public int slots;\n    public int index;\n\n    public Pair(int slots, int index) {\n        this.slots = slots;\n        this.index = index;\n    }\n}\n\nclass PairComparator implements Comparator<Pair> {\n    @Override\n    public int compare(Pair p1, Pair p2) {\n        if (p1.slots > p2.slots || (p1.slots == p2.slots && p1.index > p2.index)) {\n            return 1;\n        } else if (p1.slots < p2.slots || p1.index < p2.index) {\n            return -1;\n        }\n        return 0;\n    }\n}\n\nclass Solution {\n    public int processTasks(int[][] tasks) {\n        int n = tasks.length;\n        var ts = new TreeSet<Integer>();\n        for (var task : tasks) {\n            ts.add(task[0]);\n            ts.add(task[1] + 1);\n        }\n        var vt = new ArrayList<>(ts);\n        int m = vt.size();\n        var mp = new HashMap<Integer, Integer>(m);\n        for (int i = 0; i < m; ++i) {\n            mp.put(vt.get(i), i);\n        }\n\n        var starts = Stream.generate(ArrayList<Integer>::new)\n                .limit(m)\n                .collect(Collectors.toList());\n        for (int i = 0; i < n; ++i) {\n            starts.get(mp.get(tasks[i][0])).add(i);\n        }\n\n        int ans = 0;\n        int extra = 0;\n        var pq = new PriorityQueue<Pair>(n, new PairComparator());\n\n        for (int i = 0; i < m - 1; ++i) {\n            while (!pq.isEmpty() && tasks[pq.peek().index][1] < vt.get(i)) {\n                pq.poll();\n            }\n\n            for (int u : starts.get(i)) {\n                pq.add(new Pair(extra + tasks[u][1] - vt.get(i) + 1 - tasks[u][2], u));\n            }\n\n            int currentSeg = vt.get(i + 1) - vt.get(i);\n            if (!pq.isEmpty()) {\n                int minSlots = pq.peek().slots - extra;\n                int slotsToDel = currentSeg;\n\n                if (minSlots < currentSeg) {\n                    int delta = currentSeg - minSlots;\n                    ans += delta;\n                    slotsToDel -= delta;\n                }\n\n                extra += slotsToDel;\n            }\n        }\n\n        return ans;\n    }\n}\n```\n\n```cpp [group1-c++ (1624 ms) by @oldyan]\n#define ALL(a) a.begin(),a.end()\n#define PII pair<int,int>\nclass Solution {\n    vector<int>times;\n    void getAllTimes(vector<vector<int>>&tasks){\n        for(auto&t:tasks){\n            times.push_back(t[0]);\n            times.push_back(t[1]+1);\n        }\n        sort(ALL(times));\n        times.resize(unique(ALL(times))-times.begin());\n    }\npublic:\n    int processTasks(vector<vector<int>>& tasks) {\n        getAllTimes(tasks);\n        priority_queue<PII,vector<PII>,greater<PII>>Q;\n        sort(ALL(tasks));\n        int cur=0,ans=0,extra=0;\n        for(int i=0;i<times.size()-1;i++){\n            int curtime=times[i];\n            int next_seg=times[i+1]-times[i];\n            while(Q.size()&&Q.top().second<curtime)Q.pop();\n            while(cur<tasks.size()&&tasks[cur][0]==curtime){\n                Q.emplace(tasks[cur][1]-tasks[cur][0]+1-tasks[cur][2]+extra,tasks[cur][1]);\n                cur++;\n            }\n            if(Q.size()&&Q.top().first-extra<next_seg){\n                int delta=next_seg-(Q.top().first-extra);\n                ans+=delta;\n                next_seg-=delta;\n            }\n            extra+=next_seg;\n        }\n        return ans;\n    }\n};\n```",
+      "createdAt": "2021-04-05T10:18:22.908975+00:00",
+      "hitCount": 2211,
+      "identifier": "Q6agHJ",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "cong-chai-fen-yue-shu-zhong-guan-cha-dao-ljag",
+        "title": "从差分约束中观察到性质并优化到超强的复杂度是否搞错了什么？"
+      },
+      "position": 2,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "10xing-jie-jue-zhan-dou-by-foxtail-ke2e",
+        "title": "10行解决战斗"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "t3fKg1"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 13,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "you-xian-dui-lie-tan-xin-rust-by-lucifer-4spv",
+      "status": "PREPUBLISH",
+      "summary": "本算法在C++下TLE（@oldyan提供了能够AC的C++算法）\np.s. 根据最近几次测试，Leetcode上Rust比C++快不少。可能有3~5倍的速度提升。\n速度比较：Rust (452 ms) < Java (905 ms) < Go (1216 ms) < C++ (1624 ms) < Python (",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Go",
+          "nameTranslated": "",
+          "slug": "golang",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Kotlin",
+          "nameTranslated": "",
+          "slug": "kotlin",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Rust",
+          "nameTranslated": "",
+          "slug": "rust",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "优先队列",
+          "nameTranslated": "",
+          "slug": "you-xian-dui-lie",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "",
+      "title": "优先队列贪心-C++/Java/Python/Rust/Kotlin/Go",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 11,
+        "id": 701885,
+        "viewCount": 1582
+      },
+      "uuid": "Q6agHJ",
+      "videosInfo": []
+    }
+  }
+}

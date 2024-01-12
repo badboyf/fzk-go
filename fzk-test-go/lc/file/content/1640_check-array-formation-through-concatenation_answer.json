@@ -1,0 +1,93 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "品真",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/pin-zhen/avatar_1621848356.png",
+          "userSlug": "pin-zhen"
+        },
+        "username": "pin-zhen"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n\n像拼拼图，先看看有没有合适的拼图，有的话看余下的部分\n\n1. 建立 piece.head -> piece 的哈希表\n2. 看array当前检查到的位置，是否能找到对应的拼图。\n- 如果找不到，比如，[2,3,4,5]，拼图map里只剩下[1,3]，返回false\n- 如果能找到，比如，[2,3,4,5]，拼图map里能找到[2,3]，继续检查剩下的[4, 5]\n...\n直到检查完毕\n\n### 注意事项\n\n注意：Array的比较要用sameElements， 和Seq / Vector那些不同\n\n```scala\nArray(1,2,3) sameElements Array(3,2,1)\n\nArray(1,2,3) sameElements Array(1,2,3)\n\nArray(1,2,3) == Array(1,2,3)\n\nSeq(1,2,3) == Seq(1,2,3)\n\nval res0: Boolean = false\n\nval res1: Boolean = true\n\nval res2: Boolean = false\n\nval res3: Boolean = true\n\n```\n### 代码\n\n```scala\nobject Solution {\n  import scala.annotation.tailrec\n  def canFormArray(array: Array[Int], pieces: Array[Array[Int]]): Boolean = {\n\n    val pieceDictionary: Map[Int, Array[Int]] = pieces.map { piece => piece.head -> piece }.toMap\n    val lastIndex: Int = array.indices.last\n\n    @tailrec\n    def matchSubArray(startIndex: Int, pieceDictionary: Map[Int, Array[Int]], lastIndex: Int): Boolean = {\n      if (startIndex > lastIndex) true\n      else {\n        val expectedPieceHead = array(startIndex)\n        val matchedPieceForHeadOption: Option[Array[Int]] = pieceDictionary.get(expectedPieceHead)\n        if (matchedPieceForHeadOption.isEmpty) {\n          false\n        } else {\n          val matchedPieceForHead: Array[Int] = matchedPieceForHeadOption.get\n          val endIndex: Int = startIndex + matchedPieceForHead.length\n          val arrayHeadForMatch: Array[Int] = array.slice(startIndex, startIndex + matchedPieceForHead.length)\n          if (arrayHeadForMatch sameElements matchedPieceForHead) {\n            matchSubArray(endIndex, pieceDictionary - expectedPieceHead, lastIndex)\n          } else {\n            false\n          }\n        }\n      }\n    }\n    matchSubArray(0, pieceDictionary, lastIndex)\n  }\n}\n```",
+      "createdAt": "2021-10-16T20:26:46.888145+00:00",
+      "hitCount": 114,
+      "identifier": "So5mJq",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "check-array-formation-by-ikaruga",
+        "title": "【能否连接形成数组】unordered_map 做记录"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "check-array-formation-through-concatenation"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "zai-suo-you-scala-ti-jiao-zhong-ji-bai-l-vsx4",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n像拼拼图，先看看有没有合适的拼图，有的话看余下的部分\n\n建立 piece.head -> piece 的哈希表\n看array当前检查到的位置，是否能找到对应的拼图。\n\n\n如果找不到，比如，[2,3,4,5]，拼图map里只剩下[1,3]，返回false\n如果能找到，比如，[2,3,4,5]，拼图map里能找到",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Recursion",
+          "nameTranslated": "递归",
+          "slug": "recursion",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Hash Table",
+          "nameTranslated": "哈希表",
+          "slug": "hash-table",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Scala",
+          "nameTranslated": "",
+          "slug": "scala",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "hashmap",
+          "nameTranslated": "",
+          "slug": "hashmap",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "",
+      "title": "⭐ 在所有 Scala 提交中击败了 100.00% 的用户",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1051098,
+        "viewCount": 106
+      },
+      "uuid": "So5mJq",
+      "videosInfo": []
+    }
+  }
+}

@@ -1,0 +1,77 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "Ivon_是阿峰呀",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/ivon_shi-a-feng-ya/avatar_1623144622.png",
+          "userSlug": "ivon_shi-a-feng-ya"
+        },
+        "username": "ivon_shi-a-feng-ya"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "两种情况：\r\n**1.偶数位为0，奇数位为1**\r\n这种情况下，任意位的值和索引奇偶性相同，即`s[i]%2==i%2`，若不满足，即需要变动该位，则计数`cnt1++`\r\n**2.偶数位为1，奇数位为0**\r\n这种情况下，任意位的值和索引奇偶性不同，即`s[i]%2!=i%2`，若不满足，即需要变动该位，则计数`cnt2++`\r\n\r\n比较哪种需要变动的位数小\r\n\r\n```\r\nclass Solution{\r\npublic:\r\n    int minOperations(string s) {\r\n      int n=s.size(),cnt1=0,cnt2=0;\r\n      for(int i=0;i<n;i++){\r\n        if(s[i]%2!=i%2)  cnt1++; \r\n        else cnt2++;\r\n      }\r\n      return min(cnt1,cnt2);\r\n    }\r\n};\r\n```\r\n",
+      "createdAt": "2021-02-14T04:12:05.922325+00:00",
+      "hitCount": 3165,
+      "identifier": "DK2Uzk",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "alton-sheng-cheng-jiao-ti-er-jin-zhi-zi-0wtxc",
+        "title": "Alton-生成交替二进制字符串的最小操作数"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "minimum-changes-to-make-alternating-binary-string"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 36,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 3,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "liang-chong-qing-kuang-bi-da-xiao-xiao-d-1bbp",
+      "status": "PUBLISHED",
+      "summary": "两种情况：\n1.偶数位为0，奇数位为1\n这种情况下，任意位的值和索引奇偶性相同，即s[i]%2==i%2，若不满足，即需要变动该位，则计数cnt1++\n2.偶数位为1，奇数位为0\n这种情况下，任意位的值和索引奇偶性不同，即s[i]%2!=i%2，若不满足，即需要变动该位，则计数cnt2++\n比较哪种需要变动的位数小",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "一个判断(炒鸡简单):两种情况比大小，小的就是答案辽",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 10,
+        "id": 603213,
+        "viewCount": 2540
+      },
+      "uuid": "DK2Uzk",
+      "videosInfo": []
+    }
+  }
+}

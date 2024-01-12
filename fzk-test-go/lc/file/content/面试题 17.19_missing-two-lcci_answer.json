@@ -1,0 +1,93 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "稳健",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/zhi-xing-qie-wen-jian-69/avatar_1612197356.png",
+          "userSlug": "wen-jian-69"
+        },
+        "username": "wen-jian-69"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "# 1.思路\r\n- 做这道题前建议先做 [面试题 17.04. 消失的数字](https://leetcode-cn.com/problems/missing-number-lcci/) ，有了做那道题的异或思路后，用同样的方法做这次的题，会发现最终得到的只是两个缺失数字的异或，得不到所求的两个数字。\r\n\r\n\r\n- 因此要对数组进行分组，一组包含缺失数字1，一组包含缺失数字2，这样题目要求就转换为前面那道题了\r\n# 2.代码\r\n```\r\nclass Solution {\r\npublic:\r\n    vector<int> missingTwo(vector<int>& nums) {\r\n        int N = nums.size() + 2;\r\n\r\n        //1.用temp记录所缺两个数字的异或\r\n        int temp = 0;\r\n        for (int num : nums) temp ^= num;\r\n        for (int i = 1; i <= N; i++) temp ^= i;\r\n\r\n        //2.用j记录temp的32个位中其中一个值为1的位（两个数字的异或中某位为1，说明这两个数字的这个位的值不同）\r\n        int j;\r\n        for (j = 0; j < 32; j++) {\r\n            if (temp >> j & 1 == 1) break;\r\n        }\r\n\r\n        //3.用num1，num2记录两个缺失的数，依据记录的j位进行分组异或，j位为1的数跟num1异或，j位为2的数跟num2异或\r\n        int num1 = 0, num2 = 0;\r\n        for (int num : nums) {\r\n            if (num >> j & 1 == 1) num1 ^= num;\r\n            else num2 ^= num;\r\n        }\r\n        for (int i = 1; i <= N; i++) {\r\n            if (i >> j & 1 == 1) num1 ^= i;\r\n            else num2 ^= i;\r\n        }\r\n\r\n        //4.返回结果\r\n        return {num1, num2};\r\n    }\r\n};\r\n```\r\n> **获取整数num第j位的值val的方法**：`val = (num >> j) & 1` \r\n",
+      "createdAt": "2021-02-23T13:14:21.452306+00:00",
+      "hitCount": 1867,
+      "identifier": "d2otJ7",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "python3-liang-chong-fang-fa-qiu-que-shi-xyhq0",
+        "title": "Python3 两种方法求缺失值"
+      },
+      "position": 6,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "mian-shi-ti-1719-xiao-shi-de-liang-ge-sh-wl7b",
+        "title": "面试题 17.19. 消失的两个数字"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "missing-two-lcci"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 8,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "CONFUSED"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 0,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "shuang-bai-ji-bai-de-fen-zu-yi-huo-jie-f-mb8g",
+      "status": "PREPUBLISH",
+      "summary": "1.思路\n\n\n做这道题前建议先做 面试题 17.04. 消失的数字 ，有了做那道题的异或思路后，用同样的方法做这次的题，会发现最终得到的只是两个缺失数字的异或，得不到所求的两个数字。\n\n\n因此要对数组进行分组，一组包含缺失数字1，一组包含缺失数字2，这样题目要求就转换为前面那道题了\n\n\n2.代码\n\n获取整数num第j位",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "异或",
+          "nameTranslated": "",
+          "slug": "yi-huo",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "",
+      "title": "分组异或解法，代码含注释详解！",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 4,
+        "id": 617867,
+        "viewCount": 1401
+      },
+      "uuid": "d2otJ7",
+      "videosInfo": []
+    }
+  }
+}

@@ -1,0 +1,88 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "angela",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/angela-x/avatar_1632561041.png",
+          "userSlug": "angela-x"
+        },
+        "username": "angela-x"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 把单词映射到数字\n- 把每个英文小写字母映射到一个质数，比方说把字母a映射到数字2，字母b映射到数字3以此类推\n- 每一个单词，就把单词中的所有字母对应的数字相乘，于是每个单词都可以算出一个数字\n- 乘法满足交换率，由于每个字母都是映射到一个质数，因此不互为变位数的两个单词一定会映射到不同的数字\n- 这种方式有一个潜在的问题，由于把单词映射到数字用到了乘法，因此当单词非常长时，乘法就有可能溢出\n\n### 代码\n\n```javascript\n/**\n * @param {string[]} strs\n * @return {string[][]}\n */\nvar groupAnagrams = function(strs) {\n  // 把每个英文小写字母映射到一个质数，比方说把字母a映射到数字2，字母b映射到数字3以此类推\n  let hash = [\n    2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71,\n    73, 79, 83, 89, 97, 101,\n  ];\n  let groups = new Map();\n  for (let a of strs) {\n    // 每一个单词，就把单词中的所有字母对应的数字相乘，于是每个单词都可以算出一个数字\n    // 乘法满足交换率，由于每个字母都是映射到一个质数，因此不互为变位数的两个单词一定会映射到不同的数字\n    let wordHash = 1;\n    for (let i = 0; i < a.length; i++) {\n      wordHash *= hash[a.charCodeAt(i) - \"a\".charCodeAt(0)];\n    }\n    if (groups.has(wordHash)) {\n      groups.get(wordHash).push(a);\n    } else {\n      groups.set(wordHash, [a]);\n    }\n  }\n  let result = [];\n  for (let a of groups.values()) {\n    result.push(a);\n  }\n  return result;\n};\n```\n### 把单词的字母排序\n- 把一组变位词映射到同一个单词\n- 由于互为变位词的单词的字母出现的次数分别相同，因此如果把单词中的字母排序就会得到相同的字符串\n### 代码\n\n```javascript\n/**\n * @param {string[]} strs\n * @return {string[][]}\n */\nvar groupAnagrams = function(strs) {\n  let groups = new Map();\n  for (let a of strs) {\n    // split 和 Array.from都可以把字符串转成数组\n    // let arr = a.split(\"\");\n    let arr = Array.from(a);\n    // 把一组变位词映射到同一个单词\n    // 由于互为变位词的单词的字母出现的次数分别相同\n    // 如果把单词中的字母排序就会得到相同的字符串\n    arr.sort();\n    let sortedStr = arr.join(\"\");\n    if (groups.has(sortedStr)) {\n      groups.get(sortedStr).push(a);\n    } else {\n      groups.set(sortedStr, [a]);\n    }\n  }\n  let result = [];\n  for (let a of groups.values()) {\n    result.push(a);\n  }\n  return result;\n};\n```",
+      "createdAt": "2021-10-04T06:26:04.676376+00:00",
+      "hitCount": 531,
+      "identifier": "mpGpTM",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "shua-chuan-jian-zhi-offer-day15-ha-xi-bi-p57n",
+        "title": " 刷穿剑指offer-Day15-哈希表II-033.变位词组 哈希表+排序key的标准操作！"
+      },
+      "position": 2,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "ha-xi-biao-by-songzhijian-e8zt",
+        "title": "哈希表"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "sfvd7V"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 4,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "liang-chong-bu-tong-de-ying-she-han-shu-i61m0",
+      "status": "PREPUBLISH",
+      "summary": "把单词映射到数字\n\n把每个英文小写字母映射到一个质数，比方说把字母a映射到数字2，字母b映射到数字3以此类推\n每一个单词，就把单词中的所有字母对应的数字相乘，于是每个单词都可以算出一个数字\n乘法满足交换率，由于每个字母都是映射到一个质数，因此不互为变位数的两个单词一定会映射到不同的数字\n这种方式有一个潜在的问题，由于把",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Hash Table",
+          "nameTranslated": "哈希表",
+          "slug": "hash-table",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "JavaScript",
+          "nameTranslated": "",
+          "slug": "javascript",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "两种不同的映射函数，思路简洁易懂",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 5,
+        "id": 1030550,
+        "viewCount": 451
+      },
+      "uuid": "mpGpTM",
+      "videosInfo": []
+    }
+  }
+}

@@ -1,0 +1,81 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "日暮云",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/zhe-zhi-shi-ta-bu-jin-nao-zi-8/avatar_1616226133.png",
+          "userSlug": "zhe-zhi-shi-ta-bu-jin-nao-zi-8"
+        },
+        "username": "zhe-zhi-shi-ta-bu-jin-nao-zi-8"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n\n记奇数下标元素和为sumOdd，偶数下标元素和为sumEven。\n\n无论删除的是哪个位置，该位置后面的元素都是左移一位，下标的奇偶性都会改变。\n比较删除i位置元素和i+1位置元素这两种情况，两种情况下的奇下标元素和与偶下标元素和，只是相差了nums[i]和nums[i+1]。因为这两种情况，i左边的元素 和 i+1右边的元素的下标奇偶性是一样的。\n\n如果从后往前遍历，对于当前位置i，若其为奇数则更新sumOdd=sumOdd-nums[i]，偶数则更新sumEven=sumEven-nums[i]。此时的sumOdd和sumEven，就是删除i位置元素后的奇偶下标元素和，判断是否相等即可。\n\n对于下一个位置i-1来说，第i个位置左移了一位，奇偶性改变了。因此遍历到下个位置之前，还要更新奇偶下标元素和：i为奇数时，偶数和sumEven要加上nums[i];i为偶数时，奇数和sumOdd要加上nums[i]。\n\n### 算法：\n\ncount记录删除操作后，平衡数组的方案数。\n\n（1）遍历数组统计奇数下标元素和sumOdd，偶数下标元素和sumEven。\n\n（2）从后往前遍历数组，当前遍历到的位置i表示要删除的元素位置。\n\n若i为奇数：\n\n    1）sumOdd=sumOdd-nums[i]\n    2）若sumOdd==sumEven，count加1。\n    3）sumEven=sumEven+nums[i]\n\n若i为偶数：\n\n    1）sumEven=sumEven-nums[i]\n    2）若sumOdd==sumEven，count加1。\n    3）sumOdd=sumOdd+nums[i]\n\n（3）返回count。\n\n时间复杂度：O(n)。n为数组的长度，两次遍历数组的时间均为O(n)。\n\n空间复杂度：O(1)。\n\n### 代码\n```java\nclass Solution {\n    public int waysToMakeFair(int[] nums) {\n        \n        int n = nums.length;\n        int sumOdd = 0;//奇数下标元素和\n        int sumEven = 0;//偶数下标元素和\n        for(int i=0;i<nums.length;i++){\n            if(i%2==0){//偶数\n                sumEven+=nums[i];\n            }else{//奇数\n                sumOdd+=nums[i];\n            }\n        }\n        \n        int count = 0;\n        \n        for(int i=n-1;i>=0;i--){\n            if((i)%2==0){//偶数下标\n                sumEven-=nums[i];\n                if(sumEven==sumOdd) count++;\n                sumOdd+=nums[i];\n            }else{\n                sumOdd-=nums[i];\n                if(sumOdd==sumEven) count++;\n                sumEven+=nums[i];\n            }\n        }\n        \n        return count++;\n    }\n}\n```",
+      "createdAt": "2020-11-22T06:49:27.248630+00:00",
+      "hitCount": 860,
+      "identifier": "oUb1J6",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "c-qian-zhui-he-pei-quan-tao-zhou-sai-ti-jie-by-bnd",
+        "title": "C++ 前缀和（配全套周赛题解）"
+      },
+      "position": 5,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "qian-zhui-he-liang-ci-bian-li-by-w-avan",
+        "title": "前缀和，两次遍历，"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "ways-to-make-a-fair-array"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 6,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "liang-ci-bian-li-qiu-jie-by-zhe-zhi-shi-ta-bu-jin-",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n记奇数下标元素和为sumOdd，偶数下标元素和为sumEven。\n无论删除的是哪个位置，该位置后面的元素都是左移一位，下标的奇偶性都会改变。\n比较删除i位置元素和i+1位置元素这两种情况，两种情况下的奇下标元素和与偶下标元素和，只是相差了nums[i]和nums[i+1]。因为这两种情况，i左边的元素 和 i",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "两次遍历 空间复杂度O(1)",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 4,
+        "id": 493824,
+        "viewCount": 632
+      },
+      "uuid": "oUb1J6",
+      "videosInfo": []
+    }
+  }
+}

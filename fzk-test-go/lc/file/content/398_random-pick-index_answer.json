@@ -1,0 +1,90 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "卖码翁",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/jyj407/avatar_1610809198.png",
+          "userSlug": "jyj407"
+        },
+        "username": "jyj407"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n\n- **解法1** 暴力用哈希表存储每个值到其所有索引的映射。用rand函数随机选择一个索引返回即可。需要很多额外空间。\n\n\n- **解法2** 蓄水池抽样（Random Reservior Sampling) 保存整个nums数组。O(N)额外空间\n假设当前正要读取第n个数据，则我们以`1/n`的概率留下该数据，否则以`(n-1)/n` 的概率留下前`n-1`个数据中的一个。而前n-1个数组留下的那个概率为`1/(n-1)`, 因此最终留下上次n-1个数中留下的那个数的概率为`[1/(n-1)]*[(n-1)/n] = 1/n`,符合均匀分布的要求。该题比普通的随机蓄水池抽样不一样的地方在于，每次等概率选择target的index,因此需要额外加一个guard即可。\n `if (nums[i] == target) {...}`\n\n\n- **解法3**：蓄水池抽样（Random Reservior Sampling) 不保存整个nums数组。只保存开始和结束为止的iterator，O(1)额外空间。\n思路完全跟解法2一样。但是空间降为了O(1)，因为省略去了nums数组copy的代价。\n\n\n### 代码\n\n```cpp\n// Brutal Force\nclass Solution1 {\npublic:\n    Solution1(vector<int>& nums) {\n        for (int i = 0; i < nums.size(); i++) {\n            mp[nums[i]].push_back(i);\n        }\n    }\n    \n    int pick(int target) {\n        auto indices = mp[target];\n        int r = rand() % indices.size();\n        return indices[r];\n    }\n\nprivate:\n    unordered_map<int, vector<int>> mp;\n};\n\n// 假设当前正要读取第n个数据，则我们以1/n的概率留下该数据，否则以(n-1)/n 的概率留下前n-1个数据中的一个。\n// 而前n-1个数组留下的那个概率为1/(n-1), 因此最终留下上次n-1个数中留下的那个数的概率为[1/(n-1)]*[(n-1)/n] = 1/n,符合均匀分布的要求\nclass Solution2 {\npublic:\n    Solution2(vector<int>& nums) {\n        this->nums = nums;\n    }\n    \n    int pick(int target) {\n        int cnt = 0;\n        int index = -1;\n        for (int i = 0; i < nums.size(); i++) {\n            if (nums[i] == target) {\n                cnt++;\n                if (rand() % cnt == 0) {\n                    index = i; // 1/i prob\n                }\n            }\n        }\n\n        return index;\n    }\n\nprivate:\n    vector<int> nums;\n};\n\n\nclass Solution3 {\npublic:\n    Solution3(vector<int>& nums) {\n        begin = nums.begin();\n        end = nums.end();\n    }\n    \n    int pick(int target) {\n        int index = -1;\n        int cnt = 0;\n        int i = 0;\n        for (auto iter = begin; iter != end; iter++) {\n            if (*iter == target) {\n                cnt++;\n                if (rand() % cnt == 0) {\n                    index = i; // 1/i prob choose current index\n                }\n            }\n            i++;\n        }\n\n        return index;\n    }\n\nprivate:\n    vector<int>::iterator begin;\n    vector<int>::iterator end;\n};\n\n```",
+      "createdAt": "2020-11-08T12:25:06.914647+00:00",
+      "hitCount": 4136,
+      "identifier": "byzkl3",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "python3-bian-li-lie-biao-cun-chu-mu-biao-1lep",
+        "title": "python3 遍历列表，存储目标值索引，随机读取"
+      },
+      "position": 3,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "xu-shui-chi-chou-yang-wen-ti-by-an-xin-9",
+        "title": "蓄水池抽样问题"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "random-pick-index"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 12,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "zhong-gui-zhong-ju-xu-shui-chi-chou-yang-random-re",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n\n\n解法1 暴力用哈希表存储每个值到其所有索引的映射。用rand函数随机选择一个索引返回即可。需要很多额外空间。\n\n\n解法2 蓄水池抽样（Random Reservior Sampling) 保存整个nums数组。O(N)额外空间\n假设当前正要读取第n个数据，则我们以1/n的概率留下该数据，否则以(n-1)/",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Reservoir Sampling",
+          "nameTranslated": "水塘抽样",
+          "slug": "reservoir-sampling",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Random",
+          "nameTranslated": "",
+          "slug": "random",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "【中规中矩】398蓄水池抽样（Random Reservior Sampling多解法）",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 477721,
+        "viewCount": 3192
+      },
+      "uuid": "byzkl3",
+      "videosInfo": []
+    }
+  }
+}

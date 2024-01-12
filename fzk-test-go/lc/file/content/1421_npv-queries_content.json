@@ -1,0 +1,73 @@
+{
+  "data": {
+    "question": {
+      "__typename": "QuestionNode",
+      "book": null,
+      "boundTopicId": 217289,
+      "categoryTitle": "Database",
+      "codeSnippets": null,
+      "companyTagStats": null,
+      "content": null,
+      "contributors": [],
+      "dailyRecordStatus": null,
+      "difficulty": "Easy",
+      "dislikes": 0,
+      "editorType": "CKEDITOR",
+      "enableRunCode": true,
+      "envInfo": "{\"mysql\":[\"MySQL\",\"<p>\\u7248\\u672c\\uff1a<code>MySQL 8.0<\\/code><\\/p>\"],\"mssql\":[\"MS SQL Server\",\"<p>mssql server 2019.<\\/p>\"],\"oraclesql\":[\"Oracle\",\"<p>Oracle Sql 11.2.<\\/p>\"]}",
+      "exampleTestcases": "{\"headers\":{\"NPV\":[\"id\",\"year\",\"npv\"],\"Queries\":[\"id\",\"year\"]},\"rows\":{\"NPV\":[[1,2018,100],[7,2020,30],[13,2019,40],[1,2019,113],[2,2008,121],[3,2009,21],[11,2020,99],[7,2019,0]],\"Queries\":[[1,2019],[2,2008],[3,2009],[7,2018],[7,2019],[7,2020],[13,2019]]}}",
+      "hints": [],
+      "isDailyQuestion": false,
+      "isLiked": null,
+      "isPaidOnly": true,
+      "isSubscribed": false,
+      "judgeType": "large",
+      "judgerAvailable": true,
+      "langToValidPlayground": null,
+      "likes": 4,
+      "metaData": "{\n  \"mysql\": [\n    \"Create Table If Not Exists NPV (id int, year int, npv int)\",\n    \"Create Table If Not Exists Queries (id int, year int)\"\n  ],\n  \"mssql\": [\n    \"Create Table NPV (id int, year int, npv int)\",\n    \"Create Table Queries (id int, year int)\"\n  ],\n  \"oraclesql\": [\n    \"Create Table NPV (id int, year int, npv int)\",\n    \"Create Table Queries (id int, year int)\"\n  ],\n  \"database\": true\n}",
+      "mysqlSchemas": [
+        "Create Table If Not Exists NPV (id int, year int, npv int)",
+        "Create Table If Not Exists Queries (id int, year int)",
+        "Truncate table NPV",
+        "insert into NPV (id, year, npv) values ('1', '2018', '100')",
+        "insert into NPV (id, year, npv) values ('7', '2020', '30')",
+        "insert into NPV (id, year, npv) values ('13', '2019', '40')",
+        "insert into NPV (id, year, npv) values ('1', '2019', '113')",
+        "insert into NPV (id, year, npv) values ('2', '2008', '121')",
+        "insert into NPV (id, year, npv) values ('3', '2009', '21')",
+        "insert into NPV (id, year, npv) values ('11', '2020', '99')",
+        "insert into NPV (id, year, npv) values ('7', '2019', '0')",
+        "Truncate table Queries",
+        "insert into Queries (id, year) values ('1', '2019')",
+        "insert into Queries (id, year) values ('2', '2008')",
+        "insert into Queries (id, year) values ('3', '2009')",
+        "insert into Queries (id, year) values ('7', '2018')",
+        "insert into Queries (id, year) values ('7', '2019')",
+        "insert into Queries (id, year) values ('7', '2020')",
+        "insert into Queries (id, year) values ('13', '2019')"
+      ],
+      "questionFrontendId": "1421",
+      "questionId": "1551",
+      "sampleTestCase": "{\"headers\":{\"NPV\":[\"id\",\"year\",\"npv\"],\"Queries\":[\"id\",\"year\"]},\"rows\":{\"NPV\":[[1,2018,100],[7,2020,30],[13,2019,40],[1,2019,113],[2,2008,121],[3,2009,21],[11,2020,99],[7,2019,0]],\"Queries\":[[1,2019],[2,2008],[3,2009],[7,2018],[7,2019],[7,2020],[13,2019]]}}",
+      "similarQuestions": "[]",
+      "solution": null,
+      "stats": "{\"totalAccepted\": \"3.1K\", \"totalSubmission\": \"4.2K\", \"totalAcceptedRaw\": 3092, \"totalSubmissionRaw\": 4150, \"acRate\": \"74.5%\"}",
+      "status": null,
+      "style": "LEETCODE",
+      "title": "NPV Queries",
+      "titleSlug": "npv-queries",
+      "topicTags": [
+        {
+          "__typename": "TopicTagNode",
+          "name": "Database",
+          "slug": "database",
+          "translatedName": "数据库"
+        }
+      ],
+      "translatedContent": null,
+      "translatedTitle": "净现值查询",
+      "ugcQuestionId": null
+    }
+  }
+}

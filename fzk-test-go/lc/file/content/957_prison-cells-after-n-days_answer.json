@@ -1,0 +1,89 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣 (LeetCode)",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/uploaded_files/2021/03/73c9f099-abbe-4d94-853f-f8abffd459cd/leetcode.png",
+          "userSlug": "leetcode"
+        },
+        "username": "LeetCode"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法 1：模拟\n\n**想法**\n\n模拟每一天监狱的状态。\n\n由于监狱最多只有 256 种可能的状态，所以状态一定会快速的形成一个循环。我们可以当状态循环出现的时候记录下循环的周期 `t` 然后跳过 `t` 的倍数的天数。\n\n**算法**\n\n实现一个简单的模拟，每次迭代一天的情况。对于每一天，我们减少剩余的天数 `N`，然后将监狱状态改变成（`state -> nextDay(state)`）。\n\n如果我们到达一个已经访问的状态，并且知道距当前过去了多久，设为 `t`，那么由于这是一个循环，可以让 `N %= t`。这确保了我们的算法只需要执行 $O(2^{\\text{cells.length}})$ 步。\n\n```Java []\nclass Solution {\n    public int[] prisonAfterNDays(int[] cells, int N) {\n        Map<Integer, Integer> seen = new HashMap();\n\n        // state  = integer representing state of prison\n        int state = 0;\n        for (int i = 0; i < 8; ++i) {\n            if (cells[i] > 0)\n                state ^= 1 << i;\n        }\n\n        // While days remaining, simulate a day\n        while (N > 0) {\n            // If this is a cycle, fast forward by\n            // seen.get(state) - N, the period of the cycle.\n            if (seen.containsKey(state)) {\n                N %= seen.get(state) - N;\n            }\n            seen.put(state, N);\n\n            if (N >= 1) {\n                N--;\n                state = nextDay(state);\n            }\n        }\n\n        // Convert the state back to the required answer.\n        int[] ans = new int[8];\n        for (int i = 0; i < 8; ++i) {\n            if (((state >> i) & 1) > 0) {\n                ans[i] = 1;\n            }\n        }\n\n        return ans;\n    }\n\n    public int nextDay(int state) {\n        int ans = 0;\n\n        // We only loop from 1 to 6 because 0 and 7 are impossible,\n        // as those cells only have one neighbor.\n        for (int i = 1; i <= 6; ++i) {\n            if (((state >> (i-1)) & 1) == ((state >> (i+1)) & 1)) {\n                ans ^= 1 << i;\n            }\n        }\n\n        return ans;\n    }\n}\n```\n\n```Python []\nclass Solution(object):\n    def prisonAfterNDays(self, cells, N):\n        def nextday(cells):\n            return [int(i > 0 and i < 7 and cells[i-1] == cells[i+1])\n                    for i in xrange(8)]\n\n        seen = {}\n        while N > 0:\n            c = tuple(cells)\n            if c in seen:\n                N %= seen[c] - N\n            seen[c] = N\n\n            if N >= 1:\n                N -= 1\n                cells = nextday(cells)\n\n        return cells\n```\n\n**复杂度分析**\n\n* 时间复杂度：$O(2^N)$，其中 $N$ 是监狱房间的个数。\n* 空间复杂度：$O(2^N * N)$。",
+      "createdAt": "2019-08-02T14:08:08.074844+00:00",
+      "hitCount": 18568,
+      "identifier": "FNN96A",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "957-cji-hu-shuang-bai-de-mo-ni-jie-fa-by-4ks8",
+        "title": "957. c++几乎双百的模拟解法"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "prison-cells-after-n-days"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 13,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "CONFUSED"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "n-tian-hou-de-lao-fang-by-leetcode",
+      "status": "PUBLISHED",
+      "summary": "§ 方法 1：模拟\n想法\n模拟每一天监狱的状态。\n由于监狱最多只有 256 种可能的状态，所以状态一定会快速的形成一个循环。我们可以当状态循环出现的时候记录下循环的周期 t 然后跳过 t 的倍数的天数。\n算法\n实现一个简单的模拟，每次迭代一天的情况。对于每一天，我们减少剩余的天数 N，然后将监狱状态改变成（state ",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "N 天后的牢房",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 20,
+        "id": 18185,
+        "viewCount": 13164
+      },
+      "uuid": "FNN96A",
+      "videosInfo": []
+    }
+  }
+}

@@ -1,0 +1,81 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "Ikaruga",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/ikaruga/avatar_1557742387.png",
+          "userSlug": "ikaruga"
+        },
+        "username": "ikaruga"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 思路\r\n1. 使用滑动窗口找出所有和为 target 的子数组\r\n2. 使用 `multimap` 按照长度保存\r\n3. 使用双循环依次遍历两个不同的子数组\r\n    31. 如果有交叉跳过，注意是按长度排的，要在前在后都判断\r\n    32. 记录最小值\r\n    33. 剪枝\r\n\r\n### 答题\r\n```C++ []\r\nclass Solution {\r\npublic:\r\n    int minSumOfLengths(vector<int>& arr, int target) {\r\n        multimap<int, int> rec;\r\n        int left = 0;\r\n        int right = 0;\r\n        int sum = 0;\r\n        while (right < arr.size()) {\r\n            sum += arr[right];\r\n            right++;\r\n            if (sum < target) continue;\r\n            while (sum > target) {\r\n                sum -= arr[left];\r\n                left++;\r\n            }\r\n            if (sum == target) {\r\n                rec.insert({ right - left, left });\r\n            }\r\n        }\r\n\r\n        int ans = INT_MAX;\r\n        for (auto r1 = rec.begin(); r1 != rec.end(); r1++) {\r\n            if (r1->first * 2 >= ans) break;\r\n            auto r2 = r1;\r\n            while ((++r2) != rec.end()) {\r\n                if (r1->second < r2->second && r1->second + r1->first > r2->second) continue;\r\n                if (r2->second < r1->second && r2->second + r2->first > r1->second) continue;\r\n                ans = min(ans, r1->first + r2->first);\r\n                break;\r\n            }\r\n        }\r\n\r\n        return ans == INT_MAX ? -1 : ans;\r\n    }\r\n};\r\n```\r\n\r\n\r\n### 致谢\r\n\r\n感谢您的观看，希望对您有帮助，欢迎热烈的交流！  \r\n\r\n**如果感觉还不错就点个赞吧~**\r\n\r\n这是 [我的leetcode](https://github.com/AhJo53589/leetcode-cn) ，帮助我收集整理题目，可以方便的 `visual studio` 调试，欢迎关注，star\r\n\r\n",
+      "createdAt": "2020-06-13T17:12:51.454277+00:00",
+      "hitCount": 5345,
+      "identifier": "PD3XNL",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "biao-zhun-de-dong-tai-gui-hua-zhu-xing-jiang-jie-b",
+        "title": "标准的动态规划，逐行讲解 ----- 不用滑窗，一次遍历"
+      },
+      "position": 2,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "xiang-xi-jiang-jie-yi-xia-shuang-zhi-zhe-jjt9",
+        "title": "详细讲解一下双指针+动态规划O(n)时间复杂度解题"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "find-two-non-overlapping-sub-arrays-each-with-target-sum"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 29,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": false,
+      "slug": "find-two-by-ikaruga",
+      "status": "PREPUBLISH",
+      "summary": "思路\n\n使用滑动窗口找出所有和为 target 的子数组\n使用 multimap 按照长度保存\n使用双循环依次遍历两个不同的子数组\n31. 如果有交叉跳过，注意是按长度排的，要在前在后都判断\n32. 记录最小值\n33. 剪枝\n\n答题\n致谢\n感谢您的观看，希望对您有帮助，欢迎热烈的交流！\n如果感觉还不错就点个赞吧~\n这是",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "【找两个和为目标值且不重叠的子数组】滑动窗口",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 15,
+        "id": 287554,
+        "viewCount": 3862
+      },
+      "uuid": "PD3XNL",
+      "videosInfo": []
+    }
+  }
+}

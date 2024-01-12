@@ -1,0 +1,96 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣 (LeetCode)",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/uploaded_files/2021/03/73c9f099-abbe-4d94-853f-f8abffd459cd/leetcode.png",
+          "userSlug": "leetcode"
+        },
+        "username": "LeetCode"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法一：动态规划\n\n我们在判断 `A[i]` 和 `B[i]` 是否交换时，只需要考虑它们之前的一个元素 `A[i - 1]` 和 `B[i - 1]` 是否被交换就可以了。这是因为要使得序列严格递增，每个元素只要大于它之前的那个元素就行。这样以来，我们就可以用动态规划的方法来解决这个问题。\n\n我们用 `n1` 表示数组 `A` 和 `B` 满足前 `i - 1` 个元素分别严格递增，并且 `A[i - 1]` 和 `B[i - 1]` 未被交换的最小交换次数，用 `s1` 表示 `A[i - 1]` 和 `B[i - 1]` 被交换的最小交换次数。当我们知道了 `n1` 和 `s1` 的值之后，我们需要通过转移得到 `n2` 和 `s2`（和之前的定义相同，只不过考虑的是 `A[i]` 和 `B[i]` 这两个元素）的值。\n\n我们令 `a1 = A[i - 1], b1 = B[i - 1]` 以及 `a2 = A[i], b2 = B[i]`。如果 `a1 < a2` 并且 `b1 < b2`，那如果 `a1` 和 `b1` 未被交换，`a2` 和 `b2` 就可以不交换；同样如果 `a1` 和 `b1` 被交换了，`a2` 和 `b2` 在交换后满足严格递增的条件。因此我们得到了两个状态转移方程：`n2 = min(n2, n1)` 以及 `s2 = min(s2, s1 + 1)`，分别表示 `a1` 和 `b1` 未被交换和被交换的情况。\n\n如果 `a1 < b2` 并且 `b1 < a2`，那么要满足严格递增的条件，必须要交换其中的一列，要么是 `A[i - 1]` 和 `B[i - 1]`，要么是 `A[i]` 和 `B[i]`。因此有这两个状态转移方程：`n2 = min(n2, s1)` 以及 `s2 = min(s2, n1 + 1)`。\n\n上面两种情况可能会同时发生（并不是互斥的），因此每一次状态转移的时候，这两种情况都必须要考虑。最后的答案即为 `n2` 和 `s2` 中的最小值。\n\n```Java [sol1]\nclass Solution {\n    public int minSwap(int[] A, int[] B) {\n        // n: natural, s: swapped\n        int n1 = 0, s1 = 1;\n        for (int i = 1; i < A.length; ++i) {\n            int n2 = Integer.MAX_VALUE, s2 = Integer.MAX_VALUE;\n            if (A[i-1] < A[i] && B[i-1] < B[i]) {\n                n2 = Math.min(n2, n1);\n                s2 = Math.min(s2, s1 + 1);\n            }\n            if (A[i-1] < B[i] && B[i-1] < A[i]) {\n                n2 = Math.min(n2, s1);\n                s2 = Math.min(s2, n1 + 1);\n            }\n            n1 = n2;\n            s1 = s2;\n        }\n        return Math.min(n1, s1);\n    }\n}\n```\n\n```Python [sol1]\nclass Solution(object):\n    def minSwap(self, A, B):\n        n1, s1 = 0, 1\n        for i in xrange(1, len(A)):\n            n2 = s2 = float(\"inf\")\n            if A[i-1] < A[i] and B[i-1] < B[i]:\n                n2 = min(n2, n1)\n                s2 = min(s2, s1 + 1)\n            if A[i-1] < B[i] and B[i-1] < A[i]:\n                n2 = min(n2, s1)\n                s2 = min(s2, n1 + 1)\n\n            n1, s1 = n2, s2\n\n        return min(n1, s1)\n```\n\n**复杂度分析**\n\n* 时间复杂度：$O(N)$。\n\n* 空间复杂度：$O(1)$。",
+      "createdAt": "2019-10-29T06:18:43.650798+00:00",
+      "hitCount": 12874,
+      "identifier": "vPr7cd",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "dong-tai-gui-hua-de-yi-ban-bu-zou-by-li-zhi-chao-4",
+        "title": "动态规划的一般步骤"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "minimum-swaps-to-make-sequences-increasing"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 11,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "AWESOME"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "CONFUSED"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "shi-xu-lie-di-zeng-de-zui-xiao-jiao-huan-ci-shu-by",
+      "status": "PUBLISHED",
+      "summary": "§ 方法一：动态规划\n我们在判断 A[i] 和 B[i] 是否交换时，只需要考虑它们之前的一个元素 A[i - 1] 和 B[i - 1] 是否被交换就可以了。这是因为要使得序列严格递增，每个元素只要大于它之前的那个元素就行。这样以来，我们就可以用动态规划的方法来解决这个问题。\n我们用 n1 表示数组 A 和 B 满足",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Dynamic Programming",
+          "nameTranslated": "动态规划",
+          "slug": "dynamic-programming",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "使序列递增的最小交换次数",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 22,
+        "id": 38835,
+        "viewCount": 8778
+      },
+      "uuid": "vPr7cd",
+      "videosInfo": []
+    }
+  }
+}

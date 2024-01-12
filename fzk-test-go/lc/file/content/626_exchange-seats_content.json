@@ -1,0 +1,80 @@
+{
+  "data": {
+    "question": {
+      "__typename": "QuestionNode",
+      "book": null,
+      "boundTopicId": 1521,
+      "categoryTitle": "Database",
+      "codeSnippets": [
+        {
+          "__typename": "CodeSnippetNode",
+          "code": "# Write your MySQL query statement below",
+          "lang": "MySQL",
+          "langSlug": "mysql"
+        },
+        {
+          "__typename": "CodeSnippetNode",
+          "code": "/* Write your T-SQL query statement below */",
+          "lang": "MS SQL Server",
+          "langSlug": "mssql"
+        },
+        {
+          "__typename": "CodeSnippetNode",
+          "code": "/* Write your PL/SQL query statement below */",
+          "lang": "Oracle",
+          "langSlug": "oraclesql"
+        }
+      ],
+      "companyTagStats": null,
+      "content": "<p>Table: <code>Seat</code></p>\n\n<pre>\n+-------------+---------+\n| Column Name | Type    |\n+-------------+---------+\n| id          | int     |\n| name        | varchar |\n+-------------+---------+\nid is the primary key column for this table.\nEach row of this table indicates the name and the ID of a student.\nid is a continuous increment.\n</pre>\n\n<p>&nbsp;</p>\n\n<p>Write an SQL query to swap the seat id of every two consecutive students. If the number of students is odd, the id of the last student is not swapped.</p>\n\n<p>Return the result table ordered by <code>id</code> <strong>in ascending order</strong>.</p>\n\n<p>The query result format is in the following example.</p>\n\n<p>&nbsp;</p>\n<p><strong>Example 1:</strong></p>\n\n<pre>\n<strong>Input:</strong> \nSeat table:\n+----+---------+\n| id | student |\n+----+---------+\n| 1  | Abbot   |\n| 2  | Doris   |\n| 3  | Emerson |\n| 4  | Green   |\n| 5  | Jeames  |\n+----+---------+\n<strong>Output:</strong> \n+----+---------+\n| id | student |\n+----+---------+\n| 1  | Doris   |\n| 2  | Abbot   |\n| 3  | Green   |\n| 4  | Emerson |\n| 5  | Jeames  |\n+----+---------+\n<strong>Explanation:</strong> \nNote that if the number of students is odd, there is no need to change the last one&#39;s seat.\n</pre>\n",
+      "contributors": [],
+      "dailyRecordStatus": null,
+      "difficulty": "Medium",
+      "dislikes": 0,
+      "editorType": "CKEDITOR",
+      "enableRunCode": true,
+      "envInfo": "{\"mysql\":[\"MySQL\",\"<p>\\u7248\\u672c\\uff1a<code>MySQL 8.0<\\/code><\\/p>\"],\"mssql\":[\"MS SQL Server\",\"<p>mssql server 2019.<\\/p>\"],\"oraclesql\":[\"Oracle\",\"<p>Oracle Sql 11.2.<\\/p>\"]}",
+      "exampleTestcases": "{\"headers\": {\"Seat\": [\"id\",\"student\"]}, \"rows\": {\"Seat\": [[1,\"Abbot\"],[2,\"Doris\"],[3,\"Emerson\"],[4,\"Green\"],[5,\"Jeames\"]]}}",
+      "hints": [],
+      "isDailyQuestion": false,
+      "isLiked": null,
+      "isPaidOnly": false,
+      "isSubscribed": false,
+      "judgeType": "large",
+      "judgerAvailable": true,
+      "langToValidPlayground": "{\"cpp\": false, \"java\": false, \"python\": false, \"python3\": false, \"mysql\": false, \"mssql\": false, \"oraclesql\": false, \"c\": false, \"csharp\": false, \"javascript\": false, \"ruby\": false, \"bash\": false, \"swift\": false, \"golang\": false, \"scala\": false, \"html\": false, \"pythonml\": false, \"kotlin\": false, \"rust\": false, \"php\": false, \"typescript\": false, \"racket\": false, \"erlang\": false, \"elixir\": false}",
+      "likes": 277,
+      "metaData": "{\n  \"mysql\": [\n    \"Create table If Not Exists Seat (id int, student varchar(255))\"\n  ],\n  \"mssql\": [\n    \"Create table Seat (id int, student varchar(255))\"\n  ],\n  \"oraclesql\": [\n    \"Create table Seat (id int, student varchar(255))\"\n  ],\n  \"database\": true\n}",
+      "mysqlSchemas": [
+        "Create table If Not Exists Seat (id int, student varchar(255))",
+        "Truncate table Seat",
+        "insert into Seat (id, student) values ('1', 'Abbot')",
+        "insert into Seat (id, student) values ('2', 'Doris')",
+        "insert into Seat (id, student) values ('3', 'Emerson')",
+        "insert into Seat (id, student) values ('4', 'Green')",
+        "insert into Seat (id, student) values ('5', 'Jeames')"
+      ],
+      "questionFrontendId": "626",
+      "questionId": "626",
+      "sampleTestCase": "{\"headers\": {\"Seat\": [\"id\",\"student\"]}, \"rows\": {\"Seat\": [[1,\"Abbot\"],[2,\"Doris\"],[3,\"Emerson\"],[4,\"Green\"],[5,\"Jeames\"]]}}",
+      "similarQuestions": "[]",
+      "solution": null,
+      "stats": "{\"totalAccepted\": \"47.5K\", \"totalSubmission\": \"69.4K\", \"totalAcceptedRaw\": 47450, \"totalSubmissionRaw\": 69398, \"acRate\": \"68.4%\"}",
+      "status": null,
+      "style": "LEETCODE",
+      "title": "Exchange Seats",
+      "titleSlug": "exchange-seats",
+      "topicTags": [
+        {
+          "__typename": "TopicTagNode",
+          "name": "Database",
+          "slug": "database",
+          "translatedName": "数据库"
+        }
+      ],
+      "translatedContent": "<p>小美是一所中学的信息科技老师，她有一张 <code>seat</code>&nbsp;座位表，平时用来储存学生名字和与他们相对应的座位 id。</p>\n\n<p>其中纵列的&nbsp;<strong>id&nbsp;</strong>是连续递增的</p>\n\n<p>小美想改变相邻俩学生的座位。</p>\n\n<p>你能不能帮她写一个 SQL query&nbsp;来输出小美想要的结果呢？</p>\n\n<p>&nbsp;</p>\n\n<p><strong>示例：</strong></p>\n\n<pre>\n+---------+---------+\n|    id   | student |\n+---------+---------+\n|    1    | Abbot   |\n|    2    | Doris   |\n|    3    | Emerson |\n|    4    | Green   |\n|    5    | Jeames  |\n+---------+---------+\n</pre>\n\n<p>假如数据输入的是上表，则输出结果如下：</p>\n\n<pre>\n+---------+---------+\n|    id   | student |\n+---------+---------+\n|    1    | Doris   |\n|    2    | Abbot   |\n|    3    | Green   |\n|    4    | Emerson |\n|    5    | Jeames  |\n+---------+---------+</pre>\n\n<p><strong>注意：</strong></p>\n\n<p>如果学生人数是奇数，则不需要改变最后一个同学的座位。</p>\n",
+      "translatedTitle": "换座位",
+      "ugcQuestionId": null
+    }
+  }
+}

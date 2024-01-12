@@ -1,0 +1,72 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "yruier",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/default_avatar.png",
+          "userSlug": "zhi-ting-c8"
+        },
+        "username": "zhi-ting-c8"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "```\r\nvar waysToPartition = function(nums, k) {\r\n    let lMap = new Map();     \r\n    let rMap = new Map();\r\n    let sum = 0;\r\n    for(let num of nums){\r\n        sum += num;\r\n    }\r\n    let rDiff = sum;\r\n    let lDiff = -sum;\r\n    let max = 0;\r\n    for(let i = 0;i < nums.length;i ++){\r\n        lDiff += 2 * nums[i];\r\n        if(i == nums.length - 1) max = lMap.get(0)||0;\r\n        lMap.set(lDiff,(lMap.get(lDiff) || 0) + 1);  \r\n    }\r\n    rMap.set(rDiff,-1)\r\n    for(let i = nums.length - 1;i >= 0;i --){\r\n        let tmp = k - nums[i];\r\n        lMap.set(lDiff,(lMap.get(lDiff) || 0) - 1);\r\n        rMap.set(rDiff,(rMap.get(rDiff) || 0) + 1);\r\n        lDiff -= 2 * nums[i];\r\n        rDiff -= 2 * nums[i];  \r\n        max = Math.max((rMap.get(-tmp)||0) + (lMap.get(tmp)||0),max); \r\n    }\r\n    return max;\r\n};\r\n```\r\n",
+      "createdAt": "2021-11-26T08:00:29.543523+00:00",
+      "hitCount": 2,
+      "identifier": "4Jqi2R",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "qian-zhui-he-ha-xi-biao-mei-ju-xiu-gai-y-l546",
+        "title": "前缀和+双哈希表+枚举修改元素"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "maximum-number-of-ways-to-partition-an-array"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "shuang-ha-xi-biao-mei-ju-xiu-gai-yuan-su-r3d4",
+      "status": "PUBLISHED",
+      "summary": "[该用户太懒了，只写了 26 行代码]",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "JavaScript",
+          "nameTranslated": "",
+          "slug": "javascript",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "双哈希表 + 枚举修改元素",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1123594,
+        "viewCount": 2
+      },
+      "uuid": "4Jqi2R",
+      "videosInfo": []
+    }
+  }
+}

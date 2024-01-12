@@ -1,0 +1,79 @@
+{
+  "data": {
+    "question": {
+      "__typename": "QuestionNode",
+      "book": null,
+      "boundTopicId": 1112,
+      "categoryTitle": "Database",
+      "codeSnippets": [
+        {
+          "__typename": "CodeSnippetNode",
+          "code": "# Write your MySQL query statement below",
+          "lang": "MySQL",
+          "langSlug": "mysql"
+        },
+        {
+          "__typename": "CodeSnippetNode",
+          "code": "/* Write your T-SQL query statement below */",
+          "lang": "MS SQL Server",
+          "langSlug": "mssql"
+        },
+        {
+          "__typename": "CodeSnippetNode",
+          "code": "/* Write your PL/SQL query statement below */",
+          "lang": "Oracle",
+          "langSlug": "oraclesql"
+        }
+      ],
+      "companyTagStats": null,
+      "content": "<p>Table: <code>Employee</code></p>\n\n<pre>\n+-------------+---------+\n| Column Name | Type    |\n+-------------+---------+\n| id          | int     |\n| name        | varchar |\n| salary      | int     |\n| managerId   | int     |\n+-------------+---------+\nid is the primary key column for this table.\nEach row of this table indicates the ID of an employee, their name, salary, and the ID of their manager.\n</pre>\n\n<p>&nbsp;</p>\n\n<p>Write an SQL query to find the employees who earn more than their managers.</p>\n\n<p>Return the result table in <strong>any order</strong>.</p>\n\n<p>The query result format is in the following example.</p>\n\n<p>&nbsp;</p>\n<p><strong>Example 1:</strong></p>\n\n<pre>\n<strong>Input:</strong> \nEmployee table:\n+----+-------+--------+-----------+\n| id | name  | salary | managerId |\n+----+-------+--------+-----------+\n| 1  | Joe   | 70000  | 3         |\n| 2  | Henry | 80000  | 4         |\n| 3  | Sam   | 60000  | Null      |\n| 4  | Max   | 90000  | Null      |\n+----+-------+--------+-----------+\n<strong>Output:</strong> \n+----------+\n| Employee |\n+----------+\n| Joe      |\n+----------+\n<strong>Explanation:</strong> Joe is the only employee who earns more than his manager.\n</pre>\n",
+      "contributors": [],
+      "dailyRecordStatus": null,
+      "difficulty": "Easy",
+      "dislikes": 0,
+      "editorType": "CKEDITOR",
+      "enableRunCode": true,
+      "envInfo": "{\"mysql\":[\"MySQL\",\"<p>\\u7248\\u672c\\uff1a<code>MySQL 8.0<\\/code><\\/p>\"],\"mssql\":[\"MS SQL Server\",\"<p>mssql server 2019.<\\/p>\"],\"oraclesql\":[\"Oracle\",\"<p>Oracle Sql 11.2.<\\/p>\"]}",
+      "exampleTestcases": "{\"headers\": {\"Employee\": [\"id\", \"name\", \"salary\", \"managerId\"]}, \"rows\": {\"Employee\": [[1, \"Joe\", 70000, 3], [2, \"Henry\", 80000, 4], [3, \"Sam\", 60000, null], [4, \"Max\", 90000, null]]}}",
+      "hints": [],
+      "isDailyQuestion": false,
+      "isLiked": null,
+      "isPaidOnly": false,
+      "isSubscribed": false,
+      "judgeType": "large",
+      "judgerAvailable": true,
+      "langToValidPlayground": "{\"cpp\": false, \"java\": false, \"python\": false, \"python3\": false, \"mysql\": false, \"mssql\": false, \"oraclesql\": false, \"c\": false, \"csharp\": false, \"javascript\": false, \"ruby\": false, \"bash\": false, \"swift\": false, \"golang\": false, \"scala\": false, \"html\": false, \"pythonml\": false, \"kotlin\": false, \"rust\": false, \"php\": false, \"typescript\": false, \"racket\": false, \"erlang\": false, \"elixir\": false}",
+      "likes": 436,
+      "metaData": "{\n  \"mysql\": [\n    \"Create table If Not Exists Employee (id int, name varchar(255), salary int, managerId int)\"\n  ],\n  \"mssql\": [\n    \"Create table Employee (id int, name varchar(255), salary int, managerId int)\"\n  ],\n  \"oraclesql\": [\n    \"Create table Employee (id int, name varchar(255), salary int, managerId int)\"\n  ],\n  \"database\": true\n}",
+      "mysqlSchemas": [
+        "Create table If Not Exists Employee (id int, name varchar(255), salary int, managerId int)",
+        "Truncate table Employee",
+        "insert into Employee (id, name, salary, managerId) values ('1', 'Joe', '70000', '3')",
+        "insert into Employee (id, name, salary, managerId) values ('2', 'Henry', '80000', '4')",
+        "insert into Employee (id, name, salary, managerId) values ('3', 'Sam', '60000', 'None')",
+        "insert into Employee (id, name, salary, managerId) values ('4', 'Max', '90000', 'None')"
+      ],
+      "questionFrontendId": "181",
+      "questionId": "181",
+      "sampleTestCase": "{\"headers\": {\"Employee\": [\"id\", \"name\", \"salary\", \"managerId\"]}, \"rows\": {\"Employee\": [[1, \"Joe\", 70000, 3], [2, \"Henry\", 80000, 4], [3, \"Sam\", 60000, null], [4, \"Max\", 90000, null]]}}",
+      "similarQuestions": "[]",
+      "solution": null,
+      "stats": "{\"totalAccepted\": \"174.4K\", \"totalSubmission\": \"249.7K\", \"totalAcceptedRaw\": 174450, \"totalSubmissionRaw\": 249728, \"acRate\": \"69.9%\"}",
+      "status": null,
+      "style": "LEETCODE",
+      "title": "Employees Earning More Than Their Managers",
+      "titleSlug": "employees-earning-more-than-their-managers",
+      "topicTags": [
+        {
+          "__typename": "TopicTagNode",
+          "name": "Database",
+          "slug": "database",
+          "translatedName": "数据库"
+        }
+      ],
+      "translatedContent": "<p><code>Employee</code>&nbsp;表包含所有员工，他们的经理也属于员工。每个员工都有一个 Id，此外还有一列对应员工的经理的 Id。</p>\n\n<pre>+----+-------+--------+-----------+\n| Id | Name  | Salary | ManagerId |\n+----+-------+--------+-----------+\n| 1  | Joe   | 70000  | 3         |\n| 2  | Henry | 80000  | 4         |\n| 3  | Sam   | 60000  | NULL      |\n| 4  | Max   | 90000  | NULL      |\n+----+-------+--------+-----------+\n</pre>\n\n<p>给定&nbsp;<code>Employee</code>&nbsp;表，编写一个 SQL 查询，该查询可以获取收入超过他们经理的员工的姓名。在上面的表格中，Joe 是唯一一个收入超过他的经理的员工。</p>\n\n<pre>+----------+\n| Employee |\n+----------+\n| Joe      |\n+----------+\n</pre>\n",
+      "translatedTitle": "超过经理收入的员工",
+      "ugcQuestionId": null
+    }
+  }
+}

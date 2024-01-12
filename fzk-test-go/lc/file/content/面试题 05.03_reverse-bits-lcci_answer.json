@@ -1,0 +1,100 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "SorryMaker",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/sorrymaker-xz/avatar_1607526893.png",
+          "userSlug": "sorrymaker-xz"
+        },
+        "username": "sorrymaker-xz"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n每次维护三个变量\ncur：当前位置为止连续1的个数，遇到0归零，遇到1加1\ninsert：在当前位置变成1，往前数连续1的最大个数，遇到0变为cur+1，遇到1加1\nres:保存insert的最大值即可\n\n\n### 代码\n\n```python\nclass Solution(object):\n    def reverseBits(self, num):\n        \"\"\"\n        :type num: int\n        :rtype: int\n        \"\"\"\n        cur = 0\n        insert = 0\n        res = 1\n        for i in range(32):\n            if num & (1<<i):\n               cur += 1\n               insert +=1\n            else:\n                insert = cur + 1\n                cur = 0\n            res = max(res,insert)\n        return res\n```",
+      "createdAt": "2021-02-19T15:12:22.343600+00:00",
+      "hitCount": 4474,
+      "identifier": "Xcj2Iw",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "mian-shi-ti-0503-fan-zhuan-shu-wei-ti-ji-07os",
+        "title": "面试题 05.03. 翻转数位---题解"
+      },
+      "position": 2,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "mian-shi-ti-0503-fan-zhuan-shu-wei-mo-ni-hhtl",
+        "title": "面试题 05.03. 翻转数位 - 模拟"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "reverse-bits-lcci"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 24,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "AWESOME"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "THUMBS_DOWN"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "dong-tai-gui-hua-zui-jian-ji-dai-ma-by-s-utws",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n每次维护三个变量\ncur：当前位置为止连续1的个数，遇到0归零，遇到1加1\ninsert：在当前位置变成1，往前数连续1的最大个数，遇到0变为cur+1，遇到1加1\nres:保存insert的最大值即可\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Dynamic Programming",
+          "nameTranslated": "动态规划",
+          "slug": "dynamic-programming",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python3",
+          "nameTranslated": "",
+          "slug": "python3",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "动态规划，最简洁代码",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 2,
+        "id": 610772,
+        "viewCount": 3151
+      },
+      "uuid": "Xcj2Iw",
+      "videosInfo": []
+    }
+  }
+}

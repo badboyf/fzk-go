@@ -1,0 +1,143 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣官方题解",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/leetcode-solution/avatar_1582018938.png",
+          "userSlug": "leetcode-solution"
+        },
+        "username": "LeetCode-Solution"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 📺 视频题解  \n![118.杨辉三角.mp4](015836d3-6ee5-495e-94cc-724ee29a8432)\n\n### 📖 文字题解\n#### 方法一：数学\n\n**思路及解法**\n\n杨辉三角，是二项式系数在三角形中的一种几何排列。它是中国古代数学的杰出研究成果之一，它把二项式系数图形化，把组合数内在的一些代数性质直观地从图形中体现出来，是一种离散型的数与形的结合。\n\n杨辉三角具有以下性质：\n\n1. 每行数字左右对称，由 $1$ 开始逐渐变大再变小，并最终回到 $1$。\n\n2. 第 $n$ 行（从 $0$ 开始编号）的数字有 $n+1$ 项，前 $n$ 行共有 $\\frac{n(n+1)}{2}$ 个数。\n\n3. 第 $n$ 行的第 $m$ 个数（从 $0$ 开始编号）可表示为可以被表示为组合数 $\\mathcal{C}(n,m)$，记作 $\\mathcal{C}_n^m$ 或 $\\binom{n}{m}$，即为从 $n$ 个不同元素中取 $m$ 个元素的组合数。我们可以用公式来表示它：$\\mathcal{C}_n^m=\\dfrac{n!}{m!\\times (n-m)!}$\n\n4. 每个数字等于上一行的左右两个数字之和，可用此性质写出整个杨辉三角。即第 $n$ 行的第 $i$ 个数等于第 $n-1$ 行的第 $i-1$ 个数和第 $i$ 个数之和。这也是组合数的性质之一，即 $\\mathcal{C}_n^i=\\mathcal{C}_{n-1}^i+\\mathcal{C}_{n-1}^{i-1}$。\n\n5. $(a+b)^n$ 的展开式（二项式展开）中的各项系数依次对应杨辉三角的第 $n$ 行中的每一项。\n\n依据性质 $4$，我们可以一行一行地计算杨辉三角。每当我们计算出第 $i$ 行的值，我们就可以在线性时间复杂度内计算出第 $i+1$ 行的值。\n\n**代码**\n\n```C++ [sol1-C++]\nclass Solution {\npublic:\n    vector<vector<int>> generate(int numRows) {\n        vector<vector<int>> ret(numRows);\n        for (int i = 0; i < numRows; ++i) {\n            ret[i].resize(i + 1);\n            ret[i][0] = ret[i][i] = 1;\n            for (int j = 1; j < i; ++j) {\n                ret[i][j] = ret[i - 1][j] + ret[i - 1][j - 1];\n            }\n        }\n        return ret;\n    }\n};\n```\n\n```Java [sol1-Java]\nclass Solution {\n    public List<List<Integer>> generate(int numRows) {\n        List<List<Integer>> ret = new ArrayList<List<Integer>>();\n        for (int i = 0; i < numRows; ++i) {\n            List<Integer> row = new ArrayList<Integer>();\n            for (int j = 0; j <= i; ++j) {\n                if (j == 0 || j == i) {\n                    row.add(1);\n                } else {\n                    row.add(ret.get(i - 1).get(j - 1) + ret.get(i - 1).get(j));\n                }\n            }\n            ret.add(row);\n        }\n        return ret;\n    }\n}\n```\n\n```Golang [sol1-Golang]\nfunc generate(numRows int) [][]int {\n    ans := make([][]int, numRows)\n    for i := range ans {\n        ans[i] = make([]int, i+1)\n        ans[i][0] = 1\n        ans[i][i] = 1\n        for j := 1; j < i; j++ {\n            ans[i][j] = ans[i-1][j] + ans[i-1][j-1]\n        }\n    }\n    return ans\n}\n```\n\n```C [sol1-C]\nint** generate(int numRows, int* returnSize, int** returnColumnSizes) {\n    int** ret = malloc(sizeof(int*) * numRows);\n    *returnSize = numRows;\n    *returnColumnSizes = malloc(sizeof(int) * numRows);\n    for (int i = 0; i < numRows; ++i) {\n        ret[i] = malloc(sizeof(int) * (i + 1));\n        (*returnColumnSizes)[i] = i + 1;\n        ret[i][0] = ret[i][i] = 1;\n        for (int j = 1; j < i; ++j) {\n            ret[i][j] = ret[i - 1][j] + ret[i - 1][j - 1];\n        }\n    }\n    return ret;\n}\n```\n\n```JavaScript [sol1-JavaScript]\nvar generate = function(numRows) {\n    const ret = [];\n\n    for (let i = 0; i < numRows; i++) {\n        const row = new Array(i + 1).fill(1);\n        for (let j = 1; j < row.length - 1; j++) {\n            row[j] = ret[i - 1][j - 1] + ret[i - 1][j];\n        }\n        ret.push(row);\n    }\n    return ret;\n};\n```\n\n```Python [sol1-Python3]\nclass Solution:\n    def generate(self, numRows: int) -> List[List[int]]:\n        ret = list()\n        for i in range(numRows):\n            row = list()\n            for j in range(0, i + 1):\n                if j == 0 or j == i:\n                    row.append(1)\n                else:\n                    row.append(ret[i - 1][j] + ret[i - 1][j - 1])\n            ret.append(row)\n        return ret\n```\n\n**复杂度分析**\n\n- 时间复杂度：$O(\\textit{numRows}^2)$。\n\n- 空间复杂度：$O(1)$。不考虑返回值的空间占用。",
+      "createdAt": "2020-12-05T15:41:42.545277+00:00",
+      "hitCount": 88187,
+      "identifier": "GRbSF2",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "qu-qiao-jie-fa-cuo-yi-wei-zai-zhu-ge-xiang-jia-28m",
+        "title": "取巧解法：错一位再逐个相加，28ms/12.5MB"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "pascals-triangle"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 56,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 9,
+          "reactionType": "AWESOME"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 5,
+          "reactionType": "CONFUSED"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "THUMBS_DOWN"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "yang-hui-san-jiao-by-leetcode-solution-lew9",
+      "status": "PUBLISHED",
+      "summary": "📺 视频题解 📖 文字题解 方法一：数学 思路及解法 杨辉三角，是二项式系数在三角形中的一种几何排列。它是中国古代数学的杰出研究成果之一，它把二项式系数图形化，把组合数内在的一些代数性质直观地从图形中体现出来，是一种离散型的数与形的结合。 杨辉三角具有以下性质： 每行数字左右对称，由 $1$ 开始逐渐变大再变小，并最终",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Array",
+          "nameTranslated": "数组",
+          "slug": "array",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Math",
+          "nameTranslated": "数学",
+          "slug": "math",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C",
+          "nameTranslated": "",
+          "slug": "c",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Go",
+          "nameTranslated": "",
+          "slug": "golang",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "JavaScript",
+          "nameTranslated": "",
+          "slug": "javascript",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "杨辉三角",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 195,
+        "id": 510638,
+        "viewCount": 63768
+      },
+      "uuid": "GRbSF2",
+      "videosInfo": [
+        {
+          "__typename": "VideoInfoNode",
+          "coverUrl": "https://video.leetcode-cn.com/image/cover/4B160FBD532342F88E7F2B9FF524DEDF-6-2.png",
+          "duration": 226.4747,
+          "videoId": "e69f4bd3759b4caabdb73f5707c8c1a7"
+        }
+      ]
+    }
+  }
+}

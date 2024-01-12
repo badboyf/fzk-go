@@ -1,0 +1,96 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "blacksea3",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/blacksea3/avatar_1555829179.png",
+          "userSlug": "blacksea3_nju"
+        },
+        "username": "blacksea3_nju"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 思路:\r\n1. 考虑题意: 必然存在一条分界线把 `A` 拆分成两半，存在两大类情况：\r\n2. 长度为 `L` 的连续子数组在左边, 长度为 `M` 的连续子数组在右边\r\n3. 或者反过来长度为 `M` 的连续子数组在左边, 长度为 `L` 的连续子数组在右边\r\n\r\n引入\r\n\r\n1. `dp[i][0]`: 从 `A[0]-A[i]` 连续 `L` 长度子数组最大的元素和\r\n2. `dp[i][1]`: 从 `A[0]-A[i]` 连续 `M` 长度子数组最大的元素和\r\n3. `dp[i][2]`: 从 `A[i]-A[A.size()-1]` 连续 `L` 长度子数组最大的元素和\r\n4. `dp[i][3]`: 从 `A[i]-A[A.size()-1]` 连续 `M` 长度子数组最大的元素和\r\n5. 某些超出范围的下标, 值设置为 `0 `(默认值)\r\n\r\n代码中首先用滑动窗口计算了 `dp`, 然后将 `dp` 分成两组, 计算两大类情况下的结果，取最大值返回即可\r\n\r\n### 代码：\r\n```cpp [-C++]\r\nclass Solution {\r\npublic:\r\n\tint maxSumTwoNoOverlap(vector<int>& A, int L, int M) {\r\n\t\t//计算dp, 4个滑动窗口, 4种情况\r\n\t\tvector<vector<int>> dp(A.size(), vector<int>(4, 0));\r\n\t\tint presum = 0;\r\n\t\tint maxsum;\r\n\t\tfor (int i = 0; i < L; ++i)\r\n\t\t{\r\n\t\t\tpresum += A[i];\r\n\t\t}\r\n\t\tmaxsum = presum;\r\n\t\tdp[L - 1][0] = maxsum;\r\n\t\tfor (int i = L; i < A.size(); ++i)\r\n\t\t{\r\n\t\t\tpresum -= A[i - L];\r\n\t\t\tpresum += A[i];\r\n\t\t\tmaxsum = max(maxsum, presum);\r\n\t\t\tdp[i][0] = maxsum;\r\n\t\t}\r\n\r\n\t\tpresum = 0;\r\n\t\tfor (int i = 0; i < M; ++i)\r\n\t\t{\r\n\t\t\tpresum += A[i];\r\n\t\t}\r\n\t\tmaxsum = presum;\r\n\t\tdp[M - 1][1] = maxsum;\r\n\t\tfor (int i = M; i < A.size(); ++i)\r\n\t\t{\r\n\t\t\tpresum -= A[i - M];\r\n\t\t\tpresum += A[i];\r\n\t\t\tmaxsum = max(maxsum, presum);\r\n\t\t\tdp[i][1] = maxsum;\r\n\t\t}\r\n\r\n\t\tpresum = 0;\r\n\t\tfor (int i = A.size() - 1; i >= A.size() - L; --i)\r\n\t\t{\r\n\t\t\tpresum += A[i];\r\n\t\t}\r\n\t\tmaxsum = presum;\r\n\t\tdp[A.size() - L][2] = maxsum;\r\n\t\tfor (int i = A.size() - L - 1; i >= 0; --i)\r\n\t\t{\r\n\t\t\tpresum -= A[i + L];\r\n\t\t\tpresum += A[i];\r\n\t\t\tmaxsum = max(maxsum, presum);\r\n\t\t\tdp[i][2] = maxsum;\r\n\t\t}\r\n\r\n\t\tpresum = 0;\r\n\t\tfor (int i = A.size() - 1; i >= A.size() - M; --i)\r\n\t\t{\r\n\t\t\tpresum += A[i];\r\n\t\t}\r\n\t\tmaxsum = presum;\r\n\t\tdp[A.size() - M][3] = maxsum;\r\n\t\tfor (int i = A.size() - M - 1; i >= 0; --i)\r\n\t\t{\r\n\t\t\tpresum -= A[i + M];\r\n\t\t\tpresum += A[i];\r\n\t\t\tmaxsum = max(maxsum, presum);\r\n\t\t\tdp[i][3] = maxsum;\r\n\t\t}\r\n\r\n\t\t//计算答案\r\n\t\tint res = 0;\r\n\t\t//L在M左边\r\n\t\tfor (int i = L; i <= A.size() - M; ++i)\r\n\t\t\tres = max(res, dp[i - 1][0] + dp[i][3]);\r\n\t\t//M在L左边\r\n\t\tfor (int i = M; i <= A.size() - L; ++i)\r\n\t\t\tres = max(res, dp[i - 1][1] + dp[i][2]);\r\n\r\n\t\treturn res;\r\n\t}\r\n};\r\n```\r\n",
+      "createdAt": "2019-07-19T12:39:36.173619+00:00",
+      "hitCount": 5317,
+      "identifier": "hWcXuq",
+      "isEditorsPick": true,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "1031-liang-ge-fei-zhong-die-zi-shu-zu-de-06xp",
+        "title": "【1031. 两个非重叠子数组的最大和】【前缀和】Java实现"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "maximum-sum-of-two-non-overlapping-subarrays"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 18,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "AWESOME"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "CONFUSED"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "c-dong-tai-gui-hua-hua-dong-chuang-kou-on-by-black",
+      "status": "PUBLISHED",
+      "summary": "思路:\n\n考虑题意: 必然存在一条分界线把 A 拆分成两半，存在两大类情况：\n长度为 L 的连续子数组在左边, 长度为 M 的连续子数组在右边\n或者反过来长度为 M 的连续子数组在左边, 长度为 L 的连续子数组在右边\n\n引入\n\ndp[i][0]: 从 A[0]-A[i] 连续 L 长度子数组最大的元素和\ndp[i][",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Dynamic Programming",
+          "nameTranslated": "动态规划",
+          "slug": "dynamic-programming",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Sliding Window",
+          "nameTranslated": "滑动窗口",
+          "slug": "sliding-window",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "C++ 动态规划+滑动窗口 O(n)",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 1,
+        "id": 15505,
+        "viewCount": 4032
+      },
+      "uuid": "hWcXuq",
+      "videosInfo": []
+    }
+  }
+}

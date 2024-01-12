@@ -1,0 +1,84 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣 (LeetCode)",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/uploaded_files/2021/03/73c9f099-abbe-4d94-853f-f8abffd459cd/leetcode.png",
+          "userSlug": "leetcode"
+        },
+        "username": "LeetCode"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法一：哈希表\n\n首先我们通过字符串操作获取目录路径、文件名和文件内容。我们使用哈希映射（HashMap）来寻找重复文件，哈希映射中的键（key）是文件内容，值（value）是存储路径和文件名的列表。\n\n我们遍历每一个文件，并把它加入哈希映射中。在这之后，我们遍历哈希映射，如果一个键对应的值列表的长度大于 `1`，说明我们找到了重复文件，可以把这个列表加入到答案中。\n\n<![1000](https://pic.leetcode-cn.com/Figures/609/Find_Duplicate_Files_HashmapSlide1.PNG),![1000](https://pic.leetcode-cn.com/Figures/609/Find_Duplicate_Files_HashmapSlide2.PNG),![1000](https://pic.leetcode-cn.com/Figures/609/Find_Duplicate_Files_HashmapSlide3.PNG),![1000](https://pic.leetcode-cn.com/Figures/609/Find_Duplicate_Files_HashmapSlide4.PNG),![1000](https://pic.leetcode-cn.com/Figures/609/Find_Duplicate_Files_HashmapSlide5.PNG),![1000](https://pic.leetcode-cn.com/Figures/609/Find_Duplicate_Files_HashmapSlide6.PNG),![1000](https://pic.leetcode-cn.com/Figures/609/Find_Duplicate_Files_HashmapSlide7.PNG),![1000](https://pic.leetcode-cn.com/Figures/609/Find_Duplicate_Files_HashmapSlide8.PNG)>\n\n\n```Java [sol1]\npublic class Solution {\n    public List < List < String >> findDuplicate(String[] paths) {\n        HashMap < String, List < String >> map = new HashMap < > ();\n        for (String path: paths) {\n            String[] values = path.split(\" \");\n            for (int i = 1; i < values.length; i++) {\n                String[] name_cont = values[i].split(\"\\\\(\");\n                name_cont[1] = name_cont[1].replace(\")\", \"\");\n                List < String > list = map.getOrDefault(name_cont[1], new ArrayList < String > ());\n                list.add(values[0] + \"/\" + name_cont[0]);\n                map.put(name_cont[1], list);\n            }\n        }\n        List < List < String >> res = new ArrayList < > ();\n        for (String key: map.keySet()) {\n            if (map.get(key).size() > 1)\n                res.add(map.get(key));\n        }\n        return res;\n    }\n}\n```\n\n**复杂度分析**\n\n* 时间复杂度：$O(N)$，其中 $N$ 是文件的总数。这里认为每个文件名的长度是常数级别的。\n\n* 空间复杂度：$O(N)$。",
+      "createdAt": "2019-10-29T06:11:46.953830+00:00",
+      "hitCount": 4935,
+      "identifier": "TOwEAa",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "ha-xi-biao-jian-dan-yi-dong-by-derricks-o34j",
+        "title": "哈希表（简单易懂）"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "find-duplicate-file-in-system"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 4,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "zai-xi-tong-zhong-cha-zhao-zhong-fu-wen-jian-by-le",
+      "status": "PUBLISHED",
+      "summary": "§ 方法一：哈希表\n首先我们通过字符串操作获取目录路径、文件名和文件内容。我们使用哈希映射（HashMap）来寻找重复文件，哈希映射中的键（key）是文件内容，值（value）是存储路径和文件名的列表。\n我们遍历每一个文件，并把它加入哈希映射中。在这之后，我们遍历哈希映射，如果一个键对应的值列表的长度大于 1，说明我们",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Hash Table",
+          "nameTranslated": "哈希表",
+          "slug": "hash-table",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "在系统中查找重复文件",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 8,
+        "id": 38816,
+        "viewCount": 4019
+      },
+      "uuid": "TOwEAa",
+      "videosInfo": []
+    }
+  }
+}

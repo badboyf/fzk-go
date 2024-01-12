@@ -1,0 +1,76 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "934786601",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/default_avatar.png",
+          "userSlug": "934786601"
+        },
+        "username": "934786601"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "```rust\r\nimpl Solution {\r\n    pub fn max_ancestor_diff(root: Option<Rc<RefCell<TreeNode>>>) -> i32 {\r\n        fn dfs(root: Option<Rc<RefCell<TreeNode>>>, ans: &mut i32) -> (i32, i32) {\r\n            if let Some(t) = root {\r\n                let mut t = t.borrow_mut();\r\n                let x = if t.left.is_none() {(t.val, t.val)}\r\n                        else {dfs(t.left.take(), ans)};\r\n                let y = if t.right.is_none() {(t.val, t.val)}\r\n                        else {dfs(t.right.take(), ans)};\r\n                *ans = (*ans)\r\n                    .max(i32::abs(t.val - x.0)).max(i32::abs(t.val - x.1))\r\n                    .max(i32::abs(t.val - y.0)).max(i32::abs(t.val - y.1));\r\n                (t.val.min(x.0).min(y.0), t.val.max(x.1).max(y.1))\r\n            } else {(i32::MAX, i32::MIN)}\r\n        }\r\n        let mut ans = 0;\r\n        dfs(root, &mut ans);\r\n        ans\r\n    }\r\n}\r\n```\r\n",
+      "createdAt": "2021-11-18T14:05:12.735478+00:00",
+      "hitCount": 23,
+      "identifier": "yHxOj6",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "java-dfs-by-yangjiaxin121-zm9wybyzxj-zmmm",
+        "title": "Java dfs"
+      },
+      "position": 34,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "xian-xu-bian-li-ji-lu-fu-jie-dian-jing-l-us8n",
+        "title": "先序遍历，记录父节点经历的最大值和最小值"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "maximum-difference-between-node-and-ancestor"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "rust-ji-lu-zi-jie-dian-de-zui-da-zhi-yu-9yy8i",
+      "status": "PREPUBLISH",
+      "summary": "[该用户太懒了，只写了 20 行 Rust 代码]",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Rust",
+          "nameTranslated": "",
+          "slug": "rust",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "【rust】记录子节点的最大值与最小值",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1109392,
+        "viewCount": 23
+      },
+      "uuid": "yHxOj6",
+      "videosInfo": []
+    }
+  }
+}

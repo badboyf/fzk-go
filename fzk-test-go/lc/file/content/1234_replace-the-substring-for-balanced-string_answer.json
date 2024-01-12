@@ -1,0 +1,72 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "offer快到碗里来~",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/zhouzihong/avatar_1626862997.png",
+          "userSlug": "zhouzihong"
+        },
+        "username": "zhouzihong"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "![image.png](https://pic.leetcode-cn.com/1633081095-tbSipA-image.png)\r\n抽象图一二ij\r\n题解很多用了窗口外判断，其实窗口内也可以，而且滑动窗口题绝大多数也是判断窗口内\r\n```\r\nclass Solution {\r\npublic:\r\n    int balancedString(string s) {\r\n        int tarCnt[4];\r\n        unordered_map<char,int>c2idx;\r\n        c2idx['Q']=0,c2idx['W']=1,c2idx['E']=2,c2idx['R']=3;\r\n        memset(tarCnt,0,sizeof(tarCnt));\r\n        int n=s.size();\r\n        for(char c:s){\r\n            tarCnt[c2idx[c]]++;\r\n        }\r\n        for(int i=0;i<4;i++)tarCnt[i]-=n/4;\r\n        int left=0,right=0;\r\n        int curCnt[4];\r\n        memset(curCnt,0,sizeof(curCnt));\r\n        int ans=n;\r\n        while(right<n){\r\n            int idxRight=c2idx[s[right]];\r\n            curCnt[idxRight]++;\r\n            right++;\r\n            while(check(curCnt,tarCnt)){\r\n                int idxLeft=c2idx[s[left]];\r\n                curCnt[idxLeft]--;\r\n                left++;\r\n                ans=min(ans,right-left+1);\r\n            }\r\n            \r\n        }\r\n        return ans;\r\n    }\r\n    bool check(int curCnt[],int tarCnt[]){\r\n        for(int i=0;i<4;i++){\r\n            if(curCnt[i]<tarCnt[i])return false;\r\n        }\r\n        return true;\r\n    }\r\n};\r\n```\r\n",
+      "createdAt": "2021-10-01T09:39:52.848752+00:00",
+      "hitCount": 391,
+      "identifier": "kbaDmZ",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "java-ling-lei-jie-fa-hashqian-zhui-he-by-hmgz",
+        "title": "【Java】另类解法，hash+前缀和"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "replace-the-substring-for-balanced-string"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 3,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "hua-dong-chuang-kou-tong-ji-chuang-kou-y-q991",
+      "status": "PREPUBLISH",
+      "summary": "抽象图一二ij\n题解很多用了窗口外判断，其实窗口内也可以，而且滑动窗口题绝大多数也是判断窗口内",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1633081095-tbSipA-image.png",
+      "title": "【滑动窗口】【统计窗口应该包含数量】",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1027016,
+        "viewCount": 317
+      },
+      "uuid": "kbaDmZ",
+      "videosInfo": []
+    }
+  }
+}

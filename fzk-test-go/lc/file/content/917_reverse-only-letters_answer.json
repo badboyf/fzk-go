@@ -1,0 +1,98 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣 (LeetCode)",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/uploaded_files/2021/03/73c9f099-abbe-4d94-853f-f8abffd459cd/leetcode.png",
+          "userSlug": "leetcode"
+        },
+        "username": "LeetCode"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法 1：字母栈\n\n**想法和算法**\n\n将 `s` 中的所有字母单独存入栈中，所以出栈等价于对字母反序操作。（或者，可以用数组存储字母并反序数组。）\n\n然后，遍历 `s` 的所有字符，如果是字母我们就选择栈顶元素输出。\n\n```Java []\nclass Solution {\n    public String reverseOnlyLetters(String S) {\n        Stack<Character> letters = new Stack();\n        for (char c: S.toCharArray())\n            if (Character.isLetter(c))\n                letters.push(c);\n\n        StringBuilder ans = new StringBuilder();\n        for (char c: S.toCharArray()) {\n            if (Character.isLetter(c))\n                ans.append(letters.pop());\n            else\n                ans.append(c);\n        }\n\n        return ans.toString();\n    }\n}\n```\n\n```Python []\nclass Solution(object):\n    def reverseOnlyLetters(self, S):\n        letters = [c for c in S if c.isalpha()]\n        ans = []\n        for c in S:\n            if c.isalpha():\n                ans.append(letters.pop())\n            else:\n                ans.append(c)\n        return \"\".join(ans)\n```\n\n**复杂度分析**\n\n* 时间复杂度：$O(N)$，其中 $N$ 是 `S` 的长度。\n* 空间复杂度：$O(N)$。\n\n#### 方法 2：反转指针\n\n**想法**\n\n一个接一个输出 `s`  的所有字符。当遇到一个字母时，我们希望找到逆序遍历字符串的下一个字母。\n\n所以我们这么做：维护一个指针 `j` 从后往前遍历字符串，当需要字母时就使用它。\n\n```Java []\nclass Solution {\n    public String reverseOnlyLetters(String S) {\n        StringBuilder ans = new StringBuilder();\n        int j = S.length() - 1;\n        for (int i = 0; i < S.length(); ++i) {\n            if (Character.isLetter(S.charAt(i))) {\n                while (!Character.isLetter(S.charAt(j)))\n                    j--;\n                ans.append(S.charAt(j--));\n            } else {\n                ans.append(S.charAt(i));\n            }\n        }\n\n        return ans.toString();\n    }\n}\n```\n\n```Python []\nclass Solution(object):\n    def reverseOnlyLetters(self, S):\n        ans = []\n        j = len(ans) - 1\n        for i, x in enumerate(S):\n            if x.isalpha():\n                while not S[j].isalpha():\n                    j -= 1\n                ans.append(S[j])\n                j -= 1\n            else:\n                ans.append(x)\n        \n        return \"\".join(ans)\n```\n\n**复杂度分析**\n\n* 时间复杂度：$O(N)$，其中 $N$ 是 `S` 的长度。\n* 空间复杂度：$O(N)$。",
+      "createdAt": "2019-08-19T02:09:52.919355+00:00",
+      "hitCount": 12667,
+      "identifier": "RFiA6b",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "917-jin-jin-fan-zhuan-zi-mu-by-lucky845-deov",
+        "title": "917. 仅仅反转字母"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "reverse-only-letters"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 17,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "jin-jin-fan-zhuan-zi-mu-by-leetcode",
+      "status": "PUBLISHED",
+      "summary": "§ 方法 1：字母栈\n想法和算法\n将 s 中的所有字母单独存入栈中，所以出栈等价于对字母反序操作。（或者，可以用数组存储字母并反序数组。）\n然后，遍历 s 的所有字符，如果是字母我们就选择栈顶元素输出。\n复杂度分析\n\n时间复杂度：O(N)，其中 N 是 S 的长度。\n空间复杂度：O(N)。\n\n§ 方法 2：反转指针\n想",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Stack",
+          "nameTranslated": "栈",
+          "slug": "stack",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Two Pointers",
+          "nameTranslated": "双指针",
+          "slug": "two-pointers",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "仅仅反转字母",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 21,
+        "id": 21465,
+        "viewCount": 10093
+      },
+      "uuid": "RFiA6b",
+      "videosInfo": []
+    }
+  }
+}

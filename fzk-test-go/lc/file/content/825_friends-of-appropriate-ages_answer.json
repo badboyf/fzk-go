@@ -1,0 +1,86 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣 (LeetCode)",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/uploaded_files/2021/03/73c9f099-abbe-4d94-853f-f8abffd459cd/leetcode.png",
+          "userSlug": "leetcode"
+        },
+        "username": "LeetCode"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法 1：计数\n\n**想法**\n\n不考虑遍历所有的 `20000` 个人，我们只考虑遍历所有的元组 `(age, count)` 表示在这个年纪有多少人。因为最多只有 120 个可能的年纪，这会是一个很快的提升。\n\n**算法**\n\n对于每个元组 `(ageA, countA)`，`(ageB, countB)`，如果条件满足对应的年纪，那么久将 `countA * countB` 加入发好友请求的人数。\n\n当 `ageA == ageB` 的时候我们就数多了：我们只有 `countA * (countA - 1)` 对好友请求，因为你不能和自己发送请求。\n\n```Java []\nclass Solution {\n    public int numFriendRequests(int[] ages) {\n        int[] count = new int[121];\n        for (int age: ages) count[age]++;\n\n        int ans = 0;\n        for (int ageA = 0; ageA <= 120; ageA++) {\n            int countA = count[ageA];\n            for (int ageB = 0; ageB <= 120; ageB++) {\n                int countB = count[ageB];\n                if (ageA * 0.5 + 7 >= ageB) continue;\n                if (ageA < ageB) continue;\n                if (ageA < 100 && 100 < ageB) continue;\n                ans += countA * countB;\n                if (ageA == ageB) ans -= countA;\n            }\n        }\n\n        return ans;\n    }\n}\n```\n\n```Python []\nclass Solution(object):\n    def numFriendRequests(self, ages):\n        count = [0] * 121\n        for age in ages:\n            count[age] += 1\n\n        ans = 0\n        for ageA, countA in enumerate(count):\n            for ageB, countB in enumerate(count):\n                if ageA * 0.5 + 7 >= ageB: continue\n                if ageA < ageB: continue\n                if ageA < 100 < ageB: continue\n                ans += countA * countB\n                if ageA == ageB: ans -= countA\n\n        return ans\n```\n\n\n**复杂度分析**\n\n* 时间复杂度：$O(A^2 + N)$，其中 $N$ 是人数，$A$ 是年龄的种树。\n* 空间复杂度：$O(A)$，`count` 的空间开销。",
+      "createdAt": "2019-08-23T02:48:54.336716+00:00",
+      "hitCount": 6886,
+      "identifier": "ZbTDBJ",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "825-gua-ling-de-peng-you-pai-xu-er-fen-j-1tyz",
+        "title": "【825. 适龄的朋友】【排序】【二分】Java代码注释简单实现"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "friends-of-appropriate-ages"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 6,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "gua-ling-de-peng-you-by-leetcode",
+      "status": "PUBLISHED",
+      "summary": "§ 方法 1：计数\n想法\n不考虑遍历所有的 20000 个人，我们只考虑遍历所有的元组 (age, count) 表示在这个年纪有多少人。因为最多只有 120 个可能的年纪，这会是一个很快的提升。\n算法\n对于每个元组 (ageA, countA)，(ageB, countB)，如果条件满足对应的年纪，那么久将 coun",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Array",
+          "nameTranslated": "数组",
+          "slug": "array",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "适龄的朋友",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 15,
+        "id": 22401,
+        "viewCount": 5000
+      },
+      "uuid": "ZbTDBJ",
+      "videosInfo": []
+    }
+  }
+}

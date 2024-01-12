@@ -1,0 +1,89 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "乐清",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/sunshinehit/avatar_1566377105.png",
+          "userSlug": "sunshinehit"
+        },
+        "username": "sunshinehit"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "看快手的面经遇到了这道题，需要考虑的边界条件比较多，这里从易到难总结一下**旋转数组**相关的题，都是二分法的套路，看了这篇题解，一次搞定6道题！\r\n\r\n# [189. 旋转数组](https://leetcode-cn.com/problems/rotate-array/)\r\n**题目：**\r\n![189.png](https://pic.leetcode-cn.com/1614342022-CcPoNe-189.png)\r\n**题解：**\r\n```\r\nclass Solution:\r\n    def rotate(self, nums: List[int], k: int) -> None:\r\n        \"\"\"\r\n        Do not return anything, modify nums in-place instead.\r\n        \"\"\"\r\n        def reverse(left,right):\r\n            while left<right:\r\n                nums[left],nums[right]=nums[right],nums[left]\r\n                left+=1\r\n                right-=1\r\n        n=len(nums)\r\n        # 向右移动的位置k可能会大于n，因此对n取余\r\n        k=k%n\r\n        if k==0 or n<2:\r\n            return \r\n        # 以此为例：nums = [1,2,3,4,5,6,7], k = 3\r\n        # 先整个数组反转：[7,6,5,4,3,2,1]\r\n        reverse(0,n-1)\r\n        # 前k个反转：[5,6,7,4,3,2,1]\r\n        reverse(0,k-1)\r\n        # 后n-k个反转：[5,6,7,1,2,3,4]\r\n        reverse(k,n-1)\r\n```\r\n\r\n\r\n# [153. 寻找旋转排序数组中的最小值](https://leetcode-cn.com/problems/find-minimum-in-rotated-sorted-array/)\r\n\r\n\r\n**题目：**\r\n![153.png](https://pic.leetcode-cn.com/1614331948-oeQkSL-153.png)\r\n\r\n- nums 中的所有整数都是 **唯一** 的\r\n- nums 原来是一个升序排序的数组，但在预先未知的某个点上进行了旋转\r\n\r\n**题解：**\r\n\r\n```\r\nclass Solution:\r\n    def findMin(self, nums: List[int]) -> int:\r\n        n=len(nums)\r\n        left=0\r\n        right=n-1\r\n        # 这里控制条件没取等号，取等号大多是为了在while中直return mid，不取等号就跳出while返回l的值。\r\n        while left<right:\r\n            mid=left+(right-left)//2\r\n            if nums[mid]>nums[right]:\r\n                # 中间数字大于右边数字，比如[3,4,5,1,2]，则左侧是有序上升的，最小值在右侧\r\n                left=mid+1\r\n            else:\r\n                # 中间数字小于等于右边数字，比如[6,7,1,2,3,4,5]，则右侧是有序上升的，最小值在左侧\r\n                right=mid\r\n        return nums[left]\r\n```\r\n\r\n# [154. 寻找旋转排序数组中的最小值 II](https://leetcode-cn.com/problems/find-minimum-in-rotated-sorted-array-ii/)\r\n\r\n**题目：**\r\n![154.png](https://pic.leetcode-cn.com/1614331907-SXkPOM-154.png)\r\n- 这道题是 153.寻找旋转排序数组中的最小值 的延伸题目。\r\n- 允许重复会影响算法的时间复杂度吗？会如何影响，为什么？\r\n\r\n**题解：**\r\n\r\n```\r\nclass Solution:\r\n    def findMin(self, nums: List[int]) -> int:\r\n        n=len(nums)\r\n        left=0\r\n        right=n-1\r\n        # 这里控制条件没取等号，取等号大多是为了在while中直return mid，不取等号就跳出while返回l的值。\r\n        while left<right:\r\n            mid=left+(right-left)//2\r\n            if nums[mid]>nums[right]:\r\n                # 中间数字大于右边数字，比如[3,4,5,1,2]，则左侧是有序上升的，最小值在右侧\r\n                left=mid+1\r\n            elif nums[mid]<nums[right]:\r\n                # 中间数字小于等于右边数字，比如[6,7,1,2,3,4,5]，则右侧是有序上升的，最小值在左侧\r\n                right=mid\r\n            else:\r\n                # 中间数字等于右边数字，比如[2,3,1,1,1]或者[4,1,2,3,3,3,3]\r\n                # 则重复数字可能为最小值，也可能最小值在重复值的左侧\r\n                # 所以将right左移一位\r\n                right-=1\r\n        return nums[left]        \r\n```\r\n\r\n平均时间复杂度为 O(logn)，而在最坏情况下，如果数组中的元素完全相同，那么 while 循环就需要执行 n次，每次忽略区间的右端点，时间复杂度为 O(n)。\r\n\r\n\r\n上面两道题是在旋转数组里寻找最小值，下面两道题是在旋转数组里寻找指定的值，这两道题的区别也是存不存在重复值。\r\n\r\n# [33. 搜索旋转排序数组](https://leetcode-cn.com/problems/search-in-rotated-sorted-array/)\r\n\r\n**题目：**\r\n![33.png](https://pic.leetcode-cn.com/1614333837-WoOixM-33.png)\r\n\r\n**题解：**\r\n```\r\nclass Solution:\r\n    def search(self, nums: List[int], target: int) -> int:\r\n        if not nums:\r\n            return -1\r\n        l,r=0,len(nums)-1\r\n        # 这里控制条件取等号，取等号大多是为了在while中直return mid，不取等号就跳出while返回l的值。\r\n        while l<=r:\r\n            mid=l+(r-l)//2\r\n            # 中间值即为target，直接返回\r\n            if nums[mid]==target:\r\n                return mid\r\n            # 左半部分是有序\r\n            if nums[0]<=nums[mid]:\r\n                # target落在左半部分有序区域内\r\n                if nums[0]<=target<nums[mid]:\r\n                    r=mid-1\r\n                else:\r\n                    # target落在右半部分无序区域内\r\n                    l=mid+1\r\n            else: # 右半部分是有序\r\n                # target落在右半部分有序区域内\r\n                if nums[mid]<target<=nums[len(nums)-1]:\r\n                    l=mid+1\r\n                else:\r\n                    # target落在左半部分无序区域内\r\n                    r=mid-1\r\n        return -1\r\n```\r\n\r\n# [81. 搜索旋转排序数组 II](https://leetcode-cn.com/problems/search-in-rotated-sorted-array-ii/)\r\n**题目：**\r\n![81.png](https://pic.leetcode-cn.com/1614335927-tYYpNz-81.png)\r\n\r\n\r\n**题解：**\r\n```\r\nclass Solution:\r\n    def search(self, nums: List[int], target: int) -> int:\r\n        if not nums:\r\n            return False\r\n        l,r=0,len(nums)-1\r\n        while l<=r:\r\n            # 重点在于处理重复数字\r\n            # 左边有重复数字，将左边界右移\r\n            while l<r and nums[l]==nums[l+1]:\r\n                l+=1\r\n            # 右边有重复数字，将右边界左移\r\n            while l<r and nums[r]==nums[r-1]:\r\n                r-=1\r\n            mid=(l+r)//2\r\n            if nums[mid]==target:\r\n                return True\r\n            # 左半部分有序\r\n            if nums[0]<=nums[mid]:\r\n                if nums[0]<=target<nums[mid]:\r\n                    r=mid-1\r\n                else:\r\n                    l=mid+1\r\n            else:# 右半部分有序\r\n                if nums[mid]<target<=nums[len(nums)-1]:\r\n                    l=mid+1\r\n                else:\r\n                    r=mid-1\r\n        return False\r\n```\r\n\r\n# [面试题 10.03. 搜索旋转数组](https://leetcode-cn.com/problems/search-rotate-array-lcci/)\r\n这道题与81题很像，唯一的区别就是81题要求只要存在target就返回true，而这道题要 返回多个重复target中最靠前的那个\r\n**题目：**\r\n![1003.png](https://pic.leetcode-cn.com/1614336561-VRccXk-1003.png)\r\n\r\n\r\n**题解：** 此题边界case很多，与上面的几道题相比，注释里给出了三个重点改变，仔细体会。\r\n```\r\nclass Solution:\r\n    def search(self, arr: List[int], target: int) -> int:\r\n        n=len(arr)\r\n        left=0\r\n        right=n-1\r\n        while left<=right:\r\n            # 重点1：当left符合时直接返回, 因为找的是最小的索引\r\n            if arr[left]==target:\r\n                return left\r\n            mid=left+(right-left)//2\r\n            # 重点2：当中间值等于目标值，将右边界移到中间，因为左边可能还有相等的值\r\n            if arr[mid]==target:\r\n                right=mid\r\n            elif arr[0]<arr[mid]:\r\n                if arr[0]<=target<arr[mid]:\r\n                    right=mid-1\r\n                else:\r\n                    left=mid+1\r\n            elif arr[0]>arr[mid]:\r\n                if arr[mid]<target<=arr[n-1]:\r\n                    left=mid+1\r\n                else:\r\n                    right=mid-1\r\n            else:\r\n                # 重点3：当中间数字与左边数字相等时，将左边界右移\r\n                    left+=1\r\n        return -1\r\n```\r\n\r\n\r\n--------------------------------------------------------------------------\r\n\r\n以上就是关于旋转数组的6道题，刷题要常总结归类，才能举一反三！我是[乐清](https://leetcode-cn.com/u/sunshinehit/)，如果你觉得这篇总结对你有帮助，**求赞 求收藏 求关注**，如果有不懂的地方或者想看什么题型的总结可评论留言。",
+      "createdAt": "2021-02-26T13:26:50.425030+00:00",
+      "hitCount": 8918,
+      "identifier": "h7y6Ox",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "su-kan-jian-dan-yi-dong-de-er-fen-shi-ji-anpe",
+        "title": "速看，简单易懂的二分，时间100%"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "search-rotate-array-lcci"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 90,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 3,
+          "reactionType": "AWESOME"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "THUMBS_DOWN"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "xuan-zhuan-shu-zu-cong-yi-dao-nan-ge-ge-dcv7a",
+      "status": "PREPUBLISH",
+      "summary": "看快手的面经遇到了这道题，需要考虑的边界条件比较多，这里从易到难总结一下旋转数组相关的题，都是二分法的套路，看了这篇题解，一次搞定6道题！\n189. 旋转数组\n题目：\n\n题解：\n153. 寻找旋转排序数组中的最小值\n题目：\n\n\nnums 中的所有整数都是 唯一 的\nnums 原来是一个升序排序的数组，但在预先未知的某个",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Binary Search",
+          "nameTranslated": "二分查找",
+          "slug": "binary-search",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1614342022-CcPoNe-189.png",
+      "title": "【旋转数组】从易到难，各个击破！",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 15,
+        "id": 623648,
+        "viewCount": 5939
+      },
+      "uuid": "h7y6Ox",
+      "videosInfo": []
+    }
+  }
+}

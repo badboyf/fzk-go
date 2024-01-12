@@ -1,0 +1,84 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣 (LeetCode)",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/uploaded_files/2021/03/73c9f099-abbe-4d94-853f-f8abffd459cd/leetcode.png",
+          "userSlug": "leetcode"
+        },
+        "username": "LeetCode"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法一： 将 `1` 的数量三等分\n\n**思路**\n\n如果存在这种分法，那么最终每一部分 `1` 的数量一定是相等的。下面给出的算法也是基于这个思路。\n\n**算法**\n\n设 `S` 为 `A` 中 `1` 的个数，最终每一块 `1` 的数量是相同的，那么每一块都有 `T = S / 3` 个 `1`。\n\n如果 `S` 不能被 `3` 整除，显然不存在这种分法。\n\n可以简单地找到 `A` 中第 `1` 个，第 `T` 个，第 `T+1` 个，第 `2T` 个，第 `2T+1` 个，第 `3T` 个 `1`。这些位置形成了三个区间，`[i1, j1], [i2, j2], [i3, j3]`。（如果只有 `3` 个 `1`，每个区间的大小为 `1`）。\n\n除去这三个区间，可能还有一些后缀 `0`。`0` 的数量由 `j3` 之后有多少 `0` 来决定，`j3` 之后 `0` 的数量为 `z = S.length - j3`。\n\n加上后缀 `0` 之后，第一部分 `[i1, j1]` 就变成了 `[i1, j1+z]`，同样第二部分 `[i2, j2]` 也变成了 `[i2, j2+z]`。\n\n如果这三个区间都合法，那么答案就是 `[j1+z, j2+z+1]`。\n\n```java [solution1-Java]\nclass Solution {\n    public int[] threeEqualParts(int[] A) {\n        int[] IMP = new int[]{-1, -1};\n        int N = A.length;\n\n        int S = 0;\n        for (int x: A) S += x;\n        if (S % 3 != 0) return IMP;\n        int T = S / 3;\n        if (T == 0)\n            return new int[]{0, N - 1};\n\n        int i1 = -1, j1 = -1, i2 = -1, j2 = -1, i3 = -1, j3 = -1;\n        int su = 0;\n        for (int i = 0; i < N; ++i) {\n            if (A[i] == 1) {\n                su += 1;\n                if (su == 1) i1 = i;\n                if (su == T) j1 = i;\n                if (su == T+1) i2 = i;\n                if (su == 2*T) j2 = i;\n                if (su == 2*T + 1) i3 = i;\n                if (su == 3*T) j3 = i;\n            }\n        }\n\n        // The array is in the form W [i1, j1] X [i2, j2] Y [i3, j3] Z\n        // where [i1, j1] is a block of 1s, etc.\n        int[] part1 = Arrays.copyOfRange(A, i1, j1+1);\n        int[] part2 = Arrays.copyOfRange(A, i2, j2+1);\n        int[] part3 = Arrays.copyOfRange(A, i3, j3+1);\n\n        if (!Arrays.equals(part1, part2)) return IMP;\n        if (!Arrays.equals(part1, part3)) return IMP;\n\n        // x, y, z: the number of zeros after part 1, 2, 3\n        int x = i2 - j1 - 1;\n        int y = i3 - j2 - 1;\n        int z = A.length - j3 - 1;\n\n        if (x < z || y < z) return IMP;\n        return new int[]{j1+z, j2+z+1};\n    }\n}\n```\n\n```python [solution1-Python]\nclass Solution(object):\n    def threeEqualParts(self, A):\n        IMP = [-1, -1]\n\n        S = sum(A)\n        if S % 3: return IMP\n        T = S / 3\n        if T == 0:\n            return [0, len(A) - 1]\n\n        breaks = []\n        su = 0\n        for i, x in enumerate(A):\n            if x:\n                su += x\n                if su in {1, T+1, 2*T+1}:\n                    breaks.append(i)\n                if su in {T, 2*T, 3*T}:\n                    breaks.append(i)\n\n        i1, j1, i2, j2, i3, j3 = breaks\n\n        # The array is in the form W [i1, j1] X [i2, j2] Y [i3, j3] Z\n        # where [i1, j1] is a block of 1s, etc.\n        if not(A[i1:j1+1] == A[i2:j2+1] == A[i3:j3+1]):\n            return [-1,-1]\n\n        # x, y, z: the number of zeros after part 1, 2, 3\n        x = i2 - j1 - 1\n        y = i3 - j2 - 1\n        z = len(A) - j3 - 1\n\n        if x < z or y < z: return IMP\n        j1 += z\n        j2 += z\n        return [j1, j2+1]\n```\n\n**复杂度分析**\n\n* 时间复杂度： $O(N)$，其中 $N$ 为 `S` 的长度。\n\n* 空间复杂度： $O(N)$。",
+      "createdAt": "2019-08-06T05:53:41.726297+00:00",
+      "hitCount": 5388,
+      "identifier": "irB67H",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "tan-xin-suan-fa-by-64bit-roc1",
+        "title": "贪心算法"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "three-equal-parts"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 8,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 3,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "san-deng-fen-by-leetcode",
+      "status": "PUBLISHED",
+      "summary": "§ 方法一： 将 1 的数量三等分\n思路\n如果存在这种分法，那么最终每一部分 1 的数量一定是相等的。下面给出的算法也是基于这个思路。\n算法\n设 S 为 A 中 1 的个数，最终每一块 1 的数量是相同的，那么每一块都有 T = S / 3 个 1。\n如果 S 不能被 3 整除，显然不存在这种分法。\n可以简单地找到 A",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "三等分",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 10,
+        "id": 18755,
+        "viewCount": 4115
+      },
+      "uuid": "irB67H",
+      "videosInfo": []
+    }
+  }
+}

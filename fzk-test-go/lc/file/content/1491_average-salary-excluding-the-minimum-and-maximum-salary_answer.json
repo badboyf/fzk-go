@@ -1,0 +1,86 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣官方题解",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/leetcode-solution/avatar_1582018938.png",
+          "userSlug": "leetcode-solution"
+        },
+        "username": "LeetCode-Solution"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法一：模拟\n\n**思路**\n\n我们可以按照题意来模拟：\n\n+ 找到一个最大值 $\\rm maxValue$；\n\n+ 找到一个最小值 $\\rm minValue$；\n\n+ 然后对所有元素求和后减去这两个值 ${\\rm sum} = (\\sum_{i} {\\rm salary}[i]) - {\\rm maxValue} - {\\rm minValue}$；\n\n+ 求平均值 ${\\rm sum} / [{\\rm salary.size() - 2}]$。\n\n因为这里保证了 $\\rm salary$ 数组的长度至少是 $3$，所以我们不用特殊考虑 $\\rm maxValue$ 和 $\\rm minValue$ 是同一个的问题，因为如果它们相等的话（假设等于 $x$），这个序列里面所有元素都应该是 $x$，不影响计算结果。\n\n**代码**\n\n```cpp [sol1-C++]\nclass Solution {\npublic:\n    double average(vector<int>& salary) {\n        double maxValue = *max_element(salary.begin(), salary.end());\n        double minValue = *min_element(salary.begin(), salary.end());\n        double sum = accumulate(salary.begin(), salary.end(), - maxValue - minValue);\n        return sum / int(salary.size() - 2);\n    }\n};\n```\n\n```java [sol1-Java]\nclass Solution {\n    public double average(int[] salary) {\n        double sum = 0;\n        double maxValue = Integer.MIN_VALUE, minValue = Integer.MAX_VALUE;\n        for (int num : salary) {\n            sum += num;\n            maxValue = Math.max(maxValue, num);\n            minValue = Math.min(minValue, num);\n        }\n        return (sum - maxValue - minValue) / (salary.length - 2);\n    }\n}\n```\n\n```Python [sol1-Python3]\nclass Solution:\n    def average(self, salary: List[int]) -> float:\n        maxValue = max(salary)\n        minValue = min(salary)\n        total = sum(salary) - maxValue - minValue\n        return total / (len(salary) - 2)\n```\n\n**复杂度**\n\n+ 时间复杂度：$O(n)$。选取最大值、最小值和求和的过程的时间代价都是 $O(n)$，故渐进时间复杂度为 $O(n)$。\n\n+ 空间复杂度：$O(1)$。这里只用到了常量级别的辅助空间。",
+      "createdAt": "2020-07-12T08:42:09.551638+00:00",
+      "hitCount": 6439,
+      "identifier": "Yc0QTS",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "shi-yong-zi-fu-chuan-jie-jue-by-ypgd0t1u-5ox6",
+        "title": "使用字符串解决"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "average-salary-excluding-the-minimum-and-maximum-salary"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "qu-diao-zui-di-gong-zi-he-zui-gao-gong-zi-hou-de-4",
+      "status": "PUBLISHED",
+      "summary": "方法一：模拟 思路 我们可以按照题意来模拟： 找到一个最大值 $\\rm maxValue$； 找到一个最小值 $\\rm minValue$； 然后对所有元素求和后减去这两个值 ${\\rm sum} = (\\sum_{i} {\\rm salary}[i]) - {\\rm maxValue} - {\\rm minValue",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "去掉最低工资和最高工资后的工资平均值",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 16,
+        "id": 327125,
+        "viewCount": 5754
+      },
+      "uuid": "Yc0QTS",
+      "videosInfo": []
+    }
+  }
+}

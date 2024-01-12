@@ -1,0 +1,81 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "灵茶山艾府",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/endlesscheng/avatar_1589367048.png",
+          "userSlug": "endlesscheng"
+        },
+        "username": "endlesscheng"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "利用 $\\textit{rank}$ 数组来代替原来的字符串比较逻辑，从而做到线性复杂度。\r\n\r\n```go\r\nfunc largestMerge(s, t string) string {\r\n\tn := len(s)\r\n\tsa := *(*[]int32)(unsafe.Pointer(reflect.ValueOf(suffixarray.New([]byte(s + \"#\" + t))).Elem().FieldByName(\"sa\").Field(0).UnsafeAddr()))\r\n\trank := make([]int, n+1+len(t))\r\n\tfor i := range rank {\r\n\t\trank[sa[i]] = i\r\n\t}\r\n\tans := []byte{}\r\n\ti, j := 0, n+1\r\n\tfor {\r\n\t\tif s == \"\" {\r\n\t\t\tans = append(ans, t...)\r\n\t\t\tbreak\r\n\t\t}\r\n\t\tif t == \"\" {\r\n\t\t\tans = append(ans, s...)\r\n\t\t\tbreak\r\n\t\t}\r\n\t\tif rank[i] > rank[j] { // s > t\r\n\t\t\tans = append(ans, s[0])\r\n\t\t\ts = s[1:]\r\n\t\t\ti++\r\n\t\t} else {\r\n\t\t\tans = append(ans, t[0])\r\n\t\t\tt = t[1:]\r\n\t\t\tj++\r\n\t\t}\r\n\t}\r\n\treturn string(ans)\r\n}\r\n```\r\n\r\n附：[后缀数组的介绍、求法及应用](https://oi-wiki.org/string/sa/)\r\n",
+      "createdAt": "2021-02-07T05:39:30.748414+00:00",
+      "hitCount": 1210,
+      "identifier": "JUAJUM",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "c-python3-zi-dai-zi-fu-chuan-bi-jiao-gon-o7uo",
+        "title": "c++/python3  自带字符串比较（附带手写比较版）"
+      },
+      "position": 2,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "python3-chao-xiang-xi-duo-jie-fa-tu-jie-pdss0",
+        "title": "python3 超详细多解法【图解】（贪心算法+双端队列【两行】，贪心算法+双指针）"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "largest-merge-of-two-strings"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 9,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "hou-zhui-shu-zu-xian-xing-zuo-fa-by-endl-pedl",
+      "status": "PREPUBLISH",
+      "summary": "利用 \\textit{rank} 数组来代替原来的字符串比较逻辑，从而做到线性复杂度。\n附：后缀数组的介绍、求法及应用",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Go",
+          "nameTranslated": "",
+          "slug": "golang",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "后缀数组线性做法",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 6,
+        "id": 595542,
+        "viewCount": 1015
+      },
+      "uuid": "JUAJUM",
+      "videosInfo": []
+    }
+  }
+}

@@ -1,0 +1,86 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣 (LeetCode)",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/uploaded_files/2021/03/73c9f099-abbe-4d94-853f-f8abffd459cd/leetcode.png",
+          "userSlug": "leetcode"
+        },
+        "username": "LeetCode"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法一： 暴力\n\n**思路和算法**\n\n首先找到从左块开始最小块的大小。如果前 `k` 个元素为 `[0, 1, ..., k-1]`，可以直接把他们分为一个块。当我们需要检查 `[0, 1, ..., n-1]` 中前 `k+1` 个元素是不是 `[0, 1, ..., k]` 的时候，只需要检查其中最大的数是不是 `k` 就可以了。\n\n```python [solution1-Pyton]\nclass Solution(object):\n    def maxChunksToSorted(self, arr):\n        ans = ma = 0\n        for i, x in enumerate(arr):\n            ma = max(ma, x)\n            if ma == i: ans += 1\n        return ans\n```\n\n```java [solution2-Java]\nclass Solution {\n    public int maxChunksToSorted(int[] arr) {\n        int ans = 0, max = 0;\n        for (int i = 0; i < arr.length; ++i) {\n            max = Math.max(max, arr[i]);\n            if (max == i) ans++;\n        }\n        return ans;\n    }\n}\n```\n\n\n**复杂度分析**\n\n* 时间复杂度: $O(N)$，其中 $N$ 为数组 `arr` 的长度。\n\n* 空间复杂度: $O(1)$。",
+      "createdAt": "2019-11-04T09:19:18.330218+00:00",
+      "hitCount": 9660,
+      "identifier": "6FFuTO",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "dan-diao-zhan-by-synhard-yhpt",
+        "title": "单调栈"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "max-chunks-to-make-sorted"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 16,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "zui-duo-neng-wan-cheng-pai-xu-de-kuai-i-by-leetcod",
+      "status": "PUBLISHED",
+      "summary": "方法一： 暴力 思路和算法 首先找到从左块开始最小块的大小。如果前 k 个元素为 [0, 1, ..., k-1]，可以直接把他们分为一个块。当我们需要检查 [0, 1, ..., n-1] 中前 k+1 个元素是不是 [0, 1, ..., k] 的时候，只需要检查其中最大的数是不是 k 就可以了。 python [",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Array",
+          "nameTranslated": "数组",
+          "slug": "array",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "最多能完成排序的块 I",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 20,
+        "id": 40595,
+        "viewCount": 7597
+      },
+      "uuid": "6FFuTO",
+      "videosInfo": []
+    }
+  }
+}

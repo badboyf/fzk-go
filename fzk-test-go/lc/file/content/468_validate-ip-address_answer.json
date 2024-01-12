@@ -1,0 +1,89 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣 (LeetCode)",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/uploaded_files/2021/03/73c9f099-abbe-4d94-853f-f8abffd459cd/leetcode.png",
+          "userSlug": "leetcode"
+        },
+        "username": "LeetCode"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 概述\n\n最直接的方法是使用内置函数和 try/catch 结构检查 IP 地址的正确性：在 Python 中使用 [ipaddress](https://docs.python.org/3/library/ipaddress.html) ，在 Java 中使用 [InetAddress](https://docs.oracle.com/javase/7/docs/api/java/net/InetAddress.html) 。\n\n```python [solution1-Python]\nfrom ipaddress import ip_address, IPv6Address\nclass Solution:\n    def validIPAddress(self, IP: str) -> str:\n        try:\n            return \"IPv6\" if type(ip_address(IP)) is IPv6Address else \"IPv4\"\n        except ValueError:\n            return \"Neither\"\n```\n\n```java [solution1-Java]\nimport java.net.*;\nclass Solution {\n  public String validIPAddress(String IP) {\n    try {\n      return (InetAddress.getByName(IP) instanceof Inet6Address) ? \"IPv6\": \"IPv4\";\n    } catch(Exception e) {}\n    return \"Neither\";\n  }\n}\n```\n\n注意：这两个类都是引用 [POSIX -兼容的](https://linux.die.net/man/3/inet_addr) `inet-addr()` 解析地址。如果地址带有前导零块，可能会发生错误。\n\n> 地址的组成可以使十进制，八进制（以 0 开始），或十六进制（以 0X 开始）。\n\n例如 `01.01.01.012` 是有效的八进制 IP 地址。检查该地址是否有效可以在控制台运行命令 `ping 01.01.01.012`，八进制地址 `01.01.01.012` 会被转换为对应的十进制地址 `1.1.1.10`，因此执行 ping 命令不会出错。\n\n该题目指出如果 *IPv4 地址包含前置 0，则地址是无效的* ，但其实这不符合真实情况，不过我们仍然需要解决它。\n\n该题目要三种主要解法：\n\n- 正则表达式，该方法性能不太好。\n\n- 分治法，效率最高的方法之一。\n\n- 使用分治法和内置的 try/catch，将字符串转换成整数处理。使用 try/catch 不是一种好的方式，因为 try 块中的代码不会被编译器优化，所以最好不要在面试中使用。\n\n\n#### 方法一：正则表达式\n\n构造适用该题目的 “IPv4” 地址的正则表达式。注意前面讨论的前置零问题，它不属于 IPv4 地址。\n\n在 Python 中使用原始字符串 `r''` 构造正则表达式：\n\n![](https://pic.leetcode-cn.com/Figures/468/regex_ipv4.png)\n\n在 Java 中使用标准字符串构造正则表达式：\n\n![](https://pic.leetcode-cn.com/Figures/468/java_ipv4.png)\n\n现在问题被简化为检查每个块是否正确，每个块的范围为 `(0, 255)`，且不允许有前置零出现。一共有五种情况：\n\n1. 块只包含一位数字，范围是 0 到 9。\n\n2. 块包含两位数字，第一位的范围是 1 到 9，第二位是 0 到 9。\n\n3. 块包含三位数字，且第一位为 1。第二、三位可以是 0 到 9。\n\n4. 块包含三位数字，且第一位为 2，第二位为 0 到 4。那么第三位可以是 0 到 9。\n\n5. 块包含三位数字，且第一位为 2，第二位为 5，那么第三位可以是 0 到 5。\n\n创建包含这 5 种情况的正则表达式。\n\n![](https://pic.leetcode-cn.com/Figures/468/chunk_regex.png) \n\n使用相同逻辑构造匹配 IPv6 地址的正则表达式。\n\n```python [solution1-Python]\nimport re\nclass Solution:\n    chunk_IPv4 = r'([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])'\n    patten_IPv4 = re.compile(r'^(' + chunk_IPv4 + r'\\.){3}' + chunk_IPv4 + r'$')\n    \n    chunk_IPv6 = r'([0-9a-fA-F]{1,4})'\n    patten_IPv6 = re.compile(r'^(' + chunk_IPv6 + r'\\:){7}' + chunk_IPv6 + r'$')\n\n    def validIPAddress(self, IP: str) -> str:        \n        if '.' in IP:\n            return \"IPv4\" if self.patten_IPv4.match(IP) else \"Neither\" \n        if ':' in IP:\n            return \"IPv6\" if self.patten_IPv6.match(IP) else \"Neither\" \n        return \"Neither\"\n```\n\n```java [solution1-Java]\nimport java.util.regex.Pattern;\nclass Solution {\n  String chunkIPv4 = \"([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\";\n  Pattern pattenIPv4 =\n          Pattern.compile(\"^(\" + chunkIPv4 + \"\\\\.){3}\" + chunkIPv4 + \"$\");\n\n  String chunkIPv6 = \"([0-9a-fA-F]{1,4})\";\n  Pattern pattenIPv6 =\n          Pattern.compile(\"^(\" + chunkIPv6 + \"\\\\:){7}\" + chunkIPv6 + \"$\");\n\n  public String validIPAddress(String IP) {\n    if (IP.contains(\".\")) {\n      return (pattenIPv4.matcher(IP).matches()) ? \"IPv4\" : \"Neither\";\n    }\n    else if (IP.contains(\":\")) {\n      return (pattenIPv6.matcher(IP).matches()) ? \"IPv6\" : \"Neither\";\n    }\n    return \"Neither\";\n  }\n}\n```\n\n**复杂度分析**\n\n* 时间复杂度：$\\mathcal{O}(1)$。\n    \n* 空间复杂度：$\\mathcal{O}(1)$。\n\n\n#### 方法二：分治法\n\n**思想**\n\nIPv4 和 IPv6 地址均是由特定的分界符隔开的字符串组成，并且每个子字符串具有相同格式。\n\n![](https://pic.leetcode-cn.com/Figures/468/divide_conquer.png)\n\n因此，可以将地址分为多个块，然后逐块进行验证。\n\n仅当每个块都有效时，该地址才有效。这种方法称为 *分治法*。\n\n**算法**\n\n- 对于 IPv4 地址，通过界定符 `.` 将地址分为四块；对于 IPv6 地址，通过界定符 `:` 将地址分为八块。\n\n- 对于 IPv4 地址的每一块，检查它们是否在 `0 - 255` 内，且没有前置零。\n\n- 对于 IPv6 地址的每一块，检查其长度是否为 `1 - 4` 位的十六进制数。\n\n```python [solution2-Python]\nclass Solution:\n    def validate_IPv4(self, IP: str) -> str:\n        nums = IP.split('.')\n        for x in nums:\n            # Validate integer in range (0, 255):\n            # 1. length of chunk is between 1 and 3\n            if len(x) == 0 or len(x) > 3:\n                return \"Neither\"\n            # 2. no extra leading zeros\n            # 3. only digits are allowed\n            # 4. less than 255\n            if x[0] == '0' and len(x) != 1 or not x.isdigit() or int(x) > 255:\n                return \"Neither\"\n        return \"IPv4\"\n    \n    def validate_IPv6(self, IP: str) -> str:\n        nums = IP.split(':')\n        hexdigits = '0123456789abcdefABCDEF'\n        for x in nums:\n            # Validate hexadecimal in range (0, 2**16):\n            # 1. at least one and not more than 4 hexdigits in one chunk\n            # 2. only hexdigits are allowed: 0-9, a-f, A-F\n            if len(x) == 0 or len(x) > 4 or not all(c in hexdigits for c in x):\n                return \"Neither\"\n        return \"IPv6\"\n        \n    def validIPAddress(self, IP: str) -> str:\n        if IP.count('.') == 3:\n            return self.validate_IPv4(IP)\n        elif IP.count(':') == 7:\n            return self.validate_IPv6(IP)\n        else:\n            return \"Neither\"\n```\n\n```java [solution2-Java]\nclass Solution {\n  public String validateIPv4(String IP) {\n    String[] nums = IP.split(\"\\\\.\", -1);\n    for (String x : nums) {\n      // Validate integer in range (0, 255):\n      // 1. length of chunk is between 1 and 3\n      if (x.length() == 0 || x.length() > 3) return \"Neither\";\n      // 2. no extra leading zeros\n      if (x.charAt(0) == '0' && x.length() != 1) return \"Neither\";\n      // 3. only digits are allowed\n      for (char ch : x.toCharArray()) {\n        if (! Character.isDigit(ch)) return \"Neither\";\n      }\n      // 4. less than 255\n      if (Integer.parseInt(x) > 255) return \"Neither\";\n    }\n    return \"IPv4\";\n  }\n\n  public String validateIPv6(String IP) {\n    String[] nums = IP.split(\":\", -1);\n    String hexdigits = \"0123456789abcdefABCDEF\";\n    for (String x : nums) {\n      // Validate hexadecimal in range (0, 2**16):\n      // 1. at least one and not more than 4 hexdigits in one chunk\n      if (x.length() == 0 || x.length() > 4) return \"Neither\";\n      // 2. only hexdigits are allowed: 0-9, a-f, A-F\n      for (Character ch : x.toCharArray()) {\n        if (hexdigits.indexOf(ch) == -1) return \"Neither\";\n      }\n    }\n    return \"IPv6\";\n  }\n\n  public String validIPAddress(String IP) {\n    if (IP.chars().filter(ch -> ch == '.').count() == 3) {\n      return validateIPv4(IP);\n    }\n    else if (IP.chars().filter(ch -> ch == ':').count() == 7) {\n      return validateIPv6(IP);\n    }\n    else return \"Neither\";\n  }\n}\n```\n\n**复杂度分析**\n\n* 时间复杂度：$\\mathcal{O}(1)$。\n    \n* 空间复杂度：$\\mathcal{O}(1)$。",
+      "createdAt": "2020-02-28T02:51:21.287985+00:00",
+      "hitCount": 31515,
+      "identifier": "1ub2Qs",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "go-ku-han-shu-da-fa-by-endlesscheng-lxnp",
+        "title": "Go 库函数+特判"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "validate-ip-address"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 19,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 4,
+          "reactionType": "AWESOME"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "THUMBS_DOWN"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "yan-zheng-ip-di-zhi-by-leetcode",
+      "status": "PUBLISHED",
+      "summary": "概述 最直接的方法是使用内置函数和 try/catch 结构检查 IP 地址的正确性：在 Python 中使用 ipaddress ，在 Java 中使用 InetAddress 。 python [solution1-Python] from ipaddress import ip_address, IPv6Addr",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "验证 IP 地址",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 48,
+        "id": 112656,
+        "viewCount": 23400
+      },
+      "uuid": "1ub2Qs",
+      "videosInfo": []
+    }
+  }
+}

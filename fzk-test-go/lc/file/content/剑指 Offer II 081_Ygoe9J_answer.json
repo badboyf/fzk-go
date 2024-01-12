@@ -1,0 +1,83 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "Veyron",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/da-jia-hao-158/avatar_1598412397.png",
+          "userSlug": "da-jia-hao-158"
+        },
+        "username": "da-jia-hao-158"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "```\r\nclass Solution {\r\nprivate:\r\n    vector<vector<int>> res;\r\npublic:\r\n    vector<vector<int>> combinationSum(vector<int>& candidates, int target) {\r\n        vector<int> temp;\r\n        helper(candidates, target, 0, temp);\r\n        reverse(res.begin(), res.end());\r\n        return res;\r\n    }\r\n\r\n    void helper(vector<int>& candidates, int target, int index, vector<int> &temp){\r\n        if(target == 0){\r\n            res.push_back(temp);\r\n        }else if(target>0 && index < candidates.size()){\r\n//第一次是target不变，index往后一位。表示不选择这个数字，相当于这一步什么都不干。往后推一位\r\n            helper(candidates, target, index+1, temp);\r\n\r\n//这时表示选择当前的数字，并且下一步还可能选。\r\n            temp.emplace_back(candidates[index]);\r\n            helper(candidates, target-candidates[index], index, temp);\r\n\r\n//回溯步骤。在回溯到父节点之前，应该清除已经对子集 temp 状态进行的修改。\r\n            temp.pop_back();\r\n        }\r\n    }\r\n};\r\n```",
+      "createdAt": "2021-10-26T14:10:56.890841+00:00",
+      "hitCount": 403,
+      "identifier": "R7SJ9U",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "jian-zhi-offer-2-mian-shi-ti-81-shu-zhon-sngb",
+        "title": "《剑指offer 2 面试题81》 书中算法C++实现"
+      },
+      "position": 2,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "hui-su-bu-yi-yang-de-xie-fa-by-hut-ksy-v5up",
+        "title": "回溯不一样的写法！！"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "Ygoe9J"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "c-hui-su-miao-dong-081-yun-xu-zhong-fu-x-8zyl",
+      "status": "PREPUBLISH",
+      "summary": "[该用户太懒了，只写了 27 行代码]",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Backtracking",
+          "nameTranslated": "回溯",
+          "slug": "backtracking",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "C++ 回溯 秒懂（081. 允许重复选择元素的组合）",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 2,
+        "id": 1068385,
+        "viewCount": 330
+      },
+      "uuid": "R7SJ9U",
+      "videosInfo": []
+    }
+  }
+}

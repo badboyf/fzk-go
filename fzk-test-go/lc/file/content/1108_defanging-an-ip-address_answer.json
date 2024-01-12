@@ -1,0 +1,90 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "ffreturn",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/ffreturn/avatar_1608859813.png",
+          "userSlug": "ffreturn"
+        },
+        "username": "ffreturn"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "![image.png](https://pic.leetcode-cn.com/1634371522-ZfBjdM-image.png)\n\n\n### 解题思路\n非常直接方式，直接看代码吧\n\n### 代码\n\n```cpp\nclass Solution {\npublic:\n    string defangIPaddr(string address) {\n        for (int i = 0; i < address.size(); ++i)\n        {\n            if (address[i] == '.')\n            {\n                address.replace(i, 1, \"[.]\");\n                // 这个i的偏移量需要+2\n                i += 2;\n            }\n        }\n\n        return address;\n    }\n};\n```",
+      "createdAt": "2021-10-16T08:05:49.560360+00:00",
+      "hitCount": 244,
+      "identifier": "DXZwYA",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "cshi-xian-qiang-da-replace-shuang-100-by-8aji",
+        "title": "【C++实现强大replace】【双100】"
+      },
+      "position": 2,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "czi-fu-chuan-xian-jie-by-mengzhongfeixue-mf4d",
+        "title": "C++字符串衔接"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "defanging-an-ip-address"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "1108-cchao-100de-zhi-jie-replacejie-fa-b-9x0m",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n非常直接方式，直接看代码吧\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "String",
+          "nameTranslated": "字符串",
+          "slug": "string",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "梦想",
+          "nameTranslated": "",
+          "slug": "meng-xiang",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1634371522-ZfBjdM-image.png",
+      "title": "1108. c++超100的直接replace解法",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1050263,
+        "viewCount": 206
+      },
+      "uuid": "DXZwYA",
+      "videosInfo": []
+    }
+  }
+}

@@ -1,0 +1,101 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣 (LeetCode)",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/uploaded_files/2021/03/73c9f099-abbe-4d94-853f-f8abffd459cd/leetcode.png",
+          "userSlug": "leetcode"
+        },
+        "username": "LeetCode"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "####  二叉搜索树的三个特性：\n这些性质最好在面试之前了解清楚：\n- 二叉搜索树的中序遍历的序列是递增排序的序列。中序遍历的遍历次序：`Left -> Node -> Right`。\n\n```java [Inorder_traversal-Java]\npublic LinkedList<Integer> inorder(TreeNode root, LinkedList<Integer> arr) {\n  if (root == null) return arr;\n  inorder(root.left, arr);\n  arr.add(root.val);\n  inorder(root.right, arr);\n  return arr;\n} \n```\n\n```python [Inorder_traversal-Python]\ndef inorder(root):\n    return inorder(root.left) + [root.val] + inorder(root.right) if root else []\n```\n![在这里插入图片描述](https://pic.leetcode-cn.com/0cc0a63c4c063977e74374a94ab4f6ed4e7cad94ddc52b99ab3afcff073738c1-file_1576477912261){:width=500}\n\n- `Successor` 代表的是中序遍历序列的下一个节点。即比当前节点大的最小节点，简称后继节点。 先取当前节点的右节点，然后一直取该节点的左节点，直到左节点为空，则最后指向的节点为后继节点。\n\n```java [Successor-Java]\npublic int successor(TreeNode root) {\n  root = root.right;\n  while (root.left != null) root = root.left;\n  return root;\n} \n```\n\n```python [Successor-Python]\ndef successor(root):\n    root = root.right\n    while root.left:\n        root = root.left\n    return root\n```\n- `Predecessor` 代表的是中序遍历序列的前一个节点。即比当前节点小的最大节点，简称前驱节点。先取当前节点的左节点，然后取该节点的右节点，直到右节点为空，则最后指向的节点为前驱节点。\n\n```java [Predecessor-Java]\npublic int predecessor(TreeNode root) {\n  root = root.left;\n  while (root.right != null) root = root.right;\n  return root;\n} \n```\n\n```python [Predecessor-Python]\ndef predecessor(root):\n    root = root.left\n    while root.right:\n        root = root.right\n    return root\n```\n![在这里插入图片描述](https://pic.leetcode-cn.com/309271bd1f94c57fd4e19f5eee624dd2ad3ef8e4d5a3b6eca5556e9f2e43a3bc-file_1576477912310){:width=500}\n\n\n####  方法：递归\n这里有三种可能的情况：\n- 要删除的节点为叶子节点，可以直接删除。\n\n![在这里插入图片描述](https://pic.leetcode-cn.com/b86c5d5866fb8b1f6a2f15f47262adf3ae68e56498c9e261a031bbb8ebc55588-file_1576477912302){:width=500}\n- 要删除的节点不是叶子节点且拥有右节点，则该节点可以由该节点的后继节点进行替代，该后继节点位于右子树中较低的位置。然后可以从后继节点的位置递归向下操作以删除后继节点。\n\n![在这里插入图片描述](https://pic.leetcode-cn.com/12353e5c71267aafd355319a8b881f0b9efae0680358b7ce738228151a42d3cc-file_1576477912312){:width=500}\n- 要删除的节点不是叶子节点，且没有右节点但是有左节点。这意味着它的后继节点在它的上面，但是我们并不想返回。我们可以使用它的前驱节点进行替代，然后再递归的向下删除前驱节点。\n\n![在这里插入图片描述](https://pic.leetcode-cn.com/2a9aa44aab7948e78e06182791e2eaaf00fb72eff054a1f4612030a047dde59a-file_1576477912315){:width=500}\n\n\n**算法：**\n- 如果 `key > root.val`，说明要删除的节点在右子树，`root.right = deleteNode(root.right, key)`。\n- 如果 `key < root.val`，说明要删除的节点在左子树，`root.left = deleteNode(root.left, key)`。\n- 如果 `key == root.val`，则该节点就是我们要删除的节点，则：\n\t- 如果该节点是叶子节点，则直接删除它：`root = null`。\n\t- 如果该节点不是叶子节点且有右节点，则用它的后继节点的值替代 `root.val = successor.val`，然后删除后继节点。\n\t- 如果该节点不是叶子节点且只有左节点，则用它的前驱节点的值替代 `root.val = predecessor.val`，然后删除前驱节点。\n- 返回 `root`。 \n\n![在这里插入图片描述](https://pic.leetcode-cn.com/cabd70de79b533f744f3a9068941c9be10711a47a26b3daed67bd00fed391644-file_1576477912304){:width=500}\n\n```java [solution1-Java]\nclass Solution {\n  /*\n  One step right and then always left\n  */\n  public int successor(TreeNode root) {\n    root = root.right;\n    while (root.left != null) root = root.left;\n    return root.val;\n  }\n\n  /*\n  One step left and then always right\n  */\n  public int predecessor(TreeNode root) {\n    root = root.left;\n    while (root.right != null) root = root.right;\n    return root.val;\n  }\n\n  public TreeNode deleteNode(TreeNode root, int key) {\n    if (root == null) return null;\n\n    // delete from the right subtree\n    if (key > root.val) root.right = deleteNode(root.right, key);\n    // delete from the left subtree\n    else if (key < root.val) root.left = deleteNode(root.left, key);\n    // delete the current node\n    else {\n      // the node is a leaf\n      if (root.left == null && root.right == null) root = null;\n      // the node is not a leaf and has a right child\n      else if (root.right != null) {\n        root.val = successor(root);\n        root.right = deleteNode(root.right, root.val);\n      }\n      // the node is not a leaf, has no right child, and has a left child    \n      else {\n        root.val = predecessor(root);\n        root.left = deleteNode(root.left, root.val);\n      }\n    }\n    return root;\n  }\n}\n```\n\n```python [solution1-Python]\nclass Solution:\n    def successor(self, root):\n        \"\"\"\n        One step right and then always left\n        \"\"\"\n        root = root.right\n        while root.left:\n            root = root.left\n        return root.val\n    \n    def predecessor(self, root):\n        \"\"\"\n        One step left and then always right\n        \"\"\"\n        root = root.left\n        while root.right:\n            root = root.right\n        return root.val\n        \n    def deleteNode(self, root: TreeNode, key: int) -> TreeNode:\n        if not root:\n            return None\n        \n        # delete from the right subtree\n        if key > root.val:\n            root.right = self.deleteNode(root.right, key)\n        # delete from the left subtree\n        elif key < root.val:\n            root.left = self.deleteNode(root.left, key)\n        # delete the current node\n        else:\n            # the node is a leaf\n            if not (root.left or root.right):\n                root = None\n            # the node is not a leaf and has a right child\n            elif root.right:\n                root.val = self.successor(root)\n                root.right = self.deleteNode(root.right, root.val)\n            # the node is not a leaf, has no right child, and has a left child    \n            else:\n                root.val = self.predecessor(root)\n                root.left = self.deleteNode(root.left, root.val)\n                        \n        return root\n\n```\n\n**复杂度分析**\n\n* 时间复杂度：$\\mathcal{O}(\\log N)$。在算法的执行过程中，我们一直在树上向左或向右移动。首先先用 $\\mathcal{O}(H_1)$ 的时间找到要删除的节点，$H_1$ 值得是从根节点到要删除节点的高度。然后删除节点需要 $\\mathcal{O}(H_2)$ 的时间，$H_2$ 指的是从要删除节点到替换节点的高度。由于 $\\mathcal{O}(H_1 + H_2) = \\mathcal{O}(H)$，$H$ 值得是树的高度，若树是一个平衡树则 $H$ = $\\log N$。\n* 空间复杂度：$\\mathcal{O}(H)$，递归时堆栈使用的空间，$H$ 是树的高度。",
+      "createdAt": "2019-12-16T06:16:05.426776+00:00",
+      "hitCount": 51732,
+      "identifier": "VsBAL7",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "miao-dong-jiu-wan-shi-liao-by-terry2020-tc0o",
+        "title": "秒懂就完事了！"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "delete-node-in-a-bst"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 106,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 10,
+          "reactionType": "AWESOME"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 7,
+          "reactionType": "CONFUSED"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "THUMBS_DOWN"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "shan-chu-er-cha-sou-suo-shu-zhong-de-jie-dian-by-l",
+      "status": "PUBLISHED",
+      "summary": "二叉搜索树的三个特性：\n这些性质最好在面试之前了解清楚：\n\n二叉搜索树的中序遍历的序列是递增排序的序列。中序遍历的遍历次序：Left -> Node -> Right。\n\n\nSuccessor 代表的是中序遍历序列的下一个节点。即比当前节点大的最小节点，简称后继节点。 先取当前节点的右节点，然后一直取该节点的左节点，",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Binary Search Tree",
+          "nameTranslated": "二叉搜索树",
+          "slug": "binary-search-tree",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/0cc0a63c4c063977e74374a94ab4f6ed4e7cad94ddc52b99ab3afcff073738c1-file_1576477912261",
+      "title": "删除二叉搜索树中的节点",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 101,
+        "id": 56165,
+        "viewCount": 34280
+      },
+      "uuid": "VsBAL7",
+      "videosInfo": []
+    }
+  }
+}

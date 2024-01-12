@@ -1,0 +1,72 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "offer快到碗里来~",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/zhouzihong/avatar_1626862997.png",
+          "userSlug": "zhouzihong"
+        },
+        "username": "zhouzihong"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "![image.png](https://pic.leetcode-cn.com/1632664398-BrtDzn-image.png)\r\n![image.png](https://pic.leetcode-cn.com/1632664405-KRjMLR-image.png)\r\n这道题难在一二情况的区分\r\n\r\n抽象图一二ij\r\n\r\n```\r\nclass Solution {\r\npublic:\r\n    vector<string> braceExpansionII(string expression) {\r\n        set<string>tmpAns=dfs(expression);\r\n        vector<string>ans;\r\n        for(auto&s:tmpAns)ans.push_back(s);\r\n        return ans;\r\n    }\r\n    set<string>dfs(string s){\r\n        set<string>ans;\r\n        vector<string>strArr=split(s,',');\r\n        for(int i=0;i<strArr.size();i++){\r\n            set<string>subAns;\r\n            dfs1(\"\",0,strArr[i],subAns);\r\n            for(auto&ss:subAns)ans.insert(ss);\r\n        }\r\n        return ans;\r\n    }\r\n    void dfs1(string path,int curIdx,string s,set<string>&subAns){\r\n        int n=s.size();\r\n        if(curIdx>=n){\r\n            subAns.insert(path);\r\n            return;\r\n        }\r\n        if(s[curIdx]=='{'){\r\n            int pre=curIdx;\r\n            int cnt=0;\r\n            set<string>subsubAns;\r\n            while(curIdx<n){\r\n                if(s[curIdx]=='{')cnt++;\r\n                else if(s[curIdx]=='}')cnt--;\r\n                if(cnt==0){\r\n                    curIdx++;\r\n                    subsubAns=dfs(s.substr(pre+1,curIdx-pre-2));\r\n                    break;\r\n                }\r\n                curIdx++;\r\n            }\r\n            for(auto&subsubAnsChar:subsubAns){\r\n                dfs1(path+subsubAnsChar,curIdx,s,subAns);\r\n            }\r\n        }else {\r\n            dfs1(path+string(1,s[curIdx]),curIdx+1,s,subAns);\r\n        }\r\n    }\r\n    vector<string>split(string &s,char flag){\r\n        int cnt=0;\r\n        int n=s.size();\r\n        vector<string>ans;\r\n        int i=0,pre=0;\r\n        while(i<n){\r\n            if(s[i]=='{')cnt++;\r\n            else if(s[i]=='}')cnt--;\r\n            else if(cnt==0&&s[i]==flag){\r\n                ans.push_back(s.substr(pre,i-pre));\r\n                pre=i+1;\r\n            }\r\n            i++;\r\n        }\r\n        if(pre<i){\r\n            ans.push_back(s.substr(pre,i-pre));\r\n        }\r\n        return ans;\r\n    }\r\n};\r\n```\r\n",
+      "createdAt": "2021-09-26T13:54:26.908914+00:00",
+      "hitCount": 98,
+      "identifier": "vats6X",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "zi-ding-xiang-xia-de-di-gui-fen-xi-by-wa-bxjo",
+        "title": "自顶向下的递归分析"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "brace-expansion-ii"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "xi-zhi-xiang-jin-de-fen-xi-by-zhouzihong-jlyq",
+      "status": "PREPUBLISH",
+      "summary": "这道题难在一二情况的区分\n抽象图一二ij",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1632664398-BrtDzn-image.png",
+      "title": "【细致详尽的分析】",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1019237,
+        "viewCount": 89
+      },
+      "uuid": "vats6X",
+      "videosInfo": []
+    }
+  }
+}

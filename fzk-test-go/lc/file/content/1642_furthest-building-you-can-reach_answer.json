@@ -1,0 +1,102 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "清风Python",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/qingfengpython/avatar_1620226448.png",
+          "userSlug": "qingfengpython"
+        },
+        "username": "qingfengpython"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "# [1642.可以到达的最远建筑](https://leetcode-cn.com/problems/furthest-building-you-can-reach/solution/1642ke-yi-dao-da-de-zui-yuan-jian-zhu-sh-l6fm/)\r\n> https://leetcode-cn.com/problems/furthest-building-you-can-reach/solution/1642ke-yi-dao-da-de-zui-yuan-jian-zhu-sh-l6fm/\r\n> \r\n> 难度：中等\r\n\r\n## 题目\r\n\r\n给你一个整数数组 heights ，表示建筑物的高度。另有一些砖块 bricks 和梯子 ladders 。\r\n\r\n你从建筑物 0 开始旅程，不断向后面的建筑物移动，期间可能会用到砖块或梯子。\r\n\r\n当从建筑物 i 移动到建筑物 i+1（下标 从 0 开始 ）时：\r\n\r\n如果当前建筑物的高度 大于或等于 下一建筑物的高度，则不需要梯子或砖块\r\n如果当前建筑的高度 小于 下一个建筑的高度，您可以使用 一架梯子 或 (h[i+1] - h[i]) 个砖块\r\n如果以最佳方式使用给定的梯子和砖块，返回你可以到达的最远建筑物的下标（下标 从 0 开始 ）。\r\n\r\n提示：\r\n\r\n- 1 <= heights.length <= 10^5\r\n- 1 <= heights[i] <= 10^6\r\n- 0 <= bricks <= 10^9\r\n- 0 <= ladders <= heights.length\r\n\r\n## 示例\r\n\r\n![](https://assets.leetcode-cn.com/aliyun-lc-upload/uploads/2020/10/31/q4.gif)\r\n```\r\n输入：heights = [4,2,7,6,9,14,12], bricks = 5, ladders = 1\r\n输出：4\r\n解释：从建筑物 0 出发，你可以按此方案完成旅程：\r\n- 不使用砖块或梯子到达建筑物 1 ，因为 4 >= 2\r\n- 使用 5 个砖块到达建筑物 2 。你必须使用砖块或梯子，因为 2 < 7\r\n- 不使用砖块或梯子到达建筑物 3 ，因为 7 >= 6\r\n- 使用唯一的梯子到达建筑物 4 。你必须使用砖块或梯子，因为 6 < 9\r\n无法越过建筑物 4 ，因为没有更多砖块或梯子。\r\n\r\n示例 2：\r\n输入：heights = [4,12,2,7,3,18,20,3,19], bricks = 10, ladders = 2\r\n输出：7\r\n\r\n示例 3：\r\n输入：heights = [14,3,19,3], bricks = 17, ladders = 0\r\n输出：3\r\n```\r\n\r\n## 分析\r\n\r\n偶然翻到这个题目，力扣难得遇到这么幽默的动图，怎么能不做这道题呢！\r\n那么这道题怎么好理解？我们需要使用贪心的思路来考虑。\r\n下面我讲一个故事来帮你分析这道题。\r\n1. 神偷Jacky身上带着一堆砖头和可以无限伸缩的梯子在楼顶穿梭。\r\n2. 如果遇到下一个楼顶**小于等于**当前楼顶，那么直接跳过去就行了\r\n3. 但如果遇到下一个楼顶**大于**当前楼顶爬不上去的时候，如果你是Jacky你用丢砖头还是梯子？\r\n    当然是丢砖头了，也许下次遇到的楼比这次高一万倍，那时候再用梯子岂不是更好！\r\n4. 丢了足够的砖头，接着往下走，直到砖头都用完了，此时该怎么操作，直接在本次用梯子吗？显然不是！\r\n5. 他从之前爬过的大楼中，找到用最多砖头的一次，此时Jacky有一个**乾坤大挪移**的功法，可以把那次使用砖头吸过来，\r\n   用一个梯子弥补砖头。 比如之前最多一次用了100个砖头，而此次使用了2个砖头，那么我们就用1个梯子换来了98块砖头，\r\n   可以继续前进了。\r\n6. 使用5的贪心方式，走到没梯子砖头也不够的时候，返回当前的大楼需要即可。\r\n\r\n听懂了神偷Jacky的贪心思路，那么怎么快速找用掉最多砖头的那一次呢，我们使用堆排序，但由于Python没有大根堆，\r\n所以每次砖头入堆时，需要将其变为负数，才能通过小根堆实现大根堆(这个技巧重复很多次了，大家一定要记住)。\r\n\r\n思路分析好了，数据结构也有了，那就开始编码吧！\r\n\r\n## 解题\r\n\r\n```Python []\r\nclass Solution:\r\n    def furthestBuilding(self, heights, bricks, ladders):\r\n        hq = []\r\n        for i in range(1, len(heights)):\r\n            diff = heights[i] - heights[i - 1]\r\n            # 只有当前楼层大于前一个楼层我们才需要抄家伙\r\n            if diff > 0:\r\n                # 通过负数模拟最大堆\r\n                heapq.heappush(hq, -diff)\r\n                # 优先减砖头\r\n                bricks -= diff\r\n                if bricks < 0:\r\n                    # 砖头小于零时找梯子，有梯子交换，没梯子退出\r\n                    if ladders:\r\n                        ladders -= 1\r\n                        # 最大砖头小号出堆，弥补砖头数量\r\n                        bricks -= heapq.heappop(hq)\r\n                    else:\r\n                        return i - 1\r\n        return len(heights) - 1\r\n```\r\n```Java []\r\nclass Solution {\r\n    public int furthestBuilding(int[] heights, int bricks, int ladders) {\r\n        PriorityQueue<Integer> hq = new PriorityQueue<>((a, b) -> b - a);\r\n        for (int i = 1; i < heights.length; i++) {\r\n            int cnt = heights[i] - heights[i - 1];\r\n            if (cnt > 0) {\r\n                hq.add(cnt);\r\n                bricks -= cnt;\r\n                if (bricks < 0) {\r\n                    if (ladders > 0) {\r\n                        ladders--;\r\n                        bricks += hq.poll();\r\n                    } else return i - 1;\r\n                }\r\n            }\r\n        }\r\n        return heights.length - 1;\r\n    }\r\n}\r\n```\r\n\r\n欢迎关注我的公众号: **清风Python**，带你每日学习Python算法刷题的同时，了解更多python小知识。\r\n\r\n有喜欢力扣刷题的小伙伴可以加我微信（King_Uranus）互相鼓励，共同进步，一起玩转超级码力！\r\n\r\n我的个人博客：[https://qingfengpython.cn](https://qingfengpython.cn)\r\n\r\n力扣解题合集：[https://github.com/BreezePython/AlgorithmMarkdown](https://github.com/BreezePython/AlgorithmMarkdown)",
+      "createdAt": "2021-06-27T15:50:27.891290+00:00",
+      "hitCount": 1557,
+      "identifier": "ppsiSf",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "javasan-chong-jie-fa-yu-shi-jian-fu-za-du-fen-xi-b",
+        "title": "Java三种解法与时间复杂度分析"
+      },
+      "position": 2,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "ke-yi-dao-da-de-zui-yuan-jian-zhu-by-zerotrac2",
+        "title": "可以到达的最远建筑"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "furthest-building-you-can-reach"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 9,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": false,
+      "slug": "1642ke-yi-dao-da-de-zui-yuan-jian-zhu-sh-l6fm",
+      "status": "PREPUBLISH",
+      "summary": "1642.可以到达的最远建筑\n\nhttps://leetcode-cn.com/problems/furthest-building-you-can-reach/solution/1642ke-yi-dao-da-de-zui-yuan-jian-zhu-sh-l6fm/\n难度：中等\n\n题目\n给你一个整数数组 heig",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Heap",
+          "nameTranslated": "堆",
+          "slug": "heap",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Greedy",
+          "nameTranslated": "贪心",
+          "slug": "greedy",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python3",
+          "nameTranslated": "",
+          "slug": "python3",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "https://assets.leetcode-cn.com/aliyun-lc-upload/uploads/2020/10/31/q4.gif",
+      "title": "1642.可以到达的最远建筑 神偷Jacky的思路带你分析贪心+堆操作！",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 2,
+        "id": 847911,
+        "viewCount": 679
+      },
+      "uuid": "ppsiSf",
+      "videosInfo": []
+    }
+  }
+}

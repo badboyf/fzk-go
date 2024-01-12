@@ -1,0 +1,72 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "offer快到碗里来~",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/zhouzihong/avatar_1626862997.png",
+          "userSlug": "zhouzihong"
+        },
+        "username": "zhouzihong"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "抽象图一二ij\r\nGiven an array nums of positive integers. Your task is to select some subset of nums, multiply each element by an integer and add all these numbers. The array is said to be good if you can obtain a sum of 1 from the array by any possible subset and multiplicand. \r\n3 6  9  12  不行是因为不能选出一个子集，乘某些整数后和为1，\r\n比如3 9，3X整数+9X整数不可能等于1\r\n3  6  9  11行是因为  3  11   可以3X4+11X（-1）,\r\n规律是最大公因数不为1\r\n```\r\nclass Solution {\r\npublic:\r\n    bool isGoodArray(vector<int>& nums) {\r\n        int gcd=nums[0];\r\n        if(gcd==1)return true;\r\n        for(int i=1;i<nums.size();i++){\r\n            gcd=getGcd(gcd,nums[i]);\r\n            if(gcd==1)return true; \r\n        }\r\n        return false;\r\n    }\r\n    int getGcd(int a,int b){\r\n        if(a==0)return b;\r\n        return gcd(b%a,a);\r\n    }\r\n};\r\n```\r\n",
+      "createdAt": "2021-10-02T06:19:15.116346+00:00",
+      "hitCount": 105,
+      "identifier": "1tkfaj",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "c-by-miyuki_kazuya-1arz",
+        "title": "C++"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "check-if-it-is-a-good-array"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "fan-yi-wen-ti-qiu-zui-da-gong-yin-shu-by-ctg5",
+      "status": "PREPUBLISH",
+      "summary": "抽象图一二ij\nGiven an array nums of positive integers. Your task is to select some subset of nums, multiply each element by an integer and add all these numbers. The",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "【翻译问题】【求最大公因数】",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1027878,
+        "viewCount": 92
+      },
+      "uuid": "1tkfaj",
+      "videosInfo": []
+    }
+  }
+}

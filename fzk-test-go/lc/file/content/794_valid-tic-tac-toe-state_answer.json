@@ -1,0 +1,79 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣 (LeetCode)",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/uploaded_files/2021/03/73c9f099-abbe-4d94-853f-f8abffd459cd/leetcode.png",
+          "userSlug": "leetcode"
+        },
+        "username": "LeetCode"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法一：分类讨论【通过】\n\n**思想**\n\n考虑井字游戏板生效的必要条件：\n\n* 因为所有的玩家轮流放棋，所以 `X` 的数量一定大于等于 `O` 的数量。\n\n* 获胜的玩家一定是在自己放棋后赢得比赛。\n\n  * 如果第一个玩家获胜，则 `X` 的数量比 `O` 的数量多 1。\n  * 如果第二个玩家获胜，则 `X` 的数量与 `O` 的数量相同。\n\n* 游戏板上不可能同时出现 3 个 `X` 在一行 和 3 个 `O` 在另一行。因为一旦有玩家获胜，游戏结束，另外一名玩家不能再放棋。\n\n事实证明，以上条件包含了游戏板生效的全部情况。可以通过反证法验证上面分类条件的正确性。在任何一局比赛中，只能有 3 种结果，要么没有玩家获胜，要么只有一个玩家获胜，要么两个玩家都获胜。在前两种情况下，通过检查两种棋的数量关系即可验证是否有效。最后这一种情况下，不允许两个玩家同时获胜。\n\n**算法**\n\n统计游戏板上 `X` 和 `O` 的数量并记录在 `xCount` 和 `oCount` 中。\n\n使用函数 `win(player)` 检查玩家是否获胜，它检查在棋盘的 3 行，3 列和 2 条对角线上是否有该玩家的连续 3 枚棋子。\n\n```java [solution1-Java]\nclass Solution {\n    public boolean validTicTacToe(String[] board) {\n        int xCount = 0, oCount = 0;\n        for (String row: board)\n            for (char c: row.toCharArray()) {\n                if (c == 'X') xCount++;\n                if (c == 'O') oCount++;\n            }\n\n        if (oCount != xCount && oCount != xCount - 1) return false;\n        if (win(board, 'X') && oCount != xCount - 1) return false;\n        if (win(board, 'O') && oCount != xCount) return false;\n        return true;\n    }\n\n    public boolean win(String[] B, char P) {\n        // B: board, P: player\n        for (int i = 0; i < 3; ++i) {\n            if (P == B[0].charAt(i) && P == B[1].charAt(i) && P == B[2].charAt(i))\n                return true;\n            if (P == B[i].charAt(0) && P == B[i].charAt(1) && P == B[i].charAt(2))\n                return true;\n        }\n        if (P == B[0].charAt(0) && P == B[1].charAt(1) && P == B[2].charAt(2))\n            return true;\n        if (P == B[0].charAt(2) && P == B[1].charAt(1) && P == B[2].charAt(0))\n            return true;\n        return false;\n    }\n}\n```\n\n```python [solution1-Python]\nclass Solution(object):\n    def validTicTacToe(self, board):\n        FIRST, SECOND = 'XO'\n        x_count = sum(row.count(FIRST) for row in board)\n        o_count = sum(row.count(SECOND) for row in board)\n\n        def win(board, player):\n            for i in xrange(3):\n                if all(board[i][j] == player for j in xrange(3)):\n                    return True\n                if all(board[j][i] == player for j in xrange(3)):\n                    return True\n\n            return (player == board[1][1] == board[0][0] == board[2][2] or\n                    player == board[1][1] == board[0][2] == board[2][0])\n\n        if o_count not in {x_count-1, x_count}: return False\n        if win(board, FIRST) and x_count-1 != o_count: return False\n        if win(board, SECOND) and x_count != o_count: return False\n\n        return True\n```\n\n**复杂度分析**\n\n* 时间和空间复杂度：$O(1)$。",
+      "createdAt": "2019-11-25T07:18:29.588501+00:00",
+      "hitCount": 9108,
+      "identifier": "IvPv7B",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "hun-yuan-xing-yi-tai-ji-men-de-ren-guo-l-opyc",
+        "title": "浑元形意太极门的人过来，集合了"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "valid-tic-tac-toe-state"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 7,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "you-xiao-de-jing-zi-you-xi-by-leetcode",
+      "status": "PUBLISHED",
+      "summary": " 方法一：分类讨论【通过】\n思想\n考虑井字游戏板生效的必要条件：\n\n\n因为所有的玩家轮流放棋，所以 X 的数量一定大于等于 O 的数量。\n\n\n获胜的玩家一定是在自己放棋后赢得比赛。\n\n如果第一个玩家获胜，则 X 的数量比 O 的数量多 1。\n如果第二个玩家获胜，则 X 的数量与 O 的数量相同。\n\n\n\n游戏板上不可能同",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "有效的井字游戏",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 16,
+        "id": 47127,
+        "viewCount": 6622
+      },
+      "uuid": "IvPv7B",
+      "videosInfo": []
+    }
+  }
+}

@@ -1,0 +1,131 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣官方题解",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/leetcode-solution/avatar_1582018938.png",
+          "userSlug": "leetcode-solution"
+        },
+        "username": "LeetCode-Solution"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 概述\n\n为了实现哈希集合这一数据结构，有以下几个关键问题需要解决：\n- 哈希函数：能够将集合中任意可能的元素映射到一个固定范围的整数值，并将该元素存储到整数值对应的地址上。\n- 冲突处理：由于不同元素可能映射到相同的整数值，因此需要在整数值出现「冲突」时，需要进行冲突处理。总的来说，有以下几种策略解决冲突：\n    - 链地址法：为每个哈希值维护一个链表，并将具有相同哈希值的元素都放入这一链表当中。\n    - 开放地址法：当发现哈希值 $h$ 处产生冲突时，根据某种策略，从 $h$ 出发找到下一个不冲突的位置。例如，一种最简单的策略是，不断地检查 $h+1,h+2,h+3,\\ldots$ 这些整数对应的位置。\n    - 再哈希法：当发现哈希冲突后，使用另一个哈希函数产生一个新的地址。\n- 扩容：当哈希表元素过多时，冲突的概率将越来越大，而在哈希表中查询一个元素的效率也会越来越低。因此，需要开辟一块更大的空间，来缓解哈希表中发生的冲突。\n\n以上内容读者可以自行翻阅数据结构的教材，本题解不再阐述，而是直接给出一个最简单的哈希表实现。\n\n#### 方法一：链地址法\n\n设哈希表的大小为 $\\textit{base}$，则可以设计一个简单的哈希函数：$\\text{hash}(x) = x \\bmod \\textit{base}$。\n\n我们开辟一个大小为 $\\textit{base}$ 的数组，数组的每个位置是一个链表。当计算出哈希值之后，就插入到对应位置的链表当中。\n\n由于我们使用整数除法作为哈希函数，为了尽可能避免冲突，应当将 $\\textit{base}$ 取为一个质数。在这里，我们取 $\\textit{base}=769$。\n\n![fig](https://imgconvert.csdnimg.cn/aHR0cHM6Ly9waWMubGVldGNvZGUtY24uY29tL0ZpZ3VyZXMvNzA1LzcwNV9saW5rZWRfbGlzdC5wbmc?x-oss-process=image/format,png)\n\n**代码**\n\n```C++ [sol1-C++]\nclass MyHashSet {\nprivate:\n    vector<list<int>> data;\n    static const int base = 769;\n    static int hash(int key) {\n        return key % base;\n    }\npublic:\n    /** Initialize your data structure here. */\n    MyHashSet(): data(base) {}\n    \n    void add(int key) {\n        int h = hash(key);\n        for (auto it = data[h].begin(); it != data[h].end(); it++) {\n            if ((*it) == key) {\n                return;\n            }\n        }\n        data[h].push_back(key);\n    }\n    \n    void remove(int key) {\n        int h = hash(key);\n        for (auto it = data[h].begin(); it != data[h].end(); it++) {\n            if ((*it) == key) {\n                data[h].erase(it);\n                return;\n            }\n        }\n    }\n    \n    /** Returns true if this set contains the specified element */\n    bool contains(int key) {\n        int h = hash(key);\n        for (auto it = data[h].begin(); it != data[h].end(); it++) {\n            if ((*it) == key) {\n                return true;\n            }\n        }\n        return false;\n    }\n};\n```\n\n```Java [sol1-Java]\nclass MyHashSet {\n    private static final int BASE = 769;\n    private LinkedList[] data;\n\n    /** Initialize your data structure here. */\n    public MyHashSet() {\n        data = new LinkedList[BASE];\n        for (int i = 0; i < BASE; ++i) {\n            data[i] = new LinkedList<Integer>();\n        }\n    }\n    \n    public void add(int key) {\n        int h = hash(key);\n        Iterator<Integer> iterator = data[h].iterator();\n        while (iterator.hasNext()) {\n            Integer element = iterator.next();\n            if (element == key) {\n                return;\n            }\n        }\n        data[h].offerLast(key);\n    }\n    \n    public void remove(int key) {\n        int h = hash(key);\n        Iterator<Integer> iterator = data[h].iterator();\n        while (iterator.hasNext()) {\n            Integer element = iterator.next();\n            if (element == key) {\n                data[h].remove(element);\n                return;\n            }\n        }\n    }\n    \n    /** Returns true if this set contains the specified element */\n    public boolean contains(int key) {\n        int h = hash(key);\n        Iterator<Integer> iterator = data[h].iterator();\n        while (iterator.hasNext()) {\n            Integer element = iterator.next();\n            if (element == key) {\n                return true;\n            }\n        }\n        return false;\n    }\n\n    private static int hash(int key) {\n        return key % BASE;\n    }\n}\n```\n\n```JavaScript [sol1-JavaScript]\nvar MyHashSet = function() {\n    this.BASE = 769;\n    this.data = new Array(this.BASE).fill(0).map(() => new Array());\n};\n\nMyHashSet.prototype.add = function(key) {\n    const h = this.hash(key);\n    for (const element of this.data[h]) {\n        if (element === key) {\n            return;\n        }\n    }\n    this.data[h].push(key);\n};\n\nMyHashSet.prototype.remove = function(key) {\n    const h = this.hash(key);\n    const it = this.data[h];\n    for (let i = 0; i < it.length; ++i) {\n        if (it[i] === key) {\n            it.splice(i, 1);\n            return;\n        }\n    }\n};\n\nMyHashSet.prototype.contains = function(key) {\n    const h = this.hash(key);\n    for (const element of this.data[h]) {\n        if (element === key) {\n            return true;\n        }\n    }\n    return false;\n};\n\nMyHashSet.prototype.hash = function(key) {\n    return key % this.BASE;\n}\n```\n\n```go [sol1-Golang]\nconst base = 769\n\ntype MyHashSet struct {\n    data []list.List\n}\n\nfunc Constructor() MyHashSet {\n    return MyHashSet{make([]list.List, base)}\n}\n\nfunc (s *MyHashSet) hash(key int) int {\n    return key % base\n}\n\nfunc (s *MyHashSet) Add(key int) {\n    if !s.Contains(key) {\n        h := s.hash(key)\n        s.data[h].PushBack(key)\n    }\n}\n\nfunc (s *MyHashSet) Remove(key int) {\n    h := s.hash(key)\n    for e := s.data[h].Front(); e != nil; e = e.Next() {\n        if e.Value.(int) == key {\n            s.data[h].Remove(e)\n        }\n    }\n}\n\nfunc (s *MyHashSet) Contains(key int) bool {\n    h := s.hash(key)\n    for e := s.data[h].Front(); e != nil; e = e.Next() {\n        if e.Value.(int) == key {\n            return true\n        }\n    }\n    return false\n}\n```\n\n```C [sol1-C]\nstruct List {\n    int val;\n    struct List* next;\n};\n\nvoid listPush(struct List* head, int x) {\n    struct List* tmp = malloc(sizeof(struct List));\n    tmp->val = x;\n    tmp->next = head->next;\n    head->next = tmp;\n}\n\nvoid listDelete(struct List* head, int x) {\n    for (struct List* it = head; it->next; it = it->next) {\n        if (it->next->val == x) {\n            struct List* tmp = it->next;\n            it->next = tmp->next;\n            free(tmp);\n            break;\n        }\n    }\n}\n\nbool listContains(struct List* head, int x) {\n    for (struct List* it = head; it->next; it = it->next) {\n        if (it->next->val == x) {\n            return true;\n        }\n    }\n    return false;\n}\n\nvoid listFree(struct List* head) {\n    while (head->next) {\n        struct List* tmp = head->next;\n        head->next = tmp->next;\n        free(tmp);\n    }\n}\n\nconst int base = 769;\n\nint hash(int key) {\n    return key % base;\n}\n\ntypedef struct {\n    struct List* data;\n} MyHashSet;\n\nMyHashSet* myHashSetCreate() {\n    MyHashSet* ret = malloc(sizeof(MyHashSet));\n    ret->data = malloc(sizeof(struct List) * base);\n    for (int i = 0; i < base; i++) {\n        ret->data[i].val = 0;\n        ret->data[i].next = NULL;\n    }\n    return ret;\n}\n\nvoid myHashSetAdd(MyHashSet* obj, int key) {\n    int h = hash(key);\n    if (!listContains(&(obj->data[h]), key)) {\n        listPush(&(obj->data[h]), key);\n    }\n}\n\nvoid myHashSetRemove(MyHashSet* obj, int key) {\n    int h = hash(key);\n    listDelete(&(obj->data[h]), key);\n}\n\nbool myHashSetContains(MyHashSet* obj, int key) {\n    int h = hash(key);\n    return listContains(&(obj->data[h]), key);\n}\n\nvoid myHashSetFree(MyHashSet* obj) {\n    for (int i = 0; i < base; i++) {\n        listFree(&(obj->data[i]));\n    }\n    free(obj->data);\n}\n```\n\n**复杂度分析**\n\n- 时间复杂度：$O(\\frac{n}{b})$。其中 $n$ 为哈希表中的元素数量，$b$ 为链表的数量。假设哈希值是均匀分布的，则每个链表大概长度为 $\\frac{n}{b}$。\n\n- 空间复杂度：$O(n+b)$。",
+      "createdAt": "2021-03-12T14:29:19.172763+00:00",
+      "hitCount": 50770,
+      "identifier": "O1jSx0",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "yi-ti-san-jie-jian-dan-shu-zu-lian-biao-nj3dg",
+        "title": "【宫水三叶】一题三解：「简单数组」&「链表」& 「分桶数组」"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "design-hashset"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 56,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 5,
+          "reactionType": "AWESOME"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "CONFUSED"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "she-ji-ha-xi-ji-he-by-leetcode-solution-xp4t",
+      "status": "PREPUBLISH",
+      "summary": "概述 为了实现哈希集合这一数据结构，有以下几个关键问题需要解决： - 哈希函数：能够将集合中任意可能的元素映射到一个固定范围的整数值，并将该元素存储到整数值对应的地址上。 - 冲突处理：由于不同元素可能映射到相同的整数值，因此需要在整数值出现「冲突」时，需要进行冲突处理。总的来说，有以下几种策略解决冲突：     - ",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Design",
+          "nameTranslated": "设计",
+          "slug": "design",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Hash Table",
+          "nameTranslated": "哈希表",
+          "slug": "hash-table",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Linked List",
+          "nameTranslated": "链表",
+          "slug": "linked-list",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C",
+          "nameTranslated": "",
+          "slug": "c",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Go",
+          "nameTranslated": "",
+          "slug": "golang",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "JavaScript",
+          "nameTranslated": "",
+          "slug": "javascript",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "设计哈希集合",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 186,
+        "id": 652778,
+        "viewCount": 34366
+      },
+      "uuid": "O1jSx0",
+      "videosInfo": []
+    }
+  }
+}

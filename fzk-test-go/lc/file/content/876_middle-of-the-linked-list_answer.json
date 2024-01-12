@@ -1,0 +1,119 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣官方题解",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/leetcode-solution/avatar_1582018938.png",
+          "userSlug": "leetcode-solution"
+        },
+        "username": "LeetCode-Solution"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 📺 视频题解  \n![876.链表的中间结点.mp4](6544e31e-367a-448b-92ec-566484b68874)\n\n### 📖 文字题解\n#### 方法一：数组\n\n**思路和算法**\n\n链表的缺点在于不能通过下标访问对应的元素。因此我们可以考虑对链表进行遍历，同时将遍历到的元素依次放入数组 `A` 中。如果我们遍历到了 `N` 个元素，那么链表以及数组的长度也为 `N`，对应的中间节点即为 `A[N/2]`。\n\n```C++ [sol1-C++]\nclass Solution {\npublic:\n    ListNode* middleNode(ListNode* head) {\n        vector<ListNode*> A = {head};\n        while (A.back()->next != NULL)\n            A.push_back(A.back()->next);\n        return A[A.size() / 2];\n    }\n};\n```\n```Java [sol1-Java]\nclass Solution {\n    public ListNode middleNode(ListNode head) {\n        ListNode[] A = new ListNode[100];\n        int t = 0;\n        while (head != null) {\n            A[t++] = head;\n            head = head.next;\n        }\n        return A[t / 2];\n    }\n}\n```\n```Python [sol1-Python3]\nclass Solution:\n    def middleNode(self, head: ListNode) -> ListNode:\n        A = [head]\n        while A[-1].next:\n            A.append(A[-1].next)\n        return A[len(A) // 2]\n```\n```JavaScript [sol1-JavaScript]\nvar middleNode = function(head) {\n    let A = [head];\n    while (A[A.length - 1].next != null)\n        A.push(A[A.length - 1].next);\n    return A[Math.trunc(A.length / 2)];\n};\n```\n\n**复杂度分析**\n\n- 时间复杂度：$O(N)$，其中 $N$ 是给定链表中的结点数目。\n\n- 空间复杂度：$O(N)$，即数组 `A` 用去的空间。\n\n#### 方法二：单指针法\n\n我们可以对方法一进行空间优化，省去数组 `A`。\n\n我们可以对链表进行两次遍历。第一次遍历时，我们统计链表中的元素个数 `N`；第二次遍历时，我们遍历到第 `N/2` 个元素（链表的首节点为第 `0` 个元素）时，将该元素返回即可。\n\n```C++ [sol2-C++]\nclass Solution {\npublic:\n    ListNode* middleNode(ListNode* head) {\n        int n = 0;\n        ListNode* cur = head;\n        while (cur != nullptr) {\n            ++n;\n            cur = cur->next;\n        }\n        int k = 0;\n        cur = head;\n        while (k < n / 2) {\n            ++k;\n            cur = cur->next;\n        }\n        return cur;\n    }\n};\n```\n```Java [sol2-Java]\nclass Solution {\n    public ListNode middleNode(ListNode head) {\n        int n = 0;\n        ListNode cur = head;\n        while (cur != null) {\n            ++n;\n            cur = cur.next;\n        }\n        int k = 0;\n        cur = head;\n        while (k < n / 2) {\n            ++k;\n            cur = cur.next;\n        }\n        return cur;\n    }\n}\n```\n```Python [sol2-Python3]\nclass Solution:\n    def middleNode(self, head: ListNode) -> ListNode:\n        n, cur = 0, head\n        while cur:\n            n += 1\n            cur = cur.next\n        k, cur = 0, head\n        while k < n // 2:\n            k += 1\n            cur = cur.next\n        return cur\n```\n```JavaScript [sol2-JavaScript]\nvar middleNode = function(head) {\n    n = 0;\n    cur = head;\n    while (cur != null) {\n        ++n;\n        cur = cur.next;\n    }\n    k = 0;\n    cur = head;\n    while (k < Math.trunc(n / 2)) {\n        ++k;\n        cur = cur.next;\n    }\n    return cur;\n};\n```\n\n**复杂度分析**\n\n- 时间复杂度：$O(N)$，其中 $N$ 是给定链表的结点数目。\n\n- 空间复杂度：$O(1)$，只需要常数空间存放变量和指针。\n\n#### 方法三：快慢指针法\n\n**思路和算法**\n\n我们可以继续优化方法二，用两个指针 `slow` 与 `fast` 一起遍历链表。`slow` 一次走一步，`fast` 一次走两步。那么当 `fast` 到达链表的末尾时，`slow` 必然位于中间。\n\n```C++ [sol3-C++]\nclass Solution {\npublic:\n    ListNode* middleNode(ListNode* head) {\n        ListNode* slow = head;\n        ListNode* fast = head;\n        while (fast != NULL && fast->next != NULL) {\n            slow = slow->next;\n            fast = fast->next->next;\n        }\n        return slow;\n    }\n};\n```\n```Java [sol3-Java]\nclass Solution {\n    public ListNode middleNode(ListNode head) {\n        ListNode slow = head, fast = head;\n        while (fast != null && fast.next != null) {\n            slow = slow.next;\n            fast = fast.next.next;\n        }\n        return slow;\n    }\n}\n```\n```Python [sol3-Python3]\nclass Solution:\n    def middleNode(self, head: ListNode) -> ListNode:\n        slow = fast = head\n        while fast and fast.next:\n            slow = slow.next\n            fast = fast.next.next\n        return slow\n```\n```JavaScript [sol3-JavaScript]\nvar middleNode = function(head) {\n    slow = fast = head;\n    while (fast && fast.next) {\n        slow = slow.next;\n        fast = fast.next.next;\n    }\n    return slow;\n};\n```\n\n**复杂度分析**\n\n- 时间复杂度：$O(N)$，其中 $N$ 是给定链表的结点数目。\n\n- 空间复杂度：$O(1)$，只需要常数空间存放 `slow` 和 `fast` 两个指针。",
+      "createdAt": "2020-03-22T09:28:46.705460+00:00",
+      "hitCount": 71407,
+      "identifier": "CL4IQD",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "kuai-man-zhi-zhen-zhu-yao-zai-yu-diao-shi-by-liwei",
+        "title": "快慢指针（注意链表长度为偶数时，返回第 2 个结点的细节）"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "middle-of-the-linked-list"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 87,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 6,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "lian-biao-de-zhong-jian-jie-dian-by-leetcode-solut",
+      "status": "PUBLISHED",
+      "summary": "📺 视频题解 📖 文字题解 方法一：数组 思路和算法 链表的缺点在于不能通过下标访问对应的元素。因此我们可以考虑对链表进行遍历，同时将遍历到的元素依次放入数组 A 中。如果我们遍历到了 N 个元素，那么链表以及数组的长度也为 N，对应的中间节点即为 A[N/2]。 C++ [sol1-C++] class Soluti",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Linked List",
+          "nameTranslated": "链表",
+          "slug": "linked-list",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Two Pointers",
+          "nameTranslated": "双指针",
+          "slug": "two-pointers",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "JavaScript",
+          "nameTranslated": "",
+          "slug": "javascript",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "链表的中间结点",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 154,
+        "id": 164351,
+        "viewCount": 53885
+      },
+      "uuid": "CL4IQD",
+      "videosInfo": [
+        {
+          "__typename": "VideoInfoNode",
+          "coverUrl": "https://video.leetcode-cn.com/image/cover/72C34E88D3A74C71AD0ABEEBB965D3FD-6-2.png",
+          "duration": 563.3066,
+          "videoId": "2147ea943f99432084996ed92c53c9eb"
+        }
+      ]
+    }
+  }
+}

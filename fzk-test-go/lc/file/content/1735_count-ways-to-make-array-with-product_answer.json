@@ -1,0 +1,90 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "温柔一刀123",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/wen-rou-yi-dao-123/avatar_1602559228.png",
+          "userSlug": "wen-rou-yi-dao-123"
+        },
+        "username": "wen-rou-yi-dao-123"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\r\n  \r\n1、对K做质因数分解，设K = P1^X1 * P2^X2 * ... * Pm^Xm，那么题目等价于把X1个P1球、X2个P2球、...、Xm个Pm球放入N个槽位，槽位可以为空（意味着用1填充），有多少种方法？为什么必须是质因数分解？举个例子，假设N=2，K=12=2^2 * 3^1，也就是把2个2和1个3放入2个槽位，可行的方法是[[2,2,3][]]，[[3][2,2]]，[[2,3][2]]，[[2,2][3]]，[[][2,2,3]]，[[2][2,3]]，分别对应[12 * 1, 3 * 4, 6 * 2, 4 * 3, 1 * 12, 2 * 6]这6种分解方法。如果不是质因数分解，比如将12分解为2*6，然后放入2个槽位[[2],[6]]，我们会发现，它和[[2][2,3]]的方法是重复的。只有质数不可再分的性质可以保证分解方法的唯一性。  \r\n  \r\n2、根据组合数学隔板法，X个球放入N个槽位，如果槽位不可为空，那么方法数为C(X - 1, N - 1)。如果槽位可以为空，那么方法数为C(X + N - 1, N - 1)，即先添加N个球，每个槽位放1个，然后剩下X个球随意放。  \r\n  \r\n3、X被分解为X1 + X2 + ... + Xm，每一个Xi类型的球互不影响，可以随意放入，所以最终的方法数是：C(X1 + N - 1, N - 1) * C(X2 + N - 1, N - 1) * ... * C(Xm + N - 1, N - 1)  \r\n  \r\n4、题目数据范围K<=10000，我们可以先用埃拉托色尼筛选法对10000以内的所有数做质因数分解，保存在primeFactors数组。  \r\n  \r\n5、根据组合公式C(x,y) = P(x,y) / y! = x! / (x-y)!y!。我们最大需要求(X+N-1)!。题目数据范围N<=10000，X是K的质因数幂次，取最小的质因数2，X的最大值是13，因为2^13 < 10000 < 2^14。我们可以事先准备好10015以内所有数的阶乘factorial。  \r\n  \r\n6、上面组合公式需要计算除法，除法的取模结果和运算顺序相关，所以要转换为乘法运算。根据乘法逆元，a / b(mod(c))=a * b'(mod(c))，b'是b的乘法逆元。如果c是质数，b'=pow(b,c-2)(mod(c))。所以我们也需要同时准备好10015以内数的阶乘的乘法逆元inverse。  \r\n  \r\n7、使用快速幂计算pow(x,n)的值。  \r\n  \r\n8、最后，由于primeFactors、factorial、inverse都和题目的queries数据无关，可以定义为静态的，只计算一次，理论上可以加速所有用例的运行时间。  \r\n  \r\n### 复杂度分析  \r\n  \r\n时间复杂度：主要是数据准备的时间：埃拉托色尼筛选法质因数分解的时间复杂度大概是O(nloglogn)，阶乘O(n)，快速幂O(logn)，乘法逆元O(nlogn)。最后的单个查询O(1)，所有查询O(n)。  \r\n  \r\n空间复杂度：所有数据在O(n)数量级。  \r\n  \r\n### 代码  \r\n  \r\n```\r\nclass Solution {\r\npublic:\r\n    vector<int> waysToFillArray(vector<vector<int>>& queries) {\r\n        /* 对k做质因数分解，设K = P1^X1 * P2^X2 * ... * Pm^Xm，\r\n           那么题目等价于把X1个P1球、X2个P2球、...、Xm个Pm球放入N个槽位，槽位可以为空（意味着用1填充），有多少种方法？\r\n           根据组合数学隔板法，X个球放入N个槽位，如果槽位不可为空，那么方法数为C(X - 1, N - 1)；\r\n           如果槽位可以为空，那么方法数为C(X + N - 1, N - 1)，即先添加N个球，每个槽位放1个，然后剩下X个球随意放。\r\n           最后X被分解为X1 + X2 + ... + Xm，每一个Xi类型的球互不影响，可以随意放入，所以最终的方法数是：\r\n           C(X1 + N - 1, N - 1) * C(X2 + N - 1, N - 1) * ... * C(Xm + N - 1, N - 1) */\r\n        vector<int> ways(queries.size());\r\n        int index = 0;\r\n\r\n        for (auto& query : queries) {\r\n            long long way = 1;\r\n\r\n            if (query[1] != 1) {\r\n                for (auto& iter : primeFactors[query[1]]) {\r\n                    way = (long long)factorial[iter.second + query[0] - 1] * inverse[query[0] - 1] % mod * inverse[iter.second] % mod * way % mod;\r\n                }\r\n            }\r\n\r\n            ways[index++] = (int)way;\r\n        }\r\n\r\n        return ways;\r\n    }\r\n\r\n    Solution() {\r\n        if (!init) {\r\n            init = true;\r\n            decomposePrimeFactors();\r\n            calcFactorials();\r\n        }\r\n    }\r\n\r\n    void decomposePrimeFactors() {  // 埃拉托色尼筛选法分解10000以内的质数\r\n        int i, size = 10001;\r\n        primeFactors.resize(size);\r\n        primeFactors[1][1] = 1;\r\n\r\n        for (i = 2; i < size; ++i) {\r\n            if (primeFactors[i].empty()) {  // i是一个质数，将它所有的倍数分解为i * times\r\n                primeFactors[i][i] = 1;  // i自己只能分解为i * 1\r\n\r\n                for (int times = 2; i * times <= 10000; ++times) {\r\n                    if (primeFactors[i * times].empty()) {  // 如果已经被更小的质数分解过了，则不用重复分解\r\n                        primeFactors[i * times][i] = times;\r\n                    }\r\n                }\r\n            }\r\n            else {\r\n                int decomposed = primeFactors[i].begin()->second;\r\n                primeFactors[i].begin()->second = 1;\r\n\r\n                for (auto& iter : primeFactors[decomposed]) {  // 将已经分解过的这个数的最终结果加入进来\r\n                    primeFactors[i][iter.first] += iter.second;\r\n                }\r\n            }\r\n        }\r\n    }\r\n\r\n    void calcFactorials() {\r\n        int size = 10015;  // 因为k <= 10000，X最大只能是13（2^13 < 10000 < 2^14），所以算到10015够用了\r\n        factorial.resize(size);\r\n        inverse.resize(size);\r\n        factorial[0] = inverse[0] = 1;\r\n        long long num = 1;\r\n\r\n        for (int i = 1; i < size; ++i) {\r\n            num = (num * i) % mod;\r\n            factorial[i] = (int)num;\r\n            inverse[i] = fastPower(factorial[i], mod - 2);\r\n        }\r\n    }\r\n\r\n    int fastPower(int x, int n) {\r\n        long long ans = 1;\r\n        int bit = 1;\r\n\r\n        while (n != 0) {\r\n            if ((n & bit) != 0) {\r\n                ans = (ans * x) % mod;\r\n            }\r\n\r\n            n &= ~bit;\r\n            bit <<= 1;\r\n            x = ((long long)x * x) % mod;\r\n        }\r\n\r\n        return (int)ans;\r\n    }\r\n\r\nprivate:\r\n    static vector<unordered_map<int, int>> primeFactors;\r\n    static vector<int> factorial;\r\n    static vector<int> inverse;\r\n    static const int mod = 1000000007;\r\n    static bool init;\r\n};\r\n\r\nvector<unordered_map<int, int>> Solution::primeFactors;\r\nvector<int> Solution::factorial;\r\nvector<int> Solution::inverse;\r\nbool Solution::init = false;\r\n```\r\n\r\n",
+      "createdAt": "2021-09-14T14:07:01.078748+00:00",
+      "hitCount": 131,
+      "identifier": "RHJ7qB",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "python3-zheng-shu-fen-jie-fa-ji-bai-100-hgje8",
+        "title": "Python3 整数分解法，简单好理解"
+      },
+      "position": 5,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "fen-jie-zhi-yin-shu-ge-ban-fa-by-ujimats-y4uu",
+        "title": "组合数学隔板法，分解质因数。"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "count-ways-to-make-array-with-product"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "zhi-yin-shu-fen-jie-zu-he-shu-xue-cheng-rznyp",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n1、对K做质因数分解，设K = P1^X1 * P2^X2 * ... * Pm^Xm，那么题目等价于把X1个P1球、X2个P2球、...、Xm个Pm球放入N个槽位，槽位可以为空（意味着用1填充），有多少种方法？为什么必须是质因数分解？举个例子，假设N=2，K=12=2^2 * 3^1，也就是把2个2和1个3",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Math",
+          "nameTranslated": "数学",
+          "slug": "math",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Number Theory",
+          "nameTranslated": "数论",
+          "slug": "number-theory",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "质因数分解，组合数学，乘法逆元",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 997985,
+        "viewCount": 99
+      },
+      "uuid": "RHJ7qB",
+      "videosInfo": []
+    }
+  }
+}

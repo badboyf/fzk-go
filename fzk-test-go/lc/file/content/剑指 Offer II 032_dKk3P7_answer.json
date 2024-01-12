@@ -1,0 +1,77 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "我要出去乱说",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/wo-yao-chu-qu-luan-shuo/avatar_1613985810.png",
+          "userSlug": "wo-yao-chu-qu-luan-shuo"
+        },
+        "username": "wo-yao-chu-qu-luan-shuo"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "只有小写字母，可以用长度为26的数组模拟哈希表。\r\n\r\n```\r\nclass Solution {\r\npublic:\r\n    bool isAnagram(string s, string t) {\r\n        if (s.length() != t.length()) return false; //长度不同或字符串完全相同都不是异位\r\n\r\n        vector<int> hash(26, 0);\r\n        for (int i = 0; i < s.length(); ++ i)   //先把第一个字符串放入哈希表\r\n        {\r\n            hash[s[i] - 'a'] ++ ;\r\n        }\r\n\r\n        for (int i = 0; i < t.length(); ++ i)   //在哈希表中减去第二个字符串\r\n        {\r\n            if (hash[t[i] - 'a'] == 0) return false;\r\n            hash[t[i] - 'a'] -- ;\r\n        }\r\n\r\n        return true;\r\n    }\r\n};\r\n```",
+      "createdAt": "2021-10-22T16:13:00.090587+00:00",
+      "hitCount": 511,
+      "identifier": "LIN10H",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "shua-chuan-jian-zhi-offer-day15-ha-xi-bi-5pqx",
+        "title": " 刷穿剑指offer-Day15-哈希表II-032.有效的变位词 数组与哈希表双解"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "dKk3P7"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "CONFUSED"
+        }
+      ],
+      "rewardEnabled": false,
+      "slug": "jian-zhi-offer-ii-032-you-xiao-de-bian-w-kzrx",
+      "status": "PREPUBLISH",
+      "summary": "只有小写字母，可以用长度为26的数组模拟哈希表。",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "剑指 Offer II 032. 有效的变位词（模拟哈希）",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 2,
+        "id": 1061955,
+        "viewCount": 442
+      },
+      "uuid": "LIN10H",
+      "videosInfo": []
+    }
+  }
+}

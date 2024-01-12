@@ -1,0 +1,112 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣官方题解",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/leetcode-solution/avatar_1582018938.png",
+          "userSlug": "leetcode-solution"
+        },
+        "username": "LeetCode-Solution"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法一：模拟\n\n**思路与算法**\n\n为每种车维护一个计数器，初始值为车位的数目。此后，每来一辆车，就将对应类型的计数器减 $1$。当计数器为 $0$ 时，说明车位已满。\n\n**代码**\n\n```C++ [sol1-C++]\nclass ParkingSystem {\npublic:\n    int b, m, s;\n    ParkingSystem(int big, int medium, int small): b(big), m(medium), s(small) {}\n    \n    bool addCar(int carType) {\n        if (carType == 1) {\n            if (b > 0) {\n                b--;\n                return true;\n            }\n        } else if (carType == 2) {\n            if (m > 0) {\n                m--;\n                return true;\n            }\n        } else if (carType == 3) {\n            if (s > 0) {\n                s--;\n                return true;\n            }\n        }\n        return false;\n    }\n};\n```\n\n```Java [sol1-Java]\nclass ParkingSystem {\n    int big, medium, small;\n\n    public ParkingSystem(int big, int medium, int small) {\n        this.big = big;\n        this.medium = medium;\n        this.small = small;\n    }\n    \n    public boolean addCar(int carType) {\n        if (carType == 1) {\n            if (big > 0) {\n                big--;\n                return true;\n            }\n        } else if (carType == 2) {\n            if (medium > 0) {\n                medium--;\n                return true;\n            }\n        } else if (carType == 3) {\n            if (small > 0) {\n                small--;\n                return true;\n            }\n        }\n        return false;\n    }\n}\n```\n\n```JavaScript [sol1-JavaScript]\nvar ParkingSystem = function(big, medium, small) {\n    this.big = big;\n    this.medium = medium;\n    this.small = small;\n};\n\nParkingSystem.prototype.addCar = function(carType) {\n    if (carType === 1) {\n        if (this.big > 0) {\n            this.big--;\n            return true;\n        }\n    } else if (carType === 2) {\n        if (this.medium > 0) {\n            this.medium--;\n            return true;\n        }\n    } else if (carType === 3) {\n        if (this.small > 0) {\n            this.small--;\n            return true;\n        }\n    }\n    return false;\n};\n```\n\n```go [sol1-Golang]\ntype ParkingSystem struct {\n    left [4]int\n}\n\nfunc Constructor(big, medium, small int) ParkingSystem {\n    return ParkingSystem{[4]int{0, big, medium, small}}\n}\n\nfunc (s *ParkingSystem) AddCar(carType int) bool {\n    if s.left[carType] > 0 {\n        s.left[carType]--\n        return true\n    }\n    return false\n}\n```\n\n```C [sol1-C]\ntypedef struct {\n    int b, m, s;\n} ParkingSystem;\n\nParkingSystem* parkingSystemCreate(int big, int medium, int small) {\n    ParkingSystem* ret = malloc(sizeof(ParkingSystem));\n    ret->b = big;\n    ret->m = medium;\n    ret->s = small;\n    return ret;\n}\n\nbool parkingSystemAddCar(ParkingSystem* obj, int carType) {\n    if (carType == 1) {\n        if (obj->b > 0) {\n            obj->b--;\n            return true;\n        }\n    } else if (carType == 2) {\n        if (obj->m > 0) {\n            obj->m--;\n            return true;\n        }\n    } else if (carType == 3) {\n        if (obj->s > 0) {\n            obj->s--;\n            return true;\n        }\n    }\n    return false;\n}\n\nvoid parkingSystemFree(ParkingSystem* obj) {\n    free(obj);\n}\n```\n\n**时间复杂度**\n\n- 时间复杂度：单次操作为 $O(1)$。\n\n- 空间复杂度：$O(1)$。",
+      "createdAt": "2021-03-18T06:05:02.911130+00:00",
+      "hitCount": 23901,
+      "identifier": "zVW3Kz",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "cjian-ji-dai-ma-by-orangeman-3mmg",
+        "title": "C++简洁代码"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "design-parking-system"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 9,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "she-ji-ting-che-xi-tong-by-leetcode-solu-p52h",
+      "status": "PREPUBLISH",
+      "summary": "方法一：模拟 思路与算法 为每种车维护一个计数器，初始值为车位的数目。此后，每来一辆车，就将对应类型的计数器减 $1$。当计数器为 $0$ 时，说明车位已满。 代码 ```C++ [sol1-C++] class ParkingSystem { public:     int b, m, s;     ParkingS",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Design",
+          "nameTranslated": "设计",
+          "slug": "design",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C",
+          "nameTranslated": "",
+          "slug": "c",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Go",
+          "nameTranslated": "",
+          "slug": "golang",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "JavaScript",
+          "nameTranslated": "",
+          "slug": "javascript",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "设计停车系统",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 162,
+        "id": 664493,
+        "viewCount": 20421
+      },
+      "uuid": "zVW3Kz",
+      "videosInfo": []
+    }
+  }
+}

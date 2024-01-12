@@ -1,0 +1,79 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "Try and try hard",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/try-and-try-hard/avatar_1622700007.png",
+          "userSlug": "hut-ksy"
+        },
+        "username": "hut-ksy"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "执行用时0ms，超java提交用户100%！！\n\n其实就是回溯的别样写法，没什么好说的，上代码就完了。\n```java\nclass Solution {\n    List<List<Integer>> list;\n    public List<List<Integer>> subsets(int[] nums) {\n        list=new ArrayList();\n        dfs(nums.length-1,nums,new ArrayList<Integer>());\n        return list;\n    }\n\n    void dfs(int n,int[] nums,List<Integer> list2){\n        if(n<0){\n            list.add(new ArrayList<Integer>(list2));\n            return;\n        }\n        list2.add(nums[n]);\n        dfs(n-1,nums,list2);\n        list2.remove(list2.size()-1);\n        dfs(n-1,nums,list2);\n    }\n}\n```",
+      "createdAt": "2021-11-21T14:59:50.253489+00:00",
+      "hitCount": 49,
+      "identifier": "lkb2be",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "pai-lie-tong-yong-si-lu-zhu-jie-javascri-lf5y",
+        "title": "【排列通用思路+注解】JavaScript"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "power-set-lcci"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "mi-ji-de-zui-jian-duan-jie-da-by-hut-ksy-83x4",
+      "status": "PUBLISHED",
+      "summary": "执行用时0ms，超java提交用户100%！！\n其实就是回溯的别样写法，没什么好说的，上代码就完了。",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Backtracking",
+          "nameTranslated": "回溯",
+          "slug": "backtracking",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "幂集的最简短解答！！",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1114779,
+        "viewCount": 40
+      },
+      "uuid": "lkb2be",
+      "videosInfo": []
+    }
+  }
+}

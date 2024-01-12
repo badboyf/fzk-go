@@ -1,0 +1,72 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "zzk",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/zzk-2h/avatar_1617045510.png",
+          "userSlug": "zz-k"
+        },
+        "username": "zz-k"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "- 首先是思考最简单的.dp[i][j]代表左边枚举的集合和右边枚举的集合\n```\nclass Solution {\npublic:\n    int connectTwoGroups(vector<vector<int>>& cost) {\n        int n=cost.size(),m=cost[0].size();\n        vector<vector<int>>dp(1<<n,vector<int>(1<<m,INT_MAX));\n        dp[0][0]=0;\n        for(int i=0;i<1<<n;i++){\n            for(int j=0;j<1<<m;j++){   //枚举左边右边集合已得到的最小值\n                if(dp[i][j]==INT_MAX) continue;\n                for(int a=0;a<n;a++){\n                    for(int b=0;b<m;b++){\n                        dp[i|(1<<a)][j|(1<<b)]=min(dp[i|(1<<a)][j|(1<<b)],dp[i][j]+cost[a][b]);\n                    }\n                }\n            }\n        }\n        return dp[(1<<n)-1][(1<<m)-1];\n    }\n};\n```\n不用想，如此高的复杂度肯定会wa,提交了一发，果然\n![B1TTGUN2C\\[8R9}BO27LC0HU.png](https://pic.leetcode-cn.com/1632537244-rUvFpe-B1TTGUN2C%5B8R9%7DBO27LC0HU.png)\n\n- 然后我就想，因为每次枚举会按照左边的顺序依次往下，所以可以改变第一维的意义。\ndp[i][j]表示枚举到左边第i行右边状态为j的最小值\n```\nclass Solution {\npublic:\n    int connectTwoGroups(vector<vector<int>>& cost) {\n        int n=cost.size(),m=cost[0].size();\n        vector<vector<int>>dp(n+1,vector<int>(1<<m,INT_MAX));\n        dp[0][0]=0;\n        vector<vector<int>>pay(n,vector<int>(1<<m));  //要预处理出每一行所对应的花费\n        for(int i=0;i<n;i++){\n            for(int j=0;j<1<<m;j++){\n                int sum=0;\n                for(int k=0;k<m;k++){\n                    if(j&(1<<k)) sum+=cost[i][k];\n                }\n                pay[i][j]=sum;\n            }\n        }\n        for(int i=0;i<n;i++){\n            for(int j=0;j<1<<m;j++){\n                if(dp[i][j]==INT_MAX) continue;\n                for(int k=1;k<1<<m;k++){  //从1枚举,因为每一个右边的点都要有对应左边的点\n                    dp[i+1][j|k]=min(dp[i+1][j|k],dp[i][j]+pay[i][k]);\n                }\n            }\n        }\n        return dp[n][(1<<m)-1];\n    }\n};\n\n```\n这次的复杂度为O(n2^m*2^m)自信满满提交，结果\n![\\[DDNJQB7_A)FAANOM`$7$SI.png](https://pic.leetcode-cn.com/1632537509-GUjInM-%5BDDNJQB7_A\\)FAANOM%60$7$SI.png)\n- 复杂度还是过高，因此还得进一步想优化\ndp[i][j]表示意义不变，想到每个左边的点会有两种枚举情况，第一种是只对应右边一个点，那么当前行的状态肯定由上一行的状态转移而来\n第二种是对应右边多个点，那么当前行的状态应该由当前行转移过来(因为是顺序枚举)\n```\nclass Solution {\npublic:\n    int INF=1e9;\n    int connectTwoGroups(vector<vector<int>>& cost) {\n        int n=cost.size(),m=cost[0].size();\n        vector<vector<int>>dp(n+1,vector<int>(1<<m,INF));\n        dp[0][0]=0;\n        for(int i=1;i<=n;i++){\n            for(int j=0;j<1<<m;j++){\n                for(int k=0;k<m;k++){\n                    //dp[i-1][j]从上一行转移过来,dp[i][j]从当前行转移过来\n                   dp[i][j|(1<<k)]=min(dp[i][j|(1<<k)],min(dp[i-1][j],dp[i][j])+cost[i-1][k]);\n                }\n            }\n        }\n        return dp[n][(1<<m)-1];\n    }\n};\n```\n提交，成功！\n![}8FKXMH6T5CPT)G@82N9@KI.png](https://pic.leetcode-cn.com/1632537945-CiEEAv-%7D8FKXMH6T5CPT\\)G@82N9@KI.png)\n\n\n\n\n\n\n\n\n",
+      "createdAt": "2021-09-25T02:44:00.987338+00:00",
+      "hitCount": 176,
+      "identifier": "GKV8AY",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "java-zhuang-tai-ya-suo-dp-by-aerysn",
+        "title": "Java 状态压缩 DP"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "minimum-cost-to-connect-two-groups-of-points"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "zhuang-tai-ya-suo-dong-tai-gui-hua-yi-bu-6ewm",
+      "status": "PREPUBLISH",
+      "summary": "首先是思考最简单的.dp[i][j]代表左边枚举的集合和右边枚举的集合\n\n不用想，如此高的复杂度肯定会wa,提交了一发，果然\n\n\n然后我就想，因为每次枚举会按照左边的顺序依次往下，所以可以改变第一维的意义。\ndp[i][j]表示枚举到左边第i行右边状态为j的最小值\n\n这次的复杂度为O(n2^m*2^m)自信满满提交，",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1632537244-rUvFpe-B1TTGUN2C%5B8R9%7DBO27LC0HU.png",
+      "title": "状态压缩动态规划，一步一步优化",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 3,
+        "id": 1016240,
+        "viewCount": 113
+      },
+      "uuid": "GKV8AY",
+      "videosInfo": []
+    }
+  }
+}

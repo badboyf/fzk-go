@@ -1,0 +1,79 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "Antonioxv.",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/antonioxv/avatar_1634182444.png",
+          "userSlug": "antonioxv"
+        },
+        "username": "antonioxv"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n套模板, 详细解释见代码注释.\n\n### 代码\n\n```java\nclass Solution {\n    int[] root;\n    int[] height;\n    int[] area;\n    final int[][] directions = new int[][]{{0, 1}, {1, 0}, {0, -1}, {-1, 0}}; // 逆时针方向\n    boolean[] onTheEdge; // 添加一项判断是否位于边界上\n\n    public int numEnclaves(int[][] grid) {\n        int len = grid.length;\n        int rowLen = grid[0].length;\n        int numLen = len * rowLen;\n        root = new int[numLen];\n        height = new int[numLen];\n        area = new int[numLen];\n        onTheEdge = new boolean[numLen];\n\n        // initialize\n        for (int y = 0; y < len; y++) {\n            for (int x = 0; x < rowLen; x++) {\n                if (grid[y][x] == 1) {\n                    int index = y * rowLen + x;\n                    root[index] = index;\n                    // height[index] = 0;\n                    area[index] = 1;\n                    onTheEdge[index] = (y == 0 || y == len - 1) || (x == 0 || x == rowLen - 1); // 处理边界\n                }\n            }\n        }\n\n        // solve\n        for (int y = 0; y < len; y++) {\n            for (int x = 0; x < rowLen; x++) {\n                if (grid[y][x] == 1) {\n                    grid[y][x] = 0; // 原地修改, 替代 visited 数组功能\n                    for (int[] direction : directions) {\n                        int nextY = y + direction[0], nextX = x + direction[1];\n                        if (((0 <= nextY && nextY < len) && (0 <= nextX && nextX < rowLen)) && (grid[nextY][nextX] == 1)) {\n                            union(y * rowLen + x, nextY * rowLen + nextX);\n                        }\n                    }\n                }\n            }\n        }\n\n        // find the num of enclaves\n        int ans = 0;\n        for (int i = 0; i < numLen; i++) if(root[i] == i && !onTheEdge[i]) ans += area[i]; // 找到每个岛屿的根节点, 如果不在边界上就添加到ans\n\n        return ans;\n    }\n\n    // 略微修改模板类的 union() 方法\n    private void union(int index1, int index2) {\n        int root1 = find(index1), root2 = find(index2);\n        if (root1 != root2) {\n            if (height[root1] > height[root2]) { // root == root1\n                root[root2] = root1;\n                area[root1] += area[root2];\n                onTheEdge[root1] |= onTheEdge[root2];\n            } else if (height[root1] < height[root2]) { // root == root2\n                root[root1] = root2;\n                area[root2] += area[root1];\n                onTheEdge[root2] |= onTheEdge[root1];\n            } else { // height[root1] == height[root2], root == root1\n                root[root2] = root1;\n                height[root1] += 1;\n                area[root1] += area[root2];\n                onTheEdge[root1] |= onTheEdge[root2]; // 只需修改 root结点 的 onTheEdge\n            }\n        }\n    }\n\n    private int find(int index) {\n        while (root[index] != index) index = root[index];\n        return index;\n    }\n}\n```",
+      "createdAt": "2021-11-19T12:42:35.957408+00:00",
+      "hitCount": 45,
+      "identifier": "JyUYIa",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "phptu-de-bfs-by-mek1986-twdu",
+        "title": "php图的BFS"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "number-of-enclaves"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "bing-cha-ji-mo-ban-ti-by-antonioxv-4gzd",
+      "status": "PUBLISHED",
+      "summary": "解题思路\n套模板, 详细解释见代码注释.\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Union Find",
+          "nameTranslated": "并查集",
+          "slug": "union-find",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "Java并查集",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1111159,
+        "viewCount": 40
+      },
+      "uuid": "JyUYIa",
+      "videosInfo": []
+    }
+  }
+}

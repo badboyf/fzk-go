@@ -1,0 +1,81 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "我要出去乱说",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/wo-yao-chu-qu-luan-shuo/avatar_1613985810.png",
+          "userSlug": "wo-yao-chu-qu-luan-shuo"
+        },
+        "username": "wo-yao-chu-qu-luan-shuo"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "> 因为字符串中只有大小写字母，故可以用长度为60的数组模拟哈希表。\r\n> 1. 把字符串`t`的每个字符存入哈希表，哈希表的键表示字母，值表示该字母在整个字符串中出现的次数；\r\n> 2. 遍历字符串`s`，用滑动窗口的思想，保持窗口左侧不动，只将窗口右侧向右移动，移动窗口的同时在哈希表中减去窗口内出现相应字母的次数。如果遍历到某一窗口时，哈希表中的值全都小于等于`0`，则表示窗口内已经包含了所有匹配的字符；\r\n> 3. 这是开始将窗口左侧向右移动，同时更新子串的最短长度。\r\n\r\n```\r\nclass Solution {\r\npublic:\r\n    string minWindow(string s, string t) {\r\n        if (s.length() < t.length()) return \"\";\r\n\r\n        string res = \"\";\r\n        int st = 0;\r\n        int minLength = s.length() + 1;\r\n        //因为在ASCII表中，从‘A’到‘z’只有57位，开一个60的数组够用了\r\n        vector<int> hash(60, 0);\r\n\r\n        for (int i = 0; i < t.length(); ++ i)   //构建哈希表\r\n        {\r\n            hash[t[i] - 'A'] ++ ;\r\n            hash[s[i] - 'A'] -- ;\r\n        }\r\n\r\n        if (areAllZero(hash)) return s.substr(0, t.length());\r\n\r\n        for (int i = t.length(); i < s.length(); ++ i)\r\n        {\r\n            hash[s[i] - 'A'] -- ;               //滑动窗口右侧向右移动\r\n            while (areAllZero(hash))            //直到窗口内包含所有匹配字符为止\r\n            {\r\n                if (i - st + 1 < minLength)     //当前子串长度小于最小子串长度时，更新\r\n                {\r\n                    minLength = i - st + 1;\r\n                    res = s.substr(st, minLength);\r\n                }\r\n                hash[s[st ++ ] - 'A'] ++ ;      //滑动窗口左侧向右移动\r\n            }\r\n        }\r\n\r\n        return res;\r\n    }\r\n    \r\n    //判断数组中是否所有元素都小于等于0\r\n    bool areAllZero(vector<int>& hash)\r\n    {\r\n        for (int &x : hash)\r\n            if (x > 0) return false;\r\n\r\n        return true;\r\n    }\r\n};\r\n```",
+      "createdAt": "2021-10-10T12:51:01.385844+00:00",
+      "hitCount": 838,
+      "identifier": "wMAZQd",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "c-si-lu-qing-xi-jian-dan-yi-dong-de-hua-opwur",
+        "title": "[C++] 思路清晰，简单易懂的滑动窗口"
+      },
+      "position": 3,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "c-zi-ren-wei-gai-fang-fa-bi-yuan-shu-hao-2x4l",
+        "title": "「C++」为什么不看这比原书更简洁清晰的代码？"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "M1oyTv"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 4,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": false,
+      "slug": "jian-zhi-offer-ii-017-han-you-suo-you-zi-ttsd",
+      "status": "PREPUBLISH",
+      "summary": "因为字符串中只有大小写字母，故可以用长度为60的数组模拟哈希表。\n\n把字符串t的每个字符存入哈希表，哈希表的键表示字母，值表示该字母在整个字符串中出现的次数；\n遍历字符串s，用滑动窗口的思想，保持窗口左侧不动，只将窗口右侧向右移动，移动窗口的同时在哈希表中减去窗口内出现相应字母的次数。如果遍历到某一窗口时，哈希表中的",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "剑指 Offer II 017. 含有所有字符的最短字符串（滑动窗口）",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 1,
+        "id": 1040424,
+        "viewCount": 575
+      },
+      "uuid": "wMAZQd",
+      "videosInfo": []
+    }
+  }
+}

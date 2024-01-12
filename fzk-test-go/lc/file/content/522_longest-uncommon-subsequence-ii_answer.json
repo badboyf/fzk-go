@@ -1,0 +1,72 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣 (LeetCode)",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/uploaded_files/2021/03/73c9f099-abbe-4d94-853f-f8abffd459cd/leetcode.png",
+          "userSlug": "leetcode"
+        },
+        "username": "LeetCode"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法一：暴力解法 【通过】\n\n生成所有字符串的所有子序列共 $2^n$ 个，将其存储在 hashmap 中，并记录每个子序列出现的次数。然后找出出现次数为 $1$ 的最长子序列。如果不存在这样的子序列，返回 $-1$。 \n\n```java [solution1-Java]\npublic class Solution {\n    public int findLUSlength(String[] strs) {\n        HashMap < String, Integer > map = new HashMap < > ();\n        for (String s: strs) {\n            for (int i = 0; i < (1 << s.length()); i++) {\n                String t = \"\";\n                for (int j = 0; j < s.length(); j++) {\n                    if (((i >> j) & 1) != 0)\n                        t += s.charAt(j);\n                }\n                if (map.containsKey(t))\n                    map.put(t, map.get(t) + 1);\n                else\n                    map.put(t, 1);\n            }\n        }\n        int res = -1;\n        for (String s: map.keySet()) {\n            if (map.get(s) == 1)\n                res = Math.max(res, s.length());\n        }\n        return res;\n    }\n}\n```\n\n**复杂度分析**\n\n* 时间复杂度：$O(n*2^x)$，其中 $x$ 是所有字符串的平均长度，$n$ 是字符串的数量。\n\n* 空间复杂度：$O(n*2^x)$，大小为 $n*2^x$ 的 HashMap。\n\n\n#### 方法二：检查每个字符串 【通过】\n\n**算法**\n\n如果存在这样的特殊序列，那么它一定是某个给定的字符串。\n\n检查每个字符串是否是其他字符串的子序列。如果不是，则它是一个特殊序列。最后返回长度最大的特殊序列。如果不存在特殊序列，返回 -1。\n\n通过下面的例子，演示此方法的过程：\n\n<![1500](https://pic.leetcode-cn.com/Figures/595_Longest_UncommonSlide1.JPG),![1500](https://pic.leetcode-cn.com/Figures/595_Longest_UncommonSlide2.JPG),![1500](https://pic.leetcode-cn.com/Figures/595_Longest_UncommonSlide3.JPG),![1500](https://pic.leetcode-cn.com/Figures/595_Longest_UncommonSlide4.JPG),![1500](https://pic.leetcode-cn.com/Figures/595_Longest_UncommonSlide5.JPG),![1500](https://pic.leetcode-cn.com/Figures/595_Longest_UncommonSlide6.JPG),![1500](https://pic.leetcode-cn.com/Figures/595_Longest_UncommonSlide7.JPG),![1500](https://pic.leetcode-cn.com/Figures/595_Longest_UncommonSlide8.JPG),![1500](https://pic.leetcode-cn.com/Figures/595_Longest_UncommonSlide9.JPG),![1500](https://pic.leetcode-cn.com/Figures/595_Longest_UncommonSlide10.JPG),![1500](https://pic.leetcode-cn.com/Figures/595_Longest_UncommonSlide11.JPG),![1500](https://pic.leetcode-cn.com/Figures/595_Longest_UncommonSlide12.JPG),![1500](https://pic.leetcode-cn.com/Figures/595_Longest_UncommonSlide13.JPG),![1500](https://pic.leetcode-cn.com/Figures/595_Longest_UncommonSlide14.JPG),![1500](https://pic.leetcode-cn.com/Figures/595_Longest_UncommonSlide15.JPG),![1500](https://pic.leetcode-cn.com/Figures/595_Longest_UncommonSlide16.JPG),![1500](https://pic.leetcode-cn.com/Figures/595_Longest_UncommonSlide17.JPG),![1500](https://pic.leetcode-cn.com/Figures/595_Longest_UncommonSlide18.JPG),![1500](https://pic.leetcode-cn.com/Figures/595_Longest_UncommonSlide19.JPG),![1500](https://pic.leetcode-cn.com/Figures/595_Longest_UncommonSlide20.JPG)>\n\n```java [solution2-Java]\npublic class Solution {\n    public boolean isSubsequence(String x, String y) {\n        int j = 0;\n        for (int i = 0; i < y.length() && j < x.length(); i++)\n            if (x.charAt(j) == y.charAt(i))\n                j++;\n        return j == x.length();\n    }\n    public int findLUSlength(String[] strs) {\n        int res = -1;\n        for (int i = 0, j; i < strs.length; i++) {\n            for (j = 0; j < strs.length; j++) {\n                if (j == i)\n                    continue;\n                if (isSubsequence(strs[i], strs[j]))\n                    break;\n            }\n            if (j == strs.length)\n                res = Math.max(res, strs[i].length());\n        }\n        return res;\n    }\n}\n```\n\n**复杂度分析**\n\n* 时间复杂度：$O(x*n^2)$，其中 $n$ 是字符串的数量，$x$ 是每个字符串的平均长度。\n\n* 空间复杂度：$O(1)$，恒定的额外空间。\n\n\n#### 方法三：排序+检查每个字符串\n\n**算法**\n\n*方法二* 中需要判断每个字符串是否为特殊序列。如果最开始可以先将所有字符串排序，则可以节省一部分计算。\n\n本方法中，首先按照长度降序排序所有字符串。然后，依次使用序列中的每个字符串与其他字符串比较，如果不存在字符串是当前字符串的子序列，则返回当前字符串的长度。否则返回 -1。\n\n```java [solution3-Java]\npublic class Solution {\n    public boolean isSubsequence(String x, String y) {\n        int j = 0;\n        for (int i = 0; i < y.length() && j < x.length(); i++)\n            if (x.charAt(j) == y.charAt(i))\n                j++;\n        return j == x.length();\n    }\n    public int findLUSlength(String[] strs) {\n        Arrays.sort(strs, new Comparator < String > () {\n            public int compare(String s1, String s2) {\n                return s2.length() - s1.length();\n            }\n        });\n        for (int i = 0, j; i < strs.length; i++) {\n            boolean flag = true;\n            for (j = 0; j < strs.length; j++) {\n                if (i == j)\n                    continue;\n                if (isSubsequence(strs[i], strs[j])) {\n                    flag = false;\n                    break;\n                }\n            }\n            if (flag)\n                return strs[i].length();\n        }\n        return -1;\n    }\n}\n```\n\n**复杂度分析**\n\n* 时间复杂度：$O(x*n^2)$，其中 $n$ 是字符串的数量，$x$ 是每个字符串的平均长度。\n\n* 空间复杂度：$O(1)$，恒定的额外空间。",
+      "createdAt": "2020-02-10T06:15:02.603108+00:00",
+      "hitCount": 8641,
+      "identifier": "KuAqZH",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "c-0ms-xing-zhi-ruo-sde-zi-chuan-shi-te-shu-xu-lie-",
+        "title": "C++  0ms 【性质: 若s的子串是特殊序列 则s也是特殊序列 因此只需看整体字符就可以】"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "longest-uncommon-subsequence-ii"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 14,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "zui-chang-te-shu-xu-lie-ii-by-leetcode",
+      "status": "PUBLISHED",
+      "summary": "方法一：暴力解法 【通过】 生成所有字符串的所有子序列共 $2^n$ 个，将其存储在 hashmap 中，并记录每个子序列出现的次数。然后找出出现次数为 $1$ 的最长子序列。如果不存在这样的子序列，返回 $-1$。  java [solution1-Java] public class Solution {     ",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "最长特殊序列 II",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 20,
+        "id": 90637,
+        "viewCount": 5887
+      },
+      "uuid": "KuAqZH",
+      "videosInfo": []
+    }
+  }
+}

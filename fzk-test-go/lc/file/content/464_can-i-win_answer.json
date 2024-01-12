@@ -1,0 +1,86 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "郁郁雨",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/yu-yu-yu-zz/avatar_1604923797.png",
+          "userSlug": "edelweisskoko"
+        },
+        "username": "edelweisskoko"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "# [464. 我能赢吗](https://leetcode-cn.com/problems/can-i-win/)\r\n***\r\n### 思路\r\n1. 特判：\r\n   - 如果最大能选择的数字maxChoosableInteger比期望的总数desiredTotal要大，先手稳赢，返回True\r\n   - 如果能选择的所有数字总和比期望的总数desiredTotal要小，一定到达不了desiredTotal，先手稳输，返回False\r\n2. 用二进制位来标记某个数是否已被选择，比如01表示1已被选择，10表示2已被选择，11表示1和2都被选择，100表示3被选择，以此类推，$1 << (n - 1)$ 表示n已被选择\r\n3. n个数共有$2 ^ n$种被选择与否的状态(state)，比如2个数有4种状态：00、01、10、11，用长度为 $2 ^ n$也就是1 << n的dp数组来存储这些状态(state)是否已经出现过，以及这些状态(state)对应是赢(True)还是输(False)\r\n`为什么需要记录已经出现过的状态，因为我们在递归的过程中可能会有重复的状态出现，比如对于1 - 5 五个数的选择，先手选了3，后手选了5，剩下可选择的数为1,2,4；如果先手选了5，后手选了3，剩下可选择的数也是1,2,4`。对于已经出现过的状态，不需要重复计算，而是直接返回之前已经计算过的结果dp[state]就可以了\r\n4. 递归的参数有3个，分别是\r\n   - 当前所有数字被选择与否的状态：state\r\n   - 当前剩余需要到达的目标：desiredTotal\r\n   - 当前各个状态是否出现过以及其输赢情况：dp数组\r\n 5. 每次进入递归时\r\n    - 先判断一下当前状态state是否已经出现过了，出现过就返回dp[state]，没有就继续往下计算\r\n    - 遍历能够被选择的所有整数（从1到maxChoosableInteger），当前数i对应的状态cur为1 << (i - 1)，如果当前数i已经被选择cur & state != 0，直接continue进入下一个数的选择，因为一个数只能选一次\r\n    - 如果当前数i比剩余要达到的目标desiredTotal要大，说明选了这个数以后游戏就结束了，先手已赢，说明当前状态state可以让先手赢，dp[state] = True，并返回True\r\n    - 如果当前先手选了i之后还不能马上赢，但是下一步后手选数字的时候选输了`（也就是dfs(cur | state, desiredTotal - i, dp)返回了False）`，说明先手能赢，dp[state] = True，并返回True\r\n    - 如果遍历完了所有的整数，当前state还没有返回过True，说明这种状态就不能让先手赢，dp[state] = False，并返回False\r\n6. 最后返回的就是第一层递归的结果，dfs(0, desiredTotal, [None] * (1 << maxChoosableInteger))，也就是还没开始选择数字的时候（state为0时），能不能判断先手一定能赢\r\n> 这题我一开始非常不能理解的就是什么叫“假设两位玩家游戏时都表现最佳”，后来我想明白了大概是每个人都会从剩余能选择的数字里选一个最后能让自己赢的数，递归里面的for循环就是在做这一件事，如果这个数不能让我赢，我就选下一个数看看能不能赢，只有当我选择任意的数都不能赢的时候，才会不甘心地返回一个False\r\n\r\n### 代码\r\n```Python3 []\r\nclass Solution:\r\n    def canIWin(self, maxChoosableInteger: int, desiredTotal: int) -> bool:\r\n        if maxChoosableInteger >= desiredTotal: return True\r\n        if (1 + maxChoosableInteger) * maxChoosableInteger / 2 < desiredTotal: return False\r\n\r\n        def dfs(state, desiredTotal, dp):\r\n            if dp[state] != None:\r\n                return dp[state]\r\n            for i in range(1, maxChoosableInteger + 1):\r\n                cur = 1 << (i - 1)\r\n                if cur & state != 0:\r\n                    continue\r\n                \r\n                if i >= desiredTotal or not dfs(cur | state, desiredTotal - i, dp):\r\n                    dp[state] = True\r\n                    return True\r\n            dp[state] = False\r\n            return False\r\n        \r\n        return dfs(0, desiredTotal, [None] * (1 << maxChoosableInteger))\r\n```\r\n\r\n```Java []\r\nclass Solution {\r\n    public boolean canIWin(int maxChoosableInteger, int desiredTotal) {\r\n        if(maxChoosableInteger >= desiredTotal) return true;\r\n        if((1 + maxChoosableInteger) * maxChoosableInteger / 2 < desiredTotal) return false;\r\n\r\n        return dfs(0, desiredTotal, new Boolean[1 << maxChoosableInteger], maxChoosableInteger);\r\n    }\r\n\r\n    private boolean dfs(int state, int desiredTotal, Boolean[] dp, int maxChoosableInteger){\r\n        if(dp[state] != null){\r\n            return dp[state];\r\n        }\r\n\r\n        for(int i = 1; i <= maxChoosableInteger; i++){\r\n            int cur = 1 << (i - 1);\r\n            if((cur & state) != 0){\r\n                continue;\r\n            }\r\n\r\n            if(i >= desiredTotal || !dfs(cur|state, desiredTotal - i, dp, maxChoosableInteger)){\r\n                return dp[state] = true;\r\n            }\r\n        }\r\n        return dp[state] = false;\r\n    }\r\n}\r\n```\r\n\r\n**复杂度分析**\r\n- 时间复杂度：$O(2 ^ n)$，$2 ^ n$个状态\r\n- 空间复杂度：$O(2 ^ n)$",
+      "createdAt": "2021-03-28T10:11:52.643183+00:00",
+      "hitCount": 6559,
+      "identifier": "NhOSLv",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "hui-su-zhuang-ya-dp-by-8bun",
+        "title": "回溯，状压DP"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "can-i-win"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 25,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "464-wo-neng-ying-ma-dai-bei-wang-lu-de-d-qu1t",
+      "status": "PREPUBLISH",
+      "summary": "464. 我能赢吗\n思路\n\n特判：\n\n如果最大能选择的数字maxChoosableInteger比期望的总数desiredTotal要大，先手稳赢，返回True\n如果能选择的所有数字总和比期望的总数desiredTotal要小，一定到达不了desiredTotal，先手稳输，返回False\n\n\n用二进制位来标记某个数是",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python3",
+          "nameTranslated": "",
+          "slug": "python3",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "464. 我能赢吗，带备忘录的递归",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 10,
+        "id": 685543,
+        "viewCount": 4180
+      },
+      "uuid": "NhOSLv",
+      "videosInfo": []
+    }
+  }
+}

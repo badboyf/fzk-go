@@ -1,0 +1,84 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣官方题解",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/leetcode-solution/avatar_1582018938.png",
+          "userSlug": "leetcode-solution"
+        },
+        "username": "LeetCode-Solution"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法一：逆序遍历\n\n本题等价于对于数组 `arr` 中的每个元素 `arr[i]`，将其替换成 `arr[i + 1], arr[i + 2], ..., arr[n - 1]` 中的最大值。因此我们可以逆序地遍历整个数组，同时维护从数组右端到当前位置所有元素的最大值。\n\n设 `ans[i] = max(arr[i + 1], arr[i + 2], ..., arr[n - 1])`，那么在进行逆序遍历时，我们可以直接通过\n\n```\nans[i] = max(ans[i + 1], arr[i + 1])\n```\n\n来递推地得到答案。\n\n```C++ [sol1-C++]\nclass Solution {\npublic:\n    vector<int> replaceElements(vector<int>& arr) {\n        int n = arr.size();\n        vector<int> ans(n);\n        ans[n - 1] = -1;\n        for (int i = n - 2; i >= 0; --i) {\n            ans[i] = max(ans[i + 1], arr[i + 1]);\n        }\n        return ans;\n    }\n};\n```\n\n```Python [sol1-Python3]\nclass Solution:\n    def replaceElements(self, arr: List[int]) -> List[int]:\n        n = len(arr)\n        ans = [0] * (n - 1) + [-1]\n        for i in range(n - 2, -1, -1):\n            ans[i] = max(ans[i + 1], arr[i + 1])\n        return ans\n```\n\n**复杂度分析**\n\n- 时间复杂度：$O(N)$，其中 $N$ 是数组 `arr` 的长度。\n\n- 空间复杂度：$O(1)$，除了存储答案的数组 `ans` 之外，额外的空间复杂度是 $O(1)$。",
+      "createdAt": "2020-02-19T03:01:10.878173+00:00",
+      "hitCount": 11451,
+      "identifier": "BfzgL0",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "1299-cchao-97de-yuan-di-jie-fa-by-ffretu-euso",
+        "title": "1299. c++超97的原地解法"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "replace-elements-with-greatest-element-on-right-side"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 10,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "jiang-mei-ge-yuan-su-ti-huan-wei-you-ce-zui-da-y-5",
+      "status": "PUBLISHED",
+      "summary": " 方法一：逆序遍历\n本题等价于对于数组 arr 中的每个元素 arr[i]，将其替换成 arr[i + 1], arr[i + 2], ..., arr[n - 1] 中的最大值。因此我们可以逆序地遍历整个数组，同时维护从数组右端到当前位置所有元素的最大值。\n设 ans[i] = max(arr[i + 1], arr",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python3",
+          "nameTranslated": "",
+          "slug": "python3",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "将每个元素替换为右侧最大元素",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 29,
+        "id": 101750,
+        "viewCount": 9457
+      },
+      "uuid": "BfzgL0",
+      "videosInfo": []
+    }
+  }
+}

@@ -1,0 +1,76 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "苏州小朋友",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/charleswangxiao-wang/avatar_1629620409.png",
+          "userSlug": "charleswangxiao-wang"
+        },
+        "username": "charleswangxiao-wang"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "```\r\nstring getSmallestString(int n, int k) {\r\n\tstring res(n, 'a');\r\n\tint diff = k - n;\r\n\tint p = n - 1;\r\n\twhile (diff > 25) {\r\n\t\tres[p--] = 'z';\r\n\t\tdiff -= 25;\r\n\t}\r\n\tres[p] = 'a' + diff;\r\n\treturn res;\r\n}\r\n```\r\n",
+      "createdAt": "2021-09-08T14:37:45.497604+00:00",
+      "hitCount": 154,
+      "identifier": "BhPVid",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "wei-liao-yi-xing-er-yi-xing-by-pi-sa-da-051fg",
+        "title": "为了一行而一行"
+      },
+      "position": 2,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "ju-you-gei-ding-shu-zhi-de-zui-xiao-zi-fu-chuan-by",
+        "title": "具有给定数值的最小字符串"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "smallest-string-with-a-given-numeric-value"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "xian-quan-bu-tian-aran-hou-zeng-jia-zhi-kekvb",
+      "status": "PREPUBLISH",
+      "summary": "[该用户太懒了，只写了 11 行代码]",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "先全部填a，然后增加直至满足条件",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 986668,
+        "viewCount": 139
+      },
+      "uuid": "BhPVid",
+      "videosInfo": []
+    }
+  }
+}

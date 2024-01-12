@@ -1,0 +1,83 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "kmi",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/default_avatar.png",
+          "userSlug": "kmi-t"
+        },
+        "username": "kmi-t"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n设班级的通过人数为$p$，总人数为$t$，则通过率为\n$$ r_0 = \\frac{p}{t} $$\n现假设往班级里添加一名学生，则通过率变为\n$$ r_1 = \\frac{p +1}{t +1} $$\n添加前后的通过率改变量为\n$$ d = r_1 - r_0 = \\frac{t-p}{t(t+1)} $$\n要使得平均通过率最大，就要使加进去的学霸们发挥最大的作用，也就是要找到$d(i)$最大的班级。显然这是一个大顶堆的问题。\n\n构造一个大顶堆，使得$d$最大的班级位于数组首位上。将一个学霸加入classes[0]班级即可。由于$d$与班级人数有关，因此这时它的$d$值也发生了变化。更新该班级的$d$值，再次\n调整大顶堆，使得$d$值最大的班级被调整到数组首位。重复上述过程，直到k个学霸全部被加入班级。\n\n为避免反复计算$d$值带来的性能损耗，这里采用以空间换时间的方法，事先计算每个班的$d$值，并以$d$值为依据进行堆的调整。\n\n这段代码的时间开销击败了100%用户，但是内在消耗只击败了58%用户，不知道是哪个环节导致了内存的大量损耗？希望懂测试的朋友来赐教一下。\n\n\n### 代码\n\n```c\nvoid adjustHeap(int **classes, double *dn, int from, int size);\n\ninline double d(int *class);\n\ndouble maxAverageRatio(int** classes, int classesSize, int* classesColSize, int extraStudents){\n    double *dn = calloc(sizeof(double), classesSize);\n    for (int i = 0; i < classesSize; i++) {\n        dn[i] = d(classes[i]);\n    }\n\n    // 构建大顶堆\n    for (int i = classesSize / 2- 1; i >= 0; i--) {\n        adjustHeap(classes, dn, i, classesSize);\n    }\n\n    for (; extraStudents > 0; extraStudents--) {\n        classes[0][0]++;\n        classes[0][1]++;\n        dn[0] = d(classes[0]);\n\n        adjustHeap(classes, dn, 0, classesSize);\n    }\n\n    double sum = 0;\n    for (int i = 0; i < classesSize; i++) {\n        sum += (double) classes[i][0] / classes[i][1];\n    }\n\n    free(dn);\n    return sum / classesSize;\n}\n\ninline double d(int *class) {\n    return (double)(class[1] - class[0]) / class[1] / (class[1] + 1);\n}\n\nvoid adjustHeap(int **classes, double *dn, int from, int size) {\n    int *temp = classes[from];\n    double dTemp = dn[from];\n    for (int i = from * 2 + 1; i < size; i = i * 2 + 1) {\n        if (i + 1 < size && dn[i+1] > dn[i]) {\n            i++;\n        }\n\n        if (dn[i] > dTemp) {\n            classes[from] = classes[i];\n            dn[from] = dn[i];\n            from = i;\n        } else {\n            break;\n        }\n    }\n    classes[from] = temp;\n    dn[from] = dTemp;\n}\n\n```",
+      "createdAt": "2021-11-07T15:24:56.174646+00:00",
+      "hitCount": 54,
+      "identifier": "8tg7Kf",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "zui-da-ping-jun-tong-guo-lu-you-xian-dui-8mpm",
+        "title": "232周赛：最大平均通过率（优先队列：重写比较方法 + 贪心思想☀）（再看）"
+      },
+      "position": 2,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "zui-da-ping-jun-tong-guo-lu-by-zerotrac2-84br",
+        "title": "最大平均通过率"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "maximum-average-pass-ratio"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "da-ding-dui-jian-dan-de-shu-xue-yuan-li-plgwg",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n设班级的通过人数为p，总人数为t，则通过率为\nr_0 = \\frac{p}{t} \n\n现假设往班级里添加一名学生，则通过率变为\nr_1 = \\frac{p +1}{t +1} \n\n添加前后的通过率改变量为\nd = r_1 - r_0 = \\frac{t-p}{t(t+1)} \n\n要使得平均通过率最大，就要使加",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Heap",
+          "nameTranslated": "堆",
+          "slug": "heap",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C",
+          "nameTranslated": "",
+          "slug": "c",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "大顶堆 + 简单的数学原理",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1089671,
+        "viewCount": 47
+      },
+      "uuid": "8tg7Kf",
+      "videosInfo": []
+    }
+  }
+}

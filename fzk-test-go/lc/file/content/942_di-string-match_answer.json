@@ -1,0 +1,93 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣 (LeetCode)",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/uploaded_files/2021/03/73c9f099-abbe-4d94-853f-f8abffd459cd/leetcode.png",
+          "userSlug": "leetcode"
+        },
+        "username": "LeetCode"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "\n\n**分析**\n\n我们首先考虑字符串中的第一个字母。如果 `S[0] == 'I'`，那么我们只要令 `A[0] = 0`，就一定能满足 `A[0] < A[1]`。如果 `S[0] == 'D'`，同样我们只要令 `A[0] = N`，就一定能满足 `A[0] > A[1]`。\n\n接下来，当我们考虑 `S` 中剩下的 `N - 1` 个字母时，还剩下 `N` 个数可以使用，这 `N` 个数为 `[0 .. N - 1]` 或 `[1 .. N]`。可以发现，由于 `S[0]` 的值已经确定，那么剩下 `S` 中的 `N - 1` 个字母和 `N` 个可用的数变成了一个和原问题相同，但规模为 `N - 1` 的问题。即如果 `S[1] == 'I'`，我们就令 `A[1]` 为剩下数中最小的那个数；如果 `S[1] == 'D'`，我们就令 `A[1]` 为剩下数中最大的那个数。\n\n我们每次会把可以使用的数的集合中的最小值或最大值取出，并放到当前的位置，因此可以使用的数的集合总是连续的，就可以非常方便的进行维护。\n\n**算法**\n\n我们维护当前未使用的最小和最大的数，它们对应的区间为当前未使用的数的集合。从左向右扫描字符串，如果碰到 `'I'`，就取出当前最小的数，否则取出当前最大的数。\n\n```Java [sol1]\nclass Solution {\n    public int[] diStringMatch(String S) {\n        int N = S.length();\n        int lo = 0, hi = N;\n        int[] ans = new int[N + 1];\n        for (int i = 0; i < N; ++i) {\n            if (S.charAt(i) == 'I')\n                ans[i] = lo++;\n            else\n                ans[i] = hi--;\n        }\n\n        ans[N] = lo;\n        return ans;\n    }\n}\n```\n\n```Python [sol1]\nclass Solution(object):\n    def diStringMatch(self, S):\n        lo, hi = 0, len(S)\n        ans = []\n        for x in S:\n            if x == 'I':\n                ans.append(lo)\n                lo += 1\n            else:\n                ans.append(hi)\n                hi -= 1\n\n        return ans + [lo]\n```\n\n**复杂度分析**\n\n* 时间复杂度：$O(N)$，其中 $N$ 是字符串 `S` 的长度。\n\n* 空间复杂度：$O(N)$。\n",
+      "createdAt": "2019-07-23T06:30:52.775948+00:00",
+      "hitCount": 10439,
+      "identifier": "KdULmR",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "tan-xin-shuang-zhi-zhen-c-by-zhouzihong-fg04",
+        "title": "【贪心】【双指针】【C++】"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "di-string-match"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 24,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "zeng-jian-zi-fu-chuan-pi-pei-by-leetcode",
+      "status": "PUBLISHED",
+      "summary": "分析\n我们首先考虑字符串中的第一个字母。如果 S[0] == 'I'，那么我们只要令 A[0] = 0，就一定能满足 A[0] < A[1]。如果 S[0] == 'D'，同样我们只要令 A[0] = N，就一定能满足 A[0] > A[1]。\n接下来，当我们考虑 S 中剩下的 N - 1 个字母时，还剩下 N 个数可",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Brainteaser",
+          "nameTranslated": "脑筋急转弯",
+          "slug": "brainteaser",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Math",
+          "nameTranslated": "数学",
+          "slug": "math",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "增减字符串匹配",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 15,
+        "id": 16177,
+        "viewCount": 8425
+      },
+      "uuid": "KdULmR",
+      "videosInfo": []
+    }
+  }
+}

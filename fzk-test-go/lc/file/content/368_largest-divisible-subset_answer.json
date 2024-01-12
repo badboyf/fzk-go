@@ -1,0 +1,124 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣官方题解",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/leetcode-solution/avatar_1582018938.png",
+          "userSlug": "leetcode-solution"
+        },
+        "username": "LeetCode-Solution"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 前言\n\n首先需要理解什么叫「整除子集」。根据题目的描述，如果一个所有元素**互不相同**的集合中的**任意**元素存在整除关系，就称为整除子集。为了得到「最大整除子集」，我们需要考虑**如何从一个小的整除子集扩充成为更大的整除子集**。\n\n根据整除关系具有传递性，即如果 $a\\big|b$，并且 $b\\big|c$，那么 $a\\big|c$，可知：\n\n- 如果整数 $a$ 是整除子集 $S_1$ 的最小整数 $b$ 的约数（即 $a\\big|b$），那么可以将 $a$ 添加到 $S_1$ 中得到一个更大的整除子集；\n\n- 如果整数 $c$ 是整除子集 $S_2$ 的最大整数 $d$ 的倍数（即 $d\\big|c$），那么可以将 $c$ 添加到 $S_2$ 中得到一个更大的整除子集。\n\n这两点揭示了当前问题状态转移的特点，因此可以使用动态规划的方法求解。题目只要求我们得到多个目标子集的其中一个，根据求解动态规划问题的经验，我们需要将子集的大小定义为状态，然后根据结果**倒推**得到一个目标子集。事实上，当前问题和使用动态规划解决的经典问题「[300. 最长递增子序列](https://leetcode-cn.com/problems/longest-increasing-subsequence)」有相似之处。\n\n#### 方法一：动态规划\n\n根据前言的分析，我们需要将输入数组 $\\textit{nums}$ 按照升序排序，以便获得一个子集的最小整数或者最大整数。又根据动态规划的「无后效性」状态设计准则，我们需要将状态定义成「某个元素必须选择」。\n\n**状态定义**：$\\textit{dp}[i]$ 表示在输入数组 $\\textit{nums}$ 升序排列的前提下，以 $\\textit{nums}[i]$ 为最大整数的「整除子集」的大小（在这种定义下 $\\textit{nums}[i]$ 必须被选择）。\n\n**状态转移方程**：枚举 $j = 0 \\ldots i-1$ 的所有整数 $\\textit{nums}[j]$，如果 $\\textit{nums}[j]$ 能整除 $\\textit{nums}[i]$，说明 $\\textit{nums}[i]$ 可以扩充在以 $\\textit{nums}[j]$ 为最大整数的整除子集里成为一个更大的整除子集。\n\n**初始化**：由于 $\\textit{nums}[i]$ 必须被选择，因此对于任意 $i = 0 \\ldots n-1$，初始的时候 $\\textit{dp}[i] = 1$，这里 $n$ 是输入数组的长度。\n\n**输出**：由于最大整除子集不一定包含 $\\textit{nums}$ 中最大的整数，所以我们需要枚举所有的 $\\textit{dp}[i]$，选出最大整除子集的大小 $\\textit{maxSize}$，以及该最大子集中的最大整数 $\\textit{maxVal}$。按照如下方式倒推获得一个目标子集：\n\n1. **倒序遍历**数组 $\\textit{dp}$，直到找到 $\\textit{dp}[i] = \\textit{maxSize}$ 为止，把此时对应的 $\\textit{nums}[i]$ 加入结果集，此时 $\\textit{maxVal} = \\textit{nums}[i]$；\n\n2. 然后将 $\\textit{maxSize}$ 的值减 $1$，继续倒序遍历找到 $\\textit{dp}[i] = \\textit{maxSize}$，且 $\\textit{nums}[i]$ 能整除 $\\textit{maxVal}$ 的 $i$ 为止，将此时的 $\\textit{nums}[i]$ 加入结果集，$\\textit{maxVal}$ 更新为此时的 $num[i]$；\n\n3. 重复上述操作，直到 $\\textit{maxSize}$ 的值变成 $0$，此时的结果集即为一个目标子集。\n\n下面用一个例子说明如何得到最大整除子集。假设输入数组为 $[2,4,7,8,9,12,16,18]$（已经有序），得到的动态规划表格如下：\n\n| $\\textit{nums}$ | $2$ | $4$ | $7$ | $8$ | $9$ | $12$ | $16$ | $20$ |\n| --------------- | --- | --- | --- | --- | --- | ---- | ---- | ---- |\n| $\\textit{dp}$   | $1$ | $2$ | $1$ | $3$ | $1$ | $3$  | $4$  | $3$  |\n\n得到最大整除子集的做法如下：\n\n1. 根据 $\\textit{dp}$ 的计算结果，$\\textit{maxSize}=4$，$\\textit{maxVal}=16$，因此大小为 $4$ 的最大整除子集包含的最大整数为 $16$；\n\n2. 然后查找大小为 $3$ 的最大整除子集，我们看到 $8$ 和 $12$ 对应的状态值都是 $3$，最大整除子集一定包含 $8$，这是因为 $8 \\big| 16$；\n\n3. 然后查找大小为 $2$ 的最大整除子集，我们看到 $4$ 对应的状态值是 $2$，最大整除子集一定包含 $4$；\n\n4. 然后查找大小为 $1$ 的最大整除子集，我们看到 $2$ 对应的状态值是 $1$，最大整除子集一定包含 $2$。\n\n通过这样的方式，我们就找到了满足条件的某个最大整除子集 $[16,8,4,2]$。\n\n**代码**\n\n```Java [sol1-Java]\nclass Solution {\n    public List<Integer> largestDivisibleSubset(int[] nums) {\n        int len = nums.length;\n        Arrays.sort(nums);\n\n        // 第 1 步：动态规划找出最大子集的个数、最大子集中的最大整数\n        int[] dp = new int[len];\n        Arrays.fill(dp, 1);\n        int maxSize = 1;\n        int maxVal = dp[0];\n        for (int i = 1; i < len; i++) {\n            for (int j = 0; j < i; j++) {\n                // 题目中说「没有重复元素」很重要\n                if (nums[i] % nums[j] == 0) {\n                    dp[i] = Math.max(dp[i], dp[j] + 1);\n                }\n            }\n\n            if (dp[i] > maxSize) {\n                maxSize = dp[i];\n                maxVal = nums[i];\n            }\n        }\n\n        // 第 2 步：倒推获得最大子集\n        List<Integer> res = new ArrayList<Integer>();\n        if (maxSize == 1) {\n            res.add(nums[0]);\n            return res;\n        }\n        \n        for (int i = len - 1; i >= 0 && maxSize > 0; i--) {\n            if (dp[i] == maxSize && maxVal % nums[i] == 0) {\n                res.add(nums[i]);\n                maxVal = nums[i];\n                maxSize--;\n            }\n        }\n        return res;\n    }\n}\n```\n\n```JavaScript [sol1-JavaScript]\nvar largestDivisibleSubset = function(nums) {\n    const len = nums.length;\n    nums.sort((a, b) => a - b);\n\n    // 第 1 步：动态规划找出最大子集的个数、最大子集中的最大整数\n    const dp = new Array(len).fill(1);\n    let maxSize = 1;\n    let maxVal = dp[0];\n    for (let i = 1; i < len; i++) {\n        for (let j = 0; j < i; j++) {\n            // 题目中说「没有重复元素」很重要\n            if (nums[i] % nums[j] === 0) {\n                dp[i] = Math.max(dp[i], dp[j] + 1);\n            }\n        }\n\n        if (dp[i] > maxSize) {\n            maxSize = dp[i];\n            maxVal = nums[i];\n        }\n    }\n\n    // 第 2 步：倒推获得最大子集\n    const res = [];\n    if (maxSize === 1) {\n        res.push(nums[0]);\n        return res;\n    }\n    \n    for (let i = len - 1; i >= 0 && maxSize > 0; i--) {\n        if (dp[i] === maxSize && maxVal % nums[i] === 0) {\n            res.push(nums[i]);\n            maxVal = nums[i];\n            maxSize--;\n        }\n    }\n    return res;\n};\n```\n\n```go [sol1-Golang]\nfunc largestDivisibleSubset(nums []int) (res []int) {\n    sort.Ints(nums)\n\n    // 第 1 步：动态规划找出最大子集的个数、最大子集中的最大整数\n    n := len(nums)\n    dp := make([]int, n)\n    for i := range dp {\n        dp[i] = 1\n    }\n    maxSize, maxVal := 1, 1\n    for i := 1; i < n; i++ {\n        for j, v := range nums[:i] {\n            if nums[i]%v == 0 && dp[j]+1 > dp[i] {\n                dp[i] = dp[j] + 1\n            }\n        }\n        if dp[i] > maxSize {\n            maxSize, maxVal = dp[i], nums[i]\n        }\n    }\n\n    if maxSize == 1 {\n        return []int{nums[0]}\n    }\n\n    // 第 2 步：倒推获得最大子集\n    for i := n - 1; i >= 0 && maxSize > 0; i-- {\n        if dp[i] == maxSize && maxVal%nums[i] == 0 {\n            res = append(res, nums[i])\n            maxVal = nums[i]\n            maxSize--\n        }\n    }\n    return\n}\n```\n\n```C++ [sol1-C++]\nclass Solution {\npublic:\n    vector<int> largestDivisibleSubset(vector<int>& nums) {\n        int len = nums.size();\n        sort(nums.begin(), nums.end());\n\n        // 第 1 步：动态规划找出最大子集的个数、最大子集中的最大整数\n        vector<int> dp(len, 1);\n        int maxSize = 1;\n        int maxVal = dp[0];\n        for (int i = 1; i < len; i++) {\n            for (int j = 0; j < i; j++) {\n                // 题目中说「没有重复元素」很重要\n                if (nums[i] % nums[j] == 0) {\n                    dp[i] = max(dp[i], dp[j] + 1);\n                }\n            }\n\n            if (dp[i] > maxSize) {\n                maxSize = dp[i];\n                maxVal = nums[i];\n            }\n        }\n\n        // 第 2 步：倒推获得最大子集\n        vector<int> res;\n        if (maxSize == 1) {\n            res.push_back(nums[0]);\n            return res;\n        }\n\n        for (int i = len - 1; i >= 0 && maxSize > 0; i--) {\n            if (dp[i] == maxSize && maxVal % nums[i] == 0) {\n                res.push_back(nums[i]);\n                maxVal = nums[i];\n                maxSize--;\n            }\n        }\n        return res;\n    }\n};\n```\n\n```C [sol1-C]\nint cmp(int* a, int* b) {\n    return *a - *b;\n}\n\nint* largestDivisibleSubset(int* nums, int numsSize, int* returnSize) {\n    int len = numsSize;\n    qsort(nums, numsSize, sizeof(int), cmp);\n\n    // 第 1 步：动态规划找出最大子集的个数、最大子集中的最大整数\n    int dp[len];\n    for (int i = 0; i < len; i++) {\n        dp[i] = 1;\n    }\n    int maxSize = 1;\n    int maxVal = dp[0];\n    for (int i = 1; i < len; i++) {\n        for (int j = 0; j < i; j++) {\n            // 题目中说「没有重复元素」很重要\n            if (nums[i] % nums[j] == 0) {\n                dp[i] = fmax(dp[i], dp[j] + 1);\n            }\n        }\n\n        if (dp[i] > maxSize) {\n            maxSize = dp[i];\n            maxVal = nums[i];\n        }\n    }\n\n    // 第 2 步：倒推获得最大子集\n    int* res = malloc(sizeof(int) * len);\n    *returnSize = 0;\n    if (maxSize == 1) {\n        res[(*returnSize)++] = nums[0];\n        return res;\n    }\n\n    for (int i = len - 1; i >= 0 && maxSize > 0; i--) {\n        if (dp[i] == maxSize && maxVal % nums[i] == 0) {\n            res[(*returnSize)++] = nums[i];\n            maxVal = nums[i];\n            maxSize--;\n        }\n    }\n    return res;\n}\n```\n\n**复杂度分析**\n\n- 时间复杂度：$O(n^2)$，其中 $n$ 为输入数组的长度。对数组 $\\textit{nums}$ 排序的时间复杂度为 $O(n \\log n)$，计算数组 $\\textit{dp}$ 元素的时间复杂度为 $O(n^2)$，倒序遍历得到一个目标子集，时间复杂度为 $O(n)$。\n\n- 空间复杂度：$O(n)$，其中 $n$ 为输入数组的长度。需要创建长度为 $n$ 的数组 $\\textit{dp}$。\n\n---\n# [📚 好读书？读好书！让时间更有价值| 世界读书日](https://leetcode-cn.com/circle/discuss/12QtuI/)\n4 月 22 日至 4 月 28 日，进入「[学习](https://leetcode-cn.com/leetbook/)」，完成页面右上角的「让时间更有价值」限时阅读任务，可获得「2021 读书日纪念勋章」。更多活动详情戳上方标题了解更多👆\n#### 今日学习任务：\n- 图解分治思想\n[完成阅读 4.1 分而治之](https://leetcode-cn.com/leetbook/read/grokking-algorithms/ro1g7g/)\n- 图解快速排序复杂度\n[完成阅读 4.3 再谈大 O 表示法](https://leetcode-cn.com/leetbook/read/grokking-algorithms/roctwj/)",
+      "createdAt": "2021-04-22T14:54:53.965298+00:00",
+      "hitCount": 43897,
+      "identifier": "kBw1Lj",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "gong-shui-san-xie-noxiang-xin-ke-xue-xi-0a3jc",
+        "title": "【宫水三叶の相信科学系列】详解为何能转换为序列 DP 问题"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "largest-divisible-subset"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 78,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 7,
+          "reactionType": "AWESOME"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 0,
+          "reactionType": "THUMBS_DOWN"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "zui-da-zheng-chu-zi-ji-by-leetcode-solut-t4pz",
+      "status": "PUBLISHED",
+      "summary": "前言\n首先需要理解什么叫「整除子集」。根据题目的描述，如果一个所有元素互不相同的集合中的任意元素存在整除关系，就称为整除子集。为了得到「最大整除子集」，我们需要考虑如何从一个小的整除子集扩充成为更大的整除子集。\n根据整除关系具有传递性，即如果 a\\big|b，并且 b\\big|c，那么 a\\big|c，可知：\n\n\n如",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Array",
+          "nameTranslated": "数组",
+          "slug": "array",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Dynamic Programming",
+          "nameTranslated": "动态规划",
+          "slug": "dynamic-programming",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C",
+          "nameTranslated": "",
+          "slug": "c",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Go",
+          "nameTranslated": "",
+          "slug": "golang",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "JavaScript",
+          "nameTranslated": "",
+          "slug": "javascript",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "最大整除子集",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 178,
+        "id": 738617,
+        "viewCount": 27101
+      },
+      "uuid": "kBw1Lj",
+      "videosInfo": []
+    }
+  }
+}

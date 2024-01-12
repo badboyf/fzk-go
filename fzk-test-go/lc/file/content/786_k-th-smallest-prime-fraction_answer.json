@@ -1,0 +1,91 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣 (LeetCode)",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/uploaded_files/2021/03/73c9f099-abbe-4d94-853f-f8abffd459cd/leetcode.png",
+          "userSlug": "leetcode"
+        },
+        "username": "LeetCode"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法一：二分查找【通过】\n\n**思路**\n\n `under(x)` 用于求解小于 `x` 的分数数量，这是一个关于 `x` 的单调增函数，因此可以使用二分查找求解。\n\n**算法**\n\n使用二分查找找出一个 `x`，使得小于 `x` 的分数恰好有 `K` 个，并且记录其中最大的一个分数。\n\n我们的二分搜索与其他的二分搜索方法类似：初始有区间 `[lo, hi]`，中心点 `mi = (lo + hi) / 2.0`。如果小于 `mi` 的分数数量小于 `K`，更新区间为 `[mi, hi]`，否则更新为 `[lo, mi]`。更多关于二分搜索的内容，请访问 LeetCode 探索[这里](https://leetcode-cn.com/explore/learn/card/binary-search/)。\n\n`under(x)` 函数有两个目的：返回小于 `x` 的分数数量以及小于 `x` 的最大分数。在 `under(x)` 函数中使用滑动窗口的方法：对于每个 `primes[j]`，找出最大的 `i` 使得 `primes[i] / primes[j] < x`。随着 `j` （和 `primes[j]`）的增加， `i` 也会随之增加。 \n\n```java [solution1-Java]\nclass Solution {\n    public int[] kthSmallestPrimeFraction(int[] primes, int K) {\n        double lo = 0, hi = 1;\n        int[] ans = new int[]{0, 1};\n\n        while (hi - lo > 1e-9) {\n            double mi = lo + (hi - lo) / 2.0;\n            int[] res = under(mi, primes);\n            if (res[0] < K) {\n                lo = mi;\n            } else {\n                ans[0] = res[1];\n                ans[1] = res[2];\n                hi = mi;\n            }\n        }\n        return ans;\n    }\n\n    public int[] under(double x, int[] primes) {\n        // Returns {count, numerator, denominator}\n        int numer = 0, denom = 1, count = 0, i = -1;\n        for (int j = 1; j < primes.length; ++j) {\n            // For each j, find the largest i so that primes[i] / primes[j] < x\n            // It has to be at least as big as the previous i, so reuse it (\"two pointer\")\n            while (primes[i+1] < primes[j] * x) ++i;\n\n            // There are i+1 fractions: (primes[0], primes[j]),\n            // (primes[1], primes[j]), ..., (primes[i], primes[j])\n            count += i+1;\n            if (i >= 0 && numer * primes[j] < denom * primes[i]) {\n                numer = primes[i];\n                denom = primes[j];\n            }\n        }\n        return new int[]{count, numer, denom};\n    }\n}\n```\n\n```python [solution1-Python]\nclass Solution(object):\n    def kthSmallestPrimeFraction(self, primes, K):\n        from fractions import Fraction\n        def under(x):\n            # Return the number of fractions below x,\n            # and the largest such fraction\n            count = best = 0\n            i = -1\n            for j in xrange(1, len(primes)):\n                while primes[i+1] < primes[j] * x:\n                    i += 1\n                count += i+1\n                if i >= 0:\n                    best = max(best, Fraction(primes[i], primes[j]))\n            return count, best\n\n        # Binary search for x such that there are K fractions\n        # below x.\n        lo, hi = 0.0, 1.0\n        while hi - lo > 1e-9:\n            mi = (lo + hi) / 2.0\n            count, best = under(mi)\n            if count < K:\n                lo = mi\n            else:\n                ans = best\n                hi = mi\n\n        return ans.numerator, ans.denominator\n```\n\n\n**复杂度分析**\n\n* 时间复杂度：$O(N \\log W)$，其中 $N$ 是 `primes` 的长度，`W` 是二分查找的区间宽度，`(hi - lo) / 1e-9` 等于 $10^9$。\n\n* 空间复杂度：$O(1)$。\n\n####方法二：堆【通过】\n\n**思路**\n\n使用一个堆记录所有以 `primes[j]` 为分母且未被弹出的最小分数。依次从堆中弹出 `K-1` 个元素，此时堆顶的分数就是结果。\n\n\n**算法**\n\n在 Python 中，使用 `(fraction, i, j)` 表示分数 `fraction = primes[i] / primes[j]`。如果下一个分数有效（即 `i+1 < j`），那么使用当前分数时，将下一个分数压入堆中。\n\n在Java中，使用记录  `{i, j}` （`i` 和 `j` 是索引，不是 `A` 中的元素）的 `int[2]` 表示分数，自定义比较器确保所有分数按照正确顺序存储。\n\n```java[solution2-Java]\nclass Solution {\n    public int[] kthSmallestPrimeFraction(int[] A, int K) {\n        PriorityQueue<int[]> pq = new PriorityQueue<int[]>((a, b) ->\n                A[a[0]] * A[b[1]] - A[a[1]] * A[b[0]]);\n\n        for (int i = 1; i < A.length; ++i)\n            pq.add(new int[]{0, i});\n\n        while (--K > 0) {\n            int[] frac = pq.poll();\n            if (frac[0]++ < frac[1])\n                pq.offer(frac);\n        }\n\n        int[] ans = pq.poll();\n        return new int[]{A[ans[0]], A[ans[1]]};\n    }\n}\n```\n\n```python[solution2-Python]\nclass Solution(object):\n    #Note - this solution may TLE.\n    def kthSmallestPrimeFraction(self, A, K):\n        pq = [(A[0] / float(A[i]), 0, i) for i in xrange(len(A) - 1, 0, -1)]\n\n        for _ in xrange(K-1):\n            frac, i, j = heapq.heappop(pq)\n            i += 1\n            if i < j:\n                heapq.heappush(pq, (A[i] / float(A[j]), i, j))\n\n        return A[pq[0][1]], A[pq[0][2]]\n```\n\n**复杂度分析**\n\n* 时间复杂度：$O(K \\log N)$，其中 $N$ 是 `A` 的长度，堆中最多压入 $N$ 个元素，每次弹出为 $O(\\log N)$，需要 $O(K)$ 次弹出操作。\n\n* 空间复杂度：$O(N)$，堆的大小。\n\n#### 方法三：分治法【通过】\n\n**说明**\n\n除此之外，使用分治法也能解答此问题，时间复杂度可以达到 $O(N)$。将所有由素数组成的分数写到一个行和列都增长的矩阵中，然后查找其中第 `K` 个元素。它的主要思想与删除原始矩阵中所有奇数行和列，然后求其中的第 `K/4` 个元素非常相似。",
+      "createdAt": "2019-11-20T07:17:12.473934+00:00",
+      "hitCount": 7587,
+      "identifier": "zavjEd",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "qing-xi-yi-dong-jie-shi-bian-ru-dui-bian-1xuf",
+        "title": "【清晰易懂】一边入堆、一边出堆，解释如何确保升序【786.第 K 个最小的素数分数】"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "k-th-smallest-prime-fraction"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 13,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "THUMBS_DOWN"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "di-k-ge-zui-xiao-de-su-shu-fen-shu-by-leetcode",
+      "status": "PUBLISHED",
+      "summary": "§ 方法一：二分查找【通过】\n思路\nunder(x) 用于求解小于 x 的分数数量，这是一个关于 x 的单调增函数，因此可以使用二分查找求解。\n算法\n使用二分查找找出一个 x，使得小于 x 的分数恰好有 K 个，并且记录其中最大的一个分数。\n我们的二分搜索与其他的二分搜索方法类似：初始有区间 [lo, hi]，中心点 ",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Binary Search",
+          "nameTranslated": "二分查找",
+          "slug": "binary-search",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "第 K 个最小的素数分数",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 19,
+        "id": 45568,
+        "viewCount": 4846
+      },
+      "uuid": "zavjEd",
+      "videosInfo": []
+    }
+  }
+}

@@ -1,0 +1,72 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "bkd",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/default_avatar.png",
+          "userSlug": "bkd"
+        },
+        "username": "bkd"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "```\r\nconst m = 1000000007\r\nfunc countVowelPermutation(n int) int {\r\n    var temp0,temp1,temp2,temp3,temp4 =1,1,1,1,1\r\n    for i:=2;i<=n;i++{\r\n        var l1 = temp1 % m\r\n        var l2 = temp0 + temp2 % m\r\n        var l3 = temp0 + temp1 + temp3 + temp4 % m\r\n        var l4 = temp2 + temp4 % m\r\n        var l5 = temp0 % m\r\n        temp0,temp1,temp2,temp3,temp4=l1,l2,l3,l4,l5\r\n    }\r\n    return (temp0+temp1+temp2+temp3+temp4) %m\r\n}\r\n```\r\n",
+      "createdAt": "2021-11-25T09:06:33.534934+00:00",
+      "hitCount": 6,
+      "identifier": "ilTEhC",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "1220-cchao-100de-gui-na-zong-jie-de-dong-izfd",
+        "title": "1220. c++超100的归纳总结的动态规划"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "count-vowels-permutation"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "go-tong-ji-yuan-yin-zi-mu-xu-lie-de-shu-9wuab",
+      "status": "PUBLISHED",
+      "summary": "[该用户太懒了，只写了 13 行代码]",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Go",
+          "nameTranslated": "",
+          "slug": "golang",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "Go 统计元音字母序列的数目 双百解法",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1121850,
+        "viewCount": 5
+      },
+      "uuid": "ilTEhC",
+      "videosInfo": []
+    }
+  }
+}

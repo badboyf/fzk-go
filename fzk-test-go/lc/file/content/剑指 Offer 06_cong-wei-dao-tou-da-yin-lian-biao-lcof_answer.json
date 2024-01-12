@@ -1,0 +1,87 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣官方题解",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/leetcode-solution/avatar_1582018938.png",
+          "userSlug": "leetcode-solution"
+        },
+        "username": "LeetCode-Solution"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 方法一：栈\n\n\n栈的特点是后进先出，即最后压入栈的元素最先弹出。考虑到栈的这一特点，使用栈将链表元素顺序倒置。从链表的头节点开始，依次将每个节点压入栈内，然后依次弹出栈内的元素并存储到数组中。\n\n\n* 创建一个栈，用于存储链表的节点\n* 创建一个指针，初始时指向链表的头节点\n* 当指针指向的元素非空时，重复下列操作：\n  * 将指针指向的节点压入栈内\n  * 将指针移到当前节点的下一个节点\n* 获得栈的大小 `size`，创建一个数组 `print`，其大小为 `size`\n* 创建下标并初始化 `index = 0`\n* 重复 `size` 次下列操作：\n  * 从栈内弹出一个节点，将该节点的值存到 `print[index]`\n  * 将 `index` 的值加 1\n* 返回 `print`\n\n```Java []\n/**\n * Definition for singly-linked list.\n * public class ListNode {\n *     int val;\n *     ListNode next;\n *     ListNode(int x) { val = x; }\n * }\n */\nclass Solution {\n    public int[] reversePrint(ListNode head) {\n        Stack<ListNode> stack = new Stack<ListNode>();\n        ListNode temp = head;\n        while (temp != null) {\n            stack.push(temp);\n            temp = temp.next;\n        }\n        int size = stack.size();\n        int[] print = new int[size];\n        for (int i = 0; i < size; i++) {\n            print[i] = stack.pop().val;\n        }\n        return print;\n    }\n}\n```\n\n**复杂性分析**\n\n* 时间复杂度：$O(n)$。正向遍历一遍链表，然后从栈弹出全部节点，等于又反向遍历一遍链表。\n* 空间复杂度：$O(n)$。额外使用一个栈存储链表中的每个节点。",
+      "createdAt": "2020-02-20T04:15:46.739397+00:00",
+      "hitCount": 162325,
+      "identifier": "Mc2bh2",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "mian-shi-ti-06-cong-wei-dao-tou-da-yin-lian-biao-d",
+        "title": "面试题06. 从尾到头打印链表（递归法、辅助栈法，清晰图解）"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "cong-wei-dao-tou-da-yin-lian-biao-lcof"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 41,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 4,
+          "reactionType": "AWESOME"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 4,
+          "reactionType": "CONFUSED"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "THUMBS_DOWN"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "mian-shi-ti-06-cong-wei-dao-tou-da-yin-lian-biao-b",
+      "status": "PUBLISHED",
+      "summary": "方法一：栈\n栈的特点是后进先出，即最后压入栈的元素最先弹出。考虑到栈的这一特点，使用栈将链表元素顺序倒置。从链表的头节点开始，依次将每个节点压入栈内，然后依次弹出栈内的元素并存储到数组中。\n\n创建一个栈，用于存储链表的节点\n创建一个指针，初始时指向链表的头节点\n当指针指向的元素非空时，重复下列操作：\n\n将指针指向的节点",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "面试题06. 从尾到头打印链表",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 162,
+        "id": 103060,
+        "viewCount": 125123
+      },
+      "uuid": "Mc2bh2",
+      "videosInfo": []
+    }
+  }
+}

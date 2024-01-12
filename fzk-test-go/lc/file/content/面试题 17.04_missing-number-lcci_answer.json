@@ -1,0 +1,97 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "寐",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/mei-56/avatar_1579317149.png",
+          "userSlug": "mei-56"
+        },
+        "username": "mei-56"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "\n### 代码\n\n```python3\nclass Solution:\n    def missingNumber(self, nums: List[int]) -> int:\n        imax, imin = max(nums), min(nums)\n        res = 0\n        for i in range(imax + 1):\n            res ^= i\n        for i in nums:\n            res ^= i\n        return imax + 1 if res == 0 and imin == 0 else res\n```",
+      "createdAt": "2021-11-08T10:05:50.084592+00:00",
+      "hitCount": 151,
+      "identifier": "NoUjl1",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "onshi-jian-fu-za-du-o1kong-jian-fu-za-du-shi-xian-",
+        "title": "O(n)时间复杂度O(1)空间复杂度实现"
+      },
+      "position": 2,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "yi-huo-miao-dong-javascript-by-lzxjack-ozvk",
+        "title": "【异或】【秒懂】JavaScript"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "missing-number-lcci"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "wei-yun-suan-by-mei-56-5wmy",
+      "status": "PREPUBLISH",
+      "summary": "代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Bit Manipulation",
+          "nameTranslated": "位运算",
+          "slug": "bit-manipulation",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python3",
+          "nameTranslated": "",
+          "slug": "python3",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "异或",
+          "nameTranslated": "",
+          "slug": "yi-huo",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "",
+      "title": "位运算",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1091019,
+        "viewCount": 132
+      },
+      "uuid": "NoUjl1",
+      "videosInfo": []
+    }
+  }
+}

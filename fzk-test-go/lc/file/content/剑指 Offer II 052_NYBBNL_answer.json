@@ -1,0 +1,128 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣官方题解",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/leetcode-solution/avatar_1582018938.png",
+          "userSlug": "leetcode-solution"
+        },
+        "username": "LeetCode-Solution"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法一：中序遍历之后生成新的树\n\n**算法**\n\n题目要求我们返回按照中序遍历的结果改造而成的、只有右节点的**等价**二叉搜索树。我们可以进行如下操作：\n\n- 先对输入的二叉搜索树执行中序遍历，将结果保存到一个列表中；\n\n- 然后根据列表中的节点值，创建等价的只含有右节点的二叉搜索树，其过程等价于根据节点值创建一个链表。\n\n**代码**\n\n```Java [sol1-Java]\nclass Solution {\n    public TreeNode increasingBST(TreeNode root) {\n        List<Integer> res = new ArrayList<Integer>();\n        inorder(root, res);\n\n        TreeNode dummyNode = new TreeNode(-1);\n        TreeNode currNode = dummyNode;\n        for (int value : res) {\n            currNode.right = new TreeNode(value);\n            currNode = currNode.right;\n        }\n        return dummyNode.right;\n    }\n\n    public void inorder(TreeNode node, List<Integer> res) {\n        if (node == null) {\n            return;\n        }\n        inorder(node.left, res);\n        res.add(node.val);\n        inorder(node.right, res);\n    }\n}\n```\n\n```JavaScript [sol1-JavaScript]\nvar increasingBST = function(root) {\n    const res = [];\n    inorder(root, res);\n\n    const dummyNode = new TreeNode(-1);\n    let currNode = dummyNode;\n    for (const value of res) {\n        currNode.right = new TreeNode(value);\n        currNode = currNode.right;\n    }\n    return dummyNode.right;\n};\n\nconst inorder = (node, res) => {\n    if (!node) {\n        return;\n    }\n    inorder(node.left, res);\n    res.push(node.val);\n    inorder(node.right, res);\n}\n```\n\n```go [sol1-Golang]\nfunc increasingBST(root *TreeNode) *TreeNode {\n    vals := []int{}\n    var inorder func(*TreeNode)\n    inorder = func(node *TreeNode) {\n        if node != nil {\n            inorder(node.Left)\n            vals = append(vals, node.Val)\n            inorder(node.Right)\n        }\n    }\n    inorder(root)\n\n    dummyNode := &TreeNode{}\n    curNode := dummyNode\n    for _, val := range vals {\n        curNode.Right = &TreeNode{Val: val}\n        curNode = curNode.Right\n    }\n    return dummyNode.Right\n}\n```\n\n```C++ [sol1-C++]\nclass Solution {\npublic:\n    void inorder(TreeNode *node, vector<int> &res) {\n        if (node == nullptr) {\n            return;\n        }\n        inorder(node->left, res);\n        res.push_back(node->val);\n        inorder(node->right, res);\n    }\n\n    TreeNode *increasingBST(TreeNode *root) {\n        vector<int> res;\n        inorder(root, res);\n\n        TreeNode *dummyNode = new TreeNode(-1);\n        TreeNode *currNode = dummyNode;\n        for (int value : res) {\n            currNode->right = new TreeNode(value);\n            currNode = currNode->right;\n        }\n        return dummyNode->right;\n    }\n};\n```\n\n```C [sol1-C]\nstruct TreeNode* createTreeNode(int val) {\n    struct TreeNode* ret = malloc(sizeof(struct TreeNode));\n    ret->val = val, ret->left = ret->right = NULL;\n    return ret;\n}\n\nvoid inorder(struct TreeNode* node, int* res, int* resSize) {\n    if (node == NULL) {\n        return;\n    }\n    inorder(node->left, res, resSize);\n    res[(*resSize)++] = node->val;\n    inorder(node->right, res, resSize);\n}\n\nstruct TreeNode* increasingBST(struct TreeNode* root) {\n    int res[100], resSize = 0;\n    inorder(root, res, &resSize);\n\n    struct TreeNode* dummyNode = createTreeNode(-1);\n    struct TreeNode* currNode = dummyNode;\n    for (int i = 0; i < resSize; i++) {\n        currNode->right = createTreeNode(res[i]);\n        currNode = currNode->right;\n    }\n    return dummyNode->right;\n}\n```\n\n**复杂度分析**\n\n- 时间复杂度：$O(n)$，其中 $n$ 是二叉搜索树的节点总数。\n\n- 空间复杂度：$O(n)$，其中 $n$ 是二叉搜索树的节点总数。需要长度为 $n$ 的列表保存二叉搜索树的所有节点的值。\n\n#### 方法二：在中序遍历的过程中改变节点指向\n\n**算法**\n\n方法一需要遍历一次二叉搜索树以后，然后再创建新的等价的二叉搜索树。事实上，还可以遍历一次输入二叉搜索树，在遍历的过程中改变节点指向以满足题目的要求。\n\n在中序遍历的时候，修改节点指向就可以实现。具体地，当我们遍历到一个节点时，把它的左孩子设为空，并将其本身作为上一个遍历到的节点的右孩子。这里需要有一些想象能力。递归遍历的过程中，由于递归函数的调用栈保存了节点的引用，因此上述操作可以实现。下面的幻灯片展示了这样的过程。\n\n<![1.png](../../static/jianzhi_II_052/1.png),![2.png](../../static/jianzhi_II_052/2.png),![3.png](../../static/jianzhi_II_052/3.png),![4.png](../../static/jianzhi_II_052/4.png),![5.png](../../static/jianzhi_II_052/5.png),![6.png](../../static/jianzhi_II_052/6.png),![7.png](../../static/jianzhi_II_052/7.png),![8.png](../../static/jianzhi_II_052/8.png),![9.png](../../static/jianzhi_II_052/9.png),![10.png](../../static/jianzhi_II_052/10.png),![11.png](../../static/jianzhi_II_052/11.png),![12.png](../../static/jianzhi_II_052/12.png),![13.png](../../static/jianzhi_II_052/13.png),![14.png](../../static/jianzhi_II_052/14.png),![15.png](../../static/jianzhi_II_052/15.png),![16.png](../../static/jianzhi_II_052/16.png),![17.png](../../static/jianzhi_II_052/17.png),![18.png](../../static/jianzhi_II_052/18.png),![19.png](../../static/jianzhi_II_052/19.png),![20.png](../../static/jianzhi_II_052/20.png),![21.png](../../static/jianzhi_II_052/21.png),![22.png](../../static/jianzhi_II_052/22.png),![23.png](../../static/jianzhi_II_052/23.png),![24.png](../../static/jianzhi_II_052/24.png),![25.png](../../static/jianzhi_II_052/25.png),![26.png](../../static/jianzhi_II_052/26.png),![27.png](../../static/jianzhi_II_052/27.png)>\n\n**代码**\n\n```Java [sol2-Java]\nclass Solution {\n    private TreeNode resNode;\n\n    public TreeNode increasingBST(TreeNode root) {\n        TreeNode dummyNode = new TreeNode(-1);\n        resNode = dummyNode;\n        inorder(root);\n        return dummyNode.right;\n    }\n\n    public void inorder(TreeNode node) {\n        if (node == null) {\n            return;\n        }\n        inorder(node.left);\n\n        // 在中序遍历的过程中修改节点指向\n        resNode.right = node;\n        node.left = null;\n        resNode = node;\n\n        inorder(node.right);\n    }\n}\n```\n\n```JavaScript [sol2-JavaScript]\nvar increasingBST = function(root) {\n    const dummyNode = new TreeNode(-1);\n    let resNode = dummyNode;\n    const inorder = (node) => {\n        if (!node) {\n            return;\n        }\n        inorder(node.left);\n\n        // 在中序遍历的过程中修改节点指向\n        resNode.right = node;\n        node.left = null;\n        resNode = node;\n\n        inorder(node.right);\n    }\n    inorder(root);\n    return dummyNode.right;\n};\n```\n\n```go [sol2-Golang]\nfunc increasingBST(root *TreeNode) *TreeNode {\n    dummyNode := &TreeNode{}\n    resNode := dummyNode\n\n    var inorder func(*TreeNode)\n    inorder = func(node *TreeNode) {\n        if node == nil {\n            return\n        }\n        inorder(node.Left)\n\n        // 在中序遍历的过程中修改节点指向\n        resNode.Right = node\n        node.Left = nil\n        resNode = node\n\n        inorder(node.Right)\n    }\n    inorder(root)\n\n    return dummyNode.Right\n}\n```\n\n```C++ [sol2-C++]\nclass Solution {\nprivate:\n    TreeNode *resNode;\n\npublic:\n    void inorder(TreeNode *node) {\n        if (node == nullptr) {\n            return;\n        }\n        inorder(node->left);\n\n        // 在中序遍历的过程中修改节点指向\n        resNode->right = node;\n        node->left = nullptr;\n        resNode = node;\n\n        inorder(node->right);\n    }\n\n    TreeNode *increasingBST(TreeNode *root) {\n        TreeNode *dummyNode = new TreeNode(-1);\n        resNode = dummyNode;\n        inorder(root);\n        return dummyNode->right;\n    }\n};\n```\n\n```C [sol2-C]\nstruct TreeNode* createTreeNode(int val) {\n    struct TreeNode* ret = malloc(sizeof(struct TreeNode));\n    ret->val = val, ret->left = ret->right = NULL;\n    return ret;\n}\n\nstruct TreeNode* resNode;\n\nvoid inorder(struct TreeNode* node) {\n    if (node == NULL) {\n        return;\n    }\n    inorder(node->left);\n\n    // 在中序遍历的过程中修改节点指向\n    resNode->right = node;\n    node->left = NULL;\n    resNode = node;\n\n    inorder(node->right);\n}\nstruct TreeNode* increasingBST(struct TreeNode* root) {\n    struct TreeNode* dummyNode = createTreeNode(-1);\n    resNode = dummyNode;\n    inorder(root);\n    return dummyNode->right;\n}\n```\n\n**复杂度分析**\n\n- 时间复杂度：$O(n)$，其中 $n$ 是二叉搜索树的节点总数。\n\n- 空间复杂度：$O(n)$。递归过程中的栈空间开销为 $O(n)$。",
+      "createdAt": "2021-10-09T09:54:34.740184+00:00",
+      "hitCount": 1499,
+      "identifier": "lGvscG",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "jian-zhi-offer-ii-052-zhan-ping-er-cha-s-250j",
+        "title": "剑指 Offer II 052. 展平二叉搜索树（中序遍历）"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "NYBBNL"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "zhan-ping-er-cha-sou-suo-shu-by-leetcode-pmxr",
+      "status": "PUBLISHED",
+      "summary": "方法一：中序遍历之后生成新的树 算法 题目要求我们返回按照中序遍历的结果改造而成的、只有右节点的等价二叉搜索树。我们可以进行如下操作： 先对输入的二叉搜索树执行中序遍历，将结果保存到一个列表中； 然后根据列表中的节点值，创建等价的只含有右节点的二叉搜索树，其过程等价于根据节点值创建一个链表。 代码 ```Java [s",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Tree",
+          "nameTranslated": "树",
+          "slug": "tree",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Depth-First Search",
+          "nameTranslated": "深度优先搜索",
+          "slug": "depth-first-search",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Binary Search Tree",
+          "nameTranslated": "二叉搜索树",
+          "slug": "binary-search-tree",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Binary Tree",
+          "nameTranslated": "二叉树",
+          "slug": "binary-tree",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C",
+          "nameTranslated": "",
+          "slug": "c",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Go",
+          "nameTranslated": "",
+          "slug": "golang",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "JavaScript",
+          "nameTranslated": "",
+          "slug": "javascript",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "展平二叉搜索树",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 4,
+        "id": 1038420,
+        "viewCount": 1025
+      },
+      "uuid": "lGvscG",
+      "videosInfo": []
+    }
+  }
+}

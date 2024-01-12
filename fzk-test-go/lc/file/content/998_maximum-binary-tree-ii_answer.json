@@ -1,0 +1,81 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "辛多雷卡尔",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/hai-na-bai-chuan-11/avatar_1629129520.png",
+          "userSlug": "hai-na-bai-chuan-11"
+        },
+        "username": "hai-na-bai-chuan-11"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n此处撰写解题思路\n\n### 代码\n\n```golang\n/**\n * Definition for a binary tree node.\n * type TreeNode struct {\n *     Val int\n *     Left *TreeNode\n *     Right *TreeNode\n * }\n */\nfunc insertIntoMaxTree(root *TreeNode, val int) *TreeNode {\n    if val>root.Val{\n        root = &TreeNode{\n            Val: val,\n            Left: root,\n        }\n        return root\n    }\n    if root.Right==nil{\n        root.Right =&TreeNode{Val: val}\n    }else{\n        root.Right=insertIntoMaxTree(root.Right,val)\n    }\n    return root\n}\n```",
+      "createdAt": "2021-11-26T16:56:35.822908+00:00",
+      "hitCount": 1,
+      "identifier": "Fy92Lb",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "cliang-ge-fang-fa-jie-jue-di-gui-by-lawr-859y",
+        "title": "C++,两个方法解决，递归"
+      },
+      "position": 26,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "go-0ms-wu-di-gui-by-yuhhen",
+        "title": "Go 0ms 无递归"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "maximum-binary-tree-ii"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "AWESOME"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 0,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "jian-dan-di-gui-by-hai-na-bai-chuan-11-2ewo",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n此处撰写解题思路\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Go",
+          "nameTranslated": "",
+          "slug": "golang",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "简单递归",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1124369,
+        "viewCount": 1
+      },
+      "uuid": "Fy92Lb",
+      "videosInfo": []
+    }
+  }
+}

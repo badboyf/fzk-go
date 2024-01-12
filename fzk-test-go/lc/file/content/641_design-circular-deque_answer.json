@@ -1,0 +1,79 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "微扰理论",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/wfnuser/avatar_1633367766.png",
+          "userSlug": "wfnuser"
+        },
+        "username": "wfnuser"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n数组用于模拟固定容量的循环队列是非常合适的且便捷的。\n针对容量为k的双端队列，我们申请一个容量为k+1的数组。\n用整型front作为数组的下标，指向队列的前端；用整型rear作为数组的下标，指向队列的尾部+1的位置，即下一个插入的位置。\n队列为空时front == rear； 队列为满时，(rear+1)%capacity == front；之所以用k+1作为数组的容量，就是为了防止rear和front相等时即可能满也可能空；不用一个额外的变量进行判断。\n\n往前插入时，front--，并对capacity取模。往后插入时，rear++，并对capacity取模。这样越界的时候就重新回到了数组的另一端；这也是循环队列中循环的意思。\n\n### 代码\n\n```cpp\nclass MyCircularDeque {\npublic:\n    int rear = 0;\n    int front = 0;\n    int capacity = 0;\n\n    vector<int> queue;\n    /** Initialize your data structure here. Set the size of the deque to be k. */\n    MyCircularDeque(int k) {\n        capacity = k+1;\n        queue = vector<int>(k+1, 0);\n    }\n\n    void show() {\n        for (int i = front; i != rear; i++) {\n            i %= capacity;\n            if (i == rear) break;\n            cout << queue[i] << \" \";\n        }\n        cout << endl;\n    }\n    \n    /** Adds an item at the front of Deque. Return true if the operation is successful. */\n    bool insertFront(int value) {\n        if (isFull()) return false;\n        front--;\n        front += capacity;\n        front %= capacity;\n        queue[front] = value;\n        return true;\n    }\n    \n    /** Adds an item at the rear of Deque. Return true if the operation is successful. */\n    bool insertLast(int value) {\n        if (isFull()) return false;\n        queue[rear] = value;\n        rear++;\n        rear %= capacity;\n        return true;\n    }\n    \n    /** Deletes an item from the front of Deque. Return true if the operation is successful. */\n    bool deleteFront() {\n        if (isEmpty()) return false;\n        front++; \n        front %= capacity;\n        return true;\n    }\n    \n    /** Deletes an item from the rear of Deque. Return true if the operation is successful. */\n    bool deleteLast() {\n        if (isEmpty()) return false;\n        rear--;\n        rear += capacity;\n        rear %= capacity;\n        return true;\n    }\n    \n    /** Get the front item from the deque. */\n    int getFront() {\n        if (isEmpty()) return -1;\n        return queue[front];\n    }\n    \n    /** Get the last item from the deque. */\n    int getRear() {\n        if (isEmpty()) return -1;\n        return queue[(rear-1+capacity)%capacity];\n    }\n    \n    /** Checks whether the circular deque is empty or not. */\n    bool isEmpty() {\n        return front == rear;\n    }\n    \n    /** Checks whether the circular deque is full or not. */\n    bool isFull() {\n        return (rear + 1) % capacity == front;\n    }\n};\n\n/**\n * Your MyCircularDeque object will be instantiated and called as such:\n * MyCircularDeque* obj = new MyCircularDeque(k);\n * bool param_1 = obj->insertFront(value);\n * bool param_2 = obj->insertLast(value);\n * bool param_3 = obj->deleteFront();\n * bool param_4 = obj->deleteLast();\n * int param_5 = obj->getFront();\n * int param_6 = obj->getRear();\n * bool param_7 = obj->isEmpty();\n * bool param_8 = obj->isFull();\n */\n```\n\n### 代码2\n双链表实现\n\n```cpp\nclass Node {\npublic:\n    Node* next;\n    Node* prev;\n    int val;\n    Node(int val) {this->val = val;}\n};\n\nclass MyCircularDeque {\npublic:\n    int capacity; // 容量\n    int size = 0; // 当前的大小\n    Node* rear = new Node(-1);\n    Node* front = new Node(-1);\n    /** Initialize your data structure here. Set the size of the deque to be k. */\n    MyCircularDeque(int k) {\n        capacity = k;\n        rear->prev = front;\n        front->next = rear;\n    }\n\n    void show(string tag) {\n        cout << tag << endl;\n        Node* p = front;\n        int s = size + 2;\n        while(s) {\n            cout << p->val << \"->\";\n            p = p->next;\n            s--;\n        }\n        cout << endl;\n\n        p = rear;\n        s = size + 2;\n        while(s) {\n            cout << p->val << \" <-\";\n            p = p->prev;\n            s--;\n        }\n\n        cout << endl << endl;\n    }\n    \n    /** Adds an item at the front of Deque. Return true if the operation is successful. */\n    bool insertFront(int value) {\n        if (isFull()) return false;\n        Node* n = new Node(value);\n        Node* next = front->next;\n        front->next = n;\n        n->next = next;\n        next->prev = n;\n        n->prev = front;\n        size++;\n        return true;\n    }\n    \n    /** Adds an item at the rear of Deque. Return true if the operation is successful. */\n    bool insertLast(int value) {\n        if (isFull()) return false;\n        Node* n = new Node(value);\n        Node* prev = rear->prev;\n        rear->prev = n;\n        n->prev = prev;\n        prev->next = n;\n        n->next = rear;\n        size++;\n        return true;\n    }\n    \n    /** Deletes an item from the front of Deque. Return true if the operation is successful. */\n    bool deleteFront() {\n        if (isEmpty()) return false;\n        Node* next = front->next;\n\n        front->next = front->next->next;\n        front->next->prev = front;\n        size--;\n\n        delete(next);\n        return true;\n    }\n    \n    /** Deletes an item from the rear of Deque. Return true if the operation is successful. */\n    bool deleteLast() {\n        if (isEmpty()) return false;\n        Node* prev = rear->prev;\n\n        rear->prev = rear->prev->prev;\n        rear->prev->next = rear;\n        size--;\n        \n        delete(prev);\n        return true;\n    }\n    \n    /** Get the front item from the deque. */\n    int getFront() {\n        return front->next->val;\n    }\n    \n    /** Get the last item from the deque. */\n    int getRear() {\n        return rear->prev->val;\n    }\n    \n    /** Checks whether the circular deque is empty or not. */\n    bool isEmpty() {\n        return size == 0;\n    }\n    \n    /** Checks whether the circular deque is full or not. */\n    bool isFull() {\n        return size == capacity;\n    }\n};\n\n/**\n * Your MyCircularDeque object will be instantiated and called as such:\n * MyCircularDeque* obj = new MyCircularDeque(k);\n * bool param_1 = obj->insertFront(value);\n * bool param_2 = obj->insertLast(value);\n * bool param_3 = obj->deleteFront();\n * bool param_4 = obj->deleteLast();\n * int param_5 = obj->getFront();\n * int param_6 = obj->getRear();\n * bool param_7 = obj->isEmpty();\n * bool param_8 = obj->isFull();\n */\n```\n\n\n\n### 关于我\n大家好，我是微扰酱。现在是五道口【悖论13】剧本杀的股东之一，点评搜索即可，欢迎大家来探店。\n微扰酱18年毕业于上海交通大学，是一个在阿里、字节、腾讯都工作过的工程师，有丰富的面试经验。从 2021.4 开始在emqx从事存储研发，希望在今年多多输出。\n\n最后，如果对你有帮助，**可以点个赞支持一下我哦** 也欢迎在leetcode上[关注我](https://leetcode-cn.com/u/wfnuser/)。\n\n欢迎留言预定配图！ 今天决定不放动漫图了，分享一下「微扰酱」的部分办公桌面吧～\n![image.png](https://pic.leetcode-cn.com/1637202320-mTVQgc-image.png)\n",
+      "createdAt": "2021-11-21T14:40:56.948715+00:00",
+      "hitCount": 150,
+      "identifier": "XCjGmg",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "gui-gui-ju-ju-mei-sha-ji-qiao-chun-dai-m-vhl1",
+        "title": "规规矩矩，没啥技巧，纯代码"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "design-circular-deque"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": false,
+      "slug": "wei-rao-li-lun-shu-zu-mo-ni-xun-huan-dui-nrpj",
+      "status": "PUBLISHED",
+      "summary": "解题思路\n数组用于模拟固定容量的循环队列是非常合适的且便捷的。\n针对容量为k的双端队列，我们申请一个容量为k+1的数组。\n用整型front作为数组的下标，指向队列的前端；用整型rear作为数组的下标，指向队列的尾部+1的位置，即下一个插入的位置。\n队列为空时front == rear； 队列为满时，(rear+1)%c",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Array",
+          "nameTranslated": "数组",
+          "slug": "array",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1637202320-mTVQgc-image.png",
+      "title": "【微扰理论】「数组」模拟循环队列 ｜ 「双链表」实现",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 2,
+        "id": 1114737,
+        "viewCount": 117
+      },
+      "uuid": "XCjGmg",
+      "videosInfo": []
+    }
+  }
+}

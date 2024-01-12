@@ -1,0 +1,86 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣 (LeetCode)",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/uploaded_files/2021/03/73c9f099-abbe-4d94-853f-f8abffd459cd/leetcode.png",
+          "userSlug": "leetcode"
+        },
+        "username": "LeetCode"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法 1：列表 + 二分搜索\n\n**想法和算法**\n\n我么可以把选票存储在选票列表的列表 `A` 中。每个投票都有一个人和一个时间戳，`A[count]` 是一个列表，记录当前人获得的第 `count` 张选票。\n\n然后，`A[i][0]` 和 `A[i]` 单调增加，所以我们可以利用二分搜索根据时间找到最近的选票。\n\n```Java []\nclass TopVotedCandidate {\n    List<List<Vote>> A;\n    public TopVotedCandidate(int[] persons, int[] times) {\n        A = new ArrayList();\n        Map<Integer, Integer> count = new HashMap();\n        for (int i = 0; i < persons.length; ++i) {\n            int p = persons[i], t = times[i];\n            int c = count.getOrDefault(p, 0) + 1;\n\n            count.put(p, c);\n            while (A.size() <= c)\n                A.add(new ArrayList<Vote>());\n            A.get(c).add(new Vote(p, t));\n        }\n    }\n\n    public int q(int t) {\n        // Binary search on A[i][0].time for smallest i\n        // such that A[i][0].time > t\n        int lo = 1, hi = A.size();\n        while (lo < hi) {\n            int mi = lo + (hi - lo) / 2;\n            if (A.get(mi).get(0).time <= t)\n                lo = mi + 1;\n            else\n                hi = mi;\n        }\n        int i = lo - 1;\n\n        // Binary search on A[i][j].time for smallest j\n        // such that A[i][j].time > t\n        lo = 0; hi = A.get(i).size();\n        while (lo < hi) {\n            int mi = lo + (hi - lo) / 2;\n            if (A.get(i).get(mi).time <= t)\n                lo = mi + 1;\n            else\n                hi = mi;\n        }\n        int j = Math.max(lo-1, 0);\n        return A.get(i).get(j).person;\n    }\n}\n\nclass Vote {\n    int person, time;\n    Vote(int p, int t) {\n        person = p;\n        time = t;\n    }\n}\n```\n\n```Python []\nclass TopVotedCandidate(object):\n\n    def __init__(self, persons, times):\n        self.A = []\n        self.count = collections.Counter()\n        for p, t in zip(persons, times):\n            self.count[p] = c = self.count[p] + 1\n            while len(self.A) <= c: self.A.append([])\n            self.A[c].append((t, p))\n\n    def q(self, t):\n        lo, hi = 1, len(self.A)\n        while lo < hi:\n            mi = (lo + hi) / 2\n            if self.A[mi][0][0] <= t:\n                lo = mi + 1\n            else:\n                hi = mi\n        i = lo - 1\n        j = bisect.bisect(self.A[i], (t, float('inf')))\n        return self.A[i][j-1][1]\n```\n\n**复杂度分析**\n\n* 时间复杂度：$O(N + Q \\log^2 N)$，其中 $N$ 是选票的个数，$Q$ 是询问的个数。\n* 空间复杂度：$O(N)$。\n\n#### 方法 2：预计算结果 + 二分搜索\n\n**想法和算法**\n\n每当选票记录，我们可以记录每个胜者改变的 `(winner, time)` 时刻信息。之后，我们拥有一个有序的时刻信息，并用二分搜索找到答案。\n\n```Java []\nclass TopVotedCandidate {\n    List<Vote> A;\n    public TopVotedCandidate(int[] persons, int[] times) {\n        A = new ArrayList();\n        Map<Integer, Integer> count = new HashMap();\n        int leader = -1;  // current leader\n        int m = 0;  // current number of votes for leader\n\n        for (int i = 0; i < persons.length; ++i) {\n            int p = persons[i], t = times[i];\n            int c = count.getOrDefault(p, 0) + 1;\n            count.put(p, c);\n\n            if (c >= m) {\n                if (p != leader) {  // lead change\n                    leader = p;\n                    A.add(new Vote(leader, t));\n                }\n\n                if (c > m) m = c;\n            }\n        }\n    }\n\n    public int q(int t) {\n        int lo = 1, hi = A.size();\n        while (lo < hi) {\n            int mi = lo + (hi - lo) / 2;\n            if (A.get(mi).time <= t)\n                lo = mi + 1;\n            else\n                hi = mi;\n        }\n\n        return A.get(lo - 1).person;\n    }\n}\n\nclass Vote {\n    int person, time;\n    Vote(int p, int t) {\n        person = p;\n        time = t;\n    }\n}\n```\n\n```Python []\nclass TopVotedCandidate(object):\n    def __init__(self, persons, times):\n        self.A = []\n        count = collections.Counter()\n        leader, m = None, 0  # leader, num votes for leader\n\n        for p, t in itertools.izip(persons, times):\n            count[p] += 1\n            c = count[p]\n            if c >= m:\n                if p != leader:  # lead change\n                    leader = p\n                    self.A.append((t, leader))\n\n                if c > m:\n                    m = c\n\n    def q(self, t):\n        i = bisect.bisect(self.A, (t, float('inf')), 1)\n        return self.A[i-1][1]\n```\n\n**复杂度分析**\n\n* 时间复杂度：$O(N + Q\\log{N})$，其中 $N$ 是选票个数，$Q$ 是询问个数。\n* 空间复杂度：$O(N)$。",
+      "createdAt": "2019-08-17T15:37:42.616472+00:00",
+      "hitCount": 5121,
+      "identifier": "Gada0y",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "911-zai-xian-xuan-ju-er-fen-ha-xi-javada-wdgo",
+        "title": "【911. 在线选举】【二分】【哈希】Java带注释简单实现"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "online-election"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 3,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "zai-xian-xuan-ju-by-leetcode",
+      "status": "PUBLISHED",
+      "summary": "§ 方法 1：列表 + 二分搜索\n想法和算法\n我么可以把选票存储在选票列表的列表 A 中。每个投票都有一个人和一个时间戳，A[count] 是一个列表，记录当前人获得的第 count 张选票。\n然后，A[i][0] 和 A[i] 单调增加，所以我们可以利用二分搜索根据时间找到最近的选票。\n复杂度分析\n\n时间复杂度：O(",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Binary Search",
+          "nameTranslated": "二分查找",
+          "slug": "binary-search",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "在线选举",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 13,
+        "id": 21238,
+        "viewCount": 3768
+      },
+      "uuid": "Gada0y",
+      "videosInfo": []
+    }
+  }
+}

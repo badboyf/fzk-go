@@ -1,0 +1,72 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "草莓奶昔",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/cao-mei-nai-xi-i/avatar_1626248666.png",
+          "userSlug": "cao-mei-nai-xi-i"
+        },
+        "username": "cao-mei-nai-xi-i"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "\n\n### 代码\n\n```python3\nfrom typing import List\nfrom functools import lru_cache\nfrom bisect import bisect_right\n\n\nclass Solution:\n    def maxValue(self, events: List[List[int]], k: int) -> int:\n        # 考虑index之后的会议，选k个的最大value\n        @lru_cache(None)\n        def dp(index: int, k: int) -> int:\n            if k == 0 or index >= len(events):\n                return 0\n            next = bisect_right(starts, events[index][1])\n            # 参加或不参加\n            # 如果当前参加了 下一个的start就必须严格大于当前的end 所以使用bisectRight寻找\n            return max(events[index][2] + dp(next, k - 1), dp(index + 1, k))\n\n        events.sort()\n        starts = [e[0] for e in events]\n\n        return dp(0, k)\n\n```",
+      "createdAt": "2021-11-13T06:32:41.082847+00:00",
+      "hitCount": 33,
+      "identifier": "v1ray5",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "c-pai-xu-bei-bao-dong-tai-gui-hua-zhuan-pg2cc",
+        "title": "【C++】排序+背包动态规划转移"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "maximum-number-of-events-that-can-be-attended-ii"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "ji-yi-hua-di-gui-by-cao-mei-nai-xi-i-gkli",
+      "status": "PREPUBLISH",
+      "summary": "代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "记忆化递归",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1099209,
+        "viewCount": 29
+      },
+      "uuid": "v1ray5",
+      "videosInfo": []
+    }
+  }
+}

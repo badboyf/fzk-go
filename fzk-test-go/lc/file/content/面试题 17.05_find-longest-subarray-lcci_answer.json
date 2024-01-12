@@ -1,0 +1,72 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "Makise Kurisu",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/sincejuly-t2/avatar_1635384163.png",
+          "userSlug": "sincejuly-t2"
+        },
+        "username": "sincejuly-t2"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n此处撰写解题思路\n\n### 代码\n\n```cpp\nclass Solution {\npublic:\n    vector<string> findLongestSubarray(vector<string>& array) {\n        int n = array.size();\n        vector<int> arr;\n        int start = 0x3f3f3f3f;\n        int end = -1;\n        int len = 0;\n        unordered_map<int,int> map;\n        map[0] = 0;\n        for(int i=0;i<n;i++){\n            char c = array[i][0];\n            if(isalpha(c)){\n                arr.push_back(1);\n            }\n            else {\n                arr.push_back(-1);\n            }\n        }\n        vector<int> pre(n+1);\n        for(int i=1;i<=n;i++){\n            pre[i] = pre[i-1]+arr[i-1];\n            if(map.find(pre[i])!=map.end()){\n                if(i-map[pre[i]]>len||i-map[pre[i]]==len&&start>map[pre[i]]){\n                    len = i-map[pre[i]];\n                    start = map[pre[i]];\n                    end = i;\n                }  \n            }else  {\n            map[pre[i]] = i;\n                }\n        }\n        if(len==0) return {};\n            return {array.begin()+start,array.begin()+end};\n        \n\n\n\n\n\n\n\n\n    }\n};\n```",
+      "createdAt": "2021-10-04T10:26:04.174287+00:00",
+      "hitCount": 385,
+      "identifier": "g9bY2k",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "shu-zi-1-zi-mu-1-by-gfu",
+        "title": "数字 -> -1, 字母 -> 1 (12 ms)"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "find-longest-subarray-lcci"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "qian-zhui-he-ha-xi-zi-mu-bian-cheng-1shu-s9s6",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n此处撰写解题思路\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "前缀和+哈希，，，，字母变成1，数字变成-1，找前缀和为0的。",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1030904,
+        "viewCount": 273
+      },
+      "uuid": "g9bY2k",
+      "videosInfo": []
+    }
+  }
+}

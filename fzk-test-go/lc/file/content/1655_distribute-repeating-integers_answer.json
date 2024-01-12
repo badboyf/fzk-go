@@ -1,0 +1,97 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "追风少年",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/yim-6/avatar_1603780175.png",
+          "userSlug": "yim-6"
+        },
+        "username": "yim-6"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n1. 参数定义\n    - `cnt`：`nums`每个数的频数，例如`nums=[1,2,3,3]`对应`cnt=[1,1,2]`\n    - `dp`：`dp[i][j]`表示`cnt`中前`i`个数是否满足`j`的条件\n    - `sub`：`j`的子集\n2. 思路\n    - 由于`nums`中不同数字范围可能达到`50`，对`nums`中数字进行状态压缩会超时，而`quantity`的范围不超过`10`，所以可对其进行状态压缩\n    - 首先对`nums`计算不同数字的频次，存入数组`cnt`中\n    - 通过枚举状态，计算`quantity`中每种状态对应的数字之和\n    - 依次遍历`cnt`中每个数，判断`quantity`中每种状态`j`是否满足条件\n    - 举例说明：`cnt=[3,5]`,`quantity=[2,3]`,当`cnt`遍历到`i=1`（由于含有空字符，所以`i`从`1`开始）时，`j`状态有`[0,1,2,3]`,如`j=2`，对应二进制`10`，即选择`quantity`中的`2`，由于`3>2`，满足条件，所以`dp[1][2]=True`\n3. 复杂度分析\n    - 时间复杂度：O($n*3^m$)\n    - 空间复杂度：O($n*2^m$)\n\n### 代码\n\n```python3\nclass Solution:\n    def canDistribute(self, nums: List[int], quantity: List[int]) -> bool:\n        # 统计nums中每个数字的频次\n        cnt=list(Counter(nums).values())\n        n=len(cnt)\n        m=len(quantity)\n        dp=[[False]*(1<<m) for _ in range(n+1)]\n        # 初始化\n        for i in range(n+1):\n            dp[i][0]=True\n        # 计算quantity中选择不同数字的和\n        cost=[0]*(1<<m)\n        for i in range(1<<m):\n            s=0\n            for j in range(m):\n                if i>>j&1:\n                    s+=quantity[j]\n            cost[i]=s\n        # 遍历cnt，判断是否满足quantity中数字组合\n        for i,c in enumerate(cnt,start=1):\n            dp[i]=dp[i-1].copy()\n            for j in range(1<<m):\n                sub=j\n                while sub:\n                    if c>=cost[sub] and dp[i-1][j^sub]:\n                        dp[i][j]=True\n                        break\n                    sub=(sub-1)&j\n        \n        return dp[-1][-1]\n\n```",
+      "createdAt": "2021-10-14T12:41:33.612352+00:00",
+      "hitCount": 137,
+      "identifier": "KMQYDR",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "go-zi-ji-zhuang-ya-dp-by-endlesscheng-h8z0",
+        "title": "Go 子集状压 DP"
+      },
+      "position": 2,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "zi-ji-mei-ju-jing-dian-tao-lu-zhuang-ya-dp-by-arse",
+        "title": "【子集枚举】经典套路状压 DP"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "distribute-repeating-integers"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": true,
+      "slug": "python3-zhuang-tai-ya-suo-dp-by-yim-6-hlcb",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n\n参数定义\n\ncnt：nums每个数的频数，例如nums=[1,2,3,3]对应cnt=[1,1,2]\ndp：dp[i][j]表示cnt中前i个数是否满足j的条件\nsub：j的子集\n\n\n思路\n\n由于nums中不同数字范围可能达到50，对nums中数字进行状态压缩会超时，而quantity的范围不超过10，所以",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Dynamic Programming",
+          "nameTranslated": "动态规划",
+          "slug": "dynamic-programming",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Bitmask",
+          "nameTranslated": "状态压缩",
+          "slug": "bitmask",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python3",
+          "nameTranslated": "",
+          "slug": "python3",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "Python3 状态压缩dp",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 2,
+        "id": 1047547,
+        "viewCount": 89
+      },
+      "uuid": "KMQYDR",
+      "videosInfo": []
+    }
+  }
+}

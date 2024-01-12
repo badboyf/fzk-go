@@ -1,0 +1,100 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "Krahets",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/jyd/avatar_1589712294.png",
+          "userSlug": "jyd"
+        },
+        "username": "jyd"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "## 解题思路\n\n根据字符串长度，「回文串」可分为两种情况：\n\n- 「回文串」长度为偶数：所有不同字符的出现次数都为「偶数」；\n- 「回文串」长度为奇数：位于中点的字符出现「奇数」次，其余字符出现「偶数」次；\n\n因此，某字符串是回文串排列之一的「充要条件」为：此字符串中，**最多只有一种字符**的出现次数为「奇数」，**其余所有字符**的出现次数都为「偶数」。\n\n![ccw-01-04.001.png](https://pic.leetcode-cn.com/1638093879-zybntU-ccw-01-04.001.png)\n\n考虑使用「哈希表」统计给定字符串中各字符的数量，再根据以上规则判断字符串是否为回文串排列之一。\n\n## 复杂度分析\n\n**时间复杂度 $O(N)$ ：** 其中 $N$ 为字符串长度；哈希表统计字符数量迭代 $N$ 次，判断是否为回文串最多迭代 $N$ 次，总体使用 $O(N + N) = O(N)$ 时间；\n**空间复杂度 $O(N)$ ：** 哈希表 $dic$ 使用 $O(N)$ 大小的额外空间；\n\n## 示例图解\n\n如下图所示，为判断示例字符串 `\"tactcoa\"` 是否为回文串排列之一的算法执行流程。\n\n<![ccw-01-04.002.png](https://pic.leetcode-cn.com/1638093879-jmGERH-ccw-01-04.002.png),![ccw-01-04.003.png](https://pic.leetcode-cn.com/1638093879-vfzwMD-ccw-01-04.003.png),![ccw-01-04.004.png](https://pic.leetcode-cn.com/1638093879-zlmcJn-ccw-01-04.004.png),![ccw-01-04.005.png](https://pic.leetcode-cn.com/1638093879-KjJESy-ccw-01-04.005.png),![ccw-01-04.006.png](https://pic.leetcode-cn.com/1638093879-nXWOpb-ccw-01-04.006.png),![ccw-01-04.007.png](https://pic.leetcode-cn.com/1638093879-UEEPRo-ccw-01-04.007.png),![ccw-01-04.008.png](https://pic.leetcode-cn.com/1638093879-BBrqAB-ccw-01-04.008.png),![ccw-01-04.009.png](https://pic.leetcode-cn.com/1638093879-LOcrcx-ccw-01-04.009.png),![ccw-01-04.010.png](https://pic.leetcode-cn.com/1638093879-EuygvA-ccw-01-04.010.png),![ccw-01-04.011.png](https://pic.leetcode-cn.com/1638093879-CVFaSD-ccw-01-04.011.png),![ccw-01-04.012.png](https://pic.leetcode-cn.com/1638093879-gUSOho-ccw-01-04.012.png),![ccw-01-04.013.png](https://pic.leetcode-cn.com/1638093879-zpFdgS-ccw-01-04.013.png),![ccw-01-04.014.png](https://pic.leetcode-cn.com/1638093879-ZJfyZV-ccw-01-04.014.png),![ccw-01-04.015.png](https://pic.leetcode-cn.com/1638093879-vJEszu-ccw-01-04.015.png)>\n\n## 代码\n\nPython 代码使用 `collections.defaultdict()` 类，可指定所有 `key` 对应的默认 `value` 。\n\n```Python []\nclass Solution:\n    def canPermutePalindrome(self, s: str) -> bool:\n        dic = defaultdict(int)\n        for c in s:\n            dic[c] += 1\n        odd = 0\n        for val in dic.values():\n            if val % 2 == 1:\n                odd += 1\n                if odd > 1:\n                    return False\n        return True\n```\n\n```Java []\nclass Solution {\n    public boolean canPermutePalindrome(String s) {\n        HashMap<Character, Integer> dic = new HashMap<>();\n        for (int i = 0; i < s.length(); i++) {\n            dic.put(s.charAt(i), dic.getOrDefault(s.charAt(i), 0) + 1);\n        }\n        int odd = 0;\n        for (int val : dic.values()) {\n            if (val % 2 == 1) {\n                if (++odd > 1)\n                    return false;\n            }\n        }\n        return true;\n    }\n}\n```\n\n```C++ []\nclass Solution {\npublic:\n    bool canPermutePalindrome(string s) {\n        unordered_map<char, int> dic;\n        for (char c : s) {\n            dic[c] += 1;\n        }\n        int odd = 0;\n        for (auto kv : dic) {\n            if (kv.second % 2 == 1) {\n                if (++odd > 1)\n                    return false;\n            }\n        }\n        return true;\n    }\n};\n```\n\n#### 注释版代码\n\n```Python []\nclass Solution:\n    def canPermutePalindrome(self, s: str) -> bool:\n        # 初始化哈希表\n        dic = defaultdict(int)\n        # 统计字符串中各字符的数量\n        for c in s:\n            dic[c] += 1\n        odd = 0\n        for val in dic.values():\n            # 统计“数量为奇数”字符的个数\n            if val % 2 == 1:\n                odd += 1\n                # 若“数量为奇数”的字符个数 > 1 ，则不是回文串排列\n                if odd > 1:\n                    return False\n        # 若“数量为奇数”的字符个数 <= 1 ，则是回文串排列\n        return True\n```\n\n```Java []\nclass Solution {\n    public boolean canPermutePalindrome(String s) {\n        // 初始化哈希表\n        HashMap<Character, Integer> dic = new HashMap<>();\n        // 统计字符串中各字符的数量\n        for (int i = 0; i < s.length(); i++) {\n            dic.put(s.charAt(i), dic.getOrDefault(s.charAt(i), 0) + 1);\n        }\n        int odd = 0;\n        for (int val : dic.values()) {\n            // 统计“数量为奇数”字符的个数\n            if (val % 2 == 1) {\n                // 若“数量为奇数”的字符个数 > 1 ，则不是回文串排列\n                if (++odd > 1) // 注意 ++odd > 1 是先执行 odd 自增，再执行逻辑判断； odd++ 的顺序反之\n                    return false;\n            }\n        }\n        // 若“数量为奇数”的字符个数 <= 1 ，则是回文串排列\n        return true;\n    }\n}\n```\n\n```C++ []\nclass Solution {\npublic:\n    bool canPermutePalindrome(string s) {\n        // 初始化哈希表\n        unordered_map<char, int> dic;\n        // 统计字符串中各字符的数量\n        for (char c : s) {\n            dic[c] += 1;\n        }\n        int odd = 0;\n        for (auto kv : dic) {\n            // 统计“数量为奇数”字符的个数\n            if (kv.second % 2 == 1) {\n                // 若“数量为奇数”的字符个数 > 1 ，则不是回文串排列\n                if (++odd > 1) // 注意 ++odd > 1 是先执行 odd 自增，再执行逻辑判断； odd++ 的顺序反之\n                    return false;\n            }\n        }\n        // 若“数量为奇数”的字符个数 <= 1 ，则是回文串排列\n        return true;\n    }\n};\n```\n",
+      "createdAt": "2021-11-28T10:10:32.173732+00:00",
+      "hitCount": 21,
+      "identifier": "jhyByG",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "er-jin-zhi-biao-ji-by-wushaobei-md6l",
+        "title": "二进制标记"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "palindrome-permutation-lcci"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "mian-shi-ti-0104-hui-wen-pai-lie-ha-xi-b-yiks",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n根据字符串长度，「回文串」可分为两种情况：\n\n「回文串」长度为偶数：所有不同字符的出现次数都为「偶数」；\n「回文串」长度为奇数：位于中点的字符出现「奇数」次，其余字符出现「偶数」次；\n\n因此，某字符串是回文串排列之一的「充要条件」为：此字符串中，最多只有一种字符的出现次数为「奇数」，其余所有字符的出现次数都为",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Hash Table",
+          "nameTranslated": "哈希表",
+          "slug": "hash-table",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "String",
+          "nameTranslated": "字符串",
+          "slug": "string",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python3",
+          "nameTranslated": "",
+          "slug": "python3",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1638093879-zybntU-ccw-01-04.001.png",
+      "title": "面试题 01.04. 回文排列（哈希表，清晰图解）",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1127110,
+        "viewCount": 16
+      },
+      "uuid": "jhyByG",
+      "videosInfo": []
+    }
+  }
+}

@@ -1,0 +1,86 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "屡世者",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/lu-shi-zhe/avatar_1603028550.png",
+          "userSlug": "lu-shi-zhe"
+        },
+        "username": "lu-shi-zhe"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "解法一：就是一步步往后迭代，创建一个新的节点；把另外两个lists叠加上去；\r\n```\r\nclass Solution {\r\npublic:\r\n    ListNode* mergeInBetween(ListNode* list1, int a, int b, ListNode* list2) {\r\n        ListNode *dummy = new ListNode(0);\r\n\r\n        ListNode *p = dummy;\r\n        ListNode *p1 = list1;\r\n        ListNode *p2 = list2;        \r\n        // 先把 位置a之前的拼接到dummy上\r\n        int i=0;\r\n        for (; i<a; i++){\r\n            p->next = p1;\r\n            p = p->next;\r\n            p1 = p1->next;\r\n        }\r\n        // 这里是将整个 list2 全部拼接上去的阿\r\n        p->next = p2;\r\n        // 然后将p遍历到最后一个节点，去接上p1；\r\n        while (p->next != nullptr){\r\n            p = p->next;\r\n        }\r\n        // 现在来接上\r\n        for (; i<b+1; i++){\r\n            p1 = p1->next;\r\n        }\r\n        p->next = p1;\r\n        return dummy->next;\r\n    }\r\n};\r\n```\r\n解法二：先不改变指针的指向，先确定需要修改的指针的位置，然后一次性改完，时间与上面差不多\r\n```\r\nclass Solution {\r\npublic:\r\n    ListNode* mergeInBetween(ListNode* list1, int a, int b, ListNode* list2) {\r\n        // 另外的方法就是找到链表的关键位置的指针，然后将指针的指向进行挪动从而找到最优的\r\n\r\n        ListNode *p = list1;\r\n        int i=0;\r\n        for (; i<a-1; ++i){\r\n            p = p->next;\r\n        }\r\n        ListNode *node_a = p;  // a节点\r\n\r\n        for (; i<b; ++i){\r\n            p = p->next;\r\n        } \r\n        ListNode *node_b = p;   // b节点\r\n\r\n        ListNode *p1 = list2;\r\n        while(p1->next != nullptr){\r\n            p1 = p1->next;\r\n        }\r\n        ListNode *tail = p1;   // 尾节点\r\n\r\n        // 以上没有对list1做任何修改，现在开始做修改\r\n        node_a->next = list2;\r\n        tail->next = node_b->next;\r\n        return list1;\r\n    }\r\n};\r\n```",
+      "createdAt": "2021-11-25T02:51:23.513203+00:00",
+      "hitCount": 20,
+      "identifier": "TAoajk",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "mo-ni-lian-biao-ji-ke-by-key-wu-b0d0",
+        "title": "模拟链表即可"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "merge-in-between-linked-lists"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "he-bing-liang-ge-lian-biao-by-lu-shi-zhe-etcq",
+      "status": "PUBLISHED",
+      "summary": "解法一：就是一步步往后迭代，创建一个新的节点；把另外两个lists叠加上去；\n解法二：先不改变指针的指向，先确定需要修改的指针的位置，然后一次性改完，时间与上面差不多",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Linked List",
+          "nameTranslated": "链表",
+          "slug": "linked-list",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "哨兵",
+          "nameTranslated": "",
+          "slug": "shao-bing",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "",
+      "title": "合并两个链表",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1121107,
+        "viewCount": 16
+      },
+      "uuid": "TAoajk",
+      "videosInfo": []
+    }
+  }
+}

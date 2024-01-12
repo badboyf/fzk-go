@@ -1,0 +1,129 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣官方题解",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/leetcode-solution/avatar_1582018938.png",
+          "userSlug": "leetcode-solution"
+        },
+        "username": "LeetCode-Solution"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法一：闭合为环\n\n**思路及算法**\n\n记给定链表的长度为 $n$，注意到当向右移动的次数 $k \\geq n$ 时，我们仅需要向右移动 $k \\bmod n$ 次即可。因为每 $n$ 次移动都会让链表变为原状。这样我们可以知道，新链表的最后一个节点为原链表的第 $(n - 1) - (k \\bmod n)$ 个节点（从 $0$ 开始计数）。\n\n这样，我们可以先将给定的链表连接成环，然后将指定位置断开。\n\n具体代码中，我们首先计算出链表的长度 $n$，并找到该链表的末尾节点，将其与头节点相连。这样就得到了闭合为环的链表。然后我们找到新链表的最后一个节点（即原链表的第 $(n - 1) - (k \\bmod n)$ 个节点），将当前闭合为环的链表断开，即可得到我们所需要的结果。\n\n特别地，当链表长度不大于 $1$，或者 $k$ 为 $n$ 的倍数时，新链表将与原链表相同，我们无需进行任何处理。\n\n**代码**\n\n```C++ [sol1-C++]\nclass Solution {\npublic:\n    ListNode* rotateRight(ListNode* head, int k) {\n        if (k == 0 || head == nullptr || head->next == nullptr) {\n            return head;\n        }\n        int n = 1;\n        ListNode* iter = head;\n        while (iter->next != nullptr) {\n            iter = iter->next;\n            n++;\n        }\n        int add = n - k % n;\n        if (add == n) {\n            return head;\n        }\n        iter->next = head;\n        while (add--) {\n            iter = iter->next;\n        }\n        ListNode* ret = iter->next;\n        iter->next = nullptr;\n        return ret;\n    }\n};\n```\n\n```Java [sol1-Java]\nclass Solution {\n    public ListNode rotateRight(ListNode head, int k) {\n        if (k == 0 || head == null || head.next == null) {\n            return head;\n        }\n        int n = 1;\n        ListNode iter = head;\n        while (iter.next != null) {\n            iter = iter.next;\n            n++;\n        }\n        int add = n - k % n;\n        if (add == n) {\n            return head;\n        }\n        iter.next = head;\n        while (add-- > 0) {\n            iter = iter.next;\n        }\n        ListNode ret = iter.next;\n        iter.next = null;\n        return ret;\n    }\n}\n```\n\n```Python [sol1-Python3]\nclass Solution:\n    def rotateRight(self, head: ListNode, k: int) -> ListNode:\n        if k == 0 or not head or not head.next:\n            return head\n        \n        n = 1\n        cur = head\n        while cur.next:\n            cur = cur.next\n            n += 1\n        \n        if (add := n - k % n) == n:\n            return head\n        \n        cur.next = head\n        while add:\n            cur = cur.next\n            add -= 1\n        \n        ret = cur.next\n        cur.next = None\n        return ret\n```\n\n```JavaScript [sol1-JavaScript]\nvar rotateRight = function(head, k) {\n    if (k === 0 || !head || !head.next) {\n        return head;\n    }\n    let n = 1;\n    let cur = head;\n    while (cur.next) {\n        cur = cur.next;\n        n++;\n    }\n\n    let add = n - k % n;\n    if (add === n) {\n        return head;\n    }\n\n    cur.next = head;\n    while (add) {\n        cur = cur.next;\n        add--;\n    }\n\n    const ret = cur.next;\n    cur.next = null;\n    return ret;\n};\n```\n\n```go [sol1-Golang]\nfunc rotateRight(head *ListNode, k int) *ListNode {\n    if k == 0 || head == nil || head.Next == nil {\n        return head\n    }\n    n := 1\n    iter := head\n    for iter.Next != nil {\n        iter = iter.Next\n        n++\n    }\n    add := n - k%n\n    if add == n {\n        return head\n    }\n    iter.Next = head\n    for add > 0 {\n        iter = iter.Next\n        add--\n    }\n    ret := iter.Next\n    iter.Next = nil\n    return ret\n}\n```\n\n```C [sol1-C]\nstruct ListNode* rotateRight(struct ListNode* head, int k) {\n    if (k == 0 || head == NULL || head->next == NULL) {\n        return head;\n    }\n    int n = 1;\n    struct ListNode* iter = head;\n    while (iter->next != NULL) {\n        iter = iter->next;\n        n++;\n    }\n    int add = n - k % n;\n    if (add == n) {\n        return head;\n    }\n    iter->next = head;\n    while (add--) {\n        iter = iter->next;\n    }\n    struct ListNode* ret = iter->next;\n    iter->next = NULL;\n    return ret;\n}\n```\n\n**复杂度分析**\n\n- 时间复杂度：$O(n)$，最坏情况下，我们需要遍历该链表两次。\n\n- 空间复杂度：$O(1)$，我们只需要常数的空间存储若干变量。",
+      "createdAt": "2021-03-26T11:03:31.030819+00:00",
+      "hitCount": 61070,
+      "identifier": "V13wz3",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "xuan-zhuan-lian-biao-tu-jie-lian-biao-zu-ku33",
+        "title": "旋转链表 | 图解链表 | 最清晰易懂的题解 【c++/java版本】"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "rotate-list"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 76,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 3,
+          "reactionType": "CONFUSED"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 3,
+          "reactionType": "THUMBS_DOWN"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "xuan-zhuan-lian-biao-by-leetcode-solutio-woq1",
+      "status": "PREPUBLISH",
+      "summary": "方法一：闭合为环 思路及算法 记给定链表的长度为 $n$，注意到当向右移动的次数 $k \\geq n$ 时，我们仅需要向右移动 $k \\bmod n$ 次即可。因为每 $n$ 次移动都会让链表变为原状。这样我们可以知道，新链表的最后一个节点为原链表的第 $(n - 1) - (k \\bmod n)$ 个节点（从 $0$",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Linked List",
+          "nameTranslated": "链表",
+          "slug": "linked-list",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C",
+          "nameTranslated": "",
+          "slug": "c",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Go",
+          "nameTranslated": "",
+          "slug": "golang",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "JavaScript",
+          "nameTranslated": "",
+          "slug": "javascript",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "旋转链表",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 157,
+        "id": 681812,
+        "viewCount": 42939
+      },
+      "uuid": "V13wz3",
+      "videosInfo": []
+    }
+  }
+}

@@ -1,0 +1,86 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "Doudle",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/ddoudle/avatar_1616717261.png",
+          "userSlug": "ddoudle"
+        },
+        "username": "ddoudle"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "双向链表的节点存有：tokenId，过期时间 信息\r\n双向链表是按照过期时间有序排列的\r\n哈希表存【tokenId，节点】对\r\n该方法只有在 “所有函数调用中，currentTime 的值 严格递增 。” 这个限制条件下正确\r\n```\r\nclass Node:\r\n    def __init__(self, val=0, key=None, prev=None, nxt=None):\r\n        self.expire = val\r\n        self.key = key\r\n        self.prev = prev\r\n        self.next = nxt\r\n\r\nclass AuthenticationManager:\r\n\r\n    def __init__(self, timeToLive: int):\r\n        self.ttl = timeToLive\r\n        self.head = Node(-1)\r\n        self.tail = Node(-1)\r\n        self.head.next = self.tail\r\n        self.tail.prev = self.head\r\n        self.map = {}\r\n    \r\n    # 新建一个节点，塞到链表最后面，添加到哈希表里\r\n    def generate(self, tokenId: str, currentTime: int) -> None:\r\n        node = Node(currentTime + self.ttl, tokenId)\r\n        self.map[tokenId] = node\r\n\r\n        #塞到最后\r\n        last = self.tail.prev\r\n        last.next = node\r\n        node.prev = last\r\n        self.tail.prev = node\r\n        node.next = self.tail\r\n\r\n    # 如果这个节点存在且没有过期，那么把这个节点找出来，更新过期时间，塞到最后\r\n    def renew(self, tokenId: str, currentTime: int) -> None:\r\n        if tokenId in self.map and self.map[tokenId].expire > currentTime:\r\n\r\n            #从原来的地方取出来\r\n            node = self.map[tokenId]\r\n            prev = node.prev\r\n            nxt = node.next\r\n            prev.next = nxt\r\n            nxt.prev = prev\r\n            #更新过期时间\r\n            node.expire = currentTime + self.ttl\r\n            #塞到最后\r\n            last = self.tail.prev\r\n            last.next = node\r\n            node.prev = last\r\n            self.tail.prev = node\r\n            node.next = self.tail           \r\n        \r\n    # 在双向链表里把所有过期的节点删了，在哈希表里也删掉，返回长度\r\n    def countUnexpiredTokens(self, currentTime: int) -> int:\r\n        while self.head.next.expire != -1 and self.head.next.expire <= currentTime:\r\n            node = self.head.next\r\n            self.map.pop(node.key)\r\n            self.head.next = node.next\r\n            node.next.prev = self.head\r\n        return len(self.map)\r\n```\r\n\r\n一个暴力的解法：\r\n```\r\nclass AuthenticationManager:\r\n\r\n    def __init__(self, timeToLive: int):\r\n        self.ttl = timeToLive\r\n        self.map = {}\r\n\r\n    def generate(self, tokenId: str, currentTime: int) -> None:\r\n        self.map[tokenId] = currentTime + self.ttl\r\n\r\n    def renew(self, tokenId: str, currentTime: int) -> None:\r\n        if tokenId in self.map and self.map[tokenId] > currentTime:\r\n            self.map[tokenId] = self.ttl + currentTime\r\n        \r\n\r\n    def countUnexpiredTokens(self, currentTime: int) -> int:\r\n        return len([a for a in self.map if self.map[a] > currentTime])\r\n\r\n\r\n# Your AuthenticationManager object will be instantiated and called as such:\r\n# obj = AuthenticationManager(timeToLive)\r\n# obj.generate(tokenId,currentTime)\r\n# obj.renew(tokenId,currentTime)\r\n# param_3 = obj.countUnexpiredTokens(currentTime)\r\n```\r\n\r\n",
+      "createdAt": "2021-03-20T17:03:05.660609+00:00",
+      "hitCount": 1141,
+      "identifier": "IxkWYq",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "she-ji-yi-ge-yan-zheng-xi-tong-by-caoyq0-7xyv",
+        "title": "设计一个验证系统"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "design-authentication-manager"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 7,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "jun-tan-o1-shuang-xiang-lian-biao-ha-xi-c4igt",
+      "status": "PREPUBLISH",
+      "summary": "双向链表的节点存有：tokenId，过期时间 信息\n双向链表是按照过期时间有序排列的\n哈希表存【tokenId，节点】对\n该方法只有在 “所有函数调用中，currentTime 的值 严格递增 。” 这个限制条件下正确\n一个暴力的解法：",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Hash Table",
+          "nameTranslated": "哈希表",
+          "slug": "hash-table",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "LRU",
+          "nameTranslated": "",
+          "slug": "lru",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "",
+      "title": "均摊O(1) 双向链表+哈希表，利用lru的思路",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 5,
+        "id": 670047,
+        "viewCount": 1006
+      },
+      "uuid": "IxkWYq",
+      "videosInfo": []
+    }
+  }
+}

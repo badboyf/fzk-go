@@ -1,0 +1,98 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "灵茶山艾府",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/endlesscheng/avatar_1589367048.png",
+          "userSlug": "endlesscheng"
+        },
+        "username": "endlesscheng"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "由于删除操作需要两边都有相同颜色，所以对于每一串连续相同的颜色，最边上的两个颜色是不会被删除的。\r\n\r\n因此删除一种颜色不会对另一种颜色产生任何影响，我们只需要统计每一串连续相同颜色的长度 $l$，若 $l>2$，则可以删除 $l-2$ 个颜色。将该值按颜色分别累加，记 $\\texttt{A}$ 的累加值为 $a$，$\\texttt{B}$ 的累加值为 $b$。\r\n\r\nAlice 要想获胜，其操作次数必须比 Bob 多，否则 Bob 获胜，因此若 $a>b$ 则返回 $\\texttt{true}$，否则返回 $\\texttt{false}$。\r\n\r\n```go\r\nfunc winnerOfGame(colors string) bool {\r\n\tcnt := [2]int{}\r\n\tfor i, n := 0, len(colors); i < n; {\r\n\t\ti0 := i\r\n\t\tc := colors[i0]\r\n\t\tfor i < n && colors[i] == c {\r\n\t\t\ti++ // 注意这里 i 就是外层循环的 i，所以复杂度是 O(n) 的\r\n\t\t}\r\n\t\tif l := i - i0; l > 2 {\r\n\t\t\tcnt[c-'A'] += l - 2\r\n\t\t}\r\n\t}\r\n\treturn cnt[0] > cnt[1]\r\n}\r\n```",
+      "createdAt": "2021-10-16T16:09:26.627802+00:00",
+      "hitCount": 620,
+      "identifier": "oTCIH3",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "tong-ji-cao-zuo-shu-javascript-by-lzxjac-rwc5",
+        "title": "【统计操作数】JavaScript"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "remove-colored-pieces-if-both-neighbors-are-the-same-color"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 5,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "tong-ji-lian-xu-xiang-tong-yan-se-de-cha-zynp",
+      "status": "PREPUBLISH",
+      "summary": "由于删除操作需要两边都有相同颜色，所以对于每一串连续相同的颜色，最边上的两个颜色是不会被删除的。\n因此删除一种颜色不会对另一种颜色产生任何影响，我们只需要统计每一串连续相同颜色的长度 l，若 l>2，则可以删除 l-2 个颜色。将该值按颜色分别累加，记 \\texttt{A} 的累加值为 a，\\texttt{B} 的累加",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Brainteaser",
+          "nameTranslated": "脑筋急转弯",
+          "slug": "brainteaser",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "String",
+          "nameTranslated": "字符串",
+          "slug": "string",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Game Theory",
+          "nameTranslated": "博弈",
+          "slug": "game-theory",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Go",
+          "nameTranslated": "",
+          "slug": "golang",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "统计连续相同颜色的长度",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 5,
+        "id": 1050943,
+        "viewCount": 503
+      },
+      "uuid": "oTCIH3",
+      "videosInfo": []
+    }
+  }
+}

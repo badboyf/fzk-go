@@ -1,0 +1,79 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "稳健",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/zhi-xing-qie-wen-jian-69/avatar_1612197356.png",
+          "userSlug": "wen-jian-69"
+        },
+        "username": "wen-jian-69"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "- 定义`dp[i][j]`为区间`[i, j]`的三角剖分最低得分, 因此题目所求即为`dp[0][n - 1]`\r\n- 状态转移：`dp[i][j] = Math.min(dp[i][j], dp[i][k] + val[i] * val[k] * val[j] + dp[k][j])`，有`i < k < j`，表示先固定区间一个三角形`（i,k,j)`，由其他两部分区间`[i, k]`和`[k, j]`转移而来\r\n- 初始化所有区间长度小于3的dp值为0，表示无法形成三角形，即得分为0\r\n```java\r\nclass Solution {\r\n    public int minScoreTriangulation(int[] values) {\r\n        int n = values.length;\r\n        int[][] dp = new int[n][n];\r\n        for (int i = 0; i < n; i++) Arrays.fill(dp[i], 0xffffff);\r\n        for (int len = 1; len <= n; len++) { //枚举区间长度\r\n            for (int le = 0; le + (len - 1) < n; le++) { //枚举区间左端点\r\n                int ri = le + (len - 1); //计算区间右端点\r\n                if (len == 1 || len == 2) { //区间长度为1或2特值为0\r\n                    dp[le][ri] = 0;\r\n                } else {\r\n                    for (int mid = le + 1; mid < ri; mid++) { //枚举该区间任意一个包含左端点、右端点为顶点的三角形\r\n                        dp[le][ri] = Math.min(dp[le][ri], \r\n                                              dp[le][mid] + values[le] * values[mid] * values[ri] + dp[mid][ri]);\r\n                    }\r\n                }\r\n            }\r\n        }\r\n        return dp[0][n - 1];\r\n    }\r\n}\r\n```\r\n",
+      "createdAt": "2021-11-07T09:00:23.209679+00:00",
+      "hitCount": 99,
+      "identifier": "Sc7T53",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "bian-li-you-jiang-jiu-by-wiper-lvrn",
+        "title": "遍历有讲究"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "minimum-score-triangulation-of-polygon"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "1039-duo-bian-xing-san-jiao-pou-fen-de-z-xvq2",
+      "status": "PREPUBLISH",
+      "summary": "定义dp[i][j]为区间[i, j]的三角剖分最低得分, 因此题目所求即为dp[0][n - 1]\n状态转移：dp[i][j] = Math.min(dp[i][j], dp[i][k] + val[i] * val[k] * val[j] + dp[k][j])，有i < k < j，表示先固定区间一个三角形（i",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Dynamic Programming",
+          "nameTranslated": "动态规划",
+          "slug": "dynamic-programming",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "【1039. 多边形三角剖分的最低得分】【区间DP】Java实现",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1089037,
+        "viewCount": 63
+      },
+      "uuid": "Sc7T53",
+      "videosInfo": []
+    }
+  }
+}

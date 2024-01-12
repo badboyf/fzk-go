@@ -1,0 +1,72 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣官方题解",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/leetcode-solution/avatar_1582018938.png",
+          "userSlug": "leetcode-solution"
+        },
+        "username": "LeetCode-Solution"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "## 题意概述\n\n有 n 堆硬币，每次从任意一堆拿走一枚或者两枚。问最少几次能够全部拿完。\n### 题解\n\n题目中虽然给了 n 堆硬币，但是最终每一堆都是要拿完的。而每一堆拿的情况又不影响其他硬币堆，**因此每一堆硬币的拿法实际上是互相独立的**。\n\n于是我们可以只考虑一堆的情况。假设一堆有 x 枚硬币，既然我们的目的是尽早拿完所有硬币堆，那么两枚两枚的拿显然是更快的。\n\n求单堆硬币最小次数：`(x+1)//2`\n\n那么，拿完所有硬币堆只需要循环对所有硬币堆都计算一次，然后求和就可以了。\n\n```python\nclass Solution:\n    def minCount(self, coins: List[int]) -> int:\n        return sum([(x+1)//2 for x in coins])\n```\n\n#### 复杂度分析\n\n* 时间复杂度：$O(n)$。\n\n* 空间复杂度：$O(n)$。",
+      "createdAt": "2020-04-21T05:20:48.762787+00:00",
+      "hitCount": 10450,
+      "identifier": "2M2DSy",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "da-qia-by-shi-zi-bo-tu-r-5pu2",
+        "title": "打卡"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "na-ying-bi"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 4,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "na-ying-bi-by-leetcode-solution",
+      "status": "PUBLISHED",
+      "summary": "题意概述 有 n 堆硬币，每次从任意一堆拿走一枚或者两枚。问最少几次能够全部拿完。 题解 题目中虽然给了 n 堆硬币，但是最终每一堆都是要拿完的。而每一堆拿的情况又不影响其他硬币堆，因此每一堆硬币的拿法实际上是互相独立的。 于是我们可以只考虑一堆的情况。假设一堆有 x 枚硬币，既然我们的目的是尽早拿完所有硬币堆，那么两",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "拿硬币",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 23,
+        "id": 212911,
+        "viewCount": 9783
+      },
+      "uuid": "2M2DSy",
+      "videosInfo": []
+    }
+  }
+}

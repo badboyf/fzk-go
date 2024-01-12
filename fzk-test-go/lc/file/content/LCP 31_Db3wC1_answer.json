@@ -1,0 +1,88 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "zqy1018",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/zqy1018/avatar_1563704665.png",
+          "userSlug": "zqy1018"
+        },
+        "username": "zqy1018"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "让一个地点永久变为空格等价于能够执行这样的操作一次：某一时间点开始，在一个位置**无条件**停留一段时间。\r\n\r\n为什么等价？如果让一个地点永久变为空格对于我们求解是有用的话，这意味着以下三者必居其一：\r\n1. 某一时刻，经过这个地点，而后不再返回。\r\n2. 在这个地点停留一段时间。\r\n3. 某一时刻 $t_0$，经过这个地点，而后在时间点 $t_1, t_2, \\cdots$ 又返回。\r\n   \r\n容易发现第三条和从 $t_0$ 时刻开始，一直待到 $t_1, t_2, \\cdots$ 是等价的。\r\n\r\n具体实现可以用四元组 $(curt, x, y, st)$ 表示状态，其中 $curt$ 表示当前时刻，$(x, y)$ 是当前位置，$st$ 和两个卷轴有关，可以有 8 种取值：在停留中、不在停留中，能停留、不能停留，能临时经过、不能临时经过，这些组合一下。由于能不能和在不在停留互斥，所以实际上只有 6 种取值。\r\n\r\n```cpp\r\nconst int dx[] = {-1, 0, 1, 0}, dy[] = {0, 1, 0, -1};\r\nstruct S{\r\n    int curt, x, y, st;\r\n    S(int a, int b, int c, int d): curt(a), x(b), y(c), st(d){}\r\n};\r\nclass Solution {\r\n    bool ok[105][55][55][6];\r\n    queue<S> q;\r\npublic:\r\n    bool escapeMaze(vector<vector<string>>& maze) {\r\n        int T = maze.size();\r\n        int n = maze[0].size(), m = maze[0][0].length();\r\n        \r\n        ok[0][0][0][3] = true;\r\n        // 1: 能临时，不能停留; 0: 不能临时，不能停留\r\n        // 3: 能临时，能停留; 2: 不能临时，能停留\r\n        // 5: 能临时，在停留中; 4: 不能临时，在停留中\r\n        q.push(S(0, 0, 0, 3));\r\n        while (!q.empty()){\r\n            S h = q.front();\r\n            q.pop();\r\n            int curt = h.curt;\r\n            if (curt == T - 1) continue ;\r\n            vector<string>& mz = maze[curt + 1];\r\n            int x = h.x;\r\n            int y = h.y;\r\n            int st = h.st;\r\n\r\n            if (st >= 4){\r\n                // 继续停留\r\n                if (!ok[curt + 1][x][y][st]){\r\n                    ok[curt + 1][x][y][st] = true;\r\n                    q.push(S(curt + 1, x, y, st));\r\n                }\r\n                // 不再停留\r\n                st -= 4;\r\n                for (int i = 0; i < 4; ++i){\r\n                    int cx = x + dx[i], cy = y + dy[i];\r\n                    if (cx < 0 || cx >= n || cy < 0 || cy >= m)\r\n                        continue;\r\n                    if (mz[cx][cy] == '#'){\r\n                        // 需要临时经过\r\n                        if (!st) continue;\r\n                        if (!ok[curt + 1][cx][cy][0]){\r\n                            ok[curt + 1][cx][cy][0] = true;\r\n                            q.push(S(curt + 1, cx, cy, 0));\r\n                        }\r\n                    } else {\r\n                        if (!ok[curt + 1][cx][cy][st]){\r\n                            ok[curt + 1][cx][cy][st] = true;\r\n                            q.push(S(curt + 1, cx, cy, st));\r\n                        }\r\n                    }\r\n                }\r\n            } else {\r\n                if (st & 2){\r\n                    // 尝试开始停留\r\n                    if (!ok[curt + 1][x][y][st + 2]){\r\n                        ok[curt + 1][x][y][st + 2] = true;\r\n                        q.push(S(curt + 1, x, y, st + 2));\r\n                    }\r\n                }\r\n                for (int i = 0; i < 4; ++i){\r\n                    int cx = x + dx[i], cy = y + dy[i];\r\n                    if (cx < 0 || cx >= n || cy < 0 || cy >= m)\r\n                        continue;\r\n                    if (mz[cx][cy] == '#'){\r\n                        if (st & 1){\r\n                            if (!ok[curt + 1][cx][cy][st - 1]){\r\n                                ok[curt + 1][cx][cy][st - 1] = true;\r\n                                q.push(S(curt + 1, cx, cy, st - 1));\r\n                            }\r\n                        }\r\n                    } else {\r\n                        if (!ok[curt + 1][cx][cy][st]){\r\n                            ok[curt + 1][cx][cy][st] = true;\r\n                            q.push(S(curt + 1, cx, cy, st));\r\n                        }\r\n                    }\r\n                    if (st & 2){\r\n                        // 尝试前去停留\r\n                        if (!ok[curt + 1][cx][cy][st + 2]){\r\n                            ok[curt + 1][cx][cy][st + 2] = true;\r\n                            q.push(S(curt + 1, cx, cy, st + 2));\r\n                        }\r\n                    }\r\n                }\r\n                \r\n                // 呆在原地，但不停留\r\n                if (mz[x][y] == '#'){\r\n                    if (st & 1){\r\n                        if (!ok[curt + 1][x][y][st - 1]){\r\n                            ok[curt + 1][x][y][st - 1] = true;\r\n                            q.push(S(curt + 1, x, y, st - 1));\r\n                        }\r\n                    }\r\n                } else {\r\n                    if (!ok[curt + 1][x][y][st]){\r\n                        ok[curt + 1][x][y][st] = true;\r\n                        q.push(S(curt + 1, x, y, st));\r\n                    }\r\n                }\r\n            }\r\n        }\r\n        \r\n        for (int i = 0; i < 6; ++i)\r\n            if (ok[T - 1][n - 1][m - 1][i]) return true;\r\n        return false;\r\n    }\r\n};\r\n```",
+      "createdAt": "2021-04-05T09:44:24.594238+00:00",
+      "hitCount": 1932,
+      "identifier": "Q8tzwR",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "java-100-55ms-zi-di-xiang-shang-die-dai-0a85m",
+        "title": "JAVA 100% 55ms  自底向上迭代+有限状态机"
+      },
+      "position": 3,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "dong-tai-gui-hua-he-xin-yao-dian-you-hua-gnas",
+        "title": "动态规划（核心要点+优化+规避常见坑点）"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "Db3wC1"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 13,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "c-bfs-by-zqy1018-27lc",
+      "status": "PREPUBLISH",
+      "summary": "让一个地点永久变为空格等价于能够执行这样的操作一次：某一时间点开始，在一个位置无条件停留一段时间。\n为什么等价？如果让一个地点永久变为空格对于我们求解是有用的话，这意味着以下三者必居其一：\n\n某一时刻，经过这个地点，而后不再返回。\n在这个地点停留一段时间。\n某一时刻 t_0，经过这个地点，而后在时间点 t_1, t_2",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "BFS",
+          "nameTranslated": "",
+          "slug": "bfs",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "",
+      "title": "C++ BFS",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 5,
+        "id": 701764,
+        "viewCount": 1511
+      },
+      "uuid": "Q8tzwR",
+      "videosInfo": []
+    }
+  }
+}

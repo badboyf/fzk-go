@@ -1,0 +1,121 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣官方题解",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/leetcode-solution/avatar_1582018938.png",
+          "userSlug": "leetcode-solution"
+        },
+        "username": "LeetCode-Solution"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法一：递归\n\n**思路与算法**\n\n这是一道很经典的二叉树问题。显然，我们从根节点开始，递归地对树进行遍历，并从叶子节点先开始翻转得到镜像。如果当前遍历到的节点 $\\textit{root}$ 的左右两棵子树都已经翻转得到镜像，那么我们只需要交换两棵子树的位置，即可得到以 $\\textit{root}$ 为根节点的整棵子树的镜像。\n\n**代码**\n\n```C++ [sol1-C++]\nclass Solution {\npublic:\n    TreeNode* mirrorTree(TreeNode* root) {\n        if (root == nullptr) {\n            return nullptr;\n        }\n        TreeNode* left = mirrorTree(root->left);\n        TreeNode* right = mirrorTree(root->right);\n        root->left = right;\n        root->right = left;\n        return root;\n    }\n};\n```\n\n```Java [sol1-Java]\nclass Solution {\n    public TreeNode mirrorTree(TreeNode root) {\n        if (root == null) {\n            return null;\n        }\n        TreeNode left = mirrorTree(root.left);\n        TreeNode right = mirrorTree(root.right);\n        root.left = right;\n        root.right = left;\n        return root;\n    }\n}\n```\n\n```Python [sol1-Python3]\nclass Solution:\n    def mirrorTree(self, root: TreeNode) -> TreeNode:\n        if not root:\n            return root\n        \n        left = self.mirrorTree(root.left)\n        right = self.mirrorTree(root.right)\n        root.left, root.right = right, left\n        return root\n```\n\n```Golang [sol1-Golang]\nfunc mirrorTree(root *TreeNode) *TreeNode {\n    if root == nil {\n        return nil\n    }\n    left := mirrorTree(root.Left)\n    right := mirrorTree(root.Right)\n    root.Left = right\n    root.Right = left\n    return root\n}\n```\n\n```JavaScript [sol1-JavaScript]\nvar mirrorTree = function(root) {\n    if (root === null) {\n        return null;\n    }\n    const left = mirrorTree(root.left);\n    const right = mirrorTree(root.right);\n    root.left = right;\n    root.right = left;\n    return root;\n};\n```\n\n```C [sol1-C]\nstruct TreeNode* mirrorTree(struct TreeNode* root) {\n    if (root == NULL) {\n        return NULL;\n    }\n    struct TreeNode* left = mirrorTree(root->left);\n    struct TreeNode* right = mirrorTree(root->right);\n    root->left = right;\n    root->right = left;\n    return root;\n}\n```\n\n**复杂度分析**\n\n- 时间复杂度：$O(N)$，其中 $N$ 为二叉树节点的数目。我们会遍历二叉树中的每一个节点，对每个节点而言，我们在常数时间内交换其两棵子树。\n\n- 空间复杂度：$O(N)$。使用的空间由递归栈的深度决定，它等于当前节点在二叉树中的高度。在平均情况下，二叉树的高度与节点个数为对数关系，即 $O(\\log N)$。而在最坏情况下，树形成链状，空间复杂度为 $O(N)$。",
+      "createdAt": "2021-06-17T08:41:53.843002+00:00",
+      "hitCount": 24212,
+      "identifier": "TVtgOq",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "mian-shi-ti-27-er-cha-shu-de-jing-xiang-di-gui-fu-",
+        "title": "剑指 Offer 27. 二叉树的镜像（递归 / 辅助栈，清晰图解）"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "er-cha-shu-de-jing-xiang-lcof"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 12,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "er-cha-shu-de-jing-xiang-by-leetcode-sol-z44i",
+      "status": "PUBLISHED",
+      "summary": "方法一：递归 思路与算法 这是一道很经典的二叉树问题。显然，我们从根节点开始，递归地对树进行遍历，并从叶子节点先开始翻转得到镜像。如果当前遍历到的节点 $\\textit{root}$ 的左右两棵子树都已经翻转得到镜像，那么我们只需要交换两棵子树的位置，即可得到以 $\\textit{root}$ 为根节点的整棵子树的镜像",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Tree",
+          "nameTranslated": "树",
+          "slug": "tree",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Depth-First Search",
+          "nameTranslated": "深度优先搜索",
+          "slug": "depth-first-search",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C",
+          "nameTranslated": "",
+          "slug": "c",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Go",
+          "nameTranslated": "",
+          "slug": "golang",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "JavaScript",
+          "nameTranslated": "",
+          "slug": "javascript",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "二叉树的镜像",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 61,
+        "id": 832613,
+        "viewCount": 19005
+      },
+      "uuid": "TVtgOq",
+      "videosInfo": []
+    }
+  }
+}

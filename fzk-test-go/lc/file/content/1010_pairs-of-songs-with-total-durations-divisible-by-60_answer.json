@@ -1,0 +1,86 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "GGbreaker",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/mybiggg/avatar_1543299138.png",
+          "userSlug": "806748118"
+        },
+        "username": "806748118"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n### 代码\n\n```python3\nclass Solution:\n    def numPairsDivisibleBy60(self, time: List[int]) -> int:\n        dp = {time[0]:1}\n        ans = 0\n        for i in range(1,len(time)):\n            for j,k in dp.items():\n                if (time[i]+j)%60 == 0:\n                    ans += k\n            if time[i] in dp:\n                dp[time[i]] +=1\n            else:\n                dp[time[i]] = 1\n        return ans\n```",
+      "createdAt": "2021-11-08T08:19:43.010216+00:00",
+      "hitCount": 74,
+      "identifier": "F8jyam",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "java-2ms-ji-bai-10000-by-keen0126",
+        "title": "Java 【2ms 击败100.00%】"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "pairs-of-songs-with-total-durations-divisible-by-60"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "python3dong-tai-gui-hua-hen-chang-gui-de-9h8w",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Dynamic Programming",
+          "nameTranslated": "动态规划",
+          "slug": "dynamic-programming",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python3",
+          "nameTranslated": "",
+          "slug": "python3",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "python3+动态规划+很常规的思路卡时间过",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1090812,
+        "viewCount": 62
+      },
+      "uuid": "F8jyam",
+      "videosInfo": []
+    }
+  }
+}

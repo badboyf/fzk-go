@@ -1,0 +1,97 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "EUY",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/euyvvl/avatar_1635000444.png",
+          "userSlug": "euyvvl"
+        },
+        "username": "EUYVVL"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n**一道很简单的双指针题**\n1. 读懂题意,剩下的就很简单了;\n2. 使用双指针,不符合条件时就直接退出;\n### 代码\n\n```cpp\nclass Solution {\npublic:\n    int minimumLength(string s) {\n        int N=s.size();\n        int LL=0;\n        int RR=N-1;\n        int res=0;\n        while(LL<=RR){\n            char c=s[LL];\n            if(s[RR]!=c||LL==RR){\n                res=RR-LL+1;\n                break;\n            }\n            while(LL<=RR&&s[LL]==c){\n                LL++;\n            }\n            while(RR>=LL&&s[RR]==c){\n                RR--;\n            }\n        }\n        return res;\n    }\n};\n```",
+      "createdAt": "2021-10-22T14:59:55.312725+00:00",
+      "hitCount": 60,
+      "identifier": "tHhHa8",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "wo-de-di-er-bai-ling-liu-dao-ti-by-i3lis-tzyp",
+        "title": "我的第二百零六道题"
+      },
+      "position": 19,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "on-shuang-zhi-zhen-zhu-yi-pan-duan-bian-4s1ww",
+        "title": "O(N) 双指针 注意判断边界"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "minimum-length-of-string-after-deleting-similar-ends"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "shuang-zhi-zhen-by-euyvvl-e3q8",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n一道很简单的双指针题\n\n读懂题意,剩下的就很简单了;\n使用双指针,不符合条件时就直接退出;\n\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Array",
+          "nameTranslated": "数组",
+          "slug": "array",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Math",
+          "nameTranslated": "数学",
+          "slug": "math",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "String",
+          "nameTranslated": "字符串",
+          "slug": "string",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "双指针",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1061876,
+        "viewCount": 49
+      },
+      "uuid": "tHhHa8",
+      "videosInfo": []
+    }
+  }
+}

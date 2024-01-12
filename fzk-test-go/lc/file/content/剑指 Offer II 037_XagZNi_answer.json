@@ -1,0 +1,104 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "清风Python",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/qingfengpython/avatar_1620226448.png",
+          "userSlug": "qingfengpython"
+        },
+        "username": "qingfengpython"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "# [剑指OfferII037.小行星碰撞](https://leetcode-cn.com/problems/XagZNi/solution/shua-chuan-jian-zhi-offer-day17-zhan-i-0-5yho/)\r\n> https://leetcode-cn.com/problems/XagZNi/solution/shua-chuan-jian-zhi-offer-day17-zhan-i-0-5yho/\r\n> \r\n> 难度：中等\r\n\r\n## 题目\r\n给定一个整数数组 asteroids，表示在同一行的小行星。\r\n对于数组中的每一个元素，其绝对值表示小行星的大小，正负表示小行星的移动方向（正表示向右移动，负表示向左移动）。每一颗小行星以相同的速度移动。\r\n找出碰撞后剩下的所有小行星。碰撞规则：两个行星相互碰撞，较小的行星会爆炸。如果两颗行星大小相同，则两颗行星都会爆炸。两颗移动方向相同的行星，永远不会发生碰撞。\r\n\r\n提示：\r\n- 2 <= asteroids.length <= 10 ^ 4\r\n- -1000 <= asteroids[i] <= 1000\r\n- asteroids[i] != 0\r\n\r\n\r\n## 示例\r\n\r\n```\r\n示例 1：\r\n输入：asteroids = [5,10,-5]\r\n输出：[5,10]\r\n解释：10 和 -5 碰撞后只剩下 10 。 5 和 10 永远不会发生碰撞。\r\n\r\n示例 2：\r\n输入：asteroids = [8,-8]\r\n输出：[]\r\n解释：8 和 -8 碰撞后，两者都发生爆炸。\r\n\r\n示例 3：\r\n输入：asteroids = [10,2,-5]\r\n输出：[10]\r\n解释：2 和 -5 发生碰撞后剩下 -5 。10 和 -5 发生碰撞后剩下 10 。\r\n\r\n示例 4：\r\n输入：asteroids = [-2,-1,1,2]\r\n输出：[-2,-1,1,2]\r\n解释：-2 和 -1 向左移动，而 1 和 2 向右移动。 \r\n     由于移动方向相同的行星不会发生碰撞，所以最终没有行星发生碰撞。 \r\n```\r\n\r\n## 分析\r\n这道栈的题目难点应该主要是在分析场景上了。\r\n我们需要明确什么时候无脑入栈，什么时候需要判断，理解这两点就可以轻松解题了。\r\n首先，循环每一个元素时，在什么情况下无脑入栈呢？\r\n1. 栈为空\r\n2. 栈顶元素为负数(下一个为负数则一起向左，下一个为正数则分向两边)\r\n3. 当前元素为正数（栈顶为正一起向右，栈顶为负分向两边）\r\n\r\n下来，我们需要看碰撞的场景又细分为什么情况：\r\n1. 栈顶元素大于abs(当前元素)，当前元素被撞毁\r\n2. 栈顶元素等于abs(当前元素)，栈顶弹出和当前元素抵消\r\n3. 栈顶元素小于abs(当前元素)，栈顶弹出，并与新栈顶完成上述判断\r\n\r\n最终返回栈即可。\r\n\r\n## 解题\r\n\r\n```python []\r\nclass Solution:\r\n    def asteroidCollision(self, asteroids):\r\n        s, p = [], 0\r\n        while p < len(asteroids):\r\n            if not s or s[-1] < 0 or asteroids[p] > 0:\r\n                s.append(asteroids[p])\r\n            elif s[-1] <= -asteroids[p]:\r\n                if s.pop() < -asteroids[p]:\r\n                    continue\r\n            p += 1\r\n        return s\r\n```\r\n\r\n```java []\r\nclass Solution {\r\n    public int[] asteroidCollision(int[] asteroids) {\r\n        Stack<Integer> s = new Stack<>();\r\n        int p = 0;\r\n        while (p < asteroids.length) {\r\n            if (s.empty() || s.peek() < 0 || asteroids[p] > 0) {\r\n                s.push(asteroids[p]);\r\n            } else if (s.peek() <= -asteroids[p]) {\r\n                if (s.pop() < -asteroids[p]) {\r\n                    continue;\r\n                }\r\n            }\r\n            p++;\r\n        }\r\n        int[] ret = new int[s.size()];\r\n        for (int i = ret.length - 1; i >= 0; i--) {\r\n            ret[i] = s.pop();\r\n        }\r\n        return ret;\r\n    }\r\n}\r\n```\r\n\r\n欢迎关注我的公众号: **清风Python**，带你每日学习Python算法刷题的同时，了解更多python小知识。\r\n\r\n有喜欢力扣刷题的小伙伴可以加我微信（King_Uranus）互相鼓励，共同进步，一起玩转超级码力！\r\n\r\n我的个人博客：[https://qingfengpython.cn](https://qingfengpython.cn)\r\n\r\n力扣解题合集：[https://github.com/BreezePython/AlgorithmMarkdown](https://github.com/BreezePython/AlgorithmMarkdown)",
+      "createdAt": "2021-09-12T14:47:39.450874+00:00",
+      "hitCount": 2076,
+      "identifier": "fwsgLX",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "jian-zhi-offer-2-mian-shi-ti-37-shu-zhon-hfwd",
+        "title": " 《剑指offer 2 面试题37》 书中算法C++实现"
+      },
+      "position": 2,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "jian-zhi-offer-ii-037-xiao-xing-xing-pen-xll4",
+        "title": "剑指 Offer II 037. 小行星碰撞（数组模拟栈）"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "XagZNi"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 8,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": false,
+      "slug": "shua-chuan-jian-zhi-offer-day17-zhan-i-0-5yho",
+      "status": "PREPUBLISH",
+      "summary": "剑指OfferII037.小行星碰撞\n\nhttps://leetcode-cn.com/problems/XagZNi/solution/shua-chuan-jian-zhi-offer-day17-zhan-i-0-5yho/\n难度：中等\n\n题目\n给定一个整数数组 asteroids，表示在同一行的小行星。\n对于数",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Stack",
+          "nameTranslated": "栈",
+          "slug": "stack",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Array",
+          "nameTranslated": "数组",
+          "slug": "array",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python3",
+          "nameTranslated": "",
+          "slug": "python3",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "刷穿剑指offer-Day17-栈I-037.小行星碰撞 基于栈去分析碰撞条件",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 1,
+        "id": 994096,
+        "viewCount": 1161
+      },
+      "uuid": "fwsgLX",
+      "videosInfo": []
+    }
+  }
+}

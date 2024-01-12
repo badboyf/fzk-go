@@ -1,0 +1,79 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣 (LeetCode)",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/uploaded_files/2021/03/73c9f099-abbe-4d94-853f-f8abffd459cd/leetcode.png",
+          "userSlug": "leetcode"
+        },
+        "username": "LeetCode"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "####  方法：线性扫描\n**算法：**\n- 扫描数组找到唯一的最大元素 `m`，并记录它的索引 `maxIndex`。\n- 再次扫描数组，如果我们找到 `x != m`，`m < 2*x`，我们应该返回 `-1`。\n- 否则返回 `maxIndex`\n\n```Python [ ]\nclass Solution(object):\n    def dominantIndex(self, nums):\n        m = max(nums)\n        if all(m >= 2*x for x in nums if x != m):\n            return nums.index(m)\n        return -1\n```\n\n```Java [ ]\nclass Solution {\n    public int dominantIndex(int[] nums) {\n        int maxIndex = 0;\n        for (int i = 0; i < nums.length; ++i) {\n            if (nums[i] > nums[maxIndex])\n                maxIndex = i;\n        }\n        for (int i = 0; i < nums.length; ++i) {\n            if (maxIndex != i && nums[maxIndex] < 2 * nums[i])\n                return -1;\n        }\n        return maxIndex;\n    }\n}\n```\n\n**复杂度分析**\n\n* 时间复杂度：$O(N)$。$N$ 指的是 `nums` 的大小\n* 空间复杂度：$O(1)$，只用了常数空间。",
+      "createdAt": "2019-10-29T04:16:30.561302+00:00",
+      "hitCount": 10733,
+      "identifier": "9mjoM6",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "xian-xing-sao-miao-yi-bian-pai-xu-liang-tlzl0",
+        "title": "线性扫描一遍||排序，两种解法"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "largest-number-at-least-twice-of-others"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 3,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "zhi-shao-shi-qi-ta-shu-zi-liang-bei-de-zui-da-sh-8",
+      "status": "PUBLISHED",
+      "summary": "§ 方法：线性扫描\n算法：\n\n扫描数组找到唯一的最大元素 m，并记录它的索引 maxIndex。\n再次扫描数组，如果我们找到 x != m，m < 2*x，我们应该返回 -1。\n否则返回 maxIndex\n\n复杂度分析\n\n时间复杂度：O(N)。N 指的是 nums 的大小\n空间复杂度：O(1)，只用了常数空间。\n",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "至少是其他数字两倍的最大数",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 31,
+        "id": 38786,
+        "viewCount": 9409
+      },
+      "uuid": "9mjoM6",
+      "videosInfo": []
+    }
+  }
+}

@@ -1,0 +1,84 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣官方题解",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/leetcode-solution/avatar_1582018938.png",
+          "userSlug": "leetcode-solution"
+        },
+        "username": "LeetCode-Solution"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法一：模拟\n\n现在把 `9` 翻转成 `6` 是不合理的，因为它会使得数字变小。因此我们应当找到 `num` 中最高位的 `6`，将其翻转成 `9`。\n\n```C++ [sol1-C++]\nclass Solution {\npublic:\n    int maximum69Number(int num) {\n        string s = to_string(num);\n        for (char& ch: s) {\n            if (ch == '6') {\n                ch = '9';\n                break;\n            }\n        }\n        return stoi(s);\n    }\n};\n```\n\n```Python [sol1-Python3]\nclass Solution:\n    def maximum69Number(self, num: int) -> int:\n        return int(str(num).replace(\"6\", \"9\", 1))\n```\n\n**复杂度分析**\n\n- 时间复杂度：$O(\\log \\textit{num})$，表示 $\\textit{num}$ 的位数。\n\n- 空间复杂度：$O(\\log \\textit{num})$。为了代码编写方便，我们使用额外的字符串来存储 $\\textit{num}$，使得可以直接修改特定位置的数字。",
+      "createdAt": "2020-02-18T12:58:20.376676+00:00",
+      "hitCount": 8520,
+      "identifier": "7mQldS",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "bao-li-jie-fa-zhi-xing-yong-shi-ji-bai-1-1xqk",
+        "title": "暴力解法，执行用时击败100%，内存消耗击败97.54%。"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "maximum-69-number"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 7,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "6-he-9-zu-cheng-de-zui-da-shu-zi-by-leetcode-solut",
+      "status": "PUBLISHED",
+      "summary": " 方法一：模拟\n现在把 9 翻转成 6 是不合理的，因为它会使得数字变小。因此我们应当找到 num 中最高位的 6，将其翻转成 9。\n复杂度分析\n\n\n时间复杂度：O(\\log \\textit{num})，表示 \\textit{num} 的位数。\n\n\n空间复杂度：O(\\log \\textit{num})。为了代码编写方便",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python3",
+          "nameTranslated": "",
+          "slug": "python3",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "6 和 9 组成的最大数字",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 24,
+        "id": 101258,
+        "viewCount": 7675
+      },
+      "uuid": "7mQldS",
+      "videosInfo": []
+    }
+  }
+}

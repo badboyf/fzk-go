@@ -1,0 +1,96 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣 (LeetCode)",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/uploaded_files/2021/03/73c9f099-abbe-4d94-853f-f8abffd459cd/leetcode.png",
+          "userSlug": "leetcode"
+        },
+        "username": "LeetCode"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "####  方法：栈\n如果不会发生碰撞那么一排小行星是处于稳定的状态。若在右边增加一个新的小行星后，在它再次稳定之前，可能会发生更多的碰撞，而所有的这些碰撞（如果发生的话）都必须从右到左发生。这种情况非常适合用栈解决。\n\n**算法：**\n- 假设栈中顶部元素为 `top`，一个新的小行星 `new` 进来了。如果 `new` 向右移动（`new>0`），或者 `top` 向左移动（`top<0`），则不会发生碰撞。\n- 否则，如果 `abs(new) < abs(top)`，则新小行星 `new` 将爆炸；如果 `abs(new) == abs(top)`，则两个小行星都将爆炸；如果 `abs(new) > abs(top)`，则 `top` 小行星将爆炸（可能还会有更多小行星爆炸，因此我们应继续检查）。\n\n```Python\nclass Solution(object):\n    def asteroidCollision(self, asteroids):\n        ans = []\n        for new in asteroids:\n            while ans and new < 0 < ans[-1]:\n                if ans[-1] < -new:\n                    ans.pop()\n                    continue\n                elif ans[-1] == -new:\n                    ans.pop()\n                break\n            else:\n                ans.append(new)\n        return ans\n```\n\n```Java [ ]\nclass Solution {\n    public int[] asteroidCollision(int[] asteroids) {\n        Stack<Integer> stack = new Stack();\n        for (int ast: asteroids) {\n            collision: {\n                while (!stack.isEmpty() && ast < 0 && 0 < stack.peek()) {\n                    if (stack.peek() < -ast) {\n                        stack.pop();\n                        continue;\n                    } else if (stack.peek() == -ast) {\n                        stack.pop();\n                    }\n                    break collision;\n                }\n                stack.push(ast);\n            }\n        }\n\n        int[] ans = new int[stack.size()];\n        for (int t = ans.length - 1; t >= 0; --t) {\n            ans[t] = stack.pop();\n        }\n        return ans;\n    }\n}\n```\n\n**复杂度分析**\n\n* 时间复杂度：$O(N)$，其中 $N$ 是行星的数量。\n* 空间复杂度：$O(N)$，`ans` 使用的空间。",
+      "createdAt": "2019-11-01T07:35:59.361079+00:00",
+      "hitCount": 16230,
+      "identifier": "UcZASj",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "li-yong-yi-ge-zhan-lai-shun-xu-bian-li-s-wicm",
+        "title": "利用一个栈来顺序遍历实现碰撞消除"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "asteroid-collision"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 17,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "AWESOME"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 0,
+          "reactionType": "CONFUSED"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "xing-xing-peng-zhuang-by-leetcode",
+      "status": "PUBLISHED",
+      "summary": "§ 方法：栈\n如果不会发生碰撞那么一排小行星是处于稳定的状态。若在右边增加一个新的小行星后，在它再次稳定之前，可能会发生更多的碰撞，而所有的这些碰撞（如果发生的话）都必须从右到左发生。这种情况非常适合用栈解决。\n算法：\n\n假设栈中顶部元素为 top，一个新的小行星 new 进来了。如果 new 向右移动（new>0），",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Stack",
+          "nameTranslated": "栈",
+          "slug": "stack",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "行星碰撞",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 36,
+        "id": 39814,
+        "viewCount": 11852
+      },
+      "uuid": "UcZASj",
+      "videosInfo": []
+    }
+  }
+}

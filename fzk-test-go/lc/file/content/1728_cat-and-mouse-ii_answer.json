@@ -1,0 +1,83 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "verygoodlee",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/verygoodlee/avatar_1604214739.png",
+          "userSlug": "verygoodlee"
+        },
+        "username": "verygoodlee"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "引用一下[@zerotrac2](/u/zerotrac2/)的[题解](https://leetcode-cn.com/problems/cat-and-mouse-ii/solution/mao-he-lao-shu-ii-bu-xu-yao-xian-zhi-bu-d2yxn/)开篇\r\n- 一个状态为「必胜态」，当且仅当其相邻状态中至少有一个「必败态」\r\n- 一个状态为「必败态」，当且仅当其相邻的所有状态都是「必胜态」\r\n\r\n简单描述状态转移方程如下：\r\n- 当前玩家必胜 = 相邻状态1对手必败 || 相邻状态2对手必败 || ...... ||  相邻状态n对手必败\r\n- 当前玩家必败 = 相邻状态1对手必胜 && 相邻状态2对手必胜 && ...... &&  相邻状态n对手必胜\r\n\r\n核心思路：\r\n先初始化结束状态，两者到达同一点 或 有一个到达食物，则游戏结束，此时肯定知道谁胜谁负，\r\n时光倒流，根据结束状态往前递推，递推到初始状态下，老鼠是否必胜\r\n\r\n具体状态定义和细节看代码注释\r\n```java\r\nclass Solution {\r\n    static final int[][] DIRECTIONS = {{-1, 0}, {0, 1}, {1, 0}, {0, -1}};\r\n\r\n    public boolean canMouseWin(String[] grid, int catJump, int mouseJump) {\r\n        int M = grid.length, N = grid[0].length();\r\n        int mouse = 0, cat = 0, food = 0;\r\n        for (int x = 0; x < M; ++x) {\r\n            for (int y = 0; y < N; ++y) {\r\n                char ch = grid[x].charAt(y);\r\n                if (ch == 'M') mouse = x * N + y;\r\n                else if (ch == 'C') cat = x * N + y;\r\n                else if (ch == 'F') food = x * N + y;\r\n            }\r\n        }\r\n        // mdp[i][j] 表示 老鼠和猫分别在 i,j 点时，老鼠的胜负状态\r\n        // cdp[i][j] 表示 老鼠和猫分别在 i,j 点时，猫的胜负状态\r\n        // 状态分三种 1必胜 -1必败 0未知\r\n        int[][] mdp = new int[M * N][M * N], cdp = new int[M * N][M * N];\r\n        // 初始化结束边界状态\r\n        for (int i = 0; i < M * N; ++i) {\r\n            if (i == food) continue;\r\n            // 两者到达同一点，老鼠必败，猫必胜\r\n            mdp[i][i] = -1;\r\n            cdp[i][i] = 1;\r\n            // 老鼠到达食物，老鼠必胜，猫必败\r\n            mdp[food][i] = 1;\r\n            cdp[food][i] = -1;\r\n            // 猫到达食物，老鼠必败，猫必胜\r\n            mdp[i][food] = -1;\r\n            cdp[i][food] = 1;\r\n        }\r\n        // 时光倒流大法，从结束状态，往前转移，最终目标是求初始状态mdp[mouse][cat]是否必胜\r\n        for (int round = 0; round < 1000; ++round) {\r\n            boolean changed = false;// 标记这一轮是否有状态发生了改变\r\n            for (int i = 0; i < M * N; ++i) {\r\n                int mx = i / N, my = i % N;\r\n                if (grid[mx].charAt(my) == '#') continue;\r\n                for (int j = 0; j < M * N; ++j) {\r\n                    int cx = j / N, cy = j % N;\r\n                    if (grid[cx].charAt(cy) == '#') continue;\r\n                    if (mdp[i][j] == 0) {// 老鼠的回合\r\n                        boolean win = false, lose = true;\r\n                        // 四个方向搜索相邻猫的状态，因为老鼠跳完了，就轮到猫了\r\n                        // 根据相邻的猫的状态，转移到当前老鼠的状态\r\n                        for (int[] d : DIRECTIONS) {\r\n                            for (int jump = 0; jump <= mouseJump; ++jump) {\r\n                                int mx2 = mx + d[0] * jump, my2 = my + d[1] * jump;\r\n                                if (mx2 < 0 || mx2 >= M || my2 < 0 || my2 >= N) break;\r\n                                if (grid[mx2].charAt(my2) == '#') break;\r\n                                int k = mx2 * N + my2;\r\n                                lose &= cdp[k][j] == 1;// 对方全部必胜，我们则必败\r\n                                if (cdp[k][j] == -1) {// 对方只要有一个必败，我们则必胜\r\n                                    win = true;\r\n                                    break;\r\n                                }\r\n                            }\r\n                            if (win) break;\r\n                        }\r\n                        mdp[i][j] = win ? 1 : lose ? -1 : 0;\r\n                        if (win || lose) changed = true;\r\n                    }\r\n                    if (cdp[i][j] == 0) {// 猫的回合，与上面同理\r\n                        boolean win = false, lose = true;\r\n                        for (int[] d : DIRECTIONS) {\r\n                            for (int jump = 0; jump <= catJump; ++jump) {\r\n                                int cx2 = cx + d[0] * jump, cy2 = cy + d[1] * jump;\r\n                                if (cx2 < 0 || cx2 >= M || cy2 < 0 || cy2 >= N) break;\r\n                                if (grid[cx2].charAt(cy2) == '#') break;\r\n                                int k = cx2 * N + cy2;\r\n                                lose &= mdp[i][k] == 1;\r\n                                if (mdp[i][k] == -1) {\r\n                                    win = true;\r\n                                    break;\r\n                                }\r\n                            }\r\n                            if (win) break;\r\n                        }\r\n                        cdp[i][j] = win ? 1 : lose ? -1 : 0;\r\n                        if (win || lose) changed = true;\r\n                    }\r\n                }\r\n            }\r\n            if (mdp[mouse][cat] == 1) return true;\r\n            if (mdp[mouse][cat] == -1) return false;\r\n            // 优化时间的关键点，200+ms --> 30+ms\r\n            // 如果这一轮没有任何状态发生改变，那么没必要继续下一轮了，下一轮肯定还是不会变\r\n            if (!changed) return false;\r\n        }\r\n        return false;// 跑满1000轮，实际上跑不满\r\n    }\r\n}\r\n```\r\n![20210826131005.png](https://pic.leetcode-cn.com/1629954639-iWKrbW-20210826131005.png)\r\n\r\n- 时间复杂度 O( maxRound * (M * N)^2 * (catJump + mouseJump) )\r\n- 空间复杂度 O( (M * N)^2 )",
+      "createdAt": "2021-08-26T03:26:41.523194+00:00",
+      "hitCount": 190,
+      "identifier": "MxysEi",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "bo-yi-lun-dphao-ti-wai-jia-yi-xie-xiao-f-tjeq",
+        "title": "博弈论dp好题, 外加一些小分享"
+      },
+      "position": 3,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "ji-yi-hua-sou-suo-si-lu-jian-dan-bi-jiao-qaxm",
+        "title": "【记忆化搜索】思路简单，比较暴力"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "cat-and-mouse-ii"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "java-dong-tai-gui-hua-32ms-by-verygoodle-fdke",
+      "status": "PREPUBLISH",
+      "summary": "引用一下@zerotrac2的题解开篇\n\n一个状态为「必胜态」，当且仅当其相邻状态中至少有一个「必败态」\n一个状态为「必败态」，当且仅当其相邻的所有状态都是「必胜态」\n\n简单描述状态转移方程如下：\n\n当前玩家必胜 = 相邻状态1对手必败 || 相邻状态2对手必败 || ...... ||  相邻状态n对手必败\n当前玩家",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Dynamic Programming",
+          "nameTranslated": "动态规划",
+          "slug": "dynamic-programming",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1629954639-iWKrbW-20210826131005.png",
+      "title": "java 动态规划 接近双百的优化",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 959632,
+        "viewCount": 152
+      },
+      "uuid": "MxysEi",
+      "videosInfo": []
+    }
+  }
+}

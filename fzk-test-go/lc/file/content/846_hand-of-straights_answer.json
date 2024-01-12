@@ -1,0 +1,79 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣 (LeetCode)",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/uploaded_files/2021/03/73c9f099-abbe-4d94-853f-f8abffd459cd/leetcode.png",
+          "userSlug": "leetcode"
+        },
+        "username": "LeetCode"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法一：暴力解法【通过】\n\n**思路**\n\n因为手中最小的牌也一定是某个分组中的起始牌，所以反复从手中最小的牌开始组建一个长度为 `W` 的组。\n\n**算法**\n\n使用 `TreeMap` 或 `dict` 记录每种牌的数量 `{card: number of copies of card}`。\n\n然后反复执行以下步骤：找到最小的一张牌（假设是 `x`），然后试图将 `x, x+1, x+2, ..., x+W-1` 这些牌的计数减 `1`。如果每次都能找到这样的组且最终手里无牌，那么分组成功，否则失败。\n\n```java [solution1-Java]\nclass Solution {\n    public boolean isNStraightHand(int[] hand, int W) {\n        TreeMap<Integer, Integer> count = new TreeMap();\n        for (int card: hand) {\n            if (!count.containsKey(card))\n                count.put(card, 1);\n            else\n                count.replace(card, count.get(card) + 1);\n        }\n\n        while (count.size() > 0) {\n            int first = count.firstKey();\n            for (int card = first; card < first + W; ++card) {\n                if (!count.containsKey(card)) return false;\n                int c = count.get(card);\n                if (c == 1) count.remove(card);\n                else count.replace(card, c - 1);\n            }\n        }\n\n        return true;\n    }\n}\n```\n\n```python [solution1-Python]\nclass Solution(object):\n    def isNStraightHand(self, hand, W):\n        count = collections.Counter(hand)\n        while count:\n            m = min(count)\n            for k in xrange(m, m+W):\n                v = count[k]\n                if not v: return False\n                if v == 1:\n                    del count[k]\n                else:\n                    count[k] = v - 1\n\n        return True\n```\n\n**复杂度分析**\n\n* 时间复杂度：$O(N * (N/W))$，其中 $N$ 是 `hand` 的长度，$(N / W)$ 是 `min(count)` 的复杂度。在 Java 中使用 `TreeMap` 可以将 $(N / W)$ 降低到 $\\log N$。\n\n* 空间复杂度：$O(N)$。",
+      "createdAt": "2019-12-03T07:06:28.509086+00:00",
+      "hitCount": 5727,
+      "identifier": "17ZF52",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "java-treemapmiao-yong-hai-dao-xiao-ze-by-uev0",
+        "title": "Java TreeMap妙用 【海盗小泽】"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "hand-of-straights"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 5,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "yi-shou-shun-zi-by-leetcode",
+      "status": "PUBLISHED",
+      "summary": " 方法一：暴力解法【通过】\n思路\n因为手中最小的牌也一定是某个分组中的起始牌，所以反复从手中最小的牌开始组建一个长度为 W 的组。\n算法\n使用 TreeMap 或 dict 记录每种牌的数量 {card: number of copies of card}。\n然后反复执行以下步骤：找到最小的一张牌（假设是 x），然后试",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "一手顺子",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 9,
+        "id": 49380,
+        "viewCount": 4504
+      },
+      "uuid": "17ZF52",
+      "videosInfo": []
+    }
+  }
+}

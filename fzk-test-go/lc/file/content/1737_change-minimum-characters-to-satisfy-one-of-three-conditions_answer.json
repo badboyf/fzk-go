@@ -1,0 +1,83 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "Ellie Feng",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/s7ven/avatar_1594613934.png",
+          "userSlug": "elliefeng"
+        },
+        "username": "EllieFeng"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\r\n因为只涉及小写字母，所以通过两个26个大小的数组来记录字符串$a$和$b$的字符出现次数（字符哈希表），对于三种情况，我们可以通过前缀和+计数的方式一遍循环求解。\r\n在遍历过程中，我们用$lSum$和$rSum$分别记录小于等于$a[i]$和$b[i]$的字符个数，这样我们就能统计出这三种情况分别需要变化的操作次数：\r\n1. 字符串$a$每个字符要严格小于字符串$b$每个字符，所以字符串$a$的变换次数是$n - lSum$，字符串b的变换次数是$rSum$\r\n2. 字符串$b$每个字符要严格小于字符串$a$每个字符，所以字符串$a$的变换次数是$lSum$，字符串b的变换次数是$m - rSum$\r\n3. 两个字符串字符完全相当，变换次数为$n + m - lSum - rSum$\r\n\r\n注意一下边界情况，当字符为$z$时，此时我们$n - lSum$和$m - rSum$都是不合法的，因为没有比$z$更大的小写字母了，所以只要统计第三种情况即可。\r\n\r\n\r\n### 代码\r\n```c++\r\nclass Solution {\r\npublic:\r\n    int minCharacters(string a, string b) {\r\n        int n = a.size();\r\n        int m = b.size();\r\n        int l[26] = {0};\r\n        int r[26] = {0};\r\n        for (auto &x : a) {\r\n            l[x - 'a']++;\r\n        }\r\n        for (auto &x : b) {\r\n            r[x - 'a']++;\r\n        }\r\n        int lSum = 0;\r\n        int rSum = 0;\r\n        int ans = n + m;\r\n        for (int i = 0; i < 25; ++i) {\r\n            lSum += l[i];\r\n            rSum += r[i];\r\n            ans = min(ans, min(min(n + m - l[i] - r[i], n - lSum + rSum), m - rSum + lSum));\r\n        }\r\n        ans = min(ans, n + m - l[25] - r[25]);\r\n        return ans;\r\n    }\r\n};\r\n```",
+      "createdAt": "2021-10-12T15:56:24.714803+00:00",
+      "hitCount": 237,
+      "identifier": "STwl5K",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "ha-xi-biao-man-zu-san-tiao-jian-zhi-yi-x-i8te",
+        "title": "【哈希表】 满足三 条件之一需改变的最少字符数  Python"
+      },
+      "position": 3,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "c-mo-ni-da-fa-hao-by-bndsbilly-nkaq",
+        "title": "C++ 模拟大法好"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "change-minimum-characters-to-satisfy-one-of-three-conditions"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": true,
+      "slug": "c-qian-zhui-he-ji-shu-by-elliefeng-p14i",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n因为只涉及小写字母，所以通过两个26个大小的数组来记录字符串a和b的字符出现次数（字符哈希表），对于三种情况，我们可以通过前缀和+计数的方式一遍循环求解。\n在遍历过程中，我们用lSum和rSum分别记录小于等于a[i]和b[i]的字符个数，这样我们就能统计出这三种情况分别需要变化的操作次数：\n\n字符串a每个字",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Prefix Sum",
+          "nameTranslated": "前缀和",
+          "slug": "prefix-sum",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "【C++】前缀和+计数",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 1,
+        "id": 1044343,
+        "viewCount": 164
+      },
+      "uuid": "STwl5K",
+      "videosInfo": []
+    }
+  }
+}

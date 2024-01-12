@@ -1,0 +1,110 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣官方题解",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/leetcode-solution/avatar_1582018938.png",
+          "userSlug": "leetcode-solution"
+        },
+        "username": "LeetCode-Solution"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 📺 视频题解  \n![面试题46. 把数字翻译成字符串.mp4](13b23947-974f-4e3d-9a28-014a9fbf2c59)\n\n### 📖 文字题解\n#### 方法一：动态规划\n\n**思路和算法**\n\n首先我们来通过一个例子理解一下这里「翻译」的过程：我们来尝试翻译「$1402$」。\n\n分成两种情况：\n\n+ 首先我们可以把每一位单独翻译，即 $[1, 4, 0, 2]$，翻译的结果是 `beac`\n+ 然后我们考虑组合某些连续的两位：\n  + $[14, 0, 2]$，翻译的结果是 `oac`。\n  + $[1, 40, 2]$，这种情况是不合法的，因为 $40$ 不能翻译成任何字母。\n  + $[1, 4, 02]$，这种情况也是不合法的，含有前导零的两位数不在题目规定的翻译规则中，那么 $[14, 02]$ 显然也是不合法的。\n\n那么我们可以归纳出翻译的规则，字符串的第 $i$ 位置：\n\n+ 可以单独作为一位来翻译\n+ 如果第 $i - 1$ 位和第 $i$ 位组成的数字在 $10$ 到 $25$ 之间，可以把这两位连起来翻译\n\n到这里，我们发现它和「198. 打家劫舍」非常相似。我们可以用 $f(i)$ 表示以第 $i$ 位结尾的前缀串翻译的方案数，考虑第 $i$ 位单独翻译和与前一位连接起来再翻译对 $f(i)$ 的贡献。单独翻译对 $f(i)$ 的贡献为 $f(i - 1)$；如果第 $i - 1$ 位存在，并且第 $i - 1$ 位和第 $i$ 位形成的数字 $x$ 满足 $10 \\leq x \\leq 25$，那么就可以把第 $i - 1$ 位和第 $i$ 位连起来一起翻译，对 $f(i)$ 的贡献为 $f(i - 2)$，否则为 0。我们可以列出这样的动态规划转移方程：\n\n$$ f(i) = f(i - 1) + f(i - 2)[i - 1 \\geq 0, 10 \\leq x \\leq 25] $$\n\n边界条件是 $f(-1) = 0$，$f(0) = 1$。方程中 $[c]$ 的意思是 $c$ 为真的时候 $[c] = 1$，否则 $[c] = 0$。\n\n有了这个方程我们不难给出一个时间复杂度为 $O(n)$，空间复杂度为 $O(n)$ 的实现。考虑优化空间复杂度：这里的 $f(i)$ 只和它的前两项 $f(i - 1)$ 和 $f(i - 2)$ 相关，我们可以运用「滚动数组」思想把 $f$ 数组压缩成三个变量，这样空间复杂度就变成了 $O(1)$。\n\n<![fig1](https://assets.leetcode-cn.com/solution-static/jianzhi_46/1.PNG),![fig2](https://assets.leetcode-cn.com/solution-static/jianzhi_46/2.PNG),![fig3](https://assets.leetcode-cn.com/solution-static/jianzhi_46/3.PNG),![fig4](https://assets.leetcode-cn.com/solution-static/jianzhi_46/4.PNG),![fig5](https://assets.leetcode-cn.com/solution-static/jianzhi_46/5.PNG),![fig6](https://assets.leetcode-cn.com/solution-static/jianzhi_46/6.PNG),![fig7](https://assets.leetcode-cn.com/solution-static/jianzhi_46/7.PNG),![fig8](https://assets.leetcode-cn.com/solution-static/jianzhi_46/8.PNG),![fig9](https://assets.leetcode-cn.com/solution-static/jianzhi_46/9.PNG),![fig10](https://assets.leetcode-cn.com/solution-static/jianzhi_46/10.PNG),![fig11](https://assets.leetcode-cn.com/solution-static/jianzhi_46/11.PNG)>\n\n**在我们的题目中已经多次出现过「滚动数组」优化动态规划的方法，这是一种非常常见的空间优化，建议还没有掌握的小伙伴可以参考相关资料学习一波哦～**\n\n**代码**\n\n```cpp [sol1-C++]\nclass Solution {\npublic:\n    int translateNum(int num) {\n        string src = to_string(num);\n        int p = 0, q = 0, r = 1;\n        for (int i = 0; i < src.size(); ++i) {\n            p = q; \n            q = r; \n            r = 0;\n            r += q;\n            if (i == 0) {\n                continue;\n            }\n            auto pre = src.substr(i - 1, 2);\n            if (pre <= \"25\" && pre >= \"10\") {\n                r += p;\n            }\n        }\n        return r;\n    }\n};\n```\n\n```Java [sol1-Java]\nclass Solution {\n    public int translateNum(int num) {\n        String src = String.valueOf(num);\n        int p = 0, q = 0, r = 1;\n        for (int i = 0; i < src.length(); ++i) {\n            p = q; \n            q = r; \n            r = 0;\n            r += q;\n            if (i == 0) {\n                continue;\n            }\n            String pre = src.substring(i - 1, i + 1);\n            if (pre.compareTo(\"25\") <= 0 && pre.compareTo(\"10\") >= 0) {\n                r += p;\n            }\n        }\n        return r;\n    }\n}\n```\n\n```golang [sol1-Golang]\nfunc translateNum(num int) int {\n    src := strconv.Itoa(num)\n    p, q, r := 0, 0, 1\n    for i := 0; i < len(src); i++ {\n        p, q, r = q, r, 0\n        r += q\n        if i == 0 {\n            continue\n        }\n        pre := src[i-1:i+1]\n        if pre <= \"25\" && pre >= \"10\" {\n            r += p\n        }\n    }\n    return r\n}\n```\n\n**复杂度分析**\n\n记 ${\\rm num} = n$。\n\n+ 时间复杂度：循环的次数是 $n$ 的位数，故渐进时间复杂度为 $O(\\log n)$。\n+ 空间复杂度：虽然这里用了滚动数组，动态规划部分的空间代价是 $O(1)$ 的，但是这里用了一个临时变量把数字转化成了字符串，故渐进空间复杂度也是 $O(\\log n)$。",
+      "createdAt": "2020-06-08T11:23:42.711524+00:00",
+      "hitCount": 96310,
+      "identifier": "3BWrQj",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "mian-shi-ti-46-ba-shu-zi-fan-yi-cheng-zi-fu-chua-6",
+        "title": "面试题46. 把数字翻译成字符串（动态规划，清晰图解）"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "ba-shu-zi-fan-yi-cheng-zi-fu-chuan-lcof"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 68,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 7,
+          "reactionType": "AWESOME"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 6,
+          "reactionType": "CONFUSED"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "ba-shu-zi-fan-yi-cheng-zi-fu-chuan-by-leetcode-sol",
+      "status": "PUBLISHED",
+      "summary": "📺 视频题解\n📖 文字题解\n 方法一：动态规划\n思路和算法\n首先我们来通过一个例子理解一下这里「翻译」的过程：我们来尝试翻译「1402」。\n分成两种情况：\n\n首先我们可以把每一位单独翻译，即 [1, 4, 0, 2]，翻译的结果是 beac\n然后我们考虑组合某些连续的两位：\n\n[14, 0, 2]，翻译的结果是 oac",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Dynamic Programming",
+          "nameTranslated": "动态规划",
+          "slug": "dynamic-programming",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Go",
+          "nameTranslated": "",
+          "slug": "golang",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "把数字翻译成字符串",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 187,
+        "id": 280198,
+        "viewCount": 63422
+      },
+      "uuid": "3BWrQj",
+      "videosInfo": [
+        {
+          "__typename": "VideoInfoNode",
+          "coverUrl": "https://video.leetcode-cn.com/image/cover/812ABB3A0FA0492FB3E7C18E899DC6F4-6-2.png",
+          "duration": 500.2027,
+          "videoId": "03b085caecb6456196b659cd90837aee"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,77 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "oahrats",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/default_avatar.png",
+          "userSlug": "oahrats"
+        },
+        "username": "oahrats"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "![image.png](https://pic.leetcode-cn.com/1629546958-GpzKdU-image.png)\r\n\r\n```\r\nclass Point{int h;int w;int max;Point(int h, int w){this.h = h;this.w = w;}}\r\nclass Solution {\r\n    public int bestSeqAtIndex(int[] height, int[] weight) {\r\n        Point[] arr = new Point[height.length];\r\n        for(int i=0;i<arr.length;i++)arr[i]=new Point(height[i], weight[i]);\r\n        Arrays.sort(arr,(a,b)->(a.h!=b.h?(a.h-b.h):(b.w-a.w)));\r\n        TreeSet<Point> set = new TreeSet<Point>((a,b)->((a.max!=b.max?(b.max-a.max):(a.h!=b.h?(b.h-a.h):(b.w-a.w)))));\r\n        HashMap<Integer, Point> map = new HashMap<Integer, Point>();\r\n        int max=1;arr[0].max=1;set.add(arr[0]); \r\n        ArrayList<Point> rmLst = new ArrayList<Point>();\r\n        for(int i=1;i<height.length;i++){\r\n            int temp=1,h=arr[i].h,w=arr[i].w;\r\n            for(Point p:set)if(w>p.w&&h>p.h){temp = p.max+1;break;}\r\n            if(h>arr[i-1].h){for(Point p:rmLst)set.remove(p);rmLst.clear();}\r\n            if(temp>max)max = temp;arr[i].max=temp;\r\n            if(map.containsKey(temp)){\r\n                Point p = map.get(temp);if(arr[i].w<p.w){map.put(temp,arr[i]);set.add(arr[i]);rmLst.add(p);}\r\n            }else{set.add(arr[i]);map.put(temp,arr[i]);}\r\n        }\r\n        return max;\r\n    }\r\n}\r\n```\r\n",
+      "createdAt": "2021-08-21T11:12:15.269489+00:00",
+      "hitCount": 1098,
+      "identifier": "gp5PPs",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "xian-gen-ju-shen-gao-pai-xu-ruo-shen-gao-yi-yang-z",
+        "title": "先根据身高升序排序，若身高一样则根据体重降序排序"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "circus-tower-lcci"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 4,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "THUMBS_DOWN"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "mian-shi-ti-1708-ma-xi-tuan-ren-ta-by-oa-ziy9",
+      "status": "PREPUBLISH",
+      "summary": "[该用户太懒了，只上传了一段奇怪的内容]",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1629546958-GpzKdU-image.png",
+      "title": "面试题 17.08. 马戏团人塔(就是不信邪，谁说DP过不了)(AC)(DP+剪枝)",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 1,
+        "id": 949835,
+        "viewCount": 823
+      },
+      "uuid": "gp5PPs",
+      "videosInfo": []
+    }
+  }
+}

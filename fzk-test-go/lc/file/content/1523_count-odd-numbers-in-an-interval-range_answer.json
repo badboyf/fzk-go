@@ -1,0 +1,86 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣官方题解",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/leetcode-solution/avatar_1582018938.png",
+          "userSlug": "leetcode-solution"
+        },
+        "username": "LeetCode-Solution"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法一：前缀和思想\n\n**思路与算法**\n\n如果我们暴力枚举 ${\\rm [low, high]}$ 中的所有元素会超出时间限制。\n\n我们可以使用前缀和思想来解决这个问题，定义 ${\\rm pre}(x)$ 为区间 $[0, x]$ 中奇数的个数，很显然：\n\n$${\\rm pre}(x) = \\lfloor \\frac{x + 1}{2} \\rfloor$$\n\n故答案为 $\\rm pre(high) - pre(low - 1)$。\n\n**代码**\n\n```cpp [sol1-C++]\nclass Solution {\npublic:\n    int pre(int x) {\n        return (x + 1) >> 1;\n    }\n    \n    int countOdds(int low, int high) {\n        return pre(high) - pre(low - 1);\n    }\n};\n```\n\n```Java [sol1-Java]\nclass Solution {\n    public int countOdds(int low, int high) {\n        return pre(high) - pre(low - 1);\n    }\n\n    public int pre(int x) {\n        return (x + 1) >> 1;\n    }\n}\n```\n\n```Python [sol1-Python3]\nclass Solution:\n    def countOdds(self, low: int, high: int) -> int:\n        pre = lambda x: (x + 1) >> 1\n        return pre(high) - pre(low - 1)\n```\n\n**复杂度分析**\n\n+ 时间复杂度：$O(1)$。\n\n+ 空间复杂度：$O(1)$。",
+      "createdAt": "2020-08-12T02:42:12.361476+00:00",
+      "hitCount": 2783,
+      "identifier": "14Kn4a",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "jian-jian-dan-dan-yi-xing-dai-ma-shu-xue-3fu3",
+        "title": "简简单单一行代码,数学规律"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "count-odd-numbers-in-an-interval-range"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 6,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "zai-qu-jian-fan-wei-nei-tong-ji-qi-shu-shu-mu-by-l",
+      "status": "PUBLISHED",
+      "summary": "方法一：前缀和思想 思路与算法 如果我们暴力枚举 ${\\rm [low, high]}$ 中的所有元素会超出时间限制。 我们可以使用前缀和思想来解决这个问题，定义 ${\\rm pre}(x)$ 为区间 $[0, x]$ 中奇数的个数，很显然： {\\rm pre}(x) = \\lfloor \\frac{x + 1}{2}",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "在区间范围内统计奇数数目",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 11,
+        "id": 371283,
+        "viewCount": 2425
+      },
+      "uuid": "14Kn4a",
+      "videosInfo": []
+    }
+  }
+}

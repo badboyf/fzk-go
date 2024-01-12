@@ -1,0 +1,90 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "少年游",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/shan-wai-qing-shan-lou-wai-l-s/avatar_1611801354.png",
+          "userSlug": "nicosauto"
+        },
+        "username": "Nicosauto"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#  方法一：哈希表\n![QQ截图20210202094144.png](https://pic.leetcode-cn.com/1612230113-PdSnVV-QQ%E6%88%AA%E5%9B%BE20210202094144.png)\n### 解题思路\nhash_num 用于记录小球编号每位数字之和（从0开始，包含[lowLimit, highLimit + 1]）\nhash_value 用于记录[lowLimit, highLimit + 1]中某位数和的编号总数\n由于是从前往后递推，可用hash_num[i] = hash_num[i//10] + i % 10来得到较后面数的位数之和（某数位数之和 == 个位数 + 个位数之前的数字位数之和）\n### 代码\n```python3\nclass Solution:\n    def countBalls(self, lowLimit: int, highLimit: int) -> int:\n        hash_value = [0] * 46   # 记录某位数和的数字总数\n        hash_num = [0] * (highLimit + 1)  # 记录位数之和\n        for i in range(1,highLimit + 1):\n            hash_num[i] = hash_num[i//10] + i % 10\n        for i in range(lowLimit, highLimit + 1):\n            hash_value[hash_num[i]] += 1\n        return max(hash_value)\n```\n\n\n# 方法二：字符串\n### 代码\n```python3\nclass Solution:\n    def countBalls(self, lowLimit: int, highLimit: int) -> int:\n        value = [0] * 46\n        for i in range(lowLimit, highLimit+1):\n            num = 0\n            for j in str(i):\n                num += int(j)\n            value[num] += 1\n        return max(value)\n```\n\n# 方法三：（优化）字符串+利用前一个编号位数之和算出下一个编号位数之和\n![QQ截图20210202095126.png](https://pic.leetcode-cn.com/1612230988-KucERL-QQ%E6%88%AA%E5%9B%BE20210202095126.png)\n### 解题思路\ntmp用于记录编号各位数数字之和\n考察编号加一后是否进位。若进位，只进一位则tmp -= 8。 若不进位，tmp += 1\n### 代码\n```python3\nclass Solution:\n    def countBalls(self, lowLimit: int, highLimit: int) -> int:\n        hash_value = [0] * 46\n        tmp = sum(int(j) for j in str(lowLimit))\n        hash_value[tmp] += 1\n        for i in range(lowLimit + 1, highLimit + 1):\n            if not i % 10:\n                if i % 100 != 0:\n                    tmp -= 8\n                else:\n                    tmp = sum(int(j) for j in str(i))\n            else:\n                tmp += 1\n            hash_value[tmp] += 1\n        return max(hash_value)\n```\n\n\n\n# 方法四：一行代码(同方法二)\n### 代码\n```python3\nclass Solution:\n    def countBalls(self, lowLimit: int, highLimit: int) -> int:\n        return max(collections.Counter([sum(map(int, str(j))) for j in range(lowLimit, highLimit + 1)]).values())\n```\n\n",
+      "createdAt": "2021-02-02T01:38:45.164427+00:00",
+      "hitCount": 1430,
+      "identifier": "LvX1SG",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "1742-cchao-99de-bao-li-jie-fa-by-ffretur-1awi",
+        "title": "1742. c++超99的暴力解法"
+      },
+      "position": 4,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "li-yong-shang-yi-ge-xiao-qiu-he-zi-bian-f6xbe",
+        "title": "利用上一个小球盒子编号求出下一个小球盒子编号"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "maximum-number-of-balls-in-a-box"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 9,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "duo-chong-fang-fa-jie-jue-1742-he-zi-zho-oi4s",
+      "status": "PREPUBLISH",
+      "summary": "方法一：哈希表\n解题思路\nhash_num 用于记录小球编号每位数字之和（从0开始，包含[lowLimit, highLimit + 1]）\nhash_value 用于记录[lowLimit, highLimit + 1]中某位数和的编号总数\n由于是从前往后递推，可用hash_num[i] = hash_num[i//",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Hash Table",
+          "nameTranslated": "哈希表",
+          "slug": "hash-table",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python3",
+          "nameTranslated": "",
+          "slug": "python3",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1612230113-PdSnVV-QQ%E6%88%AA%E5%9B%BE20210202094144.png",
+      "title": "多种方法解决 1742. 盒子中小球的最大数量",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 587268,
+        "viewCount": 1215
+      },
+      "uuid": "LvX1SG",
+      "videosInfo": []
+    }
+  }
+}

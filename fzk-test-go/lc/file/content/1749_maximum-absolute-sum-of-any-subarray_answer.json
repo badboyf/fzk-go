@@ -1,0 +1,79 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "恩泽天下",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/en-ze-tian-xia/avatar_1606300062.png",
+          "userSlug": "en-ze-tian-xia"
+        },
+        "username": "en-ze-tian-xia"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n得出前缀和就能很快得到每个子数组的和，要得到子数组和的绝对值为最大，需要的到前缀和最大值和最小值，之后分三种情况能够的到绝对值最大值：\n1.最大值减去最小值（异号）\n2.最小值的绝对值\n3.最大值的绝对值\n\n### 代码\n\n```java\nclass Solution {\n    public int maxAbsoluteSum(int[] nums) {\n        int length = nums.length;\n        if (length < 2)return Math.abs(nums[0]);\n        int max = nums[0],min = nums[0];\n        for (int i = 1; i < nums.length; i++) {\n            nums[i] += nums[i - 1];\n            if (nums[i] > max){\n                max = nums[i];\n            }else if (nums[i] < min){\n                min = nums[i];\n            }\n        }\n        return Math.max(max - min,Math.max(Math.abs(min),Math.abs(max)));\n    }\n}\n```",
+      "createdAt": "2021-11-02T09:41:45.226045+00:00",
+      "hitCount": 103,
+      "identifier": "D4n50i",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "53ti-de-zi-mei-ti-by-yzboostforest-ko7b",
+        "title": "53题的姊妹题"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "maximum-absolute-sum-of-any-subarray"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "java-qian-zhui-he-by-en-ze-tian-xia-9w2f",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n得出前缀和就能很快得到每个子数组的和，要得到子数组和的绝对值为最大，需要的到前缀和最大值和最小值，之后分三种情况能够的到绝对值最大值：\n1.最大值减去最小值（异号）\n2.最小值的绝对值\n3.最大值的绝对值\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Prefix Sum",
+          "nameTranslated": "前缀和",
+          "slug": "prefix-sum",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "Java 前缀和",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1080371,
+        "viewCount": 76
+      },
+      "uuid": "D4n50i",
+      "videosInfo": []
+    }
+  }
+}

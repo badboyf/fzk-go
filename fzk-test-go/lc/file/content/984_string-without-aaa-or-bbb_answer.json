@@ -1,0 +1,72 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣 (LeetCode)",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/uploaded_files/2021/03/73c9f099-abbe-4d94-853f-f8abffd459cd/leetcode.png",
+          "userSlug": "leetcode"
+        },
+        "username": "LeetCode"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法：贪心\n\n**思路**\n\n直观感觉，我们应该先选择当前所剩最多的待写字母写入字符串中。举一个例子，如果  `A = 6, B = 2`，那么我们期望写出 `'aabaabaa'`。进一步说，设当前所剩最多的待写字母为 `x`，只有前两个已经写下的字母都是 `x` 的时候，下一个写入字符串中的字母才不应该选择它。\n\n**算法**\n\n我们定义 `A, B`：待写的 `'a'` 与 `'b'` 的数量。\n\n设当前还需要写入字符串的 `'a'` 与 `'b'` 中较多的那一个为 `x`，如果我们已经连续写了两个 `x` 了，下一次我们应该写另一个字母。否则，我们应该继续写 `x`。\n\n```java [xe7TWkmP-Java]\nclass Solution {\n    public String strWithout3a3b(int A, int B) {\n        StringBuilder ans = new StringBuilder();\n\n        while (A > 0 || B > 0) {\n            boolean writeA = false;\n            int L = ans.length();\n            if (L >= 2 && ans.charAt(L-1) == ans.charAt(L-2)) {\n                if (ans.charAt(L-1) == 'b')\n                    writeA = true;\n            } else {\n                if (A >= B)\n                    writeA = true;\n            }\n\n            if (writeA) {\n                A--;\n                ans.append('a');\n            } else {\n                B--;\n                ans.append('b');\n            }\n        }\n\n        return ans.toString();\n    }\n}\n```\n```python [xe7TWkmP-Python]\nclass Solution(object):\n    def strWithout3a3b(self, A, B):\n        ans = []\n\n        while A or B:\n            if len(ans) >= 2 and ans[-1] == ans[-2]:\n                writeA = ans[-1] == 'b'\n            else:\n                writeA = A >= B\n\n            if writeA:\n                A -= 1\n                ans.append('a')\n            else:\n                B -= 1\n                ans.append('b')\n\n        return \"\".join(ans)\n```\n\n\n**复杂度分析**\n\n* 时间复杂度：$O(A+B)$。\n\n* 空间复杂度：$O(A+B)$。\n\n\n\n",
+      "createdAt": "2019-01-27T10:01:37.030811+00:00",
+      "hitCount": 8900,
+      "identifier": "UUTA7M",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "kuai-man-zhi-zhen-si-wei-by-mess-e-88qr",
+        "title": "快慢指针思维"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "string-without-aaa-or-bbb"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 5,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "bu-han-aaa-huo-bbb-de-zi-fu-chuan-by-leetcode",
+      "status": "PUBLISHED",
+      "summary": "思路\n直观感觉，我们应该先选择当前所剩最多的待写字母写入字符串中。举一个例子，如果  A = 6, B = 2，那么我们期望写出 'aabaabaa'。进一步说，设当前所剩最多的待写字母为 x，只有前两个已经写下的字母都是 x 的时候，下一个写入字符串中的字母才不应该选择它。\n算法\n我们定义 A, B：待写的 'a' ",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "不含 AAA 或 BBB 的字符串",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 12,
+        "id": 3598,
+        "viewCount": 5292
+      },
+      "uuid": "UUTA7M",
+      "videosInfo": []
+    }
+  }
+}

@@ -1,0 +1,79 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "Rookie",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/rookie-127/avatar_1632196635.png",
+          "userSlug": "rookiewantajob"
+        },
+        "username": "rookieWantAJob"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "```\r\n/**\r\n * Definition for a binary tree node.\r\n * public class TreeNode {\r\n *     int val;\r\n *     TreeNode left;\r\n *     TreeNode right;\r\n *     TreeNode(int x) { val = x; }\r\n * }\r\n */\r\nclass Solution {\r\n    public boolean checkSubTree(TreeNode t1, TreeNode t2) {\r\n        TreeNode findRoot = findRoot( t1, t2);\r\n        // 如果没有找到相等节点\r\n        if(findRoot==null){\r\n            return false;\r\n        }\r\n        // 找到相等节点 返回比较的结果\r\n        return judge(findRoot,t2);\r\n    }\r\n    // 寻找是否有相同的节点\r\n    public TreeNode findRoot(TreeNode t1,TreeNode t2){\r\n        if(t1!=null){\r\n            if(t1.val  == t2.val){\r\n                return t1;\r\n            }\r\n            TreeNode left = findRoot(t1.left,t2);\r\n            TreeNode right = findRoot(t1.right,t2);\r\n            if(left!=null) return left;\r\n            else if(right !=null) return right;\r\n        }\r\n        return null;\r\n    }\r\n    // 判断是否为子树\r\n    public boolean judge(TreeNode t1,TreeNode t2){\r\n        if(t1!=null){\r\n            // 如果t1 ==null  && t2!=null\r\n            if(t2==null) return false;\r\n            // 如果t1.val != t2.val\r\n            if(t1.val != t2.val) return false;\r\n            else {\r\n            // t1 !=null t2!=null  t1.val == t2.val 结果取决于两个子树的结果\r\n            return judge(t1.left,t2.left) && judge(t1.right,t2.right);\r\n            }\r\n            // 如果t1 ==null && t2!=null  \r\n        }else if(t1==null && t2!=null) return false;\r\n        //  t1==null  t2==null\r\n        return true;\r\n    }\r\n}\r\n```\r\n",
+      "createdAt": "2021-11-12T08:58:54.324904+00:00",
+      "hitCount": 94,
+      "identifier": "57cXw8",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "java-di-gui-pan-duan-by-rookiewantajob-qnro",
+        "title": "java  递归判断"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "check-subtree-lcci"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "java-di-gui-by-rookiewantajob-8rn6",
+      "status": "PREPUBLISH",
+      "summary": "[该用户太懒了，只写了 49 行代码]",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Recursion",
+          "nameTranslated": "递归",
+          "slug": "recursion",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "java",
+          "nameTranslated": "",
+          "slug": "java-11",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "",
+      "title": "java 递归",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1097975,
+        "viewCount": 85
+      },
+      "uuid": "57cXw8",
+      "videosInfo": []
+    }
+  }
+}

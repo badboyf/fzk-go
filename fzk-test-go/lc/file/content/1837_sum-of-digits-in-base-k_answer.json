@@ -1,0 +1,86 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣官方题解",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/leetcode-solution/avatar_1582018938.png",
+          "userSlug": "leetcode-solution"
+        },
+        "username": "LeetCode-Solution"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法一：模拟\n\n**提示 $1$**\n\n模拟进制转换的过程。\n\n**提示 $2$**\n\n事实上，我们并不需要显式求出进制转换后的结果。\n\n**思路与算法**\n\n在将 $10$ 进制的数转换为 $k$ 进制的过程中，我们只需要用 $\\textit{res}$ 维护各位数字之和即可。\n\n**代码**\n\n```C++ [sol1-C++]\nclass Solution {\npublic:\n    int sumBase(int n, int k) {\n        int res = 0;\n        while (n){\n            res += n % k;\n            n /= k;\n        }\n        return res;\n    }\n};\n```\n\n```Python [sol1-Python3]\nclass Solution:\n    def sumBase(self, n: int, k: int) -> int:\n        res = 0\n        while n:\n            res += n % k\n            n //= k\n        return res\n```\n\n**复杂度分析**\n\n- 时间复杂度：$O(\\log n)$，循环的次数与 $n$ 在 $k$ 进制下的位数相同。\n\n- 空间复杂度：$O(1)$。",
+      "createdAt": "2021-04-25T05:13:24.125955+00:00",
+      "hitCount": 2265,
+      "identifier": "kbbqsH",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "2-xing-dai-ma-shuang-bai-ti-jie-by-liu-y-vnd4",
+        "title": "2 行代码。。。双百题解"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "sum-of-digits-in-base-k"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 6,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "k-jin-zhi-biao-shi-xia-de-ge-wei-shu-zi-4ltwc",
+      "status": "PUBLISHED",
+      "summary": "方法一：模拟 提示 $1$ 模拟进制转换的过程。 提示 $2$ 事实上，我们并不需要显式求出进制转换后的结果。 思路与算法 在将 $10$ 进制的数转换为 $k$ 进制的过程中，我们只需要用 $\\textit{res}$ 维护各位数字之和即可。 代码 C++ [sol1-C++] class Solution { pu",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Math",
+          "nameTranslated": "数学",
+          "slug": "math",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "K 进制表示下的各位数字总和",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 6,
+        "id": 742714,
+        "viewCount": 1931
+      },
+      "uuid": "kbbqsH",
+      "videosInfo": []
+    }
+  }
+}

@@ -1,0 +1,105 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣官方题解",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/leetcode-solution/avatar_1582018938.png",
+          "userSlug": "leetcode-solution"
+        },
+        "username": "LeetCode-Solution"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法一：暴力统计\n\n**思路与算法**\n\n对于每个 $a_i$，枚举所有的 $a_j (j > i)$，检查是否满足 $a_i = a_j$，如果是就计入答案。\n\n**代码**\n\n```cpp [sol1-C++]\nclass Solution {\npublic:\n    int numIdenticalPairs(vector<int>& nums) {\n        int ans = 0;\n        for (int i = 0; i < nums.size(); ++i) {\n            for (int j = i + 1; j < nums.size(); ++j) {\n                if (nums[i] == nums[j]) {\n                    ++ans;\n                }\n            }\n        }\n        return ans;\n    }\n};\n```\n\n```Java [sol1-Java]\nclass Solution {\n    public int numIdenticalPairs(int[] nums) {\n        int ans = 0;\n        for (int i = 0; i < nums.length; ++i) {\n            for (int j = i + 1; j < nums.length; ++j) {\n                if (nums[i] == nums[j]) {\n                    ++ans;\n                }\n            }\n        }\n        return ans;\n    }\n}\n```\n\n```Python [sol1-Python3]\nclass Solution:\n    def numIdenticalPairs(self, nums: List[int]) -> int:\n        ans = 0\n        for i in range(len(nums)):\n            for j in range(i + 1, len(nums)):\n                if nums[i] == nums[j]:\n                    ans += 1\n        return ans\n```\n\n**复杂度分析**\n\n+ 时间复杂度：$O(n^2)$。\n+ 空间复杂度：$O(1)$。\n\n#### 方法二：组合计数\n\n**思路与算法**\n\n用哈希表统计每个数在序列中出现的次数，假设数字 $k$ 在序列中出现的次数为 $v$，那么满足题目中所说的 ${\\rm nums}[i] = {\\rm nums}[j] = k(i < j)$ 的 $(i, j)$ 的数量就是 $\\frac{v(v - 1)}{2}$，即 $k$ 这个数值对答案的贡献是 $\\frac{v(v - 1)}{2}$。我们只需要把所有数值的贡献相加，即可得到答案。\n\n**代码**\n\n```cpp [sol2-C++]\nclass Solution {\npublic:\n    int numIdenticalPairs(vector<int>& nums) {\n        unordered_map <int, int> m;\n        for (int num: nums) {\n            ++m[num];\n        }\n\n        int ans = 0;\n        for (const auto &[k, v]: m) {\n            ans += v * (v - 1) / 2;\n        }\n\n        return ans;\n    }\n};\n```\n\n```Java [sol2-Java]\nclass Solution {\n    public int numIdenticalPairs(int[] nums) {\n        Map<Integer, Integer> m = new HashMap<Integer, Integer>();\n        for (int num : nums) {\n            m.put(num, m.getOrDefault(num, 0) + 1);\n        }\n\n        int ans = 0;\n        for (Map.Entry<Integer, Integer> entry : m.entrySet()) {\n            int v = entry.getValue();\n            ans += v * (v - 1) / 2;\n        }\n\n        return ans;\n    }\n}\n```\n\n```Python [sol2-Python3]\nclass Solution:\n    def numIdenticalPairs(self, nums: List[int]) -> int:\n        m = collections.Counter(nums)\n        return sum(v * (v - 1) // 2 for k, v in m.items())\n```\n\n**复杂度分析**\n\n+ 时间复杂度：$O(n)$。\n+ 空间复杂度：$O(n)$，即哈希表使用到的辅助空间的空间代价。",
+      "createdAt": "2020-07-18T13:46:52.373159+00:00",
+      "hitCount": 21173,
+      "identifier": "8iBxMD",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "zhe-gu-ji-shi-wo-xie-zen-yao-duo-ti-yi-lai-zui-dua",
+        "title": "这估计是我写怎么多题以来最短的代码了"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "number-of-good-pairs"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 15,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "hao-shu-dui-de-shu-mu-by-leetcode-solution",
+      "status": "PUBLISHED",
+      "summary": "方法一：暴力统计 思路与算法 对于每个 $a_i$，枚举所有的 $a_j (j > i)$，检查是否满足 $a_i = a_j$，如果是就计入答案。 代码 cpp [sol1-C++] class Solution { public:     int numIdenticalPairs(vector<int>& num",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Hash Table",
+          "nameTranslated": "哈希表",
+          "slug": "hash-table",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Math",
+          "nameTranslated": "数学",
+          "slug": "math",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "好数对的数目",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 49,
+        "id": 336449,
+        "viewCount": 16964
+      },
+      "uuid": "8iBxMD",
+      "videosInfo": []
+    }
+  }
+}

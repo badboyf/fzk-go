@@ -1,0 +1,72 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "我要出去乱说",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/wo-yao-chu-qu-luan-shuo/avatar_1613985810.png",
+          "userSlug": "wo-yao-chu-qu-luan-shuo"
+        },
+        "username": "wo-yao-chu-qu-luan-shuo"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "> 思路：完全二叉树只有最后一层是不满的，通过层序遍历就能找到应该插入的节点位置的父节点，然后将新节点插到该父节点下面即可。\r\n\r\n```\r\nclass CBTInserter {\r\nprivate:\r\n    TreeNode* root;\r\n    queue<TreeNode*> q;\r\n\r\npublic:\r\n    CBTInserter(TreeNode* root) {\r\n        this->root = root;\r\n\r\n        q.push(root);\r\n        //只要当前节点存在左右子节点，它就是满的，将左右子节点入栈\r\n        //直到遇见一个子节点不满的节点为止，此时退出循环，它就是我们要找的父节点\r\n        while (q.front()->left != nullptr && q.front()->right != nullptr)\r\n        {\r\n            auto tmp = q.front();\r\n            q.pop();\r\n            q.push(tmp->left);\r\n            q.push(tmp->right);\r\n        }\r\n    }\r\n    \r\n    int insert(int v) {\r\n        TreeNode* parent = q.front();       //取得队首的节点，它的子节点不满\r\n        TreeNode* node = new TreeNode(v);   //创建节点\r\n\r\n        if (parent->left == nullptr)        //若没有左子节点，就直接挂到左边\r\n        {\r\n            parent->left = node;\r\n        }\r\n        else                                //若没有右子节点，就直接挂到右边\r\n        {\r\n            parent->right = node;\r\n\r\n            q.pop();                        //此时该节点已满，所以出队\r\n            q.push(parent->left);           //它的左右子节点继续入队\r\n            q.push(parent->right);\r\n        }\r\n\r\n        return parent->val;\r\n    }\r\n    \r\n    TreeNode* get_root() {\r\n        return root;\r\n    }\r\n};\r\n```",
+      "createdAt": "2021-11-03T16:53:59.012626+00:00",
+      "hitCount": 289,
+      "identifier": "NYZ6m9",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "jian-zhi-offer-2-mian-shi-ti-43-shu-zhon-hy4v",
+        "title": " 《剑指offer 2 面试题43》 书中算法C++实现"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "NaqhDT"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": false,
+      "slug": "jian-zhi-offer-ii-043-wang-wan-quan-er-c-yti3",
+      "status": "PREPUBLISH",
+      "summary": "思路：完全二叉树只有最后一层是不满的，通过层序遍历就能找到应该插入的节点位置的父节点，然后将新节点插到该父节点下面即可。",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "剑指 Offer II 043. 往完全二叉树添加节点（层序遍历）",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1082858,
+        "viewCount": 226
+      },
+      "uuid": "NYZ6m9",
+      "videosInfo": []
+    }
+  }
+}

@@ -1,0 +1,84 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣 (LeetCode)",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/uploaded_files/2021/03/73c9f099-abbe-4d94-853f-f8abffd459cd/leetcode.png",
+          "userSlug": "leetcode"
+        },
+        "username": "LeetCode"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "##  解决方法：\n####  方法一：减少搜索空间 [通过]\n由于搜索空间非常大（$2^N$ 个灯光的状态，$4^M$ 个操作顺序 ），让我们尝试减少它。 \n\n前6个灯唯一地决定了其余的灯。这是因为每一个修改  第 $x$  的灯光的操作都会修改第 $(x+6)$ 的灯光。\n\n另外：进行 A 操作后接 B 操作 和 B 操作后接 A 操作是一样的，所以我们可以假设我们按顺序进行所有操作。  \n\n最后，连续两次执行相同的操作与不执行任何操作相同。所以我们只需要考虑每个操作是 0 次还是 1 次。 \n\n**算法：**\n- 假设我们做了第 $i$ 个操作 $f_i$ 次。 也就是说：$c_i = f_i$ ($\\mod 2$ )\n- 因为 $c_i \\equiv f_i$ and $c_i \\leq f_i$，所以 $\\sum f_i \\not \\equiv \\sum c_i$ 和 $\\sum f_i<\\sum c_i$ 是不可能的。否则，可以通过一个简单的构造来实现：执行由 $c_i$ 指定的操作，然后使用剩余的偶数操作执行操作 1。 \n- 对于每个可能性，让我们模拟并记住前 6 个灯的状态，将其存储在集合结构 `seen` 中。最后，我们将返回这个集合的大小。 \n\n```Python [ ]\ndef flipLights(self, n, m):\n    seen = set()\n    for cand in itertools.product((0, 1), repeat = 4):\n        if sum(cand) % 2 == m % 2 and sum(cand) <= m:\n            A = []\n            for i in xrange(min(n, 3)):\n                light = 1\n                light ^= cand[0]\n                light ^= cand[1] and i % 2\n                light ^= cand[2] and i % 2 == 0\n                light ^= cand[3] and i % 3 == 0\n                A.append(light)\n            seen.add(tuple(A))\n\n    return len(seen)\n```\n\n```Java [ ]\nclass Solution {\n    public int flipLights(int n, int m) {\n        Set<Integer> seen = new HashSet();\n        n = Math.min(n, 6);\n        int shift = Math.max(0, 6-n);\n        for (int cand = 0; cand < 16; ++cand) {\n            int bcount = Integer.bitCount(cand);\n            if (bcount % 2 == m % 2 && bcount <= m) {\n                int lights = 0;\n                if (((cand >> 0) & 1) > 0) lights ^= 0b111111 >> shift;\n                if (((cand >> 1) & 1) > 0) lights ^= 0b010101 >> shift;\n                if (((cand >> 2) & 1) > 0) lights ^= 0b101010 >> shift;\n                if (((cand >> 3) & 1) > 0) lights ^= 0b100100 >> shift;\n                seen.add(lights);\n            }\n        }\n        return seen.size();\n    }\n}\n```\n\n\n**复杂度分析**\n\n* 时间复杂度：$O(1)$。\n* 空间复杂度：$O(1)$。\n\n\n####  方法二：\n**算法：**\n- 因为前 6 个灯唯一地决定了其余的灯。这是因为修改第 $x$ 灯光的每个操作都会修改 第 $(x+6)$ 灯光，因此 $x$ 灯光始终等于 $(x+6)$ 灯光。 \n- 实际上，前 3 个灯唯一地确定了序列的其余部分，如下表所示，用于执行操作 a, b, c, d:\n\n```\nLight 1 = 1 + a + c + d\nLight 2 = 1 + a + b\nLight 3 = 1 + a + c\nLight 4 = 1 + a + b + d\nLight 5 = 1 + a + c\nLight 6 = 1 + a + b\n```\n\n- 上述理由表明，在不损失一般性的情况下，取 $n = min(n, 3)$  是合理的。\n- 让我们用 $(a, b, c)$ 来表示灯的状态。与值为 $(1, 1, 1), (0, 1, 0), (1, 0, 1),$  $(1, 0, 0)$ xor. \n- 当 $m=0$ 时，所有灯都亮起，只有一个状态 $(1, 1, 1)$。在这种情况下，答案总是 1。 \n- 当 $m=1$ 时，我们可以得到状态 $(0, 0, 0)$, $(1, 0, 1)$, $(0, 1, 0)$,  $(0, 1, 1)$。在这种情况下，对于 $n = 1, 2, 3$ 的答案是 $2, 3, 4$。 \n- 当 $m=2$ 时，我们可以检查是否可以获得 7 个状态：除$(0, 1, 1)$之外的所有状态。在这种情况下，$n = 1, 2, 3$ 的答案是 $2, 4, 7$。 \n- 当 $m=3$ 时，我们可以得到所有 8 个状态。在这种情况下，$n = 1, 2, 3$ 的答案是 $2, 4, 8$\n\n```Python [ ]\nclass Solution(object):\n    def flipLights(self, n, m):\n        n = min(n, 3)\n        if m == 0: return 1\n        if m == 1: return [2, 3, 4][n-1]\n        if m == 2: return [2, 4, 7][n-1]\n        return [2, 4, 8][n-1]\n```\n\n```Java [ ]\nclass Solution {\n    public int flipLights(int n, int m) {\n        n = Math.min(n, 3);\n        if (m == 0) return 1;\n        if (m == 1) return n == 1 ? 2 : n == 2 ? 3 : 4;\n        if (m == 2) return n == 1 ? 2 : n == 2 ? 4 : 7;\n        return n == 1 ? 2 : n == 2 ? 4 : 8;\n    }\n}\n```\n\n**复杂度分析**\n- 时空复杂性：$O(1)$。整个程序使用常量。",
+      "createdAt": "2019-08-13T06:44:51.712131+00:00",
+      "hitCount": 8305,
+      "identifier": "5iVZFD",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "dfsjian-shao-sou-suo-fan-wei-by-tosim-pfv5",
+        "title": "dfs(减少搜索范围)"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "bulb-switcher-ii"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 24,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "CONFUSED"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "deng-pao-kai-guan-ii-by-leetcode",
+      "status": "PUBLISHED",
+      "summary": "解决方法：\n§ 方法一：减少搜索空间 [通过]\n由于搜索空间非常大（2^N 个灯光的状态，4^M 个操作顺序 ），让我们尝试减少它。\n前6个灯唯一地决定了其余的灯。这是因为每一个修改  第 x  的灯光的操作都会修改第 (x+6) 的灯光。\n另外：进行 A 操作后接 B 操作 和 B 操作后接 A 操作是一样的，所以我",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "灯泡开关 Ⅱ",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 19,
+        "id": 20207,
+        "viewCount": 5796
+      },
+      "uuid": "5iVZFD",
+      "videosInfo": []
+    }
+  }
+}

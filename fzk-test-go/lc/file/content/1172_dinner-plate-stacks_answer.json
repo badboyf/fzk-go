@@ -1,0 +1,93 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "ffreturn",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/ffreturn/avatar_1608859813.png",
+          "userSlug": "ffreturn"
+        },
+        "username": "ffreturn"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "![image.png](https://pic.leetcode-cn.com/1634373873-ikiQOl-image.png)\n\n\n### 解题思路\n模拟解法\n- 我们不用优先队列类似解法，而是回归到一般思路去解决\n- 我们构建一个栈的数组\n- 记录两个重要参数\n   - pushIndex 第一个可push的栈的序号(本质是可插入栈的序号，对于满的情况，则就是数组的大小)\n   - popIndex 第一个可pop的栈的序号(本质是栈顶，其实是最右边的栈顶)\n   - 每次pop和push都会去尝试更新这两个序号\n\n更多细节参见代码和注释吧\n\n### 代码\n\n```cpp\n\n// 直接用数组嵌套会超时，改为一维数组\nint ss[5000000];\nint si[500000];\n\nclass DinnerPlates {\nprivate:\n    // 直接用数组嵌套会超时，改为一维数组\n    // vector<vector<int>> ss;\n    int capacity;\n    int pushIndex = 0;\n    int popIndex = -1;\n    int ssSize = 0;\n\npublic:\n    DinnerPlates(int capacity) {\n        this->capacity = capacity;\n        memset(ss, 0 ,sizeof(ss));\n        memset(si, 0, sizeof(si));\n    }\n    \n    void push(int val) {\n        // 如果已满，则需要扩展\n        if (pushIndex >= ssSize)\n        {\n            // vector<int> newV;\n            // newV.reserve(8192);\n            // newV.push_back(val);\n            // ss.push_back(newV);\n            ss[pushIndex*capacity] = val;\n            ++ssSize;\n            ++si[pushIndex];\n            pushIndex = ssSize - 1;\n            popIndex = pushIndex;\n            // 边缘情况，对于1，一插入就满了，需要增大pushIndex\n            if (si[pushIndex] == capacity)\n            {\n                ++pushIndex;\n            }\n        }\n        else\n        {\n            ss[pushIndex*capacity + si[pushIndex]] = val;\n            ++si[pushIndex];\n            // 需要去更新popIndex更大的值\n            if (popIndex < pushIndex)\n            {\n                popIndex = pushIndex;\n            }\n            // 如果塞满了，则需要更新pushIndex\n            while (pushIndex < ssSize && si[pushIndex] == capacity)\n            {\n                ++pushIndex;\n            }\n        }\n    }\n    \n    int pop() {\n        if (popIndex >= 0)\n        {\n            int curr = ss[popIndex*capacity + si[popIndex]-1];\n            --si[popIndex];\n            // 弹出后，pushIndex可能需要收缩\n            if (popIndex < pushIndex && popIndex != -1)\n            {\n                pushIndex = popIndex;\n            }\n            // 考虑弹出后为空，可能收缩popIndex\n            while ((popIndex >= 0) && (si[popIndex] == 0))\n            {\n                --popIndex;\n            }\n            return curr;\n        }\n        else\n        {\n            return -1;\n        }\n    }\n    \n    int popAtStack(int index) {\n        if (index >= ssSize || si[index] == 0)\n        {\n            return -1;\n        }\n\n        int curr = ss[index*capacity + si[index]-1];\n        --si[index];\n        // 弹出后，可能收缩pushIndex\n        if (index < pushIndex)\n        {\n            pushIndex = index;\n        }\n        // 弹出后出现空位，收缩popIndex\n        if (si[index] == 0 && popIndex == index)\n        {\n            while (popIndex >= 0 && si[popIndex] == 0)\n            {\n                --popIndex;\n            }\n        }\n\n        return curr;\n    }\n};\n\n/**\n * Your DinnerPlates object will be instantiated and called as such:\n * DinnerPlates* obj = new DinnerPlates(capacity);\n * obj->push(val);\n * int param_2 = obj->pop();\n * int param_3 = obj->popAtStack(index);\n */\n```",
+      "createdAt": "2021-10-16T08:45:23.666097+00:00",
+      "hitCount": 82,
+      "identifier": "trtNQp",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "mo-ni-vectorstack-by-zhouzihong-tmbr",
+        "title": "【模拟vector<stack>】"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "dinner-plate-stacks"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "1172-czui-po-su-zhi-bai-de-zhi-jie-jie-f-6kd0",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n模拟解法\n\n我们不用优先队列类似解法，而是回归到一般思路去解决\n我们构建一个栈的数组\n记录两个重要参数\n\npushIndex 第一个可push的栈的序号(本质是可插入栈的序号，对于满的情况，则就是数组的大小)\npopIndex 第一个可pop的栈的序号(本质是栈顶，其实是最右边的栈顶)\n每次pop和push都",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Stack",
+          "nameTranslated": "栈",
+          "slug": "stack",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "小白",
+          "nameTranslated": "",
+          "slug": "xiao-bai",
+          "tagType": "ADDITIONAL_TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "梦想",
+          "nameTranslated": "",
+          "slug": "meng-xiang",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1634373873-ikiQOl-image.png",
+      "title": "1172. c++最朴素直白的直接解法",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1050328,
+        "viewCount": 66
+      },
+      "uuid": "trtNQp",
+      "videosInfo": []
+    }
+  }
+}

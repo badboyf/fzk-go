@@ -1,0 +1,72 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "白柚",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/chnxiao-jia/avatar_1622462758.png",
+          "userSlug": "chn-dk"
+        },
+        "username": "chn-DK"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "\n### 代码\n\n```cpp\ntypedef pair<int, int> PII;\nconst int N = 12010, M = 4400010;\n\nclass Solution {\npublic:\n    int h[N], e[M], ne[M], w[M], idx;\n    int dist[N];\n    bool st[N];\n\n    int get(int n, int x, int k) {\n        return k * n + x;\n    }\n\n    void add(int a, int b, int c) {\n        e[idx] = b, w[idx] = c, ne[idx] = h[a], h[a] = idx ++;\n    }\n\n    int dijkstra(int S, int E) {\n        memset(dist, 0x3f, sizeof dist);\n        memset(st, 0, sizeof st);\n        priority_queue<PII, vector<PII>, greater<PII>> heap;\n        dist[S] = 0;\n        heap.push({0, S});\n\n        while(heap.size()) {\n            auto t = heap.top();\n            heap.pop();\n\n            int ver = t.second;\n\n            if(st[ver]) continue;\n            st[ver] = true;\n\n            for(int i = h[ver]; ~i; i = ne[i]) {\n                int j = e[i];\n                if(dist[j] > dist[ver] + w[i]) {\n                    dist[j] = dist[ver] + w[i];\n                    heap.push({dist[j], j});\n                }\n            }\n        }\n        return dist[E];\n    }\n\n    int electricCarPlan(vector<vector<int>>& paths, int cnt, int start, int end, vector<int>& charge) {\n        memset(h, -1, sizeof h), idx = 0;\n        int n = charge.size();\n        for(auto x : paths) {\n            int a = x[0], b = x[1], c = x[2];\n            for(int i = c; i <= cnt; i ++) {\n                add(get(n, a, i), get(n, b, i - c), c);\n                add(get(n, b, i), get(n, a, i - c), c);\n            }\n        }\n        for(int i = 0; i < n; i ++) {\n            for(int j = 0; j < cnt; j ++)\n                add(get(n, i, j), get(n, i, j + 1), charge[i]);\n        }\n        int T = N - 1;\n        for(int i = 0; i < cnt; i ++) add(get(n, end, i), T, 0);\n        return dijkstra(get(n, start, 0), T);;\n    }\n};\n```",
+      "createdAt": "2021-11-24T06:43:58.497311+00:00",
+      "hitCount": 12,
+      "identifier": "bbloNV",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "dijkstrasuan-fa-qiu-zui-duan-lu-jing-by-usiix",
+        "title": "Dijkstra算法求最短路径"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "DFPeFJ"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "fen-ceng-tu-zui-duan-lu-by-chnxiao-jia-sudz",
+      "status": "PUBLISHED",
+      "summary": "代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Dijkstra",
+          "nameTranslated": "",
+          "slug": "dijkstra",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "",
+      "title": "分层图最短路",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1119693,
+        "viewCount": 11
+      },
+      "uuid": "bbloNV",
+      "videosInfo": []
+    }
+  }
+}

@@ -1,0 +1,63 @@
+{
+  "data": {
+    "question": {
+      "__typename": "QuestionNode",
+      "book": null,
+      "boundTopicId": 293060,
+      "categoryTitle": "Database",
+      "codeSnippets": null,
+      "companyTagStats": null,
+      "content": null,
+      "contributors": [],
+      "dailyRecordStatus": null,
+      "difficulty": "Easy",
+      "dislikes": 0,
+      "editorType": "CKEDITOR",
+      "enableRunCode": true,
+      "envInfo": "{\"mysql\":[\"MySQL\",\"<p>\\u7248\\u672c\\uff1a<code>MySQL 8.0<\\/code><\\/p>\"],\"mssql\":[\"MS SQL Server\",\"<p>mssql server 2019.<\\/p>\"],\"oraclesql\":[\"Oracle\",\"<p>Oracle Sql 11.2.<\\/p>\"]}",
+      "exampleTestcases": "",
+      "hints": [],
+      "isDailyQuestion": false,
+      "isLiked": null,
+      "isPaidOnly": true,
+      "isSubscribed": false,
+      "judgeType": "large",
+      "judgerAvailable": true,
+      "langToValidPlayground": null,
+      "likes": 27,
+      "metaData": "{\n  \"mysql\": [\n    \"Create table If Not Exists Activities (sell_date date, product varchar(20))\"\n  ],\n  \"mssql\": [\n    \"Create table Activities (sell_date date, product varchar(20))\"\n  ],\n  \"oraclesql\": [\n    \"Create table Activities (sell_date date, product varchar(20))\",\n    \"ALTER SESSION SET nls_date_format='YYYY-MM-DD'\"\n  ],\n  \"database\": true\n}",
+      "mysqlSchemas": [
+        "Create table If Not Exists Activities (sell_date date, product varchar(20))",
+        "Truncate table Activities",
+        "insert into Activities (sell_date, product) values ('2020-05-30', 'Headphone')",
+        "insert into Activities (sell_date, product) values ('2020-06-01', 'Pencil')",
+        "insert into Activities (sell_date, product) values ('2020-06-02', 'Mask')",
+        "insert into Activities (sell_date, product) values ('2020-05-30', 'Basketball')",
+        "insert into Activities (sell_date, product) values ('2020-06-01', 'Bible')",
+        "insert into Activities (sell_date, product) values ('2020-06-02', 'Mask')",
+        "insert into Activities (sell_date, product) values ('2020-05-30', 'T-Shirt')"
+      ],
+      "questionFrontendId": "1485",
+      "questionId": "1625",
+      "sampleTestCase": "{\"headers\":{\"Activities\":[\"sell_date\",\"product\"]},\"rows\":{\"Activities\":[[\"2020-05-30\",\"Headphone\"],[\"2020-06-01\",\"Pencil\"],[\"2020-06-02\",\"Mask\"],[\"2020-05-30\",\"Basketball\"],[\"2020-06-01\",\"Bible\"],[\"2020-06-02\",\"Mask\"],[\"2020-05-30\",\"T-Shirt\"]]}}",
+      "similarQuestions": "[]",
+      "solution": null,
+      "stats": "{\"totalAccepted\": \"4K\", \"totalSubmission\": \"6.1K\", \"totalAcceptedRaw\": 4029, \"totalSubmissionRaw\": 6129, \"acRate\": \"65.7%\"}",
+      "status": null,
+      "style": "LEETCODE",
+      "title": "Group Sold Products By The Date",
+      "titleSlug": "group-sold-products-by-the-date",
+      "topicTags": [
+        {
+          "__typename": "TopicTagNode",
+          "name": "Database",
+          "slug": "database",
+          "translatedName": "数据库"
+        }
+      ],
+      "translatedContent": null,
+      "translatedTitle": "按日期分组销售产品",
+      "ugcQuestionId": null
+    }
+  }
+}

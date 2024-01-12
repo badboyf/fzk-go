@@ -1,0 +1,84 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "angela",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/angela-x/avatar_1632561041.png",
+          "userSlug": "angela-x"
+        },
+        "username": "angela-x"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n- 在长度为n的排序数组中，第k大的数字的下标是n-k\n- 用快速排序的函数partition对数组分区，如果函数partition选取的中间值在分区之后的下标正好是n-k，分区后左边的的值都比中间值小，右边的值都比中间值大，即使整个数组不是排序的，中间值也肯定是第k大的数字\n- 如果函数partition选取的中间值在分区之后的下标大于n-k，那么第k大的数字一定位于中间值的左侧，于是再对中间值的左侧的子数组分区\n- 如果函数partition选择的中间值在分区之后的下标小于n-k，那么第k大的数字一定位于中间值的右侧，于是再对中间值的右侧的子数组分区\n\n### 代码\n\n```javascript\n/**\n * @param {number[]} nums\n * @param {number} k\n * @return {number}\n */\n// 单边循环法\nfunction partition(arr, startIndex, endIndex) {\n  // 取第一个位置的元素作为基准元素（也可以选择随机位置）\n  let pivot = arr[startIndex];\n  // 设置一个mark指针指向数组起始位置 -- 最终  这个mark指针代表小于基准元素的区域边界\n  let mark = startIndex;\n  for (let i = startIndex + 1; i <= endIndex; i++) {\n    if (arr[i] < pivot) {\n      mark++;\n      [arr[mark], arr[i]] = [arr[i], arr[mark]];\n    }\n  }\n  arr[startIndex] = arr[mark];\n  arr[mark] = pivot;\n  return mark;\n}\nvar findKthLargest = function (nums, k) {\n  let targetIndex = nums.length - k;\n  let start = 0,\n    end = nums.length - 1;\n  let index = partition(nums, start, end);\n  while (index != targetIndex) {\n    if (index > targetIndex) {\n      end = index - 1;\n    } else {\n      start = index + 1;\n    }\n    index = partition(nums, start, end);\n  }\n  return nums[index];\n};\n\n```\n",
+      "createdAt": "2021-10-20T10:29:28.099382+00:00",
+      "hitCount": 1107,
+      "identifier": "YO4vWa",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "jian-zhi-offer-2-mian-shi-ti-76-shu-zhon-721p",
+        "title": "《剑指offer 2 面试题76》 书中算法C++实现"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "xx4gT2"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 3,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "li-yong-kuai-su-pai-xu-de-partitionfen-q-ayg4",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n\n在长度为n的排序数组中，第k大的数字的下标是n-k\n用快速排序的函数partition对数组分区，如果函数partition选取的中间值在分区之后的下标正好是n-k，分区后左边的的值都比中间值小，右边的值都比中间值大，即使整个数组不是排序的，中间值也肯定是第k大的数字\n如果函数partition选取的中间值",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "JavaScript",
+          "nameTranslated": "",
+          "slug": "javascript",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "快速排序",
+          "nameTranslated": "",
+          "slug": "kuai-su-pai-xu",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "",
+      "title": "利用快速排序的partition分区来寻找数组第k大的数字",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 3,
+        "id": 1057654,
+        "viewCount": 894
+      },
+      "uuid": "YO4vWa",
+      "videosInfo": []
+    }
+  }
+}

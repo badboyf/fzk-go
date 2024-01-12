@@ -1,0 +1,93 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "柠檬贝司",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/wang-zhuo-yue/avatar_1633340612.png",
+          "userSlug": "wang-zhuo-yue"
+        },
+        "username": "wang-zhuo-yue"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 动态规划思路\r\n\r\n*该题的思考方式就是如何去将连续某一段去整合，使得最终的运转完成操作后的次数最小；*\r\n\r\n集合定义：f[i]表示前i个箱子整合完毕后的所需的最小次数。\r\n状态转移：第i个状态一定是由前i-1个状态中某个j也就是f[j]转移得到的，所以说可以选择去整合j + 1 到 i, 不过整合的时候的注意条件的限制，也就是j+1 到 i的总重量不得超过maxweight， 个数不得超过maxBoxes。 那么状态转移的方程也就很好定义了。\r\n\r\n```c++\r\nf[i] = min(f[i], f[j] + 整合j+1 到 i所需的操作次数)\r\n```\r\n\r\n### 如何整合j+1 到 i箱子所需的操作次数?\r\n整合的意思在原题中就是一次把满足条件的 j+1 到 i箱子全部装到船上运输， 我们会发现能整合就尽量整合会是最优选择；\r\n\r\n整合的三种情况，若存在二个箱子。\r\n1. 如果不去整合，那么对于每一个箱子都需要2次， 那么操作次数 + 2；\r\n2. 两个箱子整合，若前一个箱子与后一个箱子的码头不相等，那么操作次数 + 1；\r\n3. 如果两个箱子整合并且相等，那么操作次数不变；\r\n\r\n所以可以去先预处理出 1 到 i 区间存在前一个箱子与后一个箱子码头不相等的数量的前缀和cnt[i]，所以对于j+1 到 i这个区间内的所需的整合操作次数就等于*cnt[i] - cnt[j] + 2*, 这个加2是初始值就是从仓库到达j + 1，然后回到仓库的所需的两次操作;\r\n\r\n状态转移方程定义为\r\n```c++\r\nf[i] = min(f[i], f[j] + cnt[i] - cnt[j] + 2)\r\n```\r\n### dp代码(超时)\r\n\r\n根据状态转移方程写出代码\r\n```c++\r\nconst int N = 100010;\r\nclass Solution {\r\npublic:\r\n    int f[N], cnt[N], wi[N]; // f[i]表示前i个箱子完成所需的最小步数。\r\n    int boxDelivering(vector<vector<int>>& boxes, int portsCount, int maxBoxes, int maxWeight) {\r\n        int n = boxes.size();\r\n        for (int i = 0; i < n - 1; i ++) {\r\n            if (boxes[i][0] != boxes[i + 1][0]) cnt[i + 1] = cnt[i] + 1;\r\n            else cnt[i + 1] = cnt[i];\r\n            wi[i + 1] = wi[i] + boxes[i][1];\r\n        }\r\n        cnt[n] = cnt[n-1];\r\n        wi[n] = wi[n-1] + boxes[n-1][1];\r\n        for (int i = 1; i <= n; i ++) {\r\n            f[i] =  f[i-1] + 2;\r\n            for (int j = i - 1; j >= 0 && wi[i] - wi[j] <= maxWeight && i - j <= maxBoxes; j --) {\r\n                f[i] = min(f[i], f[j] + cnt[i - 1] - cnt[j] + 2);\r\n            }\r\n        }\r\n        return f[n];\r\n    }\r\n};\r\n```\r\n当然这段代码是会超时的，时间复杂度为O(n^2),所以我们考虑去降低复杂度；\r\n\r\n### dp + 单调队列优化版\r\n\r\n优化思路：我们能优化的地方在于每一次去找到最优的j点满足区间j + 1 到 i可以取到最小值，而操作的次数状态转移方程为\r\n```c++\r\nf[i] = min(f[i], f[j] + cnt[i] - cnt[j] + 2)\r\n```\r\n额！这不就发现了吗，cnt[i] + 2是每次的固定值，变化的操作就是 f[j] - cnt[j] 取到最小值，所以采用单调队列在区间内维护这样一个 f[j] - cnt[j] 的最小值就可以了。\r\n\r\n时间复杂度： O(n)\r\n\r\n```c++\r\nconst int N = 100010;\r\nclass Solution {\r\npublic:\r\n    typedef long long LL;\r\n    LL f[N], cnt[N], wi[N], stack[N]; \r\n    // f[i]表示前i个箱子完成所需的最小步数。\r\n    // cnt[i]表示前i-1个存在两个相同的值的个数。\r\n    // wi[i]表示前i个重量的前缀和。\r\n    int boxDelivering(vector<vector<int>>& boxes, int portsCount, int maxBoxes, int maxWeight) {\r\n        int n = boxes.size();\r\n        // 预处理前缀和。\r\n        for (int i = 0; i < n - 1; i ++) {\r\n            if (boxes[i][0] != boxes[i + 1][0]) cnt[i + 1] = cnt[i] + 1;\r\n            else cnt[i + 1] = cnt[i];\r\n            wi[i + 1] = wi[i] + boxes[i][1];\r\n        }\r\n        cnt[n] = cnt[n-1];\r\n        wi[n] = wi[n-1] + boxes[n-1][1];\r\n        int hh = 0, tt = 0; // tt为单调队列的头，hh为单调队列的尾。\r\n        for (int i = 1; i <= n; i ++) {\r\n            //若头stack[tt]不满足j+1 到 i的总重量不得超过maxweight， 个数不得超过maxBoxes，向后++。\r\n            while(wi[i] - wi[stack[tt]] > maxWeight || i - stack[tt] > maxBoxes) tt ++;\r\n            f[i] =  min(f[i-1] + 2, f[stack[tt]] + cnt[i - 1] - cnt[stack[tt]] + 2);\r\n            // 利用单调队列维护前i-1个最小的可能值的下标j。\r\n            while(hh >= tt && f[i] - cnt[i] <= f[stack[hh]] - cnt[stack[hh]]) hh --;\r\n            stack[++ hh] = i;\r\n        }\r\n        return f[n];\r\n    }\r\n};\r\n```\r\n",
+      "createdAt": "2021-11-08T10:03:20.372047+00:00",
+      "hitCount": 108,
+      "identifier": "VGk2Vj",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "cong-cang-ku-dao-ma-tou-yun-shu-xiang-zi-dqnq",
+        "title": "从仓库到码头运输箱子"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "delivering-boxes-from-storage-to-ports"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "jiu-shi-yi-ge-dpdpding-yi-chu-lai-hou-ho-y343",
+      "status": "PREPUBLISH",
+      "summary": "动态规划思路\n该题的思考方式就是如何去将连续某一段去整合，使得最终的运转完成操作后的次数最小；\n集合定义：f[i]表示前i个箱子整合完毕后的所需的最小次数。\n状态转移：第i个状态一定是由前i-1个状态中某个j也就是f[j]转移得到的，所以说可以选择去整合j + 1 到 i, 不过整合的时候的注意条件的限制，也就是j+1",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Prefix Sum",
+          "nameTranslated": "前缀和",
+          "slug": "prefix-sum",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Monotonic Queue",
+          "nameTranslated": "单调队列",
+          "slug": "monotonic-queue",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "dp",
+          "nameTranslated": "",
+          "slug": "dp",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "",
+      "title": "就是一个dp，dp定义出来后，后面就好办了。",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1091012,
+        "viewCount": 75
+      },
+      "uuid": "VGk2Vj",
+      "videosInfo": []
+    }
+  }
+}

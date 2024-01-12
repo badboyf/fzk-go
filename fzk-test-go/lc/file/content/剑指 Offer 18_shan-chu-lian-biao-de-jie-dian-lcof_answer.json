@@ -1,0 +1,115 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "Krahets",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/jyd/avatar_1589712294.png",
+          "userSlug": "jyd"
+        },
+        "username": "jyd"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 解题思路：\r\n\r\n本题删除值为 `val` 的节点分需为两步：定位节点、修改引用。\r\n\r\n1. **定位节点：** 遍历链表，直到 `head.val == val` 时跳出，即可定位目标节点。\r\n2. **修改引用：** 设节点 `cur` 的前驱节点为 `pre` ，后继节点为 `cur.next` ；则执行 `pre.next = cur.next` ，即可实现删除 `cur` 节点。\r\n\r\n![Picture1.png](https://pic.leetcode-cn.com/1613757478-NBOvjn-Picture1.png){:width=450}\r\n\r\n##### 算法流程：\r\n\r\n1. **特例处理：** 当应删除头节点 `head` 时，直接返回 `head.next` 即可。\r\n2. **初始化：** `pre = head` , `cur = head.next` 。\r\n3. **定位节点：** 当 `cur` 为空 **或** `cur` 节点值等于 `val` 时跳出。\r\n   1. 保存当前节点索引，即 `pre = cur` 。\r\n   2. 遍历下一节点，即 `cur = cur.next` 。\r\n4. **删除节点：** 若 `cur` 指向某节点，则执行 `pre.next = cur.next` ；若 `cur` 指向 $null$ ，代表链表中不包含值为 `val` 的节点。\r\n5. **返回值：** 返回链表头部节点 `head` 即可。\r\n\r\n<![Picture2.png](https://pic.leetcode-cn.com/1599417705-BpuWiY-Picture2.png),![Picture3.png](https://pic.leetcode-cn.com/1599417705-RNAPbt-Picture3.png),![Picture4.png](https://pic.leetcode-cn.com/1599417705-dIljCU-Picture4.png),![Picture5.png](https://pic.leetcode-cn.com/1599417705-nRNZwN-Picture5.png),![Picture6.png](https://pic.leetcode-cn.com/1599417705-XmugFY-Picture6.png)>\r\n\r\n##### 复杂度分析：\r\n\r\n- **时间复杂度 $O(N)$ ：** $N$ 为链表长度，删除操作平均需循环 $N/2$ 次，最差 $N$ 次。\r\n- **空间复杂度 $O(1)$ ：** `cur`, `pre` 占用常数大小额外空间。\r\n\r\n#### 代码：\r\n\r\n```Python []\r\nclass Solution:\r\n    def deleteNode(self, head: ListNode, val: int) -> ListNode:\r\n        if head.val == val: return head.next\r\n        pre, cur = head, head.next\r\n        while cur and cur.val != val:\r\n            pre, cur = cur, cur.next\r\n        if cur: pre.next = cur.next\r\n        return head\r\n```\r\n\r\n```Java []\r\nclass Solution {\r\n    public ListNode deleteNode(ListNode head, int val) {\r\n        if(head.val == val) return head.next;\r\n        ListNode pre = head, cur = head.next;\r\n        while(cur != null && cur.val != val) {\r\n            pre = cur;\r\n            cur = cur.next;\r\n        }\r\n        if(cur != null) pre.next = cur.next;\r\n        return head;\r\n    }\r\n}\r\n```\r\n\r\n```C++ []\r\nclass Solution {\r\npublic:\r\n    ListNode* deleteNode(ListNode* head, int val) {\r\n        if(head->val == val) return head->next;\r\n        ListNode *pre = head, *cur = head->next;\r\n        while(cur != nullptr && cur->val != val) {\r\n            pre = cur;\r\n            cur = cur->next;\r\n        }\r\n        if(cur != nullptr) pre->next = cur->next;\r\n        return head;\r\n    }\r\n};\r\n```",
+      "createdAt": "2020-03-23T17:30:18.659252+00:00",
+      "hitCount": 87212,
+      "identifier": "R6iU29",
+      "isEditorsPick": true,
+      "isMostPopular": true,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "cyu-yan-zhi-xing-yong-shi-ji-bai-100-by-m7zct",
+        "title": "C语言执行用时击败100%"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "shan-chu-lian-biao-de-jie-dian-lcof"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 145,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 9,
+          "reactionType": "AWESOME"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 4,
+          "reactionType": "CONFUSED"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 0,
+          "reactionType": "THUMBS_DOWN"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "mian-shi-ti-18-shan-chu-lian-biao-de-jie-dian-sh-2",
+      "status": "PREPUBLISH",
+      "summary": "解题思路：\n本题删除值为 val 的节点分需为两步：定位节点、修改引用。\n\n定位节点： 遍历链表，直到 head.val == val 时跳出，即可定位目标节点。\n修改引用： 设节点 cur 的前驱节点为 pre ，后继节点为 cur.next ；则执行 pre.next = cur.next ，即可实现删除 cur",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Linked List",
+          "nameTranslated": "链表",
+          "slug": "linked-list",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Two Pointers",
+          "nameTranslated": "双指针",
+          "slug": "two-pointers",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python3",
+          "nameTranslated": "",
+          "slug": "python3",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1613757478-NBOvjn-Picture1.png",
+      "title": "面试题18. 删除链表的节点（双指针，清晰图解）",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 205,
+        "id": 167212,
+        "viewCount": 65700
+      },
+      "uuid": "R6iU29",
+      "videosInfo": []
+    }
+  }
+}

@@ -1,0 +1,108 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣 (LeetCode)",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/uploaded_files/2021/03/73c9f099-abbe-4d94-853f-f8abffd459cd/leetcode.png",
+          "userSlug": "leetcode"
+        },
+        "username": "LeetCode"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法一：分治\n\n对于一个字符串 `S`，我们将左括号 `(` 记为 `1`，右括号记为 `-1`，如果 `S` 的某一个非空前缀对应的和为 `0`，那么这个前缀就是一个平衡括号字符串。我们遍历字符串 `S`，得到若干个前缀和为 `0` 的位置，就可以将字符串拆分为 `S = P_1 + P_2 + ... + P_n`，其中每一个 `P_i` 都是一个平衡括号字符串。这样我们就可以分别计算每一个 `P_i` 的分数再相加，即 `score(S) = score(P_1) + score(P_2) + ... + score(P_n)`。\n\n对于一个不可拆分的平衡括号字符串，如果它为 `()`，那么就得 `1` 分，否则它的最外层一定有一对左右括号，可以将这对括号去除后继续进行拆分，再将得到的分数乘 `2`。\n\n```Java [sol1]\nclass Solution {\n\n    public int scoreOfParentheses(String S) {\n        return F(S, 0, S.length());\n    }\n\n    public int F(String S, int i, int j) {\n        //Score of balanced string S[i:j]\n        int ans = 0, bal = 0;\n\n        // Split string into primitives\n        for (int k = i; k < j; ++k) {\n            bal += S.charAt(k) == '(' ? 1 : -1;\n            if (bal == 0) {\n                if (k - i == 1) ans++;\n                else ans += 2 * F(S, i+1, k);\n                i = k+1;\n            }\n        }\n\n        return ans;\n    }\n}\n```\n\n```Python [sol1]\nclass Solution(object):\n    def scoreOfParentheses(self, S):\n        def F(i, j):\n            #Score of balanced string S[i:j]\n            ans = bal = 0\n\n            #Split string into primitives\n            for k in xrange(i, j):\n                bal += 1 if S[k] == '(' else -1\n                if bal == 0:\n                    if k - i == 1:\n                        ans += 1\n                    else:\n                        ans += 2 * F(i+1, k)\n                    i = k+1\n\n            return ans\n\n        return F(0, len(S))\n```\n\n**复杂度分析**\n\n* 时间复杂度：$O(N^2)$，其中 $N$ 是字符串 `S` 的长度，在最坏的情况下，字符串 `S` 为 `(((((((....)))))))`，它需要拆分 $O(N)$ 次，每次遍历字符串的时间复杂度也为 $O(N)$。\n\n* 空间复杂度：$O(N)$。\n\n#### 方法二：栈\n\n字符串 `S` 中的每一个位置都有一个“深度”，即该位置外侧嵌套的括号数目。例如，字符串 `(()(.()))` 中的 `.` 的深度为 `2`，因为它外侧嵌套了 `2` 层括号：`(__(.__))`。\n\n我们用一个栈来维护当前所在的深度，以及每一层深度的得分。当我们遇到一个左括号 `(` 时，我们将深度加一，并且新的深度的得分置为 `0`。当我们遇到一个右括号 `)` 时，我们将当前深度的得分乘二并加到上一层的深度。这里有一种例外情况，如果遇到的是 `()`，那么只将得分加一。\n\n下面给出了字符串 `(()(()))` 每次对应的栈的情况：\n\n* `[0, 0]` `(`\n* `[0, 0, 0]` `((`\n* `[0, 1]` `(()`\n* `[0, 1, 0]` `(()(`\n* `[0, 1, 0, 0]` `(()((`\n* `[0, 1, 1]` `(()(()`\n* `[0, 3]` `(()(())`\n* `[6]` `(()(()))`\n\n\n```Java [sol2]\npublic int scoreOfParentheses(String S) {\n    Stack<Integer> stack = new Stack();\n    stack.push(0); // The score of the current frame\n\n    for (char c: S.toCharArray()) {\n        if (c == '(')\n            stack.push(0);\n        else {\n            int v = stack.pop();\n            int w = stack.pop();\n            stack.push(w + Math.max(2 * v, 1));\n        }\n    }\n\n    return stack.pop();\n}\n```\n\n```Python [sol2]\nclass Solution(object):\n    def scoreOfParentheses(self, S):\n        stack = [0] #The score of the current frame\n\n        for x in S:\n            if x == '(':\n                stack.append(0)\n            else:\n                v = stack.pop()\n                stack[-1] += max(2 * v, 1)\n\n        return stack.pop()\n```\n\n**复杂度分析**\n\n* 时间复杂度：$O(N)$，其中 $N$ 是字符串 `S` 的长度。\n\n* 空间复杂度：$O(N)$，为栈的大小。\n\n#### 方法三：统计核心的数目\n\n事实上，我们可以发现，只有 `()` 会对字符串 `S` 贡献实质的分数，其它的括号只会将分数乘二或者将分数累加。因此，我们可以找到每一个 `()` 对应的深度 `x`，那么答案就是 `2^x` 的累加和。\n\n```Java [sol3]\nclass Solution {\n\n    public int scoreOfParentheses(String S) {\n        int ans = 0, bal = 0;\n        for (int i = 0; i < S.length(); ++i) {\n            if (S.charAt(i) == '(') {\n                bal++;\n            } else {\n                bal--;\n                if (S.charAt(i-1) == '(')\n                    ans += 1 << bal;\n            }\n        }\n\n        return ans;\n    }\n}\n```\n\n```Python [sol3]\nclass Solution(object):\n    def scoreOfParentheses(self, S):\n        ans = bal = 0\n        for i, x in enumerate(S):\n            if x == '(':\n                bal += 1\n            else:\n                bal -= 1\n                if S[i-1] == '(':\n                    ans += 1 << bal\n        return ans\n```\n\n**复杂度分析**\n\n* 时间复杂度：$O(N)$，其中 $N$ 是字符串 `S` 的长度。\n\n* 空间复杂度：$O(1)$。",
+      "createdAt": "2019-08-12T17:08:58.008072+00:00",
+      "hitCount": 18751,
+      "identifier": "JVsi6K",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "shuang-bai-mian-shi-peng-dao-liao-xiang-ip0or",
+        "title": "面试碰到了，想了好久"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "score-of-parentheses"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 40,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "CONFUSED"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "AWESOME"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 0,
+          "reactionType": "THUMBS_DOWN"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "gua-hao-de-fen-shu-by-leetcode",
+      "status": "PUBLISHED",
+      "summary": "§ 方法一：分治\n对于一个字符串 S，我们将左括号 ( 记为 1，右括号记为 -1，如果 S 的某一个非空前缀对应的和为 0，那么这个前缀就是一个平衡括号字符串。我们遍历字符串 S，得到若干个前缀和为 0 的位置，就可以将字符串拆分为 S = P_1 + P_2 + ... + P_n，其中每一个 P_i 都是一个平衡",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Stack",
+          "nameTranslated": "栈",
+          "slug": "stack",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Divide and Conquer",
+          "nameTranslated": "分治",
+          "slug": "divide-and-conquer",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "括号的分数",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 30,
+        "id": 20107,
+        "viewCount": 12023
+      },
+      "uuid": "JVsi6K",
+      "videosInfo": []
+    }
+  }
+}

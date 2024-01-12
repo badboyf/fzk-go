@@ -1,0 +1,143 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣官方题解",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/leetcode-solution/avatar_1582018938.png",
+          "userSlug": "leetcode-solution"
+        },
+        "username": "LeetCode-Solution"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 📺 视频题解  \n![...eetCode 53 - 仲耀晖.mp4](f9898f56-4701-4510-b8d4-60e24e129a8f)\n\n### 📖 文字题解\n\n#### 方法一：动态规划\n\n**思路和算法**\n\n假设 $\\textit{nums}$ 数组的长度是 $n$，下标从 $0$ 到 $n-1$。\n\n我们用 $f(i)$ 代表以第 $i$ 个数结尾的「连续子数组的最大和」，那么很显然我们要求的答案就是：\n\n$$\\max_{0 \\leq i \\leq n-1} \\{ f(i) \\}$$\n\n因此我们只需要求出每个位置的 $f(i)$，然后返回 $f$ 数组中的最大值即可。那么我们如何求 $f(i)$ 呢？我们可以考虑 $\\textit{nums}[i]$ 单独成为一段还是加入 $f(i-1)$ 对应的那一段，这取决于 $\\textit{nums}[i]$ 和 $f(i-1) + \\textit{nums}[i]$ 的大小，我们希望获得一个比较大的，于是可以写出这样的动态规划转移方程：\n\n$$ f(i) = \\max \\{ f(i-1) + \\textit{nums}[i], \\textit{nums}[i] \\} $$\n\n不难给出一个时间复杂度 $O(n)$、空间复杂度 $O(n)$ 的实现，即用一个 $f$ 数组来保存 $f(i)$ 的值，用一个循环求出所有 $f(i)$。考虑到 $f(i)$ 只和 $f(i-1)$ 相关，于是我们可以只用一个变量 $\\textit{pre}$ 来维护对于当前 $f(i)$ 的 $f(i-1)$ 的值是多少，从而让空间复杂度降低到 $O(1)$，这有点类似「滚动数组」的思想。\n\n**代码**\n\n```cpp [sol1-C++]\nclass Solution {\npublic:\n    int maxSubArray(vector<int>& nums) {\n        int pre = 0, maxAns = nums[0];\n        for (const auto &x: nums) {\n            pre = max(pre + x, x);\n            maxAns = max(maxAns, pre);\n        }\n        return maxAns;\n    }\n};\n```\n\n```csharp [sol1-C#]\npublic class Solution {\n    public int MaxSubArray(int[] nums) {\n        int pre = 0, maxAns = nums[0];\n        foreach (int x in nums) {\n            pre = Math.Max(pre + x, x);\n            maxAns = Math.Max(maxAns, pre);\n        }\n        return maxAns;\n    }\n}\n```\n\n```Java [sol1-Java]\nclass Solution {\n    public int maxSubArray(int[] nums) {\n        int pre = 0, maxAns = nums[0];\n        for (int x : nums) {\n            pre = Math.max(pre + x, x);\n            maxAns = Math.max(maxAns, pre);\n        }\n        return maxAns;\n    }\n}\n```\n\n```JavaScript [sol1-JavaScript]\nvar maxSubArray = function(nums) {\n    let pre = 0, maxAns = nums[0];\n    nums.forEach((x) => {\n        pre = Math.max(pre + x, x);\n        maxAns = Math.max(maxAns, pre);\n    });\n    return maxAns;\n};\n```\n\n```golang [sol1-Golang]\nfunc maxSubArray(nums []int) int {\n    max := nums[0]\n    for i := 1; i < len(nums); i++ {\n        if nums[i] + nums[i-1] > nums[i] {\n            nums[i] += nums[i-1]\n        }\n        if nums[i] > max {\n            max = nums[i]\n        }\n    }\n    return max\n}\n```\n\n```C [sol1-C]\nint maxSubArray(int* nums, int numsSize) {\n    int pre = 0, maxAns = nums[0];\n    for (int i = 0; i < numsSize; i++) {\n        pre = fmax(pre + nums[i], nums[i]);\n        maxAns = fmax(maxAns, pre);\n    }\n    return maxAns;\n}\n```\n\n**复杂度**\n\n+ 时间复杂度：$O(n)$，其中 $n$ 为 $\\textit{nums}$ 数组的长度。我们只需要遍历一遍数组即可求得答案。\n+ 空间复杂度：$O(1)$。我们只需要常数空间存放若干变量。\n\n#### 方法二：分治\n\n**思路和算法**\n\n**这个分治方法类似于「线段树求解最长公共上升子序列问题」的 `pushUp` 操作。** 也许读者还没有接触过线段树，没有关系，方法二的内容假设你没有任何线段树的基础。当然，如果读者有兴趣的话，推荐阅读线段树区间合并法解决**多次询问**的「区间最长连续上升序列问题」和「区间最大子段和问题」，还是非常有趣的。\n\n我们定义一个操作 `get(a, l, r)` 表示查询 $a$ 序列 $[l,r]$ 区间内的最大子段和，那么最终我们要求的答案就是 `get(nums, 0, nums.size() - 1)`。如何分治实现这个操作呢？对于一个区间 $[l,r]$，我们取 $m = \\lfloor \\frac{l + r}{2} \\rfloor$，对区间 $[l,m]$ 和 $[m+1,r]$ 分治求解。当递归逐层深入直到区间长度缩小为 $1$ 的时候，递归「开始回升」。这个时候我们考虑如何通过 $[l,m]$ 区间的信息和 $[m+1,r]$ 区间的信息合并成区间 $[l,r]$ 的信息。最关键的两个问题是：\n\n+ 我们要维护区间的哪些信息呢？\n+ 我们如何合并这些信息呢？\n\n对于一个区间 $[l,r]$，我们可以维护四个量：\n\n+ $\\textit{lSum}$ 表示 $[l,r]$ 内以 $l$ 为左端点的最大子段和\n+ $\\textit{rSum}$ 表示 $[l,r]$ 内以 $r$ 为右端点的最大子段和\n+ $\\textit{mSum}$ 表示 $[l,r]$ 内的最大子段和\n+ $\\textit{iSum}$ 表示 $[l,r]$ 的区间和\n\n以下简称 $[l,m]$ 为 $[l,r]$ 的「左子区间」，$[m+1,r]$ 为 $[l,r]$ 的「右子区间」。我们考虑如何维护这些量呢（如何通过左右子区间的信息合并得到 $[l,r]$ 的信息）？对于长度为 $1$ 的区间 $[i, i]$，四个量的值都和 $\\textit{nums}[i]$ 相等。对于长度大于 $1$ 的区间：\n\n+ 首先最好维护的是 $\\textit{iSum}$，区间 $[l,r]$ 的 $\\textit{iSum}$ 就等于「左子区间」的 $\\textit{iSum}$ 加上「右子区间」的 $\\textit{iSum}$。\n+ 对于 $[l,r]$ 的 $\\textit{lSum}$，存在两种可能，它要么等于「左子区间」的 $\\textit{lSum}$，要么等于「左子区间」的 $\\textit{iSum}$ 加上「右子区间」的 $\\textit{lSum}$，二者取大。\n+ 对于 $[l,r]$ 的 $\\textit{rSum}$，同理，它要么等于「右子区间」的 $\\textit{rSum}$，要么等于「右子区间」的 $\\textit{iSum}$ 加上「左子区间」的 $\\textit{rSum}$，二者取大。\n+ 当计算好上面的三个量之后，就很好计算 $[l,r]$ 的 $\\textit{mSum}$ 了。我们可以考虑 $[l,r]$ 的 $\\textit{mSum}$ 对应的区间是否跨越 $m$——它可能不跨越 $m$，也就是说 $[l,r]$ 的 $\\textit{mSum}$ 可能是「左子区间」的 $\\textit{mSum}$ 和 「右子区间」的 $\\textit{mSum}$ 中的一个；它也可能跨越 $m$，可能是「左子区间」的 $\\textit{rSum}$ 和 「右子区间」的 $\\textit{lSum}$ 求和。三者取大。\n\n这样问题就得到了解决。\n\n**代码**\n\n```cpp [sol2-C++]\nclass Solution {\npublic:\n    struct Status {\n        int lSum, rSum, mSum, iSum;\n    };\n\n    Status pushUp(Status l, Status r) {\n        int iSum = l.iSum + r.iSum;\n        int lSum = max(l.lSum, l.iSum + r.lSum);\n        int rSum = max(r.rSum, r.iSum + l.rSum);\n        int mSum = max(max(l.mSum, r.mSum), l.rSum + r.lSum);\n        return (Status) {lSum, rSum, mSum, iSum};\n    };\n\n    Status get(vector<int> &a, int l, int r) {\n        if (l == r) {\n            return (Status) {a[l], a[l], a[l], a[l]};\n        }\n        int m = (l + r) >> 1;\n        Status lSub = get(a, l, m);\n        Status rSub = get(a, m + 1, r);\n        return pushUp(lSub, rSub);\n    }\n\n    int maxSubArray(vector<int>& nums) {\n        return get(nums, 0, nums.size() - 1).mSum;\n    }\n};\n```\n\n```csharp [sol2-C#]\npublic class Solution {\n    public class Status {\n        public int lSum, rSum, mSum, iSum;\n        public Status(int lSum_, int rSum_, int mSum_, int iSum_) {\n            lSum = lSum_; rSum = rSum_; mSum = mSum_; iSum = iSum_;\n        }\n    }\n\n    public Status pushUp(Status l, Status r) {\n        int iSum = l.iSum + r.iSum;\n        int lSum = Math.Max(l.lSum, l.iSum + r.lSum);\n        int rSum = Math.Max(r.rSum, r.iSum + l.rSum);\n        int mSum = Math.Max(Math.Max(l.mSum, r.mSum), l.rSum + r.lSum);\n        return new Status(lSum, rSum, mSum, iSum);\n    }\n\n    public Status getInfo(int[] a, int l, int r) {\n        if (l == r) {\n            return new Status(a[l], a[l], a[l], a[l]);\n        }\n        int m = (l + r) >> 1;\n        Status lSub = getInfo(a, l, m);\n        Status rSub = getInfo(a, m + 1, r);\n        return pushUp(lSub, rSub);\n    }\n\n    public int MaxSubArray(int[] nums) {\n        return getInfo(nums, 0, nums.Length - 1).mSum;\n    }\n}\n```\n\n```Java [sol2-Java]\nclass Solution {\n    public class Status {\n        public int lSum, rSum, mSum, iSum;\n\n        public Status(int lSum, int rSum, int mSum, int iSum) {\n            this.lSum = lSum;\n            this.rSum = rSum;\n            this.mSum = mSum;\n            this.iSum = iSum;\n        }\n    }\n\n    public int maxSubArray(int[] nums) {\n        return getInfo(nums, 0, nums.length - 1).mSum;\n    }\n\n    public Status getInfo(int[] a, int l, int r) {\n        if (l == r) {\n            return new Status(a[l], a[l], a[l], a[l]);\n        }\n        int m = (l + r) >> 1;\n        Status lSub = getInfo(a, l, m);\n        Status rSub = getInfo(a, m + 1, r);\n        return pushUp(lSub, rSub);\n    }\n\n    public Status pushUp(Status l, Status r) {\n        int iSum = l.iSum + r.iSum;\n        int lSum = Math.max(l.lSum, l.iSum + r.lSum);\n        int rSum = Math.max(r.rSum, r.iSum + l.rSum);\n        int mSum = Math.max(Math.max(l.mSum, r.mSum), l.rSum + r.lSum);\n        return new Status(lSum, rSum, mSum, iSum);\n    }\n}\n```\n\n```JavaScript [sol2-JavaScript]\nfunction Status(l, r, m, i) {\n    this.lSum = l;\n    this.rSum = r;\n    this.mSum = m;\n    this.iSum = i;\n}\n\nconst pushUp = (l, r) => {\n    const iSum = l.iSum + r.iSum;\n    const lSum = Math.max(l.lSum, l.iSum + r.lSum);\n    const rSum = Math.max(r.rSum, r.iSum + l.rSum);\n    const mSum = Math.max(Math.max(l.mSum, r.mSum), l.rSum + r.lSum);\n    return new Status(lSum, rSum, mSum, iSum);\n}\n\nconst getInfo = (a, l, r) => {\n    if (l === r) {\n        return new Status(a[l], a[l], a[l], a[l]);\n    }\n    const m = (l + r) >> 1;\n    const lSub = getInfo(a, l, m);\n    const rSub = getInfo(a, m + 1, r);\n    return pushUp(lSub, rSub);\n}\n\nvar maxSubArray = function(nums) {\n    return getInfo(nums, 0, nums.length - 1).mSum;\n};\n```\n\n```golang [sol2-Golang]\nfunc maxSubArray(nums []int) int {\n    return get(nums, 0, len(nums) - 1).mSum;\n}\n\nfunc pushUp(l, r Status) Status {\n    iSum := l.iSum + r.iSum\n    lSum := max(l.lSum, l.iSum + r.lSum)\n    rSum := max(r.rSum, r.iSum + l.rSum)\n    mSum := max(max(l.mSum, r.mSum), l.rSum + r.lSum)\n    return Status{lSum, rSum, mSum, iSum}\n}\n\nfunc get(nums []int, l, r int) Status {\n    if (l == r) {\n        return Status{nums[l], nums[l], nums[l], nums[l]}\n    }\n    m := (l + r) >> 1\n    lSub := get(nums, l, m)\n    rSub := get(nums, m + 1, r)\n    return pushUp(lSub, rSub)\n}\n\nfunc max(x, y int) int {\n    if x > y {\n        return x\n    }\n    return y\n}\n\ntype Status struct {\n    lSum, rSum, mSum, iSum int\n}\n```\n\n```C [sol2-C]\nstruct Status {\n    int lSum, rSum, mSum, iSum;\n};\n\nstruct Status pushUp(struct Status l, struct Status r) {\n    int iSum = l.iSum + r.iSum;\n    int lSum = fmax(l.lSum, l.iSum + r.lSum);\n    int rSum = fmax(r.rSum, r.iSum + l.rSum);\n    int mSum = fmax(fmax(l.mSum, r.mSum), l.rSum + r.lSum);\n    return (struct Status){lSum, rSum, mSum, iSum};\n};\n\nstruct Status get(int* a, int l, int r) {\n    if (l == r) {\n        return (struct Status){a[l], a[l], a[l], a[l]};\n    }\n    int m = (l + r) >> 1;\n    struct Status lSub = get(a, l, m);\n    struct Status rSub = get(a, m + 1, r);\n    return pushUp(lSub, rSub);\n}\n\nint maxSubArray(int* nums, int numsSize) {\n    return get(nums, 0, numsSize - 1).mSum;\n}\n```\n\n**复杂度分析**\n\n假设序列 $a$ 的长度为 $n$。\n\n+ 时间复杂度：假设我们把递归的过程看作是一颗二叉树的先序遍历，那么这颗二叉树的深度的渐进上界为 $O(\\log n)$，这里的总时间相当于遍历这颗二叉树的所有节点，故总时间的渐进上界是 $O(\\sum_{i=1}^{\\log n} 2^{i-1})=O(n)$，故渐进时间复杂度为 $O(n)$。\n+ 空间复杂度：递归会使用 $O(\\log n)$ 的栈空间，故渐进空间复杂度为 $O(\\log n)$。\n\n#### 题外话\n\n「方法二」相较于「方法一」来说，时间复杂度相同，但是因为使用了递归，并且维护了四个信息的结构体，运行的时间略长，空间复杂度也不如方法一优秀，而且难以理解。那么这种方法存在的意义是什么呢？\n\n对于这道题而言，确实是如此的。但是仔细观察「方法二」，它不仅可以解决区间 $[0, n-1]$，还可以用于解决任意的子区间 $[l,r]$ 的问题。如果我们把 $[0, n-1]$ 分治下去出现的所有子区间的信息都用堆式存储的方式记忆化下来，即建成一颗真正的树之后，我们就可以在 $O(\\log n)$ 的时间内求到任意区间内的答案，我们甚至可以修改序列中的值，做一些简单的维护，之后仍然可以在 $O(\\log n)$ 的时间内求到任意区间内的答案，对于大规模查询的情况下，这种方法的优势便体现了出来。这棵树就是上文提及的一种神奇的数据结构——线段树。",
+      "createdAt": "2020-05-01T10:08:24.127667+00:00",
+      "hitCount": 474800,
+      "identifier": "GgWEuv",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "zui-da-zi-xu-he-cshi-xian-si-chong-jie-fa-bao-li-f",
+        "title": "最大子序和 c++实现四种解法 暴力法、动态规划、贪心法和分治法 图示讲解"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "maximum-subarray"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 491,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 46,
+          "reactionType": "AWESOME"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 44,
+          "reactionType": "CONFUSED"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 6,
+          "reactionType": "THUMBS_DOWN"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "zui-da-zi-xu-he-by-leetcode-solution",
+      "status": "PUBLISHED",
+      "summary": "📺 视频题解 📖 文字题解 方法一：动态规划 思路和算法 假设 $\\textit{nums}$ 数组的长度是 $n$，下标从 $0$ 到 $n-1$。 我们用 $f(i)$ 代表以第 $i$ 个数结尾的「连续子数组的最大和」，那么很显然我们要求的答案就是： \\max_{0 \\leq i \\leq n-1} { f(i)",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Segment Tree",
+          "nameTranslated": "线段树",
+          "slug": "segment-tree",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Dynamic Programming",
+          "nameTranslated": "动态规划",
+          "slug": "dynamic-programming",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C",
+          "nameTranslated": "",
+          "slug": "c",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C#",
+          "nameTranslated": "",
+          "slug": "csharp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Go",
+          "nameTranslated": "",
+          "slug": "golang",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "JavaScript",
+          "nameTranslated": "",
+          "slug": "javascript",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "最大子序和",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 588,
+        "id": 228009,
+        "viewCount": 308200
+      },
+      "uuid": "GgWEuv",
+      "videosInfo": [
+        {
+          "__typename": "VideoInfoNode",
+          "coverUrl": "https://video.leetcode-cn.com/image/cover/D0AA5941D68546B0838D73DB223C59A3-6-2.png",
+          "duration": 340.608,
+          "videoId": "2c92e0490af745ec92623334d2262ca4"
+        }
+      ]
+    }
+  }
+}

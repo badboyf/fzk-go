@@ -1,0 +1,88 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "疯子",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/feng-zi-53/avatar_1610946265.png",
+          "userSlug": "fengzil"
+        },
+        "username": "fengziL"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "\n先看一下本题解题代码(C++版本)：\n\n```\nclass Solution {\npublic:\n    string toLowerCase(string str) {\n        for (auto &i : str) i |= 32;\n        return  str;\n    }\n};\n```\n\n---\n\n# 字母位运算技巧\n\n- 大写变小写、小写变大写：字符 ^= 32 （大写 ^= 32 相当于 +32，小写 ^= 32 相当于 -32）\n- 大写变小写、小写变小写：字符 |= 32 （大写 |= 32 就相当于+32，小写 |= 32 不变）\n- 大写变大写、小写变大写：字符 &= -33 （大写 &= -33 不变，小写 &= -33 相当于 -32）\n\n（关于其它位运算技巧，详见本人写的231题，题解：[你应该背下的位操作知识](https://leetcode-cn.com/problems/power-of-two/solution/5chong-jie-fa-ni-ying-gai-bei-xia-de-wei-6x9m/)）\n\n# 为什么可以这样运算？\n\n先查看一下ASCII表，只看字母相关部分，如图：\n\n![image.png](https://pic.leetcode-cn.com/1620527088-ppfAKq-image.png)\n\n把字母当成 8 个bit 位来看，我把大小字母对应的后 4 位圈出来了。\n\n大家有没有发现 A-a B-b ... Z-z 26个字母之间的大小写的后 4 位是完全一样的！！！\n（重要知识点1：对应大小字母的 **后4位二进制是一样的**，**后4位二进制是一样的**，**后4位二进制是一样的**）\n\n再来看一下头 4位。对应大小字母之间就第 3位 的 bit 值不一样！！！\n（重要知识点2：对应大小字母的前4位中，**只有第3位bit值不一样**，**只有第3位bit值不一样**，**只有第3位bit值不一样**）\n把不一样的bit位单独取出来，其它位补 0，也就是 0b0010 0000，对应的十进制数就是 32 ！！！\n\n---\n\n## 小结1\n通过观察，我们发现对应的大小写字母之间，只有第3个bit位的值不一样，已此来做的区分。\n那么上面提到的技巧的应用：\n1. 字母 ^= 32 其是：字母 ^= 0b10 0000\n2. 字母 |= 32 其是：字母 |= 0b10 0000\n3. 字母 &= -33 其是：字母 ^= 0b1101 1111\n都是针对第3位bit值做的操作，从而可以不用提前知道原字母大小，通过位操作来达到大小写切换。\n\n---\n\n# 只有26字母，为什么大小之间的ASCII差值是32，而不是26？\n\n\n（其实有了上面的了解，再来看这件事就更容易理解了。）\n\n因为字母大小之间的切换是一个很高频的行为，在设计ASCII表时，出于效率的考量，把大小之间的转换需要的 **算力** 压缩到最小。（关健词：算力）\n也就是只需要对一个bit位操作就可以实现大小写之间的切换。\n\n## 如何压缩算力\n\n如：\n```\nint n = 0b100;\nn ^= 0b011;\n```\nn 最终等于 0b111。虽然只进行了一次 **异或** 操作，但是对于最底层的 异或 逻辑，是需要对各个bit分别进行一次 异或运算 最终把 **3次** 的异或累加返回。\n\n同样的逻辑，对应到字母大小之间的切换，每次只需要 **1次位操作** 就可以得做到大小写切换。（关键词：1次）\n从而把大小之间转换的代价压缩到最小。\n\n看到这里，你是不是跟我一样感叹当初设计ASCII表人的牛逼之处了。\n是的，ASCII里面的字母序是经过细心设计出来的。\n\n---\n\n# 最后\n其实明白了这点，返过来看ASCII表的历史就比较有意思了。\n我们现在用的ASCII经过3个版本：\n- 1963年由美国标准协会（ANS）制定发布的第一个版\n- 1967年更新第二个版本\n- 1986年更新第三个版本，也就是我们现在任然在使用中的版本\n\n（注：[ASCII Wiki](https://en.wikipedia.org/wiki/ASCII)）\n\n1986年的时候集成电路的发展还遵循着摩尔定律，并且当时的CPU的计算能力，也没现在这么强劲。\n而那个时候 CPU计算力 和 内存 都显得格外的珍贵，像字母大小切换这种高频的操作，能只用 1次 算力解决，绝对不会用2次，甚至更多次。\n\n---\n\n感谢阅读，如果本文中有任何不对，不好的地方欢迎大家留言讨论。\n\n",
+      "createdAt": "2021-05-09T07:45:32.975665+00:00",
+      "hitCount": 2991,
+      "identifier": "l5Nlcq",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "1-xing-dai-ma-by-liu-yong-qi-r0mh",
+        "title": "1 行代码"
+      },
+      "position": 2,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "zhuan-huan-cheng-xiao-xie-zi-mu-by-xiao-66gpj",
+        "title": "转换成小写字母"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "to-lower-case"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 30,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 4,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": true,
+      "slug": "ming-ming-zhi-you-26ge-zi-mu-wei-shi-yao-d2ec",
+      "status": "PREPUBLISH",
+      "summary": "先看一下本题解题代码(C++版本)：\n字母位运算技巧\n\n大写变小写、小写变大写：字符 ^= 32 （大写 ^= 32 相当于 +32，小写 ^= 32 相当于 -32）\n大写变小写、小写变小写：字符 |= 32 （大写 |= 32 就相当于+32，小写 |= 32 不变）\n大写变大写、小写变大写：字符 &= -33 （",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Bit Manipulation",
+          "nameTranslated": "位运算",
+          "slug": "bit-manipulation",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1620527088-ppfAKq-image.png",
+      "title": "明明只有26个字母,为什么大小字母之间是差32而不是26？",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 4,
+        "id": 766281,
+        "viewCount": 2372
+      },
+      "uuid": "l5Nlcq",
+      "videosInfo": []
+    }
+  }
+}

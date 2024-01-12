@@ -1,0 +1,86 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "Damon",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/damon-slh/avatar_1637476859.png",
+          "userSlug": "damon-slh"
+        },
+        "username": "damon-slh"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n1.后序遍历\n2.获得每个根节点时的，是否有效BST，最大最小值，及和\n3.如果不是有效BST，直接返回\n4.利用辅助全局变量记录最大和\n![image.png](https://pic.leetcode-cn.com/1637994028-Raioso-image.png)\n\n### 代码\n\n```golang\n/**\n * Definition for a binary tree node.\n * type TreeNode struct {\n *     Val int\n *     Left *TreeNode\n *     Right *TreeNode\n * }\n */\n\nvar ans int\nfunc maxSumBST(root *TreeNode) int {\n    ans = 0\n    execute(root)\n    return ans\n}\n\nfunc execute(root *TreeNode) (isValid bool, minValue int, maxValue int, sum int) {\n    if nil == root {\n        return true, math.MaxInt64, math.MinInt64, 0\n    }\n    lIsValid, lmin, lmax, lsum := execute(root.Left)\n    rIsValid, rmin, rmax, rsum := execute(root.Right)\n    if lIsValid && rIsValid && lmax < root.Val && rmin > root.Val{\n        isValid = true\n        minValue = MinValue(root.Val, lmin)\n        maxValue = MaxValue(root.Val, rmax)\n        sum = lsum + rsum + root.Val \n        ans = MaxValue(ans, sum)\n    } else {\n        isValid = false\n    }\n    return\n}\n\nfunc MaxValue(a int, b int) int {\n    if a > b {\n        return a\n    } \n    return b\n}\n\nfunc MinValue(a int, b int) int {\n    if a < b {\n        return a\n    } \n    return b\n}\n\n\n```",
+      "createdAt": "2021-11-27T06:23:21.045820+00:00",
+      "hitCount": 4,
+      "identifier": "3SEJv5",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "1373-cjian-dan-yi-dong-de-di-gui-jie-fa-sgj6g",
+        "title": "1373. c++简单易懂的递归解法"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "maximum-sum-bst-in-binary-tree"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "si-lu-qing-xi-dai-ma-jian-dan-by-damon-s-2v9b",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n1.后序遍历\n2.获得每个根节点时的，是否有效BST，最大最小值，及和\n3.如果不是有效BST，直接返回\n4.利用辅助全局变量记录最大和\n\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Binary Search Tree",
+          "nameTranslated": "二叉搜索树",
+          "slug": "binary-search-tree",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Go",
+          "nameTranslated": "",
+          "slug": "golang",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "后序遍历",
+          "nameTranslated": "",
+          "slug": "hou-xu-bian-li",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1637994028-Raioso-image.png",
+      "title": "思路清晰，代码简单",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1124849,
+        "viewCount": 4
+      },
+      "uuid": "3SEJv5",
+      "videosInfo": []
+    }
+  }
+}

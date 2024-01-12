@@ -1,0 +1,124 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣官方题解",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/leetcode-solution/avatar_1582018938.png",
+          "userSlug": "leetcode-solution"
+        },
+        "username": "LeetCode-Solution"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法一：二元组表示 + 计数\n\n**思路及解法**\n\n本题中我们需要统计所有等价的多米诺骨牌，其中多米诺骨牌使用二元对代表，「等价」的定义是，在允许翻转两个二元对的的情况下，使它们的元素一一对应相等。\n\n于是我们不妨直接让每一个二元对都变为指定的格式，即第一维必须不大于第二维。这样两个二元对「等价」当且仅当两个二元对完全相同。\n\n注意到二元对中的元素均不大于 $9$，因此我们可以将每一个二元对拼接成一个两位的正整数，即 $(x, y) \\to 10x + y$。这样就无需使用哈希表统计元素数量，而直接使用长度为 $100$ 的数组即可。\n\n**代码**\n\n```C++ [sol1-C++]\nclass Solution {\npublic:\n    int numEquivDominoPairs(vector<vector<int>>& dominoes) {\n        vector<int> num(100);\n        int ret = 0;\n        for (auto& it : dominoes) {\n            int val = it[0] < it[1] ? it[0] * 10 + it[1] : it[1] * 10 + it[0];\n            ret += num[val];\n            num[val]++;\n        }\n        return ret;\n    }\n};\n```\n\n```Java [sol1-Java]\nclass Solution {\n    public int numEquivDominoPairs(int[][] dominoes) {\n        int[] num = new int[100];\n        int ret = 0;\n        for (int[] domino : dominoes) {\n            int val = domino[0] < domino[1] ? domino[0] * 10 + domino[1] : domino[1] * 10 + domino[0];\n            ret += num[val];\n            num[val]++;\n        }\n        return ret;\n    }\n}\n```\n\n```JavaScript [sol1-JavaScript]\nvar numEquivDominoPairs = function(dominoes) {\n    const num = new Array(100).fill(0);\n    let ret = 0;\n    for (const domino of dominoes) {\n        const val = domino[0] < domino[1] ? domino[0] * 10 + domino[1] : domino[1] * 10 + domino[0];\n        ret += num[val];\n        num[val]++;\n    }\n    return ret;\n};\n```\n\n```go [sol1-Golang]\nfunc numEquivDominoPairs(dominoes [][]int) (ans int) {\n    cnt := [100]int{}\n    for _, d := range dominoes {\n        if d[0] > d[1] {\n            d[0], d[1] = d[1], d[0]\n        }\n        v := d[0]*10 + d[1]\n        ans += cnt[v]\n        cnt[v]++\n    }\n    return\n}\n```\n\n```C [sol1-C]\nint numEquivDominoPairs(int** dominoes, int dominoesSize, int* dominoesColSize) {\n    int num[100];\n    memset(num, 0, sizeof(num));\n    int ret = 0;\n    for (int i = 0; i < dominoesSize; i++) {\n        int val = dominoes[i][0] < dominoes[i][1] ? dominoes[i][0] * 10 + dominoes[i][1] : dominoes[i][1] * 10 + dominoes[i][0];\n        ret += num[val];\n        num[val]++;\n    }\n    return ret;\n}\n```\n\n```Python [sol1-Python3]\nclass Solution:\n    def numEquivDominoPairs(self, dominoes: List[List[int]]) -> int:\n        num = [0] * 100\n        ret = 0\n        for x, y in dominoes:\n            val = (x * 10 + y if x <= y else y * 10 + x)\n            ret += num[val]\n            num[val] += 1\n        return ret\n```\n\n**复杂度分析**\n\n- 时间复杂度：$O(n)$，其中 $n$ 是多米诺骨牌的数量。我们至多只需要遍历一次该数组。\n\n- 空间复杂度：$O(1)$，我们只需要常数的空间存储若干变量。",
+      "createdAt": "2021-01-25T15:06:05.524859+00:00",
+      "hitCount": 22675,
+      "identifier": "N7p1Jd",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "deng-jie-duo-mi-nuo-gu-pai-dui-de-shu-li-08z8",
+        "title": "🎦 等价多米诺骨牌对的数量"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "number-of-equivalent-domino-pairs"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 47,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 7,
+          "reactionType": "AWESOME"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "CONFUSED"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "deng-jie-duo-mi-nuo-gu-pai-dui-de-shu-li-yjlz",
+      "status": "PUBLISHED",
+      "summary": "方法一：二元组表示 + 计数 思路及解法 本题中我们需要统计所有等价的多米诺骨牌，其中多米诺骨牌使用二元对代表，「等价」的定义是，在允许翻转两个二元对的的情况下，使它们的元素一一对应相等。 于是我们不妨直接让每一个二元对都变为指定的格式，即第一维必须不大于第二维。这样两个二元对「等价」当且仅当两个二元对完全相同。 注意",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Hash Table",
+          "nameTranslated": "哈希表",
+          "slug": "hash-table",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C",
+          "nameTranslated": "",
+          "slug": "c",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Go",
+          "nameTranslated": "",
+          "slug": "golang",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "JavaScript",
+          "nameTranslated": "",
+          "slug": "javascript",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "等价多米诺骨牌对的数量",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 156,
+        "id": 576295,
+        "viewCount": 16762
+      },
+      "uuid": "N7p1Jd",
+      "videosInfo": []
+    }
+  }
+}

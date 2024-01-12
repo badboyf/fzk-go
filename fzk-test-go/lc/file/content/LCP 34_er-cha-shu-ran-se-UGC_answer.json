@@ -1,0 +1,86 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "温柔一刀123",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/wen-rou-yi-dao-123/avatar_1602559228.png",
+          "userSlug": "wen-rou-yi-dao-123"
+        },
+        "username": "wen-rou-yi-dao-123"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\r\n\r\n典型的树形结构动态规划，注意到条件1 <= k <= 10，我们可以枚举每一个k来递推所有节点的最大取值。我们用一个数组dp[k + 1]来记录这些最大值，dp[i]表示当前节点作为已经连接在一起的第i个节点，以当前节点为根节点的整个子树可以取得的最大值。  \r\n  \r\n1、一个显然的事实是dp[1] >= (dp[2], dp[3]...dp[k])，即一个节点作为第一个，必然比它作为更后面的节点能够取得更大的值，因为它作为第一个有能力在后面连接更多的蓝点。  \r\n  \r\n2、根据1，以一个节点为根节点的子树，最大取值只能在dp[0]和dp[1]之间产生。即要么该节点不涂色，要么作为第一个涂色。  \r\n  \r\n3、假设已经知道了一个节点的左右子节点的dp数组分别为dpLeft和dpRight，那么：\r\nA、dp[0]表示该节点不涂蓝色，那么它隔开了左右两边，两边都可以取到最大值，所以\r\n     dp[0] = max(dpLeft[0], dpLeft[1]) + max(dpRight[0], dpRight[1]);\r\n  \r\nB、dp[k]表示该节点已经是第k个，那么它的左右子节点必然不能再涂色，所以：\r\n     dp[k] = root->val + dpLeft[0] + dpRight[0];\r\n  \r\nC、然后我们遍历该节点作为第i个的情况，i属于[1,k)。\r\n     a、左边不涂色，右边最多可以作为第i + 1个，即dpLeft[0] + max(dpRight[0], dpRight[i + 1])\r\n     b、右边不涂色，左边最多可以作为第i + 1个，即dpRight[0] + max(dpLeft[0], dpLeft[i + 1])\r\n     c、还剩k - i个节点，依次遍历左边选择j个，右边选择k - i - j个，j属于[1, k - i)，即dpLeft[k + 1 - j] + dpRight[k + 1 - (k - i - j)]。\r\n     最终dp[i]在上面几种情况取最大值再加上自己本身。\r\n  \r\n4、以上分析清楚以后，我们只需要后序DFS遍历，依次求得每一个节点的DP数组，最后的答案在root节点的dp[0]和dp[1]之间产生。\r\n\r\n### 复杂度分析\r\n  \r\n时间复杂度：需要遍历每一个节点，每个节点需要遍历k个位置，所以时间复杂度是O(n * k)。\r\n  \r\n空间复杂度：需要记录每个节点作为位置[0,k]的最大值，所以空间复杂度是O(n * k)。\r\n\r\n### 代码\r\n```\r\nclass Solution {\r\npublic:\r\n    int maxValue(TreeNode* root, int k) {\r\n        vector<int> dp = DFS(root, k);\r\n\r\n        return max(dp[0], dp[1]);  // 首节点可能作为第一个，也可能不选它\r\n    }\r\n\r\n    vector<int> DFS(TreeNode* root, int k) {\r\n        if (root == NULL) {\r\n            return vector<int>(k + 1, 0);\r\n        }\r\n\r\n        vector<int> dpLeft = DFS(root->left, k);\r\n        vector<int> dpRight = DFS(root->right, k);\r\n\r\n        vector<int> dp(k + 1, 0);\r\n        dp[0] = max(dpLeft[0], dpLeft[1]) + max(dpRight[0], dpRight[1]);  // root不选择，那么左右子树都选最大的\r\n        dp[k] = root->val + dpLeft[0] + dpRight[0];  // root作为第k个，左右节点必然都不能再选\r\n\r\n        for (int i = 1; i < k; ++i) {  // root作为第i个，还剩k - i个可选\r\n            dp[i] = max(dpLeft[0] + max(dpRight[0], dpRight[i + 1]),  // 左边不选，右边最多可从i+1开始\r\n                dpRight[0] + max(dpLeft[0], dpLeft[i + 1]));  // 右边不选，左边最多可从i+1开始\r\n\r\n            for (int j = 1; j < k - i; ++j) {  // 左边选j个，右边选k - i - j个\r\n                dp[i] = max(dp[i], dpLeft[k + 1 - j] + dpRight[k + 1 - (k - i - j)]);\r\n            }\r\n\r\n            dp[i] += root->val;\r\n        }\r\n\r\n        return dp;\r\n    }\r\n};\r\n```\r\n",
+      "createdAt": "2021-10-15T14:09:48.793737+00:00",
+      "hitCount": 480,
+      "identifier": "dTXlv2",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "dp-by-hu-li-hu-wai-rr0c",
+        "title": "DP 动态规划 - 自底向上的树形DP"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "er-cha-shu-ran-se-UGC"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 3,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "shu-xing-jie-gou-dphou-xu-dfsbian-li-by-y72xw",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n典型的树形结构动态规划，注意到条件1 <= k <= 10，我们可以枚举每一个k来递推所有节点的最大取值。我们用一个数组dp[k + 1]来记录这些最大值，dp[i]表示当前节点作为已经连接在一起的第i个节点，以当前节点为根节点的整个子树可以取得的最大值。\n1、一个显然的事实是dp[1] >= (dp[2],",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Depth-First Search",
+          "nameTranslated": "深度优先搜索",
+          "slug": "depth-first-search",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Dynamic Programming",
+          "nameTranslated": "动态规划",
+          "slug": "dynamic-programming",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "树形结构DP，后序DFS遍历",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1049527,
+        "viewCount": 343
+      },
+      "uuid": "dTXlv2",
+      "videosInfo": []
+    }
+  }
+}

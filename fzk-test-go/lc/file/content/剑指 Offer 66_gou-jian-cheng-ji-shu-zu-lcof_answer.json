@@ -1,0 +1,108 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "Krahets",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/jyd/avatar_1589712294.png",
+          "userSlug": "jyd"
+        },
+        "username": "jyd"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 解题思路：\r\n\r\n本题的难点在于 **不能使用除法** ，即需要 **只用乘法** 生成数组 $B$ 。根据题目对 $B[i]$ 的定义，可列表格，如下图所示。\r\n\r\n根据表格的主对角线（全为 $1$ ），可将表格分为 **上三角** 和 **下三角** 两部分。分别迭代计算下三角和上三角两部分的乘积，即可 **不使用除法** 就获得结果。\r\n\r\n![Picture1.png](https://pic.leetcode-cn.com/1624619180-vpyyqh-Picture1.png){:width=500}\r\n\r\n##### 算法流程：\r\n\r\n1. 初始化：数组 $B$ ，其中 $B[0] = 1$ ；辅助变量 $tmp = 1$ ；\r\n2. 计算 $B[i]$ 的 **下三角** 各元素的乘积，直接乘入 $B[i]$ ；\r\n3. 计算 $B[i]$ 的 **上三角** 各元素的乘积，记为 $tmp$ ，并乘入 $B[i]$ ；\r\n4. 返回 $B$ 。\r\n\r\n##### 复杂度分析：\r\n\r\n- **时间复杂度 $O(N)$ ：** 其中 $N$ 为数组长度，两轮遍历数组 $a$ ，使用 $O(N)$ 时间。\r\n- **空间复杂度 $O(1)$ ：** 变量 $tmp$ 使用常数大小额外空间（数组 $b$ 作为返回值，不计入复杂度考虑）。\r\n\r\n<![Picture2.png](https://pic.leetcode-cn.com/1599920669-VflJdy-Picture2.png),![Picture3.png](https://pic.leetcode-cn.com/1599920669-hLhpTV-Picture3.png),![Picture4.png](https://pic.leetcode-cn.com/1599920669-atltNE-Picture4.png),![Picture5.png](https://pic.leetcode-cn.com/1599920669-qHySih-Picture5.png),![Picture6.png](https://pic.leetcode-cn.com/1599920669-qmJFXC-Picture6.png),![Picture7.png](https://pic.leetcode-cn.com/1599920669-zaVZDZ-Picture7.png),![Picture8.png](https://pic.leetcode-cn.com/1599920669-ufmhnT-Picture8.png),![Picture9.png](https://pic.leetcode-cn.com/1599920669-JBtgsZ-Picture9.png),![Picture10.png](https://pic.leetcode-cn.com/1599920669-thDqmQ-Picture10.png),![Picture11.png](https://pic.leetcode-cn.com/1599920669-QvVjSS-Picture11.png)>\r\n\r\n#### 代码：\r\n\r\n```Python []\r\nclass Solution:\r\n    def constructArr(self, a: List[int]) -> List[int]:\r\n        b, tmp = [1] * len(a), 1\r\n        for i in range(1, len(a)):\r\n            b[i] = b[i - 1] * a[i - 1] # 下三角\r\n        for i in range(len(a) - 2, -1, -1):\r\n            tmp *= a[i + 1]            # 上三角\r\n            b[i] *= tmp                # 下三角 * 上三角\r\n        return b\r\n```\r\n\r\n```Java []\r\nclass Solution {\r\n    public int[] constructArr(int[] a) {\r\n        int len = a.length;\r\n        if(len == 0) return new int[0];\r\n        int[] b = new int[len];\r\n        b[0] = 1;\r\n        int tmp = 1;\r\n        for(int i = 1; i < len; i++) {\r\n            b[i] = b[i - 1] * a[i - 1];\r\n        }\r\n        for(int i = len - 2; i >= 0; i--) {\r\n            tmp *= a[i + 1];\r\n            b[i] *= tmp;\r\n        }\r\n        return b;\r\n    }\r\n}\r\n```\r\n\r\n```C++ []\r\nclass Solution {\r\npublic:\r\n    vector<int> constructArr(vector<int>& a) {\r\n        int len = a.size();\r\n        if(len == 0) return {};\r\n        vector<int> b(len, 1);\r\n        b[0] = 1;\r\n        int tmp = 1;\r\n        for(int i = 1; i < len; i++) {\r\n            b[i] = b[i - 1] * a[i - 1];\r\n        }\r\n        for(int i = len - 2; i >= 0; i--) {\r\n            tmp *= a[i + 1];\r\n            b[i] *= tmp;\r\n        }\r\n        return b;\r\n    }\r\n};\r\n```",
+      "createdAt": "2020-04-18T13:44:29.712880+00:00",
+      "hitCount": 80152,
+      "identifier": "QBOYBK",
+      "isEditorsPick": true,
+      "isMostPopular": true,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "jian-zhi-offer-66-gou-jian-cheng-ji-shu-ga4qv",
+        "title": "剑指 Offer 66. 构建乘积数组，两个数组解决，特殊情况讨论"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "gou-jian-cheng-ji-shu-zu-lcof"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 261,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 19,
+          "reactionType": "AWESOME"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 3,
+          "reactionType": "CONFUSED"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 3,
+          "reactionType": "THUMBS_DOWN"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "mian-shi-ti-66-gou-jian-cheng-ji-shu-zu-biao-ge-fe",
+      "status": "PUBLISHED",
+      "summary": "解题思路：\n本题的难点在于 不能使用除法 ，即需要 只用乘法 生成数组 B 。根据题目对 B[i] 的定义，可列表格，如下图所示。\n根据表格的主对角线（全为 1 ），可将表格分为 上三角 和 下三角 两部分。分别迭代计算下三角和上三角两部分的乘积，即可 不使用除法 就获得结果。\n 算法流程：\n\n初始化：数组 B ，其",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python3",
+          "nameTranslated": "",
+          "slug": "python3",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1624619180-vpyyqh-Picture1.png",
+      "title": "剑指 Offer 66. 构建乘积数组（表格分区，清晰图解）",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 155,
+        "id": 208840,
+        "viewCount": 54496
+      },
+      "uuid": "QBOYBK",
+      "videosInfo": []
+    }
+  }
+}

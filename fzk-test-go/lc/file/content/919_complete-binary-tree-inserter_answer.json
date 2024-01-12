@@ -1,0 +1,93 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣 (LeetCode)",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/uploaded_files/2021/03/73c9f099-abbe-4d94-853f-f8abffd459cd/leetcode.png",
+          "userSlug": "leetcode"
+        },
+        "username": "LeetCode"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "\n#### 方法 1：双端队列\n\n**想法**\n\n将所有节点编号，按照从上到下从左到右的顺序。\n\n在每个插入步骤中，我们希望插入到一个编号最小的节点（这样有 0 或者 1 个孩子）。\n\n通过维护一个 `deque` （双端队列），保存这些节点的编号，我们可以解决这个问题。插入一个节点之后，将成为最高编号的节点，并且没有孩子，所以插入到队列的后端。为了找到最小数字的节点，我们从队列前端弹出元素。\n\n**算法**\n\n首先，通过广度优先搜索将 `deque` 中插入含有 0 个或者 1 个孩子的节点编号。\n\n然后插入节点，父亲是 `deque` 的第一个元素，我们将新节点加入我们的 `deque`。\n\n```Java []\nclass CBTInserter {\n    TreeNode root;\n    Deque<TreeNode> deque;\n    public CBTInserter(TreeNode root) {\n        this.root = root;\n        deque = new LinkedList();\n        Queue<TreeNode> queue = new LinkedList();\n        queue.offer(root);\n\n        // BFS to populate deque\n        while (!queue.isEmpty()) {\n            TreeNode node = queue.poll();\n            if (node.left == null || node.right == null)\n                deque.offerLast(node);\n            if (node.left != null)\n                queue.offer(node.left);\n            if (node.right != null)\n                queue.offer(node.right);\n        }\n    }\n\n    public int insert(int v) {\n        TreeNode node = deque.peekFirst();\n        deque.offerLast(new TreeNode(v));\n        if (node.left == null)\n            node.left = deque.peekLast();\n        else {\n            node.right = deque.peekLast();\n            deque.pollFirst();\n        }\n\n        return node.val;\n    }\n\n    public TreeNode get_root() {\n        return root;\n    }\n}\n```\n\n```Python []\nclass CBTInserter(object):\n    def __init__(self, root):\n        self.deque = collections.deque()\n        self.root = root\n        q = collections.deque([root])\n        while q:\n            node = q.popleft()\n            if not node.left or not node.right:\n                self.deque.append(node)\n            if node.left:\n                q.append(node.left)\n            if node.right:\n                q.append(node.right)\n\n    def insert(self, v):\n        node = self.deque[0]\n        self.deque.append(TreeNode(v))\n        if not node.left:\n            node.left = self.deque[-1]\n        else:\n            node.right = self.deque[-1]\n            self.deque.popleft()\n        return node.val\n\n    def get_root(self):\n        return self.root\n```\n\n**复杂度分析**\n\n* 时间复杂度：预处理 $O(N)$，其中 $N$ 是树上节点编号。每个插入步骤是 $O(1)$。\n* 空间复杂度：$O(N_\\text{cur})$，其中当前插入操作树的大小为 $N_{\\text{cur}}$。\n",
+      "createdAt": "2019-09-02T04:25:18.490428+00:00",
+      "hitCount": 5606,
+      "identifier": "CoeJ9k",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "919-wan-quan-er-cha-shu-cha-ru-qi-ceng-x-fmda",
+        "title": "919. 完全二叉树插入器（层序遍历）"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "complete-binary-tree-inserter"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 5,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "wan-quan-er-cha-shu-cha-ru-qi-by-leetcode",
+      "status": "PUBLISHED",
+      "summary": "§ 方法 1：双端队列\n想法\n将所有节点编号，按照从上到下从左到右的顺序。\n在每个插入步骤中，我们希望插入到一个编号最小的节点（这样有 0 或者 1 个孩子）。\n通过维护一个 deque （双端队列），保存这些节点的编号，我们可以解决这个问题。插入一个节点之后，将成为最高编号的节点，并且没有孩子，所以插入到队列的后端。",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Breadth-First Search",
+          "nameTranslated": "广度优先搜索",
+          "slug": "breadth-first-search",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Queue",
+          "nameTranslated": "队列",
+          "slug": "queue",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "完全二叉树插入器",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 9,
+        "id": 24700,
+        "viewCount": 4152
+      },
+      "uuid": "CoeJ9k",
+      "videosInfo": []
+    }
+  }
+}

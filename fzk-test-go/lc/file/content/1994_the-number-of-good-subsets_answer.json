@@ -1,0 +1,104 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "5cm/s",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/xincept/avatar_1616151418.png",
+          "userSlug": "megurine"
+        },
+        "username": "megurine"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 预处理\n首先题目规定了数值范围为 $[1, 30]$ ，那么我们就可以先直接统计 $[1, 30]$ 各自出现的次数\n\n而由于 $4, 8, 9, 12, 16, 18, 20, 24, 25, 27, 28$ 有多个相同因子，例如 $18 = 2 \\times 3 \\times 3$，必然不能出现在任意子序列中，所以需要排除这些数\n\n剩下的数中，$1$ 比较特殊，对于任意不含 $1$ 的有效子序列，可以添加上任意个 $1$ 构成新的子序列，也依然都是有效的，由于不同位置算为不同，对于每个位置的 $1$ 有选或者不选两种可能，一共就是 $2^{cnt[0]}$ 种可能\n\n对于 $[2, 30]$ 区间的其他数，可以预处理一下，存储与其他数的互斥情况，这里使用位来存储，当 $mutex[i] \\& (1<<j)>0$ 时，说明 $i$ 和 $j$ 不可以同时选择\n\n### DFS\n准备工作做完，就可以开始愉快的`DFS`了，两个递归参数 $n$ 和 $chose$ 分别表示当前遍历到的数字和之前已经选择的所有数字，其中 $chose$ 使用和 $mutex[i]$一样的存储方式\n\n1. 如果 $cnt[n] == 0$，说明 $nums$ 中不存在该数字，或该数字有多个相同因子，只用计算不选当前数字的后续方案数\n2. 如果 $mutex[n]\\&chose > 0$，说明之前已经选择的数字存在和当前数字互斥的，处理同 $1$\n3. 否则，选择该数字，递归参数 $chose = chose | (1<<n)$，由于对于 $n$ ，有 $cnt[n]$ 种情况可选择，所以需要同时乘上 $cnt[n]$\n4. 当 $n$ 为 $31$ 时，为递归终点，如果此时 $chose$ 为 $0$ ，说明没有选择任何数，返回 $0$，否则返回 $1$\n\n`DFS` 的初始状态毫无疑问是 $n = 2, chose = 0$，得到递归返回值，再乘上 $2^{cnt[0]}$ 即为答案\n\n咋看之下 `DFS` 的时间复杂度会很高，实际上由于互斥的情况非常多，剪枝的效率非常高\n\n> 可惜又双叒叕看错题了，比赛时没写出来\n```Python []\nmod = 10 ** 9 + 7\nclass Solution:\n    def numberOfGoodSubsets(self, nums: List[int]) -> int:\n        cnts = [0] * 31\n        for n in nums:\n            cnts[n] += 1\n        for n in [4, 8, 9, 12, 16, 18, 20, 24, 25, 27, 28]:\n            cnts[n] = 0  # 排除掉有多个相同因子的\n\n        mutex = [0] * 31\n        for i in range(2, 31):\n            for j in range(2, 31):\n                if i != j and gcd(i, j) > 1:\n                    mutex[i] |= 1 << j\n\n        def dfs(n, chose):  # n表示当前数字，chose的第i位标识是否选择i\n            if n == 31:\n                return 1 if chose > 0 else 0\n            ret = dfs(n + 1, chose)\n            if cnts[n] > 0 and mutex[n] & chose == 0:\n                ret += cnts[n] * dfs(n + 1, chose | (1 << n))\n            return ret % mod\n\n        return dfs(2, 0) * pow(2, cnts[1], mod) % mod  # 1可以选择任意个\n```",
+      "createdAt": "2021-09-04T17:15:52.153063+00:00",
+      "hitCount": 651,
+      "identifier": "bQHgNy",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "cpython3java-npwan-quan-wen-ti-1hui-su-d-qb7b",
+        "title": "c++/python3/java NP完全问题(Non-deterministic Polinominal Complete)（1）回溯+dfs "
+      },
+      "position": 4,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "shu-xue-by-utoppia-ijm9",
+        "title": "数学"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "the-number-of-good-subsets"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 5,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "hui-su-zhuang-tai-ya-suo-jian-zhi-wei-yu-1ruz",
+      "status": "PREPUBLISH",
+      "summary": "预处理\n首先题目规定了数值范围为 [1, 30] ，那么我们就可以先直接统计 [1, 30] 各自出现的次数\n而由于 4, 8, 9, 12, 16, 18, 20, 24, 25, 27, 28 有多个相同因子，例如 18 = 2 \\times 3 \\times 3，必然不能出现在任意子序列中，所以需要排除这些数\n剩",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Bit Manipulation",
+          "nameTranslated": "位运算",
+          "slug": "bit-manipulation",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Backtracking",
+          "nameTranslated": "回溯",
+          "slug": "backtracking",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Bitmask",
+          "nameTranslated": "状态压缩",
+          "slug": "bitmask",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python3",
+          "nameTranslated": "",
+          "slug": "python3",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "DFS",
+          "nameTranslated": "",
+          "slug": "dfs",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "",
+      "title": "回溯+状态压缩+剪枝+位运算",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 6,
+        "id": 978774,
+        "viewCount": 443
+      },
+      "uuid": "bQHgNy",
+      "videosInfo": []
+    }
+  }
+}

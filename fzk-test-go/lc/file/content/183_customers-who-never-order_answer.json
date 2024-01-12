@@ -1,0 +1,72 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣 (LeetCode)",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/uploaded_files/2021/03/73c9f099-abbe-4d94-853f-f8abffd459cd/leetcode.png",
+          "userSlug": "leetcode"
+        },
+        "username": "LeetCode"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法：使用子查询和 `NOT IN` 子句\n\n**算法**\n\n如果我们有一份曾经订购过的客户名单，就很容易知道谁从未订购过。\n\n我们可以使用下面的代码来获得这样的列表。\n\n```sql\nselect customerid from orders;\n```\n\n然后，我们可以使用 `NOT IN` 查询不在此列表中的客户。\n\n```MySQL []\nselect customers.name as 'Customers'\nfrom customers\nwhere customers.id not in\n(\n    select customerid from orders\n);\n```",
+      "createdAt": "2018-10-24T20:32:44.924791+00:00",
+      "hitCount": 74159,
+      "identifier": "xSsVRG",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "tu-jie-sqlmian-shi-ti-cha-zhao-bu-zai-biao-li-de-s",
+        "title": "图解SQL面试题：查找不在表里的数据"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "customers-who-never-order"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 32,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "cong-bu-ding-gou-de-ke-hu-by-leetcode",
+      "status": "PUBLISHED",
+      "summary": "算法\n如果我们有一份曾经订购过的客户名单，就很容易知道谁从未订购过。\n我们可以使用下面的代码来获得这样的列表。\n然后，我们可以使用 NOT IN 查询不在此列表中的客户。",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "MySQL",
+          "nameTranslated": "",
+          "slug": "mysql",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "从不订购的客户",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 88,
+        "id": 3566,
+        "viewCount": 58602
+      },
+      "uuid": "xSsVRG",
+      "videosInfo": []
+    }
+  }
+}

@@ -1,0 +1,76 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "offer快到碗里来~",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/zhouzihong/avatar_1626862997.png",
+          "userSlug": "zhouzihong"
+        },
+        "username": "zhouzihong"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "\r\n抽象图一二ij\r\n![image.png](https://pic.leetcode-cn.com/1629809607-pojAiU-image.png)\r\n\r\n```\r\nclass Solution {\r\npublic:\r\n    Node* intersect(Node* quadTree1, Node* quadTree2) {\r\n        if(quadTree1->isLeaf||quadTree2->isLeaf){\r\n            if(quadTree1->isLeaf)return quadTree1->val?quadTree1:quadTree2;\r\n            else if(quadTree2->isLeaf)return quadTree2->val?quadTree2:quadTree1;\r\n        }\r\n        quadTree1->topLeft = intersect(quadTree1->topLeft, quadTree2->topLeft);\r\n        quadTree1->topRight = intersect(quadTree1->topRight, quadTree2->topRight);\r\n        quadTree1->bottomLeft = intersect(quadTree1->bottomLeft, quadTree2->bottomLeft);\r\n        quadTree1->bottomRight = intersect(quadTree1->bottomRight, quadTree2->bottomRight);\r\n        if(quadTree1->topLeft->isLeaf\r\n        &&quadTree1->topRight->isLeaf\r\n        &&quadTree1->bottomLeft->isLeaf\r\n        &&quadTree1->bottomRight->isLeaf\r\n        &&quadTree1->topLeft->val==quadTree1->topRight->val\r\n        &&quadTree1->topLeft->val==quadTree1->bottomLeft->val\r\n        &&quadTree1->topLeft->val==quadTree1->bottomRight->val){\r\n            quadTree1->isLeaf=true;\r\n            quadTree1->val=quadTree1->topLeft->val;\r\n            quadTree1->topLeft=nullptr;\r\n            quadTree1->topRight=nullptr;\r\n            quadTree1->bottomLeft=nullptr;\r\n            quadTree1->bottomRight=nullptr;\r\n        }\r\n        return quadTree1;\r\n    }\r\n};\r\n```\r\n",
+      "createdAt": "2021-08-24T12:53:50.015617+00:00",
+      "hitCount": 128,
+      "identifier": "aumq2q",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "558-cshuang-bai-de-di-gui-jie-fa-by-ffre-qt4q",
+        "title": "558. c++双百的递归解法"
+      },
+      "position": 2,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "zhe-ti-you-buga-ce-shi-bu-tong-guo-ti-ji-yi2g",
+        "title": "DFS"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "logical-or-of-two-binary-grids-represented-as-quad-trees"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "si-cha-shu-ye-ke-yi-hua-tu-di-gui-c-by-z-mbz1",
+      "status": "PREPUBLISH",
+      "summary": "抽象图一二ij",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1629809607-pojAiU-image.png",
+      "title": "四叉树也可以画图，递归C++",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 956600,
+        "viewCount": 107
+      },
+      "uuid": "aumq2q",
+      "videosInfo": []
+    }
+  }
+}

@@ -1,0 +1,105 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "算法小爱",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/helen_class/avatar_1631327629.png",
+          "userSlug": "helen_class"
+        },
+        "username": "Helen_Class"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "> 关注[小爱老师的算法课堂](https://space.bilibili.com/1716757387/)，有新鲜视频题解呀！\r\n\r\n---\r\n\r\n###  题目分析：\r\n\r\n本题与[LCP 09. 最小跳跃次数](https://leetcode-cn.com/problems/zui-xiao-tiao-yue-ci-shu/)的区别在于，最终目标 $target$ 的范围在 $[1, 10^9]$，所以仅通过正向 `BFS` 最坏情况下要遍历全部位置，会超时。所以我们考虑反向 `BFS`，也即从 $target$ 出发，目标是往回走到 $0$ 位置。\r\n\r\n特别地，本题在某个位置的不同选择花费的时间均不同，所以需要使用优先队列，而不能使用普通队列存储。\r\n\r\n---\r\n\r\n### 算法细节：\r\n\r\n我们在队列中记录两个值：当前花费时间 `time` 和 当前位置 `position`（因为优先取较小时间，所以使用声明优先队列时，要声明为小顶堆）。首先将初始值 $\\{ target, 0 \\}$ 存入队列。每次从队列中取出头部元素，更新与其相关的位置：\r\n\r\n首先，从该位置**一站一站移动**，到达 $0$ 号站点的时间为 $inc \\times position$，这是因为，我们虽然是反向遍历，但是实际上是从 $0$ 开始向右移动的，所以取 $inc$ 而非 $dec$。我们提前设置一个全局变量 `ans` 记录结果，每次更新该值：$ans = min(ans, time + inc \\times position)$，这里不要忘记从 $target$ 到达该位置的时间 `time`也要被计入。\r\n\r\n其次，我们考虑**乘坐公交车**的情况。遍历所有公交车，有两种情况：\r\n\r\n第一种情况是，当前位置 `position` 刚好处在公交车的某一站上，也即 $position\\ \\%\\ jump[i] = 0$，那么此时该公交车的上一站即为 $position \\div jump[i]$，我们直接将该位置和所需耗时加入队列即可。\r\n\r\n第二种情况是，当前位置 `position` 不在公交车的某一站上，那么可以通过向左走几步或者向右走几步，到达该公交车的某一站，而左边和右边最近的位置可以通过 $position\\ \\%\\ jump[i]$ 得到。我们以向左走为例：\r\n\r\n当前余数 $feed = position\\ \\%\\ jump[i]$，说明向左走 $feed$ 步，即可到达公交车的某一站 $position - feed$ 号站点。向左走 $feed$ 步的耗时为 $inc \\times feed$，而乘坐一次公交车耗时为 $cost[i]$，上一站为 $(position - feed) \\div jump[i]$，所以我们将当前拓展出的新节点存入队列即可。\r\n\r\n---\r\n\r\n### 代码：\r\n\r\n```C++ []\r\nclass Solution {\r\n    using ll = long long;\r\n    using PLL = pair<ll, ll>;\r\n    const ll M = 1e9 + 7;\r\npublic:\r\n    int busRapidTransit(int target, int inc, int dec, vector<int>& jump, vector<int>& cost) {\r\n        int n = jump.size();\r\n\r\n        // 声明小顶堆 优先队列：第一属性为 时间 time，第二属性为 当前位置 position\r\n        priority_queue< PLL, vector<PLL>, greater<PLL> > q;\r\n        // 记录哪些位置已经被遍历过\r\n        unordered_set<ll> seen;\r\n\r\n        // 先将 target 存入\r\n        q.emplace(0, (ll)target);\r\n        seen.insert(target);\r\n\r\n        // 最坏情况下，从 0 直接前进到 target\r\n        ll ans = (ll)inc * target;\r\n\r\n        while(!q.empty()) {\r\n            // 弹出队头元素\r\n            auto [time, position] = q.top();\r\n            q.pop();\r\n\r\n            // 若当前时间已经比 全局最优时间 大了，就没必要继续搜索了\r\n            if(time >= ans) continue;\r\n            // 从 target 到 position 时间为 time, 从 position 到 0 为 position * inc\r\n            ans = min(ans, time + position * (ll)inc);\r\n\r\n            for(int i = 0; i < n; i++) {\r\n                ll feed = position % (ll)jump[i], next = position / (ll)jump[i];\r\n                if(feed == 0) {\r\n                    // 正好在公交车站\r\n                    if(!seen.count(next)) {\r\n                        q.emplace(time + (ll)cost[i], next);\r\n                    }\r\n                } else {\r\n                    // 向左走到公交车站\r\n                    if(!seen.count(next)) {\r\n                        q.emplace(time + cost[i] + (ll)feed * inc, next);\r\n                    }\r\n                    // 向右走到公交车站\r\n                    if(!seen.count(next + 1)) {\r\n                        q.emplace(time + cost[i] + (ll)(jump[i] - feed) * dec, next + 1);\r\n                    }\r\n                }\r\n            }\r\n        }    \r\n\r\n        return ans % M;\r\n    }\r\n};\r\n```\r\n\r\n",
+      "createdAt": "2021-09-06T14:27:58.892056+00:00",
+      "hitCount": 409,
+      "identifier": "OJUbF8",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "python-ji-yi-hua-di-gui-by-bu-jian-de-feng-jing-2",
+        "title": "python 记忆化递归"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "meChtZ"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 8,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "suan-fa-xiao-ai-li-kou-bei-li-jie-zhen-t-tg1z",
+      "status": "PREPUBLISH",
+      "summary": "关注小爱老师的算法课堂，有新鲜视频题解呀！\n\n题目分析：\n本题与LCP 09. 最小跳跃次数的区别在于，最终目标 target 的范围在 [1, 10^9]，所以仅通过正向 BFS 最坏情况下要遍历全部位置，会超时。所以我们考虑反向 BFS，也即从 target 出发，目标是往回走到 0 位置。\n特别地，本题在某个位",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Breadth-First Search",
+          "nameTranslated": "广度优先搜索",
+          "slug": "breadth-first-search",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "优先队列",
+          "nameTranslated": "",
+          "slug": "you-xian-dui-lie",
+          "tagType": "ADDITIONAL_TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "BFS",
+          "nameTranslated": "",
+          "slug": "bfs",
+          "tagType": "ADDITIONAL_TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "搜索",
+          "nameTranslated": "",
+          "slug": "search",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "",
+      "title": "【算法小爱-力扣杯历届真题视频题解】基于优先队列的广度优先搜索",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 1,
+        "id": 982304,
+        "viewCount": 280
+      },
+      "uuid": "OJUbF8",
+      "videosInfo": []
+    }
+  }
+}

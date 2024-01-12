@@ -1,0 +1,138 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣官方题解",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/leetcode-solution/avatar_1582018938.png",
+          "userSlug": "leetcode-solution"
+        },
+        "username": "LeetCode-Solution"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 前言\n\n如果 $n$ 是 $4$ 的幂，那么 $n$ 一定也是 $2$ 的幂。因此我们可以首先判断 $n$ 是否是 $2$ 的幂，在此基础上再判断 $n$ 是否是 $4$ 的幂。\n\n判断 $n$ 是否是 $2$ 的幂可以参考「[231. 2的幂的官方题解](https://leetcode-cn.com/problems/power-of-two/solution/2de-mi-by-leetcode-solution-rny3/)」。由于这一步的方法有很多种，在下面的题解中，我们使用\n\n$$\n\\texttt{n \\& (n - 1)}\n$$\n\n这一方法进行判断。\n\n#### 方法一：二进制表示中 $1$ 的位置\n\n**思路与算法**\n\n如果 $n$ 是 $4$ 的幂，那么 $n$ 的二进制表示中有且仅有一个 $1$，并且这个 $1$ 出现在从低位开始的第**偶数**个二进制位上（这是因为这个 $1$ 后面必须有偶数个 $0$）。这里我们规定最低位为第 $0$ 位，例如 $n=16$ 时，$n$ 的二进制表示为\n\n$$\n(10000)_2\n$$\n\n唯一的 $1$ 出现在第 $4$ 个二进制位上，因此 $n$ 是 $4$ 的幂。\n\n由于题目保证了 $n$ 是一个 $32$ 位的有符号整数，因此我们可以构造一个整数 $\\textit{mask}$，它的所有偶数二进制位都是 $0$，所有奇数二进制位都是 $1$。这样一来，我们将 $n$ 和 $\\textit{mask}$ 进行按位与运算，如果结果为 $0$，说明 $n$ 二进制表示中的 $1$ 出现在偶数的位置，否则说明其出现在奇数的位置。\n\n根据上面的思路，$\\textit{mask}$ 的二进制表示为：\n\n$$\n\\textit{mask} = (10101010101010101010101010101010)_2\n$$\n\n我们也可以将其表示成 $16$ 进制的形式，使其更加美观：\n\n$$\n\\textit{mask} = (\\text{AAAAAAAA})_{16}\n$$\n\n**代码**\n\n```C++ [sol1-C++]\nclass Solution {\npublic:\n    bool isPowerOfFour(int n) {\n        return n > 0 && (n & (n - 1)) == 0 && (n & 0xaaaaaaaa) == 0;\n    }\n};\n```\n\n```Java [sol1-Java]\nclass Solution {\n    public boolean isPowerOfFour(int n) {\n        return n > 0 && (n & (n - 1)) == 0 && (n & 0xaaaaaaaa) == 0;\n    }\n}\n```\n\n```C# [sol1-C#]\npublic class Solution {\n    public bool IsPowerOfFour(int n) {\n        return n > 0 && (n & (n - 1)) == 0 && (n & 0xaaaaaaaa) == 0;\n    }\n}\n```\n\n```Python [sol1-Python3]\nclass Solution:\n    def isPowerOfFour(self, n: int) -> bool:\n        return n > 0 and (n & (n - 1)) == 0 and (n & 0xaaaaaaaa) == 0\n```\n\n```JavaScript [sol1-JavaScript]\nvar isPowerOfFour = function(n) {\n    return n > 0 && (n & (n - 1)) === 0 && (n & 0xaaaaaaaa) === 0;\n};\n```\n\n```go [sol1-Golang]\nfunc isPowerOfFour(n int) bool {\n    return n > 0 && n&(n-1) == 0 && n&0xaaaaaaaa == 0\n}\n```\n\n```C [sol1-C]\nbool isPowerOfFour(int n) {\n    return n > 0 && (n & (n - 1)) == 0 && (n & 0xaaaaaaaa) == 0;\n}\n```\n\n**复杂度分析**\n\n- 时间复杂度：$O(1)$。\n\n- 空间复杂度：$O(1)$。\n\n**思考**\n\n事实上，我们令：\n\n$$\n\\textit{mask} = (\\text{2AAAAAAA})_{16}\n$$\n\n也可以使得上面的判断满足要求，读者可以思考其中的原因。\n\n**提示：**$n$ 是一个「有符号」的 $32$ 位整数。\n\n#### 方法二：取模性质\n\n**思路与算法**\n\n如果 $n$ 是 $4$ 的幂，那么它可以表示成 $4^x$ 的形式，我们可以发现它除以 $3$ 的余数一定为 $1$，即：\n\n$$\n4^x \\equiv (3+1)^x \\equiv 1^x \\equiv 1 \\quad (\\bmod ~3)\n$$\n\n如果 $n$ 是 $2$ 的幂却不是 $4$ 的幂，那么它可以表示成 $4^x \\times 2$ 的形式，此时它除以 $3$ 的余数一定为 $2$。\n\n因此我们可以通过 $n$ 除以 $3$ 的余数是否为 $1$ 来判断 $n$ 是否是 $4$ 的幂。\n\n**代码**\n\n```C++ [sol2-C++]\nclass Solution {\npublic:\n    bool isPowerOfFour(int n) {\n        return n > 0 && (n & (n - 1)) == 0 && n % 3 == 1;\n    }\n};\n```\n\n```Java [sol2-Java]\nclass Solution {\n    public boolean isPowerOfFour(int n) {\n        return n > 0 && (n & (n - 1)) == 0 && n % 3 == 1;\n    }\n}\n```\n\n```C# [sol2-C#]\npublic class Solution {\n    public bool IsPowerOfFour(int n) {\n        return n > 0 && (n & (n - 1)) == 0 && n % 3 == 1;\n    }\n}\n```\n\n```Python [sol2-Python3]\nclass Solution:\n    def isPowerOfFour(self, n: int) -> bool:\n        return n > 0 and (n & (n - 1)) == 0 and n % 3 == 1\n```\n\n```JavaScript [sol2-JavaScript]\nvar isPowerOfFour = function(n) {\n    return n > 0 && (n & (n - 1)) === 0 && n % 3 === 1;\n};\n```\n\n```go [sol2-Golang]\nfunc isPowerOfFour(n int) bool {\n    return n > 0 && n&(n-1) == 0 && n%3 == 1\n}\n```\n\n```C [sol2-C]\nbool isPowerOfFour(int n) {\n    return n > 0 && (n & (n - 1)) == 0 && n % 3 == 1;\n}\n```\n\n**复杂度分析**\n\n- 时间复杂度：$O(1)$。\n\n- 空间复杂度：$O(1)$。\n\n---\n## ✨扣友帮帮团 - 互动答疑\n\n[![讨论.jpg](https://pic.leetcode-cn.com/1621178600-MKHFrl-%E8%AE%A8%E8%AE%BA.jpg){:width=260px}](https://leetcode-cn.com/topic/kou-you-bang-bang-tuan/discuss/latest/)\n\n\n即日起 - 5 月 30 日，点击 [这里](https://leetcode-cn.com/topic/kou-you-bang-bang-tuan/discuss/latest/) 前往「[扣友帮帮团](https://leetcode-cn.com/topic/kou-you-bang-bang-tuan/discuss/latest/)」活动页，把你遇到的问题大胆地提出来，让扣友为你解答～\n\n### 🎁 奖励规则\n被采纳数量排名 1～3 名：「力扣极客套装」 *1 并将获得「力扣神秘应援团」内测资格\n被采纳数量排名 4～10 名：「力扣鼠标垫」 *1 并将获得「力扣神秘应援团」内测资格\n「诲人不倦」：活动期间「解惑者」只要有 1 个回答被采纳，即可获得 20 LeetCoins 奖励！\n「求知若渴」：活动期间「求知者」在活动页发起一次符合要求的疑问帖并至少采纳一次「解惑者」的回答，即可获得 20 LeetCoins 奖励！\n\n活动详情猛戳链接了解更多：[🐞 你有 BUG 我来帮 - 力扣互动答疑季](https://leetcode-cn.com/circle/discuss/xtliW6/)",
+      "createdAt": "2021-05-27T06:20:22.136066+00:00",
+      "hitCount": 34309,
+      "identifier": "ZzTDHG",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "java-ti-jie-shu-0he-1de-ge-shu-by-reiner-s36p",
+        "title": "Java 题解 数0和1的个数"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "power-of-four"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 94,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 5,
+          "reactionType": "AWESOME"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "CONFUSED"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "4de-mi-by-leetcode-solution-b3ya",
+      "status": "PUBLISHED",
+      "summary": "前言\n如果 n 是 4 的幂，那么 n 一定也是 2 的幂。因此我们可以首先判断 n 是否是 2 的幂，在此基础上再判断 n 是否是 4 的幂。\n判断 n 是否是 2 的幂可以参考「231. 2的幂的官方题解」。由于这一步的方法有很多种，在下面的题解中，我们使用\n\\texttt{n \\& (n - 1)}\n\n这一方法",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Bit Manipulation",
+          "nameTranslated": "位运算",
+          "slug": "bit-manipulation",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Math",
+          "nameTranslated": "数学",
+          "slug": "math",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C",
+          "nameTranslated": "",
+          "slug": "c",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C#",
+          "nameTranslated": "",
+          "slug": "csharp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Go",
+          "nameTranslated": "",
+          "slug": "golang",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "JavaScript",
+          "nameTranslated": "",
+          "slug": "javascript",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1621178600-MKHFrl-%E8%AE%A8%E8%AE%BA.jpg",
+      "title": "4的幂",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 155,
+        "id": 798268,
+        "viewCount": 25753
+      },
+      "uuid": "ZzTDHG",
+      "videosInfo": []
+    }
+  }
+}

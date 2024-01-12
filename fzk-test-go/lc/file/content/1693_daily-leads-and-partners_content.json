@@ -1,0 +1,66 @@
+{
+  "data": {
+    "question": {
+      "__typename": "QuestionNode",
+      "book": null,
+      "boundTopicId": 527580,
+      "categoryTitle": "Database",
+      "codeSnippets": null,
+      "companyTagStats": null,
+      "content": null,
+      "contributors": [],
+      "dailyRecordStatus": null,
+      "difficulty": "Easy",
+      "dislikes": 0,
+      "editorType": "CKEDITOR",
+      "enableRunCode": true,
+      "envInfo": "{\"mysql\":[\"MySQL\",\"<p>\\u7248\\u672c\\uff1a<code>MySQL 8.0<\\/code><\\/p>\"],\"mssql\":[\"MS SQL Server\",\"<p>mssql server 2019.<\\/p>\"],\"oraclesql\":[\"Oracle\",\"<p>Oracle Sql 11.2.<\\/p>\"]}",
+      "exampleTestcases": "{\"headers\":{\"DailySales\":[\"date_id\",\"make_name\",\"lead_id\",\"partner_id\"]},\"rows\":{\"DailySales\":[[\"2020-12-8\",\"toyota\",0,1],[\"2020-12-8\",\"toyota\",1,0],[\"2020-12-8\",\"toyota\",1,2],[\"2020-12-7\",\"toyota\",0,2],[\"2020-12-7\",\"toyota\",0,1],[\"2020-12-8\",\"honda\",1,2],[\"2020-12-8\",\"honda\",2,1],[\"2020-12-7\",\"honda\",0,1],[\"2020-12-7\",\"honda\",1,2],[\"2020-12-7\",\"honda\",2,1]]}}",
+      "hints": [],
+      "isDailyQuestion": false,
+      "isLiked": null,
+      "isPaidOnly": true,
+      "isSubscribed": false,
+      "judgeType": "large",
+      "judgerAvailable": true,
+      "langToValidPlayground": null,
+      "likes": 5,
+      "metaData": "{\n  \"mysql\": [\n    \"Create table If Not Exists DailySales(date_id date, make_name varchar(20), lead_id int, partner_id int)\"\n  ],\n  \"mssql\": [\n    \"Create table DailySales(date_id date, make_name varchar(20), lead_id int, partner_id int)\"\n  ],\n  \"oraclesql\": [\n    \"Create table DailySales(date_id date, make_name varchar(20), lead_id int, partner_id int)\",\n    \"ALTER SESSION SET nls_date_format='YYYY-MM-DD'\"\n  ],\n  \"database\": true\n}",
+      "mysqlSchemas": [
+        "Create table If Not Exists DailySales(date_id date, make_name varchar(20), lead_id int, partner_id int)",
+        "Truncate table DailySales",
+        "insert into DailySales (date_id, make_name, lead_id, partner_id) values ('2020-12-8', 'toyota', '0', '1')",
+        "insert into DailySales (date_id, make_name, lead_id, partner_id) values ('2020-12-8', 'toyota', '1', '0')",
+        "insert into DailySales (date_id, make_name, lead_id, partner_id) values ('2020-12-8', 'toyota', '1', '2')",
+        "insert into DailySales (date_id, make_name, lead_id, partner_id) values ('2020-12-7', 'toyota', '0', '2')",
+        "insert into DailySales (date_id, make_name, lead_id, partner_id) values ('2020-12-7', 'toyota', '0', '1')",
+        "insert into DailySales (date_id, make_name, lead_id, partner_id) values ('2020-12-8', 'honda', '1', '2')",
+        "insert into DailySales (date_id, make_name, lead_id, partner_id) values ('2020-12-8', 'honda', '2', '1')",
+        "insert into DailySales (date_id, make_name, lead_id, partner_id) values ('2020-12-7', 'honda', '0', '1')",
+        "insert into DailySales (date_id, make_name, lead_id, partner_id) values ('2020-12-7', 'honda', '1', '2')",
+        "insert into DailySales (date_id, make_name, lead_id, partner_id) values ('2020-12-7', 'honda', '2', '1')"
+      ],
+      "questionFrontendId": "1693",
+      "questionId": "1837",
+      "sampleTestCase": "{\"headers\":{\"DailySales\":[\"date_id\",\"make_name\",\"lead_id\",\"partner_id\"]},\"rows\":{\"DailySales\":[[\"2020-12-8\",\"toyota\",0,1],[\"2020-12-8\",\"toyota\",1,0],[\"2020-12-8\",\"toyota\",1,2],[\"2020-12-7\",\"toyota\",0,2],[\"2020-12-7\",\"toyota\",0,1],[\"2020-12-8\",\"honda\",1,2],[\"2020-12-8\",\"honda\",2,1],[\"2020-12-7\",\"honda\",0,1],[\"2020-12-7\",\"honda\",1,2],[\"2020-12-7\",\"honda\",2,1]]}}",
+      "similarQuestions": "[]",
+      "solution": null,
+      "stats": "{\"totalAccepted\": \"2.5K\", \"totalSubmission\": \"3.1K\", \"totalAcceptedRaw\": 2468, \"totalSubmissionRaw\": 3071, \"acRate\": \"80.4%\"}",
+      "status": null,
+      "style": "LEETCODE",
+      "title": "Daily Leads and Partners",
+      "titleSlug": "daily-leads-and-partners",
+      "topicTags": [
+        {
+          "__typename": "TopicTagNode",
+          "name": "Database",
+          "slug": "database",
+          "translatedName": "数据库"
+        }
+      ],
+      "translatedContent": null,
+      "translatedTitle": "每天的领导和合伙人",
+      "ugcQuestionId": null
+    }
+  }
+}

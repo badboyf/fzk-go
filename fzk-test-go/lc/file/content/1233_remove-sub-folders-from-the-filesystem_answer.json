@@ -1,0 +1,93 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "ffreturn",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/ffreturn/avatar_1608859813.png",
+          "userSlug": "ffreturn"
+        },
+        "username": "ffreturn"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "![image.png](https://pic.leetcode-cn.com/1635947702-fyuWKw-image.png)\n\n\n### 解题思路\n压缩的字典树\n- 类似字典树的实现，区别是我们用以单词维度来划分\n- 例子 /aa/bb /aa 情况下 对于aa 我们就找到了结束，直接就返回，后续就会忽略到 aa/bb，这里构建时候就可以直接剪枝，不再重复计算\n- 构建好树后就是广度优先遍历去查找，一旦找到一条完整路径，则返回，该节点无需继续下探\n\n### 代码\n\n```cpp\n\nvector<string> split(const string& str)\n{\n    stringstream ss(str);\n    vector<string> res;\n    string curr;\n    while(std::getline(ss, curr, '/'))\n    {\n        if (curr.size() > 0)\n        {\n            res.push_back(curr);\n        }\n    }\n\n    return res;\n}\n\nstruct Node\n{\n    // 子节点到结点的映射\n    unordered_map<string, Node*> str2node;\n    // 表示是否完整结点\n    bool isEnd;\n    // 当前完整路径的名字\n    string str;\n\n    void insert(const string& str)\n    {\n        vector<string> strs = split(str);\n        Node* curr = this;\n\n        for (auto& s : strs)\n        {\n            if (curr->str2node.find(s) == curr->str2node.end())\n            {\n                curr->str2node[s] = new Node();\n            }\n            curr = curr->str2node[s];\n            // 直接忽略已经存在end的路径，这里就实现了subfolder\n            if (curr->isEnd)\n            {\n                cout << \"ignore \" << str << endl;\n                return;\n            }\n        }\n\n        curr->isEnd = true;\n        curr->str = str;\n    }\n};\n\nclass Solution {\npublic:\n    vector<string> removeSubfolders(vector<string>& folder) {\n        vector<string> res;\n        Node* root = new Node();\n\n        for (const string & str : folder)\n        {\n            root->insert(str);\n        }\n\n        // 基于广度优先，再次遍历找出所有结点\n        queue<Node*> q;\n        q.push(root);\n\n        while (!q.empty())\n        {\n            for (int i = q.size(); i > 0; --i)\n            {\n                Node* curr = q.front();\n                q.pop();\n                if (curr->isEnd)\n                {\n                    res.push_back(curr->str);\n                    // 这里需要忽略，因为找到最短的路径了\n                    continue;\n                }\n                for (auto iter = curr->str2node.begin(); iter != curr->str2node.end(); ++iter)\n                {\n                    q.push(iter->second);\n                }\n            }\n        }\n\n        return res;\n    }\n};\n```",
+      "createdAt": "2021-11-03T13:56:17.783762+00:00",
+      "hitCount": 127,
+      "identifier": "6dYtVP",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "1233-java-qian-zhui-shu-bfs-by-dustmem-qv1l",
+        "title": "【1233】 java 前缀树 bfs"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "remove-sub-folders-from-the-filesystem"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "1233-cjian-dan-yi-dong-de-ya-suo-zi-dian-uxx7",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n压缩的字典树\n\n类似字典树的实现，区别是我们用以单词维度来划分\n例子 /aa/bb /aa 情况下 对于aa 我们就找到了结束，直接就返回，后续就会忽略到 aa/bb，这里构建时候就可以直接剪枝，不再重复计算\n构建好树后就是广度优先遍历去查找，一旦找到一条完整路径，则返回，该节点无需继续下探\n\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Trie",
+          "nameTranslated": "字典树",
+          "slug": "trie",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "梦想",
+          "nameTranslated": "",
+          "slug": "meng-xiang",
+          "tagType": "ADDITIONAL_TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "广度优先",
+          "nameTranslated": "",
+          "slug": "yan-du-you-xian",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1635947702-fyuWKw-image.png",
+      "title": "1233. c++简单易懂的压缩字典树",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1082597,
+        "viewCount": 107
+      },
+      "uuid": "6dYtVP",
+      "videosInfo": []
+    }
+  }
+}

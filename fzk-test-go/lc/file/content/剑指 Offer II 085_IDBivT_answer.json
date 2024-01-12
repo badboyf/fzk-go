@@ -1,0 +1,79 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "SKer1207",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/sker1207/avatar_1606036262.png",
+          "userSlug": "sker1207"
+        },
+        "username": "sker1207"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "**括号组合规则**：\r\n    1. 括号组合表达式中的第一个字符一定是`'('`;\r\n    2. 只有在括号组合表达式中的`'('`的个数大于`')'`的个数时才能添加`')'`;\r\n    3. 括号组合表达式中的最后一个字符一定是')';\r\n**代码思路**：\r\n    1、用两个变量`leftCount`和`rightCount`来分别表示在递归过程中可添加的`'('`的个数和`')'`的个数;\r\n    2、当`leftCount == 0 && rightCount == 0`时将当前的括号组合表达式添加到结果中;\r\n**代码：**\r\n```\r\nclass Solution {\r\n    vector<string> result;\r\n    void backTrack(string& curStr, int leftCount, int rightCount){\r\n        if(leftCount == 0 && rightCount == 0){\r\n            result.push_back(curStr);\r\n            return ;\r\n        }\r\n        if(leftCount > 0){\r\n            curStr.push_back('(');\r\n            backTrack(curStr, leftCount - 1, rightCount);\r\n            curStr.pop_back();\r\n        }\r\n        if(rightCount > 0 && leftCount < rightCount){\r\n            curStr.push_back(')');\r\n            backTrack(curStr, leftCount, rightCount - 1);\r\n            curStr.pop_back();\r\n        }\r\n\r\n    }\r\npublic:\r\n    vector<string> generateParenthesis(int n) {\r\n        string curStr;\r\n        curStr.push_back('(');\r\n        backTrack(curStr, n - 1, n);\r\n        return result;\r\n    }\r\n};\r\n```\r\n",
+      "createdAt": "2021-11-04T13:52:19.822149+00:00",
+      "hitCount": 317,
+      "identifier": "MzG8OZ",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "jian-dan-yi-dong-javac-pythonjs-pei-yang-mmhs",
+        "title": "简单易懂Java/C++ /Python/js 培养抽象思维【回溯解法】- 括号生成"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "IDBivT"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "gen-ju-gua-hao-zu-he-gui-ze-jin-xing-hui-nb8p",
+      "status": "PREPUBLISH",
+      "summary": "括号组合规则：\n1. 括号组合表达式中的第一个字符一定是'(';\n2. 只有在括号组合表达式中的'('的个数大于')'的个数时才能添加')';\n3. 括号组合表达式中的最后一个字符一定是')';\n代码思路：\n1、用两个变量leftCount和rightCount来分别表示在递归过程中可添加的'('的个数和')'的个数;",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Backtracking",
+          "nameTranslated": "回溯",
+          "slug": "backtracking",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "根据括号组合规则进行回溯 C++实现",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1084519,
+        "viewCount": 248
+      },
+      "uuid": "MzG8OZ",
+      "videosInfo": []
+    }
+  }
+}

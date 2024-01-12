@@ -1,0 +1,119 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣官方题解",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/leetcode-solution/avatar_1582018938.png",
+          "userSlug": "leetcode-solution"
+        },
+        "username": "LeetCode-Solution"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法一：二分查找\n\n**思路与算法**\n\n一个不包含重复元素的升序数组在经过旋转之后，可以得到下面可视化的折线图：\n\n![fig1](https://assets.leetcode-cn.com/solution-static/153/1.png)\n\n其中横轴表示数组元素的下标，纵轴表示数组元素的值。图中标出了最小值的位置，是我们需要查找的目标。\n\n我们考虑**数组中的最后一个元素 $x$**：在最小值右侧的元素（不包括最后一个元素本身），它们的值一定都严格小于 $x$；而在最小值左侧的元素，它们的值一定都严格大于 $x$。因此，我们可以根据这一条性质，通过二分查找的方法找出最小值。\n\n在二分查找的每一步中，左边界为 $\\it low$，右边界为 $\\it high$，区间的中点为 $\\it pivot$，最小值就在该区间内。我们将中轴元素 $\\textit{nums}[\\textit{pivot}]$ 与右边界元素 $\\textit{nums}[\\textit{high}]$ 进行比较，可能会有以下的三种情况：\n\n第一种情况是 $\\textit{nums}[\\textit{pivot}] < \\textit{nums}[\\textit{high}]$。如下图所示，这说明 $\\textit{nums}[\\textit{pivot}]$ 是最小值右侧的元素，因此我们可以忽略二分查找区间的右半部分。\n\n![fig2](https://assets.leetcode-cn.com/solution-static/153/2.png)\n\n第二种情况是 $\\textit{nums}[\\textit{pivot}] > \\textit{nums}[\\textit{high}]$。如下图所示，这说明 $\\textit{nums}[\\textit{pivot}]$ 是最小值左侧的元素，因此我们可以忽略二分查找区间的左半部分。\n\n![fig3](https://assets.leetcode-cn.com/solution-static/153/3.png)\n\n由于数组不包含重复元素，并且只要当前的区间长度不为 $1$，$\\it pivot$ 就不会与 $\\it high$ 重合；而如果当前的区间长度为 $1$，这说明我们已经可以结束二分查找了。因此不会存在 $\\textit{nums}[\\textit{pivot}] = \\textit{nums}[\\textit{high}]$ 的情况。\n\n当二分查找结束时，我们就得到了最小值所在的位置。\n\n```C++ [sol1-C++]\nclass Solution {\npublic:\n    int findMin(vector<int>& nums) {\n        int low = 0;\n        int high = nums.size() - 1;\n        while (low < high) {\n            int pivot = low + (high - low) / 2;\n            if (nums[pivot] < nums[high]) {\n                high = pivot;\n            }\n            else {\n                low = pivot + 1;\n            }\n        }\n        return nums[low];\n    }\n};\n```\n\n```Java [sol1-Java]\nclass Solution {\n    public int findMin(int[] nums) {\n        int low = 0;\n        int high = nums.length - 1;\n        while (low < high) {\n            int pivot = low + (high - low) / 2;\n            if (nums[pivot] < nums[high]) {\n                high = pivot;\n            } else {\n                low = pivot + 1;\n            }\n        }\n        return nums[low];\n    }\n}\n```\n\n```Python [sol1-Python3]\nclass Solution:\n    def findMin(self, nums: List[int]) -> int:    \n        low, high = 0, len(nums) - 1\n        while low < high:\n            pivot = low + (high - low) // 2\n            if nums[pivot] < nums[high]:\n                high = pivot \n            else:\n                low = pivot + 1\n        return nums[low]\n```\n\n```C [sol1-C]\nint findMin(int* nums, int numsSize) {\n    int low = 0;\n    int high = numsSize - 1;\n    while (low < high) {\n        int pivot = low + (high - low) / 2;\n        if (nums[pivot] < nums[high]) {\n            high = pivot;\n        } else {\n            low = pivot + 1;\n        }\n    }\n    return nums[low];\n}\n```\n\n```golang [sol1-Golang]\nfunc findMin(nums []int) int {\n    low, high := 0, len(nums) - 1\n    for low < high {\n        pivot := low + (high - low) / 2\n        if nums[pivot] < nums[high] {\n            high = pivot\n        } else {\n            low = pivot + 1\n        }\n    }\n    return nums[low]\n}\n```\n\n```JavaScript [sol1-JavaScript]\nvar findMin = function(nums) {\n    let low = 0;\n    let high = nums.length - 1;\n    while (low < high) {\n        const pivot = low + Math.floor((high - low) / 2);\n        if (nums[pivot] < nums[high]) {\n            high = pivot;\n        } else {\n            low = pivot + 1;\n        }\n    }\n    return nums[low];\n};\n```\n\n**复杂度分析**\n\n* 时间复杂度：时间复杂度为 $O(\\log n)$，其中 $n$ 是数组 $\\textit{nums}$ 的长度。在二分查找的过程中，每一步会忽略一半的区间，因此时间复杂度为 $O(\\log n)$。\n\n* 空间复杂度：$O(1)$。",
+      "createdAt": "2021-04-03T16:15:59.368172+00:00",
+      "hitCount": 69950,
+      "identifier": "ismyir",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "er-fen-cha-zhao-wei-shi-yao-zuo-you-bu-dui-cheng-z",
+        "title": "二分查找：为什么左右不对称？只比较mid与right的原因（C++, Java, Python3）"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "find-minimum-in-rotated-sorted-array"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 82,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 5,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "xun-zhao-xuan-zhuan-pai-xu-shu-zu-zhong-5irwp",
+      "status": "PREPUBLISH",
+      "summary": "方法一：二分查找 思路与算法 一个不包含重复元素的升序数组在经过旋转之后，可以得到下面可视化的折线图： 其中横轴表示数组元素的下标，纵轴表示数组元素的值。图中标出了最小值的位置，是我们需要查找的目标。 我们考虑数组中的最后一个元素 $x$：在最小值右侧的元素（不包括最后一个元素本身），它们的值一定都严格小于 $x$；而",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Binary Search",
+          "nameTranslated": "二分查找",
+          "slug": "binary-search",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C",
+          "nameTranslated": "",
+          "slug": "c",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Go",
+          "nameTranslated": "",
+          "slug": "golang",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "JavaScript",
+          "nameTranslated": "",
+          "slug": "javascript",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "寻找旋转排序数组中的最小值",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 201,
+        "id": 698479,
+        "viewCount": 48398
+      },
+      "uuid": "ismyir",
+      "videosInfo": []
+    }
+  }
+}

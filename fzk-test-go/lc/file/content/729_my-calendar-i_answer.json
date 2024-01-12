@@ -1,0 +1,84 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣 (LeetCode)",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/uploaded_files/2021/03/73c9f099-abbe-4d94-853f-f8abffd459cd/leetcode.png",
+          "userSlug": "leetcode"
+        },
+        "username": "LeetCode"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "####  方法一：暴力法\n预订新的日程安排 `[start, end)` 时，检查当前每个日程安排是否与新日程安排冲突。若不冲突，则可以添加新的日程安排。\n\n**算法：**\n我们将维护一个日程安排列表（不一定要排序）。当且仅当其中一个日程安排在另一个日程安排结束后开始时，两个日程安排 `[s1，e1)` 和 `[s2，e2)` 不冲突：`e1<=s2` 或 `e2<=s1`。这意味着当 `s1<e2` 和 `s2<e1` 时，日程安排发生冲突。\n\n```Python [ ]\nclass MyCalendar(object):\n    def __init__(self):\n        self.calendar = []\n\n    def book(self, start, end):\n        for s, e in self.calendar:\n            if s < end and start < e:\n                return False\n        self.calendar.append((start, end))\n        return True\n```\n\n```Java [ ]\npublic class MyCalendar {\n    List<int[]> calendar;\n\n    MyCalendar() {\n        calendar = new ArrayList();\n    }\n\n    public boolean book(int start, int end) {\n        for (int[] iv: calendar) {\n            if (iv[0] < end && start < iv[1]) return false;\n        }\n        calendar.add(new int[]{start, end});\n        return true;\n    }\n}\n\n```\n\n**复杂度分析**\n\n* 时间复杂度：$O(N^2)$。$N$ 指的是日常安排的数量，对于每个新的日常安排，我们检查新的日常安排是否发生冲突来决定是否可以预订新的日常安排。所以时间复杂度为 $\\sum_k^N O(k) = O(N^2)$。\n* 空间复杂度：$O(n)$，`calendar` 所使用的空间大小。\n\n\n####  方法二：平衡树\n如果我们按时间顺序维护日程安排，则可以通过二分查找日程安排的情况来检查新日常安排是否可以预订，时间复杂度为 $O(\\log N)$ （其中 $N$ 是已预订的日常安排数），若可以预定则我们还需要在排序结构中插入日常安排。\n\n**算法：**\n- 我们需要一个数据结构能够保持元素排序和支持快速插入。在 `java` 中，`TreeMap ` 是最适合的。在 `python` 中，我们可以构建自己的二叉树结构。\n\n```Python [ ]\nclass Node:\n    __slots__ = 'start', 'end', 'left', 'right'\n    def __init__(self, start, end):\n        self.start = start\n        self.end = end\n        self.left = self.right = None\n\n    def insert(self, node):\n        if node.start >= self.end:\n            if not self.right:\n                self.right = node\n                return True\n            return self.right.insert(node)\n        elif node.end <= self.start:\n            if not self.left:\n                self.left = node\n                return True\n            return self.left.insert(node)\n        else:\n            return False\n\nclass MyCalendar(object):\n    def __init__(self):\n        self.root = None\n\n    def book(self, start, end):\n        if self.root is None:\n            self.root = Node(start, end)\n            return True\n        return self.root.insert(Node(start, end))\n```\n\n```Java [ ]\nclass MyCalendar {\n    TreeMap<Integer, Integer> calendar;\n\n    MyCalendar() {\n        calendar = new TreeMap();\n    }\n\n    public boolean book(int start, int end) {\n        Integer prev = calendar.floorKey(start),\n                next = calendar.ceilingKey(start);\n        if ((prev == null || calendar.get(prev) <= start) &&\n                (next == null || end <= next)) {\n            calendar.put(start, end);\n            return true;\n        }\n        return false;\n    }\n}\n```\n\n**复杂度分析**\n\n* 时间复杂度 (Java)：$O(N \\log N)$。其中 $N$ 是预订的日程安排数。对于每个新日程安排，我们用 $O(\\log N)$ 的时间搜索该日程安排是否合法，若合法则将其插入日常安排中需要 $O(1)$ 的时间。\n* 时间复杂度 (Python)：最坏的情况 $O(N^2)$，其他情况是 $O(N \\log N)$。对于每个新日程安排，若新日程安排合法则将新日程安排插入到二叉树中。由于此树可能不平衡，因此可能需要线性步骤来遍历每个日常安排。\n* 空间复杂度：$O(N)$，数据结构所使用的空间。",
+      "createdAt": "2019-10-29T06:27:42.356056+00:00",
+      "hitCount": 8138,
+      "identifier": "BMkm53",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "729-wo-de-ri-cheng-an-pai-biao-imap-by-w-acwg",
+        "title": "729. 我的日程安排表 I（map）"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "my-calendar-i"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 13,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "wo-de-ri-cheng-an-pai-biao-i-by-leetcode",
+      "status": "PUBLISHED",
+      "summary": "§ 方法一：暴力法\n预订新的日程安排 [start, end) 时，检查当前每个日程安排是否与新日程安排冲突。若不冲突，则可以添加新的日程安排。\n算法：\n我们将维护一个日程安排列表（不一定要排序）。当且仅当其中一个日程安排在另一个日程安排结束后开始时，两个日程安排 [s1，e1) 和 [s2，e2) 不冲突：e1<=s",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "我的日程安排表 I",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 17,
+        "id": 38862,
+        "viewCount": 5922
+      },
+      "uuid": "BMkm53",
+      "videosInfo": []
+    }
+  }
+}

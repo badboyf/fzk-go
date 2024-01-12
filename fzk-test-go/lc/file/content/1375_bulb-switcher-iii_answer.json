@@ -1,0 +1,86 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "ffreturn",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/ffreturn/avatar_1608859813.png",
+          "userSlug": "ffreturn"
+        },
+        "username": "ffreturn"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "![image.png](https://pic.leetcode-cn.com/1637847763-rOzWro-image.png)\n\n\n### 解题思路\n思路\n- 如何才能变成蓝色呢？ \n   - 其实就是小于等于自己的都打开了，那么这个时候和就是正好是 的期望和\n   - 期望和其实就是从 1,2,3到当前i的累加结果\n\n### 代码\n\n```cpp\n\n\nclass Solution {\npublic:\n    int numTimesAllBlue(vector<int>& light) {\n        // 期望的累加和\n        int expSum = 0;\n        // 实际和\n        int sum = 0;\n        // 计数\n        int res = 0;\n        int curr = 1;\n        for (int l : light)\n        {\n            sum += l;\n            expSum += curr;\n            ++curr;\n            res += (sum == expSum);\n        }\n\n        return res;\n    }\n};\n```",
+      "createdAt": "2021-11-25T13:43:56.771668+00:00",
+      "hitCount": 4,
+      "identifier": "fit1ev",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "java-ji-lu-zui-da-wei-zhi-by-npe_tle",
+        "title": "java 记录最大位置"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "bulb-switcher-iii"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "1375-czhong-gui-zhong-ju-de-tan-xin-jie-pn80b",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n思路\n\n如何才能变成蓝色呢？\n\n其实就是小于等于自己的都打开了，那么这个时候和就是正好是 的期望和\n期望和其实就是从 1,2,3到当前i的累加结果\n\n\n\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Greedy",
+          "nameTranslated": "贪心",
+          "slug": "greedy",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "梦想",
+          "nameTranslated": "",
+          "slug": "meng-xiang",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1637847763-rOzWro-image.png",
+      "title": "1375. c++中规中矩的贪心解法",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1122353,
+        "viewCount": 4
+      },
+      "uuid": "fit1ev",
+      "videosInfo": []
+    }
+  }
+}

@@ -1,0 +1,91 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "Moutain-Ocean",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/13860971326/avatar_1635685102.png",
+          "userSlug": "mountain-ocean"
+        },
+        "username": "Mountain-Ocean"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "这一题是很经典的**网格路径题**，乍一看很简单，可以用回溯来做，但是有一个坑：如果回溯的时候把```visited```数组设为```false```，会超时。而```visited```不设成```false```，会大大提高速度，最终可以通过。\r\n所以有**第一个问题**：为什么```visited```可以不设为```false```呢？\r\n这里面其实牵涉到了动态规划的一个基本原理：**无后效性**。简单点说，就是我```T```时间到达了某个状态，在对后面要到达什么的状态进行决策的时候，和```T```时间之前的决策没有关系，也可以说，```T```时间之前的决策，对```T```时间之后的决策，不会产生任何影响。\r\n**这就是如果这题里面的约束条件，只能向右或向下走，产生的最关键的影响。**\r\n结合本题解释就是，不管我之前是怎么到达```(row, col)```这个坐标的，我在选择要走到别的格子的时候，只能向下或向右，和之前怎么走到```(row, col)```无关的。那么可以推出：如果我曾经经过```(row, col)```这个坐标，并且继续往下走得很深，但是最终失败了，那么当我再次从别的格子走到```(row, col)```时，也就没有必要继续往下搜了，因为它接下来还是只能往下或往右走，并且最终一定会失败，那么也就没有必要接着走到```(row, col)```，所以也没有必要在回溯的时候，把```visited[row][col]```设为```false```了。\r\n\r\n**当然无后效性是动态规划的基本性质之一，但是它山之玉，可以攻石，这里只是借助其概念，来帮助理解回溯解法中的这个关键细节。**\r\n\r\n**第二个问题**：如果题目改为每个格子的上下左右都能走，那么解法会变吗？\r\n答案是：**会的**。原因是如果每个格子的上下左右都能走，那么这题就不满足**无后效性**这个性质了，为什么呢？\r\n其实也很好分析，假设我现在在(row, col)这个位置，并且是从上面的格子(row - 1, col)过来的，那么我从(row, col)接着走，就只能往下、左、右这三个方向，其他方向也是同理，有以下关系：\r\n- ```(row - 1, col) - > (row, col)```，上边过来， 接下来的决策方向：下、左、右\r\n- ```(row, col - 1) - > (row, col)```，左边过来， 接下来的决策方向：上、下、右\r\n- ```(row + 1, col) - > (row, col)```，下边过来， 接下来的决策方向：上、左、右\r\n- ```(row, col + 1) - > (row, col)```，右边过来， 接下来的决策方向：上、下、左\r\n这个列表的意思就是说，```(row, col)```前的决策，会影响```(row, col)```后的决策，所以也就不满足无效性这个性质。\r\n\r\n**总结**：本题满足无后效性，除了回溯，当然也可以用**动态规划**求解，题解区都有动态规划的详细解释，这里就不赘述了。但是如果延伸一下，把题目条件改成上下左右都能走，那就不能用动态规划，只能用回溯来做了。\r\n\r\n午后清闲，写得有点啰嗦，希望有帮助^_^\r\n```\r\nclass Solution {\r\npublic:\r\n    bool find = false;\r\n    int dir[2][2] = {{0, 1}, {1, 0}};\r\n    vector<vector<int>> pathWithObstacles(vector<vector<int>>& obstacleGrid) {\r\n        int rows = obstacleGrid.size();\r\n        int cols = obstacleGrid[0].size();\r\n        if (obstacleGrid[0][0] || obstacleGrid[rows - 1][cols - 1]) return {};\r\n        vector<vector<bool>> visited(rows, vector<bool>(cols, false));\r\n        vector<vector<int>> path;\r\n        visited[0][0] = true;\r\n        path.push_back({0, 0});\r\n        dfs(obstacleGrid, visited, path, rows, cols, 0, 0);\r\n        if (find) return path;\r\n        return {};\r\n    }\r\n    void dfs(const vector<vector<int>>& grids, vector<vector<bool>>& visited, vector<vector<int>>& path, int rows, int cols, int curRow, int curCol) {\r\n        if (find) return;\r\n        if (curRow == rows - 1 && curCol == cols - 1) {\r\n            find = true;\r\n            return;\r\n        }\r\n        for (int d = 0; d < 2 && !find; ++d) {\r\n            int newRow = curRow + dir[d][0];\r\n            int newCol = curCol + dir[d][1];\r\n            if (newRow >= 0 && newCol >= 0 && newRow < rows && newCol < cols) {\r\n                if (!visited[newRow][newCol] && !grids[newRow][newCol]) {\r\n                    visited[newRow][newCol] = true;\r\n                    path.push_back({newRow, newCol});\r\n                    dfs(grids, visited, path, rows, cols, newRow, newCol);\r\n                    if (!find) {\r\n                        // 如果前后左右都能走，那么回溯的时候visited要置成false\r\n                        // visited[newRow][newCol] = false;\r\n                        path.pop_back();\r\n                    }\r\n                }\r\n            }\r\n        }\r\n    }\r\n};\r\n```\r\n",
+      "createdAt": "2021-11-20T08:15:00.704986+00:00",
+      "hitCount": 111,
+      "identifier": "nBtijX",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "python-di-gui-hui-su-by-haotianmingyue-z4tv",
+        "title": "python 递归回溯"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "robot-in-a-grid-lcci"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 0,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "cong-wu-hou-xiao-xing-yuan-lai-nong-dong-spqj",
+      "status": "PREPUBLISH",
+      "summary": "这一题是很经典的网格路径题，乍一看很简单，可以用回溯来做，但是有一个坑：如果回溯的时候把visited数组设为false，会超时。而visited不设成false，会大大提高速度，最终可以通过。\n所以有第一个问题：为什么visited可以不设为false呢？\n这里面其实牵涉到了动态规划的一个基本原理：无后效性。简单点说",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Dynamic Programming",
+          "nameTranslated": "动态规划",
+          "slug": "dynamic-programming",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Backtracking",
+          "nameTranslated": "回溯",
+          "slug": "backtracking",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "从无后效性原理 弄懂两个问题：为什么回溯的时候，visited不置成false？如果四周都能走，有什么不同？",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1112244,
+        "viewCount": 83
+      },
+      "uuid": "nBtijX",
+      "videosInfo": []
+    }
+  }
+}

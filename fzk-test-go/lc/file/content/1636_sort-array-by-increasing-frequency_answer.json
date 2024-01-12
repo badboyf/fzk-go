@@ -1,0 +1,107 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "EUY",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/euyvvl/avatar_1635000444.png",
+          "userSlug": "euyvvl"
+        },
+        "username": "EUYVVL"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n**一道简单的排序题**\n### 代码\n\n```cpp\nclass Solution {\npublic:\n    static bool cmp(pair<int,int>& p1,pair<int,int>& p2){\n        if(p1.first!=p2.first){\n            return p1.first<p2.first;\n        }\n        return p1.first==p2.first&&p1.second>p2.second;\n    }\n    vector<int> frequencySort(vector<int>& nums) {\n        unordered_map<int,int>ump;\n        for(const auto& val:nums){\n            ump[val]++;\n        }\n        vector<pair<int,int>>arr;\n        for(const auto& ite:ump){\n            int val=ite.first;\n            for(int i=0;i<ump[val];i++){\n                arr.push_back({ump[val],val});\n            }\n        }\n        vector<int>res;\n        sort(arr.begin(),arr.end(),cmp);\n        for(const auto& ite:arr){\n            res.push_back(ite.second);\n        }\n        return res;\n    }\n};\n```",
+      "createdAt": "2021-11-18T10:32:02.855022+00:00",
+      "hitCount": 96,
+      "identifier": "dWqbq4",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "sort-by-watch_this-45m1",
+        "title": "sort"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "sort-array-by-increasing-frequency"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "pai-xu-by-euyvvl-0qmb",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n一道简单的排序题\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Array",
+          "nameTranslated": "数组",
+          "slug": "array",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Hash Table",
+          "nameTranslated": "哈希表",
+          "slug": "hash-table",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Math",
+          "nameTranslated": "数学",
+          "slug": "math",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Counting",
+          "nameTranslated": "计数",
+          "slug": "counting",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Sorting",
+          "nameTranslated": "排序",
+          "slug": "sorting",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "排序",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1108985,
+        "viewCount": 79
+      },
+      "uuid": "dWqbq4",
+      "videosInfo": []
+    }
+  }
+}

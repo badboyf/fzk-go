@@ -1,0 +1,86 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "清风Python",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/qingfengpython/avatar_1620226448.png",
+          "userSlug": "qingfengpython"
+        },
+        "username": "qingfengpython"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "# 5717.最少操作使数组递增\r\n> https://leetcode-cn.com/problems/minimum-operations-to-make-the-array-increasing/\r\n> \r\n> 难度：简单\r\n\r\n## 题目：\r\n\r\n给你一个整数数组 nums （下标从 0 开始）。每一次操作中，你可以选择数组中一个元素，并将它增加 1 。\r\n\r\n比方说，如果 nums = [1,2,3] ，你可以选择增加 nums[1] 得到 nums = [1,3,3] 。\r\n请你返回使 nums 严格递增 的 最少 操作次数。\r\n\r\n我们称数组 nums 是 严格递增的 ，当它满足对于所有的 0 <= i < nums.length - 1 都有 \r\nnums[i] < nums[i+1] 。一个长度为 1 的数组是严格递增的一种特殊情况。\r\n\r\n## 示例：\r\n\r\n示例 1：\r\n\r\n输入：nums = [1,1,1]\r\n\r\n输出：3\r\n\r\n解释：你可以进行如下操作：\r\n1) 增加 nums[2] ，数组变为 [1,1,2] 。\r\n2) 增加 nums[1] ，数组变为 [1,2,2] 。\r\n3) 增加 nums[2] ，数组变为 [1,2,3] 。\r\n示例 2：\r\n\r\n输入：nums = [1,5,2,4,1]\r\n\r\n输出：14\r\n\r\n示例 3：\r\n\r\n输入：nums = [8]\r\n\r\n输出：0\r\n\r\n## 分析\r\n初始化 ret= 0，计算总操作次数 \r\n从index=1开始遍历数组，当前值应调整为`max(nums[index-1]+1,nums[index])`,\r\n然后计算`ret += max(nums[index-1]+1,nums[index]) - nums[index]`\r\n最终返回ret即可\r\n\r\n## 解题：\r\n\r\n```python\r\nclass Solution:\r\n    def minOperations(self, nums):\r\n        length = len(nums)\r\n        if length <= 1:\r\n            return 0\r\n        ret = 0\r\n        left = nums[0]\r\n        for right in nums[1:]:\r\n            tmp = max(left + 1, right)\r\n            ret += tmp - right\r\n            left = tmp\r\n        return ret\r\n```\r\n\r\n欢迎关注我的公众号: **清风Python**，带你每日学习Python算法刷题的同时，了解更多python小知识。\r\n\r\n有喜欢力扣刷题的小伙伴可以加我微信（King_Uranus）互相鼓励，共同进步，一起玩转超级码力！\r\n\r\n我的个人博客：[https://qingfengpython.cn](https://qingfengpython.cn)\r\n\r\n力扣解题合集：[https://github.com/BreezePython/AlgorithmMarkdown](https://github.com/BreezePython/AlgorithmMarkdown)\r\n",
+      "createdAt": "2021-04-17T16:11:06.753231+00:00",
+      "hitCount": 2452,
+      "identifier": "qrjGzl",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "zui-shao-cao-zuo-shi-shu-zu-di-zeng-forx-4cnq",
+        "title": "最少操作使数组递增【for循环】"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "minimum-operations-to-make-the-array-increasing"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 8,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "5717zui-shao-cao-zuo-shi-shu-zu-di-zeng-mwkwt",
+      "status": "PUBLISHED",
+      "summary": "5717.最少操作使数组递增\n\nhttps://leetcode-cn.com/problems/minimum-operations-to-make-the-array-increasing/\n难度：简单\n\n题目：\n给你一个整数数组 nums （下标从 0 开始）。每一次操作中，你可以选择数组中一个元素，并将它增加",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Array",
+          "nameTranslated": "数组",
+          "slug": "array",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python3",
+          "nameTranslated": "",
+          "slug": "python3",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "5717.最少操作使数组递增 单调递增",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 1,
+        "id": 728252,
+        "viewCount": 1554
+      },
+      "uuid": "qrjGzl",
+      "videosInfo": []
+    }
+  }
+}

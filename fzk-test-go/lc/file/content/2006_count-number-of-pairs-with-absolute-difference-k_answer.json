@@ -1,0 +1,86 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "GGbreaker",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/mybiggg/avatar_1543299138.png",
+          "userSlug": "806748118"
+        },
+        "username": "806748118"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n### 代码\n\n```python3\nclass Solution:\n    def countKDifference(self, nums: List[int], k: int) -> int:\n        dic = {}\n        ans = 0\n        for i in nums:\n            if i not in dic:dic[i] = 1\n            else:dic[i]+=1\n            if i-k in dic: ans += dic[i-k]\n            if i+k in dic: ans += dic[i+k]\n        return ans\n```",
+      "createdAt": "2021-11-25T08:43:01.532536+00:00",
+      "hitCount": 13,
+      "identifier": "N5dz9l",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "qiao-yong-ha-xi-by-happy_tang-2fwy",
+        "title": "巧用哈希"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "count-number-of-pairs-with-absolute-difference-k"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "python3hashcun-chu-onshi-jian-fu-za-du-b-zwmw",
+      "status": "PUBLISHED",
+      "summary": "解题思路\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Hash Table",
+          "nameTranslated": "哈希表",
+          "slug": "hash-table",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python3",
+          "nameTranslated": "",
+          "slug": "python3",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "python3+hash存储+O(n)时间复杂度",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1121794,
+        "viewCount": 11
+      },
+      "uuid": "N5dz9l",
+      "videosInfo": []
+    }
+  }
+}

@@ -1,0 +1,97 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "Hanxin",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/hanxin_hanxin/avatar_1628523481.png",
+          "userSlug": "hanxin_hanxin"
+        },
+        "username": "Hanxin_Hanxin"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "思路和心得：\r\n\r\n# （一）模拟--分情况讨论\r\n\r\n```python3 []\r\nclass Solution:\r\n    def findBall(self, grid: List[List[int]]) -> List[int]:\r\n        Row = len(grid) \r\n        Col = len(grid[0])\r\n\r\n        if Col == 1:\r\n            return [-1]\r\n\r\n        res = [-1 for _ in range(Col)]\r\n        for c0 in range(Col):\r\n            #----从上往下，逐行下降\r\n            c = c0\r\n            ok = True\r\n            for r in range(Row):\r\n                #----最左端的情况\r\n                if c == 0:\r\n                    if grid[r][c] == -1:           #堵死了\r\n                        ok = False\r\n                        break\r\n                    else:\r\n                        if grid[r][c + 1] == 1:     #右侧邻居的方向相同，有路\r\n                            c += 1\r\n                        else:\r\n                            ok = False\r\n                            break    \r\n                #----最右端的情况 \r\n                elif c == Col - 1:\r\n                    if grid[r][c] == 1:             #堵死了\r\n                        ok = False\r\n                        break\r\n                    else:\r\n                        if grid[r][c - 1] == -1:    #左侧邻居的方向相同，有路\r\n                            c -= 1\r\n                        else:\r\n                            ok = False\r\n                            break\r\n                #----中间部分\r\n                else:\r\n                    #----往左走\r\n                    if grid[r][c] == -1 and grid[r][c - 1] == -1:   \r\n                        c -= 1\r\n                    #----往右走\r\n                    elif grid[r][c] == 1 and grid[r][c + 1] == 1:\r\n                        c += 1\r\n                    #----行不通\r\n                    else:\r\n                        ok = False\r\n                        break\r\n\r\n            if ok == True:\r\n                res[c0] = c\r\n\r\n        return res\r\n```\r\n\r\n```c++ []\r\nclass Solution \r\n{\r\npublic:\r\n    vector<int> findBall(vector<vector<int>>& grid) \r\n    {\r\n        int Row = (int)grid.size();\r\n        int Col = (int)grid[0].size();\r\n\r\n        vector<int> res(Col, -1);\r\n        if (Col == 1)\r\n            return res;\r\n        \r\n        for (int c0 = 0; c0 < Col; c0 ++)\r\n        {\r\n            //----从上往下，逐行下降\r\n            int c = c0;\r\n            bool ok = true;\r\n            for (int r = 0; r < Row; r ++)\r\n            {\r\n                //----最左端的情况\r\n                if (c == 0)\r\n                {\r\n                    //----堵死了\r\n                    if (grid[r][c] == -1)               //堵死了\r\n                    {\r\n                        ok = false;\r\n                        break;\r\n                    }\r\n                    else\r\n                    {\r\n                        if (grid[r][c + 1] == 1)        //右侧邻居的方向相同，有路\r\n                        {\r\n                            c ++;\r\n                        }\r\n                        else\r\n                        {\r\n                            ok = false;\r\n                            break;\r\n\r\n                        }\r\n                    }\r\n                }\r\n                //----最右端的情况\r\n                else if (c == Col - 1)\r\n                {\r\n                    if (grid[r][c] == 1)                //堵死了\r\n                    {\r\n                        ok = false;\r\n                        break;\r\n                    }\r\n                    else\r\n                    {\r\n                        if (grid[r][c - 1] == -1)       //左侧邻居的方向相同，有路\r\n                        {\r\n                            c --;\r\n                        }\r\n                        else\r\n                        {\r\n                            ok = false;\r\n                            break;\r\n                        }\r\n                    }\r\n                }\r\n                //----中间的情况\r\n                else\r\n                {\r\n                    //----往左走\r\n                    if (grid[r][c - 1] == -1 && grid[r][c] == -1)\r\n                    {\r\n                        c --;\r\n                    }\r\n                    //----往右走\r\n                    else if (grid[r][c] == 1 && grid[r][c + 1] == 1)\r\n                    {\r\n                        c ++;\r\n                    }\r\n                    //----行不通\r\n                    else\r\n                    {\r\n                        ok = false;\r\n                        break;\r\n                    }\r\n                }\r\n            }\r\n            if (ok == true)\r\n            {\r\n                res[c0] = c;\r\n            }\r\n        }\r\n        return res;\r\n    }\r\n};\r\n```\r\n\r\n```java []\r\nclass Solution \r\n{\r\n    public int[] findBall(int[][] grid) \r\n    {\r\n        int Row = grid.length;\r\n        int Col = grid[0].length;\r\n\r\n        int [] res = new int [Col];\r\n        Arrays.fill(res, -1);\r\n\r\n        if (Col == 1)\r\n            return res;\r\n        \r\n        for (int c0 = 0; c0 < Col; c0 ++)\r\n        {\r\n            int c = c0;\r\n            boolean ok = true;\r\n            for (int r = 0; r < Row; r ++)\r\n            {\r\n                //----最左端的情况\r\n                if (c == 0)\r\n                {\r\n                    if (grid[r][c] == -1)       //堵死了\r\n                    {\r\n                        ok = false;\r\n                        break;\r\n                    }\r\n                    else\r\n                    {\r\n                        if (grid[r][c + 1] == 1)\r\n                        {\r\n                            c ++;\r\n                        }\r\n                        else\r\n                        {\r\n                            ok = false;\r\n                            break;\r\n                        }\r\n                    }\r\n                }\r\n                //----最右端的情况\r\n                else if (c == Col - 1)\r\n                {\r\n                    if (grid[r][c] == 1)    //堵死了\r\n                    {\r\n                        ok = false;\r\n                        break;\r\n                    }\r\n                    else\r\n                    {\r\n                        if (grid[r][c - 1] == -1)\r\n                        {\r\n                            c --;\r\n                        }\r\n                        else\r\n                        {\r\n                            ok = false;\r\n                            break;\r\n                        }\r\n                    }\r\n                }\r\n                //----中间的情况\r\n                else\r\n                {\r\n                    if (grid[r][c - 1] == -1 && grid[r][c] == -1)       //往左走\r\n                    {\r\n                        c --;\r\n                    }\r\n                    else if (grid[r][c] == 1 && grid[r][c + 1] == 1)    //往右走\r\n                    {\r\n                        c ++;\r\n                    }\r\n                    else                                                //行不通\r\n                    {\r\n                        ok = false;\r\n                        break;\r\n                    }\r\n                }\r\n\r\n            }\r\n            if (ok == true)\r\n            {\r\n                res[c0] = c;\r\n            }\r\n        }\r\n        return res;\r\n\r\n    }\r\n}\r\n```\r\n\r\n",
+      "createdAt": "2021-09-18T10:34:02.091347+00:00",
+      "hitCount": 119,
+      "identifier": "3MI0ql",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "mo-ni-python-by-yzboostforest-1acx",
+        "title": "模拟 Python"
+      },
+      "position": 2,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "java-shuang-bai-di-gui-by-ethan-jx-yvx6",
+        "title": "java 双百、递归(dfs)、动态规划(bfs)"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "where-will-the-ball-fall"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": false,
+      "slug": "cpython3java-1mo-ni-fen-qing-kuang-tao-l-xtl1",
+      "status": "PREPUBLISH",
+      "summary": "思路和心得：\n（一）模拟--分情况讨论",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python3",
+          "nameTranslated": "",
+          "slug": "python3",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "c++/python3/java （1）模拟--分情况讨论",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1004917,
+        "viewCount": 102
+      },
+      "uuid": "3MI0ql",
+      "videosInfo": []
+    }
+  }
+}

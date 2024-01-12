@@ -1,0 +1,78 @@
+{
+  "data": {
+    "question": {
+      "__typename": "QuestionNode",
+      "book": null,
+      "boundTopicId": 1091,
+      "categoryTitle": "Database",
+      "codeSnippets": [
+        {
+          "__typename": "CodeSnippetNode",
+          "code": "CREATE FUNCTION getNthHighestSalary(N INT) RETURNS INT\nBEGIN\n  RETURN (\n      # Write your MySQL query statement below.\n      \n  );\nEND",
+          "lang": "MySQL",
+          "langSlug": "mysql"
+        },
+        {
+          "__typename": "CodeSnippetNode",
+          "code": "CREATE FUNCTION getNthHighestSalary(@N INT) RETURNS INT AS\nBEGIN\n    RETURN (\n        /* Write your T-SQL query statement below. */\n        \n    );\nEND",
+          "lang": "MS SQL Server",
+          "langSlug": "mssql"
+        },
+        {
+          "__typename": "CodeSnippetNode",
+          "code": "CREATE FUNCTION getNthHighestSalary(N IN NUMBER) RETURN NUMBER IS\nresult NUMBER;\nBEGIN\n    /* Write your PL/SQL query statement below */\n    \n    RETURN result;\nEND;",
+          "lang": "Oracle",
+          "langSlug": "oraclesql"
+        }
+      ],
+      "companyTagStats": null,
+      "content": "<p>Table: <code>Employee</code></p>\n\n<pre>\n+-------------+------+\n| Column Name | Type |\n+-------------+------+\n| id          | int  |\n| salary      | int  |\n+-------------+------+\nid is the primary key column for this table.\nEach row of this table contains information about the salary of an employee.\n</pre>\n\n<p>&nbsp;</p>\n\n<p>Write an SQL query to report the <code>n<sup>th</sup></code> highest salary from the <code>Employee</code> table. If there is no <code>n<sup>th</sup></code> highest salary, the query should report <code>null</code>.</p>\n\n<p>The query result format is in the following example.</p>\n\n<p>&nbsp;</p>\n<p><strong>Example 1:</strong></p>\n\n<pre>\n<strong>Input:</strong> \nEmployee table:\n+----+--------+\n| id | salary |\n+----+--------+\n| 1  | 100    |\n| 2  | 200    |\n| 3  | 300    |\n+----+--------+\nn = 2\n<strong>Output:</strong> \n+------------------------+\n| getNthHighestSalary(2) |\n+------------------------+\n| 200                    |\n+------------------------+\n</pre>\n\n<p><strong>Example 2:</strong></p>\n\n<pre>\n<strong>Input:</strong> \nEmployee table:\n+----+--------+\n| id | salary |\n+----+--------+\n| 1  | 100    |\n+----+--------+\nn = 2\n<strong>Output:</strong> \n+------------------------+\n| getNthHighestSalary(2) |\n+------------------------+\n| null                   |\n+------------------------+\n</pre>\n",
+      "contributors": [],
+      "dailyRecordStatus": null,
+      "difficulty": "Medium",
+      "dislikes": 0,
+      "editorType": "CKEDITOR",
+      "enableRunCode": true,
+      "envInfo": "{\"mysql\":[\"MySQL\",\"<p>\\u7248\\u672c\\uff1a<code>MySQL 8.0<\\/code><\\/p>\"],\"mssql\":[\"MS SQL Server\",\"<p>mssql server 2019.<\\/p>\"],\"oraclesql\":[\"Oracle\",\"<p>Oracle Sql 11.2.<\\/p>\"]}",
+      "exampleTestcases": "{\"headers\": {\"Employee\": [\"id\", \"salary\"]}, \"argument\": 2, \"rows\": {\"Employee\": [[1, 100], [2, 200], [3, 300]]}}\n{\"headers\": {\"Employee\": [\"id\", \"salary\"]}, \"argument\": 2, \"rows\": {\"Employee\": [[1, 100]]}}",
+      "hints": [],
+      "isDailyQuestion": false,
+      "isLiked": null,
+      "isPaidOnly": false,
+      "isSubscribed": false,
+      "judgeType": "large",
+      "judgerAvailable": true,
+      "langToValidPlayground": "{\"cpp\": false, \"java\": false, \"python\": false, \"python3\": false, \"mysql\": false, \"mssql\": false, \"oraclesql\": false, \"c\": false, \"csharp\": false, \"javascript\": false, \"ruby\": false, \"bash\": false, \"swift\": false, \"golang\": false, \"scala\": false, \"html\": false, \"pythonml\": false, \"kotlin\": false, \"rust\": false, \"php\": false, \"typescript\": false, \"racket\": false, \"erlang\": false, \"elixir\": false}",
+      "likes": 535,
+      "metaData": "{\n  \"mysql\": [\n    \"Create table If Not Exists Employee (Id int, Salary int)\"\n  ],\n  \"mssql\": [\n    \"Create table Employee (Id int, Salary int)\"\n  ],\n  \"oraclesql\": [\n    \"Create table Employee (Id int, Salary int)\"\n  ],\n  \"database\": true,\n  \"manual\": true\n}",
+      "mysqlSchemas": [
+        "Create table If Not Exists Employee (Id int, Salary int)",
+        "Truncate table Employee",
+        "insert into Employee (id, salary) values ('1', '100')",
+        "insert into Employee (id, salary) values ('2', '200')",
+        "insert into Employee (id, salary) values ('3', '300')"
+      ],
+      "questionFrontendId": "177",
+      "questionId": "177",
+      "sampleTestCase": "{\"headers\": {\"Employee\": [\"id\", \"salary\"]}, \"argument\": 2, \"rows\": {\"Employee\": [[1, 100], [2, 200], [3, 300]]}}",
+      "similarQuestions": "[]",
+      "solution": null,
+      "stats": "{\"totalAccepted\": \"135.8K\", \"totalSubmission\": \"293.4K\", \"totalAcceptedRaw\": 135829, \"totalSubmissionRaw\": 293400, \"acRate\": \"46.3%\"}",
+      "status": null,
+      "style": "LEETCODE",
+      "title": "Nth Highest Salary",
+      "titleSlug": "nth-highest-salary",
+      "topicTags": [
+        {
+          "__typename": "TopicTagNode",
+          "name": "Database",
+          "slug": "database",
+          "translatedName": "数据库"
+        }
+      ],
+      "translatedContent": "<p>编写一个 SQL 查询，获取 <code>Employee</code> 表中第&nbsp;<em>n&nbsp;</em>高的薪水（Salary）。</p>\n\n<pre>+----+--------+\n| Id | Salary |\n+----+--------+\n| 1  | 100    |\n| 2  | 200    |\n| 3  | 300    |\n+----+--------+\n</pre>\n\n<p>例如上述&nbsp;<code>Employee</code>&nbsp;表，<em>n = 2&nbsp;</em>时，应返回第二高的薪水&nbsp;<code>200</code>。如果不存在第&nbsp;<em>n&nbsp;</em>高的薪水，那么查询应返回&nbsp;<code>null</code>。</p>\n\n<pre>+------------------------+\n| getNthHighestSalary(2) |\n+------------------------+\n| 200                    |\n+------------------------+\n</pre>\n",
+      "translatedTitle": "第N高的薪水",
+      "ugcQuestionId": null
+    }
+  }
+}

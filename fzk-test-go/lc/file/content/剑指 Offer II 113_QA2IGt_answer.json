@@ -1,0 +1,83 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "t.me/aitrd ",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/tang-bo-o/avatar_1636719210.png",
+          "userSlug": "tang-bo-o"
+        },
+        "username": "tang-bo-o"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 拓扑排序&环路检测\n如题。此题是经典的拓扑排序问题，输入AOV网络，输出拓扑排序结果，需要注意的是，在输出结果前需要先检测AOV网络是否有环路。\n在以下代码中，我封装了拓扑排序器和环路检测器的类，方便调用。\n[什么是拓扑排序？](https://baike.baidu.com/item/%E6%8B%93%E6%89%91%E6%8E%92%E5%BA%8F/5223807)\n\n以穿衣服问题为例，下图解释了什么是拓扑排序。\n![339ad9ee68e02399cfa7a2aeffc9436.png](https://pic.leetcode-cn.com/1635691345-ZNLTEb-339ad9ee68e02399cfa7a2aeffc9436.png)\n[图片来源](https://www.cnblogs.com/MrSaver/p/9994720.html)\n\n### 代码\n\n```python3 []\nfrom collections import defaultdict\n\nclass TopologicalSortor:\n    '''\n    拓扑排序器\n    '''\n    def __init__(self,vertices): \n        self.graph = defaultdict(list)\n        self.V = vertices\n    \n    def detectCircle(self,u):\n        self.detectedNode.add(u)\n        for v in self.graph[u]:\n            if v not in self.pathNode:\n                self.pathNode.add(v)\n                self.detectCircle(v)\n                self.pathNode.remove(v)\n                if self.findCircle:\n                    return\n            else:\n                self.findCircle = True\n                return\n\n    def addEdge(self,u,v):\n        '''\n        添加路径\n        '''\n        self.graph[u].append(v)\n    \n    def hasCircle(self):\n        '''\n        环路检测器\n        '''\n        self.pathNode = set()\n        self.detectedNode = set()\n        for i in range(self.V):\n            if i not in self.detectedNode:\n                self.findCircle = False\n                self.pathNode.add(i)\n                self.detectCircle(i)\n                self.pathNode.remove(i)\n                if self.findCircle: return True\n        return False\n  \n    def topologicalSortUtil(self,v,visited,stack): \n        visited[v] = True\n        for i in self.graph[v]: \n            if visited[i] == False: \n                self.topologicalSortUtil(i,visited,stack) \n        stack.insert(0,v) \n  \n    def topologicalSort(self):\n        '''\n        拓扑排序\n        '''\n        visited = [False]*self.V \n        stack =[] \n        for i in range(self.V): \n            if visited[i] == False: \n                self.topologicalSortUtil(i,visited,stack) \n        return stack\n\nclass Solution:\n    def findOrder(self, n: int, P: List[List[int]]) -> List[int]:\n        TS = TopologicalSortor(n)\n        for a,b in P: TS.addEdge(b,a)\n        if TS.hasCircle(): return []\n        return TS.topologicalSort()\n```",
+      "createdAt": "2021-10-31T14:41:23.467680+00:00",
+      "hitCount": 144,
+      "identifier": "w2os6M",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "js-ru-du-chu-du-by-scau_cst2_lhl-fdrf",
+        "title": "js 入度出度"
+      },
+      "position": 14,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "java-tuo-bu-by-jane-7e-cl3j",
+        "title": "Java 拓扑"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "QA2IGt"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "aiji-yuan-bai-piao-tuo-bu-pai-xu-qi-he-h-5raw",
+      "status": "PREPUBLISH",
+      "summary": "拓扑排序&环路检测\n如题。此题是经典的拓扑排序问题，输入AOV网络，输出拓扑排序结果，需要注意的是，在输出结果前需要先检测AOV网络是否有环路。\n在以下代码中，我封装了拓扑排序器和环路检测器的类，方便调用。\n什么是拓扑排序？\n以穿衣服问题为例，下图解释了什么是拓扑排序。\n\n图片来源\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python3",
+          "nameTranslated": "",
+          "slug": "python3",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1635691345-ZNLTEb-339ad9ee68e02399cfa7a2aeffc9436.png",
+      "title": "【AI纪元】白漂拓扑排序器和环路检测器",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1076977,
+        "viewCount": 131
+      },
+      "uuid": "w2os6M",
+      "videosInfo": []
+    }
+  }
+}

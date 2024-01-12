@@ -1,0 +1,86 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "Krahets",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/jyd/avatar_1589712294.png",
+          "userSlug": "jyd"
+        },
+        "username": "jyd"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 解题思路：\r\n\r\n> 典型的动态规划，以下按照标准流程解题。\r\n\r\n- **状态定义：**\r\n\r\n  - 设动态规划列表 $dp$ ，$dp[i]$ 代表前 $i$ 个房子在满足条件下的能偷盗到的最高金额。\r\n\r\n- **转移方程：**\r\n\r\n  - **设：** 有 $n$ 个房子，前 $n$ 间能偷盗到的最高金额是 $dp[n]$ ，前 $n-1$ 间能偷盗到的最高金额是 $dp[n-1]$ ，此时向这些房子后加一间房，此房间价值为 $num$ ；\r\n  - **加一间房间后：** 由于不能抢相邻的房子，意味着抢第 $n+1$ 间就不能抢第 $n$ 间；那么前 $n+1$ 间房能偷取到的最高金额 $dp[n+1]$ 一定是以下两种情况的 **较大值** ：\r\n    1. 不抢第 $n+1$ 个房间，因此等于前 $n$ 个房子的最高金额，即 $dp[n+1] = dp[n]$ ；\r\n    2. 抢第 $n+1$ 个房间，此时不能抢第 $n$ 个房间；因此等于前 $n-1$ 个房子的最高金额加上当前房间价值，即 $dp[n+1] = dp[n-1] + num$ ；\r\n\r\n  - **细心的我们发现：** 难道在前 $n$ 间的最高金额 $dp[n]$ 情况下，第 $n$ 间一定被偷了吗？假设没有被偷，那 $n+1$ 间的最大值应该也可能是  $dp[n+1] = dp[n] + num$ 吧？其实这种假设的情况可以被省略，这是因为：\r\n    1. 假设第 $n$ 间没有被偷，那么此时 $dp[n] = dp[n-1]$ ，此时 $dp[n+1] = dp[n] + num = dp[n-1] + num$ ，即两种情况可以 **合并为一种情况** 考虑；\r\n    2. 假设第 $n$ 间被偷，那么此时 $dp[n+1] = dp[n] + num$ **不可取** ，因为偷了第 $n$ 间就不能偷第 $n+1$ 间。\r\n  \r\n  - **最终的转移方程：** $dp[n+1] = max(dp[n],dp[n-1]+num)$\r\n  \r\n- **初始状态：**\r\n\r\n  - 前 $0$ 间房子的最大偷盗价值为 $0$ ，即 $dp[0] = 0$ 。\r\n\r\n- **返回值：**\r\n\r\n  - 返回 $dp$ 列表最后一个元素值，即所有房间的最大偷盗价值。\r\n\r\n- **简化空间复杂度：**\r\n\r\n  - 我们发现 $dp[n]$ 只与 $dp[n-1]$ 和 $dp[n-2]$ 有关系，因此我们可以设两个变量 `cur`和 `pre` 交替记录，将空间复杂度降到 $O(1)$ 。\r\n\r\n#### 复杂度分析：\r\n\r\n- **时间复杂度 $O(N)$ ：** 遍历 `nums` 需要线性时间；\r\n- **空间复杂度 $O(1)$ ：** `cur`和 `pre` 使用常数大小的额外空间。\r\n\r\n<![Picture1.png](https://pic.leetcode-cn.com/ec3bba433e7b102abd6ed8de390560eb205c7e382c2b974b7cf1e2c5cc6d3c98-Picture1.png),![Picture2.png](https://pic.leetcode-cn.com/f534ced49ae9419683cbecc55da75cb2d3bafe696f3146a5cf9ff3ac736f1bf8-Picture2.png),![Picture3.png](https://pic.leetcode-cn.com/6dd0dcd9b48f4a45b4471fa6c5d2a5dc8d9ccdf7789f49f29e53f85e2ae12136-Picture3.png),![Picture4.png](https://pic.leetcode-cn.com/52aca290a49a1d96c262a7514c7696fc9be2e3c878f374a7198d99088acf0e98-Picture4.png),![Picture5.png](https://pic.leetcode-cn.com/ecd6cea338053eb4d129f1d421af24c375a5ccecfd5bcf68f8ec57abf771aeec-Picture5.png),![Picture6.png](https://pic.leetcode-cn.com/ed3378a4d184a4425282aacbcbb7f043887d8821d67e5e2c0f60ba03a63d6bb1-Picture6.png),![Picture7.png](https://pic.leetcode-cn.com/a3a7921134d9fd21be29c1de97e432d13c70e2832b8dabf901c17b1be3628273-Picture7.png)>\r\n\r\n#### 代码：\r\n\r\n```Python []\r\nclass Solution:\r\n    def rob(self, nums: List[int]) -> int:\r\n        cur, pre = 0, 0\r\n        for num in nums:\r\n            cur, pre = max(pre + num, cur), cur\r\n        return cur\r\n```\r\n\r\n```Java []\r\nclass Solution {\r\n    public int rob(int[] nums) {\r\n        int pre = 0, cur = 0, tmp;\r\n        for(int num : nums) {\r\n            tmp = cur;\r\n            cur = Math.max(pre + num, cur);\r\n            pre = tmp;\r\n        }\r\n        return cur;\r\n    }\r\n}\r\n```\r\n",
+      "createdAt": "2021-09-07T17:11:08.019763+00:00",
+      "hitCount": 1306,
+      "identifier": "NzAULi",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "dong-tai-gui-hua-javashi-xian-by-stars1w-d4q0",
+        "title": "动态规划Java实现"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "Gu0c2T"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 11,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "jian-zhi-offer-ii-089-fang-wu-tou-dao-do-y2uu",
+      "status": "PREPUBLISH",
+      "summary": "解题思路：\n\n典型的动态规划，以下按照标准流程解题。\n\n\n\n状态定义：\n\n设动态规划列表 dp ，dp[i] 代表前 i 个房子在满足条件下的能偷盗到的最高金额。\n\n\n\n转移方程：\n\n\n设： 有 n 个房子，前 n 间能偷盗到的最高金额是 dp[n] ，前 n-1 间能偷盗到的最高金额是 dp[n-1] ，此时向这些",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Dynamic Programming",
+          "nameTranslated": "动态规划",
+          "slug": "dynamic-programming",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python3",
+          "nameTranslated": "",
+          "slug": "python3",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "剑指 Offer II 089. 房屋偷盗（动态规划，清晰图解）",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 3,
+        "id": 984833,
+        "viewCount": 1041
+      },
+      "uuid": "NzAULi",
+      "videosInfo": []
+    }
+  }
+}

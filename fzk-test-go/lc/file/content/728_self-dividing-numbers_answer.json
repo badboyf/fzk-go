@@ -1,0 +1,84 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣 (LeetCode)",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/uploaded_files/2021/03/73c9f099-abbe-4d94-853f-f8abffd459cd/leetcode.png",
+          "userSlug": "leetcode"
+        },
+        "username": "LeetCode"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "####  方法一：暴力法\n**算法：**\n- 对于给定范围内的每个数，我们将直接判断该数是否为自除数。\n- 根据定义，我们先判断数字是否非零，若数字非零再判断是否能够被该数除尽。例如，对于 `128`，我们要判断 `d != 0 && 128 % d == 0`，且 `d = 1, 2, 8`。\n- 解决这个问题的一个简单方法是将数字转换成一个字符数组（python 中的字符串），然后在检查 `n%d==0` 时转换回整数执行模运算。\n- 我们还可以不断地把数字除以 `10`，取整数的最后一个数字。在代码中为注释的部分。\n\n```Python [ ]\nclass Solution(object):\n    def selfDividingNumbers(self, left, right):\n        def self_dividing(n):\n            for d in str(n):\n                if d == '0' or n % int(d) > 0:\n                    return False\n            return True\n        \"\"\"\n        Alternate implementation of self_dividing:\n        def self_dividing(n):\n            x = n\n            while x > 0:\n                x, d = divmod(x, 10)\n                if d == 0 or n % d > 0:\n                    return False\n            return True\n        \"\"\"\n        ans = []\n        for n in range(left, right + 1):\n            if self_dividing(n):\n                ans.append(n)\n        return ans #Equals filter(self_dividing, range(left, right+1))\n```\n\n```Java [ ]\nclass Solution {\n    public List<Integer> selfDividingNumbers(int left, int right) {\n        List<Integer> ans = new ArrayList();\n        for (int n = left; n <= right; ++n) {\n            if (selfDividing(n)) ans.add(n);\n        }\n        return ans;\n    }\n    public boolean selfDividing(int n) {\n        for (char c: String.valueOf(n).toCharArray()) {\n            if (c == '0' || (n % (c - '0') > 0))\n                return false;\n        }\n        return true;\n    }\n    /*\n    Alternate implementation of selfDividing:\n    public boolean selfDividing(int n) {\n        int x = n;\n        while (x > 0) {\n            int d = x % 10;\n            x /= 10;\n            if (d == 0 || (n % d) > 0) return false;\n        }\n        return true;\n    */\n}\n```\n\n**复杂度分析**\n\n* 时间复杂度：$O(D)$。$D$ 是在区间 $[L, R]$ 里的整数数。\n* 空间复杂度：$O(D)$，使用了一个数组来存放结果。",
+      "createdAt": "2019-10-29T04:15:03.892834+00:00",
+      "hitCount": 11141,
+      "identifier": "ZWihIA",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "mo-ni-bian-li-by-euyvvl-emdj",
+        "title": "模拟遍历"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "self-dividing-numbers"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 6,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "zi-chu-shu-by-leetcode",
+      "status": "PUBLISHED",
+      "summary": "§ 方法一：暴力法\n算法：\n\n对于给定范围内的每个数，我们将直接判断该数是否为自除数。\n根据定义，我们先判断数字是否非零，若数字非零再判断是否能够被该数除尽。例如，对于 128，我们要判断 d != 0 && 128 % d == 0，且 d = 1, 2, 8。\n解决这个问题的一个简单方法是将数字转换成一个字符数组（",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "自除数",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 30,
+        "id": 38780,
+        "viewCount": 9630
+      },
+      "uuid": "ZWihIA",
+      "videosInfo": []
+    }
+  }
+}

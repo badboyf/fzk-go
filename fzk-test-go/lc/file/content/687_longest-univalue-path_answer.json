@@ -1,0 +1,94 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣 (LeetCode)",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/uploaded_files/2021/03/73c9f099-abbe-4d94-853f-f8abffd459cd/leetcode.png",
+          "userSlug": "leetcode"
+        },
+        "username": "LeetCode"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法：递归\n\n**思路**\n\n我们可以将任何路径（具有相同值的节点）看作是最多两个从其根延伸出的箭头。\n\n具体地说，路径的根将是唯一节点，因此该节点的父节点不会出现在该路径中，而箭头将是根在该路径中只有一个子节点的路径。\n\n然后，对于每个节点，我们想知道向左延伸的最长箭头和向右延伸的最长箭头是什么？我们可以用递归来解决这个问题。\n\n**算法**\n\n令 `arrow_length(node)` 为从节点 `node` 延伸出的最长箭头的长度。如果 `node.Left` 存在且与节点 `node` 具有相同的值，则该值就会是 `1 + arrow_length(node.left)`。在 `node.right` 存在的情况下也是一样。\n\n当我们计算箭头长度时，候选答案将是该节点在两个方向上的箭头之和。我们将这些候选答案记录下来，并返回最佳答案。\n\n```java [9VRybv6i-Java]\nclass Solution {\n    int ans;\n    public int longestUnivaluePath(TreeNode root) {\n        ans = 0;\n        arrowLength(root);\n        return ans;\n    }\n    public int arrowLength(TreeNode node) {\n        if (node == null) return 0;\n        int left = arrowLength(node.left);\n        int right = arrowLength(node.right);\n        int arrowLeft = 0, arrowRight = 0;\n        if (node.left != null && node.left.val == node.val) {\n            arrowLeft += left + 1;\n        }\n        if (node.right != null && node.right.val == node.val) {\n            arrowRight += right + 1;\n        }\n        ans = Math.max(ans, arrowLeft + arrowRight);\n        return Math.max(arrowLeft, arrowRight);\n    }\n}\n```\n```python [9VRybv6i-Python]\nclass Solution(object):\n    def longestUnivaluePath(self, root):\n        self.ans = 0\n\n        def arrow_length(node):\n            if not node: return 0\n            left_length = arrow_length(node.left)\n            right_length = arrow_length(node.right)\n            left_arrow = right_arrow = 0\n            if node.left and node.left.val == node.val:\n                left_arrow = left_length + 1\n            if node.right and node.right.val == node.val:\n                right_arrow = right_length + 1\n            self.ans = max(self.ans, left_arrow + right_arrow)\n            return max(left_arrow, right_arrow)\n\n        arrow_length(root)\n        return self.ans\n```\n\n\n**复杂度分析**\n\n* 时间复杂度：$O(N)$，其中 $N$ 是树中节点数。我们处理每个节点一次。\n\n* 空间复杂度：$O(H)$，其中 $H$ 是树的高度。我们的递归调用栈可以达到 $H$ 层的深度。",
+      "createdAt": "2019-03-03T16:19:12.975589+00:00",
+      "hitCount": 47571,
+      "identifier": "IwWx7V",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "yi-pian-wen-zhang-jie-jue-suo-you-er-cha-94j7",
+        "title": "一篇文章解决所有二叉树路径问题（问题分析+分类模板+题目剖析）"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "longest-univalue-path"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 50,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 9,
+          "reactionType": "CONFUSED"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "AWESOME"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "THUMBS_DOWN"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "zui-chang-tong-zhi-lu-jing-by-leetcode",
+      "status": "PUBLISHED",
+      "summary": "方法：递归\n思路\n我们可以将任何路径（具有相同值的节点）看作是最多两个从其根延伸出的箭头。\n具体地说，路径的根将是唯一节点，因此该节点的父节点不会出现在该路径中，而箭头将是根在该路径中只有一个子节点的路径。\n然后，对于每个节点，我们想知道向左延伸的最长箭头和向右延伸的最长箭头是什么？我们可以用递归来解决这个问题。\n算法",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Recursion",
+          "nameTranslated": "递归",
+          "slug": "recursion",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "最长同值路径",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 94,
+        "id": 3616,
+        "viewCount": 29789
+      },
+      "uuid": "IwWx7V",
+      "videosInfo": []
+    }
+  }
+}

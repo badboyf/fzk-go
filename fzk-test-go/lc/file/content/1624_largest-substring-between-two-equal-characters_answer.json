@@ -1,0 +1,76 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "坤哥",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/7ucid-wescoffck6/avatar_1620532820.png",
+          "userSlug": "7ucid-wescoffck6"
+        },
+        "username": "7ucid-wescoffck6"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "# Java哈希表，写题解复习题目。\r\n把字符作为key，下标作为value，存入哈希表中。每次存入的时候先判断这个字符之前有没有出现过，没出现直接存入，出现的话，用当前下标减去之前出现的下标再减1，就可以得到它们之间的字符长度，遍历一遍字符串取最大值。\r\n```\r\n class Solution {\r\n    public int maxLengthBetweenEqualCharacters(String s) {\r\n        int max=-1;\r\n        Map<Character,Integer> map=new HashMap<>();\r\n        for(int i=0;i<s.length();i++){\r\n            if(map.containsKey(s.charAt(i))){\r\n                max=Math.max(max,i-map.get(s.charAt(i))-1);\r\n            }\r\n            else{\r\n                map.put(s.charAt(i),i);\r\n            }\r\n        }\r\n        return max;\r\n\r\n    }\r\n}\r\n\r\n```\r\n",
+      "createdAt": "2021-09-14T14:27:40.807431+00:00",
+      "hitCount": 511,
+      "identifier": "9rk68b",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "xun-huan-zi-fu-chuan-dui-ying-mei-ge-zi-puz1s",
+        "title": "循环字符串，对应每个字符都寻找字符串内最后的下标，然后计算两个字符之间距离，存储最大距离"
+      },
+      "position": 2,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "1624-liang-ge-xiang-tong-zi-fu-zhi-jian-c34ap",
+        "title": "1624. 两个相同字符之间的最长子字符串"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "largest-substring-between-two-equal-characters"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 5,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "javaha-xi-biao-by-7ucid-wescoffck6-jyuk",
+      "status": "PREPUBLISH",
+      "summary": "Java哈希表，写题解复习题目。\n把字符作为key，下标作为value，存入哈希表中。每次存入的时候先判断这个字符之前有没有出现过，没出现直接存入，出现的话，用当前下标减去之前出现的下标再减1，就可以得到它们之间的字符长度，遍历一遍字符串取最大值。",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "Java哈希表",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 998037,
+        "viewCount": 418
+      },
+      "uuid": "9rk68b",
+      "videosInfo": []
+    }
+  }
+}

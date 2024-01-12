@@ -1,0 +1,100 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣官方题解",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/leetcode-solution/avatar_1582018938.png",
+          "userSlug": "leetcode-solution"
+        },
+        "username": "LeetCode-Solution"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法一：贪心\n\n**思路与算法**\n\n根据题意可以知道，如果字符串中有若干相邻的重复字母，则这些字母中最多只能保留一个。因此，我们可以采取贪心的策略：在这一系列重复字母中，我们保留删除成本最高的字母，并删除其他字母。这样得到的删除成本一定是最低的。\n\n**代码**\n\n```C++ [sol1-C++]\nclass Solution {\npublic:\n    int minCost(string s, vector<int>& cost) {\n        int i = 0, len = s.length();\n        int ret = 0;\n        while (i < len) {\n            char ch = s[i];\n            int maxValue = 0;\n            int sum = 0;\n\n            while (i < len && s[i] == ch) {\n                maxValue = max(maxValue, cost[i]);\n                sum += cost[i];\n                i++;\n            }\n            ret += (sum - maxValue);\n        }\n        return ret;\n    }\n};\n```\n\n```Java [sol1-Java]\nclass Solution {\n    public int minCost(String s, int[] cost) {\n        int i = 0, len = s.length();\n        int ret = 0;\n        while (i < len) {\n            char ch = s.charAt(i);\n            int maxValue = 0;\n            int sum = 0;\n\n            while (i < len && s.charAt(i) == ch) {\n                maxValue = Math.max(maxValue, cost[i]);\n                sum += cost[i];\n                i++;\n            }\n            ret += (sum - maxValue);\n        }\n        return ret;\n    }\n}\n```\n\n```Python [sol1-Python3]\nclass Solution:\n    def minCost(self, s: str, cost: List[int]) -> int:\n        i = 0\n        length = len(s)\n        ret = 0\n\n        while i < length:\n            ch = s[i]\n            maxValue = 0\n            total = 0\n\n            while i < length and s[i] == ch:\n                maxValue = max(maxValue, cost[i])\n                total += cost[i]\n                i += 1\n            \n            ret += (total - maxValue)\n        \n        return ret\n```\n\n```C [sol1-C]\nint minCost(char* s, int* cost, int costSize) {\n    int i = 0;\n    int ret = 0;\n    while (i < costSize) {\n        char ch = s[i];\n        int maxValue = 0;\n        int sum = 0;\n\n        while (i < costSize && s[i] == ch) {\n            maxValue = fmax(maxValue, cost[i]);\n            sum += cost[i];\n            i++;\n        }\n        ret += (sum - maxValue);\n    }\n    return ret;\n}\n```\n\n**复杂度分析**\n\n- 时间复杂度：$O(N)$，其中 $N$ 为字符串的长度。我们只需对字符串进行一次线性的扫描。\n\n- 空间复杂度：$O(1)$。我们只开辟了常量大小的空间。",
+      "createdAt": "2020-10-09T03:38:11.589789+00:00",
+      "hitCount": 5162,
+      "identifier": "enSHe4",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "c-tan-xin-by-mountain-ocean-gart",
+        "title": "c++ : 贪心 O(N)"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "minimum-deletion-cost-to-avoid-repeating-letters"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 3,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "bi-mian-zhong-fu-zi-mu-de-zui-xiao-shan-chu-chen-4",
+      "status": "PUBLISHED",
+      "summary": "方法一：贪心 思路与算法 根据题意可以知道，如果字符串中有若干相邻的重复字母，则这些字母中最多只能保留一个。因此，我们可以采取贪心的策略：在这一系列重复字母中，我们保留删除成本最高的字母，并删除其他字母。这样得到的删除成本一定是最低的。 代码 ```C++ [sol1-C++] class Solution { pub",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Greedy",
+          "nameTranslated": "贪心",
+          "slug": "greedy",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C",
+          "nameTranslated": "",
+          "slug": "c",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "避免重复字母的最小删除成本",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 11,
+        "id": 440327,
+        "viewCount": 3941
+      },
+      "uuid": "enSHe4",
+      "videosInfo": []
+    }
+  }
+}

@@ -1,0 +1,86 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣 (LeetCode)",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/uploaded_files/2021/03/73c9f099-abbe-4d94-853f-f8abffd459cd/leetcode.png",
+          "userSlug": "leetcode"
+        },
+        "username": "LeetCode"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法 1：将 B 合并成一个单词\n\n**想法**\n\n如果 `b` 是 `a` 的子集，那么就称 `a` 是 `b` 的超集。记录 $N_{\\text{\"a\"}}(\\text{word})$ 是 word 中字母 $\\text{\"a\"}$ 出现次数。\n\n当我们检查 `A` 中的单词 `wordA` 是否是 `wordB` 的超集时，我们只需要单独检验每个字母个数：对于每个字母，有 $N_{\\text{letter}}(\\text{wordA}) \\geq N_{\\text{letter}}(\\text{wordB})$。\n\n现在，检验单词 `wordA` 是否是所有 $\\text{wordB}_i$ 的超集，我们需要检验所有 $i$ 是否满足 $N_{\\text{letter}}(\\text{wordA}) \\geq N_{\\text{letter}}(\\text{wordB}_i)$，等价于检验 $N_{\\text{letter}}(\\text{wordA}) \\geq \\max\\limits_i(N_{\\text{letter}}(\\text{wordB}_i))$。\n\n例如，当我们检验 `\"warrior\"` 是否是 `B = [\"wrr\", \"wa\", \"or\"]` 的超集时，我们可以按照字母出现的最多次数将 `B` 中所有单词合并成一个单词 `\"arrow\"`，然后判断一次即可。\n\n**算法**\n\n将 `B` 合并成一个单独的单词 `bmax`，然后比较 `A` 中的所有单词 `a`。\n\n```Java []\nclass Solution {\n    public List<String> wordSubsets(String[] A, String[] B) {\n        int[] bmax = count(\"\");\n        for (String b: B) {\n            int[] bCount = count(b);\n            for (int i = 0; i < 26; ++i)\n                bmax[i] = Math.max(bmax[i], bCount[i]);\n        }\n\n        List<String> ans = new ArrayList();\n        search: for (String a: A) {\n            int[] aCount = count(a);\n            for (int i = 0; i < 26; ++i)\n                if (aCount[i] < bmax[i])\n                    continue search;\n            ans.add(a);\n        }\n\n        return ans;\n    }\n\n    public int[] count(String S) {\n        int[] ans = new int[26];\n        for (char c: S.toCharArray())\n            ans[c - 'a']++;\n        return ans;\n    }\n}\n```\n\n```Python []\nclass Solution(object):\n    def wordSubsets(self, A, B):\n        def count(word):\n            ans = [0] * 26\n            for letter in word:\n                ans[ord(letter) - ord('a')] += 1\n            return ans\n\n        bmax = [0] * 26\n        for b in B:\n            for i, c in enumerate(count(b)):\n                bmax[i] = max(bmax[i], c)\n\n        ans = []\n        for a in A:\n            if all(x >= y for x, y in zip(count(a), bmax)):\n                ans.append(a)\n        return ans\n```\n\n**复杂度分析**\n\n* 时间复杂度：$O(A+B)$，其中 $A$ 和 $B$ 分别是 `A` 和 `B` 的单词个数。\n* 空间复杂度：$O(A\\text{.length} + B\\text{.length})$。",
+      "createdAt": "2019-08-18T06:46:42.233934+00:00",
+      "hitCount": 5491,
+      "identifier": "cSSuCJ",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "js-xian-he-bing-bde-ha-xi-zai-yong-bde-h-go7p",
+        "title": "【js】先合并B的哈希，再用B的哈希检查A的单词"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "word-subsets"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 7,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "dan-ci-zi-ji-by-leetcode",
+      "status": "PUBLISHED",
+      "summary": "§ 方法 1：将 B 合并成一个单词\n想法\n如果 b 是 a 的子集，那么就称 a 是 b 的超集。记录 N_{\\text{\"a\"}}(\\text{word}) 是 word 中字母 \\text{\"a\"} 出现次数。\n当我们检查 A 中的单词 wordA 是否是 wordB 的超集时，我们只需要单独检验每个字母个数：对",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Design",
+          "nameTranslated": "设计",
+          "slug": "design",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "单词子集",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 3,
+        "id": 21315,
+        "viewCount": 4270
+      },
+      "uuid": "cSSuCJ",
+      "videosInfo": []
+    }
+  }
+}

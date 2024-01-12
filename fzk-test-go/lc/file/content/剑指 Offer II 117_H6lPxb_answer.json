@@ -1,0 +1,114 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "SloanCheng",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/sloancheng/avatar_1637562932.png",
+          "userSlug": "sloancheng"
+        },
+        "username": "SloanCheng"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "# 法一 建图（关系）然后广度遍历图记录有多少个连通分量\n```\nclass Solution {\n    public int numSimilarGroups(String[] strs) {\n        int n = strs.length;\n        int cnt = 0;\n        boolean[] vis = new boolean[n];\n        Map<String, List<String>> map = new HashMap<>();\n        for(int i = 0; i < n; ++i){\n           map.put(strs[i], new ArrayList<>());\n        }\n        for(int i = 0; i < n; ++i){\n            for(int j = 0; j < n; ++j){\n                if(isSimilar(strs[i], strs[j])){\n                    map.get(strs[i]).add(strs[j]);\n                }\n            }\n        }\n        for(int i = 0; i < n; ++i){\n            if(!vis[i]){\n                bfs(strs, vis, i, map);\n                cnt++;\n            }\n        }\n        return cnt;\n    }\n\n    public boolean isSimilar(String s1, String s2){\n        int cnt = 0;\n        for(int i = 0; i < s1.length(); ++i){\n            if(s1.charAt(i) != s2.charAt(i)) cnt++;\n        }\n        return cnt<=2;\n    }\n\n    public void bfs(String[] strs, boolean[] vis, int i, Map<String, List<String>> map){\n        Queue<Integer> q = new LinkedList<>();\n        q.offer(i);\n        vis[i] = true;\n        while(!q.isEmpty()){\n            int node = q.poll();\n            for(int j = 0; j < strs.length; ++j){\n                if(!vis[j] && map.get(strs[node]).contains(strs[j])){\n                    q.offer(j);\n                    vis[j] = true;\n                }\n            }\n        }\n    }\n}\n```\n\n# 法二 并查集\n```\nclass Solution {\n    public int numSimilarGroups(String[] strs) {\n        int n = strs.length;\n        int cnt = n;\n        int[] fathers = new int[n];\n        for(int i = 0; i < n; ++i){\n            fathers[i] = i;\n        }\n        for(int i = 0; i < n; ++i){\n            for(int j = i+1; j < n; ++j){\n                if(isSimilar(strs[i], strs[j]) && union(fathers, i, j)){\n                    cnt--;\n                }\n            }\n        }\n        return cnt;\n    }\n\n    public boolean isSimilar(String s1, String s2){\n        int cnt = 0;\n        for(int i = 0; i < s1.length(); ++i){\n            if(s1.charAt(i) != s2.charAt(i)) cnt++;\n        }\n        return cnt<=2;\n    }\n\n    public boolean union(int[] fathers, int i, int j){\n        int a = findFather(fathers, i);\n        int b = findFather(fathers, j);\n        if(a != b){\n            fathers[a] = b;\n            return true;\n        }\n        return false;\n    }\n\n    public int findFather(int[] fathers, int i){\n        if(fathers[i] != i){\n            fathers[i] = findFather(fathers, fathers[i]);\n        }\n        return fathers[i];\n    }\n}\n```\n",
+      "createdAt": "2021-10-23T06:47:10.416659+00:00",
+      "hitCount": 264,
+      "identifier": "Hk17Rq",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "jian-zhi-offer-2-mian-shi-ti-117-shu-zho-nl4o",
+        "title": "《剑指offer 2 面试题117》 书中算法C++实现"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "H6lPxb"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 13,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "tu-bfshe-bing-cha-ji-liang-chong-fang-fa-hmof",
+      "status": "PREPUBLISH",
+      "summary": "法一 建图（关系）然后广度遍历图记录有多少个连通分量\n法二 并查集",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Breadth-First Search",
+          "nameTranslated": "广度优先搜索",
+          "slug": "breadth-first-search",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Union Find",
+          "nameTranslated": "并查集",
+          "slug": "union-find",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Graph",
+          "nameTranslated": "图",
+          "slug": "graph",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Queue",
+          "nameTranslated": "队列",
+          "slug": "queue",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Hash Table",
+          "nameTranslated": "哈希表",
+          "slug": "hash-table",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "String",
+          "nameTranslated": "字符串",
+          "slug": "string",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "图BFS和并查集两种方法",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 10,
+        "id": 1062731,
+        "viewCount": 208
+      },
+      "uuid": "Hk17Rq",
+      "videosInfo": []
+    }
+  }
+}

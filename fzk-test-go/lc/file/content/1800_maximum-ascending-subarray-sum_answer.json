@@ -1,0 +1,81 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "Ikaruga",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/ikaruga/avatar_1557742387.png",
+          "userSlug": "ikaruga"
+        },
+        "username": "ikaruga"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 思路\r\n1. 是子数组不是子序列\r\n2. 使用一个 `sum` 代表子数组和\r\n3. 满足递增时，就记录和\r\n4. 当不满足递增就说明是一个新的子数组，可以清空\r\n5. 使用一个 `ans` 记录途中所有子数组中和的最大值\r\n\r\n### 答题\r\n```C++ []\r\nclass Solution {\r\npublic:\r\n    int maxAscendingSum(vector<int>& nums) {\r\n        int ans = 0;\r\n        int sum = 0;\r\n        for (int i = 0; i < nums.size(); i++) {\r\n            sum = (i != 0 && nums[i] > nums[i - 1]) ? sum + nums[i] : nums[i];\r\n            ans = max(ans, sum);\r\n        }\r\n        return ans;\r\n    }\r\n};\r\n```\r\n\r\n\r\n\r\n### 致谢\r\n感谢您的观看，希望对您有帮助，欢迎热烈的交流！  \r\n\r\n**如果感觉还不错就点个赞吧~**\r\n\r\n在 [我的力扣个人主页](https://leetcode-cn.com/u/ikaruga/) 中有我使用的做题助手项目链接，帮助我收集整理题目，可以方便的 `visual studio` 调试，欢迎关注，star\r\n\r\n",
+      "createdAt": "2021-03-21T04:40:44.853463+00:00",
+      "hitCount": 599,
+      "identifier": "TJntKC",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "dong-tai-gui-hua-c-by-li-kou-it-p6kg",
+        "title": "动态规划C++"
+      },
+      "position": 4,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "hua-dong-chuang-kou-by-xiao-ryan-fssx",
+        "title": "滑动窗口"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "maximum-ascending-subarray-sum"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 4,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "maximum-ascending-by-ikaruga-1lf5",
+      "status": "PREPUBLISH",
+      "summary": "思路\n\n是子数组不是子序列\n使用一个 sum 代表子数组和\n满足递增时，就记录和\n当不满足递增就说明是一个新的子数组，可以清空\n使用一个 ans 记录途中所有子数组中和的最大值\n\n答题\n致谢\n感谢您的观看，希望对您有帮助，欢迎热烈的交流！\n如果感觉还不错就点个赞吧~\n在 我的力扣个人主页 中有我使用的做题助手项目链接，",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "【最大升序子数组和】",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 670667,
+        "viewCount": 512
+      },
+      "uuid": "TJntKC",
+      "videosInfo": []
+    }
+  }
+}

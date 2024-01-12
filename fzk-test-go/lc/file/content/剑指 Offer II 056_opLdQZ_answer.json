@@ -1,0 +1,86 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "何廷",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/mchh-r/avatar_1635945584.png",
+          "userSlug": "htch"
+        },
+        "username": "htch"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "**1、递归将树的中序遍历添加到列表中，再使用双指针**\n\n```java\nclass Solution {\n    List<Integer> list = new LinkedList<>();\n\n    public boolean findTarget(TreeNode root, int k) {\n        inorder(root);\n        int l = 0, r = list.size() - 1;\n        while (l < r) {\n            if (k > list.get(l) + list.get(r)) l++;\n            else if (k < list.get(l) + list.get(r)) r--;\n            else return true;\n        }\n        return false;\n    }\n\n    private void inorder(TreeNode node) {\n        if (node == null) return;\n        inorder(node.left);\n        list.add(node.val);\n        inorder(node.right);\n    }\n}\n```\n\n**2、哈希表 + DFS**\n知识点：辅助栈的使用\n![Image.png](https://pic.leetcode-cn.com/1638106744-ktRXVm-Image.png)\n\n```java\nclass Solution {\n    public boolean findTarget (TreeNode root, int k){\n        // 创建一个哈希表：存放已经遍历过的节点值\n        HashSet<Integer> set = new HashSet<>();\n        // 辅助栈：辅助进行中序遍历\n        Deque<TreeNode> stack = new ArrayDeque<>();\n        // 进行中序遍历\n        while (root != null || !stack.isEmpty()){\n            while (root != null){\n                stack.push(root);\n                root = root.left;\n            }\n            TreeNode node = stack.pop();\n            // 判断哈希表中是否存在 `k - val`\n            if(set.contains(k - node.val))\n                return true;\n            set.add(node.val);\n\n            root = node.right;\n        }\n        return false;\n    }\n}\n```\n",
+      "createdAt": "2021-11-28T13:40:42.778706+00:00",
+      "hitCount": 6,
+      "identifier": "gr343u",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "jian-zhi-offer-ii-056-er-cha-sou-suo-shu-y60g",
+        "title": "剑指 Offer II 056. 二叉搜索树中两个节点之和（哈希表）"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "opLdQZ"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "java-liang-chong-fang-fa-jie-jue-wen-ti-o8zdr",
+      "status": "PREPUBLISH",
+      "summary": "1、递归将树的中序遍历添加到列表中，再使用双指针\n2、哈希表 + DFS\n知识点：辅助栈的使用",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Recursion",
+          "nameTranslated": "递归",
+          "slug": "recursion",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "DFS",
+          "nameTranslated": "",
+          "slug": "dfs",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1638106744-ktRXVm-Image.png",
+      "title": "Java 两种方法解决问题",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1127434,
+        "viewCount": 6
+      },
+      "uuid": "gr343u",
+      "videosInfo": []
+    }
+  }
+}

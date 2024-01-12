@@ -1,0 +1,86 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "梦璃夜·天星",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/meng-li-ye-tian-xing/avatar_1584335581.png",
+          "userSlug": "muriyatensei"
+        },
+        "username": "MuriyaTensei"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "# 贪心 + 模拟\n每次找到X意味着需要一次翻转，并且后两位不再需要翻转可以跳过\n```c++\nclass Solution {\npublic:\n    int minimumMoves(string s) {\n        int ans = 0;\n        for(int i = 0; i < s.size(); ++i){\n            if(s[i] == 'X') ++ans, i += 2;\n        }\n        return ans;\n    }\n};\n```",
+      "createdAt": "2021-11-07T12:57:29.994167+00:00",
+      "hitCount": 61,
+      "identifier": "P3BAqR",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "shuang-bai-huan-bu-zhi-de-xuan-yao-yi-xi-w2si",
+        "title": "双百还不值得炫耀一下吗"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "minimum-moves-to-convert-string"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "c-jian-ji-tan-xin-mo-ni-by-muriyatensei-1wtb",
+      "status": "PREPUBLISH",
+      "summary": "贪心 + 模拟\n每次找到X意味着需要一次翻转，并且后两位不再需要翻转可以跳过",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Greedy",
+          "nameTranslated": "贪心",
+          "slug": "greedy",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Simulation",
+          "nameTranslated": "模拟",
+          "slug": "simulation",
+          "tagType": "TOPIC"
+        }
+      ],
+      "thumbnail": "",
+      "title": "【C++】 简洁 贪心模拟",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1089407,
+        "viewCount": 55
+      },
+      "uuid": "P3BAqR",
+      "videosInfo": []
+    }
+  }
+}

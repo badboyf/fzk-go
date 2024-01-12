@@ -1,0 +1,72 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "化作春风伴新雨",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/mr_mingren/avatar_1631426245.png",
+          "userSlug": "mr_mingren"
+        },
+        "username": "Mr_mingren"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n![image.png](https://pic.leetcode-cn.com/1634302935-ImIgst-image.png)\n**就是先确定前两个数，然后利用函数进行判断后面是否可以成立(我也不知道这个方法叫不叫回溯)\n代码里有注释，可以读一下代码，不长好理解的**\n朋友们觉得帮到自己就点个赞吧\n\n\n### 代码\n\n```cpp\nclass Solution {\npublic:\n    bool func(string& num, long long pre, long long cur, int now, int n){\n        if(now == n)    return true;//说明num已经遍历完了，并且都符合要求\n        for(int i=now; i<n; ++i){\n            if(num[now]=='0'&&i>now)    return false;//判断是否属于0开头的数字\n            long long a = stoll(num.substr(now,i-now+1));\n            if(a>pre+cur)   return false; //这个表示最新的这个数字已经大于前两个之和了，后面肯定都不成立了。\n            if(a==pre + cur){\n                if(func(num,cur,a,i+1,n))   return true;\n                break;\n            }\n        }\n        return false;\n    }\n    bool isAdditiveNumber(string num) {\n        int n = num.size();\n        for(int i=0; i<n/2; ++i){//这个范围是因为第一个数最长也不到总长度的一半\n            if(num[0]=='0' && i>0)  return false;//判断是否属于0开头的数字\n            for(int j=i+1; j<i+1+(n-i-1)/2; ++j){//同i的范围\n                if(num[i+1]=='0' && j>i+1)   continue;//判断是否属于0开头的数字\n                long long pre = stoll(num.substr(0,i+1));\n                long long cur = stoll(num.substr(i+1,j-i));\n                if(func(num,pre,cur,j+1,n))    return true;\n            }\n        }\n        return false;\n    }\n};\n```",
+      "createdAt": "2021-10-15T13:14:35.384398+00:00",
+      "hitCount": 785,
+      "identifier": "5NdSXg",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "lei-jia-shu-by-xiao-xiu-8-vwhl",
+        "title": "累加数"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "additive-number"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 4,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "29xing-dai-ma-jie-jun-chou-by-mr_mingren-gfoi",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n\n就是先确定前两个数，然后利用函数进行判断后面是否可以成立(我也不知道这个方法叫不叫回溯)\n代码里有注释，可以读一下代码，不长好理解的\n朋友们觉得帮到自己就点个赞吧\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1634302935-ImIgst-image.png",
+      "title": "29行代码解君愁",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1049430,
+        "viewCount": 643
+      },
+      "uuid": "5NdSXg",
+      "videosInfo": []
+    }
+  }
+}

@@ -1,0 +1,79 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "zzu",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/123-2621/avatar_1628486303.png",
+          "userSlug": "123-2621"
+        },
+        "username": "123-2621"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "**建立键值对，依次比较每一个单词**\r\n```\r\nclass Solution:\r\n    def getValidT9Words(self, num: str, words: List[str]) -> List[str]:\r\n        dic = {'2' : \"abc\",\r\n                '3': \"def\",\r\n                '4': \"ghi\",\r\n                '5': \"jkl\",\r\n                '6': \"mno\",\r\n                '7': \"pqrs\",\r\n                '8': \"tuv\",\r\n                '9': \"wxyz\"}\r\n        n = len(words)\r\n        m = len(num)\r\n        ans = []\r\n        for i in range(n):\r\n            cnt = 0\r\n            for j, ch in enumerate(words[i]):\r\n                if ch not in dic[num[j]]:\r\n                    break\r\n                else:\r\n                    cnt += 1\r\n            if cnt == m:\r\n                ans.append(words[i])\r\n        return ans\r\n```\r\n\r\n```\r\nclass Solution:\r\n    def getValidT9Words(self, num: str, words: List[str]) -> List[str]:\r\n        dic = {'2' : \"abc\",\r\n                '3': \"def\",\r\n                '4': \"ghi\",\r\n                '5': \"jkl\",\r\n                '6': \"mno\",\r\n                '7': \"pqrs\",\r\n                '8': \"tuv\",\r\n                '9': \"wxyz\"}\r\n        n = len(words)\r\n        m = len(num)\r\n        ans = []\r\n        for i in range(n):\r\n            for j, ch in enumerate(words[i]):\r\n                if ch not in dic[num[j]]:\r\n                    break\r\n                if j == m - 1:\r\n                    ans.append(words[i])\r\n        return ans\r\n```\r\n\r\n\r\n",
+      "createdAt": "2021-11-19T05:36:25.436967+00:00",
+      "hitCount": 41,
+      "identifier": "noCbcY",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "jian-li-ying-she-guan-xi-javascript-by-l-d4a3",
+        "title": "【建立映射关系】JavaScript"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "t9-lcci"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "bao-li-sou-suo-by-123-2621-ccn1",
+      "status": "PUBLISHED",
+      "summary": "建立键值对，依次比较每一个单词",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python3",
+          "nameTranslated": "",
+          "slug": "python3",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "暴力搜索",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1110357,
+        "viewCount": 36
+      },
+      "uuid": "noCbcY",
+      "videosInfo": []
+    }
+  }
+}

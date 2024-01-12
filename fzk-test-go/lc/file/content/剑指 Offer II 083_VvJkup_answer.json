@@ -1,0 +1,76 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "vanilla111",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/vanilla111/avatar_1566265236.png",
+          "userSlug": "vanilla111"
+        },
+        "username": "vanilla111"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "最基本的回溯题了，注意一下细节即可\n\n``` java\nclass Solution {\n    List<List<Integer>> ans;\n    \n    public List<List<Integer>> permute(int[] nums) {\n        ans = new ArrayList<>();\n        int n = nums.length;\n        dfs(nums, new boolean[n], new ArrayList<>(), 0, n);\n        return ans;\n    }\n    \n    public void dfs(int[] nums, boolean[] visit, List<Integer> res, int cnt, int n) {\n        if (cnt == n) {\n            ans.add(new ArrayList<>(res));\n            return ;\n        }\n        for (int i = 0; i < n; i++) {\n            if (!visit[i]) {\n                res.add(nums[i]);\n                visit[i] = true;\n                dfs(nums, visit, res, cnt + 1, n);\n                res.remove(res.size() - 1);\n                visit[i] = false;\n            }\n        }\n    }\n}\n```\n",
+      "createdAt": "2021-09-11T14:52:41.935609+00:00",
+      "hitCount": 596,
+      "identifier": "DjDxqN",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "quan-pai-lie-javascript-by-lzxjack-abwd",
+        "title": "【全排列】JavaScript"
+      },
+      "position": 5,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "jian-zhi-offer-2-mian-shi-ti-83-shu-zhon-qhcd",
+        "title": "《剑指offer 2 面试题83》 书中算法C++实现"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "VvJkup"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 4,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "java-dfshui-su-by-vanilla111-m5d9",
+      "status": "PREPUBLISH",
+      "summary": "最基本的回溯题了，注意一下细节即可",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "Java dfs/回溯",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 992234,
+        "viewCount": 470
+      },
+      "uuid": "DjDxqN",
+      "videosInfo": []
+    }
+  }
+}

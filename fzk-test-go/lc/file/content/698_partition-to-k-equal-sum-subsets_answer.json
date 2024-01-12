@@ -1,0 +1,94 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣 (LeetCode)",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/uploaded_files/2021/03/73c9f099-abbe-4d94-853f-f8abffd459cd/leetcode.png",
+          "userSlug": "leetcode"
+        },
+        "username": "LeetCode"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "这道题我们当然可以采用枚举的方式（回溯算法、深度优先遍历）去完成。但是\n\n+ 题目只问我们是不是可以划分，没有问我们应该怎样划分；\n+ 注意到题目给出的数据范围 $1 \\le k \\le len(nums) \\le 16$。\n\n有一定刷题经验的朋友就会知道，这样的问题可以使用「动态规划」去做，并且这是一类使用状态压缩技巧的「动态规划」问题。\n\n### 方法：动态规划（状态压缩 DP）\n\n动态规划基于这样的想法：\n\n> 如果一个集合多考虑一个数，恰好使得添加了一个数以后的集合的平均数恰好为 $\\cfrac{sum}{k}$。那么添加了一个数以后的集合就是满足条件的输入数组的一个或者若干个子集。\n\n集合是什么样的可以通过枚举，题目给出了数据范围：$1 \\le k \\le len(nums) \\le 16$。因此我们可以用一个整数就可以表示一个集合。\n\n例如，输入数组为 `nums = [6, 5, 5, 4]`，整数 $3$ 的二进制表示为 $11$（忽略前导 $0$），因此整数 $3$ 表示的集合为 `[6, 5]`\n\n动态规划的解法从空集合开始，一个数一个数往符合题意的集合里添加元素，每一次只尝试添加一个数。\n\n如果集合里所有元素的和，模（mod） `target` 加上当前考虑的一个数 `num` 以后的和小于等于每个划分的平均数 `target`，那么这个子集有可能是满足题意的一个或者多个划分，**否则就一定不是满足题意的一个或者多个划分**。\n\n状态压缩 DP **考虑了所有可能出现的情况**（请大家通过代码仔细体会）。具体实现细节请见「参考代码」。\n\n**参考代码**：\n\n\n```Java []\nclass Solution {\n\n    public boolean canPartitionKSubsets(int[] nums, int k) {\n        if (k == 1) {\n            return true;\n        }\n\n        int len = nums.length;\n        Arrays.sort(nums);\n        int sum = 0;\n        for (int num : nums) {\n            sum += num;\n        }\n        if (sum % k != 0) {\n            return false;\n        }\n        int target = sum / k;\n        if (nums[len - 1] > target) {\n            return false;\n        }\n\n        int size = 1 << len;\n        boolean[] dp = new boolean[size];\n        dp[0] = true;\n        int[] currentSum = new int[size];\n        for (int i = 0; i < size; i++) {\n            // 总是基于 dp[i] = true 的前提下进行状态转移\n            if (!dp[i]) {\n                continue;\n            }\n\n            // 基于当前状态，添加一个数以后\n            for (int j = 0; j < len; j++) {\n                if ((i & (1 << j)) != 0) {\n                    continue;\n                }\n                int next = i | (1 << j);\n                if (dp[next]) {\n                    continue;\n                }\n                if ((currentSum[i] % target) + nums[j] <= target) {\n                    currentSum[next] = currentSum[i] + nums[j];\n                    dp[next] = true;\n                } else {\n                    // 由于数组已经排好序，如果 (currentSum[i] % target) + nums[j] > target，剩下的数就没有必要枚举\n                    break;\n                }\n            }\n        }\n        return dp[size - 1];\n    }\n}\n```\n\n\n**复杂度分析**：\n\n+ 时间复杂度：$O(N * 2^N)$。其中 $N$ 是输入数组 `nums` 的长度。有 $2^N$ 个状态，每个状态对 `nums` 执行 $O(N)$ 次尝试；\n+ 空间复杂度：$O(2^N)$，状态数组的长度、数组 `currentSum` 的和。",
+      "createdAt": "2019-11-25T04:44:11.410544+00:00",
+      "hitCount": 45270,
+      "identifier": "Exznqp",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "java-hui-su-jian-zhi-by-programmery-mslj",
+        "title": "Java  回溯  剪枝"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "partition-to-k-equal-sum-subsets"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 34,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 9,
+          "reactionType": "CONFUSED"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 3,
+          "reactionType": "THUMBS_DOWN"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "hua-fen-wei-kge-xiang-deng-de-zi-ji-by-leetcode",
+      "status": "PUBLISHED",
+      "summary": "这道题我们当然可以采用枚举的方式（回溯算法、深度优先遍历）去完成。但是\n\n题目只问我们是不是可以划分，没有问我们应该怎样划分；\n注意到题目给出的数据范围 1 \\le k \\le len(nums) \\le 16。\n\n有一定刷题经验的朋友就会知道，这样的问题可以使用「动态规划」去做，并且这是一类使用状态压缩技巧的「动态规",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "划分为 k 个相等的子集",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 72,
+        "id": 47082,
+        "viewCount": 29848
+      },
+      "uuid": "Exznqp",
+      "videosInfo": []
+    }
+  }
+}

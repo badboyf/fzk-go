@@ -1,0 +1,91 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "hqztrue🐸",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/hqztrue/avatar_1605404429.png",
+          "userSlug": "hqztrue"
+        },
+        "username": "hqztrue"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n什么，[JS暴力过了](https://leetcode-cn.com/problems/count-pairs-with-xor-in-a-range/solution/tong-ji-yi-huo-zhi-zai-fan-wei-nei-de-sh-038k/)？什么，[Java暴力也过了](https://leetcode-cn.com/problems/count-pairs-with-xor-in-a-range/solution/javabao-li-jiao-xing-tong-guo-1650-ms-by-1jzs/)？什么，[连Python暴力都过了](https://leetcode.com/problems/count-pairs-with-xor-in-a-range/discuss/1119721/Python-NumPy-bruteforce-O(N2))？然而我们伟大的C++在哪里？我要投诉，这是语言歧视！\n\n首先交一个最朴素的$O(n^2)$暴力看看：\n```cpp\nclass Solution {\npublic:\n\tint countPairs(vector<int>& a, int l, int r) {\n\t\tint n=a.size(),ans=0;\n\t\tfor (int i=0;i<n;++i)\n\t\t\tfor (int j=i+1;j<n;++j){\n\t\t\t\tint x=a[i]^a[j];\n\t\t\t\tans+=x>=l&&x<=r;\n\t\t\t}\n\t\treturn ans;\n\t}\n};\n```\n果不其然，在第48/61个点就超时了。让我们来看看它的运行速度：考虑如下极限数据，nums=1,...,20000，low=1, high=20000，这段程序需要跑1452ms。以下时间测试均以此数据作为基准(因为直接提交会显示超时，不知道跑了多久)。\n\n我们知道LeetCode上的C++是会开启-O2优化的。但是我们要有比编译器更聪明的自信。将vector改为普通数组，可以通过56/61个点，且测试数据上的运行时间也狂降到了412ms：\n```cpp\nclass Solution {\npublic:\n\tint countPairs(vector<int>& _a, int l, int r) {\n\t\tint n=_a.size(),*a=&_a[0],ans=0;\n\t\tfor (int i=0;i<n;++i)\n\t\t\tfor (int j=i+1;j<n;++j){\n\t\t\t\tint x=a[i]^a[j];\n\t\t\t\tans+=x>=l&&x<=r;\n\t\t\t}\n\t\treturn ans;\n\t}\n};\n```\n这就离谱了，看来clang 11的-O2优化还是不太行。  \n虽然现在在单个极限数据上的运行速度也不算慢，不过LC判断TLE用的是所有数据上的总运行时间。我们还需要继续优化。\n\n接下来考虑手动并行展开刺激CPU并发。理论上在高优化级别下这些都是雕虫小技，不过这里又奏效了，在我们的测试数据上的运行时间继续降到了252ms。提交一下发现通过了所有61个测试数据，可是...\n![3.png](https://pic.leetcode-cn.com/1616355024-gjVEQY-3.png)\n心态有点爆炸。\n```cpp\n#define us unsigned short\nus a[20015];\nclass Solution {\npublic:\n\tint countPairs(vector<int>& _a, us l, us r) {\n\t\tint n=_a.size(),ans=0;\n\t\tfor (int i=0;i<n;++i)a[i]=_a[i];\n\t\tfor (us *i=a,*end=i+n;i!=end;++i){\n\t\t\tus *j=i+1,*end1=end-8;\n\t\t\tfor (;j<end1;j+=8){\n\t\t\t\tus x=*i^*j,x1=*i^*(j+1),x2=*i^*(j+2),x3=*i^*(j+3),\n\t\t\t\t\tx4=*i^*(j+4),x5=*i^*(j+5),x6=*i^*(j+6),x7=*i^*(j+7);\n\t\t\t\tans+=(x>=l&&x<=r)+(x1>=l&&x1<=r)+(x2>=l&&x2<=r)+(x3>=l&&x3<=r)\n\t\t\t\t\t+(x4>=l&&x4<=r)+(x5>=l&&x5<=r)+(x6>=l&&x6<=r)+(x7>=l&&x7<=r);\n\t\t\t}\n\t\t\tfor (;j<end;++j)ans+=(*i^*j)>=l&&(*i^*j)<=r;\n\t\t}\n\t\treturn ans;\n\t}\n};\n```\n  \n那么最后再加一个针对数据的小优化，合并一下相同的数字。(这是[Java暴力AC那篇文章](https://leetcode-cn.com/problems/count-pairs-with-xor-in-a-range/solution/javabao-li-jiao-xing-tong-guo-1650-ms-by-1jzs/)中使用的技巧，不过直接把那份Java代码翻译成C++的话也会TLE。)这个优化对我们的极限测试数据是无效的，不过提交一下发现AC了：\n![4.png](https://pic.leetcode-cn.com/1616355765-KdMuqa-4.png)\n\n\n```cpp\n#define us unsigned short\nus a[20015];\nclass Solution {\npublic:\n\tint countPairs(vector<int>& _a, us l, us r) {\n\t\tint n=_a.size(),ans=0; int d=0;\n\t\tfor (int i=0;i<n;++i)a[i]=_a[i];\n\t\tsort(a,a+n);\n\t\tfor (us *i=a,*end=i+n;i!=end;++i){\n\t\t\tif (i>a&&*i==*(i-1)){ans+=d; continue;}\n\t\t\tus *j=i+1,*end1=end-8; d=0;\n\t\t\tfor (;j<end1;j+=8){\n\t\t\t\tus x=*i^*j,x1=*i^*(j+1),x2=*i^*(j+2),x3=*i^*(j+3),\n\t\t\t\t\tx4=*i^*(j+4),x5=*i^*(j+5),x6=*i^*(j+6),x7=*i^*(j+7);\n\t\t\t\td+=(x>=l&&x<=r)+(x1>=l&&x1<=r)+(x2>=l&&x2<=r)+(x3>=l&&x3<=r)\n\t\t\t\t\t+(x4>=l&&x4<=r)+(x5>=l&&x5<=r)+(x6>=l&&x6<=r)+(x7>=l&&x7<=r);\n\t\t\t}\n\t\t\tfor (;j<end;++j)d+=(*i^*j)>=l&&(*i^*j)<=r;\n\t\t\tans+=d;\n\t\t}\n\t\treturn ans;\n\t}\n};\n```\n注意虽然这个优化针对了数据特性，但提交单组极限测试数据是叉不掉的，需要增加多组最坏数据使得总运行时间显著增加才能叉掉。  \n  \n那么暴力还可以更快么？下面我们使用avx2指令集。在我们的测试数据上只需要24ms，提交一下看看：\n![4.png](https://pic.leetcode-cn.com/1616373233-MlrptK-4.png)\n这个速度已经和字典树不相上下了。  \n```cpp\n#include<immintrin.h>\n#define us unsigned short\nconst int N=20005;\nus a[N] __attribute__((aligned(32)));\n#define _mm256_cmple_epi16(a,b) ((__m256i)((__v16hi)a<=(__v16hi)b))\n#define _mm256_cmpge_epi16(a,b) ((__m256i)((__v16hi)a>=(__v16hi)b))\nclass Solution {\npublic:\n\t__attribute__((no_sanitize_address,no_sanitize_memory))\n\t__attribute__((target(\"avx2\")))\n\tint countPairs(vector<int>& _a, us l, us r) {\n\t\tint n=_a.size(),ans=0,d=0;\n\t\tfor (int i=0;i<n;++i)a[i]=_a[i];\n\t\tsort(a,a+n);\n\t\t__m256i L=_mm256_set1_epi16(l),\n\t\t\t\tR=_mm256_set1_epi16(r),\n\t\t\t\tmask=_mm256_set1_epi16(1);\n\t\tfor (int i=0;i<n;++i){\n\t\t\tif (i&&a[i]==a[i-1]){ans+=d; continue;}\n\t\t\tus x=a[i]; int j=i+1; d=0;\n\t\t\t__m256i X=_mm256_set1_epi16(x),res=_mm256_setzero_si256();\n\t\t\tfor (;(j&15)&&j<n;++j)d+=(x^a[j])>=l&&(x^a[j])<=r;\n\t\t\tif (j<n)for (__m256i *I=(__m256i*)(a+j),*end=(__m256i*)(a+(n&~15));I!=end;++I){\n\t\t\t\t__m256i Y=_mm256_xor_si256(X,*I);\n\t\t\t\tres=_mm256_add_epi16(res,_mm256_and_si256(_mm256_and_si256(_mm256_cmpge_epi16(Y,L),_mm256_cmple_epi16(Y,R)),mask));\n\t\t\t}\n\t\t\tfor (int k=0;k<16;++k)d+=((us*)&res)[k];\n\t\t\tfor (j=max(j,n&~15);j<n;++j)d+=(x^a[j])>=l&&(x^a[j])<=r;\n\t\t\tans+=d;\n\t\t}\n\t\treturn ans;\n\t}\n};\n```\n我们还可以换成avx512：(注意在LC-US站会崩溃，应该是两边服务器cpu型号不同)\n![1803_96ms_cn_.png](https://pic.leetcode-cn.com/1616450863-WRnfLB-1803_96ms_cn_.png)\n\n又快了40%，就算和字典树一起比较也可以排在第二。\n```cpp\n#include<immintrin.h>\n#define us unsigned short\nconst int N=20005,U=31;\nus a[N] __attribute__((aligned(64)));\nclass Solution {\npublic:\n\t__attribute__((no_sanitize_address,no_sanitize_memory))\n\t__attribute__((target(\"avx512bw\")))\n\tint countPairs(vector<int>& _a, us l, us r) {\n\t\tint n=_a.size(),ans=0,d=0;\n\t\tfor (int i=0;i<n;++i)a[i]=_a[i];\n\t\tsort(a,a+n);\n\t\t__m512i L=_mm512_set1_epi16(l),R=_mm512_set1_epi16(r);\n\t\tfor (int i=1;i<n;++i){\n\t\t\tif (a[i]!=a[i-1]){\n\t\t\t\tus x=a[i]; __m512i X=_mm512_set1_epi16(x); d=0;\n\t\t\t\tfor (__m512i *I=(__m512i*)a,*end=(__m512i*)(a+(i&~U));I!=end;++I){\n\t\t\t\t\t__m512i Y=_mm512_xor_si512(X,*I);\n\t\t\t\t\td+=__builtin_popcount(_mm512_cmpge_epi16_mask(Y,L)&_mm512_cmple_epi16_mask(Y,R));\n\t\t\t\t}\n\t\t\t\tfor (int j=i&~U;j<i;++j){int y=x^a[j]; d+=y>=l&&y<=r;}\n\t\t\t}\n\t\t\tans+=d;\n\t\t}\n\t\treturn ans;\n\t}\n};\n```\n",
+      "createdAt": "2021-03-21T19:04:49.319019+00:00",
+      "hitCount": 2172,
+      "identifier": "P6bpnR",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "dai-zhu-shi-de-cppzi-dian-shu-by-liu-xin-thli",
+        "title": "带注释的cpp字典树"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "count-pairs-with-xor-in-a-range"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 65,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 3,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": true,
+      "slug": "bao-li-aczen-yao-neng-shao-de-liao-cni-b-j2co",
+      "status": "PUBLISHED",
+      "summary": "解题思路\n什么，JS暴力过了？什么，Java暴力也过了？什么，连Python暴力都过了？然而我们伟大的C++在哪里？我要投诉，这是语言歧视！\n首先交一个最朴素的O(n^2)暴力看看：\n果不其然，在第48/61个点就超时了。让我们来看看它的运行速度：考虑如下极限数据，nums=1,...,20000，low=1, hig",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "程序为什么会超时",
+          "nameTranslated": "",
+          "slug": "cheng-xu-wei-shi-yao-hui-chao-shi",
+          "tagType": "ADDITIONAL_TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "暴力法",
+          "nameTranslated": "",
+          "slug": "bao-li-fa",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1616355024-gjVEQY-3.png",
+      "title": "暴力AC怎么能少得了C++呢？",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 39,
+        "id": 672266,
+        "viewCount": 1685
+      },
+      "uuid": "P6bpnR",
+      "videosInfo": []
+    }
+  }
+}

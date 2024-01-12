@@ -1,0 +1,86 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "ffreturn",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/ffreturn/avatar_1608859813.png",
+          "userSlug": "ffreturn"
+        },
+        "username": "ffreturn"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "![image.png](https://pic.leetcode-cn.com/1634023300-xYtQWU-image.png)\n\n\n### 解题思路\n简单直白解法\n1. 按照空格对text做拆分\n2. 直接遍历一个个找 当前字符串和下一个字符串，是否匹配first和second，匹配则插入结果\n\n### 代码\n\n```cpp\n\nclass Solution {\nprivate:\n    vector<string> split(const string& s)\n    {\n        vector<string> res;\n    \n        stringstream ss(s);\n        string curr;\n        while(std::getline(ss, curr, ' '))\n        {\n            res.push_back(curr);\n        }\n\n        return res;\n    }\npublic:\n    vector<string> findOcurrences(string text, string first, string second) {\n        vector<string> strs = split(text);\n\n        int n = strs.size();\n        vector<string> res;\n        for (int i = 0; i < n-2; ++i)\n        {\n            if (strs[i] == first && strs[i+1] == second)\n            {\n                res.push_back(strs[i+2]);\n            }\n        }\n\n        return res;\n    }\n};\n```",
+      "createdAt": "2021-10-12T07:22:29.232180+00:00",
+      "hitCount": 132,
+      "identifier": "Xdmk21",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "cjian-dan-splitshi-xian-by-zhouzihong-g04j",
+        "title": "【C++简单split实现】"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "occurrences-after-bigram"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "1078-cchao-100de-jian-dan-zhi-bai-de-mei-heu9",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n简单直白解法\n\n按照空格对text做拆分\n直接遍历一个个找 当前字符串和下一个字符串，是否匹配first和second，匹配则插入结果\n\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Enumeration",
+          "nameTranslated": "枚举",
+          "slug": "enumeration",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "梦想",
+          "nameTranslated": "",
+          "slug": "meng-xiang",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1634023300-xYtQWU-image.png",
+      "title": "1078. c++超100的简单直白的枚举解法",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1043448,
+        "viewCount": 119
+      },
+      "uuid": "Xdmk21",
+      "videosInfo": []
+    }
+  }
+}

@@ -1,0 +1,76 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "934786601",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/default_avatar.png",
+          "userSlug": "934786601"
+        },
+        "username": "934786601"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "```rust\r\nimpl Solution {\r\n    pub fn min_path_sum(grid: Vec<Vec<i32>>) -> i32 {\r\n        let a = grid;\r\n        let (n, m) = (a.len(), a[0].len());\r\n        let mut dp = vec![vec![0; m]; n];\r\n        dp[0][0] = a[0][0];\r\n        for i in 1..n {\r\n            dp[i][0] = dp[i - 1][0] + a[i][0]\r\n        }\r\n        for j in 1..m {\r\n            dp[0][j] = dp[0][j - 1] + a[0][j];\r\n        }\r\n        for i in 1..n {\r\n            for j in 1..m {\r\n                dp[i][j] = dp[i - 1][j].min(dp[i][j - 1]) + a[i][j];\r\n            }\r\n        }\r\n        dp[n - 1][m - 1]\r\n    }\r\n}\r\n```\r\n",
+      "createdAt": "2021-11-03T12:22:45.333237+00:00",
+      "hitCount": 120,
+      "identifier": "CXhZYO",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "jian-zhi-offer-ii-099-zui-xiao-lu-jing-z-uvev",
+        "title": "剑指 Offer II 099. 最小路径之和"
+      },
+      "position": 25,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "java-dong-tai-gui-hua-by-regan-hoo-drsz",
+        "title": "Java 动态规划"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "0i0mDW"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "rust-ji-chu-dong-gui-by-934786601-jt84",
+      "status": "PREPUBLISH",
+      "summary": "[该用户太懒了，只写了 20 行 Rust 代码]",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Rust",
+          "nameTranslated": "",
+          "slug": "rust",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "【rust】基础动规",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1082438,
+        "viewCount": 113
+      },
+      "uuid": "CXhZYO",
+      "videosInfo": []
+    }
+  }
+}

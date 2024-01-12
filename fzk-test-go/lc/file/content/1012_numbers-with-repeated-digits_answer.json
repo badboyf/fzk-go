@@ -1,0 +1,72 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "Elecshe_ep",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/zhaoyiming/avatar_1592225778.png",
+          "userSlug": "zhaoyiming"
+        },
+        "username": "zhaoyiming"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n![image.png](https://pic.leetcode-cn.com/1637756876-duinap-image.png)\n\n逆向思维找出所有<=n且无重复数字的数\n\n### 代码\n\n```cpp\nclass Solution {\npublic:\n    int frac[11];\n    int nnum[10];\n    bool flag[10];\n\n    int A(int m,int n){\n        if(n>m)return 0;\n        if(m==0)return 0;\n        return frac[m]/frac[m-n];\n    }\n\n    int sum(int total,int curr){\n        if(curr<0)return 1;\n        int result=0;\n        int n=nnum[curr];\n        for(int i=n-1;i>=0;i--){\n            if(total==curr+1&&i==0){\n                for(int j=curr;j>0;j--){\n                    result+=(A(10,j)-A(9,j-1));\n                }\n\n            }\n            else if(!flag[i])result += A(10-total+curr,curr);\n        }\n        if(!flag[n]){\n            flag[n]=true;\n            result+=sum(total,curr-1);\n        }\n\n        return result;\n    }\n    int numDupDigitsAtMostN(int n) {\n        frac[0]=frac[1]=1;\n        for(int i=2;i<11;i++)frac[i]=frac[i-1]*i;\n        memset(nnum,0,sizeof(nnum));\n        memset(flag,0,sizeof(flag));\n\n        int N=n;\n        int d=0;\n        while(N){\n            nnum[d++]=N%10;\n            N/=10;\n        }\n\n        return n-sum(d,d-1);\n\n    }\n};\n```",
+      "createdAt": "2021-11-24T12:25:54.585758+00:00",
+      "hitCount": 9,
+      "identifier": "jxClAS",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "zui-kuai-zui-qing-xi-de-jie-fa-by-woodnote",
+        "title": "最快最清晰的解法"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "numbers-with-repeated-digits"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "cji-su-di-gui-by-zhaoyiming-73n8",
+      "status": "PUBLISHED",
+      "summary": "解题思路\n逆向思维找出所有<=n且无重复数字的数\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1637756876-duinap-image.png",
+      "title": "c++急速递归",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1120324,
+        "viewCount": 6
+      },
+      "uuid": "jxClAS",
+      "videosInfo": []
+    }
+  }
+}

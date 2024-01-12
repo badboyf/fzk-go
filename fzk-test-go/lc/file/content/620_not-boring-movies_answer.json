@@ -1,0 +1,77 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣 (LeetCode)",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/uploaded_files/2021/03/73c9f099-abbe-4d94-853f-f8abffd459cd/leetcode.png",
+          "userSlug": "leetcode"
+        },
+        "username": "LeetCode"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "\n#### 方法：使用 `MOD()` 函数\n\n**算法**\n\n我们可以使用 `mod(id,2)=1` 来确定奇数 id，然后添加  `description != 'boring'` 来解决问题。\n\n```MySQL []\nselect *\nfrom cinema\nwhere mod(id, 2) = 1 and description != 'boring'\norder by rating DESC\n;\n```",
+      "createdAt": "2018-10-24T20:32:46.275813+00:00",
+      "hitCount": 32050,
+      "identifier": "tC0pGq",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "zi-jie-ti-ku-620-jian-dan-sqlyou-qu-de-d-ivyu",
+        "title": "字节题库 - #620 - 简单 - SQL有趣的电影 - 1刷"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "not-boring-movies"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 18,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "CONFUSED"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "you-qu-de-dian-ying-by-leetcode",
+      "status": "PUBLISHED",
+      "summary": "算法\n我们可以使用 mod(id,2)=1 来确定奇数 id，然后添加  description != 'boring' 来解决问题。",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "MySQL",
+          "nameTranslated": "",
+          "slug": "mysql",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "有趣的电影",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 45,
+        "id": 3567,
+        "viewCount": 25854
+      },
+      "uuid": "tC0pGq",
+      "videosInfo": []
+    }
+  }
+}

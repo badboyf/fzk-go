@@ -1,0 +1,76 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "风雨☆依旧（32）",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/feng-yu-yi-jiu-z/avatar_1617700270.png",
+          "userSlug": "feng-yu-yi-jiu-z"
+        },
+        "username": "feng-yu-yi-jiu-z"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n此处撰写解题思路\n数学思维解题\nA*B = (A/2)(B*2)  A为偶数\nA*B = (A-1)(B)+B  B为基数\n### 代码\n\n```java\nclass Solution {\n   \n    public int multiply(int A, int B) {\n        int sum = 0;\n        while(A!=1){\n            if((A & 1) == 1){\n                sum = sum + B;\n                A = A -1;\n            }else{\n                B = B<<1;\n                A = A>>1;\n            }\n        }\n        return B+sum;\n    }\n}\n```",
+      "createdAt": "2021-11-08T13:42:53.338736+00:00",
+      "hitCount": 294,
+      "identifier": "Osb8lM",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "forxun-huan-by-shi-zi-bo-tu-r-oieu",
+        "title": "for循环"
+      },
+      "position": 2,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "di-gui-ti-by-na-wo-bu-zou-t650",
+        "title": "递归题"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "recursive-mulitply-lcci"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "cheng-fa-bian-yi-wei-he-jia-fa-by-feng-y-pers",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n此处撰写解题思路\n数学思维解题\nAB = (A/2)(B2)  A为偶数\nA*B = (A-1)(B)+B  B为基数\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "乘法变移位和加法",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1091427,
+        "viewCount": 248
+      },
+      "uuid": "Osb8lM",
+      "videosInfo": []
+    }
+  }
+}

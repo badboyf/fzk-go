@@ -1,0 +1,91 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣 (LeetCode)",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/uploaded_files/2021/03/73c9f099-abbe-4d94-853f-f8abffd459cd/leetcode.png",
+          "userSlug": "leetcode"
+        },
+        "username": "LeetCode"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 线性扫描：\n\n我们对链表进行一次扫描，一个组件在链表中对应一段极长的连续节点，因此如果当前的节点在列表 `G` 中，并且下一个节点不在列表 `G` 中，我们就找到了一个组件的尾节点，可以将答案加 `1`。\n\n例如，当链表为 `0 -> 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7`，`G` 为 `[0, 2, 3, 5, 7]` 时，我们扫描之后可以发现 `0, 3, 5, 7` 四个节点是组件的尾节点，那么答案就为 `4`。\n\n```Java [sol1]\nclass Solution {\n    public int numComponents(ListNode head, int[] G) {\n        Set<Integer> Gset = new HashSet();\n        for (int x: G) Gset.add(x);\n\n        ListNode cur = head;\n        int ans = 0;\n\n        while (cur != null) {\n            if (Gset.contains(cur.val) &&\n                    (cur.next == null || !Gset.contains(cur.next.val)))\n                ans++;\n            cur = cur.next;\n        }\n\n        return ans;\n    }\n}\n```\n\n```Python [sol1]\nclass Solution(object):\n    def numComponents(self, head, G):\n        Gset = set(G)\n        cur = head\n        ans = 0\n        while cur:\n            if (cur.val in Gset and\n                    getattr(cur.next, 'val', None) not in Gset):\n                ans += 1\n            cur = cur.next\n\n        return ans\n```\n\n**复杂度分析**\n\n* 时间复杂度：$O(N + |G|)$，其中 `N` 是链表中的节点个数。\n\n* 空间复杂度：$O(|G|)$，我们需要将 `G` 中的元素存储到无序集合中，用来快速判断一个节点是否出现在 `G` 中。",
+      "createdAt": "2019-10-29T06:24:27.131131+00:00",
+      "hitCount": 7513,
+      "identifier": "8N10Ul",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "ha-xi-ji-yi-ci-bian-li-c-by-zhouzihong-mrb8",
+        "title": "【哈希集】【一次遍历】【C++】"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "linked-list-components"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 11,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "CONFUSED"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "lian-biao-zu-jian-by-leetcode",
+      "status": "PUBLISHED",
+      "summary": "§ 线性扫描：\n我们对链表进行一次扫描，一个组件在链表中对应一段极长的连续节点，因此如果当前的节点在列表 G 中，并且下一个节点不在列表 G 中，我们就找到了一个组件的尾节点，可以将答案加 1。\n例如，当链表为 0 -> 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7，G 为 [0, 2, 3, 5, ",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Linked List",
+          "nameTranslated": "链表",
+          "slug": "linked-list",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "链表组件",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 20,
+        "id": 38853,
+        "viewCount": 5770
+      },
+      "uuid": "8N10Ul",
+      "videosInfo": []
+    }
+  }
+}

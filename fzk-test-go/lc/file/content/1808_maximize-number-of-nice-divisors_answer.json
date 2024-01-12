@@ -1,0 +1,93 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "EUY",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/euyvvl/avatar_1635000444.png",
+          "userSlug": "euyvvl"
+        },
+        "username": "EUYVVL"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n**类似于割绳子,允许割无数段(每一段的长度至少为一,且为整数),但是绳子的总的长度是一个定值N,求分割后的绳子的长度乘积的最大值**\n### 代码\n\n```cpp\nclass Solution {\npublic:\n    static constexpr int mod=1e9+7;\n    //快速幂模板\n    long long ert(long long a,long long b){\n        long long res=1;\n        while(b){\n            if(b&1){\n                res=res*(a%1000000007)%1000000007;\n            }\n            a=a*a%1000000007;\n            b>>=1;\n        }\n        return res;\n    }\n    int maxNiceDivisors(int primeFactors) {\n        int cnt3=primeFactors/3;\n        if(primeFactors<3){\n            return primeFactors;\n        }\n        if(primeFactors%3==0){\n            return ert(3,cnt3)%mod;\n        }\n        if(primeFactors%3==1){\n            int cnt3_t=ert(3,cnt3-1)%mod;\n            return cnt3_t*2%mod*2%mod;\n        }\n        if(primeFactors%3==2){\n            return ert(3,cnt3)*2%mod;\n        }\n        return -1;\n    }\n};\n```",
+      "createdAt": "2021-11-24T08:18:59.981428+00:00",
+      "hitCount": 2,
+      "identifier": "eGFM7M",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "fan-yi-wan-zhi-hou-jiu-xiang-dang-yu-yua-113z",
+        "title": "翻译完之后就相当于原题"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "maximize-number-of-nice-divisors"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "ge-sheng-zi-by-euyvvl-3bgz",
+      "status": "PUBLISHED",
+      "summary": "解题思路\n类似于割绳子,允许割无数段(每一段的长度至少为一,且为整数),但是绳子的总的长度是一个定值N,求分割后的绳子的长度乘积的最大值\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Brainteaser",
+          "nameTranslated": "脑筋急转弯",
+          "slug": "brainteaser",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Math",
+          "nameTranslated": "数学",
+          "slug": "math",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Counting",
+          "nameTranslated": "计数",
+          "slug": "counting",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "割绳子",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1119923,
+        "viewCount": 2
+      },
+      "uuid": "eGFM7M",
+      "videosInfo": []
+    }
+  }
+}

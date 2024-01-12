@@ -1,0 +1,87 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "rational irrationality",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/rational-irrationality/avatar_1557067893.png",
+          "userSlug": "rational-irrationality"
+        },
+        "username": "rational-irrationality"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "\r\n预处理数组，计算以这个点为结尾，上面有多少个连续的1，就是这一列以这个点为结尾的最大高度\r\n这样就将二维问题转成一维\r\n\r\n遍历每一行，对每一行进行排序，记录矩形的最长的高度，每次更新结果\r\n```\r\nclass Solution {\r\n    public int largestSubmatrix(int[][] matrix) {\r\n        int n=matrix.length;\r\n        int m=matrix[0].length;\r\n        int res=0;\r\n        for(int i=1;i<n;i++){\r\n            for(int j=0;j<m;j++){\r\n                if(matrix[i][j]==1){\r\n                    //记录向上连续1的个数\r\n                    matrix[i][j]+=matrix[i-1][j];\r\n                }\r\n            }\r\n        }\r\n        for(int i=0;i<n;i++){\r\n            Arrays.sort(matrix[i]);\r\n            for(int j=m-1;j>=0;j--){\r\n                //更新矩形的最大高度\r\n                int height=matrix[i][j];\r\n                //更新最大面积\r\n                res=Math.max(res,height*(m-j));\r\n            }\r\n        }\r\n        return res;\r\n    }\r\n}\r\n```\r\n",
+      "createdAt": "2021-01-17T04:08:35.094396+00:00",
+      "hitCount": 3545,
+      "identifier": "rFEtcg",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "tan-xin-huo-xue-huo-yong-zuo-ti-bu-huang-5f8v",
+        "title": "【贪心】活学活用，做题不慌"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "largest-submatrix-with-rearrangements"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 41,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 5,
+          "reactionType": "AWESOME"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "THUMBS_DOWN"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "CONFUSED"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "java-yu-chu-li-shu-zu-bian-li-mei-xing-p-qpqu",
+      "status": "PUBLISHED",
+      "summary": "预处理数组，计算以这个点为结尾，上面有多少个连续的1，就是这一列以这个点为结尾的最大高度\n这样就将二维问题转成一维\n遍历每一行，对每一行进行排序，记录矩形的最长的高度，每次更新结果",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "Java 预处理数组，遍历每行排序",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 13,
+        "id": 563214,
+        "viewCount": 2540
+      },
+      "uuid": "rFEtcg",
+      "videosInfo": []
+    }
+  }
+}

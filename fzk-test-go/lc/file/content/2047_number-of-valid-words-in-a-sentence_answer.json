@@ -1,0 +1,76 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "》_01解题者_《",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/vigorous-yonathnnu/avatar_1635260875.png",
+          "userSlug": "01_qustionsolver"
+        },
+        "username": "01_qustionsolver"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n截取子串，分别判断\n\n### 代码\n\n```cpp\nclass Solution {\npublic:\n    int countValidWords(string sentence) {\n    int cnt=0;\n    for(int i=0;i<sentence.size();i++){\n        if(sentence[i]!=' '){\n            int j=i+1;\n            while(j<=sentence.size()&&sentence[j]!=' ')j++;\n            string tmp=sentence.substr(i,j-i);\n        bool jd=1;\n        for(int k=0;k<tmp.size();k++){\n            if(count(tmp.begin(),tmp.end(),'-')>1){jd=0;break;}\n            if((tmp[k]==','||tmp[k]=='!'||tmp[k]=='.')&&k!=tmp.size()-1){jd=0;break;}\n            if(isdigit(tmp[k])){jd=0;break;}\n            if(tmp[k]=='-'&&(k+1>=tmp.size()||k==0||!islower(tmp[k+1])||!islower(tmp[k-1]))){jd=0;break;}\n        }\n        cnt+=jd;\n        i=j;\n        }\n    }\n    return cnt;\n    }\n};\n```",
+      "createdAt": "2021-11-12T12:52:37.053456+00:00",
+      "hitCount": 27,
+      "identifier": "hXdCzH",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "fen-ge-zi-fu-chuan-by-0xsa-jfvb",
+        "title": "分割字符串"
+      },
+      "position": 9,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "zheng-ze-biao-da-shi-by-lucifer1004-ko9e",
+        "title": "正则表达式"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "number-of-valid-words-in-a-sentence"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "wo-hao-chai-jian-dan-ti-xie-liao-23xing-me8o5",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n截取子串，分别判断\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "我好差，简单题写了23行，还没双百",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1098304,
+        "viewCount": 23
+      },
+      "uuid": "hXdCzH",
+      "videosInfo": []
+    }
+  }
+}

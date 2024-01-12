@@ -1,0 +1,107 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣官方题解",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/leetcode-solution/avatar_1582018938.png",
+          "userSlug": "leetcode-solution"
+        },
+        "username": "LeetCode-Solution"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法一：滑动窗口\n\n由于规定了子数组的长度为 $k$，因此可以通过寻找子数组的最大元素和的方式寻找子数组的最大平均数，元素和最大的子数组对应的平均数也是最大的。证明如下：\n\n> 假设两个不同的子数组的长度都是 $k$，这两个子数组的元素和分别是 $x$ 和 $y$，则这两个子数组的平均数分别是 $x/k$ 和 $y/k$。如果 $x \\ge y$，则有 $x/k \\ge y/k$，即如果一个子数组的元素和更大，则该子数组的平均数也更大。\n\n为了找到子数组的最大元素和，需要对数组中的每个长度为 $k$ 的子数组分别计算元素和。对于长度为 $n$ 的数组，当 $k \\le n$ 时，有 $n-k+1$ 个长度为 $k$ 的子数组。如果直接计算每个子数组的元素和，则时间复杂度过高，无法通过全部测试用例，因此需要使用时间复杂度更低的方法计算每个子数组的元素和。\n\n用 $\\textit{sum}_i$ 表示数组 $\\textit{nums}$ 以下标 $i$ 结尾的长度为 $k$ 的子数组的元素和，其中 $i \\ge k-1$，则 $\\textit{sum}_i$ 的计算方法如下：\n\n$$\n\\textit{sum}_i=\\sum\\limits_{j=i-k+1}^i \\textit{nums}[j]\n$$\n\n当 $i>k-1$ 时，将上式的 $i$ 替换成 $i-1$，可以得到以下算式：\n\n$$\n\\textit{sum}_{i-1}=\\sum\\limits_{j=i-k}^{i-1} \\textit{nums}[j]\n$$\n\n将上述两个算式相减，可以得到如下关系：\n\n$$\n\\textit{sum}_i-\\textit{sum}_{i-1}=\\textit{nums}[i]-\\textit{nums}[i-k]\n$$\n\n整理得到：\n\n$$\n\\textit{sum}_i=\\textit{sum}_{i-1}-\\textit{nums}[i-k]+\\textit{nums}[i]\n$$\n\n上述过程可以看成维护一个长度为 $k$ 的滑动窗口。当滑动窗口从下标范围 $[i-k,i-1]$ 移动到下标范围 $[i-k+1,i]$ 时，$\\textit{nums}[i-k]$ 从窗口中移出，$\\textit{nums}[i]$ 进入到窗口内。\n\n利用上述关系，可以在 $O(1)$ 的时间内通过 $\\textit{sum}_{i-1}$ 得到 $\\textit{sum}_i$。\n\n第一个子数组的元素和 $\\textit{sum}_{k-1}$ 需要通过计算 $\\textit{nums}$ 的前 $k$ 个元素之和得到，从 $\\textit{sum}_k$ 到 $\\textit{sum}_{n-1}$ 的值则可利用上述关系快速计算得到。只需要遍历数组 $\\textit{nums}$ 一次即可得到每个长度为 $k$ 的子数组的元素和，时间复杂度是 $O(n)$。\n\n在上述过程中维护最大的子数组元素和，记为 $\\textit{maxSum}$，子数组的最大平均数即为 $\\textit{maxSum}/k$。需要注意返回值是浮点型，因此计算除法时需要进行数据类型转换。\n\n<![ppt1](https://assets.leetcode-cn.com/solution-static/643/1.png),![ppt2](https://assets.leetcode-cn.com/solution-static/643/2.png),![ppt3](https://assets.leetcode-cn.com/solution-static/643/3.png),![ppt4](https://assets.leetcode-cn.com/solution-static/643/4.png),![ppt5](https://assets.leetcode-cn.com/solution-static/643/5.png),![ppt6](https://assets.leetcode-cn.com/solution-static/643/6.png)>\n\n```Java [sol1-Java]\nclass Solution {\n    public double findMaxAverage(int[] nums, int k) {\n        int sum = 0;\n        int n = nums.length;\n        for (int i = 0; i < k; i++) {\n            sum += nums[i];\n        }\n        int maxSum = sum;\n        for (int i = k; i < n; i++) {\n            sum = sum - nums[i - k] + nums[i];\n            maxSum = Math.max(maxSum, sum);\n        }\n        return 1.0 * maxSum / k;\n    }\n}\n```\n\n```JavaScript [sol1-JavaScript]\nvar findMaxAverage = function(nums, k) {\n    let sum = 0;\n    const n = nums.length;\n    for (let i = 0; i < k; i++) {\n        sum += nums[i];\n    }\n    let maxSum = sum;\n    for (let i = k; i < n; i++) {\n        sum = sum - nums[i - k] + nums[i];\n        maxSum = Math.max(maxSum, sum);\n    }\n    return maxSum / k;\n};\n```\n\n```C++ [sol1-C++]\nclass Solution {\npublic:\n    double findMaxAverage(vector<int>& nums, int k) {\n        int sum = 0;\n        int n = nums.size();\n        for (int i = 0; i < k; i++) {\n            sum += nums[i];\n        }\n        int maxSum = sum;\n        for (int i = k; i < n; i++) {\n            sum = sum - nums[i - k] + nums[i];\n            maxSum = max(maxSum, sum);\n        }\n        return static_cast<double>(maxSum) / k;\n    }\n};\n```\n\n```go [sol1-Golang]\nfunc findMaxAverage(nums []int, k int) float64 {\n    sum := 0\n    for _, v := range nums[:k] {\n        sum += v\n    }\n    maxSum := sum\n    for i := k; i < len(nums); i++ {\n        sum = sum - nums[i-k] + nums[i]\n        maxSum = max(maxSum, sum)\n    }\n    return float64(maxSum) / float64(k)\n}\n\nfunc max(a, b int) int {\n    if a > b {\n        return a\n    }\n    return b\n}\n```\n\n```Python [sol1-Python3]\nclass Solution:\n    def findMaxAverage(self, nums: List[int], k: int) -> float:\n        maxTotal = total = sum(nums[:k])\n        n = len(nums)\n\n        for i in range(k, n):\n            total = total - nums[i - k] + nums[i]\n            maxTotal = max(maxTotal, total)\n        \n        return maxTotal / k\n```\n\n```C [sol1-C]\ndouble findMaxAverage(int* nums, int numsSize, int k) {\n    int sum = 0;\n    for (int i = 0; i < k; i++) {\n        sum += nums[i];\n    }\n    int maxSum = sum;\n    for (int i = k; i < numsSize; i++) {\n        sum = sum - nums[i - k] + nums[i];\n        maxSum = fmax(maxSum, sum);\n    }\n    return (double)(maxSum) / k;\n}\n```\n\n**复杂度分析**\n\n- 时间复杂度：$O(n)$，其中 $n$ 是数组 $\\textit{nums}$ 的长度。遍历数组一次。\n\n- 空间复杂度：$O(1)$。",
+      "createdAt": "2021-02-03T15:20:50.843920+00:00",
+      "hitCount": 25434,
+      "identifier": "9Jqb8u",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "643-zi-shu-zu-zui-da-ping-jun-shu-i-chi-u7r7c",
+        "title": "643. 子数组最大平均数 I - 尺取法"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "maximum-average-subarray-i"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 20,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "zi-shu-zu-zui-da-ping-jun-shu-i-by-leetc-us1k",
+      "status": "PREPUBLISH",
+      "summary": "方法一：滑动窗口 由于规定了子数组的长度为 $k$，因此可以通过寻找子数组的最大元素和的方式寻找子数组的最大平均数，元素和最大的子数组对应的平均数也是最大的。证明如下： 假设两个不同的子数组的长度都是 $k$，这两个子数组的元素和分别是 $x$ 和 $y$，则这两个子数组的平均数分别是 $x/k$ 和 $y/k$。如果",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "C",
+          "nameTranslated": "",
+          "slug": "c",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Go",
+          "nameTranslated": "",
+          "slug": "golang",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "JavaScript",
+          "nameTranslated": "",
+          "slug": "javascript",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "子数组最大平均数 I",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 111,
+        "id": 590322,
+        "viewCount": 19551
+      },
+      "uuid": "9Jqb8u",
+      "videosInfo": []
+    }
+  }
+}

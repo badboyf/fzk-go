@@ -1,0 +1,119 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣官方题解",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/leetcode-solution/avatar_1582018938.png",
+          "userSlug": "leetcode-solution"
+        },
+        "username": "LeetCode-Solution"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法一：单次扫描\n\n我们只需要对数组进行一次扫描就可以计算出总的中毒持续时间。我们记录艾希恢复为未中毒的起始时间 $\\textit{expired}$，设艾希遭遇第 $i$ 次的攻击的时间为 $\\textit{timeSeries}[i]$。当艾希遭遇第 $i$ 攻击时：\n+ 如果当前他正处于未中毒状态，则此时他的中毒持续时间应增加 $\\textit{duration}$​，同时更新本次中毒结束时间 $\\textit{expired}$​ 等于 $\\textit{timeSeries}[i] + \\textit{duration}$​；\n+ 如果当前他正处于中毒状态，由于中毒状态不可叠加，我们知道上次中毒后结束时间为 $\\textit{expired}$​​，本次中毒后结束时间为 $\\textit{timeSeries}[i] + \\textit{duration}$​​，因此本次中毒增加的持续中毒时间为 $\\textit{timeSeries}[i] + \\textit{duration} -\\textit{expired}$​​；\n+ 我们将每次中毒后增加的持续中毒时间相加即为总的持续中毒时间。\n\n```Java [sol1-Java]\nclass Solution {\n    public int findPoisonedDuration(int[] timeSeries, int duration) {\n        int ans = 0;\n        int expired = 0;\n        for (int i = 0; i < timeSeries.length; ++i) {\n            if (timeSeries[i] >= expired) {\n                ans += duration;\n            } else {\n                ans += timeSeries[i] + duration - expired;\n            }\n            expired = timeSeries[i] + duration;\n        }\n        return ans;\n    }\n}\n```\n\n```C++ [sol1-C++]\nclass Solution {\npublic:\n    int findPoisonedDuration(vector<int>& timeSeries, int duration) {\n        int ans = 0;\n        int expired = 0;\n        for (int i = 0; i < timeSeries.size(); ++i) {\n            if (timeSeries[i] >= expired) {\n                ans += duration;\n            } else {\n                ans += timeSeries[i] + duration - expired;\n            }\n            expired = timeSeries[i] + duration;\n        }\n        return ans;\n    }\n};\n```\n\n```C# [sol1-C#]\npublic class Solution {\n    public int FindPoisonedDuration(int[] timeSeries, int duration) {\n        int ans = 0;\n        int expired = 0;\n        for (int i = 0; i < timeSeries.Length; ++i) {\n            if (timeSeries[i] >= expired) {\n                ans += duration;\n            } else {\n                ans += timeSeries[i] + duration - expired;\n            }\n            expired = timeSeries[i] + duration;\n        }\n        return ans;\n    }\n}\n```\n\n```Python [sol1-Python3]\nclass Solution:\n    def findPoisonedDuration(self, timeSeries: List[int], duration: int) -> int:\n        ans, expired = 0, 0\n        for i in range(len(timeSeries)):\n            if timeSeries[i] >= expired:\n                ans += duration\n            else:\n                ans += timeSeries[i] + duration - expired\n            expired = timeSeries[i] + duration\n        return ans\n```\n\n```go [sol1-Golang]\nfunc findPoisonedDuration(timeSeries []int, duration int) (ans int) {\n    expired := 0\n    for _, t := range timeSeries {\n        if t >= expired {\n            ans += duration\n        } else {\n            ans += t + duration - expired\n        }\n        expired = t + duration\n    }\n    return\n}\n```\n\n```JavaScript [sol1-JavaScript]\nvar findPoisonedDuration = function(timeSeries, duration) {\n    let ans = 0;\n    let expired = 0;\n    for (let i = 0; i < timeSeries.length; ++i) {\n        if (timeSeries[i] >= expired) {\n            ans += duration;\n        } else {\n            ans += timeSeries[i] + duration - expired;\n        }\n        expired = timeSeries[i] + duration;\n    }\n    return ans;\n};\n```\n\n**复杂度分析**\n\n- 时间复杂度：$O(n)$，其中 $n$ 是数组 $\\textit{timeSeries}$ 的长度。我们只需要遍历一遍数组即可，因此总时间复杂度为 $O(n)$。\n\n- 空间复杂度：$O(1)$。只需要记录未中毒的起始时间即可，因此时间复杂度为 $O(1)$。",
+      "createdAt": "2021-11-09T03:16:42.316504+00:00",
+      "hitCount": 19472,
+      "identifier": "Fuih4a",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "gong-shui-san-xie-jian-dan-mo-ni-ti-by-a-gteh",
+        "title": "【宫水三叶】简单模拟题"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "teemo-attacking"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 23,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "CONFUSED"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "ti-mo-gong-ji-by-leetcode-solution-6p4k",
+      "status": "PUBLISHED",
+      "summary": "方法一：单次扫描 我们只需要对数组进行一次扫描就可以计算出总的中毒持续时间。我们记录艾希恢复为未中毒的起始时间 $\\textit{expired}$，设艾希遭遇第 $i$ 次的攻击的时间为 $\\textit{timeSeries}[i]$。当艾希遭遇第 $i$ 攻击时： + 如果当前他正处于未中毒状态，则此时他的中毒持",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Array",
+          "nameTranslated": "数组",
+          "slug": "array",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C#",
+          "nameTranslated": "",
+          "slug": "csharp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Go",
+          "nameTranslated": "",
+          "slug": "golang",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "JavaScript",
+          "nameTranslated": "",
+          "slug": "javascript",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "提莫攻击",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 118,
+        "id": 1092090,
+        "viewCount": 15396
+      },
+      "uuid": "Fuih4a",
+      "videosInfo": []
+    }
+  }
+}

@@ -1,0 +1,602 @@
+[
+  {
+    "difficulty": "MEDIUM",
+    "frontend_question_id": "1992",
+    "title_cn": "找到所有的农场组",
+    "title_slug": "find-all-groups-of-farmland"
+  },
+  {
+    "difficulty": "MEDIUM",
+    "frontend_question_id": "1993",
+    "title_cn": "树上的操作",
+    "title_slug": "operations-on-tree"
+  },
+  {
+    "difficulty": "HARD",
+    "frontend_question_id": "1994",
+    "title_cn": "好子集的数目",
+    "title_slug": "the-number-of-good-subsets"
+  },
+  {
+    "difficulty": "EASY",
+    "frontend_question_id": "1995",
+    "title_cn": "统计特殊四元组",
+    "title_slug": "count-special-quadruplets"
+  },
+  {
+    "difficulty": "MEDIUM",
+    "frontend_question_id": "1996",
+    "title_cn": "游戏中弱角色的数量",
+    "title_slug": "the-number-of-weak-characters-in-the-game"
+  },
+  {
+    "difficulty": "MEDIUM",
+    "frontend_question_id": "1997",
+    "title_cn": "访问完所有房间的第一天",
+    "title_slug": "first-day-where-you-have-been-in-all-the-rooms"
+  },
+  {
+    "difficulty": "HARD",
+    "frontend_question_id": "1998",
+    "title_cn": "数组的最大公因数排序",
+    "title_slug": "gcd-sort-of-an-array"
+  },
+  {
+    "difficulty": "MEDIUM",
+    "frontend_question_id": "1999",
+    "title_cn": "",
+    "title_slug": "smallest-greater-multiple-made-of-two-digits"
+  },
+  {
+    "difficulty": "EASY",
+    "frontend_question_id": "2000",
+    "title_cn": "反转单词前缀",
+    "title_slug": "reverse-prefix-of-word"
+  },
+  {
+    "difficulty": "MEDIUM",
+    "frontend_question_id": "2001",
+    "title_cn": "可互换矩形的组数",
+    "title_slug": "number-of-pairs-of-interchangeable-rectangles"
+  },
+  {
+    "difficulty": "MEDIUM",
+    "frontend_question_id": "2002",
+    "title_cn": "两个回文子序列长度的最大乘积",
+    "title_slug": "maximum-product-of-the-length-of-two-palindromic-subsequences"
+  },
+  {
+    "difficulty": "HARD",
+    "frontend_question_id": "2003",
+    "title_cn": "每棵子树内缺失的最小基因值",
+    "title_slug": "smallest-missing-genetic-value-in-each-subtree"
+  },
+  {
+    "difficulty": "HARD",
+    "frontend_question_id": "2005",
+    "title_cn": "",
+    "title_slug": "subtree-removal-game-with-fibonacci-tree"
+  },
+  {
+    "difficulty": "EASY",
+    "frontend_question_id": "2006",
+    "title_cn": "差的绝对值为 K 的数对数目",
+    "title_slug": "count-number-of-pairs-with-absolute-difference-k"
+  },
+  {
+    "difficulty": "MEDIUM",
+    "frontend_question_id": "2007",
+    "title_cn": "从双倍数组中还原原数组",
+    "title_slug": "find-original-array-from-doubled-array"
+  },
+  {
+    "difficulty": "MEDIUM",
+    "frontend_question_id": "2008",
+    "title_cn": "出租车的最大盈利",
+    "title_slug": "maximum-earnings-from-taxi"
+  },
+  {
+    "difficulty": "HARD",
+    "frontend_question_id": "2009",
+    "title_cn": "使数组连续的最少操作数",
+    "title_slug": "minimum-number-of-operations-to-make-array-continuous"
+  },
+  {
+    "difficulty": "EASY",
+    "frontend_question_id": "2011",
+    "title_cn": "执行操作后的变量值",
+    "title_slug": "final-value-of-variable-after-performing-operations"
+  },
+  {
+    "difficulty": "MEDIUM",
+    "frontend_question_id": "2012",
+    "title_cn": "数组美丽值求和",
+    "title_slug": "sum-of-beauty-in-the-array"
+  },
+  {
+    "difficulty": "MEDIUM",
+    "frontend_question_id": "2013",
+    "title_cn": "检测正方形",
+    "title_slug": "detect-squares"
+  },
+  {
+    "difficulty": "HARD",
+    "frontend_question_id": "2014",
+    "title_cn": "重复 K 次的最长子序列",
+    "title_slug": "longest-subsequence-repeated-k-times"
+  },
+  {
+    "difficulty": "MEDIUM",
+    "frontend_question_id": "2015",
+    "title_cn": "",
+    "title_slug": "average-height-of-buildings-in-each-segment"
+  },
+  {
+    "difficulty": "EASY",
+    "frontend_question_id": "2016",
+    "title_cn": "增量元素之间的最大差值",
+    "title_slug": "maximum-difference-between-increasing-elements"
+  },
+  {
+    "difficulty": "MEDIUM",
+    "frontend_question_id": "2017",
+    "title_cn": "网格游戏",
+    "title_slug": "grid-game"
+  },
+  {
+    "difficulty": "MEDIUM",
+    "frontend_question_id": "2018",
+    "title_cn": "判断单词是否能放入填字游戏内",
+    "title_slug": "check-if-word-can-be-placed-in-crossword"
+  },
+  {
+    "difficulty": "HARD",
+    "frontend_question_id": "2019",
+    "title_cn": "解出数学表达式的学生分数",
+    "title_slug": "the-score-of-students-solving-math-expression"
+  },
+  {
+    "difficulty": "MEDIUM",
+    "frontend_question_id": "2021",
+    "title_cn": "",
+    "title_slug": "brightest-position-on-street"
+  },
+  {
+    "difficulty": "EASY",
+    "frontend_question_id": "2022",
+    "title_cn": "将一维数组转变成二维数组",
+    "title_slug": "convert-1d-array-into-2d-array"
+  },
+  {
+    "difficulty": "MEDIUM",
+    "frontend_question_id": "2023",
+    "title_cn": "连接后等于目标字符串的字符串对",
+    "title_slug": "number-of-pairs-of-strings-with-concatenation-equal-to-target"
+  },
+  {
+    "difficulty": "MEDIUM",
+    "frontend_question_id": "2024",
+    "title_cn": "考试的最大困扰度",
+    "title_slug": "maximize-the-confusion-of-an-exam"
+  },
+  {
+    "difficulty": "HARD",
+    "frontend_question_id": "2025",
+    "title_cn": "分割数组的最多方案数",
+    "title_slug": "maximum-number-of-ways-to-partition-an-array"
+  },
+  {
+    "difficulty": "EASY",
+    "frontend_question_id": "2027",
+    "title_cn": "转换字符串的最少操作次数",
+    "title_slug": "minimum-moves-to-convert-string"
+  },
+  {
+    "difficulty": "MEDIUM",
+    "frontend_question_id": "2028",
+    "title_cn": "找出缺失的观测数据",
+    "title_slug": "find-missing-observations"
+  },
+  {
+    "difficulty": "MEDIUM",
+    "frontend_question_id": "2029",
+    "title_cn": "石子游戏 IX",
+    "title_slug": "stone-game-ix"
+  },
+  {
+    "difficulty": "HARD",
+    "frontend_question_id": "2030",
+    "title_cn": "含特定字母的最小子序列",
+    "title_slug": "smallest-k-length-subsequence-with-occurrences-of-a-letter"
+  },
+  {
+    "difficulty": "MEDIUM",
+    "frontend_question_id": "2031",
+    "title_cn": "",
+    "title_slug": "count-subarrays-with-more-ones-than-zeros"
+  },
+  {
+    "difficulty": "EASY",
+    "frontend_question_id": "2032",
+    "title_cn": "至少在两个数组中出现的值",
+    "title_slug": "two-out-of-three"
+  },
+  {
+    "difficulty": "MEDIUM",
+    "frontend_question_id": "2033",
+    "title_cn": "获取单值网格的最小操作数",
+    "title_slug": "minimum-operations-to-make-a-uni-value-grid"
+  },
+  {
+    "difficulty": "MEDIUM",
+    "frontend_question_id": "2034",
+    "title_cn": "股票价格波动",
+    "title_slug": "stock-price-fluctuation"
+  },
+  {
+    "difficulty": "HARD",
+    "frontend_question_id": "2035",
+    "title_cn": "将数组分成两个数组并最小化数组和的差",
+    "title_slug": "partition-array-into-two-arrays-to-minimize-sum-difference"
+  },
+  {
+    "difficulty": "MEDIUM",
+    "frontend_question_id": "2036",
+    "title_cn": "",
+    "title_slug": "maximum-alternating-subarray-sum"
+  },
+  {
+    "difficulty": "EASY",
+    "frontend_question_id": "2037",
+    "title_cn": "使每位学生都有座位的最少移动次数",
+    "title_slug": "minimum-number-of-moves-to-seat-everyone"
+  },
+  {
+    "difficulty": "MEDIUM",
+    "frontend_question_id": "2038",
+    "title_cn": "如果相邻两个颜色均相同则删除当前颜色",
+    "title_slug": "remove-colored-pieces-if-both-neighbors-are-the-same-color"
+  },
+  {
+    "difficulty": "MEDIUM",
+    "frontend_question_id": "2039",
+    "title_cn": "网络空闲的时刻",
+    "title_slug": "the-time-when-the-network-becomes-idle"
+  },
+  {
+    "difficulty": "HARD",
+    "frontend_question_id": "2040",
+    "title_cn": "两个有序数组的第 K 小乘积",
+    "title_slug": "kth-smallest-product-of-two-sorted-arrays"
+  },
+  {
+    "difficulty": "EASY",
+    "frontend_question_id": "2042",
+    "title_cn": "检查句子中的数字是否递增",
+    "title_slug": "check-if-numbers-are-ascending-in-a-sentence"
+  },
+  {
+    "difficulty": "MEDIUM",
+    "frontend_question_id": "2043",
+    "title_cn": "简易银行系统",
+    "title_slug": "simple-bank-system"
+  },
+  {
+    "difficulty": "MEDIUM",
+    "frontend_question_id": "2044",
+    "title_cn": "统计按位或能得到最大值的子集数目",
+    "title_slug": "count-number-of-maximum-bitwise-or-subsets"
+  },
+  {
+    "difficulty": "HARD",
+    "frontend_question_id": "2045",
+    "title_cn": "到达目的地的第二短时间",
+    "title_slug": "second-minimum-time-to-reach-destination"
+  },
+  {
+    "difficulty": "MEDIUM",
+    "frontend_question_id": "2046",
+    "title_cn": "",
+    "title_slug": "sort-linked-list-already-sorted-using-absolute-values"
+  },
+  {
+    "difficulty": "EASY",
+    "frontend_question_id": "2047",
+    "title_cn": "句子中的有效单词数",
+    "title_slug": "number-of-valid-words-in-a-sentence"
+  },
+  {
+    "difficulty": "MEDIUM",
+    "frontend_question_id": "2048",
+    "title_cn": "下一个更大的数值平衡数",
+    "title_slug": "next-greater-numerically-balanced-number"
+  },
+  {
+    "difficulty": "MEDIUM",
+    "frontend_question_id": "2049",
+    "title_cn": "统计最高分的节点数目",
+    "title_slug": "count-nodes-with-the-highest-score"
+  },
+  {
+    "difficulty": "HARD",
+    "frontend_question_id": "2050",
+    "title_cn": "并行课程 III",
+    "title_slug": "parallel-courses-iii"
+  },
+  {
+    "difficulty": "MEDIUM",
+    "frontend_question_id": "2052",
+    "title_cn": "",
+    "title_slug": "minimum-cost-to-separate-sentence-into-rows"
+  },
+  {
+    "difficulty": "EASY",
+    "frontend_question_id": "2053",
+    "title_cn": "数组中第 K 个独一无二的字符串",
+    "title_slug": "kth-distinct-string-in-an-array"
+  },
+  {
+    "difficulty": "MEDIUM",
+    "frontend_question_id": "2054",
+    "title_cn": "两个最好的不重叠活动",
+    "title_slug": "two-best-non-overlapping-events"
+  },
+  {
+    "difficulty": "MEDIUM",
+    "frontend_question_id": "2055",
+    "title_cn": "蜡烛之间的盘子",
+    "title_slug": "plates-between-candles"
+  },
+  {
+    "difficulty": "HARD",
+    "frontend_question_id": "2056",
+    "title_cn": "棋盘上有效移动组合的数目",
+    "title_slug": "number-of-valid-move-combinations-on-chessboard"
+  },
+  {
+    "difficulty": "EASY",
+    "frontend_question_id": "2057",
+    "title_cn": "值相等的最小索引",
+    "title_slug": "smallest-index-with-equal-value"
+  },
+  {
+    "difficulty": "MEDIUM",
+    "frontend_question_id": "2058",
+    "title_cn": "找出临界点之间的最小和最大距离",
+    "title_slug": "find-the-minimum-and-maximum-number-of-nodes-between-critical-points"
+  },
+  {
+    "difficulty": "MEDIUM",
+    "frontend_question_id": "2059",
+    "title_cn": "转化数字的最小运算数",
+    "title_slug": "minimum-operations-to-convert-number"
+  },
+  {
+    "difficulty": "HARD",
+    "frontend_question_id": "2060",
+    "title_cn": "同源字符串检测",
+    "title_slug": "check-if-an-original-string-exists-given-two-encoded-strings"
+  },
+  {
+    "difficulty": "MEDIUM",
+    "frontend_question_id": "2061",
+    "title_cn": "",
+    "title_slug": "number-of-spaces-cleaning-robot-cleaned"
+  },
+  {
+    "difficulty": "EASY",
+    "frontend_question_id": "2062",
+    "title_cn": "统计字符串中的元音子字符串",
+    "title_slug": "count-vowel-substrings-of-a-string"
+  },
+  {
+    "difficulty": "MEDIUM",
+    "frontend_question_id": "2063",
+    "title_cn": "所有子字符串中的元音",
+    "title_slug": "vowels-of-all-substrings"
+  },
+  {
+    "difficulty": "MEDIUM",
+    "frontend_question_id": "2064",
+    "title_cn": "分配给商店的最多商品的最小值",
+    "title_slug": "minimized-maximum-of-products-distributed-to-any-store"
+  },
+  {
+    "difficulty": "HARD",
+    "frontend_question_id": "2065",
+    "title_cn": "最大化一张图中的路径价值",
+    "title_slug": "maximum-path-quality-of-a-graph"
+  },
+  {
+    "difficulty": "MEDIUM",
+    "frontend_question_id": "2067",
+    "title_cn": "",
+    "title_slug": "number-of-equal-count-substrings"
+  },
+  {
+    "difficulty": "EASY",
+    "frontend_question_id": "2068",
+    "title_cn": "检查两个字符串是否几乎相等",
+    "title_slug": "check-whether-two-strings-are-almost-equivalent"
+  },
+  {
+    "difficulty": "MEDIUM",
+    "frontend_question_id": "2069",
+    "title_cn": "模拟行走机器人 II",
+    "title_slug": "walking-robot-simulation-ii"
+  },
+  {
+    "difficulty": "MEDIUM",
+    "frontend_question_id": "2070",
+    "title_cn": "每一个查询的最大美丽值",
+    "title_slug": "most-beautiful-item-for-each-query"
+  },
+  {
+    "difficulty": "HARD",
+    "frontend_question_id": "2071",
+    "title_cn": "你可以安排的最多任务数目",
+    "title_slug": "maximum-number-of-tasks-you-can-assign"
+  },
+  {
+    "difficulty": "EASY",
+    "frontend_question_id": "2073",
+    "title_cn": "买票需要的时间",
+    "title_slug": "time-needed-to-buy-tickets"
+  },
+  {
+    "difficulty": "MEDIUM",
+    "frontend_question_id": "2074",
+    "title_cn": "反转偶数长度组的节点",
+    "title_slug": "reverse-nodes-in-even-length-groups"
+  },
+  {
+    "difficulty": "MEDIUM",
+    "frontend_question_id": "2075",
+    "title_cn": "解码斜向换位密码",
+    "title_slug": "decode-the-slanted-ciphertext"
+  },
+  {
+    "difficulty": "HARD",
+    "frontend_question_id": "2076",
+    "title_cn": "处理含限制条件的好友请求",
+    "title_slug": "process-restricted-friend-requests"
+  },
+  {
+    "difficulty": "MEDIUM",
+    "frontend_question_id": "2077",
+    "title_cn": "",
+    "title_slug": "paths-in-maze-that-lead-to-same-room"
+  },
+  {
+    "difficulty": "EASY",
+    "frontend_question_id": "2078",
+    "title_cn": "两栋颜色不同且距离最远的房子",
+    "title_slug": "two-furthest-houses-with-different-colors"
+  },
+  {
+    "difficulty": "MEDIUM",
+    "frontend_question_id": "2079",
+    "title_cn": "给植物浇水",
+    "title_slug": "watering-plants"
+  },
+  {
+    "difficulty": "MEDIUM",
+    "frontend_question_id": "2080",
+    "title_cn": "区间内查询数字的频率",
+    "title_slug": "range-frequency-queries"
+  },
+  {
+    "difficulty": "HARD",
+    "frontend_question_id": "2081",
+    "title_cn": "k 镜像数字的和",
+    "title_slug": "sum-of-k-mirror-numbers"
+  },
+  {
+    "difficulty": "MEDIUM",
+    "frontend_question_id": "5951",
+    "title_cn": "",
+    "title_slug": "substrings-that-begin-and-end-with-the-same-letter"
+  },
+  {
+    "difficulty": "EASY",
+    "frontend_question_id": "LCP 01",
+    "title_cn": "猜数字",
+    "title_slug": "guess-numbers"
+  },
+  {
+    "difficulty": "EASY",
+    "frontend_question_id": "LCP 02",
+    "title_cn": "分式化简",
+    "title_slug": "deep-dark-fraction"
+  },
+  {
+    "difficulty": "MEDIUM",
+    "frontend_question_id": "LCP 03",
+    "title_cn": "机器人大冒险",
+    "title_slug": "programmable-robot"
+  },
+  {
+    "difficulty": "HARD",
+    "frontend_question_id": "LCP 04",
+    "title_cn": "覆盖",
+    "title_slug": "broken-board-dominoes"
+  },
+  {
+    "difficulty": "HARD",
+    "frontend_question_id": "LCP 05",
+    "title_cn": "发 LeetCoin",
+    "title_slug": "coin-bonus"
+  },
+  {
+    "difficulty": "EASY",
+    "frontend_question_id": "LCP 06",
+    "title_cn": "拿硬币",
+    "title_slug": "na-ying-bi"
+  },
+  {
+    "difficulty": "EASY",
+    "frontend_question_id": "LCP 07",
+    "title_cn": "传递信息",
+    "title_slug": "chuan-di-xin-xi"
+  },
+  {
+    "difficulty": "MEDIUM",
+    "frontend_question_id": "LCP 08",
+    "title_cn": "剧情触发时间",
+    "title_slug": "ju-qing-hong-fa-shi-jian"
+  },
+  {
+    "difficulty": "HARD",
+    "frontend_question_id": "LCP 09",
+    "title_cn": "最小跳跃次数",
+    "title_slug": "zui-xiao-tiao-yue-ci-shu"
+  },
+  {
+    "difficulty": "HARD",
+    "frontend_question_id": "LCP 10",
+    "title_cn": "二叉树任务调度",
+    "title_slug": "er-cha-shu-ren-wu-diao-du"
+  },
+  {
+    "difficulty": "EASY",
+    "frontend_question_id": "LCP 11",
+    "title_cn": "期望个数统计",
+    "title_slug": "qi-wang-ge-shu-tong-ji"
+  },
+  {
+    "difficulty": "MEDIUM",
+    "frontend_question_id": "LCP 12",
+    "title_cn": "小张刷题计划",
+    "title_slug": "xiao-zhang-shua-ti-ji-hua"
+  },
+  {
+    "difficulty": "HARD",
+    "frontend_question_id": "LCP 13",
+    "title_cn": "寻宝",
+    "title_slug": "xun-bao"
+  },
+  {
+    "difficulty": "HARD",
+    "frontend_question_id": "LCP 14",
+    "title_cn": "切分数组",
+    "title_slug": "qie-fen-shu-zu"
+  },
+  {
+    "difficulty": "HARD",
+    "frontend_question_id": "LCP 15",
+    "title_cn": "游乐园的迷宫",
+    "title_slug": "you-le-yuan-de-mi-gong"
+  },
+  {
+    "difficulty": "HARD",
+    "frontend_question_id": "LCP 16",
+    "title_cn": "游乐园的游览计划",
+    "title_slug": "you-le-yuan-de-you-lan-ji-hua"
+  },
+  {
+    "difficulty": "EASY",
+    "frontend_question_id": "LCP 17",
+    "title_cn": "速算机器人",
+    "title_slug": "nGK0Fy"
+  }
+]

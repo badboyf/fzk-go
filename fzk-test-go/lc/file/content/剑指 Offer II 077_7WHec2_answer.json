@@ -1,0 +1,84 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "angela",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/angela-x/avatar_1632561041.png",
+          "userSlug": "angela-x"
+        },
+        "username": "angela-x"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n1. 将链表分成两个子链表\n2. 对两个子链表排序后再将它们合并成一个排序的链表\n### 代码\n\n```javascript\n// 归并排序\nvar sortList = function (head) {\n  if (!head || head.next === null) return head;\n  // 使用快慢指针找到中间节点\n  let slow = head,\n    fast = head.next;\n  while (fast !== null && fast.next !== null) {\n    slow = slow.next;\n    fast = fast.next.next;\n  }\n  // 将链表分成两半并返回后半部分链表的头节点\n  let newList = slow.next;\n  slow.next = null;\n\n  // 对前后两个链表进行排序\n  let left = sortList(head);\n  let right = sortList(newList);\n  // 将排序好的两个有序链表合并为一个链表\n  let res = new ListNode(-1);\n  let nHead = res;\n  // 合并链表只需要调整指针的指向\n  // 两个链表哪个节点的值小就先指向它\n  while (left !== null && right !== null) {\n    if (left.val < right.val) {\n      nHead.next = left;\n      left = left.next;\n    } else {\n      nHead.next = right;\n      right = right.next;\n    }\n    nHead = nHead.next;\n  }\n  nHead.next = left === null ? right : left;\n  return res.next;\n};\n```",
+      "createdAt": "2021-10-20T11:21:10.294699+00:00",
+      "hitCount": 1576,
+      "identifier": "KyREul",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "jian-zhi-offer-2-mian-shi-ti-77-shu-zhon-7vy3",
+        "title": "《剑指offer 2 面试题77》 书中算法C++实现"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "7WHec2"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 3,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "shi-yong-gui-bing-pai-xu-lai-shi-xian-li-nvzp",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n\n将链表分成两个子链表\n对两个子链表排序后再将它们合并成一个排序的链表\n\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "JavaScript",
+          "nameTranslated": "",
+          "slug": "javascript",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Merge Sort",
+          "nameTranslated": "归并排序",
+          "slug": "merge-sort",
+          "tagType": "TOPIC"
+        }
+      ],
+      "thumbnail": "",
+      "title": "使用归并排序来实现链表排序",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 1,
+        "id": 1057709,
+        "viewCount": 1251
+      },
+      "uuid": "KyREul",
+      "videosInfo": []
+    }
+  }
+}

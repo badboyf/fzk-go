@@ -1,0 +1,93 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "DefeatMonkey",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/default_avatar.png",
+          "userSlug": "defeatmonkey"
+        },
+        "username": "DefeatMonkey"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "## 解题思路\n![image.png](https://pic.leetcode-cn.com/1635603590-IXtmSO-image.png)\n\n### 不变量\n做这种摸不着头脑的题，一般首先需要定位一个不变量\n首先做出如下定义，一个数的根为对该数进行右移操作直到没有末尾0（即不断除以2直到变成奇数）\n我们需要证明如下结论：数组中具有最大根的元素，在组成满足最小偏移量的组合里，必然也是以其根的形式存在。\n需要进行一个简单的证明：\n不妨假设，该元素再最佳组合里为偶数，且一旦进行除以2的操作，就会导致最小偏移量增大\n推论1：最佳组合中所有数均为偶数\n证明：如果存在奇数，则必然小于该元素的根（最大根），则如果该元素除以2，不会导致最小值减小，也不会导致最大值增大，最小偏移量不变\n\n推论2：必然存在更优组合\n证明：最佳组合不存在奇数，整体除以2，最小偏移量变为1/2\n\n因此，最终该元素在最佳组合中必然以奇数形式存在\n**不变量由此而来**\n\n### 贴近不变量\n数组中根不是不变量的其他元素，我们要求它们通过变换尽量贴近不变量\n我们首先做如下变换，将数组中所有奇数全都乘以2，变成偶数，这样数组中每个元素都是自身可以达到的最大值\n1. 元素本身小于不变量，通过任何变换都无法大于不变量，最佳组合中必然以当前（偶数）形式存在\n2. 元素的根大于不变量，通过任何变换都无法小于不变量，最佳组合中必然以根的（奇数）形式存在\n3. 元素可以通过变换小于或者大于不变量，则贴近不变量的取值必然存在两种，较大值必然是较小值的两倍，这里将元素变换为其中的较小值\n\n针对第1种元素，可以找出基准最大值 hi\n针对第2种元素，可以找出基准最大值 lo\n\n针对第3种元素，需要进行遍历讨论，但无须考虑每种情况\n1. 针对大于等于lo的元素，无需进行翻倍操作，因为翻倍不会改变最小值，但可能增大最大值，导致最小偏移量变大，没有意义\n2. 只需讨论小于lo的元素，对这类元素进行从小到大的排序\n   不妨假设不变量X，小于lo的元素有 A < B < C < X\n   我们认为，如果要翻倍一个元素，必然需要连带比它小的一起翻倍，不然翻倍不会改变最小值，但可能增大最大值，导致最小偏移量变大，没有意义\n   因此，只需要讨论最后需要/不需要翻倍的元素交界点在哪即可\n   逐个遍历即可解决\n**总体时间复杂度 O(NlogN)，空间复杂度O(1)**\n\n## 代码\n\n```java\nclass Solution {\n    public int minimumDeviation(int[] nums) {\n        int mi = 0;\n        for (int i = 0; i < nums.length; i++) {\n            int tmp = nums[i];\n            while ((tmp & 1) == 0) tmp >>= 1;\n            mi = Math.max(tmp, mi);\n        }\n\n        int hi = mi;\n        int lo = mi;\n        for (int i = 0; i < nums.length; i++) {\n            if ((nums[i] & 1) == 1) nums[i] <<= 1;\n            int tmp = nums[i];\n            while ((tmp & 1) == 0) tmp >>= 1;\n            if (tmp >= mi) {\n                hi = Math.max(hi, tmp);\n                nums[i] = lo;\n            } else if (nums[i] <= mi) {\n                lo = Math.min(lo, nums[i]);\n                nums[i] = lo;\n            } else {\n                while ((tmp << 1) < mi) tmp <<= 1;\n                nums[i] = tmp;\n            }\n        }\n\n        Arrays.sort(nums);\n        int res = hi - Math.min(lo, nums[0]);\n        int max = hi;\n        for (int i = 0; i < nums.length && nums[i] < lo; i++) {\n            max = Math.max(max, nums[i] << 1);\n            res = Math.min(res, max - nums[i + 1]);\n        }\n\n        return res;\n    }\n}\n```",
+      "createdAt": "2021-10-30T14:20:44.052463+00:00",
+      "hitCount": 100,
+      "identifier": "iLvtmQ",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "you-xu-ji-he-you-xian-dui-lie-xun-huan-chu-li-by-m",
+        "title": "有序集合/优先队列 循环处理"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "minimize-deviation-in-array"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "dan-ci-pai-xu-jie-fa-tan-xin-bu-bian-lia-hbwc",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n不变量\n做这种摸不着头脑的题，一般首先需要定位一个不变量\n首先做出如下定义，一个数的根为对该数进行右移操作直到没有末尾0（即不断除以2直到变成奇数）\n我们需要证明如下结论：数组中具有最大根的元素，在组成满足最小偏移量的组合里，必然也是以其根的形式存在。\n需要进行一个简单的证明：\n不妨假设，该元素再最佳组合里为",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Greedy",
+          "nameTranslated": "贪心",
+          "slug": "greedy",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Math",
+          "nameTranslated": "数学",
+          "slug": "math",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "java",
+          "nameTranslated": "",
+          "slug": "java-11",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1635603590-IXtmSO-image.png",
+      "title": "单次排序解法 + 贪心 + 不变量推导，不需要额外辅助空间",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 1,
+        "id": 1075025,
+        "viewCount": 72
+      },
+      "uuid": "iLvtmQ",
+      "videosInfo": []
+    }
+  }
+}

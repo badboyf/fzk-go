@@ -1,0 +1,76 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "码就完事儿了",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/jovial-hugleufk/avatar_1615111149.png",
+          "userSlug": "code_respect"
+        },
+        "username": "Code_respect"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n此处撰写解题思路\n\n### 代码\n\n```java\nclass Solution {\n    public double trimMean(int[] arr) {\n        Arrays.sort(arr);\n        int sum = 0;\n        for(int i = arr.length /20 ; i < arr.length - arr.length /20;i++){\n            sum += arr[i];\n        }\n        double avg = sum/(arr.length - arr.length * 0.1);\n        return avg;\n    }\n}\n```",
+      "createdAt": "2021-04-03T11:05:31.403716+00:00",
+      "hitCount": 493,
+      "identifier": "kMMZPi",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "hashha-xi-biao-ji-lu-yuan-su-chu-xian-de-y3ch",
+        "title": "hash哈希表：记录元素出现的个数"
+      },
+      "position": 8,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "9979-6787-by-bobby996",
+        "title": "99.79%  67.87%"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "mean-of-array-after-removing-some-elements"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "gen-zhao-ti-mu-zou-jiu-xing-liao-by-jovi-bbb5",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n此处撰写解题思路\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "跟着题目走就行了",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 697920,
+        "viewCount": 455
+      },
+      "uuid": "kMMZPi",
+      "videosInfo": []
+    }
+  }
+}

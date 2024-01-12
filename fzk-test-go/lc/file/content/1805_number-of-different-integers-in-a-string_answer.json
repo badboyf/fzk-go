@@ -1,0 +1,79 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "全力以赴✨",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/relll-1037/avatar_1635153046.png",
+          "userSlug": "relll-1037"
+        },
+        "username": "Relll-1037"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "## 前言\n这种解法是我瞎写的，纯粹是自己不想学了，然后等图书馆关门时候干的事情🤣\n和打表的方法有那么几分相似，大家图一乐就好，别太认真😉\n\n### 解题思路\n将字符串中全部的非数字替换掉，然后数组拆分直接计数\n写一个方法去除前导0\n\n### 代码\n\n```java\nimport java.util.Arrays;\nimport java.util.HashSet;\nimport java.util.Set;\n\nclass Solution {\n    public int numDifferentIntegers(String word) {\n        String s1 = word.replace('a', ' ');\n        String s2 = s1.replace('b', ' ');\n        String s3 = s2.replace('c', ' ');\n        String s4 = s3.replace('d', ' ');\n        String s5 = s4.replace('e', ' ');\n        String s6 = s5.replace('f', ' ');\n        String s7 = s6.replace('g', ' ');\n        String s8 = s7.replace('h', ' ');\n        String s9 = s8.replace('i', ' ');\n        String s10 = s9.replace('j', ' ');\n        String s11 = s10.replace('k', ' ');\n        String s12 = s11.replace('l', ' ');\n        String s13 = s12.replace('m', ' ');\n        String s14 = s13.replace('n', ' ');\n        String s15 = s14.replace('o', ' ');\n        String s16 = s15.replace('p', ' ');\n        String s17 = s16.replace('q', ' ');\n        String s18 = s17.replace('r', ' ');\n        String s19 = s18.replace('s', ' ');\n        String s20 = s19.replace('t', ' ');\n        String s21 = s20.replace('u', ' ');\n        String s22 = s21.replace('v', ' ');\n        String s23 = s22.replace('w', ' ');\n        String s24 = s23.replace('x', ' ');\n        String s25 = s24.replace('y', ' ');\n        String s26 = s25.replace('z', ' ');\n\n        String[] strs = s26.split(\" \");\n        Set<String> set = new HashSet<>();\n        StringBuilder sb = new StringBuilder();\n        for (String str : strs) {\n            if (str.equals(\"\")) {\n                continue;\n            }\n            if (str.startsWith(\"0\")) {\n                String ss = removeZero(str);\n                set.add(ss);\n                continue;\n            }\n            set.add(str);\n        }\n        return set.size();\n    }\n\n    public String removeZero(String str) {\n        char[] arr = str.toCharArray();\n        for (int i = 0; i < arr.length - 1; i++) {\n            if (arr[i] != '0') {\n                break;\n            } else {\n                arr[i] = ' ';\n            }\n        }\n        StringBuilder sb = new StringBuilder();\n        for (char c : arr) {\n            if (c != ' ') {\n                sb.append(c);\n            }\n        }\n        System.out.println(sb.toString());\n        return sb.toString();\n    }\n}\n```\n\n### 结果\n执行用时：4 ms, 在所有 Java 提交中击败了51.62%的用户\n内存消耗：38.4 MB, 在所有 Java 提交中击败了26.72%的用户\n\n仅图一乐，不喜勿喷😂",
+      "createdAt": "2021-11-03T11:00:58.933312+00:00",
+      "hitCount": 124,
+      "identifier": "BpLBfz",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "cyu-yan-jie-fa-jie-zhu-yi-xie-ku-han-shu-3ky6",
+        "title": "C语言解法，借助一些库函数"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "number-of-different-integers-in-a-string"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 3,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "yuan-di-xiu-gai-jin-jin-tu-yi-le-bie-xue-6jrj",
+      "status": "PREPUBLISH",
+      "summary": "前言\n这种解法是我瞎写的，纯粹是自己不想学了，然后等图书馆关门时候干的事情🤣\n和打表的方法有那么几分相似，大家图一乐就好，别太认真😉\n解题思路\n将字符串中全部的非数字替换掉，然后数组拆分直接计数\n写一个方法去除前导0\n代码\n结果\n执行用时：4 ms, 在所有 Java 提交中击败了51.62%的用户\n内存消耗：38.4",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "String",
+          "nameTranslated": "字符串",
+          "slug": "string",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "原地修改(仅仅图一乐，别学😂)",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 1,
+        "id": 1082307,
+        "viewCount": 113
+      },
+      "uuid": "BpLBfz",
+      "videosInfo": []
+    }
+  }
+}

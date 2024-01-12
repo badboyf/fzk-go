@@ -1,0 +1,131 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣官方题解",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/leetcode-solution/avatar_1582018938.png",
+          "userSlug": "leetcode-solution"
+        },
+        "username": "LeetCode-Solution"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法一：哈希表\n\n根据终点站的定义，终点站不会出现在 $\\textit{cityA}_i$ 中，因为存在从 $\\textit{cityA}_i$ 出发的线路，所以终点站只会出现在 $\\textit{cityB}_i$ 中。据此，我们可以遍历 $\\textit{cityB}_i$，返回不在 $\\textit{cityA}_i$ 中的城市，即为答案。\n\n代码实现时，可以先将所有 $\\textit{cityA}_i$ 存于一哈希表中，然后遍历 $\\textit{cityB}_i$ 并查询 $\\textit{cityB}_i$ 是否在哈希表中。\n\n```Python [sol1-Python3]\nclass Solution:\n    def destCity(self, paths: List[List[str]]) -> str:\n        citiesA = {path[0] for path in paths}\n        return next(path[1] for path in paths if path[1] not in citiesA)\n```\n\n```C++ [sol1-C++]\nclass Solution {\npublic:\n    string destCity(vector<vector<string>> &paths) {\n        unordered_set<string> citiesA;\n        for (auto &path : paths) {\n            citiesA.insert(path[0]);\n        }\n        for (auto &path : paths) {\n            if (!citiesA.count(path[1])) {\n                return path[1];\n            }\n        }\n        return \"\";\n    }\n};\n```\n\n```Java [sol1-Java]\nclass Solution {\n    public String destCity(List<List<String>> paths) {\n        Set<String> citiesA = new HashSet<String>();\n        for (List<String> path : paths) {\n            citiesA.add(path.get(0));\n        }\n        for (List<String> path : paths) {\n            if (!citiesA.contains(path.get(1))) {\n                return path.get(1);\n            }\n        }\n        return \"\";\n    }\n}\n```\n\n```C# [sol1-C#]\npublic class Solution {\n    public string DestCity(IList<IList<string>> paths) {\n        ISet<string> citiesA = new HashSet<string>();\n        foreach (IList<string> path in paths) {\n            citiesA.Add(path[0]);\n        }\n        foreach (IList<string> path in paths) {\n            if (!citiesA.Contains(path[1])) {\n                return path[1];\n            }\n        }\n        return \"\";\n    }\n}\n```\n\n```go [sol1-Golang]\nfunc destCity(paths [][]string) string {\n    citiesA := map[string]bool{}\n    for _, path := range paths {\n        citiesA[path[0]] = true\n    }\n    for _, path := range paths {\n        if !citiesA[path[1]] {\n            return path[1]\n        }\n    }\n    return \"\"\n}\n```\n\n```JavaScript [sol1-JavaScript]\nvar destCity = function(paths) {\n    const citiesA = new Set();\n    for (const path of paths) {\n        citiesA.add(path[0]);\n    }\n    for (const path of paths) {\n        if (!citiesA.has(path[1])) {\n            return path[1];\n        }\n    }\n    return \"\";\n};\n```\n\n**复杂度分析**\n\n- 时间复杂度：$O(nm)$，其中 $n$ 是数组 $\\textit{paths}$ 的长度，$m$ 是城市名称的最大长度。\n\n- 空间复杂度：$O(nm)$。",
+      "createdAt": "2021-09-30T15:23:26.695683+00:00",
+      "hitCount": 14941,
+      "identifier": "craRwz",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "gong-shui-san-xie-jian-dan-fang-jia-mo-n-y47c",
+        "title": "【宫水三叶】简单放假模拟题目"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "destination-city"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 19,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "AWESOME"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "CONFUSED"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "lu-xing-zhong-dian-zhan-by-leetcode-solu-pscd",
+      "status": "PREPUBLISH",
+      "summary": "方法一：哈希表 根据终点站的定义，终点站不会出现在 $\\textit{cityA}_i$ 中，因为存在从 $\\textit{cityA}_i$ 出发的线路，所以终点站只会出现在 $\\textit{cityB}_i$ 中。据此，我们可以遍历 $\\textit{cityB}_i$，返回不在 $\\textit{cityA}_",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Hash Table",
+          "nameTranslated": "哈希表",
+          "slug": "hash-table",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "String",
+          "nameTranslated": "字符串",
+          "slug": "string",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C#",
+          "nameTranslated": "",
+          "slug": "csharp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Go",
+          "nameTranslated": "",
+          "slug": "golang",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "JavaScript",
+          "nameTranslated": "",
+          "slug": "javascript",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "旅行终点站",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 86,
+        "id": 1026156,
+        "viewCount": 12130
+      },
+      "uuid": "craRwz",
+      "videosInfo": []
+    }
+  }
+}

@@ -1,0 +1,77 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "SmartBoy",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/smartboy-2/avatar_1575359528.png",
+          "userSlug": "smartboy-2"
+        },
+        "username": "smartboy-2"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "\r\n#### 这道题我们用动态规划来做。\r\n1. 先定义状态：(i从0开始)\r\n    dp[i][0] 代表 第i间房子涂红色时 前i+1间房子累计所需的 最小成本；\r\n    dp[i][1] 代表 第i间房子涂蓝色时 前i+1间房子累计所需的 最小成本；\r\n    dp[i][2] 代表 第i间房子涂绿色时 前i+1间房子累计所需的 最小成本；\r\n2. 确定状态转换：\r\n    题目要求：相邻的两间房子不能涂相同的颜色，那只要我们当前要涂的颜色和前一间不同就好 ~~（废话）~~\r\n    假设我们现在到了第3间房子，我们考虑一下涂那种颜色：\r\n    假设涂红色：所以前一家房子只能是蓝色或者绿色，从他们中选一个最便宜的吧！\r\n    那就是 `dp[2][0] = Math.min(dp[1][1],dp[1][2])+costs[2][0]` \r\n    蓝色和绿色同理，由此我们可以得到状态转换方程！\r\n```\r\n        dp[i][0] = Math.min(dp[i-1][1],dp[i-1][2])+costs[i][0];\r\n        dp[i][1] = Math.min(dp[i-1][0],dp[i-1][2])+costs[i][1];\r\n        dp[i][2] = Math.min(dp[i-1][0],dp[i-1][1])+costs[i][2];\r\n```\r\n3. 确定最终结果：\r\n    简单啦，当然是最后一间房子涂三种颜色中最便宜的一种啦~\r\n\r\n代码如下：\r\n\r\n```\r\nclass Solution {\r\n    public int minCost(int[][] costs) {\r\n        int[][] dp = new int[costs.length][3];\r\n        //第一件房子\r\n        for(int i=0;i<3;i++)\r\n            dp[0][i] = costs[0][i];\r\n        for(int i=1;i<costs.length;i++){\r\n            //状态转换\r\n            dp[i][0] = Math.min(dp[i-1][1],dp[i-1][2])+costs[i][0];\r\n            dp[i][1] = Math.min(dp[i-1][0],dp[i-1][2])+costs[i][1];\r\n            dp[i][2] = Math.min(dp[i-1][0],dp[i-1][1])+costs[i][2];\r\n        }\r\n        return Math.min( dp[costs.length-1][0],\r\n                    Math.min(dp[costs.length-1][1],dp[costs.length-1][2]));\r\n    }\r\n}\r\n```\r\n",
+      "createdAt": "2021-10-16T06:52:39.268434+00:00",
+      "hitCount": 575,
+      "identifier": "kmRhhB",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "wei-shu-bu-duo-hui-de-dp-by-cai-zhu-e-1dd4",
+        "title": "为数不多会的dp🥲🥲"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "JEj789"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 9,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "tong-su-yi-dong-de-dpzuo-fa-su-kan-by-sm-2mt3",
+      "status": "PREPUBLISH",
+      "summary": "这道题我们用动态规划来做。\n\n先定义状态：(i从0开始)\ndp[i][0] 代表 第i间房子涂红色时 前i+1间房子累计所需的 最小成本；\ndp[i][1] 代表 第i间房子涂蓝色时 前i+1间房子累计所需的 最小成本；\ndp[i][2] 代表 第i间房子涂绿色时 前i+1间房子累计所需的 最小成本；\n确定状态转换：",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "通俗易懂的dp做法，速看！",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 2,
+        "id": 1050156,
+        "viewCount": 450
+      },
+      "uuid": "kmRhhB",
+      "videosInfo": []
+    }
+  }
+}

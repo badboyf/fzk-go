@@ -1,0 +1,115 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "zerotrac 🌸",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/zerotrac2/avatar_1628749564.png",
+          "userSlug": "zerotrac2"
+        },
+        "username": "zerotrac2"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法一：动态规划\n\n**思路与算法**\n\n记 $f[i][j]$ 表示使用 `0 .. i` 的点构造了 $j$ 条线段的方案数。我们需要区分第 $j$ 条线段的右端点是否就是 $i$，因此可以考虑把 $f[i][j]$ 拆分成两个状态：\n\n- $f[i][j][0]$ 表示第 $j$ 条线段的右端点不是 $i$，**也就是说我们没有办法继续延长第 $j$ 条线段**；\n\n- $f[i][j][1]$ 表示第 $j$ 条线段的右端点就是 $i$，**也就是说我们可以选择是否继续延长第 $j$ 条线段**。\n\n如何进行状态转移呢？\n\n首先考虑 $f[i][j][0]$，因为第 $j$ 条线段的右端点不是 $i$，因此第 $i$ 个点没有用上，那么 `0 .. i-1` 的点构造了 $j$ 条线段，即\n\n$$\nf[i][j][0] = f[i-1][j][0] + f[i-1][j][1]\n$$\n\n再考虑 $f[i][j][1]$，因为第 $j$ 条线段的右端点就是 $i$，因此有两种情况：\n\n- 第 $j$ 条线段长度为 $1$，那么 `0 .. i-1` 的点构造了 $j-1$ 条线段，即\n\n    $$\n    f[i][j][1] = f[i-1][j-1][0] + f[i-1][j-1][1]\n    $$\n\n- 第 $j$ 条线段长度大于 $1$，那么删去第 $j$ 条线段 `i-1 .. i` 的这一部分，`0 .. i-1` 的点仍然构造了 $j$ 条线段，**并且点 $i-1$ 是属于第 $j$ 条线段的**，即\n\n    $$\n    f[i][j][1] = f[i-1][j][1]\n    $$\n\n加上边界条件 $f[0][0][0] = 1$，最终答案即为 $f[n-1][k][0] + f[n-1][k][1]$。\n\n**注意事项**\n\n力扣对 `C++` 不是很友好，编译时只开 `-O1` 优化，所以直接拿 `vector<>` 定义三维数组很容易超时。下面给出两种解决方法。\n\n**代码**\n\n第一种是定义数组，每次动态规划之前记得清空一下。\n\n```C++ [sol11-C++]\nclass Solution {\nprivate:\n    static constexpr int mod = 1000000007;\n    int f[1000][1001][2];\n\npublic:\n    int numberOfSets(int n, int k) {\n        memset(f, 0, sizeof(f));\n        f[0][0][0] = 1;\n        for (int i = 1; i < n; ++i) {\n            for (int j = 0; j <= k; ++j) {\n                f[i][j][0] = (f[i - 1][j][0] + f[i - 1][j][1]) % mod;\n                f[i][j][1] = f[i - 1][j][1];\n                if (j > 0) {\n                    f[i][j][1] += f[i - 1][j - 1][0];\n                    f[i][j][1] %= mod;\n                    f[i][j][1] += f[i - 1][j - 1][1];\n                    f[i][j][1] %= mod;\n                }\n            }\n        }\n        return (f[n - 1][k][0] + f[n - 1][k][1]) % mod;\n    }\n};\n```\n\n第二种是使用 `vector<>` 定义 `pair<int, int>` 的二维数组。\n\n```C++ [sol12-C++]\nclass Solution {\nprivate:\n    static constexpr int mod = 1000000007;\npublic:\n    int numberOfSets(int n, int k) {\n        vector<vector<pair<int, int>>> f(n, vector<pair<int, int>>(k + 1));\n        f[0][0].first = 1;\n        for (int i = 1; i < n; ++i) {\n            for (int j = 0; j <= k; ++j) {\n                f[i][j].first = (f[i - 1][j].first + f[i - 1][j].second) % mod;\n                f[i][j].second = f[i - 1][j].second;\n                if (j > 0) {\n                    f[i][j].second += f[i - 1][j - 1].first;\n                    f[i][j].second %= mod;\n                    f[i][j].second += f[i - 1][j - 1].second;\n                    f[i][j].second %= mod;\n                }\n            }\n        }\n        return (f[n - 1][k].first + f[n - 1][k].second) % mod;\n    }\n};\n```\n\n**复杂度分析**\n\n- 时间复杂度：$O(nk)$。\n\n- 空间复杂度：$O(nk)$。\n\n#### 方法二：组合数学\n\n**思路与算法**\n\n本方法参考自某不愿透露姓名的太阳神。\n\n题目等价于求出满足\n\n$$\n0 \\leq l_1 < r_1 \\leq l_2 < r_2 \\leq \\cdots \\leq l_k < r_k < n\n$$\n\n的 $(l_1, \\cdots, l_k, r_1, \\cdots, r_k)$ 的数目。\n\n令 $l'_i = l_i + (i-1)$ 以及 $r'_i = r_i + (i-1)$，$(l'_1, \\cdots, l'_k, r'_1, \\cdots, r'_k)$ 与 $(l_1, \\cdots, l_k, r_1, \\cdots, r_k)$ 逐一对应，并且满足\n\n$$\n0 \\leq l'_1 < r'_1 < l'_2 < r'_2 < \\cdots < l'_k < r'_k < n+k-1\n$$\n\n此时就可以使用组合求解方案数了，即在 $[0, n+k-1)$ 共 $n+k-1$ 个数中选择 $2k$ 个，因此答案为\n\n$$\n\\binom{n+k-1}{2k}\n$$\n\n**代码**\n\n```C++ [sol2-Python3]\nclass Solution:\n    def numberOfSets(self, n: int, k: int) -> int:\n        return math.comb(n + k - 1, k * 2) % (10**9 + 7)\n```\n\n**复杂度分析**\n\n- 时间复杂度：用了 `Python` 的高精度，就当是 $O(k)$ 吧。\n\n- 空间复杂度：$O(1)$。",
+      "createdAt": "2020-10-17T17:01:36.310217+00:00",
+      "hitCount": 4156,
+      "identifier": "ahptVb",
+      "isEditorsPick": true,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "gao-zhong-shu-xue-pai-lie-zu-he-fang-fa-by-snake_w",
+        "title": "高中数学排列组合方法"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "number-of-sets-of-k-non-overlapping-line-segments"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 46,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 5,
+          "reactionType": "AWESOME"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "CONFUSED"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "THUMBS_DOWN"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "da-xiao-wei-k-de-bu-zhong-die-xian-duan-de-shu-mu-",
+      "status": "PUBLISHED",
+      "summary": "方法一：动态规划\n思路与算法\n记 f[i][j] 表示使用 0 .. i 的点构造了 j 条线段的方案数。我们需要区分第 j 条线段的右端点是否就是 i，因此可以考虑把 f[i][j] 拆分成两个状态：\n\n\nf[i][j][0] 表示第 j 条线段的右端点不是 i，也就是说我们没有办法继续延长第 j 条线段；\n\n\nf",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Math",
+          "nameTranslated": "数学",
+          "slug": "math",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Dynamic Programming",
+          "nameTranslated": "动态规划",
+          "slug": "dynamic-programming",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "cpp",
+          "nameTranslated": "",
+          "slug": "additional_cpp",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "",
+      "title": "大小为 K 的不重叠线段的数目",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 20,
+        "id": 450483,
+        "viewCount": 2619
+      },
+      "uuid": "ahptVb",
+      "videosInfo": []
+    }
+  }
+}

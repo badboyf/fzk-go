@@ -1,0 +1,79 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "陈dragon",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/chen-_-m/avatar_1599819324.png",
+          "userSlug": "chendragon"
+        },
+        "username": "chendragon"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n单调栈+list\n\n### 代码\n\n```java\n/**\n * Definition for singly-linked list.\n * public class ListNode {\n *     int val;\n *     ListNode next;\n *     ListNode() {}\n *     ListNode(int val) { this.val = val; }\n *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }\n * }\n */\nclass Solution {\n    /**\n     * 单调栈(从前往后)\n     */\n    public int[] nextLargerNodes(ListNode head) {\n        //list存储: 当前索引下, 右边最大元素值(即答案值) 或 当前索引于链表中的元素值(最后会将该值替换为答案值)\n        List<Integer> list = new ArrayList<>();\n        Stack<Integer> stack = new Stack<>();\n        int index = 0;\n        while (head != null){\n            int ele = head.val;\n            while (!stack.isEmpty() && list.get(stack.peek()) < ele){\n                //出栈, 替换list指定索引的值 当前索引于链表中的元素值 替换为=> 右边最大元素值(即答案值)\n                list.set(stack.pop(), ele);\n            }\n            //索引+1, 并将链表中该元素值加到指定索引(参数index)位置中\n            stack.push(index);\n            list.add(ele);\n            index++;\n            head = head.next;\n        }\n        //将没有右边最大元素的置为0\n        while (!stack.isEmpty()){\n            list.set(stack.pop(), 0);\n        }\n        return list.stream().mapToInt(Integer::intValue).toArray();\n    }\n```",
+      "createdAt": "2021-11-26T03:14:34.723942+00:00",
+      "hitCount": 8,
+      "identifier": "3s8wuv",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "fan-zhuan-lian-biao-dan-diao-zhan-by-aga-hz5w",
+        "title": "翻转链表+单调栈"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "next-greater-node-in-linked-list"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "java-dan-diao-zhan-listbu-yong-dao-zhi-l-umrw",
+      "status": "PUBLISHED",
+      "summary": "解题思路\n单调栈+list\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Monotonic Stack",
+          "nameTranslated": "单调栈",
+          "slug": "monotonic-stack",
+          "tagType": "TOPIC"
+        }
+      ],
+      "thumbnail": "",
+      "title": "java 单调栈+list(不用倒置链表)",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1123091,
+        "viewCount": 8
+      },
+      "uuid": "3s8wuv",
+      "videosInfo": []
+    }
+  }
+}

@@ -1,0 +1,86 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣官方题解",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/leetcode-solution/avatar_1582018938.png",
+          "userSlug": "leetcode-solution"
+        },
+        "username": "LeetCode-Solution"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法一：按要求计算\n\n**思路与算法**\n\n我们首先遍历数组 $\\textit{nums}$ 得到最大值与最小值后，再计算两者的最大公约数即可。\n\n对于计算最大公约数的部分，$\\texttt{C++}$ 与 $\\texttt{Python}$ 的标准库中都有计算两个整数最大公约数的函数。\n\n**最大公约数的求法**\n\n计算两个整数最大公约数 $\\text{gcd}(a, b)$ 的一种常见方法是欧几里得算法，即辗转相除法。其核心部分为：\n\n$$\n\\text{gcd}(a, b) = \\text{gcd}(b, a\\ \\text{mod}\\ b).\n$$\n\n**代码**\n\n```C++ [sol1-C++]\nclass Solution {\npublic:\n    int findGCD(vector<int>& nums) {\n        int mx = *max_element(nums.begin(), nums.end());\n        int mn = *min_element(nums.begin(), nums.end());\n        return gcd(mx, mn);\n    }\n};\n```\n\n\n```Python [sol1-Python3]\nimport math\n\nclass Solution:\n    def findGCD(self, nums: List[int]) -> int:\n        mx, mn = max(nums), min(nums)\n        return math.gcd(mx, mn)\n```\n\n\n**复杂度分析**\n\n- 时间复杂度：$O(n + \\log M)$，其中 $n$ 为 $\\textit{nums}$ 的长度，$M$ 为 $\\textit{nums}$ 的最大值。遍历数组寻找最大值与最小值的时间复杂度为 $O(n)$，计算最大公约数的时间复杂度为 $O(\\log M)$。\n\n- 空间复杂度：$O(1)$。",
+      "createdAt": "2021-08-22T09:39:18.836609+00:00",
+      "hitCount": 2646,
+      "identifier": "5MXUoj",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "python3ou-ji-li-de-suan-fa-by-806748118-42x7",
+        "title": "python3+欧几里得算法"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "find-greatest-common-divisor-of-array"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "zhao-chu-shu-zu-de-zui-da-gong-yue-shu-b-brqd",
+      "status": "PREPUBLISH",
+      "summary": "方法一：按要求计算 思路与算法 我们首先遍历数组 $\\textit{nums}$ 得到最大值与最小值后，再计算两者的最大公约数即可。 对于计算最大公约数的部分，$\\texttt{C++}$ 与 $\\texttt{Python}$ 的标准库中都有计算两个整数最大公约数的函数。 最大公约数的求法 计算两个整数最大公约数 $",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Math",
+          "nameTranslated": "数学",
+          "slug": "math",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "找出数组的最大公约数",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 6,
+        "id": 951994,
+        "viewCount": 2210
+      },
+      "uuid": "5MXUoj",
+      "videosInfo": []
+    }
+  }
+}

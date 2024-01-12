@@ -1,0 +1,86 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "ffreturn",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/ffreturn/avatar_1608859813.png",
+          "userSlug": "ffreturn"
+        },
+        "username": "ffreturn"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "![image.png](https://pic.leetcode-cn.com/1637850510-FskWga-image.png)\n\n\n### 解题思路\n递归思路\n- 基于manager去构建上级到下级的数组的关系，对于质数负责人就是-1，那么对应下级就是自己一个\n- 从-1开始递归，依次去计算所有下级的最大的通知时间累加，然后返回即可\n\n### 代码\n\n```cpp\n\nclass Solution {\nprivate:\n    // pair->first 对应的编号，pair->second 通知时间\n    unordered_map<int, vector<pair<int, int>>> manager2info;\n\n    int dfs(int curr)\n    {\n        int maxTime = 0;\n        for (const pair<int, int>& info : manager2info[curr])\n        {\n            maxTime = max(maxTime, dfs(info.first) + info.second);\n        }\n\n        return maxTime;\n    }\n\npublic:\n    int numOfMinutes(int n, int headID, vector<int>& manager, vector<int>& informTime) {\n        for (int i = 0; i < n; ++i)\n        {\n            manager2info[manager[i]].push_back({i, informTime[i]});\n        }\n\n        return dfs(-1);\n    }\n};\n```",
+      "createdAt": "2021-11-25T14:28:59.436223+00:00",
+      "hitCount": 12,
+      "identifier": "mTPDgs",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "bfsdfshui-su-fa-jian-tu-shi-xian-lei-si-qse54",
+        "title": "bfs/dfs/回溯法，建图实现,类似多叉树的层序遍历或者前序遍历"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "time-needed-to-inform-all-employees"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "1376-czhong-gui-zhong-ju-de-di-gui-jie-f-as9e",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n递归思路\n\n基于manager去构建上级到下级的数组的关系，对于质数负责人就是-1，那么对应下级就是自己一个\n从-1开始递归，依次去计算所有下级的最大的通知时间累加，然后返回即可\n\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Recursion",
+          "nameTranslated": "递归",
+          "slug": "recursion",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "梦想",
+          "nameTranslated": "",
+          "slug": "meng-xiang",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1637850510-FskWga-image.png",
+      "title": "1376. c++中规中矩的递归解法",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1122429,
+        "viewCount": 9
+      },
+      "uuid": "mTPDgs",
+      "videosInfo": []
+    }
+  }
+}

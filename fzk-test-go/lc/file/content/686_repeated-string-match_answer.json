@@ -1,0 +1,74 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣 (LeetCode)",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/uploaded_files/2021/03/73c9f099-abbe-4d94-853f-f8abffd459cd/leetcode.png",
+          "userSlug": "leetcode"
+        },
+        "username": "LeetCode"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "####  方法一：\n这个问题可以概括为“最小的 `k` 是什么，`B` 是 `A*k` 的子串？”我们可以试试每一个 `k`。 \n\n**算法：**\n- 假设我们写了 `S = A+A+A+...`,如果 `B` 是 `S` 的子串，我们只需要检查一些 `S[0:], S[1:], ..., S[len(A) - 1:]` 是否以 `B` 开头，因为 `S` 的长度足以包含 `B`。\n- 现在，假设 `q` 是 `len(B)<=len(A*q)` 的最小数。我们只需要检查 `B` 是 `A*q` 的子串还是 `A*(q+1)` 的子串。如果我们尝试 `k<q`，那么 `B` 的长度大于 `A*q`，因此不能是子字符串。当 `k=q+1` 时，`A*k` 已经足够大，可以尝试 `B` 的所有位置，即 `A[i:i+len(B)] == B`，`i = 0, 1, ..., len(A) - 1`。 \n\n**复杂度分析**\n\n* 时间复杂度：$O(N*(N+M))$。其中 $M,N$ 是字符串 `A,B` 的长度。我们创建了两个字符串 `A*q`，`A*(q+1)`，其复杂度最多为 `O(M+N)`。当检查 `B` 是否是 `A` 的子串时，复杂度为 $O(N)$。\n* 空间复杂度：如上所述，我们创建了使用 $O(M+N)$ 空间的字符串。 \n\n\n####  方法二：Rabin-Karp\n与方法 1 一样，我们将问题简化为确定 `B` 是否是某个 `A*k` 的子串。使用以下方法，我们在 $O(len(A) * k)$ 的时间复杂度可以确定 `B` 是否是 `A` 的子串。 \n\n**算法：**\n- 对于字符串 $S$，将每个 $S[i]$ 当作 ASCII 码。然后，然后$\\mathcal{M}$:\n$$\\text{hash}(S) = \\sum_{0 \\leq i < len(S)} p^i * S[i]$$\n- 值得注意的是，$\\text{hash}(S[1:] + x) = \\frac{(\\text{hash}(S) - S[0])}{p} + p^{n-1} x$ 。这表明我们可以得到时间复杂度与每个子串的散列值 `A * q` 大小成线性关系。（我们还将使用 $p^{-1} = p^{\\mathcal{M}-2} \\mod \\mathcal{M}$ 。） \n- 然而，哈希值可能会偶然发生冲突。为了解决冲突，我们应该用通常的方法检查答案。我们进行的检查的预期次数是 $1 + \\frac{s}{\\mathcal{M}}$。\n\n**复杂度分析**\n\n* 时间复杂度：$O(M+N)$。其中 $M,N$ 是字符串 `A,B` 的长度。\n* 空间复杂度：$O(1)$。只有整数与附加的内存一起存储。",
+      "createdAt": "2019-08-23T05:19:27.169463+00:00",
+      "hitCount": 11750,
+      "identifier": "R8QcnU",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "wo-bu-xin-wo-suan-fa-bu-guo-guan-by-feng-vfl5",
+        "title": "我不信我算法不过关"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "repeated-string-match"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 9,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "CONFUSED"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "THUMBS_DOWN"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "zhong-fu-die-jia-zi-fu-chuan-pi-pei-by-leetcode",
+      "status": "PUBLISHED",
+      "summary": "§ 方法一：\n这个问题可以概括为“最小的 k 是什么，B 是 A*k 的子串？”我们可以试试每一个 k。\n算法：\n\n假设我们写了 S = A+A+A+...,如果 B 是 S 的子串，我们只需要检查一些 S[0:], S[1:], ..., S[len(A) - 1:] 是否以 B 开头，因为 S 的长度足以包含 B。",
+      "sunk": false,
+      "tags": [],
+      "thumbnail": "",
+      "title": "重复叠加字符串匹配",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 21,
+        "id": 22440,
+        "viewCount": 9044
+      },
+      "uuid": "R8QcnU",
+      "videosInfo": []
+    }
+  }
+}

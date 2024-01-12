@@ -1,0 +1,72 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "Reiner Braun",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/busy-johnsonbtt/avatar_1635424651.png",
+          "userSlug": "reiner-braud"
+        },
+        "username": "Reiner-Braud"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "```\r\nclass Solution {\r\n    public int minStartValue(int[] nums) {\r\n        int n = nums.length;\r\n        int[] preSum = new int[n+1];\r\n        int ans = 0;\r\n        for (int i = 0; i < n; i++){\r\n            preSum[i+1] = preSum[i] + nums[i];\r\n            ans = Math.min(preSum[i+1], ans);\r\n        }\r\n        return ans < 0 ? Math.abs(ans)+1 : 1;\r\n\r\n    }\r\n}\r\n```\r\n",
+      "createdAt": "2021-11-24T07:09:16.117742+00:00",
+      "hitCount": 13,
+      "identifier": "rerpxV",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "dong-tai-gui-hua-si-lu-by-ren-lan-se-dia-14ld",
+        "title": "动态规划思路"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "minimum-value-to-get-positive-step-by-step-sum"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "zui-xiao-qian-zhui-he-java-by-reiner-bra-h6c6",
+      "status": "PUBLISHED",
+      "summary": "[该用户太懒了，只写了 13 行代码]",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "最小前缀和（java）",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1119750,
+        "viewCount": 12
+      },
+      "uuid": "rerpxV",
+      "videosInfo": []
+    }
+  }
+}

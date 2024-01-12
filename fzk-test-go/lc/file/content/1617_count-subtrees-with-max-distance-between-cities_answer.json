@@ -1,0 +1,72 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "zhangyixing1007",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/zhangyixing/avatar_1592927757.png",
+          "userSlug": "zhangyixing1007"
+        },
+        "username": "zhangyixing1007"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "看到这道题目的时候我最头痛的是，怎么不重不漏地统计子树？\r\n\r\n想要不重，很简单，题目已经给出暗示了`2 <= n <= 15`，闭着眼睛都知道要用状压。\r\n\r\n那么不漏怎么办？\r\n我的想法还是，对每一个`j`（`j`表示成二进制，从右数第`k`位为1表示第`k`个节点在子树中否则不在），逐一检查`i=1, 2, ..., n`是不是这个子树的邻接边--如果是邻接边，那么这个子树中必然存在一个节点`k`，使得`dist[i][k]=1`。此时，只用对目前加进来的这个点`i`和子树中的每一个节点求距离最大值即可。\r\n\r\n从上述过程中，我们发现会常常用到两点距离。由于节点数量并不多`2 <= n <= 15`，`n^3`也不是什么可怕的计算量，所以干脆用Floyed把所有两点之间的距离全部算出来。\r\n\r\n以下代码我进行了详细注释。如果还看不懂可以在评论区留言。\r\n![image.png](https://pic.leetcode-cn.com/1602412228-njryqQ-image.png)\r\n\r\n\r\n```\r\nclass Solution {\r\n    public int[] countSubgraphsForEachDiameter(int n, int[][] edges) {\r\n        int[][] dist=new int[n][n]; //存储两点之间的距离\r\n        for(int i=0; i<n; i++){\r\n            Arrays.fill(dist[i], Integer.MAX_VALUE);\r\n            //之后要求最小值 所以初始化成最大整数\r\n            //其实初始化成任何一个大于等于n的数字都可以\r\n            dist[i][i]=0;//本身到本身显然为0\r\n        }        \r\n        int[] dp=new int[1<<(n)];\r\n        //状态压缩存储 dp[j]表示子树j的最大距离\r\n        //j表示成二进制，从右数第k位为1表示第k个节点在子集中否则不在\r\n        for(int[] edge:edges){\r\n            // 直接相连的两点之间距离显然为1\r\n            dist[edge[0]-1][edge[1]-1]=1;\r\n            dist[edge[1]-1][edge[0]-1]=1;\r\n            // 直接相连的两点可以构成一棵子树 它们的最大距离为1\r\n            dp[(1<<(edge[0]-1)) + (1<<(edge[1]-1))]=1;\r\n        }\r\n        // Floyed算法 求每两点之间的最短距离 请全文背诵\r\n        for(int k=0; k<n; k++){\r\n            for(int i=0; i<n; i++){\r\n                for(int j=0; j<n; j++){\r\n                    if(dist[i][k]!=Integer.MAX_VALUE && dist[k][j]!=Integer.MAX_VALUE){\r\n                        dist[i][j]=Math.min(dist[i][j], dist[i][k]+dist[k][j]);\r\n                    }\r\n                }\r\n            }\r\n        }\r\n        // 把对j的循环放在外面\r\n        // 因为显然如果子树A是子树B的一部分 jA<jB\r\n        // 所以要把数字小的j全部求好了再去求数字大的j\r\n        for(int j=1; j<dp.length; j++){\r\n            // 以下我们从子树 j 扩展到子树 j+(1<<i)\r\n            // 即把节点i加入到子树j中\r\n            // 如果本身j就无法构成一棵子树（如果j表示的节点不能相互连通）\r\n            // 那么也就没有必要继续了 所以continue\r\n            if(dp[j]==0) continue;\r\n            for(int i=0; i<n; i++){\r\n                // 如果节点i已经在子树j中 或者 j+(1<<i)已经被计算过了 就没必要算了\r\n                // 为什么它可能会已经被计算过呢？ \r\n                // 因为 111=101+10=11+100 添加点的顺序不同 但是能得出同样的一棵子树\r\n                if(((1<<i)&j)!=0 || dp[j+(1<<i)]!=0) continue;\r\n                // 检查 j 子树中是否有和 i 直接相连的点 \r\n                // 这其实是相对于子树（而不是某个节点的）的bfs\r\n                for(int k=0; k<n; k++){\r\n                    if(((1<<k)&j)!=0 && dist[i][k]==1){\r\n                        dp[j+(1<<i)]=dp[j];\r\n                        break;\r\n                    }\r\n                }\r\n                // 如果j 子树中没有和 i 直接相连的点\r\n                // 那么也就无法添加这个节点i了\r\n                if(dp[j+(1<<i)]==0) continue;\r\n                // 把节点i添加进来 就要更新新子树的最大距离 dp[j+(1<<i)]\r\n                // 更新的办法是 对于原子树的每一个节点和新节点求最大距离\r\n                // 因为只产生了这些新距离 做增量计算就好\r\n                for(int kk=0; kk<n; kk++){\r\n                    if(((1<<kk)&j)!=0){\r\n                        dp[j+(1<<i)]=Math.max(dp[j+(1<<i)], dist[i][kk]);\r\n                    }\r\n                }\r\n            }\r\n        }\r\n        // 统计结果 由于下标从1开始 \r\n        // ans[0]其实记录的是最大距离为1的子树有多少棵 统计时要-1\r\n        int[] ans=new int[n-1];\r\n        for(int j=0; j<dp.length; j++){\r\n            if(dp[j]!=0) ans[dp[j]-1]++;\r\n        }\r\n        return ans;\r\n    }\r\n}\r\n\r\n```\r\n上述代码是从子树 `j` 扩展到子树` j+(1<<i)` \r\n如果从子树 `j-(1<<i)` 扩展到子树` j` 也是可以的--实际上这才是状压状态转移方程时常用的做法。\r\n我刚刚改了一下就得到了这一种，但速度要慢很多。（我猜是这个判断语句多了移位的操作？ ((1<<k)&j-(1<<i))）\r\n\r\n\r\n![image.png](https://pic.leetcode-cn.com/1602413015-wXtQKi-image.png)\r\n\r\n```\r\nclass Solution {\r\n    public int[] countSubgraphsForEachDiameter(int n, int[][] edges) {\r\n        int[][] dist=new int[n][n];\r\n        for(int i=0; i<n; i++){\r\n            Arrays.fill(dist[i], Integer.MAX_VALUE);\r\n            dist[i][i]=0;\r\n        }        \r\n        int[] dp=new int[1<<(n)];\r\n        for(int[] edge:edges){\r\n            dist[edge[0]-1][edge[1]-1]=1;\r\n            dist[edge[1]-1][edge[0]-1]=1;\r\n            dp[(1<<(edge[0]-1)) + (1<<(edge[1]-1))]=1;\r\n        }\r\n        for(int k=0; k<n; k++){\r\n            for(int i=0; i<n; i++){\r\n                for(int j=0; j<n; j++){\r\n                    if(dist[i][k]!=Integer.MAX_VALUE && dist[k][j]!=Integer.MAX_VALUE){\r\n                        dist[i][j]=Math.min(dist[i][j], dist[i][k]+dist[k][j]);\r\n                    }\r\n                }\r\n            }\r\n        }\r\n        for(int j=1; j<dp.length; j++){\r\n            for(int i=0; i<n; i++){\r\n                if(((1<<i)&j)==0) continue;\r\n                if(dp[j-(1<<i)]!=0){\r\n                    for(int k=0; k<n; k++){\r\n                        if(((1<<k)&j-(1<<i))!=0 && dist[i][k]==1){\r\n                            dp[j]=dp[j-(1<<i)];\r\n                            break;\r\n                        }\r\n                    }\r\n                    if(dp[j]==0) continue;\r\n                    for(int k=0; k<n; k++){\r\n                        if(((1<<k)&j)!=0){\r\n                            dp[j]=Math.max(dp[j], dist[i][k]);\r\n                        }\r\n                    }\r\n                }\r\n                if(dp[j]!=0) break;\r\n            }\r\n        }\r\n        int[] ans=new int[n-1];\r\n        for(int j=0; j<dp.length; j++){\r\n            if(dp[j]!=0) ans[dp[j]-1]++;\r\n        }\r\n        return ans;\r\n    }\r\n}\r\n```\r\n\r\n\r\n最后，我的GitHub [leetcode题解](https://github.com/zhangyixing1007/leetcode)已收录题解200+，欢迎关注。",
+      "createdAt": "2020-10-11T10:38:19.954218+00:00",
+      "hitCount": 2042,
+      "identifier": "Bc2k08",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "python3-shu-xing-dp-by-simpleson",
+        "title": "【python3】O(N⁴)树形dp详解"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "count-subtrees-with-max-distance-between-cities"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 28,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "5538-java-6msfloyedbfszhuang-ya-by-zhangyixing",
+      "status": "PUBLISHED",
+      "summary": "看到这道题目的时候我最头痛的是，怎么不重不漏地统计子树？\n想要不重，很简单，题目已经给出暗示了2 <= n <= 15，闭着眼睛都知道要用状压。\n那么不漏怎么办？\n我的想法还是，对每一个j（j表示成二进制，从右数第k位为1表示第k个节点在子树中否则不在），逐一检查i=1, 2, ..., n是不是这个子树的邻接边--如",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "【1617】 Java 6ms，Floyed+bfs+状压",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 5,
+        "id": 442998,
+        "viewCount": 1433
+      },
+      "uuid": "Bc2k08",
+      "videosInfo": []
+    }
+  }
+}

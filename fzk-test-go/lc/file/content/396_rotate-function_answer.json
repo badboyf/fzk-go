@@ -1,0 +1,84 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "Moutain-Ocean",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/13860971326/avatar_1635685102.png",
+          "userSlug": "mountain-ocean"
+        },
+        "username": "Mountain-Ocean"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "**思路**: 从```dp[i - 1]```到```dp[i]```, 每次会增加```sum - nums[index]```, 并且损失```(n - 1) * nums[index]```\r\n**状态转移方程**：```dp[i] = dp[i - 1] + (sum - nums[index]) - ((n - 1) * nums[index])```\r\n- ```sum```为```nums```的总和\r\n- ```index```为当前倍数为```(n - 1)```的数的下标\r\n```\r\nclass Solution {\r\npublic:\r\n    int maxRotateFunction(vector<int>& nums) {\r\n        int n = nums.size();\r\n        vector<int> dp(n);\r\n        int sum = 0;\r\n        int initial = 0;\r\n        for (int i = 0; i < n; ++i) {\r\n            sum += nums[i];\r\n            initial += i * nums[i];\r\n        }\r\n        dp[0] = initial;\r\n        int index = n - 1;\r\n        for (int i = 1; i < n; ++i) {\r\n            int increase = sum - nums[index];\r\n            int decrease = (n - 1) * nums[index];\r\n            dp[i] = dp[i - 1] + increase - decrease;\r\n            --index;\r\n        }\r\n        // for (auto item : dp) std::cout<<item<<std::endl;\r\n        return *max_element(dp.begin(), dp.end());\r\n    }\r\n};\r\n```\r\n",
+      "createdAt": "2021-11-21T09:06:37.813261+00:00",
+      "hitCount": 70,
+      "identifier": "aP4Wtu",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "396-xuan-zhuan-han-shu-dong-tai-gui-hua-lxdt6",
+        "title": "【396. 旋转函数】【动态规划】Java实现"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "rotate-function"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "c-zhao-gui-lu-by-mountain-ocean-3zon",
+      "status": "PUBLISHED",
+      "summary": "思路: 从dp[i - 1]到dp[i], 每次会增加sum - nums[index], 并且损失(n - 1) * nums[index]\n状态转移方程：dp[i] = dp[i - 1] + (sum - nums[index]) - ((n - 1) * nums[index])\n\nsum为nums的总和\nin",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Dynamic Programming",
+          "nameTranslated": "动态规划",
+          "slug": "dynamic-programming",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "C++ : 找规律",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1114192,
+        "viewCount": 53
+      },
+      "uuid": "aP4Wtu",
+      "videosInfo": []
+    }
+  }
+}

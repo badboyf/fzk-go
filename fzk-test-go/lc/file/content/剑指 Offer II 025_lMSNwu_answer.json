@@ -1,0 +1,72 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "fszhang",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/fszhang/avatar_1601968715.png",
+          "userSlug": "fszhang"
+        },
+        "username": "fszhang"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "\n### 代码\n\n```java\nclass Solution {\n    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {\n        Deque<Integer>stack1=new LinkedList<>();\n        Deque<Integer>stack2=new LinkedList<>();\n        while (l1!=null){\n            stack1.push(l1.val);\n            l1=l1.next;\n        }\n        while (l2!=null){\n            stack2.push(l2.val);\n            l2=l2.next;\n        }\n        ListNode newHead=new ListNode(-1);\n        int add=0;\n        while (!stack1.isEmpty()||!stack2.isEmpty()||add!=0){\n            int sum=add;\n            sum+=stack1.isEmpty()?0:stack1.poll();\n            sum+=stack2.isEmpty()?0:stack2.poll();\n            add=sum/10;\n            ListNode cur=new ListNode(sum%10);\n            cur.next=newHead.next;\n            newHead.next=cur;\n        }\n        return newHead.next;\n    }\n}\n```",
+      "createdAt": "2021-11-17T02:02:06.281624+00:00",
+      "hitCount": 189,
+      "identifier": "8fDm4P",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "gofan-zhuan-lian-biao-xiang-jia-by-fatei-e95n",
+        "title": "go,翻转链表相加"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "lMSNwu"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "javayong-zhan-bu-yong-fan-zhuan-lian-bia-xuk4",
+      "status": "PUBLISHED",
+      "summary": "代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "Java用栈，不用翻转链表",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1106125,
+        "viewCount": 145
+      },
+      "uuid": "8fDm4P",
+      "videosInfo": []
+    }
+  }
+}

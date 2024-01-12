@@ -1,0 +1,76 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "我不是匠人",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/yaojunboy/avatar_1627783832.png",
+          "userSlug": "ac_wllysc"
+        },
+        "username": "ac_wllysc"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "## 分析\r\n- 题目：\r\n    - [1262. 可被三整除的最大和](/problems/greatest-sum-divisible-by-three/)\r\n- 思路：\r\n    - 首先求和sum，如果所有数都能选肯定使最大的，如果不能选，只剩两种情况：余1和余2。\r\n    - **贪心思路**：先把数组从小到大排序，然后从前面小的数里面选，只要选出来的数之和与sum同余，就满足被3整除这个条件。此时有两种情况。\r\n        - 求和后余数为1：\r\n            1. 从左往右选一个对3取模后余数为1的数；\r\n            2. 从左往右选两个对3取模后余数为2的数；\r\n            - 两者取最小值从sum中减去就是答案。\r\n        - 求和后余数为2：\r\n            1. 从左往右选一个对3取模后余数为2的数；\r\n            2. 从左往右选两个对3取模后余数为1的数；\r\n- 注意：\r\n    - 注意边界情况，特殊处理没有两个余数为1和余数为2的情况。\r\n## 代码\r\n```C++ []\r\nclass Solution {\r\npublic:\r\n    int maxSumDivThree(vector<int>& nums) {\r\n        // 先求和 然后\r\n        sort(nums.begin(), nums.end());\r\n        int sum = 0;\r\n        for(auto x: nums) sum += x;\r\n        if(sum % 3 == 0) return sum;\r\n        if(sum % 3 == 1) {\r\n            int i = 0;\r\n            while(i < nums.size() && nums[i] % 3 != 1) i++;\r\n            int valueOne = i < nums.size() ? nums[i]:INT_MAX;\r\n            int j = 0, valueTwo = 0;\r\n            for(auto x: nums) {\r\n                if(x % 3 == 2) {\r\n                    j++;\r\n                    valueTwo += x;\r\n                }\r\n                if(j == 2) break;\r\n            }\r\n            if(j != 2) valueTwo = INT_MAX;\r\n            return sum - min(valueOne, valueTwo);\r\n        }else{\r\n            int i = 0;\r\n            while(i < nums.size() && nums[i] % 3 != 2) i++;\r\n            int valueTwo = i < nums.size() ? nums[i]: INT_MAX;\r\n            int j = 0, valueOne = 0;\r\n            for(auto x: nums) {\r\n                if(x % 3 == 1) {\r\n                    j++;\r\n                    valueOne += x;\r\n                }\r\n                if(j == 2) break;\r\n            }\r\n            if(j != 2) valueOne = INT_MAX;\r\n            return sum - min(valueOne, valueTwo);\r\n        }\r\n        return 0;\r\n    }\r\n};\r\n```\r\n",
+      "createdAt": "2021-11-24T13:56:43.951629+00:00",
+      "hitCount": 28,
+      "identifier": "4BH6Ld",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "python-dong-tai-gui-hua-dai-zhu-shi-by-c-fvnl",
+        "title": "python 动态规划，带注释"
+      },
+      "position": 43,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "javadong-tai-gui-hua-nei-cun-ji-bai-100shi-jian-ji",
+        "title": "java动态规划（内存击败100%，时间击败92.03%）"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "greatest-sum-divisible-by-three"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "1262-ke-bei-san-zheng-chu-de-zui-da-he-t-1wpe",
+      "status": "PUBLISHED",
+      "summary": "分析\n\n题目：\n\n1262. 可被三整除的最大和\n\n\n思路：\n\n首先求和sum，如果所有数都能选肯定使最大的，如果不能选，只剩两种情况：余1和余2。\n贪心思路：先把数组从小到大排序，然后从前面小的数里面选，只要选出来的数之和与sum同余，就满足被3整除这个条件。此时有两种情况。\n\n求和后余数为1：\n\n从左往右选一个对3",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "1262. 可被三整除的最大和【贪心】【数学】",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1120515,
+        "viewCount": 23
+      },
+      "uuid": "4BH6Ld",
+      "videosInfo": []
+    }
+  }
+}

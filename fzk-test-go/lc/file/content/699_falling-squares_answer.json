@@ -1,0 +1,86 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣 (LeetCode)",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/uploaded_files/2021/03/73c9f099-abbe-4d94-853f-f8abffd459cd/leetcode.png",
+          "userSlug": "leetcode"
+        },
+        "username": "LeetCode"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法框架\n\n**思路**\n\n共有两种操作：`update`：掉落一个方块后，更新对应区间的高度；`query`：查询当前区间内的最大高度。\n\n**坐标压缩**\n\n数轴上最多有 `2 * len(positions)` 个临界点，即每个方块的左右边缘，使用坐标压缩将这些临界点映射到相应的整数位置，具体实现如下图代码所示。\n\n为了简便起见，在具体实现方法中不添加这部分代码。\n\n```java [snippet1-Java]\nSet<Integer> coords = new HashSet();\nfor (int[] pos: positions) {\n    coords.add(pos[0]);\n    coords.add(pos[0] + pos[1] - 1);\n}\nList<Integer> sortedCoords = new ArrayList(coords);\nCollections.sort(sortedCoords);\n\nMap<Integer, Integer> index = new HashMap();\nint t = 0;\nfor (int coord: sortedCoords) index.put(coord, t++);\n```\n\n```python [snippet1-Python]\ncoords = set()\nfor left, size in positions:\n    coords.add(left)\n    coords.add(left + size - 1)\nindex = {x: i for i, x in enumerate(sorted(coords))}\n```\n\n\n#### 方法一：模拟方块掉落\n\n**思路**\n\n不要思考“哪个方块影响次此位置的高度？”，应该思考“一个方块影响哪些位置的高度？”。\n\n**算法**\n\n令 `qans[i]` 表示 `positions[i]` 的最大高度。最后返回数组 `qans` 中的最大值即可。\n\n由于每个方块的初始高度 `positions[i]` 比所有已经落地的方块高度更高，因此只需要更新每个掉落方块所在坐标轴的区间 `[left, right], (left = positions[i][0], right = positions[i][0] + positions[i][1])` 的高度即可。\n\n```java [solution1-Java]\nclass Solution {\n    public List<Integer> fallingSquares(int[][] positions) {\n        int[] qans = new int[positions.length];\n        for (int i = 0; i < positions.length; i++) {\n            int left = positions[i][0];\n            int size = positions[i][1];\n            int right = left + size;\n            qans[i] += size;\n\n            for (int j = i+1; j < positions.length; j++) {\n                int left2 = positions[j][0];\n                int size2 = positions[j][1];\n                int right2 = left2 + size2;\n                if (left2 < right && left < right2) { //intersect\n                    qans[j] = Math.max(qans[j], qans[i]);\n                }\n            }\n        }\n\n        List<Integer> ans = new ArrayList();\n        int cur = -1;\n        for (int x: qans) {\n            cur = Math.max(cur, x);\n            ans.add(cur);\n        }\n        return ans;\n    }\n}\n```\n\n```python [solution1-Python]\nclass Solution(object):\n    def fallingSquares(self, positions):\n        qans = [0] * len(positions)\n        for i, (left, size) in enumerate(positions):\n            right = left + size\n            qans[i] += size\n            for j in xrange(i+1, len(positions)):\n                left2, size2 = positions[j]\n                right2 = left2 + size2\n                if left2 < right and left < right2: #intersect\n                    qans[j] = max(qans[j], qans[i])\n\n        ans = []\n        for x in qans:\n            ans.append(max(ans[-1], x) if ans else x)\n        return ans\n```\n\n**复杂度分析**\n\n* 时间复杂度：$O(N^2)$，其中 $N$ 是 `positions` 的长度，两层 for 循环，每层的复杂度都是 $O(N)$。\n\n* 空间复杂度：$O(N)$，`qans` 和 `ans` 的存储空间。\n\n\n#### 方法二：使用坐标压缩的暴力解法\n\n**思路和算法**\n\n令 `N = len(positions)`，将原始的坐标轴映射到 $2* N \\leq 2000$ 的长度上，然后使用暴力解法模拟方块掉落。\n\n计算结果是在映射后坐标轴上的，最后还需要映射回原坐标上。\n\n```java [solution1-Java]\nclass Solution {\n    int[] heights;\n\n    public int query(int L, int R) {\n        int ans = 0;\n        for (int i = L; i <= R; i++) {\n            ans = Math.max(ans, heights[i]);\n        }\n        return ans;\n    }\n\n    public void update(int L, int R, int h) {\n        for (int i = L; i <= R; i++) {\n            heights[i] = Math.max(heights[i], h);\n        }\n    }\n\n    public List<Integer> fallingSquares(int[][] positions) {\n        //Coordinate Compression\n        //HashMap<Integer, Integer> index = ...;\n        //int t = ...;\n\n        heights = new int[t];\n        int best = 0;\n        List<Integer> ans = new ArrayList();\n\n        for (int[] pos: positions) {\n            int L = index.get(pos[0]);\n            int R = index.get(pos[0] + pos[1] - 1);\n            int h = query(L, R) + pos[1];\n            update(L, R, h);\n            best = Math.max(best, h);\n            ans.add(best);\n        }\n        return ans;\n    }\n}\n```\n\n```python [solution1-Python]\nclass Solution(object):\n    def fallingSquares(self, positions):\n        #Coordinate Compression\n        #index = ...\n\n        heights = [0] * len(index)\n        def query(L, R):\n            return max(heights[i] for i in xrange(L, R+1))\n\n        def update(L, R, h):\n            for i in xrange(L, R+1):\n                heights[i] = max(heights[i], h)\n\n        best = 0\n        ans = []\n        for left, size in positions:\n            L = index[left]\n            R = index[left + size - 1]\n            h = query(L, R) + size\n            update(L, R, h)\n            best = max(best, h)\n            ans.append(best)\n\n        return ans\n```\n\n**复杂度分析**\n\n* 时间复杂度：$O(N^2)$，其中 $N$ 是 `positions` 的长度，共两层 for 循环，每层的复杂度都是 $O(N)$（使用了坐标压缩）。\n\n* 空间复杂度：$O(N)$，`heights` 的存储空间。\n\n\n#### 方法三：方块（平方根）分解\n\n**思路**\n\n在坐标轴是上执行 `update` 和 `query` 操作之前，先将长度为 $W$ 的坐标轴分为 $\\sqrt{W}$ 个块。\n\n每次方块掉落时，不仅更新方块所在坐标区间每个位置的高度，还更新方块数组 `blocks`，其中 `blocks[i]` 表示第 $i$ 个块，共 $B = \\lfloor \\sqrt{W} \\rfloor$ 个位置的高度，即 `heights[B*i], heights[B*i + 1], ..., heights[B*i + B-1]`。\n\n**算法**\n\n实际上还需要一个数组 `blocks_read`。更新块 `b = i / B` 中 `i` 个位置的高度时，同时更新 `blocks_read[b]` 和 `blocks[b]` 的值。如果查询整个块的值，则可以直接从 `blocks_read` 中读取。\n\n如果查询块 `b = i / B` 中的第 `i` 个位置的高度，可以通过 `heights[i]` 和 `blocks[b]` 中读取。\n\n`query` 和 `update` 操作类似。当 `left` 或者 `right` 不是 `B` 的倍数时，使用暴力解法。最后 `[left, right+1)` 表示的连续块的长度和 `left` 都是 `B` 的倍数，\n\n`query` 和 `update` 操作类似。虽然 `left` 和 `right` 不是 `B` 的倍数，但可以通过方块位置暴力计算得到区间 `[left, right+1)` 对应的块序列。\n\n```java [solution3-Java]\nclass Solution {\n    int[] heights;\n    int[] blocks;\n    int[] blocks_read;\n    int B;\n\n    public int query(int left, int right) {\n        int ans = 0;\n        while (left % B > 0 && left <= right) {\n            ans = Math.max(ans, heights[left]);\n            ans = Math.max(ans, blocks[left / B]);\n            left++;\n        }\n        while (right % B != B - 1 && left <= right) {\n            ans = Math.max(ans, heights[right]);\n            ans = Math.max(ans, blocks[right / B]);\n            right--;\n        }\n        while (left <= right) {\n            ans = Math.max(ans, blocks[left / B]);\n            ans = Math.max(ans, blocks_read[left / B]);\n            left += B;\n        }\n        return ans;\n    }\n\n    public void update(int left, int right, int h) {\n        while (left % B > 0 && left <= right) {\n            heights[left] = Math.max(heights[left], h);\n            blocks_read[left / B] = Math.max(blocks_read[left / B], h);\n            left++;\n        }\n        while (right % B != B - 1 && left <= right) {\n            heights[right] = Math.max(heights[right], h);\n            blocks_read[right / B] = Math.max(blocks_read[right / B], h);\n            right--;\n        }\n        while (left <= right) {\n            blocks[left / B] = Math.max(blocks[left / B], h);\n            left += B;\n        }\n    }\n\n    public List<Integer> fallingSquares(int[][] positions) {\n        //Coordinate Compression\n        //HashMap<Integer, Integer> index = ...;\n        //int t = ...;\n\n        heights = new int[t];\n        B = (int) Math.sqrt(t);\n        blocks = new int[B+2];\n        blocks_read = new int[B+2];\n\n        int best = 0;\n        List<Integer> ans = new ArrayList();\n\n        for (int[] pos: positions) {\n            int L = index.get(pos[0]);\n            int R = index.get(pos[0] + pos[1] - 1);\n            int h = query(L, R) + pos[1];\n            update(L, R, h);\n            best = Math.max(best, h);\n            ans.add(best);\n        }\n        return ans;\n    }\n}\n```\n\n```python [solution3-Python]\nclass Solution(object):\n    def fallingSquares(self, positions):\n        #Coordinate compression\n        #index = ...\n\n        W = len(index)\n        B = int(W**.5)\n        heights = [0] * W\n        blocks = [0] * (B+2)\n        blocks_read = [0] * (B+2)\n\n        def query(left, right):\n            ans = 0\n            while left % B and left <= right:\n                ans = max(ans, heights[left], blocks[left / B])\n                left += 1\n            while right % B != B-1 and left <= right:\n                ans = max(ans, heights[right], blocks[right / B])\n                right -= 1\n            while left <= right:\n                ans = max(ans, blocks[left / B], blocks_read[left / B])\n                left += B\n            return ans\n\n        def update(left, right, h):\n            while left % B and left <= right:\n                heights[left] = max(heights[left], h)\n                blocks_read[left / B] = max(blocks_read[left / B], h)\n                left += 1\n            while right % B != B-1 and left <= right:\n                heights[right] = max(heights[right], h)\n                blocks_read[right / B] = max(blocks_read[right / B], h)\n                right -= 1\n            while left <= right:\n                blocks[left / B] = max(blocks[left / B], h)\n                left += B\n\n        best = 0\n        ans = []\n        for left, size in positions:\n            L = index[left]\n            R = index[left + size - 1]\n            h = query(L, R) + size\n            update(L, R, h)\n            best = max(best, h)\n            ans.append(best)\n\n        return ans\n```\n\n**复杂度分析**\n\n* 时间复杂度：$O(N\\sqrt{N})$，其中 $N$ 是 `positions` 的长度，`query` 和 `update` 的复杂度都是 $O(\\sqrt{N})$。\n\n* 空间复杂度：$O(N)$，`heights` 的存储空间。\n\n\n#### 方法四：懒惰传播的线段树\n\n**思路**\n\n线段树支持查询和更新操作，使用线段树可以很容易的解决此问题。\n\n**算法**\n\n线段树将整个区间分割为多个不连续的子区间，子区间的数量不超过 `log(width)`。更新某个元素的值，只需要更新 `log(width)` 个区间，并且这些区间都包含在一个包含该元素的大区间内。\n\n一次性更新一个区间时，需要使用懒惰传播保证效率。\n\n```java [solution4-Java]\nclass Solution {\n    public List<Integer> fallingSquares(int[][] positions) {\n        //Coordinate Compression\n        //HashMap<Integer, Integer> index = ...;\n\n        SegmentTree tree = new SegmentTree(sortedCoords.size());\n        int best = 0;\n        List<Integer> ans = new ArrayList();\n\n        for (int[] pos: positions) {\n            int L = index.get(pos[0]);\n            int R = index.get(pos[0] + pos[1] - 1);\n            int h = tree.query(L, R) + pos[1];\n            tree.update(L, R, h);\n            best = Math.max(best, h);\n            ans.add(best);\n        }\n        return ans;\n    }\n}\n\nclass SegmentTree {\n    int N, H;\n    int[] tree, lazy;\n\n    SegmentTree(int N) {\n        this.N = N;\n        H = 1;\n        while ((1 << H) < N) H++;\n        tree = new int[2 * N];\n        lazy = new int[N];\n    }\n\n    private void apply(int x, int val) {\n        tree[x] = Math.max(tree[x], val);\n        if (x < N) lazy[x] = Math.max(lazy[x], val);\n    }\n\n    private void pull(int x) {\n        while (x > 1) {\n            x >>= 1;\n            tree[x] = Math.max(tree[x * 2], tree[x * 2 + 1]);\n            tree[x] = Math.max(tree[x], lazy[x]);\n        }\n    }\n\n    private void push(int x) {\n        for (int h = H; h > 0; h--) {\n            int y = x >> h;\n            if (lazy[y] > 0) {\n                apply(y * 2, lazy[y]);\n                apply(y * 2 + 1, lazy[y]);\n                lazy[y] = 0;\n            }\n        }\n    }\n\n    public void update(int L, int R, int h) {\n        L += N; R += N;\n        int L0 = L, R0 = R, ans = 0;\n        while (L <= R) {\n            if ((L & 1) == 1) apply(L++, h);\n            if ((R & 1) == 0) apply(R--, h);\n            L >>= 1; R >>= 1;\n        }\n        pull(L0); pull(R0);\n    }\n\n    public int query(int L, int R) {\n        L += N; R += N;\n        int ans = 0;\n        push(L); push(R);\n        while (L <= R) {\n            if ((L & 1) == 1) ans = Math.max(ans, tree[L++]);\n            if ((R & 1) == 0) ans = Math.max(ans, tree[R--]);\n            L >>= 1; R >>= 1;\n        }\n        return ans;\n    }\n}\n```\n\n```python [solution4-Python]\nclass SegmentTree(object):\n    def __init__(self, N, update_fn, query_fn):\n        self.N = N\n        self.H = 1\n        while 1 << self.H < N:\n            self.H += 1\n\n        self.update_fn = update_fn\n        self.query_fn = query_fn\n        self.tree = [0] * (2 * N)\n        self.lazy = [0] * N\n\n    def _apply(self, x, val):\n        self.tree[x] = self.update_fn(self.tree[x], val)\n        if x < self.N:\n            self.lazy[x] = self.update_fn(self.lazy[x], val)\n\n    def _pull(self, x):\n        while x > 1:\n            x /= 2\n            self.tree[x] = self.query_fn(self.tree[x*2], self.tree[x*2 + 1])\n            self.tree[x] = self.update_fn(self.tree[x], self.lazy[x])\n\n    def _push(self, x):\n        for h in xrange(self.H, 0, -1):\n            y = x >> h\n            if self.lazy[y]:\n                self._apply(y * 2, self.lazy[y])\n                self._apply(y * 2+ 1, self.lazy[y])\n                self.lazy[y] = 0\n\n    def update(self, L, R, h):\n        L += self.N\n        R += self.N\n        L0, R0 = L, R\n        while L <= R:\n            if L & 1:\n                self._apply(L, h)\n                L += 1\n            if R & 1 == 0:\n                self._apply(R, h)\n                R -= 1\n            L /= 2; R /= 2\n        self._pull(L0)\n        self._pull(R0)\n\n    def query(self, L, R):\n        L += self.N\n        R += self.N\n        self._push(L); self._push(R)\n        ans = 0\n        while L <= R:\n            if L & 1:\n                ans = self.query_fn(ans, self.tree[L])\n                L += 1\n            if R & 1 == 0:\n                ans = self.query_fn(ans, self.tree[R])\n                R -= 1\n            L /= 2; R /= 2\n        return ans\n\nclass Solution(object):\n    def fallingSquares(self, positions):\n        #Coordinate compression\n        #index = ...\n\n        tree = SegmentTree(len(index), max, max)\n        best = 0\n        ans = []\n        for left, size in positions:\n            L, R = index[left], index[left + size - 1]\n            h = tree.query(L, R) + size\n            tree.update(L, R, h)\n            best = max(best, h)\n            ans.append(best)\n\n        return ans\n```\n\n**复杂度分析**\n\n* 时间复杂度：$O(N \\log N)$，其中 $N$ 是 `positions` 的长度，这也是线段树的时间复杂度。\n\n* 空间复杂度：$O(N)$，线段树的存储空间。",
+      "createdAt": "2020-02-10T06:15:03.243438+00:00",
+      "hitCount": 3795,
+      "identifier": "2mESEi",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "wa-pian-699-diao-luo-de-fang-kuai-java-z-ljxp",
+        "title": "【瓦片】699. 掉落的方块 - Java 中击败了 87.83% - 线段树 # 坐标压缩 #"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "falling-squares"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 10,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "diao-luo-de-fang-kuai-by-leetcode",
+      "status": "PUBLISHED",
+      "summary": "方法框架 思路 共有两种操作：update：掉落一个方块后，更新对应区间的高度；query：查询当前区间内的最大高度。 坐标压缩 数轴上最多有 2 * len(positions) 个临界点，即每个方块的左右边缘，使用坐标压缩将这些临界点映射到相应的整数位置，具体实现如下图代码所示。 为了简便起见，在具体实现方法中不添",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Segment Tree",
+          "nameTranslated": "线段树",
+          "slug": "segment-tree",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "掉落的方块",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 6,
+        "id": 90641,
+        "viewCount": 2570
+      },
+      "uuid": "2mESEi",
+      "videosInfo": []
+    }
+  }
+}

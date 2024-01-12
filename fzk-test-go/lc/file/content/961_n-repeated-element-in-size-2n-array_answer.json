@@ -1,0 +1,93 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣 (LeetCode)",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/uploaded_files/2021/03/73c9f099-abbe-4d94-853f-f8abffd459cd/leetcode.png",
+          "userSlug": "leetcode"
+        },
+        "username": "LeetCode"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法 1：计数\n\n**想法和算法**\n\n直接计数元素的个数。利用 `HashMap` 或者数组，这里使用 `HashMap`。\n\n然后，元素数量超过 1 的就是答案。\n\n```Java []\nclass Solution {\n    public int repeatedNTimes(int[] A) {\n        Map<Integer, Integer> count = new HashMap();\n        for (int x: A) {\n            count.put(x, count.getOrDefault(x, 0) + 1);\n        }\n\n        for (int k: count.keySet())\n            if (count.get(k) > 1)\n                return k;\n\n        throw null;\n    }\n}\n```\n\n```Python []\nclass Solution(object):\n    def repeatedNTimes(self, A):\n        count = collections.Counter(A)\n        for k in count:\n            if count[k] > 1:\n                return k\n```\n\n**复杂度分析**\n\n* 时间复杂度：$O(N)$，其中 $N$ 是 `A` 的长度。\n* 空间复杂度：$O(N)$。\n\n#### 方法 2：比较\n\n**想法和算法**\n\n一旦找到一个重复元素，那么一定就是答案。我们称这个答案为*主要元素*。\n\n考虑所有长度为 4 的子序列，在子序列中一定至少含有两个主要元素。\n\n这是因为：\n\n* 长度为 2 的子序列中都是主要元素，或者；\n* 每个长度为 2 的子序列都恰好含有 1 个主要元素，这意味着长度为 4 的子序列一定含有 2 个主要元素。\n\n因此，只需要比较所有距离为 1，2 或者 3 的邻居元素即可。\n\n```Java []\nclass Solution {\n    public int repeatedNTimes(int[] A) {\n        for (int k = 1; k <= 3; ++k)\n            for (int i = 0; i < A.length - k; ++i)\n                if (A[i] == A[i+k])\n                    return A[i];\n\n        throw null;\n    }\n}\n```\n\n```Python []\nclass Solution(object):\n    def repeatedNTimes(self, A):\n        for k in xrange(1, 4):\n            for i in xrange(len(A) - k):\n                if A[i] == A[i+k]:\n                    return A[i]\n```\n\n**复杂度分析**\n\n* 时间复杂度：$O(N)$，其中 $N$ 是 `A` 的长度。\n* 空间复杂度：$O(1)$。",
+      "createdAt": "2019-08-07T02:30:09.046982+00:00",
+      "hitCount": 11971,
+      "identifier": "TrQrhJ",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "mo-ni-ji-shu-by-euyvvl-a7xs",
+        "title": "模拟计数"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "n-repeated-element-in-size-2n-array"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 19,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "zhong-fu-n-ci-de-yuan-su-by-leetcode",
+      "status": "PUBLISHED",
+      "summary": "§ 方法 1：计数\n想法和算法\n直接计数元素的个数。利用 HashMap 或者数组，这里使用 HashMap。\n然后，元素数量超过 1 的就是答案。\n复杂度分析\n\n时间复杂度：O(N)，其中 N 是 A 的长度。\n空间复杂度：O(N)。\n\n§ 方法 2：比较\n想法和算法\n一旦找到一个重复元素，那么一定就是答案。我们称这",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Brainteaser",
+          "nameTranslated": "脑筋急转弯",
+          "slug": "brainteaser",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Map",
+          "nameTranslated": "",
+          "slug": "map",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "重复 N 次的元素",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 28,
+        "id": 18949,
+        "viewCount": 9902
+      },
+      "uuid": "TrQrhJ",
+      "videosInfo": []
+    }
+  }
+}

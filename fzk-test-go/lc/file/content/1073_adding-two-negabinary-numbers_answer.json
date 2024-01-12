@@ -1,0 +1,86 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "ffreturn",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/ffreturn/avatar_1608859813.png",
+          "userSlug": "ffreturn"
+        },
+        "username": "ffreturn"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "![image.png](https://pic.leetcode-cn.com/1634046227-ipTdxp-image.png)\n\n\n### 解题思路\n无处不在的数学\n- 重要结论\n   - (-2)^n + (-2)^n = (-2)^(n+1)*(-2+1)=(-2)^(n+1) + (-2)^(n+2)\n   - 即进位需要进两次\n- 结果范围是 n+4\n    - 考虑到最多2位会计算，那么到最长的两位还有上面两位，计算时候最大值是n+4\n    - 最终计算不考虑最前面两位, 从倒数第三位开始找前置0\n    - 坑：前置零需要保留最小的0，即[0],[0] 结果是 [0]\n- 注意边界情况\n   - 即最终结果最多是最长的位数再加一位\n\n### 代码\n\n```cpp\n\nclass Solution {\npublic:\n    vector<int> addNegabinary(vector<int>& arr1, vector<int>& arr2) {\n        int n1 = arr1.size();\n        int n2 = arr2.size();\n        int n = max(n1,n2)+4;\n        vector<int> res(n, 0);\n        // 和arr1和arr2 倒序的计算，低位在前面\n        for (int i = n1-1; i >= 0; --i)\n        {\n            res[n1-1-i] += arr1[i];\n        }\n        for (int i = n2-1; i >= 0; --i)\n        {\n            res[n2-1-i] += arr2[i];\n        }\n\n        // 从低位开始计算\n        for (int i = 0; i +2 < n; ++i)\n        {\n            // 进位\n            int carry = res[i] >> 1;\n            res[i] &= 1;\n            res[i+1] += carry;\n            res[i+2] += carry;\n        }\n        // 观察最高位连续零需要移除\n        int k = n-3;\n        // 这里结束是0，来避免0,0->空的情况\n        while (k > 0 && res[k] == 0)\n        {\n            --k;\n        }\n        reverse(res.begin(), res.begin()+k+1);\n        // 移除末尾的为0的部分\n        int i = n-k-1;\n        while(i > 0)\n        {\n            --i;\n            res.pop_back();\n        }\n\n        return res;\n    }\n};\n```",
+      "createdAt": "2021-10-12T13:46:12.830481+00:00",
+      "hitCount": 151,
+      "identifier": "vX2BMi",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "fei-chang-jian-dan-yi-dong-de-ti-jie-li-497u0",
+        "title": "【非常简单易懂的题解】【利用小学竖式加法】"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "adding-two-negabinary-numbers"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "1073-cchao-100de-shu-xue-jie-fa-by-ffret-ymm1",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n无处不在的数学\n\n重要结论\n\n(-2)^n + (-2)^n = (-2)^(n+1)*(-2+1)=(-2)^(n+1) + (-2)^(n+2)\n即进位需要进两次\n\n\n结果范围是 n+4\n\n考虑到最多2位会计算，那么到最长的两位还有上面两位，计算时候最大值是n+4\n最终计算不考虑最前面两位, 从倒数第三位",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Math",
+          "nameTranslated": "数学",
+          "slug": "math",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "梦想",
+          "nameTranslated": "",
+          "slug": "meng-xiang",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1634046227-ipTdxp-image.png",
+      "title": "1073. c++超100的数学解法",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1044119,
+        "viewCount": 112
+      },
+      "uuid": "vX2BMi",
+      "videosInfo": []
+    }
+  }
+}

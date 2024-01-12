@@ -1,0 +1,105 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "zaozhe",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/zaozhe/avatar_1543734014.png",
+          "userSlug": "zaozhe"
+        },
+        "username": "zaozhe"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "## 思路\r\n- 这道题中要找的是 **子序列** 中，包含几个可行解，很容易的可以想到 `dfs`：\r\n    - 观察数据规模， `1 ≤ n ≤ 16`，最暴力的 `dfs` 也才 $2^{16} = 64, 000$，可以接受\r\n- 还需要找到 **按位或** 的 **最大值** 。观察到所有的数字都是正数，则显然有 $a\\ |\\ b ≥ max(a, b)$，**即一个正数A按位或另一个正数B，得到的结果C一定是不减的**。\r\n    - 由此我们可以知道：我们要寻找的最大值 = 所有数字按位或结果\r\n\r\n## 一、寻找按位或最大值\r\n#### 思路证明\r\n随便举例两个正数：\r\n```\r\n1 0 0 0 1 0 0 1   A\r\n0 1 0 1 1 1 0 1   B\r\n----------------这条横线表示竖式的按位或\r\n1 1 0 1 1 1 0 1   C\r\n```\r\n`A` 和 `B` 都是正数,观察上面的竖式，可以发现对于每一位 $C[i] = A[i]\\  |\\  B[i]$\r\n|A[i]|B[i]|A[i] \\| B[i]|\r\n|:--:|:--:|:--:|\r\n|0|0|0|\r\n|0|**1**|**1**|\r\n|**1**|0|**1**|\r\n|**1**|**1**|**1**|\r\n\r\n可得对于数字每一位，都有 $C[i] ≥ max(A[i], B[i])$\r\n则 $C ≥ max(A , B)$\r\n\r\n\r\n则对于一个全集 `S`，和一个 `S` 的子集 `S'`，假设$S = S' + \\{x\\}$\r\n有 $or(S) = or(S' \\ | \\ x) ≥ or(S')$，其中 `or` 表示对某个集合所有元素集体按位或。\r\n也就是说，**我们要找的全局按位或最大值，就等于原数组所有元素按位或结果**。\r\n#### 具体代码\r\n```cpp []\r\nint sum = 0;\r\nfor(auto p : nums){\r\n    sum |= p;\r\n}\r\n```\r\n```java []\r\nint sum = 0;\r\nfor(int p : nums){\r\n    sum |= p;\r\n}\r\n```\r\n\r\n## 二、朴素的暴力DFS\r\n#### 思路\r\n使用一个 `idx` 来记录目前遍历到哪个数字了，使用一个 `cur` 来记录前面的若干位的 或结果。\r\n#### 具体代码\r\n```cpp []\r\nint ans = 0;\r\nvoid dfs(vector<int>& nums, int& sum, int idx, int cur){\r\n    // 到达dfs终点\r\n    if(idx == nums.size()){\r\n        if(cur == sum) ans++;\r\n        return;\r\n    }\r\n    // 尝试加入当前数字\r\n    dfs(nums, sum, idx + 1, cur | nums[idx]);\r\n    // 尝试不加入当前数字\r\n    dfs(nums, sum, idx + 1, cur);\r\n}\r\n```\r\n```java []\r\nprivate int ans = 0;\r\npublic void dfs(int[] nums, int sum, int idx, int cur){\r\n    // 到达dfs终点\r\n    if(idx == nums.length){\r\n        if(cur == sum) ans++;\r\n        return;\r\n    }\r\n    // 尝试加入当前数字\r\n    dfs(nums, sum, idx + 1, cur | nums[idx]);\r\n    // 尝试不加入当前数字\r\n    dfs(nums, sum, idx + 1, cur);\r\n}\r\n```\r\n\r\n## 三、剪枝\r\n#### 思路\r\n由于 **一、寻找按位或最大值** 中已经证明了，按位或是一个不减的操作。\r\n因此加入我们 `dfs` 到某一个位置时，发现已经达到最大值，则后面未处理的 `k` 个值，$2^k$ 种取法均能满足要求。\r\n我们以此为依据，添加剪枝\r\n#### 具体代码\r\n```cpp []\r\nint ans = 0;\r\nvoid dfs(vector<int>& nums, int& sum, int idx, int cur){\r\n    // 到中间某时刻，已经达到最大值，剪枝\r\n    if(cur == sum){\r\n        // 还剩 nums.size() - idx个值未处理\r\n        ans += 1 << (nums.size() - idx);\r\n        return;\r\n    }\r\n    // 到达dfs终点\r\n    if(idx == nums.size()){\r\n        return;\r\n    }\r\n    // 尝试加入当前数字\r\n    dfs(nums, sum, idx + 1, cur | nums[idx]);\r\n    // 尝试不加入当前数字\r\n    dfs(nums, sum, idx + 1, cur);\r\n}\r\n```\r\n```java []\r\nprivate int ans = 0;\r\npublic void dfs(int[] nums, int sum, int idx, int cur){\r\n    // 到中间某时刻，已经达到最大值，剪枝\r\n    if(cur == sum){\r\n        // 还剩 nums.length - idx个值未处理\r\n        ans += 1 << (nums.length - idx);\r\n        return;\r\n    }\r\n    // 到达dfs终点\r\n    if(idx == nums.length){\r\n        return;\r\n    }\r\n    // 尝试加入当前数字\r\n    dfs(nums, sum, idx + 1, cur | nums[idx]);\r\n    // 尝试不加入当前数字\r\n    dfs(nums, sum, idx + 1, cur);\r\n}\r\n```\r\n## 四、完整代码及注释\r\n```cpp []\r\nclass Solution {\r\npublic:\r\n    int ans = 0;\r\n    int countMaxOrSubsets(vector<int>& nums) {\r\n        // 按位或是不减的操作，所以全部 | 起来是最大值\r\n        int sum = 0;\r\n        for(auto p : nums){\r\n            sum |= p;\r\n        }\r\n        dfs(nums, sum, 0, 0);\r\n        return ans;\r\n    }\r\n    void dfs(vector<int>& nums, int& m, int idx, int cur){\r\n        // 剪枝\r\n        if(cur == m){\r\n            ans += 1 << (nums.size() - idx);\r\n            return;\r\n        }\r\n        if(idx == nums.size()){\r\n            return;\r\n        }\r\n        // 加上这个数\r\n        dfs(nums, m, idx + 1, cur | nums[idx]);\r\n        // 不加这个数\r\n        dfs(nums, m, idx + 1, cur);\r\n    }\r\n};\r\n```\r\n```java []\r\nclass Solution {\r\n    private int ans = 0;\r\n    public int countMaxOrSubsets(int[] nums) {\r\n        // 按位或是不减的操作，所以全部 | 起来是最大值\r\n        int sum = 0;\r\n        for(int p : nums){\r\n            sum |= p;\r\n        }\r\n        dfs(nums, sum, 0, 0);\r\n        return ans;\r\n    }\r\n    public void dfs(int[] nums, int sum, int idx, int cur){\r\n        // 剪枝\r\n        if(cur == sum){\r\n            ans += 1 << (nums.length - idx);\r\n            return;\r\n        }\r\n        if(idx == nums.length){\r\n            return;\r\n        }\r\n        // 加上这个数\r\n        dfs(nums, sum, idx + 1, cur | nums[idx]);\r\n        // 不加这个数\r\n        dfs(nums, sum, idx + 1, cur);\r\n    }\r\n}\r\n```\r\n\r\n## 五、写在最后\r\n最后上传一个封面图\r\n![QQ图片20211017132636.jpg](https://pic.leetcode-cn.com/1634448417-jNYSQy-QQ%E5%9B%BE%E7%89%8720211017132636.jpg)\r\n",
+      "createdAt": "2021-10-17T05:24:02.889257+00:00",
+      "hitCount": 1589,
+      "identifier": "raBgTQ",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "5904tong-ji-an-wei-huo-neng-de-dao-zui-d-nqfq",
+        "title": "5904.统计按位或能得到最大值的子集数目  状态压缩&递归回溯！"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "count-number-of-maximum-bitwise-or-subsets"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 25,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": false,
+      "slug": "bao-li-yu-jian-zhi-by-zaozhe-48mi",
+      "status": "PREPUBLISH",
+      "summary": "思路\n\n这道题中要找的是 子序列 中，包含几个可行解，很容易的可以想到 dfs：\n\n观察数据规模， 1 ≤ n ≤ 16，最暴力的 dfs 也才 2^{16} = 64, 000，可以接受\n\n\n还需要找到 按位或 的 最大值 。观察到所有的数字都是正数，则显然有 a\\ |\\ b ≥ max(a, b)，即一个正数A按位",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "叽里呱啦",
+          "nameTranslated": "",
+          "slug": "jiliguala",
+          "tagType": "COMPANY"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "DFS",
+          "nameTranslated": "",
+          "slug": "dfs",
+          "tagType": "ADDITIONAL_TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "位或",
+          "nameTranslated": "",
+          "slug": "wei-huo",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1634448417-jNYSQy-QQ%E5%9B%BE%E7%89%8720211017132636.jpg",
+      "title": "【Java/c++】暴力与剪枝与证明",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 7,
+        "id": 1051675,
+        "viewCount": 1090
+      },
+      "uuid": "raBgTQ",
+      "videosInfo": []
+    }
+  }
+}

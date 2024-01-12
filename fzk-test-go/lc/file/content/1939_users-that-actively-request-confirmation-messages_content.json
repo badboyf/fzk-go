@@ -1,0 +1,70 @@
+{
+  "data": {
+    "question": {
+      "__typename": "QuestionNode",
+      "book": null,
+      "boundTopicId": 884295,
+      "categoryTitle": "Database",
+      "codeSnippets": null,
+      "companyTagStats": null,
+      "content": null,
+      "contributors": [],
+      "dailyRecordStatus": null,
+      "difficulty": "Easy",
+      "dislikes": 0,
+      "editorType": "CKEDITOR",
+      "enableRunCode": true,
+      "envInfo": "{\"mysql\":[\"MySQL\",\"<p>\\u7248\\u672c\\uff1a<code>MySQL 8.0<\\/code><\\/p>\"],\"mssql\":[\"MS SQL Server\",\"<p>mssql server 2019.<\\/p>\"],\"oraclesql\":[\"Oracle\",\"<p>Oracle Sql 11.2.<\\/p>\"]}",
+      "exampleTestcases": "{\"headers\": {\"Signups\": [\"user_id\", \"time_stamp\"], \"Confirmations\": [\"user_id\", \"time_stamp\", \"action\"]}, \"rows\": {\"Signups\": [[3, \"2020-03-21 10:16:13\"], [7, \"2020-01-04 13:57:59\"], [2, \"2020-07-29 23:09:44\"], [6, \"2020-12-09 10:39:37\"]], \"Confirmations\": [[3, \"2021-01-06 03:30:46\", \"timeout\"], [3, \"2021-01-06 03:37:45\", \"timeout\"], [7, \"2021-06-12 11:57:29\", \"confirmed\"], [7, \"2021-06-13 11:57:30\", \"confirmed\"], [2, \"2021-01-22 00:00:00\", \"confirmed\"], [2, \"2021-01-23 00:00:00\", \"timeout\"], [6, \"2021-10-23 14:14:14\", \"confirmed\"], [6, \"2021-10-24 14:14:13\", \"timeout\"]]}}",
+      "hints": [],
+      "isDailyQuestion": false,
+      "isLiked": null,
+      "isPaidOnly": true,
+      "isSubscribed": false,
+      "judgeType": "large",
+      "judgerAvailable": true,
+      "langToValidPlayground": null,
+      "likes": 4,
+      "metaData": "{\n  \"mysql\": [\n    \"Create table If Not Exists Signups (user_id int, time_stamp datetime)\",\n    \"Create table If Not Exists Confirmations (user_id int, time_stamp datetime, action ENUM('confirmed','timeout'))\"\n  ],\n  \"mssql\": [\n    \"Create table Signups (user_id int, time_stamp datetime)\",\n    \"Create table Confirmations (user_id int, time_stamp datetime, action VARCHAR(10) NOT NULL CHECK (action IN ('confirmed','timeout')))\"\n  ],\n  \"oraclesql\": [\n    \"Create table Signups (user_id int, time_stamp date)\",\n    \"Create table Confirmations (user_id int, time_stamp date, action VARCHAR(10) NOT NULL CHECK (action IN ('confirmed','timeout')))\",\n    \"ALTER SESSION SET nls_date_format='YYYY-MM-DD HH24:MI:SS'\"\n  ],\n  \"database\": true\n}",
+      "mysqlSchemas": [
+        "Create table If Not Exists Signups (user_id int, time_stamp datetime)",
+        "Create table If Not Exists Confirmations (user_id int, time_stamp datetime, action ENUM('confirmed','timeout'))",
+        "Truncate table Signups",
+        "insert into Signups (user_id, time_stamp) values ('3', '2020-03-21 10:16:13')",
+        "insert into Signups (user_id, time_stamp) values ('7', '2020-01-04 13:57:59')",
+        "insert into Signups (user_id, time_stamp) values ('2', '2020-07-29 23:09:44')",
+        "insert into Signups (user_id, time_stamp) values ('6', '2020-12-09 10:39:37')",
+        "Truncate table Confirmations",
+        "insert into Confirmations (user_id, time_stamp, action) values ('3', '2021-01-06 03:30:46', 'timeout')",
+        "insert into Confirmations (user_id, time_stamp, action) values ('3', '2021-01-06 03:37:45', 'timeout')",
+        "insert into Confirmations (user_id, time_stamp, action) values ('7', '2021-06-12 11:57:29', 'confirmed')",
+        "insert into Confirmations (user_id, time_stamp, action) values ('7', '2021-06-13 11:57:30', 'confirmed')",
+        "insert into Confirmations (user_id, time_stamp, action) values ('2', '2021-01-22 00:00:00', 'confirmed')",
+        "insert into Confirmations (user_id, time_stamp, action) values ('2', '2021-01-23 00:00:00', 'timeout')",
+        "insert into Confirmations (user_id, time_stamp, action) values ('6', '2021-10-23 14:14:14', 'confirmed')",
+        "insert into Confirmations (user_id, time_stamp, action) values ('6', '2021-10-24 14:14:13', 'timeout')"
+      ],
+      "questionFrontendId": "1939",
+      "questionId": "2092",
+      "sampleTestCase": "{\"headers\": {\"Signups\": [\"user_id\", \"time_stamp\"], \"Confirmations\": [\"user_id\", \"time_stamp\", \"action\"]}, \"rows\": {\"Signups\": [[3, \"2020-03-21 10:16:13\"], [7, \"2020-01-04 13:57:59\"], [2, \"2020-07-29 23:09:44\"], [6, \"2020-12-09 10:39:37\"]], \"Confirmations\": [[3, \"2021-01-06 03:30:46\", \"timeout\"], [3, \"2021-01-06 03:37:45\", \"timeout\"], [7, \"2021-06-12 11:57:29\", \"confirmed\"], [7, \"2021-06-13 11:57:30\", \"confirmed\"], [2, \"2021-01-22 00:00:00\", \"confirmed\"], [2, \"2021-01-23 00:00:00\", \"timeout\"], [6, \"2021-10-23 14:14:14\", \"confirmed\"], [6, \"2021-10-24 14:14:13\", \"timeout\"]]}}",
+      "similarQuestions": "[]",
+      "solution": null,
+      "stats": "{\"totalAccepted\": \"585\", \"totalSubmission\": \"922\", \"totalAcceptedRaw\": 585, \"totalSubmissionRaw\": 922, \"acRate\": \"63.4%\"}",
+      "status": null,
+      "style": "LEETCODE",
+      "title": "Users That Actively Request Confirmation Messages",
+      "titleSlug": "users-that-actively-request-confirmation-messages",
+      "topicTags": [
+        {
+          "__typename": "TopicTagNode",
+          "name": "Database",
+          "slug": "database",
+          "translatedName": "数据库"
+        }
+      ],
+      "translatedContent": null,
+      "translatedTitle": null,
+      "ugcQuestionId": null
+    }
+  }
+}

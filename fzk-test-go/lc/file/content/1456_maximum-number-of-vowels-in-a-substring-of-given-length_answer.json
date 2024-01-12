@@ -1,0 +1,93 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣官方题解",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/leetcode-solution/avatar_1582018938.png",
+          "userSlug": "leetcode-solution"
+        },
+        "username": "LeetCode-Solution"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法一：滑动窗口\n\n我们可以遍历字符串 $s$ 每个长度为 $k$ 的子串，求出其中包含的元音字母个数，并找出最大值。\n\n对于任意一个子串，假设它的长度为 $k$，结束位置为 $r$，我们用 $s_k(r)$ 来表示。如果 $s_k(r)$ 中包含了 $x$ 个元音字母，那么下一个相同长度的字符串（结束位置为 $k+1$）包含的元音字母个数即为\n\n$$\ns_k(r+1)~包含元音字母的个数 = x + (s[r+1]~为元音字母) - (s[r+1-k]~为元音字母)\n$$\n\n也就是说，$s_k(r+1)$ 比 $s_k(r)$ 少了字母 $s[r+1-k]$ 而多了字母 $s[r+1]$，因此上面的等式是成立的。\n\n因此，我们可以首先求出 $s$ 的前 $k$ 个字母组成的子串包含的元音字母个数，随后我们使用上面的等式，不断地求出下一个长度为 $k$ 的子串包含的元音字母个数，直到子串与 $s$ 的结尾重合。这样以来，我们就遍历了每一个长度为 $k$ 的子串，也就得到了答案。\n\n```C++ [sol1-C++]\nclass Solution {\npublic:\n    bool isVowel(char ch) {\n        return ch == 'a' || ch == 'e' || ch == 'i' || ch == 'o' || ch == 'u'; \n    }\n    \n    int maxVowels(string s, int k) {\n        int n = s.size();\n        int vowel_count = 0;\n        for (int i = 0; i < k; ++i) {\n            vowel_count += isVowel(s[i]);\n        }\n        int ans = vowel_count;\n        for (int i = k; i < n; ++i) {\n            vowel_count += isVowel(s[i]) - isVowel(s[i - k]);\n            ans = max(ans, vowel_count);\n        }\n        return ans;\n    }\n};\n```\n\n```Python [sol1-Python3]\nclass Solution:\n    def maxVowels(self, s: str, k: int) -> int:\n        def isVowel(ch):\n            return int(ch in \"aeiou\")\n        \n        n = len(s)\n        vowel_count = sum(1 for i in range(k) if isVowel(s[i]))\n        ans = vowel_count\n        for i in range(k, n):\n            vowel_count += isVowel(s[i]) - isVowel(s[i - k])\n            ans = max(ans, vowel_count)\n        return ans\n```\n\n```Java [sol1-Java]\nclass Solution {\n    public int maxVowels(String s, int k) {\n        int n = s.length();\n        int vowel_count = 0;\n        for (int i = 0; i < k; ++i) {\n            vowel_count += isVowel(s.charAt(i));\n        }\n        int ans = vowel_count;\n        for (int i = k; i < n; ++i) {\n            vowel_count += isVowel(s.charAt(i)) - isVowel(s.charAt(i - k));\n            ans = Math.max(ans, vowel_count);\n        }\n        return ans;\n    }\n\n    public int isVowel(char ch) {\n        return ch == 'a' || ch == 'e' || ch == 'i' || ch == 'o' || ch == 'u' ? 1 : 0;\n    }\n}\n```\n\n**复杂度分析**\n\n- 时间复杂度：$O(|s|)$，其中 $|s|$ 是字符串 $s$ 的长度。我们首先需要 $O(k)$ 的时间求出前 $k$ 个字母组成的子串包含的元音字母个数，在这之后还有 $O(|s|-k)$ 个子串，每个子串包含的元音字母个数可以在 $O(1)$ 的时间计算出，因此总时间复杂度为 $O(|s|)$。\n\n- 空间复杂度：$O(1)$。",
+      "createdAt": "2020-12-12T12:38:09.176999+00:00",
+      "hitCount": 3808,
+      "identifier": "Oj9Eyy",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "1456-ding-chang-zi-chuan-zhong-yuan-yin-yz9sr",
+        "title": "1456. 定长子串中元音的最大数目"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "maximum-number-of-vowels-in-a-substring-of-given-length"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 5,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "ding-chang-zi-chuan-zhong-yuan-yin-de-zu-4ka7",
+      "status": "PUBLISHED",
+      "summary": "方法一：滑动窗口 我们可以遍历字符串 $s$ 每个长度为 $k$ 的子串，求出其中包含的元音字母个数，并找出最大值。 对于任意一个子串，假设它的长度为 $k$，结束位置为 $r$，我们用 $s_k(r)$ 来表示。如果 $s_k(r)$ 中包含了 $x$ 个元音字母，那么下一个相同长度的字符串（结束位置为 $k+1$）",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "String",
+          "nameTranslated": "字符串",
+          "slug": "string",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "定长子串中元音的最大数目",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 8,
+        "id": 518995,
+        "viewCount": 2844
+      },
+      "uuid": "Oj9Eyy",
+      "videosInfo": []
+    }
+  }
+}

@@ -1,0 +1,76 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "饭来",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/kM5GIWEEH2/avatar_1630388771.png",
+          "userSlug": "ctrlcccctrlvvvvoyeah"
+        },
+        "username": "ctrlcccctrlvvvvoyeah"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\ni向前走，j要么不动，要么也向前走，不会往回走\n\n### 代码\n\n```cpp\nclass Solution {\npublic:\n    int lengthOfLongestSubstring(string s) {\n        set<int> vis;\n        int i = 0, j = 0;\n        int len = 0;\n        for(int i = 0; i < s.size(); i++){\n            //在vis中没有s[j],j++\n            while(j < s.size() && !vis.count(s[j])){\n                vis.insert(s[j]);\n                j++;\n            }\n            len = max(len, j -i);\n            vis.erase(s[i]);\n        }\n        return len;\n    }\n};\n```",
+      "createdAt": "2021-09-24T06:21:08.762348+00:00",
+      "hitCount": 997,
+      "identifier": "PpDB2n",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "jian-dan-yi-dong-javac-pythonjshua-dong-dtang",
+        "title": " 简单易懂Java/C++ /Python/js/go【滑动窗口】- 无重复字符的最长子串"
+      },
+      "position": 2,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "javashu-zu-zi-dian-hua-dong-chuang-kou-b-dvsx",
+        "title": "Java数组字典+滑动窗口"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "wtcaE1"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 4,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "jian-zhi-ii-16bu-han-zhong-fu-zi-fu-de-z-50ow",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\ni向前走，j要么不动，要么也向前走，不会往回走\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "剑指 II 16不含重复字符的最长字符串",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1014783,
+        "viewCount": 830
+      },
+      "uuid": "PpDB2n",
+      "videosInfo": []
+    }
+  }
+}

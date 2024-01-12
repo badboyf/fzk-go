@@ -1,0 +1,84 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "魔幻方体",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/mystifying-dewdney4j7/avatar_1631365614.png",
+          "userSlug": "magic_rubik"
+        },
+        "username": "magic_rubik"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "左右指针确定一个窗口，计算该窗口内T和F的数量，当其中一个小于k的时候，我们可以将那个字母全部改为另一个，从而使窗口中的所有字母相同，因此此时的窗口大小即为一个备选答案，遍历整个字符串得到最大值，就是我们要找的答案。\r\n1）右指针滑动，计算窗口内T和F的数量\r\n2）如果T和F的数量均大于k，即无法通过修改其中一个字母来使窗口内所有字母相同，需要移动左指针\r\n3）左指针移动完毕，此时窗口大小可以作为答案，和当前的最大值比较并更新\r\n```\r\nclass Solution {\r\n    public int maxConsecutiveAnswers(String answerKey, int k) {\r\n        int n = answerKey.length();\r\n        char[] c = answerKey.toCharArray();\r\n        int left = 0, right = 0;\r\n        int numT = 0, numF = 0;\r\n        int ans = 0;\r\n        while(right < n){\r\n            if(c[right] == 'T')\r\n                numT++;\r\n            else\r\n                numF++;\r\n            while(numT > k && numF > k){\r\n                if(c[left] == 'T')\r\n                    numT--;\r\n                else\r\n                    numF--;\r\n                left++;\r\n            }\r\n            ans = Math.max(ans, right - left + 1);\r\n            right++;\r\n        }\r\n        return ans;\r\n    }\r\n}\r\n```\r\n第一次写题解，有没说清的地方可以问我~",
+      "createdAt": "2021-10-03T02:15:04.882574+00:00",
+      "hitCount": 1088,
+      "identifier": "0d3vum",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "kao-shi-de-zui-da-kun-rao-du-hua-dong-ch-oikz",
+        "title": "考试的最大困扰度 滑动窗口1004 的变形题！"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "maximize-the-confusion-of-an-exam"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 10,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "CONFUSED"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "java-hua-dong-chuang-kou-by-magic_rubik-ezth",
+      "status": "PREPUBLISH",
+      "summary": "左右指针确定一个窗口，计算该窗口内T和F的数量，当其中一个小于k的时候，我们可以将那个字母全部改为另一个，从而使窗口中的所有字母相同，因此此时的窗口大小即为一个备选答案，遍历整个字符串得到最大值，就是我们要找的答案。\n1）右指针滑动，计算窗口内T和F的数量\n2）如果T和F的数量均大于k，即无法通过修改其中一个字母来使窗",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Sliding Window",
+          "nameTranslated": "滑动窗口",
+          "slug": "sliding-window",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "【Java】滑动窗口",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 4,
+        "id": 1028865,
+        "viewCount": 789
+      },
+      "uuid": "0d3vum",
+      "videosInfo": []
+    }
+  }
+}

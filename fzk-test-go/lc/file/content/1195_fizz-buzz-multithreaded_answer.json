@@ -1,0 +1,90 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "悠一木碧",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/you-yi-mu-bi/avatar_1607316621.png",
+          "userSlug": "you-yi-mu-bi"
+        },
+        "username": "you-yi-mu-bi"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "## 题目分析\r\n本题还是根据对应的值调整线程之间的执行顺序, 类似于[1116. 打印零与奇偶数](https://leetcode-cn.com/problems/print-zero-even-odd/)\r\n解决思路和我上一篇的 [题解](https://leetcode-cn.com/problems/print-zero-even-odd/solution/c-xin-hao-liang-jie-jue-duo-xian-cheng-s-39av) 类似\r\n\r\n## 解题思路\r\n本题是给定 1 ~ n 的数字输出问题, 我们可以假设一个数 x, 初始值为 1, 一直递增到 n\r\n对于给定的 x, 我们分析对应的方法执行条件\r\n1. x % 3 != 0 && x % 5 != 0 ---- **number() 执行, 其他方法阻塞**\r\n2. x % 3 == 0 && x % 5 == 0 ---- **fizzbuzz() 执行, 其他方法阻塞**\r\n3. x % 3 != 0 && x % 5 == 0 ---- **buzz() 执行, 其他方法阻塞**\r\n4. x % 3 == 0 && x % 5 != 0 ---- **fizz() 执行, 其他方法阻塞**\r\n\r\n这样一来, 线程之间的切换条件我们就清楚了, 我们可以在每个方法打印完成之后, 对 x 进行递增, 从而唤醒对应的方法继续执行\r\n\r\n## 代码实现\r\n```C++ []\r\n#include \"semaphore.h\"\r\n\r\n    // 使用信号量保证同时只有一个打印方法在运行, 第一个运行的打印方法必定是 number() 方法\r\n    // 当一个打印完成时, 递增当前数字, 并判断要唤醒哪个打印方法继续执行\r\n    // 可选方法是控制信号量的初始值, 并根据数字是否可以被 3/5/3、5同时整除来控制信号量的值\r\n    // 从而唤醒对应的方法进行打印\r\nclass FizzBuzz {\r\nprivate:\r\n    int n;\r\n    int num;\r\n    sem_t signalNumber;\r\n    sem_t signalFizzBuzz;\r\n    sem_t signalFizz;\r\n    sem_t signalBuzz;\r\npublic:\r\n    FizzBuzz(int n) {\r\n        this->n = n;\r\n        this->num = 1;\r\n        sem_init(&signalNumber, 0, 0);\r\n        sem_init(&signalFizzBuzz, 0, 0);\r\n        sem_init(&signalFizz, 0, 0);\r\n        sem_init(&signalBuzz, 0, 0);\r\n    }\r\n\r\n    // printFizz() outputs \"fizz\".\r\n    void fizz(function<void()> printFizz) {\r\n        while (true) {\r\n            sem_wait(&signalFizz);\r\n            if (this->num > this->n) {\r\n                break;\r\n            }\r\n            printFizz();\r\n            turn();\r\n        }\r\n    }\r\n\r\n    // printBuzz() outputs \"buzz\".\r\n    void buzz(function<void()> printBuzz) {\r\n        while (true) {\r\n            sem_wait(&signalBuzz);\r\n            if (this->num > this->n) {\r\n                break;\r\n            }\r\n            printBuzz();\r\n            turn();\r\n        }\r\n    }\r\n\r\n    // printFizzBuzz() outputs \"fizzbuzz\".\r\n\tvoid fizzbuzz(function<void()> printFizzBuzz) {\r\n        while (true) {\r\n            sem_wait(&signalFizzBuzz);\r\n            if (this->num > this->n) {\r\n                break;\r\n            }\r\n            printFizzBuzz();\r\n            turn();\r\n        }\r\n    }\r\n\r\n    // printNumber(x) outputs \"x\", where x is an integer.\r\n    void number(function<void(int)> printNumber) {\r\n        while (true) {\r\n            if (this->num > this->n) {\r\n                break;\r\n            }\r\n            printNumber(this->num);\r\n            turn();\r\n            sem_wait(&signalNumber);\r\n        }\r\n    }\r\n\r\n    // 递增当前数字, 并根据数值递增对应的信号量, 从而唤醒对应方法继续执行\r\n    void turn() {\r\n        ++this->num;\r\n        // 特殊情况, 打印完了所有数字, 要唤醒所有的等待线程, 使它们退出循环\r\n        if (this->num > this->n) {\r\n            sem_post(&signalFizz);\r\n            sem_post(&signalBuzz);\r\n            sem_post(&signalFizzBuzz);\r\n            sem_post(&signalNumber);\r\n        } else {\r\n            if (this->num % 3 == 0) {\r\n                if (this->num % 5 == 0) {\r\n                    sem_post(&signalFizzBuzz);\r\n                } else {\r\n                    sem_post(&signalFizz);\r\n                }\r\n            } else if (this->num % 5 == 0) {\r\n                sem_post(&signalBuzz);\r\n            } else {\r\n                sem_post(&signalNumber);\r\n            }\r\n        }\r\n\r\n    }\r\n};\r\n```\r\n\r\n## 其他细节\r\n同样地, 我们还需要考虑, 在 x > n 时, 使所有的方法退出, 在这里, 我选择的是唤醒所有线程, 然后判断循环条件\r\nx 的初始值是1(n >= 1), number() 方法必定先执行\r\n\r\n## 执行结果\r\n![image.png](https://pic.leetcode-cn.com/1633870488-MJAdZr-image.png)\r\n",
+      "createdAt": "2021-10-10T12:53:53.428378+00:00",
+      "hitCount": 438,
+      "identifier": "Yssuf7",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "cyclicbarrier-ke-yi-jie-jue-by-ruowen_c",
+        "title": "CyclicBarrier 可以解决"
+      },
+      "position": 3,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "javasi-chong-bu-tong-fang-fa-shi-xian-by-2qgc",
+        "title": "java三种不同方法实现"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "fizz-buzz-multithreaded"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "c-xin-hao-liang-jie-jue-shun-xu-da-yin-w-621c",
+      "status": "PREPUBLISH",
+      "summary": "题目分析\n本题还是根据对应的值调整线程之间的执行顺序, 类似于1116. 打印零与奇偶数\n解决思路和我上一篇的 题解 类似\n解题思路\n本题是给定 1 ~ n 的数字输出问题, 我们可以假设一个数 x, 初始值为 1, 一直递增到 n\n对于给定的 x, 我们分析对应的方法执行条件\n\nx % 3 != 0 && x % 5",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Concurrency",
+          "nameTranslated": "多线程",
+          "slug": "concurrency",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "并发编程",
+          "nameTranslated": "",
+          "slug": "bing-fa-bian-cheng",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1633870488-MJAdZr-image.png",
+      "title": "[C++] 仍然是可以用信号量解决的线程顺序问题 (36ms, 6.8MB)",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1040437,
+        "viewCount": 342
+      },
+      "uuid": "Yssuf7",
+      "videosInfo": []
+    }
+  }
+}

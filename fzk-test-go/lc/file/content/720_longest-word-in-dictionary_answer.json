@@ -1,0 +1,86 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣 (LeetCode)",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/uploaded_files/2021/03/73c9f099-abbe-4d94-853f-f8abffd459cd/leetcode.png",
+          "userSlug": "leetcode"
+        },
+        "username": "LeetCode"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "####  方法一：暴力法\n对于每个单词，我们可以检查它的全部前缀是否存在，可以通过 `Set` 数据结构来加快查找\n\n**算法：**\n- 当我们找到一个单词它的长度更长且它的全部前缀都存在，我们将更改答案。\n- 或者，我们可以事先将单词排序，这样当我们找到一个符合条件的单词就可以认定它是答案。\n\n```Python [ ]\nclass Solution(object):\n    def longestWord(self, words):\n    ans = \"\"\n    wordset = set(words)\n    for word in words:\n        if len(word) > len(ans) or len(word) == len(ans) and word < ans:\n            if all(word[:k] in wordset for k in xrange(1, len(word))):\n                ans = word\n\n    return ans\n```\n\n```Python [ ]\nclass Solution(object):\n    def longestWord(self, words):\n        wordset = set(words)\n        words.sort(key = lambda c: (-len(c), c))\n        for word in words:\n            if all(word[:k] in wordset for k in xrange(1, len(word))):\n                return word\n\n        return \"\"\n```\n\n```Java [ ]\nclass Solution {\n    public String longestWord(String[] words) {\n        String ans = \"\";\n        Set<String> wordset = new HashSet();\n        for (String word: words) wordset.add(word);\n        for (String word: words) {\n            if (word.length() > ans.length() ||\n                    word.length() == ans.length() && word.compareTo(ans) < 0) {\n                boolean good = true;\n                for (int k = 1; k < word.length(); ++k) {\n                    if (!wordset.contains(word.substring(0, k))) {\n                        good = false;\n                        break;\n                    }\n                }\n                if (good) ans = word;\n            }    \n        }\n        return ans;\n    }\n}\n```\n\n```Java [ ]\nclass Solution {\n    public String longestWord(String[] words) {\n        Set<String> wordset = new HashSet();\n        for (String word: words) wordset.add(word);\n        Arrays.sort(words, (a, b) -> a.length() == b.length()\n                    ? a.compareTo(b) : b.length() - a.length());\n        for (String word: words) {\n            boolean good = true;\n            for (int k = 1; k < word.length(); ++k) {\n                if (!wordset.contains(word.substring(0, k))) {\n                    good = false;\n                    break;\n                }\n            }\n            if (good) return word;\n        }\n\n        return \"\";\n    }\n}\n```\n\n**复杂度分析**\n\n* 时间复杂度：$O(\\sum w_i^2)$。$w_i$ 指的是 `words[i]` 的长度，在 `Set` 中检查 `words[i]` 全部前缀是否均存在的时间复杂度是 $O(\\sum w_i^2)$。\n* 空间复杂度：$O(\\sum w_i^2)$ 用来存放子串的空间。\n\n\n####  方法二：前缀树 + 深度优先搜索\n由于涉及到字符串的前缀，通常可以使用 `trie`（前缀树）来解决。\n\n**算法：**\n- 将所有单词插入 `trie`，然后从 `trie` 进行深度优先搜索，每找到一个单词表示该单词的全部前缀均存在，我们选取长度最长的单词。\n- 在 python 中，我们使用了 defaultdict 的方法。而在 java 中，我们使用了更通用的面向对象方法。\n\n```Python [ ]\nclass Solution(object):\n    def longestWord(self, words):\n        Trie = lambda: collections.defaultdict(Trie)\n        trie = Trie()\n        END = True\n\n        for i, word in enumerate(words):\n            reduce(dict.__getitem__, word, trie)[END] = i\n\n        stack = trie.values()\n        ans = \"\"\n        while stack:\n            cur = stack.pop()\n            if END in cur:\n                word = words[cur[END]]\n                if len(word) > len(ans) or len(word) == len(ans) and word < ans:\n                    ans = word\n                stack.extend([cur[letter] for letter in cur if letter != END])\n\n        return ans\n```\n\n```Java [ ]\nclass Solution {\n    public String longestWord(String[] words) {\n        Trie trie = new Trie();\n        int index = 0;\n        for (String word: words) {\n            trie.insert(word, ++index); //indexed by 1\n        }\n        trie.words = words;\n        return trie.dfs();\n    }\n}\nclass Node {\n    char c;\n    HashMap<Character, Node> children = new HashMap();\n    int end;\n    public Node(char c){\n        this.c = c;\n    }\n}\n\nclass Trie {\n    Node root;\n    String[] words;\n    public Trie() {\n        root = new Node('0');\n    }\n\n    public void insert(String word, int index) {\n        Node cur = root;\n        for (char c: word.toCharArray()) {\n            cur.children.putIfAbsent(c, new Node(c));\n            cur = cur.children.get(c);\n        }\n        cur.end = index;\n    }\n\n    public String dfs() {\n        String ans = \"\";\n        Stack<Node> stack = new Stack();\n        stack.push(root);\n        while (!stack.empty()) {\n            Node node = stack.pop();\n            if (node.end > 0 || node == root) {\n                if (node != root) {\n                    String word = words[node.end - 1];\n                    if (word.length() > ans.length() ||\n                            word.length() == ans.length() && word.compareTo(ans) < 0) {\n                        ans = word;\n                    }\n                }\n                for (Node nei: node.children.values()) {\n                    stack.push(nei);\n                }\n            }\n        }\n        return ans;\n    }\n}\n```\n\n**复杂度分析**\n\n* 时间复杂度：$O(\\sum w_i)$。$w_i$ 指的是 `words[i]` 的长度。该时间复杂度用于创建前缀树和查找单词。\n \n 如果我们使用一个 BFS 代替 DFS，并在数组中对子节点进行排序，我们就可以不必检查每个节点上的候选词是否比答案好，最佳答案将是最后访问的节点。\n* 空间复杂度：$O(\\sum w_i)$，前缀树所使用的空间。",
+      "createdAt": "2019-10-29T04:13:35.586943+00:00",
+      "hitCount": 22468,
+      "identifier": "wz2iZ0",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "720-ci-dian-zhong-zui-chang-de-dan-ci-by-2k5k",
+        "title": "720. 词典中最长的单词"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "longest-word-in-dictionary"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 15,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "ci-dian-zhong-zui-chang-de-dan-ci-by-leetcode",
+      "status": "PUBLISHED",
+      "summary": "§ 方法一：暴力法\n对于每个单词，我们可以检查它的全部前缀是否存在，可以通过 Set 数据结构来加快查找\n算法：\n\n当我们找到一个单词它的长度更长且它的全部前缀都存在，我们将更改答案。\n或者，我们可以事先将单词排序，这样当我们找到一个符合条件的单词就可以认定它是答案。\n\n复杂度分析\n\n时间复杂度：O(\\sum w_i^",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Depth-First Search",
+          "nameTranslated": "深度优先搜索",
+          "slug": "depth-first-search",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "词典中最长的单词",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 67,
+        "id": 38779,
+        "viewCount": 15912
+      },
+      "uuid": "wz2iZ0",
+      "videosInfo": []
+    }
+  }
+}

@@ -1,0 +1,76 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "WCS",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/wcs-2/avatar_1610204502.png",
+          "userSlug": "wcs-2"
+        },
+        "username": "wcs-2"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n除法这块最烦，前两个模块简单\n\n### 代码\n\n```cpp\nclass Operations {\npublic:\n    Operations() {\n\n    }\n    \n    int minus(int a, int b) {\n        return a + (-b);\n    }\n    \n    int multiply(int a, int b) {\n        if (a == 0 || b == 0) return 0;\n        if (a == 1) return b;\n        if (b == 1) return a;\n        if (a == -1) return -b;\n        if (b == -1) return -a;\n        int signal=0;\n        if( a<0 )\n            signal++;\n        if( b<0 )\n            signal++;\n        a=abs(a);\n        b=abs(b);\n        int t=min( a, b );\n        int num=max( a, b );\n        int sum=0;\n        for( int i=0; i<t; i++ ){\n            sum+=num;\n        }\n        if( signal%2 == 1 )\n            return -sum;\n        return sum;\n    }\n    \n    int divide(int a, int b) {\n        if (a == 0 || b == 0) return 0;\n        if (b == INT_MAX || b == INT_MIN) return 0;\n        if (b == 1) return a; \n        if (b == -1) return -a;\n        int signal=0;\n        if( a<0 )\n            signal++;\n        if( b<0 )\n            signal++;\n        a=abs(a);\n        b=abs(b);\n        \n        if( a<b )\n            return 0;\n        vector<int> tmp, count;\n        long t = b;\n        int k = 1;\n        while (a >= t) tmp.push_back(t), count.push_back(k), t = t + t, k = k + k; //这样计算会加快时间\n        \n        int res = 0;\n        // int index=tmp.size()-1;\n        // res += count[index];\n        for (int i = tmp.size() - 1; i >= 0; i = minus(i, 1)) { //a-tmp[i]的差值还有可能是b的倍数\n            while (a >= tmp[i]) a = minus(a, tmp[i]), res = res + count[i];\n        }\n        // while( a>=b ){\n        //     cnt++;\n        //     a -= b;\n        // }\n        if( signal%2 == 1 )\n            return -res;\n        return res;\n    }\n};\n\n\n/**\n * Your Operations object will be instantiated and called as such:\n * Operations* obj = new Operations();\n * int param_1 = obj->minus(a,b);\n * int param_2 = obj->multiply(a,b);\n * int param_3 = obj->divide(a,b);\n */\n```",
+      "createdAt": "2021-07-03T08:34:33.114257+00:00",
+      "hitCount": 423,
+      "identifier": "s76GgA",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "zheng-li-liao-yi-ban-cdai-ma-wu-wei-yun-suan-wu-fu",
+        "title": "整理了一版c++代码，无位运算，无负号"
+      },
+      "position": 2,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "java-wo-jiu-shi-wan-wo-jiu-bu-an-zhao-ti-lyrp",
+        "title": "JAVA 我就是玩 我就不按照题意 a嘿"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "operations-lcci"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "shu-xue-by-wcs-2-gxz0",
+      "status": "PUBLISHED",
+      "summary": "解题思路\n除法这块最烦，前两个模块简单\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "数学",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 856649,
+        "viewCount": 379
+      },
+      "uuid": "s76GgA",
+      "videosInfo": []
+    }
+  }
+}

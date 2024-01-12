@@ -1,0 +1,93 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "EUY",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/euyvvl/avatar_1635000444.png",
+          "userSlug": "euyvvl"
+        },
+        "username": "EUYVVL"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n**一道简单的字符串的模拟题**\n### 代码\n\n```cpp\nclass Solution {\npublic:\n    bool arrayStringsAreEqual(vector<string>& word1, vector<string>& word2) {\n        string str1=\"\";\n        string str2=\"\";\n        for(const auto& str:word1){\n            str1+=str;\n        }\n        for(const auto& str:word2){\n            str2+=str;\n        }\n        return str1==str2?true:false;\n    }\n};\n```",
+      "createdAt": "2021-11-17T10:54:03.769174+00:00",
+      "hitCount": 62,
+      "identifier": "Amaqtg",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "javazui-jian-dan-de-si-lu-by-qiumg-nmdy",
+        "title": "Java最简单的思路"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "check-if-two-string-arrays-are-equivalent"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "zi-fu-chuan-mo-ni-by-euyvvl-310c",
+      "status": "PUBLISHED",
+      "summary": "解题思路\n一道简单的字符串的模拟题\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Array",
+          "nameTranslated": "数组",
+          "slug": "array",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "String",
+          "nameTranslated": "字符串",
+          "slug": "string",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Simulation",
+          "nameTranslated": "模拟",
+          "slug": "simulation",
+          "tagType": "TOPIC"
+        }
+      ],
+      "thumbnail": "",
+      "title": "字符串模拟",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 1,
+        "id": 1107142,
+        "viewCount": 57
+      },
+      "uuid": "Amaqtg",
+      "videosInfo": []
+    }
+  }
+}

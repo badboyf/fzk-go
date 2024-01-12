@@ -1,0 +1,93 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "ffreturn",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/ffreturn/avatar_1608859813.png",
+          "userSlug": "ffreturn"
+        },
+        "username": "ffreturn"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "![WX20210326-205312@2x.png](https://pic.leetcode-cn.com/1616763210-Tivnup-WX20210326-205312@2x.png)\n\n\n### 解题思路\n\n- 向量化来实现比较是否在一个直线上\n    - 假设两个点差值是x1,y1,另外两个点差值是x2,y2,那么它们是直线，就是x1/y1 = x2/y2\n    - x1*y2 == x2*y1 -> 表示这三个点在一条直线上\n\n- 思路\n   1. 外循环 i=0~n-1来遍历\n   2. 内循环，j=i+1~n-1来遍历\n        - 维持当前直线数量为2（两个点必然可以组成直线）\n        - 计算对应的x1,y1\n        - 内部循环 k=j+1~n-1去判断是否满足 x1*y2=x2*y1,满足计数器+1\n        - 比较保存目前最大的计数（即构成直线最多的点数），并保存对应的i和j到结果里\n\n### 代码\n\n```cpp\n\nclass Solution {\npublic:\n    vector<int> bestLine(vector<vector<int>>& points) {\n        int n = points.size();\n        // 保存最大的数量和对应的序号数组\n        int maxCnt = 0;\n        vector<int> res(2, 0);\n        for (int i = 0; i < n; ++i)\n        {\n            for (int j = i+1; j < n; ++j)\n            {\n                int cnt = 2;\n                // 坑： 这里计算需要用long避免乘法时候的溢出\n                long x1 = points[i][0] - points[j][0];\n                long y1 = points[i][1] - points[j][1];\n                for (int k = j + 1; k < n; ++k)\n                {\n                    long x2 = points[i][0] - points[k][0];\n                    long y2 = points[i][1] - points[k][1];  \n                    if (x1*y2 == x2*y1)\n                    {\n                        ++cnt;\n                    }\n                }\n                if (cnt > maxCnt)\n                {\n                    maxCnt = cnt;\n                    res[0] = i;\n                    res[1] = j;\n                }\n            }\n        }\n        return res;\n    }\n};\n```",
+      "createdAt": "2021-03-26T12:54:09.505101+00:00",
+      "hitCount": 1199,
+      "identifier": "PYazPx",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "mian-shi-ti-1614-zui-jia-zhi-xian-by-oah-uflm",
+        "title": "面试题 16.14. 最佳直线(12ms)(击败100%)(排序+剪枝)"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "best-line-lcci"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 7,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "cjian-dan-yi-dong-de-shu-xue-jie-fa-by-f-p26i",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n\n\n向量化来实现比较是否在一个直线上\n\n假设两个点差值是x1,y1,另外两个点差值是x2,y2,那么它们是直线，就是x1/y1 = x2/y2\nx1y2 == x2y1 -> 表示这三个点在一条直线上\n\n\n\n思路\n\n外循环 i=0~n-1来遍历\n内循环，j=i+1~n-1来遍历\n\n维持当前直线数量为2（两个点",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Math",
+          "nameTranslated": "数学",
+          "slug": "math",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "推想",
+          "nameTranslated": "",
+          "slug": "infervision",
+          "tagType": "COMPANY"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "cpp",
+          "nameTranslated": "",
+          "slug": "additional_cpp",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1616763210-Tivnup-WX20210326-205312@2x.png",
+      "title": "c++简单移动的数学解法",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 681991,
+        "viewCount": 925
+      },
+      "uuid": "PYazPx",
+      "videosInfo": []
+    }
+  }
+}

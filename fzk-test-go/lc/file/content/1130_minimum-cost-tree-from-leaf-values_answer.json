@@ -1,0 +1,79 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "20182726",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/20182726/avatar_1600689730.png",
+          "userSlug": "20182726"
+        },
+        "username": "20182726"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n\n### 思路一：单调栈，极小值，归纳，贪心\n\n这个题实际上是将数组中相邻的数**两两合并**，计算他们的乘积之和，求**最小的乘积之和**。合并相邻的两个数之后得到的是**较大**的一个数。\n\n**例如：**\n对于 `[6, 2, 4, 8]`，假设乘积之和为 `res = 0`；\n可以将 `2` 与 `4` 合并，变为 `[6, 4, 8]`，`res = 0 + 8 = 8`；\n然后将 `6` 与 `4` 合并，变为 `[6, 8]`，`res = 8 + 24 = 32`；\n最后将 `6` 与 `8` 合并，变为 `[8]`，`res = 32 + 48 = 80`。\n我们需要思考的就是**如何合并**，才能使得乘积之和 `res` **最小**。\n\n首先对于一个数组，刚开始可能是**递增**或者**递减**。\n\n- 对于**递增**的情况：\n假设 `i < j < k`，`arr[i] <= arr[j] <= arr[k]`：\n如果先将 `arr[i]` 与 `arr[j]` 合并，得到 `arr[j]`，再将 `arr[j]` 与 `arr[k]` 合并，得到的乘积之和 `res = arr[i] * arr[j] + arr[j] * arr[k]`。\n如果先将 `arr[j]` 与 `arr[k]` 合并，得到 `arr[k]`，再将 `arr[k]` 与 `arr[i]` 合并，得到的乘积之和 `res = arr[j] * arr[k] + arr[k] * arr[i]`。\n\n显然先将**两个更小的数合并**得到的乘积之和 `res` 更小。\n\n- 对于**单调递增**的序列 `arr[i...j]`：\n如果**从后往前**合并，会使得更大的 `arr[j]` 与前面每一个数都相乘，得到的结果会更大。\n如果**从前往后**合并，则只会将前两个数中更大的值与后面的值相乘，得到的结果肯定是会更小的。\n例如：`[2,3,4,5,6]`，\n**从前往后**合并：`res = 2 * 3 + 3 * 4 + 4 * 5 + 5 * 6 = 68`。\n**从后往前**合并：`res = 6 * 5 + 6 * 4 + 6 * 3 + 6 * 2 = 84`。\n\n那要是**从中间**开始合并呢？\n其实也是会比**从前往后**合并得到的 `res` **大**的。\n\n因为从**中间**开始合并，就意味着中间某个**更大的值**会一直与前面的**每一个元素**相乘。\n\n比如先让 `4` 和 `5` 合并，合并之后就变成了 `5`，再与前面的数进行合并的时候，`5` 会与前面每一个元素相乘，就像从后往前合并，`6` 会与前面每一个元素相乘一样，得到的 `res` 肯定是会更大的。\n\n所以对于一个单调递增或者单调递减序列，我们都是要从**更小的一方**开始合并的。\n\n但是我们的数组经常会上下起伏，并不会一味的单调递增或者单调递减。\n\n这个时候考虑**两种**情况：\n\n- **先单调递增再单调递减：**\n考虑一个例子：`[2,5,7,6,3]`：\n根据上面的结论，我们可以将整个序列看成是**前三个**单调递增，**后三个**单调递减，所以对于前三个元素我们**从前往后**合并，对于后三个元素我们**从后往前**合并：\n`res = 2 * 5 + 5 * 7 + 3 * 6 + 6 * 7 = 105`。\n\n其实不管是**先合并前面**三个元素还是**先合并后面**三个元素，得到的结果都**是一样的**。\n这样，在我们遇到**递增**的序列时，我们可以**马上**就将它们**合并**，而不需要考虑后面元素的单调性。\n\n- **先单调递减再单调递增：**\n考虑一个例子：`[7,5,2,3,8]`：\n根据之前的结论，我们应该**从小往大合并**，\n即可以将 `2` 与 `5` 合并得到 `5`，再将 `5` 与 `7` 合并，\n或者可以将 `2` 与 `3` 合并得到 `3`，再将 `3` 与 `8` 合并。\n\n但是此时先合并前三个与先合并后三个结果**并不一样**。\n\n我们应该如果**取舍**呢？\n\n对于 `i < j < k`，如果 `arr[j] <= arr[k] <= arr[i]`，\n例如：`[4,2,3]`，我们应该先合并 `2` 与 `3`，再合并 `3` 与 `4`，此时 `res = 2 * 3 + 3 * 4 = 18`.\n\n如果先合并 `4` 与 `2`，再合并 `4` 与 `3`，得到的 `res = 4 * 2 + 4 * 3 = 20`.\n我们发现先合并 `4` 与 `2` 会导致在计算 `res` 时，`4` 相乘了 `2` 次，而先合并 `2` 与 `3` 则导致计算 `res` 时，`3` 相乘了 `2` 次。\n\n**优先选择更小的两个数**进行合并对我们更有利。\n\n所以对于**先单调递减再单调递增**的情况，我们需要判断极小值两边的两个**元素大小**，优先选择**更小的元素**与极小值进行合并。\n\n这样就可以利用**单调栈**来完成，维护一个**单调递减**的栈，栈中存放具体的元素值。\n\n如果当前遍历到的元素比栈顶元素大，则需要判断当前元素与栈顶第二个元素的大小，**优先选择更小**的元素与栈顶元素进行合并。\n\n如果遇到递增的情况，直接进行合并。\n\n```javascript\nvar mctFromLeafValues = function(arr) {\n\tconst n = arr.length;\n\tconst stack = [];\n\tlet res = 0;\n\n\tfor(let i = 0; i < n; i++) {\n\t\twhile(stack.length && (stack[stack.length-1] <= arr[i] || i === n-1)) {\n\t\t\tconst bottom = stack.pop();\n\t\t\tif(stack.length) {\n\t\t\t\tres += Math.min(stack[stack.length-1], arr[i]) * bottom;\n\t\t\t} else {\n\t\t\t\tres += bottom * arr[i];\n\t\t\t}\n\t\t\tarr[i] = Math.max(bottom, arr[i]);\n\t\t}\n\t\tstack.push(arr[i]);\n\t}\n\n\treturn res;\n};\n```\n\n\n### 思路二：动态规划\n\n**定义状态：**\n`dp[i][j]` 表示将 `arr[i...j]` 合并之后所得的最小乘积之和。\n`dp[0][len]` 就是最终答案。\n\n**状态转移方程：**\n`dp[i][j] = Math.min(dp[i][j], dp[i][k] + dp[k+1][j] + maxVal[i][k] * maxVal[k+1][j])`\n\n这里的 `maxVal[i][j]` 代表从 `i` 到 `j` 的区间，**最大的元素**是 `maxVal[i][j]`。\n**注意**：这里的 `dp[i][j]` 是**最终**的和，最终的最小乘积之和，需要将 `dp[i][k]` 与 `dp[k+1][j]` 的和加上。\n\n我们可以将 `arr[i...j]` 分开，分为 `arr[i...k]` 和 `arr[k+1...j]`，\n`arr[i...k]` 和 `arr[k+1...j]` 这两个区间最终可以合并为两个数，再将这两个数合并。\n我们需要不断**枚举** `k`，使得得到的 `dp[i][j]` **最小**。\n### 代码\n\n```javascript\nvar mctFromLeafValues = function(arr) {\n\tconst n = arr.length;\n\tconst dp = new Array(n).fill(0).map(() => new Array(n).fill(0));\n\tconst maxVal = new Array(n).fill(0).map(() => new Array(n).fill(0));\n\n\tfor(let i = 0; i < n; i++) {\n\t\tmaxVal[i][i] = arr[i];\n\t\tfor(let j = i + 1; j < n; j++) {\n\t\t\tmaxVal[i][j] = Math.max(maxVal[i][j-1], arr[j]);\n\t\t}\n\t}\n\n\tfor(let len = 1; len < n; len++) {\n\t\tfor(let i = 0; i + len < n; i++) {\n\t\t\tdp[i][i+len] = Number.MAX_SAFE_INTEGER;\n\t\t\tfor(let k = i; k < i + len; k++) {\n\t\t\t\tdp[i][i+len] = Math.min(dp[i][i+len], dp[i][k] + dp[k+1][i+len] + maxVal[i][k] * maxVal[k+1][i+len]);\n\t\t\t}\n\t\t}\n\t}\n\n\treturn dp[0][n-1];\n};\n```",
+      "createdAt": "2021-11-26T14:40:17.426060+00:00",
+      "hitCount": 4,
+      "identifier": "LWS09h",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "c-bao-li-jian-shu-he-dong-tai-gui-hua-by-69rf",
+        "title": "C++ : 暴力建树 和 动态规划"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "minimum-cost-tree-from-leaf-values"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "dan-diao-zhan-and-dong-tai-gui-hua-by-20-z0te",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n思路一：单调栈，极小值，归纳，贪心\n这个题实际上是将数组中相邻的数两两合并，计算他们的乘积之和，求最小的乘积之和。合并相邻的两个数之后得到的是较大的一个数。\n例如：\n对于 [6, 2, 4, 8]，假设乘积之和为 res = 0；\n可以将 2 与 4 合并，变为 [6, 4, 8]，res = 0 + 8 =",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Greedy",
+          "nameTranslated": "贪心",
+          "slug": "greedy",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Monotonic Stack",
+          "nameTranslated": "单调栈",
+          "slug": "monotonic-stack",
+          "tagType": "TOPIC"
+        }
+      ],
+      "thumbnail": "",
+      "title": "单调栈 and 动态规划",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1124237,
+        "viewCount": 4
+      },
+      "uuid": "LWS09h",
+      "videosInfo": []
+    }
+  }
+}

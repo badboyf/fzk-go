@@ -1,0 +1,88 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "我不是匠人",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/yaojunboy/avatar_1627783832.png",
+          "userSlug": "ac_wllysc"
+        },
+        "username": "ac_wllysc"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "## 分析\r\n- **题目：**\r\n    - [1793. 好子数组的最大分数](https://leetcode-cn.com/problems/maximum-score-of-a-good-subarray/)\r\n- **思路：**\r\n    - 换个思路枚举，每次枚举`nums[i]`作为子数组的最小值，预处理出该值作为最小值两边能够覆盖的区间，使用单调栈处理。\r\n    - 最后统计结果的时候，判断是否下标`k`，如果包含才更新最大值。\r\n- **相似题**\r\n    - [84. 柱状图中最大的矩形](https://leetcode-cn.com/problems/largest-rectangle-in-histogram/)\r\n    - [1856. 子数组最小乘积的最大值](https://leetcode-cn.com/problems/maximum-subarray-min-product/)\r\n\r\n## 代码\r\n```\r\nclass Solution {\r\npublic:\r\n    int maximumScore(vector<int>& nums, int k) {\r\n        stack<int> stk;\r\n        int n = nums.size();\r\n        vector<int> l(n), r(n);\r\n        for(int i = 0; i < n; i++){\r\n            while(stk.size() && nums[stk.top()] >= nums[i]) stk.pop();\r\n            if(stk.empty()) l[i] = -1;\r\n            else l[i] = stk.top();\r\n            stk.push(i);\r\n        }\r\n        stk = stack<int>();\r\n        for(int i = n-1; i >= 0; i--){\r\n            while(stk.size() && nums[stk.top()] >= nums[i]) stk.pop();\r\n            if(stk.empty()) r[i] = n;\r\n            else r[i] = stk.top();\r\n            stk.push(i);\r\n        }\r\n        int res = 0;\r\n        for(int i = 0; i < n; i++) {\r\n            if(l[i] < k && r[i] > k)\r\n                res = max(res, nums[i]*(r[i] - l[i]-1));\r\n        }\r\n        return res;\r\n    }\r\n};\r\n```\r\n\r\n",
+      "createdAt": "2021-10-25T15:21:11.001077+00:00",
+      "hitCount": 75,
+      "identifier": "cnX1xd",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "c-hua-dong-chuang-kou-by-9bang-15bian-sh-n2tn",
+        "title": "c++ 滑动窗口"
+      },
+      "position": 26,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "dan-diao-zhan-jie-jue-feng-zi-shu-zu-wen-y79r",
+        "title": "单调栈解决峰子数组问题"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "maximum-score-of-a-good-subarray"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "AWESOME"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 0,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "ling-dan-miao-yao-jing-dian-dan-diao-zha-dsww",
+      "status": "PREPUBLISH",
+      "summary": "分析\n\n题目：\n\n1793. 好子数组的最大分数\n\n\n思路：\n\n换个思路枚举，每次枚举nums[i]作为子数组的最小值，预处理出该值作为最小值两边能够覆盖的区间，使用单调栈处理。\n最后统计结果的时候，判断是否下标k，如果包含才更新最大值。\n\n\n相似题\n\n84. 柱状图中最大的矩形\n1856. 子数组最小乘积的最大值",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Monotonic Stack",
+          "nameTranslated": "单调栈",
+          "slug": "monotonic-stack",
+          "tagType": "TOPIC"
+        }
+      ],
+      "thumbnail": "",
+      "title": "1793. 好子数组的最大分数【232周赛T4】【单调栈】",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1066699,
+        "viewCount": 56
+      },
+      "uuid": "cnX1xd",
+      "videosInfo": []
+    }
+  }
+}

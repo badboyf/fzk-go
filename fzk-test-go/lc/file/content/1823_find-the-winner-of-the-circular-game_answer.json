@@ -1,0 +1,72 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "陈煜明",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/cym052/avatar_1635406180.png",
+          "userSlug": "cym052"
+        },
+        "username": "cym052"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n逐步淘汰小伙伴，更新数组\n\n### 代码\n\n```javascript\n/**\n * @param {number} n\n * @param {number} k\n * @return {number}\n */\nvar findTheWinner = function(n, k) {\n  // 建立存储伙伴的数组\n  const friends = [];\n  for(let i = 1;i<=n;i++){\n    friends.push(i);\n  }\n  // index表示要淘汰小伙伴的索引，第一轮淘汰位置为k-1的小伙伴\n  let index = k-1;\n  // 当还剩最后一人时停止循环\n  while(friends.length>1){\n    // 淘汰索引为index的小伙伴\n    friends.splice(index,1);\n    // 记录下一个要淘汰的小伙伴\n    index = (index + k - 1) % friends.length;\n  }\n  // 返回最后的胜利者\n  return friends[0];\n};\n```",
+      "createdAt": "2021-11-25T15:54:31.293716+00:00",
+      "hitCount": 13,
+      "identifier": "CEG9gT",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "dong-tai-gui-hua-li-jie-liao-hao-yi-hui-8qlag",
+        "title": "动态规划——理解了好一会儿大佬们的意思"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "find-the-winner-of-the-circular-game"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "jsjie-fa-by-cym052-k8vs",
+      "status": "PUBLISHED",
+      "summary": "解题思路\n逐步淘汰小伙伴，更新数组\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "JavaScript",
+          "nameTranslated": "",
+          "slug": "javascript",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "JS解法",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1122589,
+        "viewCount": 13
+      },
+      "uuid": "CEG9gT",
+      "videosInfo": []
+    }
+  }
+}

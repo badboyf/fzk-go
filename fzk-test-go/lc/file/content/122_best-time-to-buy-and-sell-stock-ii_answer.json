@@ -1,0 +1,129 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣官方题解",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/leetcode-solution/avatar_1582018938.png",
+          "userSlug": "leetcode-solution"
+        },
+        "username": "LeetCode-Solution"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 📺 视频题解  \n![122. 买卖股票的最佳时机II.mp4](12582e43-022d-4ed9-834b-2d1142e3a901)\n\n### 📖 文字题解\n#### 方法一：动态规划\n\n考虑到「不能同时参与多笔交易」，因此每天交易结束后只可能存在手里有一支股票或者没有股票的状态。\n\n定义状态 $\\textit{dp}[i][0]$ 表示第 $i$ 天交易完后手里没有股票的最大利润，$\\textit{dp}[i][1]$ 表示第 $i$ 天交易完后手里持有一支股票的最大利润（$i$ 从 $0$ 开始）。\n\n考虑 $\\textit{dp}[i][0]$ 的转移方程，如果这一天交易完后手里没有股票，那么可能的转移状态为前一天已经没有股票，即 $\\textit{dp}[i-1][0]$，或者前一天结束的时候手里持有一支股票，即 $\\textit{dp}[i-1][1]$，这时候我们要将其卖出，并获得 $\\textit{prices}[i]$ 的收益。因此为了收益最大化，我们列出如下的转移方程：\n\n$$\n\\textit{dp}[i][0]=\\max\\{\\textit{dp}[i-1][0],\\textit{dp}[i-1][1]+\\textit{prices}[i]\\}\n$$\n\n再来考虑 $\\textit{dp}[i][1]$，按照同样的方式考虑转移状态，那么可能的转移状态为前一天已经持有一支股票，即 $\\textit{dp}[i-1][1]$，或者前一天结束时还没有股票，即 $\\textit{dp}[i-1][0]$，这时候我们要将其买入，并减少 $\\textit{prices}[i]$ 的收益。可以列出如下的转移方程：\n\n$$\n\\textit{dp}[i][1]=\\max\\{\\textit{dp}[i-1][1],\\textit{dp}[i-1][0]-\\textit{prices}[i]\\}\n$$\n\n对于初始状态，根据状态定义我们可以知道第 $0$ 天交易结束的时候 $\\textit{dp}[0][0]=0$，$\\textit{dp}[0][1]=-\\textit{prices}[0]$。\n\n因此，我们只要从前往后依次计算状态即可。由于全部交易结束后，持有股票的收益一定低于不持有股票的收益，因此这时候 $\\textit{dp}[n-1][0]$ 的收益必然是大于 $\\textit{dp}[n-1][1]$ 的，最后的答案即为 $\\textit{dp}[n-1][0]$。\n\n```C++ [sol11-C++]\nclass Solution {\npublic:\n    int maxProfit(vector<int>& prices) {\n        int n = prices.size();\n        int dp[n][2];\n        dp[0][0] = 0, dp[0][1] = -prices[0];\n        for (int i = 1; i < n; ++i) {\n            dp[i][0] = max(dp[i - 1][0], dp[i - 1][1] + prices[i]);\n            dp[i][1] = max(dp[i - 1][1], dp[i - 1][0] - prices[i]);\n        }\n        return dp[n - 1][0];\n    }\n};\n```\n\n```Java [sol11-Java]\nclass Solution {\n    public int maxProfit(int[] prices) {\n        int n = prices.length;\n        int[][] dp = new int[n][2];\n        dp[0][0] = 0;\n        dp[0][1] = -prices[0];\n        for (int i = 1; i < n; ++i) {\n            dp[i][0] = Math.max(dp[i - 1][0], dp[i - 1][1] + prices[i]);\n            dp[i][1] = Math.max(dp[i - 1][1], dp[i - 1][0] - prices[i]);\n        }\n        return dp[n - 1][0];\n    }\n}\n```\n\n```JavaScript [sol11-JavaScript]\nvar maxProfit = function(prices) {\n    const n = prices.length;\n    const dp = new Array(n).fill(0).map(v => new Array(2).fill(0));\n    dp[0][0] = 0, dp[0][1] = -prices[0];\n    for (let i = 1; i < n; ++i) {\n        dp[i][0] = Math.max(dp[i - 1][0], dp[i - 1][1] + prices[i]);\n        dp[i][1] = Math.max(dp[i - 1][1], dp[i - 1][0] - prices[i]);\n    }\n    return dp[n - 1][0];\n};\n```\n\n```Golang [sol11-Golang]\nfunc maxProfit(prices []int) int {\n    n := len(prices)\n    dp := make([][2]int, n)\n    dp[0][1] = -prices[0]\n    for i := 1; i < n; i++ {\n        dp[i][0] = max(dp[i-1][0], dp[i-1][1]+prices[i])\n        dp[i][1] = max(dp[i-1][1], dp[i-1][0]-prices[i])\n    }\n    return dp[n-1][0]\n}\n\nfunc max(a, b int) int {\n    if a > b {\n        return a\n    }\n    return b\n}\n```\n\n```C [sol11-C]\nint maxProfit(int* prices, int pricesSize) {\n    int dp[pricesSize][2];\n    dp[0][0] = 0, dp[0][1] = -prices[0];\n    for (int i = 1; i < pricesSize; ++i) {\n        dp[i][0] = fmax(dp[i - 1][0], dp[i - 1][1] + prices[i]);\n        dp[i][1] = fmax(dp[i - 1][1], dp[i - 1][0] - prices[i]);\n    }\n    return dp[pricesSize - 1][0];\n}\n```\n\n注意到上面的状态转移方程中，每一天的状态只与前一天的状态有关，而与更早的状态都无关，因此我们不必存储这些无关的状态，只需要将 $\\textit{dp}[i-1][0]$ 和 $\\textit{dp}[i-1][1]$ 存放在两个变量中，通过它们计算出 $\\textit{dp}[i][0]$ 和 $\\textit{dp}[i][1]$ 并存回对应的变量，以便于第 $i+1$ 天的状态转移即可。\n\n```C++ [sol12-C++]\nclass Solution {\npublic:\n    int maxProfit(vector<int>& prices) {\n        int n = prices.size();\n        int dp0 = 0, dp1 = -prices[0];\n        for (int i = 1; i < n; ++i) {\n            int newDp0 = max(dp0, dp1 + prices[i]);\n            int newDp1 = max(dp1, dp0 - prices[i]);\n            dp0 = newDp0;\n            dp1 = newDp1;\n        }\n        return dp0;\n    }\n};\n```\n\n```Java [sol12-Java]\nclass Solution {\n    public int maxProfit(int[] prices) {\n        int n = prices.length;\n        int dp0 = 0, dp1 = -prices[0];\n        for (int i = 1; i < n; ++i) {\n            int newDp0 = Math.max(dp0, dp1 + prices[i]);\n            int newDp1 = Math.max(dp1, dp0 - prices[i]);\n            dp0 = newDp0;\n            dp1 = newDp1;\n        }\n        return dp0;\n    }\n}\n```\n\n```JavaScript [sol12-JavaScript]\nvar maxProfit = function(prices) {\n    const n = prices.length;\n    let dp0 = 0, dp1 = -prices[0];\n    for (let i = 1; i < n; ++i) {\n        let newDp0 = Math.max(dp0, dp1 + prices[i]);\n        let newDp1 = Math.max(dp1, dp0 - prices[i]);\n        dp0 = newDp0;\n        dp1 = newDp1;\n    }\n    return dp0;\n};\n```\n\n```Golang [sol12-Golang]\nfunc maxProfit(prices []int) int {\n    n := len(prices)\n    dp0, dp1 := 0, -prices[0]\n    for i := 1; i < n; i++ {\n        dp0, dp1 = max(dp0, dp1+prices[i]), max(dp1, dp0-prices[i])\n    }\n    return dp0\n}\n\nfunc max(a, b int) int {\n    if a > b {\n        return a\n    }\n    return b\n}\n```\n\n```C [sol12-C]\nint maxProfit(int* prices, int pricesSize) {\n    int dp0 = 0, dp1 = -prices[0];\n    for (int i = 1; i < pricesSize; ++i) {\n        int newDp0 = fmax(dp0, dp1 + prices[i]);\n        int newDp1 = fmax(dp1, dp0 - prices[i]);\n        dp0 = newDp0;\n        dp1 = newDp1;\n    }\n    return dp0;\n}\n```\n\n**复杂度分析**\n\n- 时间复杂度：$O(n)$，其中 $n$ 为数组的长度。一共有 $2n$ 个状态，每次状态转移的时间复杂度为 $O(1)$，因此时间复杂度为 $O(2n)=O(n)$。\n\n- 空间复杂度：$O(n)$。我们需要开辟 $O(n)$ 空间存储动态规划中的所有状态。如果使用空间优化，空间复杂度可以优化至 $O(1)$。\n\n#### 方法二：贪心\n\n由于股票的购买没有限制，因此整个问题等价于寻找 $x$ 个**不相交**的区间 $(l_i,r_i]$ 使得如下的等式最大化\n\n$$\n\\sum_{i=1}^{x} a[r_i]-a[l_i]\n$$\n\n其中 $l_i$ 表示在第 $l_i$ 天买入，$r_i$ 表示在第 $r_i$ 天卖出。\n\n同时我们注意到对于 $(l_i,r_i]$ 这一个区间贡献的价值 $a[r_i]-a[l_i]$，其实等价于 $(l_i,l_i+1],(l_i+1,l_i+2],\\ldots,(r_i-1,r_i]$ 这若干个区间长度为 $1$ 的区间的价值和，即 \n$$\na[r_i]-a[l_i]=(a[r_i]-a[r_i-1])+(a[r_i-1]-a[r_i-2])+\\ldots+(a[l_i+1]-a[l_i])\n$$\n因此问题可以简化为找 $x$ 个长度为 $1$ 的区间 $(l_i,l_i+1]$ 使得 $\\sum_{i=1}^{x} a[l_i+1]-a[l_i]$ 价值最大化。\n\n贪心的角度考虑我们每次选择贡献大于 $0$ 的区间即能使得答案最大化，因此最后答案为\n$$\n\\textit{ans}=\\sum_{i=1}^{n-1}\\max\\{0,a[i]-a[i-1]\\}\n$$\n其中 $n$ 为数组的长度。\n\n需要说明的是，贪心算法只能用于计算最大利润，**计算的过程并不是实际的交易过程**。\n\n考虑题目中的例子 $[1,2,3,4,5]$，数组的长度 $n=5$，由于对所有的 $1 \\le i < n$ 都有 $a[i]>a[i-1]$，因此答案为\n$$\n\\textit{ans}=\\sum_{i=1}^{n-1}a[i]-a[i-1]=4\n$$\n但是实际的交易过程并不是进行 $4$ 次买入和 $4$ 次卖出，而是在第 $1$ 天买入，第 $5$ 天卖出。\n\n```C++ [sol2-C++]\nclass Solution {\npublic:\n    int maxProfit(vector<int>& prices) {   \n        int ans = 0;\n        int n = prices.size();\n        for (int i = 1; i < n; ++i) {\n            ans += max(0, prices[i] - prices[i - 1]);\n        }\n        return ans;\n    }\n};\n```\n\n```Java [sol2-Java]\nclass Solution {\n    public int maxProfit(int[] prices) {\n        int ans = 0;\n        int n = prices.length;\n        for (int i = 1; i < n; ++i) {\n            ans += Math.max(0, prices[i] - prices[i - 1]);\n        }\n        return ans;\n    }\n}\n```\n\n```JavaScript [sol2-JavaScript]\nvar maxProfit = function(prices) {\n    let ans = 0;\n    let n = prices.length;\n    for (let i = 1; i < n; ++i) {\n        ans += Math.max(0, prices[i] - prices[i - 1]);\n    }\n    return ans;\n};\n```\n\n```Golang [sol2-Golang]\nfunc maxProfit(prices []int) (ans int) {\n    for i := 1; i < len(prices); i++ {\n        ans += max(0, prices[i]-prices[i-1])\n    }\n    return\n}\n\nfunc max(a, b int) int {\n    if a > b {\n        return a\n    }\n    return b\n}\n```\n\n```C [sol2-C]\nint maxProfit(int* prices, int pricesSize) {\n    int ans = 0;\n    for (int i = 1; i < pricesSize; ++i) {\n        ans += fmax(0, prices[i] - prices[i - 1]);\n    }\n    return ans;\n}\n```\n\n**复杂度分析**\n\n- 时间复杂度：$O(n)$，其中 $n$ 为数组的长度。我们只需要遍历一次数组即可。\n\n- 空间复杂度：$O(1)$。只需要常数空间存放若干变量。",
+      "createdAt": "2020-11-07T14:36:55.490344+00:00",
+      "hitCount": 161807,
+      "identifier": "poDKoj",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "tan-xin-suan-fa-by-liweiwei1419-2",
+        "title": "暴力搜索、贪心算法、动态规划（Java）"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "best-time-to-buy-and-sell-stock-ii"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 180,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 12,
+          "reactionType": "AWESOME"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 4,
+          "reactionType": "CONFUSED"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "THUMBS_DOWN"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "mai-mai-gu-piao-de-zui-jia-shi-ji-ii-by-leetcode-s",
+      "status": "PREPUBLISH",
+      "summary": "📺 视频题解 📖 文字题解 方法一：动态规划 考虑到「不能同时参与多笔交易」，因此每天交易结束后只可能存在手里有一支股票或者没有股票的状态。 定义状态 $\\textit{dp}[i][0]$ 表示第 $i$ 天交易完后手里没有股票的最大利润，$\\textit{dp}[i][1]$ 表示第 $i$ 天交易完后手里持有一支",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Dynamic Programming",
+          "nameTranslated": "动态规划",
+          "slug": "dynamic-programming",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C",
+          "nameTranslated": "",
+          "slug": "c",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Go",
+          "nameTranslated": "",
+          "slug": "golang",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "JavaScript",
+          "nameTranslated": "",
+          "slug": "javascript",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "买卖股票的最佳时机 II",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 242,
+        "id": 476791,
+        "viewCount": 113113
+      },
+      "uuid": "poDKoj",
+      "videosInfo": [
+        {
+          "__typename": "VideoInfoNode",
+          "coverUrl": "https://video.leetcode-cn.com/image/cover/415449FEB7A2435DAF701CF79ADFAC0E-6-2.png",
+          "duration": 195.008,
+          "videoId": "f370da1a75d2433a989074885d42dc13"
+        }
+      ]
+    }
+  }
+}

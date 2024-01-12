@@ -1,0 +1,76 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "廉鑫",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/lian-xin-5/avatar_1570527676.png",
+          "userSlug": "lianxin"
+        },
+        "username": "lianxin"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n\n玄学随机\n\n比较有意思的是 相同起始温度与终止温度   0.97的降温系数在c++里成功率已经比较稳了\n但是在js里要调到0.975   这.....\n\n### 代码\n\n```javascript\nvar maxHappyGroups = function(batchSize, groups) {\n\tfunction swap(l, r) {\n\t\t[groups[l], groups[r]] = [groups[r], groups[l]];\n\t}\n\t// 洗牌\n\tfunction randomShuffle() {\n\t    for (let i = 0; i < groups.length; i++) {\n\t        let random = Math.floor(Math.random() * (groups.length - i));\n\t        swap(random, groups.length - 1 - i);\n\t    }\n\t}\n\tlet ret = 0;\n\tfunction calc() {\n\t\t// 第一组永远开心.\n\t\tlet happyNum = 1;\n\t\tlet total = groups[0];\n\t\tfor (let i = 1; i < groups.length; i++) {\n            if (total % batchSize == 0) {\n\t\t\t\thappyNum++;\n\t\t\t}\n\n\t\t\ttotal += groups[i];\n\t\t}\n\t\tret = Math.max(ret, happyNum);\n\t\t// 退火delta\n\t\treturn happyNum;\n\t}\n\t// 模拟退火\n\tfunction simulateAnneal() {\n\t\trandomShuffle();\n\t\tfor (let i = 5e4; i > 1e-5; i *= 0.975) {\n\t\t\tlet before = calc();\n\n\t\t\tlet index1 = Math.floor(Math.random() * groups.length);\n\t\t\tlet index2 = Math.floor(Math.random() * groups.length);\n\n\t\t\tswap(index1, index2);\n\n\t\t\tlet after = calc();\n\n\t\t\tlet delta = after - before;\n\n\t\t\t// 变好了自动保留\n            if (delta > 0) {\n                continue;\n            }\n\t\t\t// 这是变坏了  变化了应该是要“恢复的”， 也就是swap回去\n\t\t\t// 但变化了也有一定概率保留（坏了也就坏了 因为有的case是先变坏才能变好，先恶化再变得最优）\n\t\t\t// Math.E ** (delta / i) 这个挺有意思的..  恶化的越多 这个值越小，越应该恢复回去， 温度高时，这个值越趋近于1，越容易维持现状\n\t\t\t// 如果没恶化太多，或当前温度比较高， 是有很大概率不恢复回去的，将错就错\n\t\t\tif (delta < 0 && (Math.E ** (delta / i) < Math.random())) {\n\t\t\t\tswap(index1, index2);\n\t\t\t}\n\t\t}\n\t}\n\tif (batchSize == 1) return groups.length;\n    let tmp = [];\n    // 万能牌free  这波人必然会带来一波快乐   先踢出来  这样数据量小点\n    let free = 0;\n    for (let i = 0; i < groups.length; i++) {\n        if (groups[i] % batchSize == 0) {\n            free ++;\n        } else {\n            tmp.push(groups[i]);\n        }\n    }\n    groups = tmp;\n\tfor (let i = 0; i < 30; i++) {\n        simulateAnneal();\n    }\n\treturn ret + free;\n};\n```",
+      "createdAt": "2021-10-15T06:19:37.702007+00:00",
+      "hitCount": 45,
+      "identifier": "TyKpGe",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "ji-yi-hua-dfs-by-achen1102-vofk",
+        "title": "记忆化 DFS "
+      },
+      "position": 3,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "cji-yi-hua-sou-suo-by-oldyan-658o",
+        "title": "C++/python状态压缩+记忆化搜索（更新C++无位运算版）"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "maximum-number-of-groups-getting-fresh-donuts"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "mo-ni-tui-huo-by-lianxin-tvq6",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n玄学随机\n比较有意思的是 相同起始温度与终止温度   0.97的降温系数在c++里成功率已经比较稳了\n但是在js里要调到0.975   这.....\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "JavaScript",
+          "nameTranslated": "",
+          "slug": "javascript",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "模拟退火..",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1048627,
+        "viewCount": 37
+      },
+      "uuid": "TyKpGe",
+      "videosInfo": []
+    }
+  }
+}

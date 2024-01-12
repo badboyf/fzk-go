@@ -1,0 +1,81 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "༺孤༻",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/rpHeo9qGQw/avatar_1637403101.png",
+          "userSlug": "rpHeo9qGQw"
+        },
+        "username": "rpHeo9qGQw"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "```\r\nimport java.util.Calendar;\r\nimport java.util.Scanner;\r\n\r\nclass Solution {\r\n    public int dayOfYear(String date) {\r\n\r\n        //生成当前日期,用于判断是否是闰年\r\n        Calendar cal = Calendar.getInstance();\r\n\r\n        //得到年月日\r\n        int year = Integer.parseInt(date.substring(0, 4));\r\n        int month = Integer.parseInt(date.substring(5, 7))-1;\r\n        int day = Integer.parseInt(date.substring(8, 10));\r\n\r\n        //非闰年月份天数,从0开始\r\n        int[] Mons = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};\r\n\r\n        //记录结果天数\r\n        int res = 0;\r\n\r\n        cal.set(year, 2, 0);//设置零日 记录的是year年2月份的最后一天\r\n\r\n        //将本月之前的月份加入结果res\r\n         for (int i = 0; i < month; i++) {\r\n            res+=Mons[i];\r\n        }\r\n\r\n        //加入当月的天数\r\n        res+=day;\r\n\r\n\r\n        if (cal.get(Calendar.DAY_OF_MONTH) != 29) {//不是闰年\r\n           \r\n        }else{//是闰年\r\n            if(month>1)//大于二月,被闰年日期影响\r\n            {\r\n                res++;\r\n            }\r\n        }\r\n        return res;\r\n    }\r\n}\r\n```",
+      "createdAt": "2021-11-21T09:23:24.343419+00:00",
+      "hitCount": 40,
+      "identifier": "rrosCH",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "shua-bao-leetcode-cyu-yan-shi-xian-jian-p3qbz",
+        "title": "【刷爆Leetcode】C语言实现，简单易懂"
+      },
+      "position": 41,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "yong-zui-zui-ji-chu-de-fang-fa-zuo-de-by-lerxi_3",
+        "title": "用最最基础的方法做的"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "day-of-the-year"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "AWESOME"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 0,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "yong-canlenderde-er-yue-fen-tian-shu-pan-nh6c",
+      "status": "PUBLISHED",
+      "summary": "[该用户太懒了，只写了 42 行代码]",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "用Canlender的二月份天数判断闰年否,然后计算天数",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1114220,
+        "viewCount": 29
+      },
+      "uuid": "rrosCH",
+      "videosInfo": []
+    }
+  }
+}

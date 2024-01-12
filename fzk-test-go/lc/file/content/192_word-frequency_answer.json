@@ -1,0 +1,84 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "疯子",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/feng-zi-53/avatar_1610946265.png",
+          "userSlug": "fengzil"
+        },
+        "username": "fengziL"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "\n综合使用的 shell 命令\n\n```shell []\ncat words.txt | tr -s ' ' '\\n' | sort | uniq -c | sort -r | awk '{ print $2, $1 }'\n```\n\n# 解题步骤\n\n## 1 切割\n\n`tr` 命令用于转换或删除文件中的字符\n-s：缩减连续重复的字符成指定的单个字符\n\n```shell []\ncat Words.txt| tr -s ' ' '\\n'\n\nthe\nday\nis\nsunny\nthe\nthe\nthe\nsunny\nis\nis\n```\n\n## 2 排序单词\n\n\n\n```shell []\ncat Words.txt| tr -s ' ' '\\n' | sort\n\nday\nis\nis\nis\nsunny\nsunny\nthe\nthe\nthe\nthe\n```\n\n## 3 统计单词出现次数\n\n`uniq` 命令用于检查及删除文本文件中重复出现的行列，一般与 sort 命令结合使用。\n-c：在每列旁边显示该行重复出现的次数。\n```shell []\ncat Words.txt| tr -s ' ' '\\n' | sort | uniq -c\n\n1 day\n3 is\n2 sunny\n4 the\n```\n\n## 4 排序单词出现次数\n-r：以相反的顺序来排序\n```shell []\ncat Words.txt| tr -s ' ' '\\n' | sort | uniq -c | sort -r\n\n4 the\n3 is\n2 sunny\n1 day\n```\n\n## 5 打印\n\n```shell []\ncat Words.txt| tr -s ' ' '\\n' | sort | uniq -c | sort -r | awk '{print $2, $1}'\n\nthe 4\nis 3\nsunny 2\nday 1\n```",
+      "createdAt": "2021-10-14T03:41:17.762028+00:00",
+      "hitCount": 1765,
+      "identifier": "CDBYOA",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "leetcodejie-ti-xi-lie-192-tong-ji-ci-pin-s4jc",
+        "title": "⭐️ LeetCode解题系列 ⭐️ 192. 统计词频（Shell）"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "word-frequency"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 7,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": false,
+      "slug": "qie-ge-pai-xu-dan-ci-tong-ji-ci-shu-pai-8sdgt",
+      "status": "PREPUBLISH",
+      "summary": "综合使用的 shell 命令\n解题步骤\n1 切割\ntr 命令用于转换或删除文件中的字符\n-s：缩减连续重复的字符成指定的单个字符\n2 排序单词\n3 统计单词出现次数\nuniq 命令用于检查及删除文本文件中重复出现的行列，一般与 sort 命令结合使用。\n-c：在每列旁边显示该行重复出现的次数。\n4 排序单词出现次数\n-",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Shell",
+          "nameTranslated": "",
+          "slug": "shell",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Bash",
+          "nameTranslated": "",
+          "slug": "bash",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "切割/排序单词/统计次数/排序次数/打印--[192]",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1046618,
+        "viewCount": 1376
+      },
+      "uuid": "CDBYOA",
+      "videosInfo": []
+    }
+  }
+}

@@ -1,0 +1,93 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣官方题解",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/leetcode-solution/avatar_1582018938.png",
+          "userSlug": "leetcode-solution"
+        },
+        "username": "LeetCode-Solution"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法一：模拟\n\n**思路与算法**\n\n首先我们对原序列排序，假设排序之后序列为 $\\{ a_0, a_1, \\cdots a_n \\}$，如果对 $i \\in [1, n - 1]$ 中的每个数都有 $a_i \\times 2 = a_{i - 1} + a_{i + 1}$ 成立，那么这个数列就是等差数列。\n\n**代码**\n\n```cpp [sol1-C++]\nclass Solution {\npublic:\n    bool canMakeArithmeticProgression(vector<int>& arr) {\n        sort(arr.begin(), arr.end());\n        for (int i = 1; i < arr.size() - 1; ++i) {\n            if (arr[i] * 2 != arr[i - 1] + arr[i + 1]) {\n                return false;\n            }\n        }\n        return true;\n    }\n};\n```\n\n```Java [sol1-Java]\nclass Solution {\n    public boolean canMakeArithmeticProgression(int[] arr) {\n        Arrays.sort(arr);\n        for (int i = 1; i < arr.length - 1; ++i) {\n            if (arr[i] * 2 != arr[i - 1] + arr[i + 1]) {\n                return false;\n            }\n        }\n        return true;\n    }\n}\n```\n\n```python [sol1-Python3]\nclass Solution:\n    def canMakeArithmeticProgression(self, arr: List[int]) -> bool:\n        arr.sort()\n        for i in range(1, len(arr) - 1):\n            if arr[i] * 2 != arr[i - 1] + arr[i + 1]:\n                return False\n        return True\n```\n\n```csharp [sol1-C#]\npublic class Solution \n{\n    public bool CanMakeArithmeticProgression(int[] arr) \n    {\n        Array.Sort(arr);\n        for (int i = 1; i < arr.Length - 1; ++i)\n        {\n            if (arr[i] * 2 != arr[i - 1] + arr[i + 1]) \n            {\n                return false;\n            }\n        }\n\n        return true;\n    }\n}\n```\n\n**复杂度分析**\n\n+ 时间复杂度：$O(n \\log n)$。排序的时间代价为 $O(n \\log n)$，遍历序列的时间代价是 $O(n)$，故渐进时间复杂度为 $O(n \\log n + n) = O(n \\log n)$。\n+ 空间复杂度：$O(\\log n)$。快速排序中使用的栈空间期望是 $O(\\log n)$。",
+      "createdAt": "2020-07-12T08:38:49.737472+00:00",
+      "hitCount": 8326,
+      "identifier": "sDZUrt",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "liang-ci-bian-li-by-ray-56-0w99",
+        "title": "两次遍历"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "can-make-arithmetic-progression-from-sequence"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "pan-duan-neng-fou-xing-cheng-deng-chai-shu-lie-by-",
+      "status": "PUBLISHED",
+      "summary": "方法一：模拟 思路与算法 首先我们对原序列排序，假设排序之后序列为 ${ a_0, a_1, \\cdots a_n }$，如果对 $i \\in [1, n - 1]$ 中的每个数都有 $a_i \\times 2 = a_{i - 1} + a_{i + 1}$ 成立，那么这个数列就是等差数列。 代码 cpp [sol1",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C#",
+          "nameTranslated": "",
+          "slug": "csharp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "判断能否形成等差数列",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 22,
+        "id": 327119,
+        "viewCount": 7321
+      },
+      "uuid": "sDZUrt",
+      "videosInfo": []
+    }
+  }
+}

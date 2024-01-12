@@ -1,0 +1,79 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "AerysN",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/aerysnan/avatar_1577093410.png",
+          "userSlug": "aerysn"
+        },
+        "username": "aerysn"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "**首先同步一下表达方式: 下文中所有 \"数组 `nums` 的前 `i` 个元素\" 均指 `nums[0]` 到 `nums[i]` 的 `i + 1` 个元素**\r\n\r\n题目中要求满足 `nums[a] + 1 == nums[a + 1]`, 等价于满足 `nums[a] - a == nums[a + 1] - (a + 1)`, 所以我们可以先对数组进行预处理, 将每个`nums[i]` 替换为 `nums[i] - i`, 问题就变成寻找最小的操作次数使得数组的前 `i` 个元素相等, 假设操作后得到的这个相等的元素为 `median[i]`, 即:\r\n\r\n$$median[i]=argmin_{x}\\sum_{j=0}^{i}|nums[j]-x|$$\r\n\r\n那么当前有奇数个元素时, `median[i]` 必然是数组前 `i` 个元素的中位数, 有偶数个元素时 `median[i]` 则可以是排序后最中间两个数构成的区间内的任意一个值 (不理解这一点的可以画一个数轴感受一下), 所以我们可以利用 [295. 数据流的中位数](https://leetcode-cn.com/problems/find-median-from-data-stream/) 中**维护两个堆**的方法快速求出 `nums` 数组前 `i` 个元素的中位数.\r\n\r\n求得中位数后, 如果直接遍历 `[0, i]` 求需要的操作次数会超时, 所以我们将求中位数的算法稍加修改, 维护数据流较小的一半的和 `maxSum` (即小于中位数的所有数之和) 与较大的一半的和 `minSum` (即大于等于中位数的所有数之和), 即:\r\n\r\n$$minSum=\\sum_{j=0\\cdots i, nums[j]\\geq median[i]}nums[j]$$\r\n\r\n$$maxSum=\\sum_{j=0\\cdots i, nums[j]<median[i]}nums[j]$$\r\n\r\n那么:\r\n\r\n$$\\sum_{j=0}^{i}|nums[j]-median[i]|=minSum-card\\left(\\{j|nums[j]\\geq median[i],0\\leq j\\leq i\\}\\right)\\times median[i]\\\\+(card\\left(\\{j|nums[j]<median[i],0\\leq j\\leq i\\}\\right)\\times median[i]-maxSum)$$\r\n\r\n这样我们就不用数据流中每加入一个元素后重新求和, 从而以 $O(nlogn)$ 复杂度解决问题.\r\n\r\n注意代码中 `minHeap` 代表的小顶堆维护的是数据流较大的一半, 而 `maxHeap` 则是较小的一半.\r\n\r\n```\r\nclass Solution {\r\n  public int[] numsGame(int[] nums) {\r\n    int n = nums.length;\r\n    int[] result = new int[n];\r\n    for (int i = 0; i < n; i++)\r\n      nums[i] -= i;\r\n    result[0] = 0;\r\n    MedianFinder finder = new MedianFinder();\r\n    finder.addNum(nums[0]);\r\n    for (int i = 1; i < n; i++) {\r\n      finder.addNum(nums[i]);\r\n      int median = finder.findMedian();\r\n      long value = finder.minSum - (long) (finder.minHeap.size() - 1) * (long) median\r\n          + ((long) (finder.maxHeap.size() - 1) * (long) median - finder.maxSum);\r\n      result[i] = (int) (value % 1000000007);\r\n    }\r\n    return result;\r\n  }\r\n}\r\n\r\nclass MedianFinder {\r\n  PriorityQueue<Integer> minHeap, maxHeap;\r\n  long minSum = 0, maxSum = 0;\r\n\r\n  public MedianFinder() {\r\n    minHeap = new PriorityQueue<>();\r\n    maxHeap = new PriorityQueue<>(1, (x, y) -> {\r\n      long result = (long) y - (long) x;\r\n      if (result > 0)\r\n        return 1;\r\n      if (result < 0)\r\n        return -1;\r\n      return 0;\r\n    });\r\n    minHeap.add(Integer.MAX_VALUE);\r\n    maxHeap.add(Integer.MIN_VALUE);\r\n  }\r\n\r\n  private void adjust() {\r\n    int maxSize = maxHeap.size(), minSize = minHeap.size();\r\n    if (maxSize - minSize >= 2) {\r\n      int num = maxHeap.poll();\r\n      maxSum -= num;\r\n      minHeap.add(num);\r\n      minSum += num;\r\n    } else if (minSize - maxSize >= 2) {\r\n      int num = minHeap.poll();\r\n      minSum -= num;\r\n      maxHeap.add(num);\r\n      maxSum += num;\r\n    }\r\n  }\r\n\r\n  public void addNum(int num) {\r\n    int lowerMax = maxHeap.peek();\r\n    if (num <= lowerMax) {\r\n      maxHeap.add(num);\r\n      maxSum += num;\r\n    } else {\r\n      minHeap.add(num);\r\n      minSum += num;\r\n    }\r\n    adjust();\r\n  }\r\n\r\n  public int findMedian() {\r\n    if (maxHeap.size() > minHeap.size())\r\n      return maxHeap.peek();\r\n    else\r\n      return minHeap.peek();\r\n  }\r\n}\r\n```\r\n",
+      "createdAt": "2020-09-19T11:47:10.683923+00:00",
+      "hitCount": 1867,
+      "identifier": "oKaw4U",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "c-zhuan-hua-cheng-wei-hu-zhong-wen-shu-by-zerotrac",
+        "title": "C++ 转化成维护中位数"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "5TxKeK"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 18,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "java-deng-tong-yu-qiu-shu-ju-liu-de-zhong-wei-shu-",
+      "status": "PUBLISHED",
+      "summary": "首先同步一下表达方式: 下文中所有 \"数组 nums 的前 i 个元素\" 均指 nums[0] 到 nums[i] 的 i + 1 个元素\n题目中要求满足 nums[a] + 1 == nums[a + 1], 等价于满足 nums[a] - a == nums[a + 1] - (a + 1), 所以我们可以先对数组",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Heap",
+          "nameTranslated": "堆",
+          "slug": "heap",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "Java 等同于求数据流的中位数",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 9,
+        "id": 420016,
+        "viewCount": 1312
+      },
+      "uuid": "oKaw4U",
+      "videosInfo": []
+    }
+  }
+}

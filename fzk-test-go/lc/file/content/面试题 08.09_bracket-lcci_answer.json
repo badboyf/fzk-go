@@ -1,0 +1,83 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "zzu",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/123-2621/avatar_1628486303.png",
+          "userSlug": "123-2621"
+        },
+        "username": "123-2621"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "**记录左右括号的个数，进行递归回溯**\r\n```\r\nclass Solution:\r\n    def generateParenthesis(self, n: int) -> List[str]:\r\n        ans = []\r\n        \r\n        def backtrack(s, l, r):\r\n            if len(s) == 2 * n:\r\n                ans.append(''.join(s))\r\n                return\r\n            if l < n:\r\n                s.append('(')\r\n                backtrack(s, l + 1, r)\r\n                s.pop()\r\n            if r < l:\r\n                s.append(')')\r\n                backtrack(s, l, r + 1)\r\n                s.pop()\r\n        \r\n        backtrack([], 0, 0)\r\n        return ans\r\n```\r\n",
+      "createdAt": "2021-11-13T05:21:59.035911+00:00",
+      "hitCount": 119,
+      "identifier": "3jZenc",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "pythondi-gui-hui-su-by-haotianmingyue-j0tq",
+        "title": "python递归回溯"
+      },
+      "position": 2,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "cheng-dui-cha-ru-gua-hao-by-fc559328-1mn1",
+        "title": "成对插入括号"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "bracket-lcci"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "di-gui-hui-su-by-123-2621-6ks1",
+      "status": "PREPUBLISH",
+      "summary": "记录左右括号的个数，进行递归回溯",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python3",
+          "nameTranslated": "",
+          "slug": "python3",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "递归回溯",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1099104,
+        "viewCount": 102
+      },
+      "uuid": "3jZenc",
+      "videosInfo": []
+    }
+  }
+}

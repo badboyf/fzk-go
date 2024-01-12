@@ -1,0 +1,100 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "Hanxin",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/hanxin_hanxin/avatar_1628523481.png",
+          "userSlug": "hanxin_hanxin"
+        },
+        "username": "Hanxin_Hanxin"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "思路和心得：\r\n\r\n1.2次字典\r\n\r\n第一次：每个数字，都存在于哪些文档（index表示）\r\n第二次：每个数字中的 idnex列表中的 index，必相交了\r\n\r\n2.控制小数点的位数\r\n\r\npython 很方便  “:.4f”.format() \r\nc++ 要借助c中  char tmp[20]; sprintf(tmp, \"%0.4lf\", rate)\r\n\r\n\r\n3.eps\r\n为防止四舍五入导致精度损失  小数后面 + eps\r\n\r\n在机器学习中防止 +eps 防止分母为0\r\n\r\n需要eps的题目，比如\r\n[1883. 准时抵达会议现场的最小跳过休息次数](https://leetcode-cn.com/problems/minimum-skips-to-arrive-at-meeting-on-time/solution/cpython3-ji-ben-de-dong-tai-gui-hua-dpsi-21fs/)\r\n\r\n\r\n```python3 []\r\nclass Solution:\r\n    def computeSimilarities(self, docs: List[List[int]]) -> List[str]:\r\n        eps = 1e-9\r\n\r\n        dn = len(docs)\r\n\r\n        num_ids = defaultdict(list)\r\n\r\n        for i, doc in enumerate(docs):\r\n            for num in doc:\r\n                num_ids[num].append(i)\r\n        \r\n        ab_intersect_cnt = defaultdict(int)\r\n        for num, ids in num_ids.items():\r\n            n = len(ids)\r\n            for i in range(n):\r\n                for j in range(i + 1, n):\r\n                    ab_intersect_cnt[ids[i], ids[j]] += 1\r\n        \r\n        res = []\r\n        for (a, b), intersect_cnt in ab_intersect_cnt.items():\r\n            union_cnt = len(docs[a]) + len(docs[b]) - intersect_cnt\r\n            rate = intersect_cnt / union_cnt + eps\r\n            tmp = \"{},{}: {:.4f}\".format(a, b, rate)\r\n            res.append(tmp)\r\n        return res\r\n```\r\n```c++ []\r\nclass Solution \r\n{\r\npublic:\r\n    vector<string> computeSimilarities(vector<vector<int>>& docs) \r\n    {\r\n        double eps = 1e-9;  //防止四舍五入时，精度不够\r\n\r\n        int dn = docs.size();\r\n\r\n        unordered_map<int, vector<int>> num_ids;\r\n        for (int i = 0; i < dn; i ++)\r\n        {\r\n            for (int num : docs[i])\r\n                num_ids[num].push_back(i);\r\n        }\r\n\r\n        map<pair<int,int>, int> ab_intersect_cnt;\r\n        for (auto [num, ids]: num_ids)\r\n        {\r\n            int n = ids.size();\r\n            for (int i = 0; i < n; i ++)\r\n                for (int j = i + 1; j < n; j ++)\r\n                    ab_intersect_cnt[{ids[i], ids[j]}] ++;\r\n        }\r\n\r\n        vector<string> res;\r\n        for (auto [ab, intersect_cnt] : ab_intersect_cnt)\r\n        {\r\n            auto [i, j] = ab;\r\n            int union_cnt = (int)docs[i].size() + (int)docs[j].size() - intersect_cnt;\r\n            double rate = (double)intersect_cnt / union_cnt  + eps;\r\n            char tmp[20];\r\n            sprintf(tmp, \"%d,%d: %0.4lf\", i, j, rate);\r\n            res.push_back(tmp);\r\n        }\r\n\r\n        return res;\r\n    }\r\n};\r\n```\r\n",
+      "createdAt": "2021-06-11T10:27:53.841207+00:00",
+      "hitCount": 634,
+      "identifier": "oCd2FT",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "mian-shi-ti-1726-xi-shu-xiang-si-du-by-o-ph94",
+        "title": "面试题 17.26. 稀疏相似度"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "sparse-similarity-lcci"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 3,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "cpython3-2ci-zi-dian-epsbu-chang-si-she-16zmq",
+      "status": "PUBLISHED",
+      "summary": "思路和心得：\n1.2次字典\n第一次：每个数字，都存在于哪些文档（index表示）\n第二次：每个数字中的 idnex列表中的 index，必相交了\n2.控制小数点的位数\npython 很方便  “:.4f”.format()\nc++ 要借助c中  char tmp[20]; sprintf(tmp, \"%0.4lf\",",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Map",
+          "nameTranslated": "",
+          "slug": "map",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Hash Table",
+          "nameTranslated": "哈希表",
+          "slug": "hash-table",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python3",
+          "nameTranslated": "",
+          "slug": "python3",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "c++/python3 2次字典 eps补偿四舍五入产生的误差 c++ sprintf()控制小数点位数",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 4,
+        "id": 824061,
+        "viewCount": 498
+      },
+      "uuid": "oCd2FT",
+      "videosInfo": []
+    }
+  }
+}

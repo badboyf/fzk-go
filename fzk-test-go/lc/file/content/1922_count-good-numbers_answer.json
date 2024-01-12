@@ -1,0 +1,93 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣官方题解",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/leetcode-solution/avatar_1582018938.png",
+          "userSlug": "leetcode-solution"
+        },
+        "username": "LeetCode-Solution"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法一：快速幂\n\n**思路与算法**\n\n对于偶数下标处的数字，它可以为 $0, 2, 4, 6, 8$ 共计 $5$ 种，而长度为 $n$ 的数字字符串有 $\\lfloor \\dfrac{n+1}{2} \\rfloor$ 个偶数下标，其中 $\\lfloor x \\rfloor$ 表示对 $x$ 向下取整。\n\n对于奇数下标处的数字，它可以为 $2, 3, 5, 7$ 共计 $4$ 种，而长度为 $n$ 的数字字符串有 $\\lfloor \\dfrac{n}{2} \\rfloor$ 个奇数下标。\n\n因此长度为 $n$ 的数字字符串中，好数字的总数即为：\n\n$$\n5^{\\lfloor \\frac{n+1}{2} \\rfloor} \\cdot 4^{\\lfloor \\frac{n}{2} \\rfloor}\n$$\n\n在本题中，由于 $n$ 的取值最大可以到 $10^{15}$，如果通过普通的乘法运算直接求出上式中的幂，会超出时间限制，因此我们需要使用快速幂算法对幂的求值进行优化。\n\n快速幂算法可以参考[「50. Pow(x, n)」的官方题解](https://leetcode-cn.com/problems/powx-n/solution/powx-n-by-leetcode-solution/)。\n\n**代码**\n\n```C++ [sol1-C++]\nclass Solution {\nprivate:\n    static constexpr int mod = 1000000007;\n    \npublic:\n    int countGoodNumbers(long long n) {\n        // 快速幂求出 x^y % mod\n        auto quickmul = [](int x, long long y) -> int {\n            int ret = 1, mul = x;\n            while (y > 0) {\n                if (y % 2 == 1) {\n                    ret = (long long)ret * mul % mod;\n                }\n                mul = (long long)mul * mul % mod;\n                y /= 2;\n            }\n            return ret;\n        };\n        \n        return (long long)quickmul(5, (n + 1) / 2) * quickmul(4, n / 2) % mod;\n    }\n};\n```\n\n```Python [sol1-Python3]\nclass Solution:\n    def countGoodNumbers(self, n: int) -> int:\n        mod = 10**9 + 7\n        \n        # 快速幂求出 x^y % mod\n        def quickmul(x: int, y: int) -> int:\n            ret, mul = 1, x\n            while y > 0:\n                if y % 2 == 1:\n                    ret = ret * mul % mod\n                mul = mul * mul % mod\n                y //= 2\n            return ret\n            \n        return quickmul(5, (n + 1) // 2) * quickmul(4, n // 2) % mod\n```\n\n**复杂度分析**\n\n- 时间复杂度：$O(\\log n)$。\n\n- 空间复杂度：$O(1)$。",
+      "createdAt": "2021-07-04T06:07:03.498307+00:00",
+      "hitCount": 3557,
+      "identifier": "Iwf24w",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "cpython3-kuai-su-mi-by-hanxin_hanxin-ubuo",
+        "title": "c++/python3 快速幂"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "count-good-numbers"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 7,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "tong-ji-hao-shu-zi-de-shu-mu-by-leetcode-53jj",
+      "status": "PUBLISHED",
+      "summary": "方法一：快速幂 思路与算法 对于偶数下标处的数字，它可以为 $0, 2, 4, 6, 8$ 共计 $5$ 种，而长度为 $n$ 的数字字符串有 $\\lfloor \\dfrac{n+1}{2} \\rfloor$ 个偶数下标，其中 $\\lfloor x \\rfloor$ 表示对 $x$ 向下取整。 对于奇数下标处的数字，它",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Math",
+          "nameTranslated": "数学",
+          "slug": "math",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Divide and Conquer",
+          "nameTranslated": "分治",
+          "slug": "divide-and-conquer",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "统计好数字的数目",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 13,
+        "id": 857968,
+        "viewCount": 2341
+      },
+      "uuid": "Iwf24w",
+      "videosInfo": []
+    }
+  }
+}

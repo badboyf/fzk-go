@@ -1,0 +1,84 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "bento",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/bento/avatar_1603833281.png",
+          "userSlug": "bento"
+        },
+        "username": "bento"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "![WeChat42c3ee178f361d9a3900b30f4a821be0.png](https://pic.leetcode-cn.com/1632500714-hFzaET-WeChat42c3ee178f361d9a3900b30f4a821be0.png)\n\n### 解题思路\n思路两步走:\n- 先for循环把字符串里所有char以及频率整到cfDic里面\n- 再做一次针对频率字典的for循环 利用集合是否包含该频率条件筛选的同时 更新频率数次以及结果数次\n\ntime: o(n)\nspace: o(1) as we will not store more than 26 different frequencies.\n\n### 代码\n\n```swift\nclass Solution {\n    func minDeletions(_ s: String) -> Int {\n        guard s.count > 1 else { return 0 }\n\n        var cfDic = [Character: Int](), result = 0\n\n        for char in s {\n            cfDic[char, default: 0] += 1\n        }\n\n        var freqSet = Set<Int>()\n\n        for (char, freq) in cfDic {\n            var currentFreq = freq\n            while freqSet.contains(currentFreq) {\n                currentFreq -= 1\n                result += 1\n            }\n            if currentFreq > 0 {\n                freqSet.insert(currentFreq)\n            }\n        }\n        return result\n    }\n}\n```",
+      "createdAt": "2021-09-24T16:28:35.016884+00:00",
+      "hitCount": 322,
+      "identifier": "77F8FG",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "ji-shu-pai-xu-by-zzk020308-whvl",
+        "title": "计数+排序"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "minimum-deletions-to-make-character-frequencies-unique"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "1647-minimum-deletions-to-make-character-6yd1",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n思路两步走:\n\n先for循环把字符串里所有char以及频率整到cfDic里面\n再做一次针对频率字典的for循环 利用集合是否包含该频率条件筛选的同时 更新频率数次以及结果数次\n\ntime: o(n)\nspace: o(1) as we will not store more than 26 different",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Greedy",
+          "nameTranslated": "贪心",
+          "slug": "greedy",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Swift",
+          "nameTranslated": "",
+          "slug": "swift",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1632500714-hFzaET-WeChat42c3ee178f361d9a3900b30f4a821be0.png",
+      "title": "1647. Minimum Deletions to Make Character Frequencies Unique",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1015890,
+        "viewCount": 275
+      },
+      "uuid": "77F8FG",
+      "videosInfo": []
+    }
+  }
+}

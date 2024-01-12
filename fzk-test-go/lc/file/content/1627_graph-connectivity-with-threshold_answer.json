@@ -1,0 +1,79 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "含光",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/han-guang-5/avatar_1617956630.png",
+          "userSlug": "han-guang-5"
+        },
+        "username": "han-guang-5"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n\n\n### 代码\n\n```cpp\nclass Solution {\npublic:\n    vector<int> father;\n    int find(int index) {\n        return index == father[index] ? index : father[index] = find(father[index]) ;\n    }\n    void join(int index1, int index2) {\n        father[find(index1)] = find(index2);\n    }\n    bool isSame(int index1, int index2) {\n        return find(index1) == find(index2);\n    }\n    vector<bool> areConnected(int n, int threshold, vector<vector<int>>& queries) {\n        father.resize(n + 1);\n        for (int i = 0; i < father.size(); i++) father[i] = i;\n        vector<bool> ans;\n        for (int i = threshold + 1; i <= n; i++) \n            for (int j = 2 * i; j <= n; j += i) join(i, j);\n        for (auto& l : queries) ans.push_back(isSame(l[0], l[1]));\n        return ans;\n    }\n};\n```",
+      "createdAt": "2021-11-16T11:46:51.013884+00:00",
+      "hitCount": 20,
+      "identifier": "ac7dXK",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "dai-yu-zhi-de-tu-lian-tong-xing-by-zerotrac2",
+        "title": "带阈值的图连通性"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "graph-connectivity-with-threshold"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "bing-cha-ji-by-han-guang-5-b8vb",
+      "status": "PUBLISHED",
+      "summary": "解题思路\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Union Find",
+          "nameTranslated": "并查集",
+          "slug": "union-find",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "并查集",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1105429,
+        "viewCount": 14
+      },
+      "uuid": "ac7dXK",
+      "videosInfo": []
+    }
+  }
+}

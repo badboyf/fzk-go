@@ -1,0 +1,72 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "qilin2008201",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/qilin2008201/avatar_1616045086.png",
+          "userSlug": "qilin2008201"
+        },
+        "username": "qilin2008201"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n首先，按照题意计算中位数（对数组进行排序，然后取中间值），然后利用双指针依次找出最强元素存入vStrongest，最后对vStrongest利用resize调整成符合题意的输出。\n### 代码\n\n```cpp\nclass Solution {\npublic:\n    vector<int> getStrongest(vector<int>& arr, int k) \n    {\n        sort(arr.begin(),arr.end());//先对arr进行排序\n        vector<int>vStrongest;//建立最强元素的数组\n        int median=arr[(arr.size()-1)/2],left=0,right=arr.size()-1;//计算中位数，左右指针初始化\n        while(left<right)//如果左右指针不相交，则继续执行循环\n        {\n            //如果左指针元素与中位数的差值大于右指针，则将左指针元素存入数组中\n            if(abs(arr[left]-median)>abs(arr[right]-median))\n            {\n                vStrongest.push_back(arr[left]);\n                left++;\n            }\n            else//如果右指针元素与中位数的差值小于等于右指针，则将右指针元素存入数组中\n            {\n                vStrongest.push_back(arr[right]);\n                right--;\n            }\n        }\n        vStrongest.push_back(median);//最后将中位数作为最弱元素存入数组中\n        vStrongest.resize(k);//根据k对vStrongest数组进行截短\n        return vStrongest;\n    }\n};\n```",
+      "createdAt": "2021-11-01T14:14:19.162479+00:00",
+      "hitCount": 65,
+      "identifier": "Shaof9",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "c-dui-shuang-zhi-zhen-by-nilu_cn-xmww",
+        "title": "【C++】【堆】【双指针】"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "the-k-strongest-values-in-an-array"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "1471-shu-zu-zhong-de-k-ge-zui-qiang-zhi-ush2c",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n首先，按照题意计算中位数（对数组进行排序，然后取中间值），然后利用双指针依次找出最强元素存入vStrongest，最后对vStrongest利用resize调整成符合题意的输出。\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "1471. 数组中的 k 个最强值(简单代码，简单思路)",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1078869,
+        "viewCount": 53
+      },
+      "uuid": "Shaof9",
+      "videosInfo": []
+    }
+  }
+}

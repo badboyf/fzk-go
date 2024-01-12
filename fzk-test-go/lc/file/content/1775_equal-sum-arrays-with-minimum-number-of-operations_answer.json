@@ -1,0 +1,91 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "zerotrac 🌸",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/zerotrac2/avatar_1628749564.png",
+          "userSlug": "zerotrac2"
+        },
+        "username": "zerotrac2"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法一：贪心\n\n**思路与算法**\n\n设 $s_1$ 和 $s_2$ 分别是数组 $\\textit{nums}_1$ 和 $\\textit{nums}_2$ 的和。不失一般性，可以设 $s_1 < s_2$。\n\n从直观上来说，要想使得操作次数最小，我们应当「尽可能增加 $\\textit{nums}_1$ 中元素的值，同时尽可能减小 $\\textit{nums}_2$ 中元素的值」，因此：\n\n- $\\textit{nums}_1$ 中的每个元素 $x$ 可以增加的量为 $6-x \\in [0, 5]$；\n\n- $\\textit{nums}_2$ 中的每个元素 $x$ 可以减少的量为 $x-1 \\in [0, 5]$。\n\n记 $\\textit{diff} = s_2 - s_1$，那么我们需要选出最少的元素，使得「在 $\\textit{nums}_1$ 中的元素的增加量」与「在 $\\textit{nums}_2$ 中的元素的减少量」之和大于等于 $\\textit{diff}$。因此我们贪心地从 $5$ 这个增加 / 减少量开始递减地选取即可。\n\n在实际的代码编写中，我们只需要使用一个长度为 $6$ 的数组，其下标为增加 / 减少量，值为对应的元素数量。\n\n**代码**\n\n```C++ [sol1-C++]\nclass Solution {\npublic:\n    int minOperations(vector<int>& nums1, vector<int>& nums2) {\n        int sum1 = accumulate(nums1.begin(), nums1.end(), 0);\n        int sum2 = accumulate(nums2.begin(), nums2.end(), 0);\n        if (sum1 == sum2) {\n            return 0;\n        }\n        if (sum1 > sum2) {\n            return minOperations(nums2, nums1);\n        }\n\n        int diff = sum2 - sum1;\n        vector<int> freq(6);\n        for (int num: nums1) {\n            ++freq[6 - num];\n        }\n        for (int num: nums2) {\n            ++freq[num - 1];\n        }\n\n        int ans = 0;\n        for (int i = 5; i >= 1 && diff > 0; --i) {\n            while (freq[i] && diff > 0) {\n                ++ans;\n                --freq[i];\n                diff -= i;\n            }\n        }\n\n        return (diff > 0 ? -1 : ans);\n    }\n};\n```\n\n```Python [sol1-Python3]\nclass Solution:\n    def minOperations(self, nums1: List[int], nums2: List[int]) -> int:\n        sum1, sum2 = sum(nums1), sum(nums2)\n        if sum1 == sum2:\n            return 0\n        if sum1 > sum2:\n            return self.minOperations(nums2, nums1)\n        \n        diff = sum2 - sum1\n        freq = Counter(6 - num for num in nums1) + Counter(num - 1 for num in nums2)\n        ans = 0\n\n        for i in range(5, 0, -1):\n            if diff <= 0:\n                break\n            for _ in range(freq[i]):\n                if diff <= 0:\n                    break\n                ans += 1\n                diff -= i\n        \n        return -1 if diff > 0 else ans\n```\n\n**复杂度分析**\n\n- 时间复杂度：$O(m+n)$，其中 $m$ 和 $n$ 分别是数组 $\\textit{nums}_1$ 和 $\\textit{nums}_2$ 的长度。\n\n- 空间复杂度：$O(c)$，其中 $c$ 表示数组元素的范围，在本题中 $c=6$。",
+      "createdAt": "2021-02-28T12:16:47.855621+00:00",
+      "hitCount": 3160,
+      "identifier": "MMzgRX",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "c-shuang-zhi-zhen-tan-xin-by-rainn-dsdq",
+        "title": "C++ 双指针 + 贪心"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "equal-sum-arrays-with-minimum-number-of-operations"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 48,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 4,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "tong-guo-zui-shao-cao-zuo-ci-shu-shi-shu-o8no",
+      "status": "PUBLISHED",
+      "summary": "方法一：贪心\n思路与算法\n设 s_1 和 s_2 分别是数组 \\textit{nums}_1 和 \\textit{nums}_2 的和。不失一般性，可以设 s_1 < s_2。\n从直观上来说，要想使得操作次数最小，我们应当「尽可能增加 \\textit{nums}_1 中元素的值，同时尽可能减小 \\textit{num",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Hash Table",
+          "nameTranslated": "哈希表",
+          "slug": "hash-table",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "通过最少操作次数使数组的和相等",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 34,
+        "id": 626648,
+        "viewCount": 2247
+      },
+      "uuid": "MMzgRX",
+      "videosInfo": []
+    }
+  }
+}

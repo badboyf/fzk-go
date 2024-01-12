@@ -1,0 +1,90 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "草莓奶昔",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/cao-mei-nai-xi-i/avatar_1626248666.png",
+          "userSlug": "cao-mei-nai-xi-i"
+        },
+        "username": "cao-mei-nai-xi-i"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "![20211030085412.png](https://pic.leetcode-cn.com/1635555260-VhHvWH-20211030085412.png)\n\n### 解题思路\n1. 通过题目条件建立无向图adjList，每个点可以连接上下左右。因为是无向图，所以建图时每个点只需考虑下方和右侧相连，避免重复连接。\n2. 对无向图进行匈牙利算法获取最大匹配数。\n   其中匈牙利算法的步骤:\n   1. 预处理，将图二分染色，得到colors数组。\n   2. 从二分图的左侧还没有匹配到的点出发，dfs寻找增广路径。如果找到，最大匹配数就加一。\n  [递归寻找增广路径图解](https://blog.csdn.net/kaisa158/article/details/48718403?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522161564099216780266286846%2522%252C%2522scm%2522%253A%252220140713.130102334..%2522%257D&request_id=161564099216780266286846&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~baidu_landing_v2~default-1-48718403.first_rank_v2_pc_rank_v29&utm_term=%E5%8C%88%E7%89%99%E5%88%A9dfs)\n\n### 代码\n\n```typescript\nfunction domino(n: number, m: number, broken: number[][]): number {\n  const board = Array.from<unknown, number[]>({ length: n }, () => Array(m).fill(0))\n  for (const [brokenX, brokenY] of broken) {\n    board[brokenX][brokenY] = 1\n  }\n\n  const adjList = Array.from<unknown, number[]>({ length: n * m }, () => [])\n  // 建图 因为是无向图 所以只需下方和右侧相连避免重复看\n  for (let i = 0; i < n; i++) {\n    for (let j = 0; j < m; j++) {\n      if (board[i][j] === 1) continue\n      const cur = i * m + j\n\n      if (j + 1 < m && board[i][j + 1] === 0) {\n        const next = i * m + j + 1\n        adjList[cur].push(next)\n        adjList[next].push(cur)\n      }\n\n      if (i + 1 < n && board[i + 1][j] === 0) {\n        const next = (i + 1) * m + j\n        adjList[cur].push(next)\n        adjList[next].push(cur)\n      }\n    }\n  }\n\n  return hungarian(adjList)\n};\n\nfunction hungarian(adjList: number[][]): number {\n  let maxMatching = 0\n  let visited: Array<boolean>\n  const matching = Array<number>(adjList.length).fill(-1)\n\n  const colors = bisect(adjList)\n  for (let i = 0; i < adjList.length; i++) {\n    // 从左侧还没有匹配到的男生出发，并重置visited\n    if (colors[i] === 0 && matching[i] === -1) {\n      visited = Array<boolean>(adjList.length).fill(false)\n      if (dfs(i)) maxMatching++\n    }\n  }\n\n  return maxMatching\n\n  // 匈牙利算法核心:寻找增广路径 找到的话最大匹配加一\n  // dfs(cur) 表示给cur找匹配\n  function dfs(cur: number): boolean {\n    if (visited[cur]) return false\n    visited[cur] = true\n\n    for (const next of adjList[cur]) {\n      // 是增广路径或者dfs找到增广路径\n      if (matching[next] === -1 || dfs(matching[next])) {\n        matching[cur] = next\n        matching[next] = cur\n        return true\n      }\n    }\n\n    return false\n  }\n\n  // 二分图检测、获取colors\n  function bisect(adjList: number[][]) {\n    const colors = Array<number>(adjList.length).fill(-1)\n\n    const dfs = (cur: number, color: number) => {\n      colors[cur] = color\n      for (const next of adjList[cur]) {\n        if (colors[next] === -1) {\n          dfs(next, color ^ 1)\n        } else {\n          if (colors[next] === colors[cur]) {\n            throw new Error('不是二分图')\n          }\n        }\n      }\n    }\n\n    for (let i = 0; i < adjList.length; i++) {\n      if (colors[i] === -1) dfs(i, 0)\n    }\n\n    return colors\n  }\n}\n```",
+      "createdAt": "2021-10-30T01:04:23.786255+00:00",
+      "hitCount": 170,
+      "identifier": "2iuhnD",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "javascriptban-er-fen-tu-xiong-ya-li-suan-xa3j",
+        "title": "【JavaScript版】二分图+匈牙利算法获取最大匹配数"
+      },
+      "position": 2,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "suan-fa-xiao-ai-cong-ling-dao-yi-jiao-hu-8b4k",
+        "title": "【算法小爱】从零到一，教会你二分图"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "broken-board-dominoes"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "er-fen-tu-zui-da-pi-pei-wen-ti-xiong-ya-yzy91",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n\n通过题目条件建立无向图adjList，每个点可以连接上下左右。因为是无向图，所以建图时每个点只需考虑下方和右侧相连，避免重复连接。\n对无向图进行匈牙利算法获取最大匹配数。\n其中匈牙利算法的步骤:\n\n预处理，将图二分染色，得到colors数组。\n从二分图的左侧还没有匹配到的点出发，dfs寻找增广路径。如果找到",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "匈牙利算法",
+          "nameTranslated": "",
+          "slug": "xiong-ya-li-suan-fa",
+          "tagType": "ADDITIONAL_TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "js",
+          "nameTranslated": "",
+          "slug": "js",
+          "tagType": "ADDITIONAL_TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "ts",
+          "nameTranslated": "",
+          "slug": "ts",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1635555260-VhHvWH-20211030085412.png",
+      "title": "二分图最大匹配问题匈牙利算法",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1073771,
+        "viewCount": 131
+      },
+      "uuid": "2iuhnD",
+      "videosInfo": []
+    }
+  }
+}

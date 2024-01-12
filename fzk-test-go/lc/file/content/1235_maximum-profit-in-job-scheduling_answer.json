@@ -1,0 +1,79 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "Moutain-Ocean",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/13860971326/avatar_1635685102.png",
+          "userSlug": "mountain-ocean"
+        },
+        "username": "Mountain-Ocean"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "所有工作按结束时间排序\r\n**定义状态** ```dp[i]```表示前```i```个工作能获得的最大价值，注意不一定包含工作```i```\r\n**转移方程** ```dp[i] = std::max(dp[i - 1], dp[preJob] + value[i])```\r\n其中, ```preJob```是工作```i```的```start time```前, 拥有最大```dp```值的工作的下标, 这里可以用**二分法**，查找在它之前，且离它最近的```end time```。\r\n**注意**: 如果```i```的```start time```前有多个工作的```end time```相同，需要取其中```dp```值最大的一个。\r\n\r\n```\r\nclass Solution {\r\npublic:\r\n    int jobScheduling(vector<int>& startTime, vector<int>& endTime, vector<int>& profit) {\r\n        int n = startTime.size();\r\n        vector<pair<int, pair<int, int>>> data;\r\n        for (int i = 0; i < n; ++i) {\r\n            data.push_back(make_pair(endTime[i], make_pair(startTime[i], profit[i])));\r\n        }\r\n        std::sort(data.begin(), data.end(), [&](const pair<int, pair<int, int>>& a, const pair<int, pair<int, int>>& b) {\r\n            if (a.first != b.first) return a.first < b.first;\r\n            return a.second.second > b.second.second;\r\n        });\r\n        endTime.clear();\r\n        endTime.reserve(n);\r\n        for (auto& item : data) {\r\n            endTime.push_back(item.first);\r\n        }\r\n        vector<int> dp(n, 0);\r\n        dp[0] = data[0].second.second;\r\n        for (int i = 1; i < n; ++i) {\r\n            int end = data[i].first;\r\n            int start = data[i].second.first;\r\n            int value = data[i].second.second;\r\n            int index = std::lower_bound(endTime.begin(), endTime.end(), start) - endTime.begin();\r\n            while (index >= 0 && endTime[index] > start) --index;\r\n            if (index >= 0) {\r\n                int firstEnd = data[index].first;\r\n                while (index < n && data[index].first == firstEnd) {\r\n                    dp[i] = std::max(dp[i], dp[index] + data[i].second.second);\r\n                    ++index;\r\n                }\r\n                dp[i] = std::max(dp[i], dp[i - 1]);\r\n            }\r\n            else {\r\n                dp[i] = std::max(dp[i - 1], data[i].second.second);\r\n            }\r\n        }\r\n        return *max_element(dp.begin(), dp.end());\r\n    }\r\n};\r\n```\r\n",
+      "createdAt": "2021-11-24T14:12:23.085012+00:00",
+      "hitCount": 28,
+      "identifier": "BEA31A",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "c-pai-xu-dong-tai-gui-hua-zhuan-yi-by-el-29ib",
+        "title": "【C++】排序+动态规划转移"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "maximum-profit-in-job-scheduling"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "c-er-fen-dong-tai-gui-hua-nlogn-by-mount-3h5o",
+      "status": "PUBLISHED",
+      "summary": "所有工作按结束时间排序\n定义状态 dp[i]表示前i个工作能获得的最大价值，注意不一定包含工作i\n转移方程 dp[i] = std::max(dp[i - 1], dp[preJob] + value[i])\n其中, preJob是工作i的start time前, 拥有最大dp值的工作的下标, 这里可以用二分法，查找在",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Dynamic Programming",
+          "nameTranslated": "动态规划",
+          "slug": "dynamic-programming",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "c++ : 二分 动态规划 nlogn",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1120551,
+        "viewCount": 17
+      },
+      "uuid": "BEA31A",
+      "videosInfo": []
+    }
+  }
+}

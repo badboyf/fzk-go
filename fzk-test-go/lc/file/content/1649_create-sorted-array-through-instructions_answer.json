@@ -1,0 +1,86 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "EUY",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/euyvvl/avatar_1635000444.png",
+          "userSlug": "euyvvl"
+        },
+        "username": "EUYVVL"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n**一道简单的树状数组的模板题**\n1. 随着instructions数组里的元素的逐个插入,构造树状数组;\n2. 唯一需要注意的就是看清题目要求是严格小于和严格大于以及数据的溢出;\n### 代码\n\n```cpp\nclass Solution {\npublic:\n    int N=1e5+5;\n    int mod=1e9+7;\n    int arr[100005];\n    void add_val(int x,int val){\n        for(int i=x;i<N;i+=(i&(-i))){\n            arr[i]+=val;\n        }\n        return ;\n    }\n    //使用long long 类型防止数据溢出;\n    long long sum_val(int x){\n        long long res=0;\n        //有x-1开始,排除不是严格小于的数;\n        for(int i=x-1;i>0;i-=(i&(-i))){\n            res+=arr[i];\n        }\n        return res;\n    }\n    int createSortedArray(vector<int>& instructions) {\n        long long size=instructions.size();\n        long long index=0;\n        long long res=0;\n        for(long long i=0;i<size;i++){\n            long long LL=sum_val(instructions[i]);\n            //这里由instructions[i]+1开始,排除不是严格大于的;\n            long long RR=sum_val(N)-sum_val(instructions[i]+1);\n            add_val(instructions[i],1);\n            long cost=min(LL,RR);\n            res+=cost;\n            res%=mod;\n        }\n        return res%mod;\n    }\n};\n```",
+      "createdAt": "2021-10-19T11:26:30.970741+00:00",
+      "hitCount": 62,
+      "identifier": "4hwGAA",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "tong-guo-zhi-ling-chuang-jian-you-xu-shu-zu-by-zer",
+        "title": "通过指令创建有序数组"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "create-sorted-array-through-instructions"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "shu-zhuang-shu-zu-by-euyvvl-3i0o",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n一道简单的树状数组的模板题\n\n随着instructions数组里的元素的逐个插入,构造树状数组;\n唯一需要注意的就是看清题目要求是严格小于和严格大于以及数据的溢出;\n\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Binary Indexed Tree",
+          "nameTranslated": "树状数组",
+          "slug": "binary-indexed-tree",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Math",
+          "nameTranslated": "数学",
+          "slug": "math",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "树状数组",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1055810,
+        "viewCount": 45
+      },
+      "uuid": "4hwGAA",
+      "videosInfo": []
+    }
+  }
+}

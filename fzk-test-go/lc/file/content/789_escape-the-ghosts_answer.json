@@ -1,0 +1,138 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣官方题解",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/leetcode-solution/avatar_1582018938.png",
+          "userSlug": "leetcode-solution"
+        },
+        "username": "LeetCode-Solution"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法一：曼哈顿距离\n\n为了逃脱阻碍者，玩家应按照最短路径向目的地移动。阻碍者为了抓住玩家，也会按照最短路径向目的地移动。由于每次移动为向四个方向之一移动一个单位，因此对于玩家和阻碍者而言，到达目的地的最短路径的距离为当前所在位置和目的地的曼哈顿距离。\n\n用 $\\text{dist}(A, B)$ 表示 $A$ 点和 $B$ 点的曼哈顿距离，曼哈顿距离的计算方法如下：\n\n$$\n\\text{dist}(A, B) = \\big| x_A - x_B \\big| + \\big| y_A - y_B \\big|\n$$\n\n如果有一个阻碍者和目的地的曼哈顿距离小于玩家和目的地的曼哈顿距离，则该阻碍者可以在玩家之前到达目的地，然后停在目的地，玩家无法逃脱。\n\n如果有一个阻碍者和目的地的曼哈顿距离等于玩家和目的地的曼哈顿距离，则该阻碍者可以和玩家同时到达目的地，玩家也无法逃脱。\n\n如果所有的阻碍者和目的地的曼哈顿距离都大于玩家和目的地的曼哈顿距离，则玩家可以在阻碍者之前到达目的地。\n\n如果玩家可以在阻碍者之前到达目的地，是否可能出现阻碍者在玩家前往目的地的中途拦截？答案是否定的，证明如下。\n\n> 假设目的地是 $T$，初始时玩家位于 $S$，阻碍者位于 $G$，阻碍者在 $X$ 点拦截玩家。\n>\n> 由于阻碍者和目的地的曼哈顿距离大于玩家和目的地的曼哈顿距离，因此 $\\text{dist}(G, T) > \\text{dist}(S, T)$。\n>\n> 由于玩家会按照最短路径向目的地移动，因此如果阻碍者在 $X$ 点拦截玩家，则 $X$ 点一定在玩家前往目的地的最短路径上，满足 $\\text{dist}(S, X) + \\text{dist}(X, T) = \\text{dist}(S, T)$。\n>\n> 由于 $X$ 点是拦截点，因此阻碍者到达 $X$ 点的时间早于或等于玩家到达 $X$ 点的时间，即 $\\text{dist}(G, X) \\le \\text{dist}(S, X)$。\n>\n> 因此有：\n>\n> $$\n> \\begin{aligned}\n> \\text{dist}(G, X) &\\le \\text{dist}(S, X) \\\\\n> \\text{dist}(G, X) + \\text{dist}(X, T) &\\le \\text{dist}(S, X) + \\text{dist}(X, T) \\\\\n> \\text{dist}(G, X) + \\text{dist}(X, T) &\\le \\text{dist}(S, T)\n> \\end{aligned}\n> $$\n>\n> 由于阻碍者到目的地的最短路径长度是 $\\text{dist}(G, T)$，因此有\n>\n> $$\n> \\text{dist}(G, T) \\le \\text{dist}(G, X) + \\text{dist}(X, T) \\le \\text{dist}(S, T)\n> $$\n>\n> 和条件 $\\text{dist}(G, T) > \\text{dist}(S, T)$ 矛盾。\n> \n> 因此当 $\\text{dist}(G, T) > \\text{dist}(S, T)$ 时，阻碍者不可能在玩家前往目的地的中途拦截，玩家可以成功逃脱。\n\n基于上述分析，问题简化为计算玩家和目的地的曼哈顿距离以及每个阻碍者和目的地的曼哈顿距离，判断玩家是否可以在阻碍者之前到达目的地。\n\n- 如果存在至少一个阻碍者和目的地的曼哈顿距离小于或等于玩家和目的地的曼哈顿距离，返回 $\\text{false}$；\n\n- 如果所有阻碍者和目的地的曼哈顿距离都大于玩家和目的地的曼哈顿距离，返回 $\\text{true}$。\n\n```Java [sol1-Java]\nclass Solution {\n    public boolean escapeGhosts(int[][] ghosts, int[] target) {\n        int[] source = {0, 0};\n        int distance = manhattanDistance(source, target);\n        for (int[] ghost : ghosts) {\n            int ghostDistance = manhattanDistance(ghost, target);\n            if (ghostDistance <= distance) {\n                return false;\n            }\n        }\n        return true;\n    }\n\n    public int manhattanDistance(int[] point1, int[] point2) {\n        return Math.abs(point1[0] - point2[0]) + Math.abs(point1[1] - point2[1]);\n    }\n}\n```\n\n```C# [sol1-C#]\npublic class Solution {\n    public bool EscapeGhosts(int[][] ghosts, int[] target) {\n        int[] source = {0, 0};\n        int distance = ManhattanDistance(source, target);\n        foreach (int[] ghost in ghosts) {\n            int ghostDistance = ManhattanDistance(ghost, target);\n            if (ghostDistance <= distance) {\n                return false;\n            }\n        }\n        return true;\n    }\n\n    public int ManhattanDistance(int[] point1, int[] point2) {\n        return Math.Abs(point1[0] - point2[0]) + Math.Abs(point1[1] - point2[1]);\n    }\n}\n```\n\n```JavaScript [sol1-JavaScript]\nvar escapeGhosts = function(ghosts, target) {\n    const source = [0, 0];\n    const distance = manhattanDistance(source, target);\n    for (const ghost of ghosts) {\n        const ghostDistance = manhattanDistance(ghost, target);\n        if (ghostDistance <= distance) {\n            return false;\n        }\n    }\n    return true;\n}\n\nconst manhattanDistance = (point1, point2) => {\n    return Math.abs(point1[0] - point2[0]) + Math.abs(point1[1] - point2[1]);\n}\n```\n\n```Python [sol1-Python3]\nclass Solution:\n    def escapeGhosts(self, ghosts: List[List[int]], target: List[int]) -> bool:\n        source = [0, 0]\n        distance = manhattanDistance(source, target)\n        return all(manhattanDistance(ghost, target) > distance for ghost in ghosts)\n\ndef manhattanDistance(point1: List[int], point2: List[int]) -> int:\n    return abs(point1[0] - point2[0]) + abs(point1[1] - point2[1])\n```\n\n```go [sol1-Golang]\nfunc escapeGhosts(ghosts [][]int, target []int) bool {\n    source := []int{0, 0}\n    distance := manhattanDistance(source, target)\n    for _, ghost := range ghosts {\n        if manhattanDistance(ghost, target) <= distance {\n            return false\n        }\n    }\n    return true\n}\n\nfunc manhattanDistance(point1, point2 []int) int {\n    return abs(point1[0]-point2[0]) + abs(point1[1]-point2[1])\n}\n\nfunc abs(x int) int {\n    if x < 0 {\n        return -x\n    }\n    return x\n}\n```\n\n```C++ [sol1-C++]\nclass Solution {\npublic:\n    int manhattanDistance(vector<int>& point1, vector<int>& point2) {\n        return abs(point1[0] - point2[0]) + abs(point1[1] - point2[1]);\n    }\n\n    bool escapeGhosts(vector<vector<int>>& ghosts, vector<int>& target) {\n        vector<int> source(2);\n        int distance = manhattanDistance(source, target);\n        for (auto& ghost : ghosts) {\n            int ghostDistance = manhattanDistance(ghost, target);\n            if (ghostDistance <= distance) {\n                return false;\n            }\n        }\n        return true;\n    }\n};\n```\n\n```C [sol1-C]\nint manhattanDistance(int* point1, int* point2) {\n    return abs(point1[0] - point2[0]) + abs(point1[1] - point2[1]);\n}\n\nbool escapeGhosts(int** ghosts, int ghostsSize, int* ghostsColSize, int* target, int targetSize) {\n    int source[2] = {0, 0};\n    int distance = manhattanDistance(source, target);\n    for (int i = 0; i < ghostsSize; i++) {\n        int ghostDistance = manhattanDistance(ghosts[i], target);\n        if (ghostDistance <= distance) {\n            return false;\n        }\n    }\n    return true;\n}\n```\n\n**复杂度分析**\n\n- 时间复杂度：$O(n)$，其中 $n$ 是数组 $\\textit{ghosts}$ 的长度。需要计算玩家和目的地的距离，以及遍历数组 $\\textit{ghosts}$ 计算每个阻碍者和目的地的距离。\n\n- 空间复杂度：$O(1)$。",
+      "createdAt": "2021-08-21T11:55:52.792759+00:00",
+      "hitCount": 16656,
+      "identifier": "akt1pF",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "gong-shui-san-xie-noxiang-xin-ke-xue-xi-w69gr",
+        "title": "【宫水三叶の相信科学系列】详解为何能转化为曼哈顿距离求解"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "escape-the-ghosts"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 46,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "CONFUSED"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "THUMBS_DOWN"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "tao-tuo-zu-ai-zhe-by-leetcode-solution-gjga",
+      "status": "PREPUBLISH",
+      "summary": "方法一：曼哈顿距离 为了逃脱阻碍者，玩家应按照最短路径向目的地移动。阻碍者为了抓住玩家，也会按照最短路径向目的地移动。由于每次移动为向四个方向之一移动一个单位，因此对于玩家和阻碍者而言，到达目的地的最短路径的距离为当前所在位置和目的地的曼哈顿距离。 用 $\\text{dist}(A, B)$ 表示 $A$ 点和 $B$",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Array",
+          "nameTranslated": "数组",
+          "slug": "array",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Math",
+          "nameTranslated": "数学",
+          "slug": "math",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C",
+          "nameTranslated": "",
+          "slug": "c",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C#",
+          "nameTranslated": "",
+          "slug": "csharp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Go",
+          "nameTranslated": "",
+          "slug": "golang",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "JavaScript",
+          "nameTranslated": "",
+          "slug": "javascript",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "逃脱阻碍者",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 127,
+        "id": 949892,
+        "viewCount": 12660
+      },
+      "uuid": "akt1pF",
+      "videosInfo": []
+    }
+  }
+}

@@ -1,0 +1,77 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "我不是匠人",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/yaojunboy/avatar_1627783832.png",
+          "userSlug": "ac_wllysc"
+        },
+        "username": "ac_wllysc"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "## 分析\r\n- 题目：\r\n    - [1023. 驼峰式匹配](/problems/camelcase-matching/)\r\n- 思路：\r\n    - 插入另一个序列就等同于判断是否是另一个字符串的子序列，可以参考这道经典题。\r\n        - [392. 判断子序列](/problems/is-subsequence/)。\r\n    - 这道题分为两步：\r\n        1. 判断大写字母是否相等。\r\n        2. 判断模式串是否是每个串的子序列。\r\n\r\n## 代码\r\n```C++ []\r\nclass Solution {\r\npublic:\r\n    bool isSubsequence(string &s, string& p) {\r\n        int j = 0;\r\n        for(auto x: s) if(x == p[j]) j++;\r\n        return j == p.size();\r\n    }\r\n    vector<bool> camelMatch(vector<string>& q, string p) {\r\n        int n = q.size();\r\n        vector<bool> res(n);\r\n        string pUpper;\r\n        for(auto x: p) if(isupper(x)) pUpper+=x;\r\n        \r\n        int idx = 0;\r\n        for(auto &s: q){\r\n          string upper;  \r\n          for(auto x: s) if(isupper(x)) upper+=x;\r\n          if( pUpper == upper && isSubsequence(s, p)) {\r\n              res[idx++] = true;\r\n          }\r\n            else res[idx++] = false;\r\n        }\r\n        return res;\r\n    }\r\n};\r\n```\r\n",
+      "createdAt": "2021-11-23T15:01:07.313326+00:00",
+      "hitCount": 24,
+      "identifier": "7PS2i7",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "shuang-zhi-zhen-jie-fa-de-javascript-ban-em1d",
+        "title": "双指针解法的 JavaScript 版本"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "camelcase-matching"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 0,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "1023-tuo-feng-shi-pi-pei-zi-xu-lie-shuan-nrip",
+      "status": "PUBLISHED",
+      "summary": "分析\n\n题目：\n\n1023. 驼峰式匹配\n\n\n思路：\n\n插入另一个序列就等同于判断是否是另一个字符串的子序列，可以参考这道经典题。\n\n392. 判断子序列。\n\n\n这道题分为两步：\n\n判断大写字母是否相等。\n判断模式串是否是每个串的子序列。\n\n\n\n\n\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "1023. 驼峰式匹配【子序列】【双指针】",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1118637,
+        "viewCount": 21
+      },
+      "uuid": "7PS2i7",
+      "videosInfo": []
+    }
+  }
+}

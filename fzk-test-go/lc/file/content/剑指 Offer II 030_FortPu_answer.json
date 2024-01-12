@@ -1,0 +1,111 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "angela",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/angela-x/avatar_1632561041.png",
+          "userSlug": "angela-x"
+        },
+        "username": "angela-x"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n- 题目有两个难点：\n1. 插入，删除，获取随机元素这三个操作的时间复杂度必须都是 O(1)\n2. getRandom方法返回的元素必须等概率返回随机元素，也就是说，如果集合里面有n个元素，每个元素被返回的概率必须是1/n\n\n- 对于插入，删除，查找这几个操作，哪种数据结构的时间复杂度是 O(1)，能够同时满足这些时间效率要求的只有哈希表\n- 但如果只用哈希表，则不能等概率的返回其中的每个数值，对于getRandom方法，如果想「等概率」且「在 O(1) 的时间」取出元素，一定要满足：底层用数组实现，且数组必须是紧凑的。如果数值是保存在数组中，那么就能很容易的实现等概率的返回数组中的每个数值\n- 但如果用数组存储元素的话，插入，删除的时间复杂度怎么可能是 O(1) 呢？\n- 如果我们想在 O(1) 的时间删除数组中的某一个元素val，可以先把这个元素交换到数组的尾部，然后再pop掉。\n- 交换两个元素必须通过索引进行交换，那么我们需要一个哈希表numToLocation来记录每个元素值对应的索引\n\n### 代码\n\n```javascript\n/**\n * Initialize your data structure here.\n */\nvar RandomizedSet = function () {\n  // numToLocation存储了每个数值及其在数组nums中的下标\n  this.numToLocation = new Map();\n  // 数值保存在动态数组nums中\n  this.nums = [];\n};\n\n/**\n * Inserts a value to the set. Returns true if the set did not already contain the specified element.\n * @param {number} val\n * @return {boolean}\n */\nRandomizedSet.prototype.insert = function (val) {\n  // 如果数据集中之前已经包含该数值，则不能添加\n  if (this.numToLocation.has(val)) {\n    return false;\n  }\n  // 如果之前没有该数值，则把它添加到数组nums的尾部，并把它和它在数组中的下标添加到哈希表中\n  this.numToLocation.set(val, this.nums.length);\n  this.nums.push(val);\n  return true;\n};\n\n/**\n * Removes a value from the set. Returns true if the set contained the specified element.\n * @param {number} val\n * @return {boolean}\n */\nRandomizedSet.prototype.remove = function (val) {\n  // 数据集中是否已经包含该数值，如果没有包含则不能删除\n  if (!this.numToLocation.has(val)) {\n    return false;\n  }\n  // 从哈希表中删除一个元素是O(1),\n  let location = this.numToLocation.get(val);\n  this.numToLocation.set(this.nums[this.nums.length - 1], location);\n  this.numToLocation.delete(val);\n  // 数组删除对应，这里是把数据最末位的元素覆盖要删除的元素，再把数组长度减1，通过这种技巧来达到时间复杂度为O(1)\n  this.nums[location] = this.nums[this.nums.length - 1];\n  this.nums.length--;\n  return true;\n};\n\n/**\n * Get a random element from the set.\n * @return {number}\n */\nRandomizedSet.prototype.getRandom = function () {\n  // 随机生成0到this.nums.length范围内的一个整数\n  let p = parseInt(Math.random() * this.nums.length);\n  return this.nums[p];\n};\n```",
+      "createdAt": "2021-10-17T11:45:39.135724+00:00",
+      "hitCount": 726,
+      "identifier": "APb7kI",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "jian-zhi-offer-ii-030-js-set-by-azecode-8pes",
+        "title": "剑指 Offer II 030. js Set"
+      },
+      "position": 19,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "jian-zhi-offer-ii-030cha-ru-shan-chu-he-2uv3q",
+        "title": "剑指offer II 030插入删除和随机访问都是O(1)的容器"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "FortPu"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "jie-he-ha-xi-biao-he-shu-zu-de-te-xing-l-fbp8",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n\n题目有两个难点：\n\n\n插入，删除，获取随机元素这三个操作的时间复杂度必须都是 O(1)\ngetRandom方法返回的元素必须等概率返回随机元素，也就是说，如果集合里面有n个元素，每个元素被返回的概率必须是1/n\n\n\n对于插入，删除，查找这几个操作，哪种数据结构的时间复杂度是 O(1)，能够同时满足这些时间效",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Design",
+          "nameTranslated": "设计",
+          "slug": "design",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Array",
+          "nameTranslated": "数组",
+          "slug": "array",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "JavaScript",
+          "nameTranslated": "",
+          "slug": "javascript",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "架构设计",
+          "nameTranslated": "",
+          "slug": "jia-gou-she-ji",
+          "tagType": "ADDITIONAL_TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "设计思路",
+          "nameTranslated": "",
+          "slug": "she-ji-si-lu",
+          "tagType": "ADDITIONAL_TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "哈希",
+          "nameTranslated": "",
+          "slug": "ha-xi",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "",
+      "title": "结合哈希表和数组的特性来设计这个数据容器",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 1,
+        "id": 1052284,
+        "viewCount": 571
+      },
+      "uuid": "APb7kI",
+      "videosInfo": []
+    }
+  }
+}

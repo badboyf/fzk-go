@@ -1,0 +1,102 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "灵茶山艾府",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/endlesscheng/avatar_1589367048.png",
+          "userSlug": "endlesscheng"
+        },
+        "username": "endlesscheng"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "注意到半径很小，我们可以枚举每个玩具，并暴力枚举该玩具**周围**是否有可以套住该玩具的圈。\r\n\r\n具体来说，将 $\\textit{circles}$ 排序后，将横坐标相同的圈分为一组。对每个玩具，可以套住该玩具的圈，在横坐标上，必然满足圈的最右端点不小于玩具的最右端点，且圈的最左端点不大于玩具的最左端点。对于纵坐标，我们只需要找最接近玩具纵坐标的上下两个圈。这样我们就可以二分出圈的横坐标的范围，对每个横坐标上的圈二分纵坐标最接近玩具纵坐标的圈。\r\n\r\n```go\r\nfunc circleGame(toys [][]int, circles [][]int, r0 int) (ans int) {\r\n\tsort.Slice(circles, func(i, j int) bool { a, b := circles[i], circles[j]; return a[0] < b[0] || a[0] == b[0] && a[1] < b[1] })\r\n\r\n\t// 将横坐标相同的圈分为一组\r\n\ttype pair struct{ x int; ys []int }\r\n\ta, y := []pair{}, -1\r\n\tfor _, p := range circles {\r\n\t\tif len(a) == 0 || p[0] > a[len(a)-1].x {\r\n\t\t\ta = append(a, pair{p[0], []int{p[1]}})\r\n\t\t\ty = -1\r\n\t\t} else if p[1] > y { // 去重\r\n\t\t\ta[len(a)-1].ys = append(a[len(a)-1].ys, p[1])\r\n\t\t\ty = p[1]\r\n\t\t}\r\n\t}\r\n\r\n\tfor _, t := range toys {\r\n\t\tx, y, r := t[0], t[1], t[2]\r\n\t\tif r > r0 {\r\n\t\t\tcontinue\r\n\t\t}\r\n\t\ti := sort.Search(len(a), func(i int) bool { return a[i].x+r0 >= x+r })\r\n\t\tfor ; i < len(a) && a[i].x-r0 <= x-r; i++ {\r\n\t\t\tcx, ys := a[i].x, a[i].ys\r\n\t\t\tj := sort.SearchInts(ys, y)\r\n\t\t\tif j < len(ys) {\r\n\t\t\t\tif cy := ys[j]; (x-cx)*(x-cx)+(y-cy)*(y-cy) <= (r0-r)*(r0-r) {\r\n\t\t\t\t\tans++\r\n\t\t\t\t\tbreak\r\n\t\t\t\t}\r\n\t\t\t}\r\n\t\t\tif j > 0 {\r\n\t\t\t\tif cy := ys[j-1]; (x-cx)*(x-cx)+(y-cy)*(y-cy) <= (r0-r)*(r0-r) {\r\n\t\t\t\t\tans++\r\n\t\t\t\t\tbreak\r\n\t\t\t\t}\r\n\t\t\t}\r\n\t\t}\r\n\t}\r\n\treturn\r\n}\r\n```",
+      "createdAt": "2021-09-11T09:40:25.214882+00:00",
+      "hitCount": 785,
+      "identifier": "FqMjYz",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "java-er-fen-by-1iin-5yef",
+        "title": "Java 二分"
+      },
+      "position": 2,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "pai-xu-er-fen-suo-xiao-cha-zhao-fan-wei-ehyiz",
+        "title": "排序+二分，缩小查找范围"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "vFjcfV"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 5,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "er-fen-bao-li-mei-ju-by-endlesscheng-vezb",
+      "status": "PREPUBLISH",
+      "summary": "注意到半径很小，我们可以枚举每个玩具，并暴力枚举该玩具周围是否有可以套住该玩具的圈。\n具体来说，将 \\textit{circles} 排序后，将横坐标相同的圈分为一组。对每个玩具，可以套住该玩具的圈，在横坐标上，必然满足圈的最右端点不小于玩具的最右端点，且圈的最左端点不大于玩具的最左端点。对于纵坐标，我们只需要找最接近",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Enumeration",
+          "nameTranslated": "枚举",
+          "slug": "enumeration",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Go",
+          "nameTranslated": "",
+          "slug": "golang",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "二分",
+          "nameTranslated": "",
+          "slug": "er-fen",
+          "tagType": "ADDITIONAL_TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "暴力",
+          "nameTranslated": "",
+          "slug": "bao-li",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "",
+      "title": "排序二分+暴力枚举",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 1,
+        "id": 991705,
+        "viewCount": 555
+      },
+      "uuid": "FqMjYz",
+      "videosInfo": []
+    }
+  }
+}

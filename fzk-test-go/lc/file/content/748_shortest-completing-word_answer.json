@@ -1,0 +1,79 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣 (LeetCode)",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/uploaded_files/2021/03/73c9f099-abbe-4d94-853f-f8abffd459cd/leetcode.png",
+          "userSlug": "leetcode"
+        },
+        "username": "LeetCode"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "####  方法：比较计数\n**算法：**\n- 我们计算 `word` 和 `licenseplate` 中的字母数，转换为小写并忽略非字母字符。如果单词中每个字母的计数大于或等于 `licenseplate` 中的字母数，则该单词是 `licensePlate` 的完整词。\n- 我们需要选择最短的完整词且最先出现的单词。\n\n```Python [ ]\nclass Solution(object):\n    def shortestCompletingWord(self, licensePlate, words):\n        def count(itera):\n            ans = [0] * 26\n            for letter in itera:\n                ans[ord(letter) - ord('a')] += 1\n            return ans\n\n        def dominates(c1, c2):\n            return all(x1 >= x2 for x1, x2 in zip(c1, c2))\n\n        ans = None\n        target = count(c.lower() for c in licensePlate if c.isalpha())\n        for word in words:\n            if ((len(word) < len(ans) or ans is None) and\n                    dominates(count(word.lower()), target)):\n                ans = word\n\n        return ans\n```\n\n```Java [ ]\nclass Solution {\n    public String shortestCompletingWord(String licensePlate, String[] words) {\n        int[] target = count(licensePlate);\n        String ans = \"\";\n        for (String word: words)\n            if ((word.length() < ans.length() || ans.length() == 0) &&\n                    dominates(count(word.toLowerCase()), target))\n                ans = word;\n        return ans;\n    }\n\n    public boolean dominates(int[] count1, int[] count2) {\n        for (int i = 0; i < 26; ++i)\n            if (count1[i] < count2[i])\n                return false;\n        return true;\n    }\n\n    public int[] count(String word) {\n        int[] ans = new int[26];\n        for (char letter: word.toCharArray()){\n            int index = Character.toLowerCase(letter) - 'a';\n            if (0 <= index && index < 26)\n                ans[index]++;\n        }\n        return ans;\n    }\n}\n```\n\n**复杂度分析**\n\n* 时间复杂度：$O(N)$。$N$ 指的是 `words` 的元素个数，比较 `licensePlate` 和 `words[i]` 的字母计数需要 $O(1)$ 的时间\n* 空间复杂度：$O(1)$，使用常数的空间。",
+      "createdAt": "2019-10-29T04:16:43.264686+00:00",
+      "hitCount": 6644,
+      "identifier": "gJlQoo",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "748-zui-duan-bu-quan-ci-by-tian-bu-la-6-ifw8",
+        "title": "748. 最短补全词"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "shortest-completing-word"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 8,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "zui-duan-wan-zheng-ci-by-leetcode",
+      "status": "PUBLISHED",
+      "summary": "§ 方法：比较计数\n算法：\n\n我们计算 word 和 licenseplate 中的字母数，转换为小写并忽略非字母字符。如果单词中每个字母的计数大于或等于 licenseplate 中的字母数，则该单词是 licensePlate 的完整词。\n我们需要选择最短的完整词且最先出现的单词。\n\n复杂度分析\n\n时间复杂度：O(",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "最短完整词",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 17,
+        "id": 38787,
+        "viewCount": 5214
+      },
+      "uuid": "gJlQoo",
+      "videosInfo": []
+    }
+  }
+}

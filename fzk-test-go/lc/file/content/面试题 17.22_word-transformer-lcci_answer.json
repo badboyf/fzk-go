@@ -1,0 +1,90 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "秋风之墩",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/ruthven/avatar_1586334830.png",
+          "userSlug": "ruthven"
+        },
+        "username": "ruthven"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n1. 找到字符串数组中与起始字符串只相差一个字符的字符串，并记录下来，继续遍历；\n2. 如果在某次遍历中找不到目标字符串，就返回，并将记录的字符串抹去；\n3. 所有被遍历过无论满不满足条件的字符串都用一个坐标数组标记为-1，下次再遇到直接跳过；\n4. 详细的看注释吧。\n\n### 代码\n\n```c\n/**\n * Note: The returned array must be malloced, assume caller calls free().\n */\n// 判断原字符串与目标字符串是否只相差一个字符\nbool isOneDiff(char* curWord, char* cmpWord)\n{\n    int len1 = strlen(curWord);\n    int sum = 0;\n    for (int i = 0; i < len1; i++) {\n        if (curWord[i] != cmpWord[i]) {\n            sum++;\n        }\n    }\n    if (sum == 1) {\n        return true;\n    }\n    return false;\n}\n// 深度优先搜索\nbool DFS(char* curWord, char* tarWord, char **retArr, int *arrLen, char** wordList, int wordListSize, int *avail)\n{   \n    // 如果与目标字符串相同了，说明找到了，返回true\n    if (strcmp(curWord, tarWord) == 0) {\n        return true;\n    }\n    // 为当前层次的字符串申请空间\n    retArr[(*arrLen)] = (char *)malloc(sizeof(char) * (strlen(curWord) + 1));\n    for (int i = 0; i < wordListSize; i++) {\n        // 如果遍历到的字符串被遍历过或者不是相差一个字符就跳过\n        if (avail[i] == -1 || !isOneDiff(curWord, wordList[i])) {\n            continue;\n        }\n        // 如果只相差一个字符并且没有被遍历过就记录下来\n        strcpy(retArr[(*arrLen)], wordList[i]);\n        (*arrLen)++;\n        // 并标记对应的位置\n        avail[i] = -1;\n        // 继续深度优先搜索\n        bool isRight = DFS(wordList[i], tarWord, retArr, arrLen, wordList, wordListSize, avail);\n        if (isRight) {\n            // 如果能找到对应的字符串就返回true\n            return true;\n        }\n        // 否则就不记录该字符串，但是注意，字符串本身依旧是被标记过的\n        (*arrLen)--;\n    }\n    // 都不满足就返回false\n    return false;\n}\nchar** findLadders(char* beginWord, char* endWord, char** wordList, int wordListSize, int* returnSize)\n{\n    // 用于标记的数组\n    int *avail = (int *)malloc(sizeof(int) * wordListSize);\n    for (int i = 0; i < wordListSize; i++) {\n        avail[i] = i;\n    }\n    // 记录初始字符串\n    char **retArr = (char **)malloc(sizeof(char *) * (wordListSize + 2));\n    int retLen = 0;\n    retArr[retLen] = (char *)malloc(sizeof(char) * (strlen(beginWord) + 1));\n    strcpy(retArr[retLen], beginWord);\n    retLen++;\n    retArr[retLen] = (char *)malloc(sizeof(char) * (strlen(beginWord) + 1));\n    // 开始遍历\n    for (int i = 0; i < wordListSize; i++) {\n        if (isOneDiff(beginWord, wordList[i])) {\n            strcpy(retArr[retLen], wordList[i]);\n            avail[i] = -1;\n            retLen++;\n            bool isRight = DFS(wordList[i], endWord, retArr, &retLen, wordList, wordListSize, avail);\n            if (isRight) {\n                *returnSize = retLen;\n                return retArr;\n            }\n            retLen--;\n        }\n    }\n    // 如果不满足条件就返回空\n    *returnSize = 0;\n    return NULL;\n}\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n```",
+      "createdAt": "2021-05-27T13:41:57.835180+00:00",
+      "hitCount": 321,
+      "identifier": "oXnGfr",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "dfs-zhu-xing-zhu-shi-by-si-zhou-r-42wn",
+        "title": "dfs 逐行注释"
+      },
+      "position": 7,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "c-bfs-dai-zhu-shi-by-coeker-bm5y",
+        "title": "C++ BFS 带注释"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "word-transformer-lcci"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "cyu-yan-shen-du-you-xian-sou-suo-hui-su-n98j5",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n\n找到字符串数组中与起始字符串只相差一个字符的字符串，并记录下来，继续遍历；\n如果在某次遍历中找不到目标字符串，就返回，并将记录的字符串抹去；\n所有被遍历过无论满不满足条件的字符串都用一个坐标数组标记为-1，下次再遇到直接跳过；\n详细的看注释吧。\n\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Depth-First Search",
+          "nameTranslated": "深度优先搜索",
+          "slug": "depth-first-search",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Backtracking",
+          "nameTranslated": "回溯",
+          "slug": "backtracking",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C",
+          "nameTranslated": "",
+          "slug": "c",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "面试题 17.22. 单词转换 C语言+深度优先搜索+回溯",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 799059,
+        "viewCount": 236
+      },
+      "uuid": "oXnGfr",
+      "videosInfo": []
+    }
+  }
+}

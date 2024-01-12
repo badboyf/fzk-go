@@ -1,0 +1,140 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣官方题解",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/leetcode-solution/avatar_1582018938.png",
+          "userSlug": "leetcode-solution"
+        },
+        "username": "LeetCode-Solution"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法一：双指针\n\n我们可以枚举字符串中的每一个位置作为右端点，然后找到其最远的左端点的位置，满足该区间内除了出现次数最多的那一类字符之外，剩余的字符（即非最长重复字符）数量不超过 $k$ 个。\n\n这样我们可以想到使用双指针维护这些区间，每次右指针右移，如果区间仍然满足条件，那么左指针不移动，否则左指针至多右移一格，保证区间长度不减小。\n\n虽然这样的操作会导致部分区间不符合条件，即该区间内非最长重复字符超过了 $k$ 个。但是这样的区间也同样不可能对答案产生贡献。当我们右指针移动到尽头，左右指针对应的区间的长度必然对应一个长度最大的符合条件的区间。\n\n实际代码中，由于字符串中仅包含大写字母，我们可以使用一个长度为 $26$ 的数组维护每一个字符的出现次数。每次区间右移，我们更新右移位置的字符出现的次数，然后尝试用它更新重复字符出现次数的历史最大值，最后我们使用该最大值计算出区间内非最长重复字符的数量，以此判断左指针是否需要右移即可。\n\n**代码**\n\n```C++ [sol1-C++]\nclass Solution {\npublic:\n    int characterReplacement(string s, int k) {\n        vector<int> num(26);\n        int n = s.length();\n        int maxn = 0;\n        int left = 0, right = 0;\n        while (right < n) {\n            num[s[right] - 'A']++;\n            maxn = max(maxn, num[s[right] - 'A']);\n            if (right - left + 1 - maxn > k) {\n                num[s[left] - 'A']--;\n                left++;\n            }\n            right++;\n        }\n        return right - left;\n    }\n};\n```\n\n```Java [sol1-Java]\nclass Solution {\n    public int characterReplacement(String s, int k) {\n        int[] num = new int[26];\n        int n = s.length();\n        int maxn = 0;\n        int left = 0, right = 0;\n        while (right < n) {\n            num[s.charAt(right) - 'A']++;\n            maxn = Math.max(maxn, num[s.charAt(right) - 'A']);\n            if (right - left + 1 - maxn > k) {\n                num[s.charAt(left) - 'A']--;\n                left++;\n            }\n            right++;\n        }\n        return right - left;\n    }\n}\n```\n\n```go [sol1-Golang]\nfunc characterReplacement(s string, k int) int {\n    cnt := [26]int{}\n    maxCnt, left := 0, 0\n    for right, ch := range s {\n        cnt[ch-'A']++\n        maxCnt = max(maxCnt, cnt[ch-'A'])\n        if right-left+1-maxCnt > k {\n            cnt[s[left]-'A']--\n            left++\n        }\n    }\n    return len(s) - left\n}\n\nfunc max(a, b int) int {\n    if a > b {\n        return a\n    }\n    return b\n}\n```\n\n```C [sol1-C]\nint characterReplacement(char* s, int k) {\n    int num[26];\n    memset(num, 0, sizeof(num));\n    int n = strlen(s);\n    int maxn = 0;\n    int left = 0, right = 0;\n    while (right < n) {\n        num[s[right] - 'A']++;\n        maxn = fmax(maxn, num[s[right] - 'A']);\n        if (right - left + 1 - maxn > k) {\n            num[s[left] - 'A']--;\n            left++;\n        }\n        right++;\n    }\n    return right - left;\n}\n```\n\n```Python [sol1-Python3]\nclass Solution:\n    def characterReplacement(self, s: str, k: int) -> int:\n        num = [0] * 26\n        n = len(s)\n        maxn = left = right = 0\n\n        while right < n:\n            num[ord(s[right]) - ord(\"A\")] += 1\n            maxn = max(maxn, num[ord(s[right]) - ord(\"A\")])\n            if right - left + 1 - maxn > k:\n                num[ord(s[left]) - ord(\"A\")] -= 1\n                left += 1\n            right += 1\n        \n        return right - left\n```\n\n```JavaScript [sol1-JavaScript]\nvar characterReplacement = function(s, k) {\n    const num = new Array(26).fill(0);\n    const n = s.length;\n    let maxn = 0, left = 0, right = 0;\n\n    while (right < n) {\n        num[s[right].charCodeAt() - 'A'.charCodeAt()]++;\n        maxn = Math.max(maxn, num[s[right].charCodeAt() - 'A'.charCodeAt()])\n        if (right - left + 1 - maxn > k) {\n            num[s[left].charCodeAt() - 'A'.charCodeAt()]--;\n            left++;\n        }\n        right++;\n    }\n    return right - left;\n};\n```\n\n**时间复杂度**\n\n- 时间复杂度：$O(n)$，其中 $n$ 是字符串的长度。我们至多只需要遍历该字符串一次。\n\n- 空间复杂度：$O(|\\Sigma|)$，其中 $|\\Sigma|$ 是字符集的大小。我们需要存储每个大写英文字母的出现次数。",
+      "createdAt": "2021-02-01T14:18:39.895664+00:00",
+      "hitCount": 43754,
+      "identifier": "HrTjyC",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "tong-guo-ci-ti-liao-jie-yi-xia-shi-yao-shi-hua-don",
+        "title": "通过此题了解一下什么是滑动窗口 Java 题解"
+      },
+      "position": 2,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "ti-huan-hou-de-zui-chang-zhong-fu-zi-fu-eaacp",
+        "title": "🎦  替换后的最长重复字符"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "longest-repeating-character-replacement"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 71,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 9,
+          "reactionType": "AWESOME"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "CONFUSED"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "THUMBS_DOWN"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "ti-huan-hou-de-zui-chang-zhong-fu-zi-fu-n6aza",
+      "status": "PREPUBLISH",
+      "summary": "方法一：双指针 我们可以枚举字符串中的每一个位置作为右端点，然后找到其最远的左端点的位置，满足该区间内除了出现次数最多的那一类字符之外，剩余的字符（即非最长重复字符）数量不超过 $k$ 个。 这样我们可以想到使用双指针维护这些区间，每次右指针右移，如果区间仍然满足条件，那么左指针不移动，否则左指针至多右移一格，保证区间",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Two Pointers",
+          "nameTranslated": "双指针",
+          "slug": "two-pointers",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "String",
+          "nameTranslated": "字符串",
+          "slug": "string",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C",
+          "nameTranslated": "",
+          "slug": "c",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Go",
+          "nameTranslated": "",
+          "slug": "golang",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "JavaScript",
+          "nameTranslated": "",
+          "slug": "javascript",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "替换后的最长重复字符",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 201,
+        "id": 586933,
+        "viewCount": 27142
+      },
+      "uuid": "HrTjyC",
+      "videosInfo": []
+    }
+  }
+}

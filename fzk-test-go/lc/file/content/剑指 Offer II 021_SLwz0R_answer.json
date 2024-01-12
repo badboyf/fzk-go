@@ -1,0 +1,93 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "屡世者",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/lu-shi-zhe/avatar_1603028550.png",
+          "userSlug": "lu-shi-zhe"
+        },
+        "username": "lu-shi-zhe"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "解法一**耗时8ms**：先第一遍遍历获取链表的节点数，其中链表的节点是从1开始计算的；此时需要两次遍历。\r\n```\r\nclass Solution {\r\npublic:\r\n    ListNode* removeNthFromEnd(ListNode* head, int n) {\r\n        ListNode *cur = head;\r\n        int num=0;\r\n        while (cur != nullptr){\r\n            num++;\r\n            cur = cur->next;\r\n        }\r\n        // 进行判断：如果n是倒数第一个节点\r\n        if (n == num) return head->next;\r\n        // 现在进行查找，查找指定位置的节点\r\n        cur = head;\r\n        for (int i=1; i<=num-n-1; i++){\r\n            cur = cur->next;\r\n        }\r\n        cur->next = cur->next->next;\r\n        return head;\r\n    }\r\n};\r\n```\r\n解法二**耗时0ms，击败100%或者为4ms**：上面如果没有哑节点，需要对头节点的删除做特殊的边界规定，此时可以使用哑节点从而实现将所有的节点删除都是一样的case。既是不添加哑节点会增加很多额外的操作（比如边界的判断，从而降低速度）；如果添加了哑节点，注意最后返回的是**dummy->next，而不是head，因为如果head被删除就会案例出错**；这里num是从1开始计算，n也是从1开始计算，因而i从1开始\r\n```\r\nclass Solution {\r\npublic:\r\n    ListNode* removeNthFromEnd(ListNode* head, int n) {\r\n        ListNode *dummy = new ListNode(-1);\r\n        dummy->next = head;\r\n\r\n        // 此时进行循环，确定节点的num数量,此时的num是算上了哑节点的\r\n        ListNode *cur = dummy;\r\n        int num=0;\r\n        while(cur != nullptr){\r\n            num ++;\r\n            cur = cur->next;\r\n        }\r\n        // 此时进行列表遍历，然后删除元素,确保头节点的正确删除\r\n        cur = dummy;\r\n        for (int i=1; i<= num-n-1; i++){\r\n            cur = cur->next;            \r\n        }\r\n        cur->next = cur->next->next;\r\n        return dummy->next;\r\n    }\r\n};\r\n```\r\n\r\n解法三（**4ms与8ms之间**）：就是利用快慢指针，将两次遍历减少为1次遍历，同时利用哑节点。但是速度其实并不会有明显提升，因为一次遍历里面一次迭代有2次操作，而两次遍历中一次迭代中只有一次操作，从的操作数是一样的，因为多了一个指针的创建，速度会减慢。\r\n```\r\nclass Solution {\r\npublic:\r\n    ListNode* removeNthFromEnd(ListNode* head, int n) {\r\n        ListNode *dummy = new ListNode(-1);\r\n        dummy->next = head;\r\n\r\n        ListNode *fast = dummy;\r\n        ListNode *pre = dummy;\r\n\r\n        // n+1是因为需要找到它的前一个节点，所以fast与pre之间的步数差应该是n+1\r\n        while (n+1 != 0){\r\n            fast = fast->next;\r\n            n--;\r\n        }\r\n        while (fast != nullptr){\r\n            fast = fast->next;\r\n            pre = pre->next;\r\n        }\r\n        pre->next = pre->next->next;\r\n        return dummy->next;\r\n    }\r\n};\r\n```",
+      "createdAt": "2021-11-25T01:35:47.754713+00:00",
+      "hitCount": 87,
+      "identifier": "WjW55k",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "jian-zhi-offer-ii-021-shan-chu-lian-biao-8ssd",
+        "title": "剑指 Offer II 021. 删除链表的倒数第 n 个结点（双指针）"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "SLwz0R"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "shan-chu-dao-shu-di-njie-dian-de-san-cho-k5wr",
+      "status": "PUBLISHED",
+      "summary": "解法一耗时8ms：先第一遍遍历获取链表的节点数，其中链表的节点是从1开始计算的；此时需要两次遍历。\n解法二耗时0ms，击败100%或者为4ms：上面如果没有哑节点，需要对头节点的删除做特殊的边界规定，此时可以使用哑节点从而实现将所有的节点删除都是一样的case。既是不添加哑节点会增加很多额外的操作（比如边界的判断，从而",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Linked List",
+          "nameTranslated": "链表",
+          "slug": "linked-list",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "哨兵",
+          "nameTranslated": "",
+          "slug": "shao-bing",
+          "tagType": "ADDITIONAL_TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "快慢指针",
+          "nameTranslated": "",
+          "slug": "kuai-man-zhi-zhen",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "",
+      "title": "删除倒数第N节点的三种方法循序渐渐",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1120961,
+        "viewCount": 66
+      },
+      "uuid": "WjW55k",
+      "videosInfo": []
+    }
+  }
+}

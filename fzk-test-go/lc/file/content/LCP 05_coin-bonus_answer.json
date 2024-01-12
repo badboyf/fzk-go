@@ -1,0 +1,112 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "算法小爱",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/helen_class/avatar_1631327629.png",
+          "userSlug": "helen_class"
+        },
+        "username": "Helen_Class"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "> 关注[小爱老师的算法课堂](https://space.bilibili.com/1716757387/)，分享高质量算法视频与文字题解\r\n\r\n---\r\n\r\n###  题目分析：深度优先搜索 + 树状数组\r\n\r\n首先，本题包括几种操作（为了便于叙述，我们将对象从 `LeetCoin` 变成分数）：\r\n\r\n1. 给某人加分\r\n2. 给一部分人加分\r\n3. 查询一部分人的分数之和\r\n\r\n**操作 $1$ 可以通过两次操作 $2$ 完成**：给一部分人（包括指定的人）加分，并将这部分人中，指定的人以外的人减同样的分数。\r\n\r\n所以，如果我们将“一部分”这个概念量化到某个数值区间上，本题相当于要求我们实现两种操作：\r\n\r\n1. 给指定区间 $[l, r]$ 加上指令数值 $value$\r\n2. 查询指令区间 $[l, r]$ 数值之和\r\n\r\n所以，我们可以通过深度优先搜索，将题目给定的负责人及其管理人员**量化到数轴上一段连续的区间**；然后通过树状数组解决**区间更新和区间查询**的问题。所以在算法细节部分，我们分为**两部分**。第一部分介绍基于深度优先搜索的量化方法，第二部分介绍基于树状数组的区间处理问题。\r\n\r\n\r\n\r\n---\r\n\r\n### 算法细节：\r\n\r\n#### `DFS` 解决量化问题\r\n\r\n由于树状数组需要对连续区间进行处理，所以本部分我们要达成的目标是：\r\n\r\n1. 将所有人的编号映射到 $[1, N]$ 的区间，其中负责人及其团队需要映射到一段连续的区间\r\n2. 能通过负责人的编号获取得到其团队的区间 $[l, r]$。\r\n\r\n由于本题按照一棵树的形式，表达一个团队的管理模式，所以可以利用深度优先搜索来完成这件事情。\r\n\r\n首先，我们定义一个全局变量 `id`，用于将所有成员的编号映射到数值上。\r\n\r\n其次，我们定义两个数组 `begin[i], end[i]` ，记录编号为 $i$ 的成员所管理团队映射到的区间 $[l, r]$。\r\n\r\n下面我们开始 `DFS` 过程：\r\n\r\n1. 假设本次 `DFS` 搜索的是编号为 `cur` 的成员所管理的团队，那么我们首先将 `begin[cur]` 设为 `id`，表示该成员所管理团队的**起始 `id`**。\r\n2. 对 `cur` 所管理团队的所有成员进行新一轮的 `DFS`。\r\n3. 当遍历完 `cur` 管理的团队后，我们将 `end[cur]` 设为当前 `id`（遍历管理团队时，`id` 会更新），表示 `cur` 映射到了值 `id` 上。\r\n4. 我们将 `id` 加一，以便继续对还未映射的成员进行映射，并退出本轮搜索。\r\n\r\n> 我们以本题的样例，让大家对本题的深搜过程有更清晰的了解：\r\n>\r\n> 我们对 $1$ 进行 DFS，并记录 begin[1] = 1，开始搜索其团队 [2, 6, 4]\r\n>\r\n> ​\t\t我们对 2 进行 DFS，并记录 begin[2] = 1，开始搜索其团队 [3, 5]\r\n>\r\n> ​\t\t\t\t我们对 3 进行 DFS，并记录 begin[3] = 1，开始搜索其团队 []\r\n>\r\n> ​\t\t\t\t3 搜索完毕，映射到 id = 1，并记录在 end[3] = 1 中，更新 id = 2，退出搜索。\r\n>\r\n> ​\t\t\t\t我们对 5 进行 DFS，并记录 begin[5] = 2，开始搜索其团队 []\r\n>\r\n> ​\t\t\t\t5 搜索完毕，映射到 id = 2，并记录在 end[5] = 2 中，更新 id = 3，退出搜索。\r\n>\r\n> ​\t\t2 搜索完毕，映射到 id = 3，并记录在 end[2] = 3 中，更新 id = 4，退出搜索。\r\n>\r\n> ​\t\t我们对 6 进行 DFS，并记录 begin[6] = 4，开始搜索其团队 []\r\n>\r\n> ​\t\t6 搜索完毕，映射到 id = 4，并记录在 end[6] = 4 中，更新 id = 5，退出搜索。\r\n>\r\n> ​\t\t我们对 4 进行 DFS，并记录 begin[4] = 5，开始搜索其团队 []\r\n>\r\n> ​\t\t4 搜索完毕，映射到 id = 5，并记录在 end[4] = 5 中，更新 id = 6，退出搜索。\r\n>\r\n> 1 搜索完毕，映射到 id = 6，并记录在 end[1] = 6 中，更新 id = 7，退出搜索。\r\n>\r\n> \r\n>\r\n> 此时整个搜索过程完毕，我们来看一下 6 个人所对应的 begin 和 end：\r\n>\r\n> begin[1] = 1, end[1] = 6，表示编号为 1 的人所管理的团队映射到的区间是 [1, 6]，本身映射到 6\r\n>\r\n> begin[2] = 1, end[2] = 3，表示编号为 2 的人所管理的团队映射到的区间是 [1, 3]，本身映射到 3\r\n>\r\n> begin[3] = 1, end[3] = 1，表示编号为 3 的人所管理的团队映射到的区间是 [1, 1]，本身映射到 1\r\n>\r\n> begin[4] = 5, end[4] = 5，表示编号为 4 的人所管理的团队映射到的区间是 [5, 5]，本身映射到 5\r\n>\r\n> begin[5] = 2, end[5] = 2，表示编号为 5 的人所管理的团队映射到的区间是 [2, 2]，本身映射到 2\r\n>\r\n> begin[6] = 4, end[6] = 4，表示编号为 6 的人所管理的团队映射到的区间是 [4, 4]，本身映射到 4\r\n\r\n![LCP05 00_00_00-00_00_49.gif](https://pic.leetcode-cn.com/1629358579-YvwSlP-LCP05%2000_00_00-00_00_49.gif)\r\n\r\n\r\n---\r\n\r\n#### 树状数组解决区间处理问题\r\n\r\n如果你还不熟悉树状数组，可以看我的这篇[树状数组详解](https://mp.weixin.qq.com/s?__biz=MzkyMzI3ODgzNQ==&mid=2247483674&idx=1&sn=263595b26950ac60e5bf789839d70c9e&chksm=c1e6cd86f691449062d780b96d9af6d9590a71872ebfee980d5b045b9963714043261027c16b&token=1500097142&lang=zh_CN#rd)呀！\r\n\r\n在本题的代码实现中，直接利用树状数组的区间处理模板即可。\r\n\r\n---\r\n\r\n### 代码：\r\n\r\n```C++ []\r\nusing ll = long long;\r\nconst ll M = 1e9 + 7;\r\n\r\nclass BIT {\r\npublic:\r\n\tint n;\r\n    vector<ll> sum;\r\n    vector<ll> ntimessum;\r\n   \r\n    BIT(int _n): n(_n + 5), sum(_n + 10, 0), ntimessum(_n + 10, 0) {}\r\n    ll lowbit(ll x) {\r\n        return x & (-x);\r\n    }\r\n    \r\n    void update(int pos, ll k) { // 在 pos 位置加上 k\r\n        ll x = pos;\r\n        while(pos <= n) {\r\n            sum[pos] += k;\r\n            ntimessum[pos] += k * (x - 1);\r\n            pos += lowbit(pos);\r\n        }\r\n    }\r\n\r\n    void update_internal(int l, int r, int k) { // 区间更新\r\n        update(l, k);\r\n        update(r + 1, -k);\r\n    }\r\n    \r\n    ll askis(int pos) { // 区间更新 + 单点查询 \r\n    \tif(!pos) return 0;\r\n        ll ret = 0;\r\n        while(pos) {\r\n            ret += sum[pos];\r\n            pos -= lowbit(pos);\r\n        }\r\n        return ret;\r\n    }\r\n    \r\n    ll asksi(int l, int r) { // 单点更新 + 区间查询\r\n        if(l > r) {\r\n            return 0;\r\n        }\r\n        return askis(r) - askis(l - 1);\r\n    }\r\n    \r\n    ll askss(int pos) {\t// 单点更新 + 单点查询\r\n        return askis(pos) - askis(pos - 1);\r\n    }\r\n    \r\n    ll askii(int pos) { // 区间更新 + 范围查询\r\n    \tif(!pos) return 0;\r\n        ll ret = 0, x = pos;\r\n        while(pos) {\r\n            ret += x * sum[pos] - ntimessum[pos];\r\n            pos -= lowbit(pos);\r\n        }\r\n        return ret;\r\n\t}\r\n\r\n    ll asklr(int l, int r) { // 区间更新 + 区间查询\r\n        return askii(r) - askii(l - 1);\r\n    }\r\n};\r\n\r\nclass Solution {\r\npublic:\r\n    int id = 1;\r\n\r\n    void dfs(int cur, vector<int>& begin, vector<int>& end, vector<vector<int>>& g) {\r\n        begin[cur] = id;\r\n        for(auto &child : g[cur]) dfs(child, begin, end, g);\r\n        end[cur] = id;\r\n        id++;\r\n    }\r\n\r\n    vector<int> bonus(int n, vector<vector<int>>& leadership, vector<vector<int>>& operations) {\r\n        // 邻接表\r\n        vector<vector<int>> g(n + 1);\r\n        for(auto &l : leadership) g[l[0]].push_back(l[1]);\r\n\r\n        // 深搜，构建\r\n        vector<int> begin(n + 1), end(n + 1);\r\n        dfs(1, begin, end, g);\r\n\r\n        // 树状数组\r\n        BIT *b = new BIT(n);\r\n        vector<int> ret;\r\n        for(auto &q : operations) {\r\n            if(q[0] == 1) {\r\n                b->update_internal(end[q[1]], end[q[1]], q[2]);\r\n            } else if(q[0] == 2) {\r\n                b->update_internal(begin[q[1]], end[q[1]], q[2]);\r\n            } else {\r\n                ll ans = b->asklr(begin[q[1]], end[q[1]]);\r\n                ret.push_back((ans % M + M) % M);\r\n            }\r\n        }\r\n\r\n        return ret;\r\n    }\r\n};\r\n```\r\n```Python3 []\r\nM = int(1e9 + 7)\r\n\r\nclass BIT:\r\n    def __init__(self, n):\r\n        self.n = n + 5\r\n        self.sum = [0 for _ in range(n + 10)]\r\n        self.ntimessum = [0 for _ in range(n + 10)]\r\n    \r\n    def lowbit(self, x):\r\n        return x & (-x)\r\n\r\n    # 在 pos 位置加上 k\r\n    def update(self, pos, k):\r\n        x = pos\r\n        while pos <= self.n:\r\n            self.sum[pos] += k\r\n            self.sum[pos] %= M\r\n            self.ntimessum[pos] += k * (x - 1)\r\n            self.ntimessum[pos] %= M\r\n            pos += self.lowbit(pos)\r\n    \r\n    # 区间更新 + 单点查询\r\n    def askis(self, pos):\r\n        if not pos:\r\n            return 0\r\n        ret = 0\r\n        while pos:\r\n            ret += self.sum[pos]\r\n            ret %= M\r\n            pos -= lowbit(pos)\r\n        return ret\r\n    \r\n    # 单点更新 + 区间查询\r\n    def asksi(self, l, r):\r\n        if l > r:\r\n            return 0\r\n        return askis(r) - askis(l - 1)\r\n    \r\n    # 单点更新 + 单点查询\r\n    def askss(self, pos):\r\n        return askis(pos) - askis(pos - 1)\r\n    \r\n    # 区间更新 + 区间查询\r\n    def askii(self, pos):\r\n        if not pos:\r\n            return 0\r\n        ret = 0\r\n        x = pos\r\n        while pos:\r\n            ret += x * self.sum[pos] - self.ntimessum[pos]\r\n            ret %= M\r\n            pos -= self.lowbit(pos)\r\n        return ret\r\n\r\nclass Solution:\r\n    def bonus(self, n: int, leadership: List[List[int]], operations: List[List[int]]) -> List[int]:\r\n        \r\n        # 邻接表\r\n        g = [[] for _ in range(n + 1)]\r\n        begin = [0 for _ in range(n + 1)]\r\n        end = [0 for _ in range(n + 1)]\r\n        id = 1\r\n\r\n        for l in leadership:\r\n            g[l[0]].append(l[1])\r\n        \r\n        # 深搜\r\n        def dfs(cur):\r\n            nonlocal id\r\n            begin[cur] = id\r\n            for child in g[cur]:\r\n                dfs(child)\r\n            end[cur] = id\r\n            id += 1\r\n        dfs(1)\r\n        \r\n        # 树状数组\r\n        b = BIT(n)\r\n        ret = []\r\n        for q in operations:\r\n            if q[0] == 1:\r\n                b.update(end[q[1]], q[2])\r\n                b.update(end[q[1]] + 1, -q[2])\r\n            elif q[0] == 2:\r\n                b.update(begin[q[1]], q[2])\r\n                b.update(end[q[1]] + 1, -q[2])\r\n            else:\r\n                ans = b.askii(end[q[1]]) - b.askii(begin[q[1]] - 1)\r\n                ret.append((ans % M + M) % M)\r\n\r\n        return ret\r\n```\r\n\r\n---\r\n\r\n### 复杂度分析：\r\n\r\n- 时间复杂度：$O(qnlgn)$，其中 $q$ 为查询次数，$n$ 为团队成员个数\r\n- 空间复杂度：$O(n)$",
+      "createdAt": "2021-08-19T07:37:04.257222+00:00",
+      "hitCount": 682,
+      "identifier": "7RRNsE",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "cpython3-1dfs_nlrxu-lie-hua-xian-duan-sh-sj20",
+        "title": "c++/python3 (1)dfs_NLR序列化+线段树区间和（区间更新--懒更新--结点实现）(2)(1)dfs_NLR序列化+线段树区间和（区间更新--懒更新--数组实现）"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "coin-bonus"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 10,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "xiao-ai-lao-shi-li-kou-bei-li-jie-zhen-t-rut3",
+      "status": "PREPUBLISH",
+      "summary": "关注小爱老师的算法课堂，分享高质量算法视频与文字题解\n\n题目分析：深度优先搜索 + 树状数组\n首先，本题包括几种操作（为了便于叙述，我们将对象从 LeetCoin 变成分数）：\n\n给某人加分\n给一部分人加分\n查询一部分人的分数之和\n\n操作 1 可以通过两次操作 2 完成：给一部分人（包括指定的人）加分，并将这部分人中",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Depth-First Search",
+          "nameTranslated": "深度优先搜索",
+          "slug": "depth-first-search",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Binary Indexed Tree",
+          "nameTranslated": "树状数组",
+          "slug": "binary-indexed-tree",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python3",
+          "nameTranslated": "",
+          "slug": "python3",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "搜索",
+          "nameTranslated": "",
+          "slug": "search",
+          "tagType": "ADDITIONAL_TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "DFS",
+          "nameTranslated": "",
+          "slug": "dfs",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1629358579-YvwSlP-LCP05%2000_00_00-00_00_49.gif",
+      "title": "【算法小爱-力扣杯真题视频题解】双语言 深度优先搜索 + 树状数组",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 1,
+        "id": 945513,
+        "viewCount": 428
+      },
+      "uuid": "7RRNsE",
+      "videosInfo": []
+    }
+  }
+}

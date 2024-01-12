@@ -1,0 +1,95 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "ACBash",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/zhu-ai-fu-te/avatar_1627804538.png",
+          "userSlug": "acbash"
+        },
+        "username": "ACBash"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 用javascript学数据结构与算法\n大家好，我是ACBash。\n坚持才可贵，我用js写的比较全面的数据结构和一些排序/查找算法，以及我的leetcode题解，这里分享给大家：\n🌟[用js学数据结构与算法](https://github.com/axing521/js-algo) ,欢迎大家点个star🌟\n\n### 解题思路\n\n![捕获.PNG](https://pic.leetcode-cn.com/1637571287-dpsVZi-%E6%8D%95%E8%8E%B7.PNG)\n\n1. 首先建立字典树，注意是**倒序插入**。\n\n    为什么？\n\n    因为待会`query`找的时候是从这个单词的末尾开始找。\n\n    另外别忘了`node[\"isEnd\"] = true`,标记单词结束的位置。\n\n2. 写`query()`,用一个`stack`来记录用户输入的`letter`，便于在倒序字典树中顺序查找。\n\n\n\n### 代码\n\n```javascript\nclass StreamChecker{\n    constructor(words){\n        this.trie = this.buildTrie(words);\n        this.stack = [];\n    }\n\n    buildTrie(words){\n        let root = {};\n\n        for(const word of words){\n            const len = word.length;\n            let node = root;\n\n            for(let i = len - 1; i >= 0; i--){\n                const c = word[i];\n                \n                if(!node[c]) node[c] = {};\n                node = node[c];\n            }\n\n            node[\"isEnd\"] = true;\n        }\n\n        return root;\n    }\n\n    query(letter){\n        let node = this.trie;\n\n        this.stack.push(letter);\n        \n        if(!node[letter]) return false;\n    \n        for(let i = this.stack.length - 1; i >= 0; i--){\n            const c = this.stack[i];\n            \n            if(!node[c]) return false;\n            node = node[c];\n            \n            if(node[\"isEnd\"]) return true;\n        }\n        \n        return false;\n    }\n}\n```",
+      "createdAt": "2021-11-22T08:59:46.536339+00:00",
+      "hitCount": 20,
+      "identifier": "ajVqc6",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "c-aczi-dong-ji-mo-ban-ti-by-system_thoug-x7j2",
+        "title": "C + AC自动机模板题"
+      },
+      "position": 13,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "golang-zi-dian-shu-by-resara",
+        "title": "golang  字典树 前缀树和后缀树"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "stream-of-characters"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "AWESOME"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 0,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "wo-chao-zhe-zhen-de-shi-hardti-shi-jian-3xn3g",
+      "status": "PUBLISHED",
+      "summary": "用javascript学数据结构与算法\n大家好，我是ACBash。\n坚持才可贵，我用js写的比较全面的数据结构和一些排序/查找算法，以及我的leetcode题解，这里分享给大家：\n🌟用js学数据结构与算法 ,欢迎大家点个star🌟\n解题思路\n\n\n首先建立字典树，注意是倒序插入。\n为什么？\n因为待会query找的时候是从",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Stack",
+          "nameTranslated": "栈",
+          "slug": "stack",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Trie",
+          "nameTranslated": "字典树",
+          "slug": "trie",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "JavaScript",
+          "nameTranslated": "",
+          "slug": "javascript",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1637571287-dpsVZi-%E6%8D%95%E8%8E%B7.PNG",
+      "title": "我超，这真的是hard题？时间击败100%，380ms",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1115923,
+        "viewCount": 17
+      },
+      "uuid": "ajVqc6",
+      "videosInfo": []
+    }
+  }
+}

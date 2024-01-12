@@ -1,0 +1,79 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "libra",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/libra-c1/avatar_1622085699.png",
+          "userSlug": "libra-c1"
+        },
+        "username": "libra-c1"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "![11111.png](https://pic.leetcode-cn.com/1637755094-gQiMNS-11111.png)\r\n- 定义一个ans和dep变量，ans记录每一个可能的(每一个左子树的值)答案，dep记录每一个可能的答案的**所在层数**\r\n- 使用dfs算法从根节点遍历树，每次先遍历左子树，这样我们取到的一定是每个子树最左边的值\r\n- 但我们需要的是整颗树**最底层最左边**的值，也就是说这个最底层最左边的值的深度一定是所有左子树中深度最大的(最大depth)\r\n- 所以我们每次给ans赋值时，需要判断当前左子树的深度depth是否比上一个遍历到的左子树的深度depth要大\r\n- 特别的是，我们需要给dep深度初始值为-1，因为当只有一个根节点时，根节点的depth为0，整棵树的最大depth是0，令dep初始值为-1，才能得到我们想要的结果\r\n```\r\nvar findBottomLeftValue = function(root) {\r\n  let ans = -1\r\n  let dep = -1\r\n  let dfs = (root,depth)=>{\r\n    if(root == null) return ;\r\n    dfs(root.left,depth +1)\r\n    if(depth > dep){\r\n      ans = root.val\r\n      dep = depth\r\n    }\r\n    dfs(root.right,depth + 1)\r\n  }\r\n  dfs(root,0)\r\n  return ans\r\n};\r\n```\r\n",
+      "createdAt": "2021-11-24T11:58:29.080850+00:00",
+      "hitCount": 35,
+      "identifier": "eCWAoU",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "ceng-xu-bian-li-by-weiwo20010101-7egt",
+        "title": "层序遍历"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "LwUNpT"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "javascriptban-dfsjie-fa-by-libra-c1-jd8h",
+      "status": "PUBLISHED",
+      "summary": "定义一个ans和dep变量，ans记录每一个可能的(每一个左子树的值)答案，dep记录每一个可能的答案的所在层数\n使用dfs算法从根节点遍历树，每次先遍历左子树，这样我们取到的一定是每个子树最左边的值\n但我们需要的是整颗树最底层最左边的值，也就是说这个最底层最左边的值的深度一定是所有左子树中深度最大的(最大depth",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "JavaScript",
+          "nameTranslated": "",
+          "slug": "javascript",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "DFS",
+          "nameTranslated": "",
+          "slug": "dfs",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1637755094-gQiMNS-11111.png",
+      "title": "JavaScript版dfs解法",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1120282,
+        "viewCount": 29
+      },
+      "uuid": "eCWAoU",
+      "videosInfo": []
+    }
+  }
+}

@@ -1,0 +1,72 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "Reiner Braun",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/busy-johnsonbtt/avatar_1635424651.png",
+          "userSlug": "reiner-braud"
+        },
+        "username": "Reiner-Braud"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "```\r\nclass AllOne {\r\n    private Map<String, Integer> cache; //this is to map string to its frequency;\r\n    private Map<Integer, DLNode> freq; // this is to map the frequency to a double linked list node which stores the strings with the same frequency;\r\n    private DLNode head, tail; // the head and tail of the DLNode list; node with higher frequency is in front of the list\r\n    private class DLNode{\r\n        int val;\r\n        Set<String> keys;\r\n        DLNode pre, next;\r\n        public DLNode(int val){\r\n            this.val = val;\r\n            this.keys = new HashSet<>();\r\n        }\r\n    }\r\n      \r\n    public AllOne() {\r\n        cache = new HashMap<>();\r\n        freq = new HashMap<>();\r\n        head = new DLNode(0);\r\n        tail = new DLNode(0);\r\n        head.next = tail;\r\n        tail.pre = head;\r\n    }\r\n    \r\n    public void inc(String key) {\r\n        if (cache.containsKey(key)){\r\n            int val = cache.get(key);\r\n            cache.put(key, val+1);\r\n            DLNode node = freq.get(val);\r\n            node.keys.remove(key); // remove the key from the original node;\r\n            DLNode preNode = node.pre;\r\n            if (preNode == head || preNode.val > val + 1){\r\n                DLNode newNode = new DLNode(val+1);\r\n                newNode.keys.add(key);\r\n                newNode.next = node;\r\n                node.pre = newNode;\r\n                newNode.pre = preNode;\r\n                preNode.next = newNode;\r\n                freq.put(val+1, newNode);\r\n                preNode = newNode;\r\n            }else{\r\n                preNode.keys.add(key);\r\n            }\r\n            if (node.keys.size()==0){\r\n                preNode.next = node.next;\r\n                node.next.pre = preNode;\r\n                freq.remove(val);\r\n            }\r\n        }else{\r\n            cache.put(key,1);\r\n            DLNode node = freq.get(1);\r\n            if (node==null){\r\n                DLNode newNode = new DLNode(1);\r\n                newNode.keys.add(key);\r\n                tail.pre.next = newNode;\r\n                newNode.pre = tail.pre;\r\n                newNode.next = tail;\r\n                tail.pre = newNode;\r\n                freq.put(1, newNode);\r\n            } else {\r\n                node.keys.add(key);\r\n            }\r\n        }\r\n    }\r\n    \r\n    public void dec(String key) {\r\n        if (cache.containsKey(key)){\r\n            int val = cache.get(key);\r\n            DLNode node = freq.get(val);\r\n            node.keys.remove(key);\r\n            if (val == 1){\r\n                cache.remove(key);\r\n            }else{\r\n                cache.put(key, val-1);\r\n                DLNode nextNode = node.next;\r\n                if (nextNode == tail || nextNode.val < val-1){\r\n                    DLNode newNode = new DLNode(val-1);\r\n                    newNode.keys.add(key);\r\n                    node.next = newNode;\r\n                    newNode.pre = node;\r\n                    newNode.next = nextNode;\r\n                    nextNode.pre = newNode;\r\n                    freq.put(val-1, newNode);\r\n                }else{\r\n                    nextNode.keys.add(key);\r\n                }\r\n            }\r\n            if (node.keys.size()==0){\r\n                node.pre.next = node.next;\r\n                node.next.pre = node.pre;\r\n                freq.remove(val);\r\n            }\r\n        }\r\n    }\r\n    \r\n    public String getMaxKey() {\r\n        if (head.next == tail){\r\n            return \"\";\r\n        }else{\r\n            return head.next.keys.iterator().next();\r\n        }\r\n    }\r\n    \r\n    public String getMinKey() {\r\n        if (head.next == tail){\r\n            return \"\";\r\n        }else{\r\n            return tail.pre.keys.iterator().next();\r\n        }\r\n    }\r\n}\r\n\r\n/**\r\n * Your AllOne object will be instantiated and called as such:\r\n * AllOne obj = new AllOne();\r\n * obj.inc(key);\r\n * obj.dec(key);\r\n * String param_3 = obj.getMaxKey();\r\n * String param_4 = obj.getMinKey();\r\n */\r\n```\r\n",
+      "createdAt": "2021-11-15T04:56:21.650930+00:00",
+      "hitCount": 63,
+      "identifier": "49SQlP",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "goha-xi-biao-shuang-xiang-lian-biao-quan-o5yg",
+        "title": "go，哈希表 + 双向链表，全O(1)操作"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "all-oone-data-structure"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "javaji-qi-jian-dan-xie-fa-by-busy-johnso-opq0",
+      "status": "PUBLISHED",
+      "summary": "[该用户太懒了，只写了 119 行代码]",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "Java极其简单写法",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1102772,
+        "viewCount": 52
+      },
+      "uuid": "49SQlP",
+      "videosInfo": []
+    }
+  }
+}

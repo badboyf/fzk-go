@@ -1,0 +1,86 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "sth4nothing",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/sth4nothing/avatar_1550380816.png",
+          "userSlug": "sth4nothing"
+        },
+        "username": "sth4nothing"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "考虑一个一维的Ox坐标轴上有n个点`nums[0] <= nums[1] <= ... <= nums[n - 1]`，那么k(0<=k<n)处的绝对差值之和即为`nums[k]`到坐标轴上其他所有点的距离之和`ans[k]`。\r\n\r\n对于第i (1<=i<n)个点`nums[i]`，他的距离之和为：\r\n$$ ans[i] = \\sum_{j = 0}^{i - 1} {(nums[i] - nums[j])} + \\sum_{j = i}^{n - 1} {(nums[j] - nums[i])} $$\r\n\r\n对于它的前一个点`nums[i-1]`，距离之和为：\r\n$$ ans[i - 1] = \\sum_{j = 0}^{i - 1} {(nums[i - 1] - nums[j])} + \\sum_{j = i}^{n - 1} {(nums[j] - nums[i - 1])} $$\r\n\r\n令`d = nums[i] - nums[i - 1]`，那么：\r\n$$\r\nans[i] - ans[i - 1] = i * d - (n - i) * d \\\\\r\n= -(n - i * 2) * d \\\\\r\n\\Rightarrow \\\\\r\nans[i] = ans[i - 1] - (n - i * 2) * d\r\n$$\r\n\r\n```Python3 []\r\nclass Solution:\r\n    def getSumAbsoluteDifferences(self, nums: List[int]) -> List[int]:\r\n        n = len(nums)\r\n        ans = [0] * n\r\n        ans[0] = sum(nums) - nums[0] * n\r\n        for i in range(1, n):\r\n            d = nums[i] - nums[i - 1]\r\n            ans[i] = ans[i - 1] - (n - i * 2) * d\r\n        return ans\r\n```\r\n```C++ []\r\nclass Solution {\r\npublic:\r\n    vector<int> getSumAbsoluteDifferences(vector<int>& nums) {\r\n        int n = nums.size();\r\n        vector<int> ans(n, 0);\r\n        ans[0] = accumulate(nums.begin(), nums.end(), 0) - nums[0] * n;\r\n        for (int i = 1; i < n; ++i) {\r\n            int d = nums[i] - nums[i - 1];\r\n            ans[i] = ans[i - 1] - (n - i * 2) * d;\r\n        }\r\n        return ans;\r\n    }\r\n};\r\n```",
+      "createdAt": "2021-08-23T15:49:59.122654+00:00",
+      "hitCount": 331,
+      "identifier": "HOGdV3",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "qian-zhui-he-zuo-you-liang-duan-fen-kai-j5ng2",
+        "title": "前缀和，左右两端分开计算"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "sum-of-absolute-differences-in-a-sorted-array"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 3,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "pythonon-zhuan-huan-cheng-zuo-biao-zhou-swlfq",
+      "status": "PREPUBLISH",
+      "summary": "考虑一个一维的Ox坐标轴上有n个点nums[0] <= nums[1] <= ... <= nums[n - 1]，那么k(0<=k<n)处的绝对差值之和即为nums[k]到坐标轴上其他所有点的距离之和ans[k]。\n对于第i (1<=i<n)个点nums[i]，他的距离之和为：\nans[i] = \\sum_{j =",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python3",
+          "nameTranslated": "",
+          "slug": "python3",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "动态规划，O(n), 转换成坐标轴上点的距离之和",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 954954,
+        "viewCount": 261
+      },
+      "uuid": "HOGdV3",
+      "videosInfo": []
+    }
+  }
+}

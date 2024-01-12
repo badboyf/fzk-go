@@ -1,0 +1,86 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣 (LeetCode)",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/uploaded_files/2021/03/73c9f099-abbe-4d94-853f-f8abffd459cd/leetcode.png",
+          "userSlug": "leetcode"
+        },
+        "username": "LeetCode"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法一：计算行列限制\n\n我们首先计算出天际线的值。显然，从顶部和底部看到的天际线是相同的，每一个位置的天际线高度是对应列的建筑物高度最大值，即 `col_maxes = [max(column_0), max(column_1), ...]`；从左侧和右侧看到的天际线也是相同的，每一个位置的天际线高度是对应行的建筑物高度最大值，即 `row_maxes = [max(row_0), max(row_1), ...]`。\n\n对于 `grid` 中的每一个元素，我们可以将它增加到的最大高度为该元素行天际线与列天际线高度的较小值，即 `min(row_maxes[r], col_maxes[c])`。如果再增加高度，就会导致行天际线或列天际线中的至少一个发生变化。\n\n由于 `grid` 中的每一个元素的高度增加都是独立的，因此我们贪心地把每一个元素都增加到最大值，就可以得到增加的最大总和。\n\n```Java [sol1]\nclass Solution {\n    public int maxIncreaseKeepingSkyline(int[][] grid) {\n        int N = grid.length;\n        int[] rowMaxes = new int[N];\n        int[] colMaxes = new int[N];\n\n        for (int r = 0; r < N; ++r)\n            for (int c = 0; c < N; ++c) {\n                rowMaxes[r] = Math.max(rowMaxes[r], grid[r][c]);\n                colMaxes[c] = Math.max(colMaxes[c], grid[r][c]);\n        }\n\n        int ans = 0;\n        for (int r = 0; r < N; ++r)\n            for (int c = 0; c < N; ++c)\n                ans += Math.min(rowMaxes[r], colMaxes[c]) - grid[r][c];\n\n        return ans;\n    }\n}\n```\n\n```Python [sol1]\nclass Solution(object):\n    def maxIncreaseKeepingSkyline(self, grid):\n        row_maxes = [max(row) for row in grid]\n        col_maxes = [max(col) for col in zip(*grid)]\n\n        return sum(min(row_maxes[r], col_maxes[c]) - val\n                   for r, row in enumerate(grid)\n                   for c, val in enumerate(row))\n```\n\n**复杂度分析**\n\n* 时间复杂度：$O(N^2)$，其中 $N$ 是 `grid` 数组的边长。\n\n* 空间复杂度：$O(N)$，用来存储行天际线和列天际线。",
+      "createdAt": "2019-10-29T06:20:45.480319+00:00",
+      "hitCount": 6751,
+      "identifier": "ieiNu3",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "807-bao-chi-cheng-shi-tian-ji-xian-java-1zbjv",
+        "title": "807. 保持城市天际线 - Java 中击败了 83.20%"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "max-increase-to-keep-city-skyline"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 5,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "bao-chi-cheng-shi-tian-ji-xian-by-leetcode",
+      "status": "PUBLISHED",
+      "summary": "§ 方法一：计算行列限制\n我们首先计算出天际线的值。显然，从顶部和底部看到的天际线是相同的，每一个位置的天际线高度是对应列的建筑物高度最大值，即 col_maxes = [max(column_0), max(column_1), ...]；从左侧和右侧看到的天际线也是相同的，每一个位置的天际线高度是对应行的建筑物高度",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Greedy",
+          "nameTranslated": "贪心",
+          "slug": "greedy",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "保持城市天际线",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 14,
+        "id": 38842,
+        "viewCount": 5680
+      },
+      "uuid": "ieiNu3",
+      "videosInfo": []
+    }
+  }
+}

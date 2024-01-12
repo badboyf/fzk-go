@@ -1,0 +1,76 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "龙语",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/long-yu-8/avatar_1602292951.png",
+          "userSlug": "long-yu-8"
+        },
+        "username": "long-yu-8"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n此处撰写解题思路\n\n### 代码\n\n```csharp\npublic class Solution {\n    public int LargestAltitude(int[] gain) {\n            int n = 0;\n            int res = 0;\n            for (int i = 0; i < gain.Length; i++)\n            {\n                n=n + gain[i];\n               res= Math.Max(res, n);\n            }\n            return res;\n    }\n}\n```",
+      "createdAt": "2021-02-08T02:53:26.602640+00:00",
+      "hitCount": 231,
+      "identifier": "8eX5Im",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "1732zhao-dao-zui-gao-hai-ba-ti-jie-bian-xyx64",
+        "title": "【1732找到最高海拔】题解：一次遍历"
+      },
+      "position": 4,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "c-by-_bezero-uqu0",
+        "title": "维护一个最大值输出即可"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "find-the-highest-altitude"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 3,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "jie-by-long-yu-8-t8mr",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n此处撰写解题思路\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "C#",
+          "nameTranslated": "",
+          "slug": "csharp",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "解",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 1,
+        "id": 596860,
+        "viewCount": 221
+      },
+      "uuid": "8eX5Im",
+      "videosInfo": []
+    }
+  }
+}

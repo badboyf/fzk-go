@@ -1,0 +1,89 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣官方题解",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/leetcode-solution/avatar_1582018938.png",
+          "userSlug": "leetcode-solution"
+        },
+        "username": "LeetCode-Solution"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法一：递归\n\n由于我们需要删除所有值为 `target` 的叶子节点，那么我们的操作顺序应当从二叉树的叶子节点开始，逐步向上直到二叉树的根为止。因此我们可以使用递归的方法遍历整颗二叉树，并在回溯时进行删除操作。这样对于二叉树中的每个节点，它的子节点一定先于它被操作。这其实也就是二叉树的后序遍历。\n\n具体地，当我们回溯到某个节点 `u` 时，如果 `u` 的左右孩子均不存在（这里有两种情况，一是节点 `u` 的孩子本来就不存在，二是节点 `u` 的孩子变成了叶子节点并且值为 `target`，导致其被删除），并且值为 `target`，那么我们要删除节点 `u`，递归函数的返回值为空节点；如果节点 `u` 不需要被删除，那么递归函数的返回值为节点 `u` 本身。\n\n```C++ [sol1-C++]\nclass Solution {\npublic:\n    TreeNode* removeLeafNodes(TreeNode* root, int target) {\n        if (!root) {\n            return nullptr;\n        }\n        root->left = removeLeafNodes(root->left, target);\n        root->right = removeLeafNodes(root->right, target);\n        if (!root->left && !root->right && root->val == target) {\n            return nullptr;\n        }\n        return root;\n    }\n};\n```\n\n```Python [sol1-Python3]\nclass Solution:\n    def removeLeafNodes(self, root: TreeNode, target: int) -> TreeNode:\n        if not root:\n            return None\n        root.left = self.removeLeafNodes(root.left, target)\n        root.right = self.removeLeafNodes(root.right, target)\n        if not root.left and not root.right and root.val == target:\n            return None\n        return root\n```\n\n**复杂度分析**\n\n- 时间复杂度：$O(N)$，其中 $N$ 是二叉树的节点个数。\n\n- 空间复杂度：$O(H)$，其中 $H$ 是二叉树的高度。",
+      "createdAt": "2020-02-18T13:00:16.091810+00:00",
+      "hitCount": 5390,
+      "identifier": "JZWwko",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "1325-cjian-dan-yi-dong-de-di-gui-jie-fa-wsdeh",
+        "title": "1325. c++简单易懂的递归解法"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "delete-leaves-with-a-given-value"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 13,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "AWESOME"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "CONFUSED"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "shan-chu-gei-ding-zhi-de-xie-zi-jie-dian-by-leet-2",
+      "status": "PUBLISHED",
+      "summary": " 方法一：递归\n由于我们需要删除所有值为 target 的叶子节点，那么我们的操作顺序应当从二叉树的叶子节点开始，逐步向上直到二叉树的根为止。因此我们可以使用递归的方法遍历整颗二叉树，并在回溯时进行删除操作。这样对于二叉树中的每个节点，它的子节点一定先于它被操作。这其实也就是二叉树的后序遍历。\n具体地，当我们回溯到某个",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python3",
+          "nameTranslated": "",
+          "slug": "python3",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "删除给定值的叶子节点",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 21,
+        "id": 101264,
+        "viewCount": 4495
+      },
+      "uuid": "JZWwko",
+      "videosInfo": []
+    }
+  }
+}

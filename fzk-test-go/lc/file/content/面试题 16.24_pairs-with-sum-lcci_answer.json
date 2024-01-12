@@ -1,0 +1,72 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "逗比克星",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/wo-shi-xie-wu-rui-la-wang-chai/avatar_1618042786.png",
+          "userSlug": "master_xue"
+        },
+        "username": "master_xue"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "**看到这种题目就要形成能不能用双指针求解的条件反射。**\r\n\r\n若要使用双指针就需要数组是有序的，所以先给数组排序。\r\n\r\n将左指针l指向第一个元素，将右指针r指向最后一个元素\r\n\r\n1、若nums[l] + nums[r] == target，则记录答案，并将左指针l++，右指针r--，避免重复\r\n\r\n2、若nums[l] + nums[r] > target，则说明此时结果太大了，则r--可以将结果缩小\r\n\r\n3、若nums[l] + nums[r] < target，则说明此时结果太小了，则l++可以将结果增大\r\n\r\n**可以发现，所谓的双指针就是通过先排序将遍历的方式简单化了，每次只要移动一个指针就可以将结果变为最接近的大一点的结果或者最接近的小一点的结果，可以把时间复杂度由纯暴力的O(n^2)降为双指针的O(nlogn).**\r\n\r\n**注意： 双指针解法的复杂度主要是由于排序的时间复杂度为O(nlogn)，双指针移动本身时间复杂度为O(n)**\r\n\r\n![1625992465(1).png](https://pic.leetcode-cn.com/1625992817-GFmGKq-1625992465\\(1\\).png)\r\n\r\n```\r\nclass Solution {\r\npublic:\r\n    vector<vector<int>> pairSums(vector<int>& nums, int target) {\r\n        sort(nums.begin(), nums.end());\r\n        int l = 0;\r\n        int r = nums.size() - 1;\r\n        vector<vector<int>> ret;\r\n        while (l < r) {\r\n            if (nums[l] + nums[r] == target) {\r\n                ret.push_back({nums[l], nums[r]});\r\n                l++;\r\n                r--;\r\n            }\r\n            else if(nums[l] + nums[r] > target) {\r\n                r--;\r\n            }\r\n            else {\r\n                l++;\r\n            }\r\n        }\r\n        return ret;\r\n    }\r\n};\r\n```\r\n",
+      "createdAt": "2021-07-11T08:45:17.996381+00:00",
+      "hitCount": 590,
+      "identifier": "TxGhuh",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "c2chong-jie-fa-3fen-ji-jian-dai-ma-by-fe-37wr",
+        "title": "C++2种解法,3份极简代码"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "pairs-with-sum-lcci"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 3,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "pai-xu-shuang-zhi-zhen-by-master_xue-m048",
+      "status": "PUBLISHED",
+      "summary": "**看到这种题目就要形成能不能用双指针求解的条件反射。**\r\n\r\n若要使用双指针就需要数组是有序的，所以先给数组排序。\r\n\r\n将左指针l指向第一个元素，将右指针r指向最后一个元素\r\n\r\n1、若nums",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "排序 + 双指针",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 1,
+        "id": 870237,
+        "viewCount": 521
+      },
+      "uuid": "TxGhuh",
+      "videosInfo": []
+    }
+  }
+}

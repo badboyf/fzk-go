@@ -1,0 +1,86 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "ffreturn",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/ffreturn/avatar_1608859813.png",
+          "userSlug": "ffreturn"
+        },
+        "username": "ffreturn"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "![image.png](https://pic.leetcode-cn.com/1637895439-vByiVL-image.png)\n\n\n### 解题思路\n思路\n- 题目很多信息很冗余，比如original，因为我们只要cloned即可\n- 递归去查找春龙ed树里的数值即可\n\n### 代码\n\n```cpp\n/**\n * Definition for a binary tree node.\n * struct TreeNode {\n *     int val;\n *     TreeNode *left;\n *     TreeNode *right;\n *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}\n * };\n */\n\nclass Solution {\nprivate:\n    TreeNode* dfs(TreeNode* cloned, int target)\n    {\n        if (cloned == nullptr)\n        {\n            return nullptr;\n        }\n        else if (cloned->val == target)\n        {\n            return cloned;\n        }\n\n        auto l = dfs(cloned->left, target);\n        auto r = dfs(cloned->right, target);\n\n        return l == nullptr ? r : l;\n    }\npublic:\n    TreeNode* getTargetCopy(TreeNode* original, TreeNode* cloned, TreeNode* target) {\n        return dfs(cloned, target->val);\n    }\n};\n```",
+      "createdAt": "2021-11-26T02:58:00.712352+00:00",
+      "hitCount": 4,
+      "identifier": "Owjzic",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "zhao-chu-ke-long-er-cha-shu-zhong-de-xia-s8d2",
+        "title": "找出克隆二叉树中的相同节点"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "find-a-corresponding-node-of-a-binary-tree-in-a-clone-of-that-tree"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "1379-cchao-95de-di-gui-jie-fa-by-ffretur-b4b4",
+      "status": "PUBLISHED",
+      "summary": "解题思路\n思路\n\n题目很多信息很冗余，比如original，因为我们只要cloned即可\n递归去查找春龙ed树里的数值即可\n\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Recursion",
+          "nameTranslated": "递归",
+          "slug": "recursion",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "梦想",
+          "nameTranslated": "",
+          "slug": "meng-xiang",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1637895439-vByiVL-image.png",
+      "title": "1379. c++超95的递归解法",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1123043,
+        "viewCount": 3
+      },
+      "uuid": "Owjzic",
+      "videosInfo": []
+    }
+  }
+}

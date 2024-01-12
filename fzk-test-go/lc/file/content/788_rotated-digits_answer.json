@@ -1,0 +1,86 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣 (LeetCode)",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/uploaded_files/2021/03/73c9f099-abbe-4d94-853f-f8abffd459cd/leetcode.png",
+          "userSlug": "leetcode"
+        },
+        "username": "LeetCode"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法一：暴力解法【通过】\n\n**思路**\n\n遍历从 `1` 到 `N` 的每个数字 `X`，判断 `X` 是否为好数。\n\n* 如果 `X` 中存在 `3`、`4`、`7` 这样的无效数字，则 `X` 不是一个好数。\n\n* 如果 `X` 中不存在 `2`、`5`、`6`、`9` 这样的旋转后会变成不同的数字，则 `X` 不是一个好数。\n\n* 否则，`X` 可以旋转成一个不同的有效数字。\n\n**算法**\n\n判断数字 `X` 是否为好数，有两种实现方式。最直观的一种方法是把 `X` 转换成字符串然后解析；另一种方法是递归检查 `X` 的最后一位数字。\n\n```java [solution1-Java]\nclass Solution {\n    public int rotatedDigits(int N) {\n        // Count how many n in [1, N] are good.\n        int ans = 0;\n        for (int n = 1; n <= N; ++n)\n            if (good(n, false)) ans++;\n        return ans;\n    }\n\n    // Return true if n is good.\n    // The flag is true iff we have an occurrence of 2, 5, 6, 9.\n    public boolean good(int n, boolean flag) {\n        if (n == 0) return flag;\n\n        int d = n % 10;\n        if (d == 3 || d == 4 || d == 7) return false;\n        if (d == 0 || d == 1 || d == 8) return good(n / 10, flag);\n        return good(n / 10, true);\n    }\n}\n```\n\n```python [solution1-Python]\nclass Solution(object):\n    def rotatedDigits(self, N):\n        ans = 0\n        # For each x in [1, N], check whether it's good\n        for x in xrange(1, N+1):\n            S = str(x)\n            # Each x has only rotateable digits, and one of them\n            # rotates to a different digit\n            ans += (all(d not in '347' for d in S)\n                    and any(d in '2569' for d in S))\n        return ans\n```\n\n\n**复杂度分析**\n\n* 时间复杂度：$O(N \\log N)$，检查每个 `X` 的每一位数字。\n\n* 空间复杂度：$O(\\log N)$，存储字符串或者 `good` 函数的调用栈。 \n\n#### 方法二：动态规划【通过】\n\n**思路**\n\n根据好数定义，每个好数只能包含数字 `0125689`，并且至少包含 `2569` 中的一个。因此可以逐个写出小于等于 `N` 的所有好数。\n\n这道题目可以使用动态规划解答。状态可以表示为三个变量 `i, equality_flag, involution_flag`。其中 `i` 表示当前正在写第 `i` 位数字；`equality_flag` 表示已经写出的 `j` 位数字是否等于 `N` 的 `j` 位前缀；`involution_flag` 表示从最高位到比当前位高一位的这段前缀中是否含有 `2569` 中的任意一个数字。\n\n`dp(i, equality_flag, involution_flag)` 表示在特定 `equality_flag`，`involution_flag` 的状态下，有多少种从 i 到末尾的后缀能组成一个好数。最终的结果为 `dp(0, True, False)`。\n\n注：数字 `N` 从最高位到最低位的索引，从 0 开始，并依次增大。第 `i` 位表示索引为 `i` 的位置。\n\n**算法**\n\n如果 `equality_flag` 为 true，表示第 `i` 位能取到的最大数字为 `N` 的第 `i` 位对应的数字。并且还需要根据当前状态决定可以写哪些数字。\n\n在代码实现中，我们分别使用了自顶向下的方法和自底向上的方式。Python 代码实现的是自顶向下的方法，从 `for d in xrange(...)` 到 `memo[...] = ans` 这四行代码清晰的说明了状态之间的递归关系。\n\n```java [solution2-Java]\nclass Solution {\n    public int rotatedDigits(int N) {\n        char[] A = String.valueOf(N).toCharArray();\n        int K = A.length;\n\n        int[][][] memo = new int[K+1][2][2];\n        memo[K][0][1] = memo[K][1][1] = 1;\n        for (int i = K - 1; i >= 0; --i) {\n            for (int eqf = 0; eqf <= 1; ++eqf)\n                for (int invf = 0; invf <= 1; ++invf) {\n                    // We will compute ans = memo[i][eqf][invf],\n                    // the number of good numbers with respect to N = A[i:].\n                    // If eqf is true, we must stay below N, otherwise\n                    // we can use any digits.\n                    // Invf becomes true when we write a 2569, and it\n                    // must be true by the end of our writing as all\n                    // good numbers have a digit in 2569.\n                    int ans = 0;\n                    for (char d = '0'; d <= (eqf == 1 ? A[i] : '9'); ++d) {\n                        if (d == '3' || d == '4' || d == '7') continue;\n                        boolean invo = (d == '2' || d == '5' || d == '6' || d == '9');\n                        ans += memo[i+1][d == A[i] ? eqf : 0][invo ? 1 : invf];\n                    }\n                    memo[i][eqf][invf] = ans;\n                }\n        }\n\n        return memo[0][1][0];\n    }\n\n}\n```\n\n```python [solution2-Python]\nclass Solution(object):\n    def rotatedDigits(self, N):\n        A = map(int, str(N))\n\n        memo = {}\n        def dp(i, equality_flag, involution_flag):\n            if i == len(A): return +(involution_flag)\n            if (i, equality_flag, involution_flag) not in memo:\n                ans = 0\n                for d in xrange(A[i] + 1 if equality_flag else 10):\n                    if d in {3, 4, 7}: continue\n                    ans += dp(i+1, equality_flag and d == A[i],\n                              involution_flag or d in {2, 5, 6, 9})\n                memo[i, equality_flag, involution_flag] = ans\n            return memo[i, equality_flag, involution_flag]\n\n        return dp(0, True, False)\n```\n\n**复杂度分析**\n\n* 时间复杂度：$O(\\log N)$，在 `N` 的每位数字上计算花费的时间。\n\n* 空间复杂度：$O(\\log N)$，`memo` 的存储空间。",
+      "createdAt": "2019-11-25T07:18:27.777061+00:00",
+      "hitCount": 10992,
+      "identifier": "iAjyEU",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "788-xuan-zhuan-shu-zi-shu-wei-dp-javashi-2swf",
+        "title": "【788. 旋转数字】【数位DP】Java实现百分百"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "rotated-digits"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 11,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "xuan-zhuan-shu-zi-by-leetcode",
+      "status": "PUBLISHED",
+      "summary": " 方法一：暴力解法【通过】\n思路\n遍历从 1 到 N 的每个数字 X，判断 X 是否为好数。\n\n\n如果 X 中存在 3、4、7 这样的无效数字，则 X 不是一个好数。\n\n\n如果 X 中不存在 2、5、6、9 这样的旋转后会变成不同的数字，则 X 不是一个好数。\n\n\n否则，X 可以旋转成一个不同的有效数字。\n\n\n算法\n判",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Dynamic Programming",
+          "nameTranslated": "动态规划",
+          "slug": "dynamic-programming",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "旋转数字",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 29,
+        "id": 47121,
+        "viewCount": 8086
+      },
+      "uuid": "iAjyEU",
+      "videosInfo": []
+    }
+  }
+}

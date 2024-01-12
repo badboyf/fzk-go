@@ -1,0 +1,84 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "灵茶山艾府",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/endlesscheng/avatar_1589367048.png",
+          "userSlug": "endlesscheng"
+        },
+        "username": "endlesscheng"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "定义 $f[i]$ 表示行驶到 $i$ 时的最大盈利。考虑状态转移，一方面，我们可以不接终点为 $i$ 的乘客，这样有 $f[i]=f[i-1]$；另一方面，我们可以接所有终点为 $i$ 的乘客中收益最大的，这样有 $f[i] = \\max (f[start]+i-start+tip)$，二者取最大值。\r\n\r\n最终答案为 $f[n]$。\r\n\r\n相似题目：\r\n\r\n- [1235. 规划兼职工作](https://leetcode-cn.com/problems/maximum-profit-in-job-scheduling/)\r\n\r\n```go\r\nfunc maxTaxiEarnings(n int, rides [][]int) int64 {\r\n\tf := make([]int, n+1)\r\n\tgroups := make([][][2]int, n+1)\r\n\tfor _, r := range rides {\r\n\t\tstart, end, tip := r[0], r[1], r[2]\r\n\t\tgroups[end] = append(groups[end], [2]int{start, tip})\r\n\t}\r\n\tfor end := 1; end <= n; end++ {\r\n\t\tf[end] = f[end-1]\r\n\t\tfor _, r := range groups[end] {\r\n\t\t\tstart, tip := r[0], r[1]\r\n\t\t\tf[end] = max(f[end], f[start]+end-start+tip)\r\n\t\t}\r\n\t}\r\n\treturn int64(f[n])\r\n}\r\n\r\nfunc max(a, b int) int { if b > a { return b }; return a }\r\n```",
+      "createdAt": "2021-09-18T16:09:19.055526+00:00",
+      "hitCount": 2155,
+      "identifier": "LuNk1i",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "java-dong-tai-gui-hua-by-rational-irrati-86xz",
+        "title": "Java 动态规划"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "maximum-earnings-from-taxi"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 26,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "dong-tai-gui-hua-by-endlesscheng-fawr",
+      "status": "PREPUBLISH",
+      "summary": "定义 f[i] 表示行驶到 i 时的最大盈利。考虑状态转移，一方面，我们可以不接终点为 i 的乘客，这样有 f[i]=f[i-1]；另一方面，我们可以接所有终点为 i 的乘客中收益最大的，这样有 f[i] = \\max (f[start]+i-start+tip)，二者取最大值。\n最终答案为 f[n]。\n相似题目：",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Dynamic Programming",
+          "nameTranslated": "动态规划",
+          "slug": "dynamic-programming",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Go",
+          "nameTranslated": "",
+          "slug": "golang",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "动态规划",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 12,
+        "id": 1005392,
+        "viewCount": 1479
+      },
+      "uuid": "LuNk1i",
+      "videosInfo": []
+    }
+  }
+}

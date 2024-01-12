@@ -1,0 +1,79 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "zzu",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/123-2621/avatar_1628486303.png",
+          "userSlug": "123-2621"
+        },
+        "username": "123-2621"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "**参考合并两个有序数组，两个数组中的最小差，可以在合并的过程中获得**\r\n ```\r\nclass Solution:\r\n    def smallestDifference(self, a: List[int], b: List[int]) -> int:\r\n        a.sort()\r\n        b.sort()\r\n        m = len(a)\r\n        n = len(b)\r\n        i = 0\r\n        j = 0\r\n        ans = float('inf')\r\n        while i < m and j < n:\r\n            if a[i] <= b[j]:\r\n                ans = min(ans, b[j] - a[i])\r\n                i += 1\r\n            else:\r\n                ans = min(ans, a[i] - b[j])\r\n                j += 1\r\n        return ans\r\n```\r\n",
+      "createdAt": "2021-11-16T13:02:47.530074+00:00",
+      "hitCount": 108,
+      "identifier": "hAkJME",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "gopai-xu-hou-shuang-zhi-zhen-fa-by-deerh-bk0g",
+        "title": "[Go]排序后双指针法"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "smallest-difference-lcci"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "pai-xu-hou-shuang-zhi-zhen-lei-bi-he-bin-6i67",
+      "status": "PUBLISHED",
+      "summary": "参考合并两个有序数组，两个数组中的最小差，可以在合并的过程中获得",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python3",
+          "nameTranslated": "",
+          "slug": "python3",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "排序后双指针，类比合并两个有序数组",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1105580,
+        "viewCount": 93
+      },
+      "uuid": "hAkJME",
+      "videosInfo": []
+    }
+  }
+}

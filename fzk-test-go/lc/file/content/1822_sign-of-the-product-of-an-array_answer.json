@@ -1,0 +1,84 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "alton zheng",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/alton-z/avatar_1624897156.png",
+          "userSlug": "alton-z"
+        },
+        "username": "alton-z"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "# 数组元素积的符合\n\n&nbsp;\n\n## 遍历数组\n\n有以下场景\n\n- 遇到 0，直接返回\n- 小于 0，结果乘之\n\n&nbsp;\n\n## 代码\n```C++ []\nclass Solution {\n public:\n     int arraySign(vector<int>& nums) {\n         int sign = 1;\n         for (int n : nums) {\n             if (n == 0) return 0;\n             if (n < 0) {\n                sign *= -1;\n             }\n         }\n         return sign;\n     }\n };\n```\n```java []\nclass Solution {\n    public int arraySign(int[] nums) {\n        int sign = 1;\n        for (int n : nums) {\n            if (n == 0) {\n                return 0;\n            }\n            if (n < 0) {\n                sign *= -1;\n            }\n        }\n        return sign;\n    }\n}\n```\n\n&nbsp;\n\n## 复杂度\n时间复杂度: O(N) , 最差的情况， O(N)\n空间复杂度: O(1)",
+      "createdAt": "2021-06-23T14:22:31.021293+00:00",
+      "hitCount": 412,
+      "identifier": "ZSDrwL",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "sign-of-the-product-of-an-array-by-ikaru-mxyo",
+        "title": "【数组元素积的符号】受战队赛影响还以为简单题不可能这么简单导致提交晚了几秒钟"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "sign-of-the-product-of-an-array"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 5,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "shu-zu-yuan-su-ji-de-fu-hao-alton-by-alt-1jw9",
+      "status": "PUBLISHED",
+      "summary": "数组元素积的符合\n \n遍历数组\n有以下场景\n\n遇到 0，直接返回\n小于 0，结果乘之\n\n \n代码\n \n复杂度\n时间复杂度: O(N) , 最差的情况， O(N)\n空间复杂度: O(1)",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "数组元素积的符号 - Alton",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 842048,
+        "viewCount": 381
+      },
+      "uuid": "ZSDrwL",
+      "videosInfo": []
+    }
+  }
+}

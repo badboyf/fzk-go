@@ -1,0 +1,84 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "Bryant、",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/tao-8u/avatar_1626509492.png",
+          "userSlug": "tao-8u"
+        },
+        "username": "tao-8u"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "**理解题意**：给定一个路径`path`，进行简化，分为如下几种情况：\r\n+ 多个连续斜杠`'///'`简化为一个 `'/'`\r\n+ 一个点`'.'`表示当前目录，直接去除即可\r\n+ 两个点`'..'`表示上级目录，需返回到上一级\r\n\r\n**解题思路**：\r\n+ 当遇到两个点时，需返回上级目录，类似于栈弹出栈顶元素的操作，因此想到使用栈！\r\n+ 为什么栈只存储文件名，不存储`'/'`？\r\n    + 存在多个连续斜杠的情况需要去除，且不便于返回上级目录(弹出栈顶元素)，故不存储！\r\n\r\n**实际操作**：\r\n用一个栈维护路径中的 文件/目录名\r\n+ 用`vector`模拟`stack`，最后便于返回目录\r\n\r\n遍历路径`path`，分为两种情况：\r\n+ 遇到`'/'`，直接跳过，不做操作\r\n+ 遇到非斜杠，统计两斜杠间的字符串，再进行判断！\r\n    + 当为一个点`'.'`时，表示同级目录，不进行操作 跳过\r\n    + 当为两个点`'..'`表示上级目录，弹出栈顶元素，即返回上级目录\r\n        + **注意**：可能当前在根目录(栈为空)，根目录没有上一级，则直接跳过即可\r\n    + 当为其余字符即文件名时，直接入栈\r\n\r\n代码如下：\r\n```c++\r\nstring simplifyPath(string path) {\r\n    vector<string> stk;   //vector模拟栈\r\n    int n = path.size(), i = 0;\r\n    string str = \"\";\r\n    while (i < n) {\r\n        //遇到 / 一直往后，直到非斜杠\r\n        if (path[i] == '/')\r\n            ++i;\r\n        else {\r\n            //将两斜杠间的字符组成串，再进行判断\r\n            for (; i < n && path[i] != '/'; ++i)\r\n                str += path[i];\r\n            if (str == \".\") ;  //当前目录，什么都不做\r\n            else if (str == \"..\") {\r\n                //返回上级目录（弹出栈顶元素）\r\n                if (!stk.empty())\r\n                    stk.pop_back();\r\n            }\r\n            //其余情况都认为是文件或目录名\r\n            else \r\n                stk.push_back(str);\r\n            //str置空，用于存储下一个文件名\r\n            str = \"\";\r\n        }  \r\n    }\r\n    if (stk.empty()) //栈为空表示仍在根目录\r\n        return \"/\";\r\n    string ans = \"\";\r\n    for (auto& s : stk)\r\n        //注意补'/'\r\n        ans += ('/' + s);\r\n    return ans;\r\n}\r\n```\r\n时间复杂度：O(n)，字符串`path`中每个字符至多被遍历一次\r\n空间复杂度：O(n)，n表示字符串`path`的长度\r\n+ 最坏情况下即`path`已无需简化，则栈中存储`path`的整个路径\r\n\r\n如果对您有帮助，请给个赞，谢谢！！！",
+      "createdAt": "2021-11-12T02:19:07.128810+00:00",
+      "hitCount": 870,
+      "identifier": "guDR4B",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "71-jian-hua-lu-jing-java-zhong-ji-bai-li-pr64",
+        "title": "71. 简化路径 - Java 中击败了 100.00% - 模拟栈"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "simplify-path"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 6,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "71-jian-hua-lu-jing-li-yong-zhan-zhu-shi-7nzz",
+      "status": "PUBLISHED",
+      "summary": "理解题意：给定一个路径path，进行简化，分为如下几种情况：\n\n多个连续斜杠'///'简化为一个 '/'\n一个点'.'表示当前目录，直接去除即可\n两个点'..'表示上级目录，需返回到上一级\n\n解题思路：\n\n当遇到两个点时，需返回上级目录，类似于栈弹出栈顶元素的操作，因此想到使用栈！\n为什么栈只存储文件名，不存储'/'？",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Stack",
+          "nameTranslated": "栈",
+          "slug": "stack",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "【71. 简化路径】利用栈（注释、解释详细，简单易懂）",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1097316,
+        "viewCount": 655
+      },
+      "uuid": "guDR4B",
+      "videosInfo": []
+    }
+  }
+}

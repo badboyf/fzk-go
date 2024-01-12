@@ -1,0 +1,138 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "灵茶山艾府",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/endlesscheng/avatar_1589367048.png",
+          "userSlug": "endlesscheng"
+        },
+        "username": "endlesscheng"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "定义 $f[i]$ 表示完成第 $i$ 门课程需要花费的最少月份数。根据题意，只有当 $i$ 的所有先修课程都完成时，才可以开始 $i$，并且我们可以立即开始 $i$。\r\n\r\n因此 $f[i]=\\textit{time}[i] + \\max f[j]$，这里 $j$ 是 $i$ 的所有先修课程。\r\n\r\n由于题目保证图是一个有向无环图，所以一定存在拓扑排序。我们可以在求拓扑排序的同时，计算状态转移。\r\n\r\n代码实现时，设当前节点为 $v$，我们可以在计算出 $f[v]$ 后，更新 $f[w]$ 的所有先修课程耗时的最大值，这里 $v$ 是 $w$ 的先修课程。\r\n\r\n答案就是 $\\max f[i]$。\r\n\r\n相似题目：\r\n\r\n- [1857. 有向图中最大颜色值](https://leetcode-cn.com/problems/largest-color-value-in-a-directed-graph/)\r\n\r\n```go\r\nfunc minimumTime(n int, relations [][]int, time []int) (ans int) {\r\n\tg := make([][]int, n)\r\n\tdeg := make([]int, n)\r\n\tfor _, e := range relations {\r\n\t\tv, w := e[0]-1, e[1]-1\r\n\t\tg[v] = append(g[v], w)\r\n\t\tdeg[w]++\r\n\t}\r\n\r\n\tq := make([]int, 0, n)\r\n\tfor i, d := range deg {\r\n\t\tif d == 0 {\r\n\t\t\tq = append(q, i)\r\n\t\t}\r\n\t}\r\n\tf := make([]int, n)\r\n\tfor len(q) > 0 {\r\n\t\tv := q[0]\r\n\t\tq = q[1:]\r\n\t\tf[v] += time[v] // 补上当前课程的时间\r\n\t\tans = max(ans, f[v])\r\n\t\tfor _, w := range g[v] {\r\n\t\t\tf[w] = max(f[w], f[v]) // 更新 f[w] 的所有先修课程耗时的最大值\r\n\t\t\tif deg[w]--; deg[w] == 0 {\r\n\t\t\t\tq = append(q, w)\r\n\t\t\t}\r\n\t\t}\r\n\t}\r\n\treturn\r\n}\r\n\r\nfunc max(a, b int) int {\r\n\tif b > a {\r\n\t\treturn b\r\n\t}\r\n\treturn a\r\n}\r\n```",
+      "createdAt": "2021-10-24T04:07:15.278330+00:00",
+      "hitCount": 1329,
+      "identifier": "6Z294E",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "tuo-bu-pai-xu-dong-tai-gui-hua-by-dutsc-7yei",
+        "title": "拓扑排序+动态规划"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "parallel-courses-iii"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 10,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "AWESOME"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 0,
+          "reactionType": "CONFUSED"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "tuo-bu-pai-xu-dong-tai-gui-hua-by-endles-dph6",
+      "status": "PREPUBLISH",
+      "summary": "定义 f[i] 表示完成第 i 门课程需要花费的最少月份数。根据题意，只有当 i 的所有先修课程都完成时，才可以开始 i，并且我们可以立即开始 i。\n因此 f[i]=\\textit{time}[i] + \\max f[j]，这里 j 是 i 的所有先修课程。\n由于题目保证图是一个有向无环图，所以一定存在拓扑排序。我们可",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Breadth-First Search",
+          "nameTranslated": "广度优先搜索",
+          "slug": "breadth-first-search",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Graph",
+          "nameTranslated": "图",
+          "slug": "graph",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Topological Sort",
+          "nameTranslated": "拓扑排序",
+          "slug": "topological-sort",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Dynamic Programming",
+          "nameTranslated": "动态规划",
+          "slug": "dynamic-programming",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Go",
+          "nameTranslated": "",
+          "slug": "golang",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "BFS",
+          "nameTranslated": "",
+          "slug": "bfs",
+          "tagType": "ADDITIONAL_TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "图论",
+          "nameTranslated": "",
+          "slug": "tu-lun",
+          "tagType": "ADDITIONAL_TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "dp",
+          "nameTranslated": "",
+          "slug": "dp",
+          "tagType": "ADDITIONAL_TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": " DP",
+          "nameTranslated": "",
+          "slug": "dp-2",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "",
+      "title": "拓扑排序 + 动态规划",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 2,
+        "id": 1063928,
+        "viewCount": 983
+      },
+      "uuid": "6Z294E",
+      "videosInfo": []
+    }
+  }
+}

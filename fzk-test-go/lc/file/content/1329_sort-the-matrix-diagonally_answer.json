@@ -1,0 +1,76 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "goat",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/goat-we/avatar_1629792929.png",
+          "userSlug": "lin1in"
+        },
+        "username": "lin1in"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "本来用的超级暴力的解法，两遍for循环，真的是按每条斜边来排序，写完了发现排序这样的话排序会特别麻烦，于是就放弃了，去评论区发现了一个很有意思的解法\r\n```\r\nclass Solution {\r\npublic:\r\n    vector<vector<int>> diagonalSort(vector<vector<int>>&& mat) {\r\n        int m = mat.size();\r\n        int n = mat[0].size();\r\n        for (int k = 0; k < min(m, n)-1; k++)\r\n            for (int i = 0; i < m - 1; i++) \r\n                for (int j = 0; j < n - 1; j++) \r\n                    if (mat[i][j] > mat[i + 1][j + 1])swap(mat[i][j], mat[i + 1][j + 1]);\r\n        return mat;\r\n    }\r\n};\r\n```\r\n代码很简单，但是感觉很巧，尤其是第一层的for循环，简单来讲就是逐行的与右下角的元素进行对比并交换，当然这样遍历一遍并打不成目的，不如测试案例只这样遍历一遍的话就会成这个样子\r\n![image.png](https://pic.leetcode-cn.com/1636775067-XGLbIw-image.png)\r\n所以为了解决这个问题就有了第一层for循环，但是 `k<min(m,n)-1` 是什么意思呢？为什么取两者之间的小的那个呢？可以这样理解，如果m小，就是遍历m-1次，这样最右下角的元素就能向上移动m-1次，此时最右下角的元素(假如是该对角线内最小的元素)跑到了最左上角，也就说明此时这个二维数组一定满足题目要求了，而当n小，就是遍历n-1次，也就是将最右下角的元素(假如是该对角线内最小的元素)左移零n-1次，此时一定在最左上角，也说明其它元素也一定是符合题目要求了。所以可见，遍历`min(m，n)-1` 次就好了\r\n",
+      "createdAt": "2021-11-13T03:52:32.575986+00:00",
+      "hitCount": 39,
+      "identifier": "Aiaw3t",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "c-zhong-gui-zhong-ju-de-32msjie-fa-ha-xi-by-gary_c",
+        "title": "C++ 中规中矩的24ms解法（哈希）"
+      },
+      "position": 2,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "1329-cchao-91de-ha-xi-jia-pai-xu-jie-fa-7jul2",
+        "title": "1329. c++超91的哈希加排序解法"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "sort-the-matrix-diagonally"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "jie-jian-ping-lun-qu-de-jie-fa-by-lin1in-ylu4",
+      "status": "PREPUBLISH",
+      "summary": "本来用的超级暴力的解法，两遍for循环，真的是按每条斜边来排序，写完了发现排序这样的话排序会特别麻烦，于是就放弃了，去评论区发现了一个很有意思的解法\n代码很简单，但是感觉很巧，尤其是第一层的for循环，简单来讲就是逐行的与右下角的元素进行对比并交换，当然这样遍历一遍并打不成目的，不如测试案例只这样遍历一遍的话就会成这个",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1636775067-XGLbIw-image.png",
+      "title": "借鉴评论区的解法",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1098979,
+        "viewCount": 35
+      },
+      "uuid": "Aiaw3t",
+      "videosInfo": []
+    }
+  }
+}

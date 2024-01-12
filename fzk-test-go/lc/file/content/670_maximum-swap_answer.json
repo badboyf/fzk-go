@@ -1,0 +1,91 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣 (LeetCode)",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/uploaded_files/2021/03/73c9f099-abbe-4d94-853f-f8abffd459cd/leetcode.png",
+          "userSlug": "leetcode"
+        },
+        "username": "LeetCode"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "##  解决方法：\n####  方法一：暴力法\n数字最多只有 8 位，因此只有 28 个可用的互换。\n\n**算法：**\n- 我们将数字存储为长度为 $\\text{len(num)}$ 的列表。对于位置为 $\\text{(i, j)}$ 的每个候选交换，我们交换数字并记录组成的新数字是否大于当前答案，然后交换回来恢复原始数字。\n- 唯一的细节可能是检查我们没有引入前导零。我们实际上不需要检查它，因为我们的原始数据没有。\n\n\n```Java []\npublic class Solution {\n\n    public int maximumSwap(int num) {\n        String s = String.valueOf(num);\n        int len = s.length();\n        char[] charArray = s.toCharArray();\n        int max = num;\n        for (int i = 0; i < len; i++) {\n            for (int j = i + 1; j < len; j++) {\n                swap(charArray, i, j);\n                max = Math.max(max, Integer.parseInt(new String(charArray)));\n                swap(charArray, i, j);\n            }\n        }\n        return max;\n    }\n\n    private void swap(char[] charArray, int index1, int index2) {\n        char temp = charArray[index1];\n        charArray[index1] = charArray[index2];\n        charArray[index2] = temp;\n    }\n}\n```\n\n**复杂度分析**\n\n* 时间复杂度：$O(N^3)$。其中 $N$ 是输入数字的总位数。对于每对数字，我们最多花费 $O(N)$ 的时间来比较最后的序列。 \n* 空间复杂度：$O(N)$，存储在 $\\text{A}$ 中的信息。\n\n####  方法二：贪心算法\n**算法：**\n- 我们将计算 $\\text{last[d] = i}$，最后一次出现的数字 $\\text{d}$（如果存在）的索引 $\\text i$。             \n-  然后，从左到右扫描数字时，如果将来有较大的数字，我们将用最大的数字交换；如果有多个这样的数字，我们将用最开始遇到的数字交换。 \n\n\n```Java []\npublic class Solution {\n\n    public int maximumSwap(int num) {\n        String s = String.valueOf(num);\n        int len = s.length();\n        char[] charArray = s.toCharArray();\n\n        // 记录每个数字出现的最后一次出现的下标\n        int[] last = new int[10];\n        for (int i = 0; i < len; i++) {\n            last[charArray[i] - '0'] = i;\n        }\n\n        // 从左向右扫描，找到当前位置右边的最大的数字并交换\n        for (int i = 0; i < len - 1; i++) {\n            // 找最大，所以倒着找\n            for (int d = 9; d > charArray[i] - '0'; d--) {\n                if (last[d] > i) {\n                    swap(charArray, i, last[d]);\n                    // 只允许交换一次，因此直接返回\n                    return Integer.parseInt(new String(charArray));\n                }\n            }\n        }\n        return num;\n    }\n\n    private void swap(char[] charArray, int index1, int index2) {\n        char temp = charArray[index1];\n        charArray[index1] = charArray[index2];\n        charArray[index2] = temp;\n    }\n}\n```\n\n\n**复杂度分析**\n\n* 时间复杂度：$O(N)$。其中，$N$ 是输入数字的总位数。每个数字最多只考虑一次。 \n* 空间复杂度：$O(1)$，$\\text{last}$ 使用的额外空间最多只有 10 个。",
+      "createdAt": "2019-08-13T06:46:00.017771+00:00",
+      "hitCount": 19970,
+      "identifier": "UXjXrD",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "zhi-xu-bian-li-yi-ci-de-tan-xin-suan-fa-5tb1p",
+        "title": "只需遍历一次的贪心算法，实现双100%"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "maximum-swap"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 13,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 4,
+          "reactionType": "THUMBS_DOWN"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "zui-da-jiao-huan-by-leetcode",
+      "status": "PREPUBLISH",
+      "summary": "解决方法：\n 方法一：暴力法\n数字最多只有 8 位，因此只有 28 个可用的互换。\n算法：\n\n我们将数字存储为长度为 \\text{len(num)} 的列表。对于位置为 \\text{(i, j)} 的每个候选交换，我们交换数字并记录组成的新数字是否大于当前答案，然后交换回来恢复原始数字。\n唯一的细节可能是检查我们没有引",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Greedy",
+          "nameTranslated": "贪心",
+          "slug": "greedy",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "最大交换",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 33,
+        "id": 20209,
+        "viewCount": 14589
+      },
+      "uuid": "UXjXrD",
+      "videosInfo": []
+    }
+  }
+}

@@ -1,0 +1,98 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "灵茶山艾府",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/endlesscheng/avatar_1589367048.png",
+          "userSlug": "endlesscheng"
+        },
+        "username": "endlesscheng"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 解法一：启发式合并\r\n\r\n遍历整棵树，统计每棵子树包含的基因值集合，以及缺失的最小基因值（记作 $\\textit{mex}$）。合并基因值集合时，总是从小的往大的合并（类似并查集的按秩合并），同时更新当前子树的 $\\textit{mex}$ 的最大值。合并完成后再不断自增子树的 $\\textit{mex}$ 直至其不在基因值集合中。\r\n\r\n这一方法同时也适用于有相同基因值的情况。\r\n\r\n时间复杂度：$O(n\\log n)$。[证明](https://oi-wiki.org/graph/dsu-on-tree/#_3)。\r\n\r\n```go\r\nfunc smallestMissingValueSubtree(parents []int, nums []int) []int {\r\n\tn := len(parents)\r\n\tg := make([][]int, n)\r\n\tfor w := 1; w < n; w++ {\r\n\t\tv := parents[w]\r\n\t\tg[v] = append(g[v], w)\r\n\t}\r\n\tmex := make([]int, n)\r\n\tvar f func(int) map[int]bool\r\n\tf = func(v int) map[int]bool {\r\n\t\tinSet := map[int]bool{}\r\n\t\tmex[v] = 1\r\n\t\tfor _, w := range g[v] {\r\n\t\t\ts := f(w)\r\n\t\t\t// 启发式合并：保证从小的集合合并到大的集合\r\n\t\t\tif len(s) > len(inSet) {\r\n\t\t\t\tinSet, s = s, inSet\r\n\t\t\t}\r\n\t\t\tfor x := range s {\r\n\t\t\t\tinSet[x] = true\r\n\t\t\t}\r\n\t\t\tif mex[w] > mex[v] {\r\n\t\t\t\tmex[v] = mex[w]\r\n\t\t\t}\r\n\t\t}\r\n\t\tinSet[nums[v]] = true\r\n\t\tfor inSet[mex[v]] {\r\n\t\t\tmex[v]++ // 不断自增直至 mex[v] 不在集合中\r\n\t\t}\r\n\t\treturn inSet\r\n\t}\r\n\tf(0)\r\n\treturn mex\r\n}\r\n```\r\n\r\n#### 解法二：利用无重复基因值的性质\r\n\r\n由于没有重复基因，若存在一个节点 $x$，其基因值为 $1$，那么从 $x$ 到根这一条链上的所有节点，由于子树包含 $x$，其 $\\textit{mex}$ 均大于 $1$，而其余不在链上的节点，由于子树不包含 $x$，故其 $\\textit{mex}$ 均为 $1$。因此，我们只需要计算在这条链上的节点的 $\\textit{mex}$ 值。\r\n\r\n我们可以从 $x$ 出发，顺着父节点往根走，同时收集当前子树下的所有基因值，然后再不断自增子树的 $\\textit{mex}$ 直至其不在基因值集合中。\r\n\r\n时间复杂度：$O(n)$。\r\n\r\n```go\r\nfunc smallestMissingValueSubtree(parents []int, nums []int) []int {\r\n\tn := len(parents)\r\n\tmex := make([]int, n)\r\n\tfor i := range mex {\r\n\t\tmex[i] = 1\r\n\t}\r\n\r\n\tg := make([][]int, n)\r\n\tfor w := 1; w < n; w++ {\r\n\t\tv := parents[w]\r\n\t\tg[v] = append(g[v], w)\r\n\t}\r\n\r\n\tinSet := map[int]bool{}\r\n\tvar f func(int)\r\n\tf = func(v int) {\r\n\t\tinSet[nums[v]] = true // 收集基因值\r\n\t\tfor _, w := range g[v] {\r\n\t\t\tif !inSet[nums[w]] { // 避免重复访问节点\r\n\t\t\t\tf(w)\r\n\t\t\t}\r\n\t\t}\r\n\t}\r\n\r\n\t// 找到基因值等于 1 的节点 x\r\n\tx := -1\r\n\tfor i, v := range nums {\r\n\t\tif v == 1 {\r\n\t\t\tx = i\r\n\t\t\tbreak\r\n\t\t}\r\n\t}\r\n\t// x 顺着父节点往上走\r\n\tfor cur := 2; x >= 0; x = parents[x] {\r\n\t\tf(x)\r\n\t\tfor inSet[cur] {\r\n\t\t\tcur++ // 不断自增直至不在基因值集合中\r\n\t\t}\r\n\t\tmex[x] = cur\r\n\t}\r\n\treturn mex\r\n}\r\n```",
+      "createdAt": "2021-09-12T04:13:32.721850+00:00",
+      "hitCount": 2802,
+      "identifier": "wlBRJt",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "dfs-liang-bian-dfs-de-xian-xing-zuo-fa-d-s5dd",
+        "title": "【dfs】两遍 dfs 的线性做法，第一遍找 1，第二遍做 1"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "smallest-missing-genetic-value-in-each-subtree"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 18,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 4,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "go-qi-fa-shi-he-bing-by-endlesscheng-kmff",
+      "status": "PREPUBLISH",
+      "summary": "解法一：启发式合并\n遍历整棵树，统计每棵子树包含的基因值集合，以及缺失的最小基因值（记作 \\textit{mex}）。合并基因值集合时，总是从小的往大的合并（类似并查集的按秩合并），同时更新当前子树的 \\textit{mex} 的最大值。合并完成后再不断自增子树的 \\textit{mex} 直至其不在基因值集合中。",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Tree",
+          "nameTranslated": "树",
+          "slug": "tree",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Depth-First Search",
+          "nameTranslated": "深度优先搜索",
+          "slug": "depth-first-search",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Hash Table",
+          "nameTranslated": "哈希表",
+          "slug": "hash-table",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Go",
+          "nameTranslated": "",
+          "slug": "golang",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "两种解法：启发式合并 / 利用无重复基因值的性质",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 17,
+        "id": 992956,
+        "viewCount": 1742
+      },
+      "uuid": "wlBRJt",
+      "videosInfo": []
+    }
+  }
+}

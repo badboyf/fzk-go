@@ -1,0 +1,100 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "EUY",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/euyvvl/avatar_1635000444.png",
+          "userSlug": "euyvvl"
+        },
+        "username": "EUYVVL"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n**根据题目,知道变量有投掷筛子的次数,以及筛子的6个面以及每一面最多可以出现的个数这三个变量,然后根据这三个变量确定状态转移方程来遍历所有的情况，最后求和得到满足条件的所有的情况即可!!!**\n### 代码\n\n```cpp\nclass Solution {\npublic:\n    static constexpr int mod=1e9+7;\n    int dieSimulator(int n, vector<int>& rollMax) {\n        int maxi_cnt=*max_element(rollMax.begin(),rollMax.end());\n        int dp[n+1][7][maxi_cnt+1];\n        memset(dp,0,sizeof(dp));\n        for(int i=1;i<7;i++){\n            dp[1][i][1]=1;\n        }\n        for(int i=2;i<=n;i++){\n            for(int j=1;j<=6;j++){\n                for(int k=1;k<rollMax[j-1]+1;k++){\n                    dp[i][j][k]=dp[i-1][j][k-1];\n                }\n                long long temp=0;\n                for(int jj=1;jj<=6;jj++){\n                    if(j!=jj){\n                        for(int t=1;t<rollMax[jj-1]+1;t++){\n                           temp+=dp[i-1][jj][t];\n                           temp%=mod; \n                        }\n                    }\n                }\n                dp[i][j][1]=temp;\n            }\n        }\n        long long res=0;\n        for(int i=1;i<=6;i++){\n            for(int j=1;j<rollMax[i-1]+1;j++){\n                res+=dp[n][i][j];\n                res%=mod;\n            }\n        }\n        return res%mod;\n    }\n};\n```",
+      "createdAt": "2021-11-04T06:27:54.123494+00:00",
+      "hitCount": 55,
+      "identifier": "z4B4do",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "1223-czhong-gui-zhong-ju-de-dong-tai-gui-2dii",
+        "title": "1223. c++中规中矩的动态规划"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "dice-roll-simulation"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "yi-dao-jing-dian-de-dong-tai-gui-hua-by-awblm",
+      "status": "PUBLISHED",
+      "summary": "解题思路\n根据题目,知道变量有投掷筛子的次数,以及筛子的6个面以及每一面最多可以出现的个数这三个变量,然后根据这三个变量确定状态转移方程来遍历所有的情况，最后求和得到满足条件的所有的情况即可!!!\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Array",
+          "nameTranslated": "数组",
+          "slug": "array",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Math",
+          "nameTranslated": "数学",
+          "slug": "math",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Dynamic Programming",
+          "nameTranslated": "动态规划",
+          "slug": "dynamic-programming",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Counting",
+          "nameTranslated": "计数",
+          "slug": "counting",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "一道经典的动态规划",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1083641,
+        "viewCount": 45
+      },
+      "uuid": "z4B4do",
+      "videosInfo": []
+    }
+  }
+}

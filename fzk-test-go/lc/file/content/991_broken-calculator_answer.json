@@ -1,0 +1,79 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣 (LeetCode)",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/uploaded_files/2021/03/73c9f099-abbe-4d94-853f-f8abffd459cd/leetcode.png",
+          "userSlug": "leetcode"
+        },
+        "username": "LeetCode"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法：逆向思维\n\n**思路**\n\n除了对 `X` 执行乘 2 或 减 1 操作之外，我们也可以对 `Y` 执行`除 2`（当 `Y` 是偶数时）或者`加 1 `操作。\n\n这样做的动机是我们可以总是贪心地执行除 2 操作：\n\n* 当 `Y` 是偶数，如果先执行 2 次加法操作，再执行 1 次除法操作，我们可以通过先执行 1 次除法操作，再执行 1 次加法操作以使用更少的操作次数得到相同的结果 [`(Y+2) / 2` vs `Y/2 + 1`]。\n\n* 当 `Y` 是奇数，如果先执行 3 次加法操作，再执行 1 次除法操作，我们可以将其替代为顺次执行加法、除法、加法操作以使用更少的操作次数得到相同的结果 [`(Y+3) / 2` vs `(Y+1) / 2 + 1`]。\n\n**算法**\n\n当 `Y` 大于 `X` 时，如果它是奇数，我们执行加法操作，否则执行除法操作。之后，我们需要执行 `X - Y` 次加法操作以得到 `X`。\n\n```java [uRsowHNz-Java]\nclass Solution {\n    public int brokenCalc(int X, int Y) {\n        int ans = 0;\n        while (Y > X) {\n            ans++;\n            if (Y % 2 == 1)\n                Y++;\n            else\n                Y /= 2;\n        }\n\n        return ans + X - Y;\n    }\n}\n```\n```python [uRsowHNz-Python]\nclass Solution(object):\n    def brokenCalc(self, X, Y):\n        ans = 0\n        while Y > X:\n            ans += 1\n            if Y%2: Y += 1\n            else: Y /= 2\n\n        return ans + X-Y\n```\n\n\n**复杂度分析**\n\n* 时间复杂度：  $O(\\log Y)$。\n\n* 空间复杂度：  $O(1)$。\n\n\n\n",
+      "createdAt": "2019-02-10T09:51:11.953145+00:00",
+      "hitCount": 10198,
+      "identifier": "QUh6AS",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "ni-xiang-tan-xin-jie-fa-c-by-zhouzihong-cox9",
+        "title": "【逆向贪心解法】【C++】"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "broken-calculator"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 25,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "pi-liao-de-ji-suan-qi-by-leetcode",
+      "status": "PUBLISHED",
+      "summary": "思路\n除了对 X 执行乘 2 或 减 1 操作之外，我们也可以对 Y 执行除 2（当 Y 是偶数时）或者加 1操作。\n这样做的动机是我们可以总是贪心地执行除 2 操作：\n算法\n当 Y 大于 X 时，如果它是奇数，我们执行加法操作，否则执行除法操作。之后，我们需要执行 X - Y 次加法操作以得到 X。\n复杂度分析",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Math",
+          "nameTranslated": "数学",
+          "slug": "math",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "坏了的计算器",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 22,
+        "id": 3609,
+        "viewCount": 6489
+      },
+      "uuid": "QUh6AS",
+      "videosInfo": []
+    }
+  }
+}

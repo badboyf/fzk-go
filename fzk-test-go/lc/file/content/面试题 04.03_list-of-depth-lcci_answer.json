@@ -1,0 +1,72 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "vanilla111",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/vanilla111/avatar_1566265236.png",
+          "userSlug": "vanilla111"
+        },
+        "username": "vanilla111"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n\n典型的层序遍历\n\n``` go\nfunc listOfDepth(tree *TreeNode) []*ListNode {\n\tq := make([]*TreeNode, 1)\n\tq[0] = tree\n\ttmp := make([]*TreeNode, 0)\n\tans := make([]*ListNode, 0)\n\tfor len(q) > 0 {\n\t\tl := make([]*ListNode, len(q))\n\t\tfor i := 0; i < len(q); i++ {\n\t\t\tl[i] = &ListNode{\n\t\t\t\tVal: q[i].Val,\n\t\t\t}\n\t\t\tif q[i].Left != nil {\n\t\t\t\ttmp = append(tmp, q[i].Left)\n\t\t\t}\n\t\t\tif q[i].Right != nil {\n\t\t\t\ttmp = append(tmp, q[i].Right)\n\t\t\t}\n\t\t}\n\t\tfor i := 0; i < len(l) - 1; i++ {\n\t\t\tl[i].Next = l[i+1]\n\t\t}\n\t\tans = append(ans, l[0])\n\t\tq = tmp\n\t\ttmp = make([]*TreeNode, 0)\n\t}\n\treturn ans\n}\n```\n",
+      "createdAt": "2021-10-06T15:02:29.435947+00:00",
+      "hitCount": 267,
+      "identifier": "I6jY4F",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "ceng-xu-bian-li-er-cha-shu-javascript-by-tm42",
+        "title": "【层序遍历二叉树】JavaScript"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "list-of-depth-lcci"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 3,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "go-xiao-lu-bai-fen-bai-ceng-xu-bian-li-b-ofmf",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n典型的层序遍历",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Go",
+          "nameTranslated": "",
+          "slug": "golang",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "Go 效率百分百/层序遍历",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 1,
+        "id": 1033989,
+        "viewCount": 212
+      },
+      "uuid": "I6jY4F",
+      "videosInfo": []
+    }
+  }
+}

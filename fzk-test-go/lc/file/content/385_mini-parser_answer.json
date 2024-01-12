@@ -1,0 +1,97 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "小笨蛋",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/xiao-ben-dan-s/avatar_1606976436.png",
+          "userSlug": "xiao-ben-dan-s"
+        },
+        "username": "xiao-ben-dan-s"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n采用最笨的方法，我看题解有好多人用栈的，感觉很厉害，我绕不过来，放弃。\n这题很容易理解，但如果要生成和官方输出的一样却有点费劲，我是搞了好半天才写出来，看最下面注释的代码，别笑我，我是智障。\n其实这题我的第一个想法就是多叉树遍历，直接暴力DFS。\n![image.png](https://pic.leetcode-cn.com/1612340306-PYtKMt-image.png)\n### 代码\n\n```python3\nclass Solution:\n    def deserialize(self, s: str) -> NestedInteger:\n        def dfs(elem):\n            if type(elem) == int:\n                return NestedInteger(elem)\n            li = NestedInteger()  # 这个对象为空时是一个空列表\n            for i in elem:\n                li.add(dfs(i))\n            return li\n\n        return dfs(eval(s))\n\n        # empty123 = NestedInteger() #空列表\n        # num123=NestedInteger(123)\n        # empty123.add(num123)\n\n        # empty456=NestedInteger()#空列表\n        # num456=NestedInteger(456)\n        # empty456.add(num456)\n\n        # empty123.add(empty456)\n\n        # return empty123\n```",
+      "createdAt": "2021-02-03T08:19:47.896432+00:00",
+      "hitCount": 1476,
+      "identifier": "sDY4Yh",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "0385cmi-ni-yu-fa-fen-xi-qi-by-jasonchiuc-wmws",
+        "title": "［0385］［C++］迷你语法分析器"
+      },
+      "position": 9,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "python3ti-mu-bu-nan-zhi-xu-li-qing-luo-ji-by-salti",
+        "title": "Python3：题目不难，只需理清逻辑"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "mini-parser"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "dui-bu-qi-ge-wei-liao-wo-shi-ge-zhi-zhan-cglh",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n采用最笨的方法，我看题解有好多人用栈的，感觉很厉害，我绕不过来，放弃。\n这题很容易理解，但如果要生成和官方输出的一样却有点费劲，我是搞了好半天才写出来，看最下面注释的代码，别笑我，我是智障。\n其实这题我的第一个想法就是多叉树遍历，直接暴力DFS。\n\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Tree",
+          "nameTranslated": "树",
+          "slug": "tree",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Recursion",
+          "nameTranslated": "递归",
+          "slug": "recursion",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python3",
+          "nameTranslated": "",
+          "slug": "python3",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1612340306-PYtKMt-image.png",
+      "title": "对不起各位了，我是个智障！！！",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 1,
+        "id": 589614,
+        "viewCount": 1223
+      },
+      "uuid": "sDY4Yh",
+      "videosInfo": []
+    }
+  }
+}

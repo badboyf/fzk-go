@@ -1,0 +1,79 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "杨工",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/zhi-fu-zhong-xin/avatar_1543408893.png",
+          "userSlug": "zhi-fu-zhong-xin"
+        },
+        "username": "zhi-fu-zhong-xin"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "我一开始也是写了一堆位运算、优先队列、记忆化搜索……最后发现最笨的**二分查找**就能过！\r\n思路很简单：首先将关卡所需的分数从小到大排序，然后通过遍历每个关卡，指定其为初始关卡，通过二分查找找到最少初始积分。\r\n虽然不是最优解法，但是速度也击败了56%的提交，消耗内存则击败了81%。\r\n\r\n### 1. 通关检查函数\r\n函数功能：给定初始积分和初始关卡，检查能否通关。\r\n```cpp\r\n/**\r\n* 给定初始积分和初始关卡，检查能否通关。\r\n* @param  initScore 初始积分\r\n* @param  initLevel 初始关卡\r\n* @return 能否通关\r\n**/\r\nbool success(long long initScore, long long initLevel) {\r\n    auto score = initScore | challenge[initLevel];  // score 当前积分\r\n    auto left = initLevel, right = initLevel;       // 这两个左右指针是已挑战关卡\r\n    while (true) {\r\n        // 这两个左右指针是将要挑战的关卡\r\n        auto l = (left == 0 ? n-1 : left - 1);\r\n        auto r = (right == n-1 ? 0 : right + 1);\r\n        // 成环返回成功\r\n        if (left == r || right == l) return true;\r\n        // 向左、向右解锁\r\n        if (score >= challenge[l]) {\r\n            score |= challenge[l];\r\n            left = l;\r\n        }\r\n        else if (score >= challenge[r]) {\r\n            score |= challenge[r];\r\n            right = r;\r\n        }\r\n        // 如果分数无法继续解锁新的关卡\r\n        else return false;\r\n    }\r\n}\r\n```\r\n\r\n### 2. 二分查找的初始值\r\n\r\n**初始积分的上限**：如果选择`challenge`数组的最大值作为初始积分，那么无论选择哪个关卡作为初始关卡，都必定能够通关。因为初始积分就已经超过了所有关卡的所需积分。\r\n\r\n**初始积分的下限**：初始积分的下限则是要保证其二进制最高位与“`challenge`数组的最大值”的二进制最高位相同。这一点通过观察积分更新方式就不难得出。\r\n\r\n```cpp\r\nauto maxChallenge = *max_element(challenge.begin(), challenge.end());\r\n\r\n// 初始积分的上限：最大的“challenge[i]”\r\nauto maxScore = maxChallenge;\r\n\r\n// 初始积分的下限：二进制最高位与“最大的challenge[i]”的二进制最高位相同\r\nauto _minScore = 1LL;\r\nwhile (maxChallenge >>= 1) {\r\n    _minScore <<= 1;\r\n}\r\n```\r\n\r\n### 3. 排序`challenge`数组\r\n将 challenge 按照分数从小到大排序，优先检查所需积分较小的关卡。\r\n> 这样做有两个好处：\r\n> 1. 初始关卡大概率是从积分要求比较低的关卡开始的；\r\n> 2. 搜索的时候遇到之前搜索到的最优初始积分比这个关卡要求的积分还低，就可以直接返回结果。\r\n\r\n由于原数组的顺序在环形搜索的时候要用，不能被破坏，所以这里采用下标排序。\r\n```cpp\r\nvector<int> level(n);   //存储了challenge的下标（第几关）\r\niota(level.begin(), level.end(), 0);    // 相当于在level里填充了0,1,2,3,4,...,n\r\nsort(level.begin(), level.end(), [&](int l1, int l2){return challenge[l1] < challenge[l2];});\r\n```\r\n\r\n### 4. 遍历和二分查找\r\n通过遍历每个关卡，指定其为初始关卡，通过二分查找找到最少初始积分。\r\n> 初始积分的最大值：选定先前某一初始关卡时，通过这个初始积分必能通关，在遍历过程中一直在缩小范围；\r\n> 初始积分的最小值：仅作为搜索下界，并不一定能解锁关卡，每次选定新的初始关卡都重新更新。\r\n```cpp\r\n// 遍历，初始选择编号为l的关卡\r\nfor (auto l : level) {\r\n    // 二分查找：在选定初始关卡的情况下，通关所需的最少初始积分\r\n    auto minScore = max(challenge[l], _minScore);   // 初始积分的下限必须大于初始关卡的积分要求\r\n    if (minScore >= maxScore) break;   // 初始关卡的积分要求已经达到初始积分的上限，则返回初始积分\r\n    while (minScore < maxScore) {\r\n        auto score = (minScore + maxScore) / 2;\r\n        if (success(score, l))\r\n            maxScore = score;\r\n        else\r\n            minScore = score + 1;\r\n    };\r\n}\r\n```\r\n\r\n### 完整程序\r\n\r\n```cpp\r\nclass Solution {\r\n    vector<long long> challenge;    // 保存输入\r\n    long long n;                    // 保存输入的长度\r\npublic:\r\n    /**\r\n    * 给定初始积分和初始关卡，检查能否通关。\r\n    * @param  initScore 初始积分\r\n    * @param  initLevel 初始关卡\r\n    * @return 能否通关\r\n    **/\r\n    bool success(long long initScore, long long initLevel) {\r\n        auto score = initScore | challenge[initLevel];  // score 当前积分\r\n        auto left = initLevel, right = initLevel;       // 这两个左右指针是已挑战关卡\r\n        while (true) {\r\n            // 这两个左右指针是将要挑战的关卡\r\n            auto l = (left == 0 ? n-1 : left - 1);\r\n            auto r = (right == n-1 ? 0 : right + 1);\r\n            // 成环返回成功\r\n            if (left == r || right == l) return true;\r\n            // 向左、向右解锁\r\n            if (score >= challenge[l]) {\r\n                score |= challenge[l];\r\n                left = l;\r\n            }\r\n            else if (score >= challenge[r]) {\r\n                score |= challenge[r];\r\n                right = r;\r\n            }\r\n            // 如果分数无法继续解锁新的关卡\r\n            else return false;\r\n        }\r\n    }\r\n\tlong long ringGame(vector<long long>& _challenge) {\r\n        this->challenge = move(_challenge);\r\n\t\tn = challenge.size();\r\n\t\tauto maxChallenge = *max_element(challenge.begin(), challenge.end());\r\n\r\n        // 初始积分的上限：最大的“challenge[i]”\r\n\t\tauto maxScore = maxChallenge;\r\n        \r\n\t\t// 初始积分的下限：二进制最高位与“最大的challenge[i]”的二进制最高位相同\r\n        auto _minScore = 1LL;\r\n\t\twhile (maxChallenge >>= 1) {\r\n\t\t\t_minScore <<= 1;\r\n\t\t}\r\n\r\n        // 将 challenge 按照分数从小到大排序，优先检查所需积分较小的关卡\r\n        vector<int> level(n);\r\n        iota(level.begin(), level.end(), 0);\r\n        sort(level.begin(), level.end(), [&](int l1, int l2){return challenge[l1] < challenge[l2];});\r\n\r\n\t\t// 遍历，初始选择编号为l的关卡\r\n\t\tfor (auto l : level) {\r\n            // 二分查找：在选定初始关卡的情况下，通关所需的最少初始积分\r\n            auto minScore = max(challenge[l], _minScore);   // 初始积分的下限必须大于初始关卡的积分要求\r\n            if (minScore >= maxScore) break;   // 初始关卡的积分要求已经达到初始积分的上限，则返回初始积分\r\n            while (minScore < maxScore) {\r\n                auto score = (minScore + maxScore) / 2;\r\n                if (success(score, l))\r\n                    maxScore = score;\r\n                else\r\n                    minScore = score + 1;\r\n            };\r\n\t\t}\r\n        return maxScore;\r\n\t}\r\n};\r\n```\r\n",
+      "createdAt": "2021-10-06T13:05:26.194344+00:00",
+      "hitCount": 297,
+      "identifier": "Oeflh5",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "cong-gao-dao-di-que-ding-da-an-de-er-jin-qvdi",
+        "title": "从高到低确定答案的二进制位 + 关卡左右扩展预处理"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "K8GULz"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 4,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "xin-shou-ye-neng-kan-de-dong-de-fang-fa-3rm7d",
+      "status": "PREPUBLISH",
+      "summary": "我一开始也是写了一堆位运算、优先队列、记忆化搜索……最后发现最笨的二分查找就能过！\n思路很简单：首先将关卡所需的分数从小到大排序，然后通过遍历每个关卡，指定其为初始关卡，通过二分查找找到最少初始积分。\n虽然不是最优解法，但是速度也击败了56%的提交，消耗内存则击败了81%。\n1. 通关检查函数\n函数功能：给定初始积分和",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Binary Search",
+          "nameTranslated": "二分查找",
+          "slug": "binary-search",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "新手也能看得懂的方法：二分查找！",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1033810,
+        "viewCount": 230
+      },
+      "uuid": "Oeflh5",
+      "videosInfo": []
+    }
+  }
+}

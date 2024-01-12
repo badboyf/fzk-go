@@ -1,0 +1,79 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "林夕丶",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/wzj269/avatar_1634389855.png",
+          "userSlug": "wzj269"
+        },
+        "username": "WZJ269"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "首先：这题是要求一个子序列res，以下是这个res需要满足的条件：\r\n1. 从原序列中删去n-k个元素，之后得到res\r\n2. res中有至少repetition 个letter\r\n3. res是满足上面两点要求的集合中字典序最小的。\r\n\r\n如果是只满足1,3就是一个单调栈的基本做法。从前往后扫描（枚举），只要s[i]<res.back()，且还能删(pop),就继续res.pop_back().\r\n\r\n然后再来看看2怎么满足，我们是从前往后枚举的，**因此不能删除到后面letter不够的情况**，因此用cnt来维护后面还剩下多少个letter，**不够就不能删**，这样就会出现我们最后删除的个数< n - k ,**但是字典序还是最小的**，因此我们可以将最后的res长度删减为k，并补上letter在末尾。\r\n\r\n```cpp\r\n\r\nclass Solution {\r\npublic:\r\n    string smallestSubsequence(string s, int k, char letter, int repetition ) {\r\n        int  n = s.size();\r\n        int cnt = 0;  // 后面还未扫描到的 letter的数量\r\n        for(int i = 0 ; i < n; ++ i)  //统计letter出现的数量\r\n            if(s[i] == letter) cnt++ ; \r\n        int toErase = n - k;   // 要删去n - k 个元素\r\n        string res;         // 答案\r\n        int p = 0;          // 目前为止letter已扫描了的次数\r\n        for(int i = 0 ;i < n; ++ i)\r\n        {\r\n            while(toErase && res.size() && s[i] < res.back()){  // 删去逆序的字母\r\n                if(res.back() == letter){\r\n                    if(repetition  > p - 1 + cnt)  // 后面的letter 不够凑成repetition 个letter\r\n                        break;\r\n                    p -- ;      // 可以删除\r\n                }\r\n                res.pop_back();\r\n                toErase -- ;  //删去一个\r\n            }\r\n            if(s[i]== letter) p ++ , cnt -- ;  // 前面增加，后面减少\r\n            res += s[i];\r\n        }\r\n        \r\n        while(res.size() > k){      // 是因为逆序字母可能不够的原因 会漏删一些 元素，现在检查补上\r\n            if(res.back() == letter) p -- ;\r\n            res.pop_back();\r\n        }\r\n        for(int i = k - 1;i >= 0; -- i){ // 因为前面的元素可能比letter更小，所以要检查一下补上letter\r\n            if(p < repetition  && res[i] != letter) {//(这是为了保证letter个数足够，但letter不够小，所以得从后往前补，保证最小)\r\n                res[i] = letter;\r\n                ++ p;\r\n            }   \r\n        }\r\n        return res;\r\n    }\r\n};",
+      "createdAt": "2021-10-03T05:08:29.333308+00:00",
+      "hitCount": 1614,
+      "identifier": "PmG1yI",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "dan-diao-zhan-ji-hu-shuang-bai-de-zuo-fa-9qph",
+        "title": "单调栈 几乎双百的做法（有模板） "
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "smallest-k-length-subsequence-with-occurrences-of-a-letter"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 11,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "dan-diao-zhan-si-lu-zhu-bu-fen-xi-zhu-sh-g0zs",
+      "status": "PREPUBLISH",
+      "summary": "首先：这题是要求一个子序列res，以下是这个res需要满足的条件：\n\n从原序列中删去n-k个元素，之后得到res\nres中有至少repetition 个letter\nres是满足上面两点要求的集合中字典序最小的。\n\n如果是只满足1,3就是一个单调栈的基本做法。从前往后扫描（枚举），只要s[i]<res.back()，且",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Monotonic Stack",
+          "nameTranslated": "单调栈",
+          "slug": "monotonic-stack",
+          "tagType": "TOPIC"
+        }
+      ],
+      "thumbnail": "",
+      "title": "单调栈思路逐步分析，注释清晰",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 6,
+        "id": 1029189,
+        "viewCount": 977
+      },
+      "uuid": "PmG1yI",
+      "videosInfo": []
+    }
+  }
+}

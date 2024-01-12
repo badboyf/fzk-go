@@ -1,0 +1,89 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "holy-sword",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/holy-sword/avatar_1556791579.png",
+          "userSlug": "holy-sword"
+        },
+        "username": "holy-sword"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 分析:\n`非递减` 排序也就是升序排列，最直观的一种解法就是排序后对比计数每个位置的不同数量。  \n但是涉及到比较排序，时间复杂度最低也有 $O(NlogN)$。  \n\n### 我们真的需要排序吗？\n首先我们其实并不关心排序后得到的结果，我们想知道的只是在该位置上，与最小的值是否一致\n题目中已经明确了值的范围 `1 <= heights[i] <= 100`   \n这是一个在固定范围内的输入，比如输入： `[1,1,4,2,1,3]`  \n输入中有 3 个 `1`,1 个 `2`，1 个 `3` 和 1 个 `4`，3 个 `1` 肯定会在前面，依次类推  \n所以，我们需要的仅仅只是计数而已\n\n### 计数算法:\n\n\n```Java []\nclass Solution {\n    public int heightChecker(int[] heights) {\n        int[] arr = new int[101];\n        for (int height : heights) {\n            arr[height]++;\n        }\n        int count = 0;\n        for (int i = 1, j = 0; i < arr.length; i++) {\n            while (arr[i]-- > 0) {\n                if (heights[j++] != i) count++;\n            }\n        }\n        return count;\n    }\n}\n```\n\n### 复杂度分析:\n时间复杂度：$O(n)$ ，计数过程为 $O(n)$，比较过程外层循环次数固定为 100，里层循环一共也只会执行 $n$ 次，$O(100+n)$，即 $O(n)$  \n空间复杂度：$O(1)$ ，其中一个固定长度的计数数组与一个统计变量，与输入 $N$ 的大小无关\n\n### 运行结果:\n执行用时 : `1 ms`, 在所有 `Java` 提交中击败了 `100.00%` 的用户  \n内存消耗 : `34.3 MB`, 在所有 `Java` 提交中击败了 `100.00%` 的用户",
+      "createdAt": "2019-06-24T02:34:04.592217+00:00",
+      "hitCount": 19725,
+      "identifier": "R9tAr2",
+      "isEditorsPick": true,
+      "isMostPopular": true,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "tu-jie-guan-fang-tui-jian-ti-jie-you-xia-1x05",
+        "title": "【桶排序】高度检查器"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "height-checker"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 124,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "AWESOME"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "THUMBS_DOWN"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "onjie-fa-yong-shi-yu-nei-cun-ji-bai-100-javayong-h",
+      "status": "PUBLISHED",
+      "summary": "分析:\n非递减 排序也就是升序排列，最直观的一种解法就是排序后对比计数每个位置的不同数量。\n但是涉及到比较排序，时间复杂度最低也有 $O(NlogN)$。\n我们真的需要排序吗？\n首先我们其实并不关心排序后得到的结果，我们想知道的只是在该位置上，与最小的值是否一致\n题目中已经明确了值的范围 1 <= heights[i]",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Array",
+          "nameTranslated": "数组",
+          "slug": "array",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "O(n)解法，用时与内存击败100% java用户",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 51,
+        "id": 10411,
+        "viewCount": 14150
+      },
+      "uuid": "R9tAr2",
+      "videosInfo": []
+    }
+  }
+}

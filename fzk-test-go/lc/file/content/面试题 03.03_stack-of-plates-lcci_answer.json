@@ -1,0 +1,72 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "vanilla111",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/vanilla111/avatar_1566265236.png",
+          "userSlug": "vanilla111"
+        },
+        "username": "vanilla111"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "> 面向测试用例编程...还有容量为0的测试用例，不愧是你leetcode\n\n### 解题思路\n\n该题的重点是**需要事先准确定义各个变量，然后在编写代码的过程中，要经常思考：修改一个变量后，该变量以及其它相关变量是否仍然满足其定义？**\n\n``` go\ntype Stack struct {\n\tnums []int\n\tpoint int\n}\n\ntype StackOfPlates struct {\n\t// 除了最后一个栈，其余的都应该是满的\n\tstacks []*Stack\n\t// 每个栈的容量上限\n\tstackSize int\n\t// 永远指向最后一个未满的栈\n\tidx int\n}\n\nfunc Constructor(cap int) StackOfPlates {\n\tsp := StackOfPlates{\n\t\tstacks: make([]*Stack, 0),\n\t\tstackSize: cap,\n\t\tidx: 0,\n\t}\n\treturn sp\n}\n\n\nfunc (this *StackOfPlates) Push(val int)  {\n    //fmt.Println(\"PUSH\", val)\n    if this.stackSize == 0 {\n        return \n    }\n\tif this.idx == len(this.stacks) {\n\t\tthis.stacks = append(this.stacks, &Stack{\n\t\t\tnums:  make([]int, this.stackSize),\n\t\t\tpoint: 0,\n\t\t})\n\t}\n\tcurStack := this.stacks[this.idx]\n\tcurStack.nums[curStack.point] = val\n\tcurStack.point++\n\tif curStack.point == this.stackSize {\n\t\tthis.idx++\n\t}\n}\n\n\nfunc (this *StackOfPlates) Pop() int {\n    //fmt.Println(\"POP\")\n    if this.stackSize == 0 {\n        return -1\n    }\n\ti := this.idx\n\tfor ; i >= 0; i-- {\n\t\tif i == len(this.stacks) {\n\t\t\tcontinue\n\t\t}\n\t\tif this.stacks[i].point != 0 {\n\t\t\tbreak\n\t\t}\n\t}\n\tif i < 0 {\n\t\tthis.idx = 0\n\t\tthis.stacks = this.stacks[:0]\n\t\treturn -1\n\t}\n\ttargetStack := this.stacks[i]\n\tret := targetStack.nums[targetStack.point-1]\n\ttargetStack.point--\n    if targetStack.point == 0 {\n        this.stacks = this.stacks[:i]\n        if i > 0 && this.stacks[i-1].point < this.stackSize {\n            this.idx = i - 1\n        } else {\n            this.idx = i\n        }\n    }\n\treturn ret\n}\n\n\nfunc (this *StackOfPlates) PopAt(index int) int {\n    //fmt.Println(\"POP AT\", index)\n    if this.stackSize == 0 {\n        return -1\n    }\n\tn := len(this.stacks)\n\tif index < 0 || index >= n {\n\t\treturn -1\n\t}\n\tcurStack := this.stacks[index]\n\tret := curStack.nums[curStack.point-1]\n\tcurStack.point--\n\tif curStack.point == 0 {\n\t\tif index < this.idx {\n            this.idx--\n            this.stacks = append(this.stacks[:index], this.stacks[index+1:]...)\n        } else {\n            this.stacks = this.stacks[:index]\n        }\n\t}\n\treturn ret\n}\n\n\n/**\n * Your StackOfPlates object will be instantiated and called as such:\n * obj := Constructor(cap);\n * obj.Push(val);\n * param_2 := obj.Pop();\n * param_3 := obj.PopAt(index);\n */\n```\n",
+      "createdAt": "2021-10-06T05:24:33.301191+00:00",
+      "hitCount": 324,
+      "identifier": "IgWg1z",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "mo-ao-shu-ju-jie-gou-you-qian-ren-kai-lu-klai",
+        "title": "【墨鳌】【数据结构】【有前人开路，注意：cap=0】"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "stack-of-plates-lcci"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 3,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "go-dui-pan-zi-qie-pian-shi-xian-by-vanil-j8c1",
+      "status": "PREPUBLISH",
+      "summary": "面向测试用例编程...还有容量为0的测试用例，不愧是你leetcode\n\n解题思路\n该题的重点是需要事先准确定义各个变量，然后在编写代码的过程中，要经常思考：修改一个变量后，该变量以及其它相关变量是否仍然满足其定义？",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Go",
+          "nameTranslated": "",
+          "slug": "golang",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "Go 堆盘子/切片实现",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1033115,
+        "viewCount": 282
+      },
+      "uuid": "IgWg1z",
+      "videosInfo": []
+    }
+  }
+}

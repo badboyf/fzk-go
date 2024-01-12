@@ -1,0 +1,90 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "GGbreaker",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/mybiggg/avatar_1543299138.png",
+          "userSlug": "806748118"
+        },
+        "username": "806748118"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n### 代码\n\n```python3\nclass Solution:\n    def permuteUnique(self, nums: List[int]) -> List[List[int]]:\n        #进行深度搜索\n        def dfs(arr):\n            if not arr:\n                return set()\n            #判断数组长度\n            length = len(arr)\n            #记录已有的排列的初始化\n            viewed = set()\n            #循环每一位的组合情况\n            for i in range(length):\n                st = dfs(arr[:i]+arr[i+1:])\n                if st:\n                    for j in st:\n                        v = tuple([arr[i]]+list(j))\n                        if v not in viewed:\n                            viewed.add(v)\n                else:\n                    viewed.add((arr[i],))\n            #返回组合\n            return viewed\n        res = dfs(nums)\n        ans = [list(i) for i in res]\n        return ans\n\n\n```",
+      "createdAt": "2021-10-12T10:06:51.020513+00:00",
+      "hitCount": 304,
+      "identifier": "nNef9Y",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "dfs-by-li-kuan-pie6",
+        "title": "DFS"
+      },
+      "position": 3,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "jian-zhi-offer-2-mian-shi-ti-84-shu-zhon-zd9t",
+        "title": "《剑指offer 2 面试题84》 书中算法C++实现"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "7p8L0Z"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "python3dfsji-yi-hua-qu-zhong-by-mybiggg-hiig",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Depth-First Search",
+          "nameTranslated": "深度优先搜索",
+          "slug": "depth-first-search",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python3",
+          "nameTranslated": "",
+          "slug": "python3",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "python3+dfs+记忆化去重",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1043788,
+        "viewCount": 262
+      },
+      "uuid": "nNef9Y",
+      "videosInfo": []
+    }
+  }
+}

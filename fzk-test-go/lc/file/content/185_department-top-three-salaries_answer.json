@@ -1,0 +1,87 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣 (LeetCode)",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/uploaded_files/2021/03/73c9f099-abbe-4d94-853f-f8abffd459cd/leetcode.png",
+          "userSlug": "leetcode"
+        },
+        "username": "LeetCode"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法：使用 `JOIN` 和子查询\n\n**算法**\n\n公司里前 3 高的薪水意味着有不超过 3 个工资比这些值大。\n\n```sql\nselect e1.Name as 'Employee', e1.Salary\nfrom Employee e1\nwhere 3 >\n(\n    select count(distinct e2.Salary)\n    from Employee e2\n    where e2.Salary > e1.Salary\n)\n;\n```\n\n在这个代码里，我们统计了有多少人的工资比 e1.Salary 高，所以样例的输出应该如下所示。\n```\n| Employee | Salary |\n|----------|--------|\n| Henry    | 80000  |\n| Max      | 90000  |\n| Randy    | 85000  |\n```\n\n然后，我们需要把表 **Employee** 和表 **Department** 连接来获得部门信息。\n\n**MySQL**\n\n```sql\nSELECT\n    d.Name AS 'Department', e1.Name AS 'Employee', e1.Salary\nFROM\n    Employee e1\n        JOIN\n    Department d ON e1.DepartmentId = d.Id\nWHERE\n    3 > (SELECT\n            COUNT(DISTINCT e2.Salary)\n        FROM\n            Employee e2\n        WHERE\n            e2.Salary > e1.Salary\n                AND e1.DepartmentId = e2.DepartmentId\n        )\n;\n```\n\n```\n| Department | Employee | Salary |\n|------------|----------|--------|\n| IT         | Joe      | 70000  |\n| Sales      | Henry    | 80000  |\n| Sales      | Sam      | 60000  |\n| IT         | Max      | 90000  |\n| IT         | Randy    | 85000  |\n```",
+      "createdAt": "2019-06-22T15:36:13.862199+00:00",
+      "hitCount": 95702,
+      "identifier": "7nhikD",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "185-bu-men-gong-zi-qian-san-gao-de-yuan-gong-by-li",
+        "title": "185. 部门工资前三高的员工"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "department-top-three-salaries"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 80,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 4,
+          "reactionType": "CONFUSED"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "THUMBS_DOWN"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "bu-men-gong-zi-qian-san-gao-de-yuan-gong-by-leetco",
+      "status": "PUBLISHED",
+      "summary": "§ 方法：使用 JOIN 和子查询\n算法\n公司里前 3 高的薪水意味着有不超过 3 个工资比这些值大。\n在这个代码里，我们统计了有多少人的工资比 e1.Salary 高，所以样例的输出应该如下所示。\n然后，我们需要把表 Employee 和表 Department 连接来获得部门信息。\nMySQL",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "MySQL",
+          "nameTranslated": "",
+          "slug": "mysql",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "部门工资前三高的员工",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 95,
+        "id": 10248,
+        "viewCount": 62990
+      },
+      "uuid": "7nhikD",
+      "videosInfo": []
+    }
+  }
+}

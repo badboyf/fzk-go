@@ -1,0 +1,79 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "zzu",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/123-2621/avatar_1628486303.png",
+          "userSlug": "123-2621"
+        },
+        "username": "123-2621"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "**DFS搜索，找到符合条件的点，改变**\r\n```\r\nclass Solution:\r\n    def floodFill(self, image: List[List[int]], sr: int, sc: int, newColor: int) -> List[List[int]]:\r\n        row = len(image)\r\n        col = len(image[0])\r\n        oldColor = image[sr][sc]\r\n        dir = [(0, 1), (0, -1), (1, 0), (-1, 0)]\r\n\r\n        def dfs(x, y):\r\n            if 0 <= x < row and 0 <= y < col and image[x][y] == oldColor and image[x][y] != newColor:\r\n                image[x][y] = newColor\r\n                for dx, dy in dir:\r\n                    nx, ny = x + dx, y + dy\r\n                    dfs(nx, ny)\r\n\r\n        dfs(sr, sc)\r\n        return image\r\n```\r\n",
+      "createdAt": "2021-11-13T05:38:24.983544+00:00",
+      "hitCount": 90,
+      "identifier": "O7ozZQ",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "jian-dan-yi-dong-de-dfs-javascript-by-lz-1y1m",
+        "title": "【简单易懂的DFS】JavaScript"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "color-fill-lcci"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "dfs-by-123-2621-tksp",
+      "status": "PREPUBLISH",
+      "summary": "DFS搜索，找到符合条件的点，改变",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python3",
+          "nameTranslated": "",
+          "slug": "python3",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "DFS",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1099126,
+        "viewCount": 79
+      },
+      "uuid": "O7ozZQ",
+      "videosInfo": []
+    }
+  }
+}

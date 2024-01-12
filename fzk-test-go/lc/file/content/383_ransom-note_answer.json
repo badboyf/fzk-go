@@ -1,0 +1,100 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "Best 进行时",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/best-jin-xing-shi-k/avatar_1616337291.png",
+          "userSlug": "wty2002"
+        },
+        "username": "WTY2002"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "![image.png](https://pic.leetcode-cn.com/1629510706-BUNYVA-image.png)\r\n\r\n**s.find(s[i]) :** 返回字符串s中从左向右查找s[i]第一次出现的位置；\r\n题目中已说明两个字符串均只含小写字母，因此，只需在magazine字符串中检索ransomNote字符串中的每一个字符，magazine中检索过的字符进行标记即可。\r\n\r\n**放码过来！**\r\n```c++ []\r\nclass Solution {\r\npublic:\r\n    bool canConstruct(string ransomNote, string magazine) {\r\n        for(int i = 0; i < ransomNote.size(); i++){\r\n            int a = magazine.find(ransomNote[i]);\r\n            if(a != -1){\r\n                magazine[a] = '0';\r\n            }else{\r\n                return false;\r\n            }\r\n        }\r\n        return true;\r\n    }\r\n};\r\n```\r\n\r\n",
+      "createdAt": "2021-08-21T01:57:12.609697+00:00",
+      "hitCount": 3435,
+      "identifier": "76IJ1p",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "383ti-9987-5356-by-bobby996-g6wy",
+        "title": "383题 99.87% 53.56%"
+      },
+      "position": 7,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "javajian-dan-shi-xian-by-dai-lou-zqbo",
+        "title": "Java简单实现"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "ransom-note"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 16,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 5,
+          "reactionType": "AWESOME"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "CONFUSED"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "qiao-yong-stringrong-qi-de-cha-zhao-han-kao7r",
+      "status": "PREPUBLISH",
+      "summary": "s.find(s[i]) : 返回字符串s中从左向右查找s[i]第一次出现的位置；\n题目中已说明两个字符串均只含小写字母，因此，只需在magazine字符串中检索ransomNote字符串中的每一个字符，magazine中检索过的字符进行标记即可。\n放码过来！",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "String",
+          "nameTranslated": "字符串",
+          "slug": "string",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "查找",
+          "nameTranslated": "",
+          "slug": "cha-zhao",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1629510706-BUNYVA-image.png",
+      "title": " 巧用string容器的查找函数",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 11,
+        "id": 948784,
+        "viewCount": 3002
+      },
+      "uuid": "76IJ1p",
+      "videosInfo": []
+    }
+  }
+}

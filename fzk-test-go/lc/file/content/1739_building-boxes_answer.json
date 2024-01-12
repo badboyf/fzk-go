@@ -1,0 +1,89 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "长行",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/chang-xing-m/avatar_1592082366.png",
+          "userSlug": "changxingjiang"
+        },
+        "username": "ChangXingJiang"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "## 解题时的思路\r\n\r\n* 盒子不可能全部平放，因此房间长宽高的限制不会影响摆放，不必考虑。\r\n* 越靠角落越合适，堆得越高越合适；实例2和实例3可以佐证。\r\n* 取值范围$1<=n<=10^9$，说明时间复杂度必须为$log(N)$或$\\sqrt{N}$，所以考虑先尽可能先成实例2和实例3的样子（下面称作饱和堆）再处理剩下的。\r\n* 那么两种思路，一种是先堆成较小的饱和堆，再考虑没堆进去的；另一种是先堆成更大的饱和堆，再删去多余的。感觉第二种对空间思维要求更高，所以选择先第一种。\r\n* 饱和堆中每一层都是等差数列之和，通过等差数列求和公式实现更小的饱和堆。\r\n* 继续向饱和堆中添加方块；观察发现每在最下面一层增加1块，堆的总方块数量可以增加1、2、3、4……；因为不会达到更大的饱和堆，因此猜测均为等差数列。\r\n* 把以上思路实现，提交，AC。\r\n* （还可以二分优化时间复杂度，但是从数量级上看$O(\\sqrt{N)$可以通过，就先提交了）\r\n\r\n### 更加详细的说明\r\n\r\n首先，因为我们一定需要把盒子堆起来，所以房间为n的长宽高无论如何限制到我们的摆放，不必考虑这个限制。\r\n\r\n根据下图（俯视图，每个格子中为盒子的高度），放在中间和边上想要堆起来都需要更多的接触地面的面积，因为摆放在角落一定是最合理的。\r\n\r\n![image-20210124114157249.png](https://pic.leetcode-cn.com/1611461515-ocaNBG-image-20210124114157249.png)\r\n\r\n接下来考虑每一次的增加接触地面的面积，可以尽可能多地增加多少被放置在上面的盒子。\r\n\r\n很容易发现实例2和示例3的摆放形式在指定接触地面的面积下可以在上面摆放最多的盒子。这种摆放形式下，第i的数量是$N(i)=\\frac{(i+1)×i}{2}$。\r\n\r\n我们不妨先计算当前盒子数量下所能摆成的最大高度（及尽可能地将盒子堆成形如示例2和示例3的样子），再继续处理剩下的盒子。\r\n\r\n然后，我们再将剩余还没有摆放的盒子继续堆进来。\r\n\r\n![image-20210124115401463.png](https://pic.leetcode-cn.com/1611461546-ajAuyM-image-20210124115401463.png)\r\n\r\n第一次无论摆在哪里，都不可能在增加上一层的摆放数量；第二次摆放可以增加新摆放的两块上方的一块……大体情况如上图所示，第i次增加接触地面的面积，就可以增加i个总的堆放数量。因为我们之前已经计算了当前能够摆放的最大高度，因此不会出现达到下一层，不再是等差数列的情况。\r\n\r\n**尝试用语言证明一下：**\r\n\r\n对于形如示例2和示例3的情况，对于每一层而言，要想让它的上一层可以增加1个方块，第一次需要在当前层增加2个方块，之后每一次只需要增加1个方块即可。\r\n\r\n因为每一层都如此，因此当我们开始放置时，每一层都需要放置2个方块才可以增加上一层的数量，每次放置的情况如下：\r\n\r\n* 第一层增加1个方块；此后第一层每增加1个方块，第二层都可以增加1个方块\r\n* 第一层增加1个方块，第二层也增加1个方块；此时第一层每增加1个方块，第二层就可以增加1个方块，第三层也可以增加1个方块\r\n* ……\r\n\r\n**解法一（$O(\\sqrt{N})$）**\r\n\r\n```python\r\nclass Solution:\r\n    def minimumBoxes(self, n: int) -> int:\r\n        # ---------- 计算可以堆放的最大层数 ----------\r\n        level = 1\r\n        cell = 0\r\n        while cell + (1 + level) * level // 2 <= n:\r\n            cell += (1 + level) * level // 2\r\n            level += 1\r\n        level -= 1\r\n\r\n        # 计算当前占地面积（即最下层的盒子数量）\r\n        area = (1 + level) * level // 2\r\n\r\n        # ---------- 计算还需要继续放置的砖块 ----------\r\n        now = 0\r\n        while cell < n:\r\n            area += 1\r\n            cell += now + 1\r\n            now += 1\r\n\r\n        return area\r\n```\r\n\r\n计算可以对方的最大层数的时间复杂度为$O(\\sqrt{N})$，计算还需要放置的砖块的时间复杂度也是$O(\\sqrt{N})$。\r\n\r\n**解法二（$O(logN)$）**\r\n\r\n竞赛后补上$O(logN)$时间复杂度的更优解。\r\n\r\n```python\r\nclass Solution:\r\n    def minimumBoxes(self, n: int) -> int:\r\n        # ---------- 二分计算可以堆放的最大层数 ----------\r\n        left, right = 1, n\r\n        while left < right:\r\n            mid = (left + right) // 2\r\n            if mid * (mid + 1) * (mid + 2) // 6 < n:\r\n                left = mid + 1\r\n            else:\r\n                right = mid\r\n        left -= 1\r\n\r\n        cell = left * (left + 1) * (left + 2) // 6\r\n\r\n        # 计算当前占地面积（即最下层的盒子数量）\r\n        area = (1 + left) * left // 2\r\n\r\n        # ---------- 二分计算还需要继续放置的砖块 ----------\r\n        target = n - cell\r\n        left, right = 0, target\r\n        while left < right:\r\n            mid = (left + right) // 2\r\n            if mid * (mid + 1) // 2 < target:\r\n                left = mid + 1\r\n            else:\r\n                right = mid\r\n\r\n        return area + left\r\n```\r\n\r\n两个二分查找都是$O(logN)$的时间复杂度。",
+      "createdAt": "2021-01-24T04:12:31.821619+00:00",
+      "hitCount": 3129,
+      "identifier": "OdEEUf",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "fang-zhi-he-zi-si-wei-jie-fa-6-xing-dai-236sb",
+        "title": "放置盒子 6 行代码 (效率不高)"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "building-boxes"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 26,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 4,
+          "reactionType": "AWESOME"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 0,
+          "reactionType": "THUMBS_DOWN"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "fang-zhi-he-zi-zhong-gui-zhong-ju-de-si-wfjiu",
+      "status": "PUBLISHED",
+      "summary": "解题时的思路\n\n盒子不可能全部平放，因此房间长宽高的限制不会影响摆放，不必考虑。\n越靠角落越合适，堆得越高越合适；实例2和实例3可以佐证。\n取值范围1<=n<=10^9，说明时间复杂度必须为log(N)或\\sqrt{N}，所以考虑先尽可能先成实例2和实例3的样子（下面称作饱和堆）再处理剩下的。\n那么两种思路，一种是先堆",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Math",
+          "nameTranslated": "数学",
+          "slug": "math",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1611461515-ocaNBG-image-20210124114157249.png",
+      "title": "【放置盒子】解题时的思路+详细说明（O(logN)时间复杂度）",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 12,
+        "id": 573878,
+        "viewCount": 2182
+      },
+      "uuid": "OdEEUf",
+      "videosInfo": []
+    }
+  }
+}

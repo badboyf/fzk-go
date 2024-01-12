@@ -1,0 +1,105 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣官方题解",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/leetcode-solution/avatar_1582018938.png",
+          "userSlug": "leetcode-solution"
+        },
+        "username": "LeetCode-Solution"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法一：哈希映射\n\n**思路**\n\n我们可以使用哈希映射来解决这个问题，把数值作为键，把数值出现的次数作为值。具体地，我们先遍历原数组建立哈希表，然后遍历哈希表找到最大的键和值相等的元素作为答案，如果找不到就返回 -1。\n\n![fig1](https://assets.leetcode-cn.com/solution-static/1394_fig1.gif)\n\n**代码**\n\n```C++ [sol1-C++]\nclass Solution {\npublic:\n    unordered_map <int, int> m;\n    int findLucky(vector<int>& arr) {\n        for (auto x: arr) ++m[x];\n        int ans = -1;\n        for (auto [key, value]: m) {\n            if (key == value) {\n                ans = max(ans, key);\n            }\n        }\n        return ans;\n    }\n};\n```\n\n```Python [sol1-Python3]\nclass Solution:\n    def findLucky(self, arr: List[int]) -> int:\n        m = dict()\n        for x in arr:\n            m[x] = m.get(x, 0) + 1\n        ans = -1\n        for (key, value) in m.items():\n            if key == value:\n                ans = max(ans, key)\n        return ans\n```\n\n```Java [sol1-Java]\nclass Solution {\n    public int findLucky(int[] arr) {\n        Map<Integer, Integer> m = new HashMap<Integer, Integer>();\n        for (int x : arr) {\n            m.put(x, m.getOrDefault(x, 0) + 1);\n        }\n        int ans = -1;\n        for (Map.Entry<Integer, Integer> entry : m.entrySet()) {\n            int key = entry.getKey(), value = entry.getValue();\n            if (key == value) {\n                ans = Math.max(ans, key);\n            }\n        }\n        return ans;\n    }\n}\n```\n\n```JavaScript [sol1-JavaScript]\nvar findLucky = function(arr) {\n    let m = {}\n    arr.forEach((x) => {\n        m[x] = (x in m ? m[x] + 1 : 1)\n    })\n    let ans = -1\n    Object.keys(m).forEach((key) => {\n        ans = (key == m[key] ? Math.max(key, ans) : ans)\n    })\n    return ans\n};\n```\n\n**复杂度分析**\n\n记数组中的的元素个数为 $n$，则哈希表中最多有 $n$ 个键值对。\n\n- 时间复杂度：遍历数组的时间代价是 $O(n)$，遍历哈希表的时间代价也是 $O(n)$，故渐进时间复杂度 $O(n)$。\n\n- 空间复杂度：哈希表中最多有 $n$ 个键值对，故渐进空间复杂度 $O(n)$。",
+      "createdAt": "2020-04-04T08:18:38.388413+00:00",
+      "hitCount": 5056,
+      "identifier": "Rg19d1",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "jian-dan-zuo-fa-by-liubaobao_best_coder-ykh5",
+        "title": "简单做法"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "find-lucky-integer-in-an-array"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 6,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 0,
+          "reactionType": "CONFUSED"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "zhao-chu-shu-zu-zhong-de-xing-yun-shu-by-leetcode-",
+      "status": "PUBLISHED",
+      "summary": "方法一：哈希映射 思路 我们可以使用哈希映射来解决这个问题，把数值作为键，把数值出现的次数作为值。具体地，我们先遍历原数组建立哈希表，然后遍历哈希表找到最大的键和值相等的元素作为答案，如果找不到就返回 -1。 代码 C++ [sol1-C++] class Solution { public:     unordere",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Hash Table",
+          "nameTranslated": "哈希表",
+          "slug": "hash-table",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "JavaScript",
+          "nameTranslated": "",
+          "slug": "javascript",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "找出数组中的幸运数",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 12,
+        "id": 186438,
+        "viewCount": 4447
+      },
+      "uuid": "Rg19d1",
+      "videosInfo": []
+    }
+  }
+}

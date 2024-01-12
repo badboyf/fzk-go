@@ -1,0 +1,79 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "木子",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/li-kuan/avatar_1624773017.png",
+          "userSlug": "li-kuan"
+        },
+        "username": "li-kuan"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n- 方法一：并查集。`i` 和 `graph[i]` 内的元素不能在一个集合里， `graph[i]` 内的元素要在一个集合里。\n- 方法二：BFS 染色。\n### 代码\n\n```python3 []\nclass Solution:\n    def isBipartite(self, graph: List[List[int]]) -> bool:\n        def find(x):\n            if fa[x] != x:\n                x = fa[x]\n            return x\n\n        def union(x, y):\n            x = find(x)\n            y = find(y)\n            if rank[x] < rank[y]:\n                return union(y, x)\n            fa[y] = x\n            rank[x] = max(rank[x], rank[y] + 1)\n            \n\n        n = len(graph)\n        fa = list(range(n))\n        rank = [1] * n\n        for i in range(n):\n            for j in graph[i]:\n                if find(i) == find(j):\n                    return False\n                x = graph[i][0]\n                union(x, j)\n        return True\n```\n```python3 []\nfrom collections import deque\n\nclass Solution:\n    def isBipartite(self, graph: List[List[int]]) -> bool:\n        n = len(graph)\n        color = [0] * n\n        for i in range(n):\n            if color[i] == 0:\n                color[i] = 1\n                q = deque()\n                q.append(i)\n                while q:\n                    x = q.popleft()\n                    for y in graph[x]:\n                        if color[y] == color[x]:\n                            return False\n                        elif color[y] == 0:\n                            color[y] = -color[x]\n                            q.append(y)\n        return True\n```",
+      "createdAt": "2021-10-19T09:48:26.387428+00:00",
+      "hitCount": 238,
+      "identifier": "Pst5tC",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "jian-zhi-offer-2-mian-shi-ti-106-shu-zho-dsnt",
+        "title": "《剑指offer 2 面试题106》 书中算法C++实现"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "vEAB3K"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 3,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "python-bing-cha-ji-by-li-kuan-274t",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n\n方法一：并查集。i 和 graph[i] 内的元素不能在一个集合里， graph[i] 内的元素要在一个集合里。\n方法二：BFS 染色。\n\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python3",
+          "nameTranslated": "",
+          "slug": "python3",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "【python】并查集 / BFS染色",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1055666,
+        "viewCount": 182
+      },
+      "uuid": "Pst5tC",
+      "videosInfo": []
+    }
+  }
+}

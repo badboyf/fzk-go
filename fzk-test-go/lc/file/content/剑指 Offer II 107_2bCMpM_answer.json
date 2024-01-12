@@ -1,0 +1,76 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "逗比克星",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/wo-shi-xie-wu-rui-la-wang-chai/avatar_1618042786.png",
+          "userSlug": "master_xue"
+        },
+        "username": "master_xue"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "# **广度优先搜索**\r\n矩阵可以看作是无权图，该问题与图的最近距离有关，因此可以考虑使用广度优先搜索解决。广度优先搜索需要使用一个队列，因为题目中需要求每个格子距离 0 的最短距离，可以考虑把所有为 0 的格子作为初始节点添加到队列中，然后以这些点为起点开始广度搜索。\r\n\r\n另外需要一个 dists 矩阵保存各个格子距离最近的 0 的距离，如果 mat[i][j] 等于 0 则初始化为 0，因为该距离最近的 0 的距离自然是 0，如果 mat[i][j] 等于 0 则初始化为 INT_MAX。\r\n\r\n每次都从队列中取出坐标为 pos 的格子，取该格子距离最近的 0 的距离 dist 为 dists[i][j]，设该格子往上下左右方向到达的格子为 [r, c] 。若格子 [r, c] 之前从未被搜索过，那么 dists[i][j] 为 INT_MAX，则 dist + 1 < dists[i][j] 必成立，并且该格子距离 0 的最近距离为 dist + 1，即更新 dists[i][j] 为 dist + 1。\r\n\r\n如果之前已经搜索过格子 [r, c]，则 dist + 1 不会小于 dists[i][j]。因为广度优先已经保证之前搜索到该格子时为最小距离。可以这样理解，因为队列的初始节点为格子为 0 的节点，若这些节点在出列时该格子周围没有 1 格子，则其四周的格子不会加入队列，故由初始节点出列而加入队列的第一批格子就是距离 0 的最近距离为 1 的格子，那么由第一批格子出队列而加入队列的第二批格子就是距离 0 的最近距离为 2 的格子。依次类推，所以后加入的格子确定的距离不可能小于之前的。\r\n\r\n完整代码如下，若输入的矩阵的行列为 m 和 n，则节点数为 O(mn)，边数也为 O(mn)，所以时间复杂度为 O(mn)，空间复杂度为 O(mn)。\r\n\r\n```\r\nclass Solution {\r\npublic:\r\n    vector<vector<int>> updateMatrix(vector<vector<int>>& mat) {\r\n        vector<vector<int>> dists(mat.size(), vector<int>(mat[0].size()));\r\n        queue<pair<int, int>> que;\r\n        vector<vector<int>> dirs{{0, 1}, {0, -1}, {1, 0}, {-1, 0}};\r\n        for (int i = 0; i < mat.size(); ++i) {\r\n            for (int j = 0; j < mat[0].size(); ++j) {\r\n                if (mat[i][j] == 0) {\r\n                    dists[i][j] = 0;\r\n                    que.push({i, j});\r\n                }\r\n                else {\r\n                    dists[i][j] = INT_MAX;\r\n                }\r\n            }\r\n        }\r\n\r\n        while (!que.empty()) {\r\n            auto pos = que.front();\r\n            que.pop();\r\n            int dist = dists[pos.first][pos.second];\r\n\r\n            for (auto& d : dirs) {\r\n                int r = pos.first + d[0];\r\n                int c = pos.second + d[1];\r\n                if (r >= 0 && r < mat.size() && c >= 0 && c < mat[0].size()) {\r\n                    if (dist + 1< dists[r][c]) {\r\n                        dists[r][c] = dist + 1;\r\n                        que.push({r, c});\r\n                    }\r\n                }\r\n            }\r\n        }\r\n        return dists;\r\n    }\r\n};\r\n```\r\n",
+      "createdAt": "2021-09-11T13:22:05.314418+00:00",
+      "hitCount": 776,
+      "identifier": "s2wFJN",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "javayong-shi-5msliang-ci-bian-li-by-liao-fflt",
+        "title": "Java用时5ms，两次遍历"
+      },
+      "position": 3,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "cpython3java-1duo-yuan-bfsbo-wen-fa-2dp-owt4u",
+        "title": "c++/python3/java （1）多源bfs波纹法 （2）4方向dp （3）对角线dp"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "2bCMpM"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 3,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "jian-zhi-offer-2-mian-shi-ti-107-shu-zho-9j4f",
+      "status": "PREPUBLISH",
+      "summary": "# **广度优先搜索**\r\n矩阵可以看作是无权图，该问题与图的最近距离有关，因此可以考虑使用广度优先搜索解决。广度优先搜索需要使用一个队列，因为题目中需要求每个格子距离 0 的最短距离，可以考虑把所有",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "《剑指offer 2 面试题107》 书中算法C++实现",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 992091,
+        "viewCount": 561
+      },
+      "uuid": "s2wFJN",
+      "videosInfo": []
+    }
+  }
+}

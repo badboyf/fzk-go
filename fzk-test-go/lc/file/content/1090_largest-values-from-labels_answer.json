@@ -1,0 +1,86 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "全力以赴✨",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/relll-1037/avatar_1635153046.png",
+          "userSlug": "relll-1037"
+        },
+        "username": "Relll-1037"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n翻译很差，建议直接读英文\n题目意思为：给你一个数组，其中的每一个数组都有对应的标签\n请你从该数组中取numWanted个数字，且每个数字所对应的标签数目最多不超过useLimit个\n直接贪心地从数组中取值即可\n\n1.创建Information类，用于存储数组中数字的信息\n2.优先队列按照value的值从大到小排列\n3.创建limit数组，用于统计每个标签\"使用\"的次数\n4.贪心地进行选取，直到取够numWanted个或者全部取完\n\n### 代码\n\n```java\nimport java.util.Arrays;\nimport java.util.Comparator;\nimport java.util.PriorityQueue;\nimport java.util.TreeMap;\n\nclass Solution {\n    public int largestValsFromLabels(int[] values, int[] labels, int numWanted, int useLimit) {\n        //创建优先队列，队列从大到小排序\n        PriorityQueue<Information> pq = new PriorityQueue<>((x, y) -> y.value - x.value);\n        //用Information类存储数组中的value和label信息\n        for (int i = 0; i < values.length; i++) {\n            Information in = new Information(values[i], labels[i]);\n            pq.offer(in);\n        }\n        //统计共有多少个标签(取labels数组最大值即可，这部分可作优化)\n        Arrays.sort(labels);\n        int[] limit = new int[labels[labels.length - 1] + 1];\n        //填充每个标签的可用次数\n        Arrays.fill(limit, useLimit);\n        //ans为结果\n        int ans = 0;\n        //未取够目标数量且数字未被取完时，贪心地进行选取\n        while (numWanted > 0 && !pq.isEmpty()) {\n            Information i = pq.poll();\n            //若该标签还未被使用完，则可以选取\n            if (limit[i.label] > 0) {\n                ans += i.value;\n                numWanted--;\n                limit[i.label]--;\n            }\n        }\n        return ans;\n    }\n}\n\nclass Information {\n    int value;\n    int label;\n\n    public Information(int value, int label) {\n        this.value = value;\n        this.label = label;\n    }\n}\n```\n\n执行用时：15 ms, 在所有 Java 提交中击败了84.27%的用户\n内存消耗：39.7 MB, 在所有 Java 提交中击败了85.39%的用户\n\n只能说中规中矩了🤣",
+      "createdAt": "2021-11-24T12:22:34.233388+00:00",
+      "hitCount": 9,
+      "identifier": "fKIBaw",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "1090-cji-hu-shuang-bai-de-tan-xin-jie-fa-vr0s",
+        "title": "1090. c++几乎双百的贪心解法"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "largest-values-from-labels"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "javazhong-gui-zhong-ju-de-you-xian-dui-l-q7g8",
+      "status": "PUBLISHED",
+      "summary": "解题思路\n翻译很差，建议直接读英文\n题目意思为：给你一个数组，其中的每一个数组都有对应的标签\n请你从该数组中取numWanted个数字，且每个数字所对应的标签数目最多不超过useLimit个\n直接贪心地从数组中取值即可\n1.创建Information类，用于存储数组中数字的信息\n2.优先队列按照value的值从大到小排",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Greedy",
+          "nameTranslated": "贪心",
+          "slug": "greedy",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Heap (Priority Queue)",
+          "nameTranslated": "堆（优先队列）",
+          "slug": "heap-priority-queue",
+          "tagType": "TOPIC"
+        }
+      ],
+      "thumbnail": "",
+      "title": "(Java)中规中矩的优先队列解法",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1120321,
+        "viewCount": 8
+      },
+      "uuid": "fKIBaw",
+      "videosInfo": []
+    }
+  }
+}

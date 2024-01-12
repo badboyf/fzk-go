@@ -1,0 +1,72 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "偉",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/default_avatar.png",
+          "userSlug": "wei-zk"
+        },
+        "username": "wei-zk"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n能够想到此种方法的前提是要知道 C语言的 strstr(), strtok(), strcmp() 这三个标准库函数\n首先用strtok() 对句子进行分割，分割成单个的单词word\n然后用strstr() 判断searchWord 是否在word当中\n假如在，便判断 借助strstr()得到的字符串是否等于原字符串\n假如等于，那么就说明searchWord 找到了，可以返回了。\n### 代码\n\n```c\nint isPrefixOfWord(char * sentence, char * searchWord){\n    int i, ret;\n    char *tmp, *word;\n\n    i = 1;\n    ret = -1;\n    word = NULL;\n    word = strtok(sentence, \" \");\n    while (word != NULL) {\n        tmp = NULL;\n        tmp = strstr(word, searchWord);\n        if (tmp != NULL && strcmp(tmp, word)) {\n            ret = i;\n            break;\n        }\n\n        i++;\n        word = strtok(NULL, \" \");\n    }\n\n    return ret;\n}\n```",
+      "createdAt": "2021-11-25T10:57:47.620622+00:00",
+      "hitCount": 6,
+      "identifier": "AJ2t8k",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "c-istringstreamfen-ge-zi-fu-chuan-by-ray-umfe",
+        "title": "C++ istringstream分割字符串"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "check-if-a-word-occurs-as-a-prefix-of-any-word-in-a-sentence"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "cyu-yan-jie-zhu-ku-han-shu-strstr-strtok-a019",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n能够想到此种方法的前提是要知道 C语言的 strstr(), strtok(), strcmp() 这三个标准库函数\n首先用strtok() 对句子进行分割，分割成单个的单词word\n然后用strstr() 判断searchWord 是否在word当中\n假如在，便判断 借助strstr()得到的字符串是否等于",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "C",
+          "nameTranslated": "",
+          "slug": "c",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "C语言，借助库函数 strstr(), strtok(), strcmp()",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1122041,
+        "viewCount": 6
+      },
+      "uuid": "AJ2t8k",
+      "videosInfo": []
+    }
+  }
+}

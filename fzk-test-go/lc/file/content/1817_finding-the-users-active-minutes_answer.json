@@ -1,0 +1,72 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "绯笑",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/fei-xiao-r/avatar_1625746436.png",
+          "userSlug": "fei-xiao-r"
+        },
+        "username": "fei-xiao-r"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "id直接从小到达，id相同时按操作数从小到达排序；\r\n然后遍历统计即可\r\n```\r\nclass Solution {\r\n    public int[] findingUsersActiveMinutes(int[][] logs, int k) {\r\n        int[] active = new int[k];\r\n        Arrays.sort(logs,(a,b)->{\r\n            if(a[0] == b[0]) return a[1] - b[1];\r\n            return a[0] - b[0];\r\n        });\r\n        int x = logs[0][0], y = logs[0][1] , n = 0;\r\n        for(int i=1; i<logs.length; i++){\r\n            if(x != logs[i][0]) {\r\n                active[n]++;\r\n                n = 0;\r\n                x = logs[i][0];\r\n                y = logs[i][1];\r\n            } else {\r\n                if(y < logs[i][1]) {\r\n                    n++;\r\n                    y = logs[i][1];\r\n                }\r\n            }\r\n        }\r\n        active[n]++;\r\n        return active;\r\n    }\r\n}\r\n```\r\n",
+      "createdAt": "2021-10-28T03:42:10.252192+00:00",
+      "hitCount": 51,
+      "identifier": "6rwoMP",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "c-qian-tao-ha-xi-by-kobe24o-9t21",
+        "title": "c++ 嵌套哈希 "
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "finding-the-users-active-minutes"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "java-pai-xu-bian-li-ji-ke-by-fei-xiao-r-otb5",
+      "status": "PUBLISHED",
+      "summary": "id直接从小到达，id相同时按操作数从小到达排序；\n然后遍历统计即可",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "【Java】排序+遍历 即可",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1070832,
+        "viewCount": 44
+      },
+      "uuid": "6rwoMP",
+      "videosInfo": []
+    }
+  }
+}

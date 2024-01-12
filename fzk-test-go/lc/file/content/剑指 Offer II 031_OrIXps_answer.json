@@ -1,0 +1,95 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "后永胜",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/hou-yong-sheng/avatar_1574570136.png",
+          "userSlug": "hou-yong-sheng"
+        },
+        "username": "hou-yong-sheng"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n以下摘自LinkedHashMap源码中的注释。\n```java\n1.  * <p>A special {@link #LinkedHashMap(int,float,boolean) constructor} is\n    * provided to create a linked hash map whose order of iteration is the order\n    * in which its entries were last accessed, from least-recently accessed to\n    * most-recently (<i>access-order</i>).  This kind of map is well-suited to\n    * building LRU caches. \n2. /**\n     * The head (eldest) of the doubly linked list.\n     */\n    transient LinkedHashMap.Entry<K,V> head;\n\n    /**\n     * The tail (youngest) of the doubly linked list.\n     */\n    transient LinkedHashMap.Entry<K,V> tail;\n3.   * @param    eldest The least recently inserted entry in the map, or if\n     *           this is an access-ordered map, the least recently accessed\n     *           entry.  This is the entry that will be removed it this\n     *           method returns <tt>true</tt>.  If the map was empty prior\n     *           to the <tt>put</tt> or <tt>putAll</tt> invocation resulting\n     *           in this invocation, this will be the entry that was just\n     *           inserted; in other words, if the map contains a single\n     *           entry, the eldest entry is also the newest.\n     * @return   <tt>true</tt> if the eldest entry should be removed\n     *           from the map; <tt>false</tt> if it should be retained.\n     */\n    protected boolean removeEldestEntry(Map.Entry<K,V> eldest) {\n        return false;\n    }\n4.  * <p>The {@link #removeEldestEntry(Map.Entry)} method may be overridden to\n    * impose a policy for removing stale mappings automatically when new mappings\n    * are added to the map.\n```\n### 代码\n\n```java\nclass LRUCache {\n    private final boolean ACCESS_ORDERING = true;\n    private Map<Integer, Integer> cache;\n\n    public LRUCache(int capacity) {\n        cache = new LinkedHashMap(capacity + 1,0.75F ,ACCESS_ORDERING){ \n            protected boolean removeEldestEntry(Map.Entry var){ \n                return size() > capacity;\n            }\n        };\n    }\n    \n    public int get(int key) {\n        return this.cache.getOrDefault(key, -1);\n    }\n    \n    public void put(int key, int value) {\n        this.cache.put(key, value);\n    }\n}\n\n/**\n * Your LRUCache object will be instantiated and called as such:\n * LRUCache obj = new LRUCache(capacity);\n * int param_1 = obj.get(key);\n * obj.put(key,value);\n */\n```",
+      "createdAt": "2021-11-05T09:22:21.416992+00:00",
+      "hitCount": 298,
+      "identifier": "GAa85f",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "xuan-ze-he-gua-de-shu-ju-jie-gou-de-si-k-afme",
+        "title": "选择合适的数据结构的思考过程"
+      },
+      "position": 2,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "ha-xi-by-julian-14-wn7f",
+        "title": "哈希"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "OrIXps"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "li-yong-linkedhashmapshi-xian-lru-by-hou-ett3",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n以下摘自LinkedHashMap源码中的注释。\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Linked List",
+          "nameTranslated": "链表",
+          "slug": "linked-list",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "hashmap",
+          "nameTranslated": "",
+          "slug": "hashmap",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "",
+      "title": "利用LinkedHashMap实现LRU",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 1,
+        "id": 1085877,
+        "viewCount": 248
+      },
+      "uuid": "GAa85f",
+      "videosInfo": []
+    }
+  }
+}

@@ -1,0 +1,79 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "刘岳",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/user8664p/avatar_1534396547.png",
+          "userSlug": "smoon1989"
+        },
+        "username": "smoon1989"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "**思路：**\r\n\r\n根据题意，我们遍历数组，分两种情况讨论，要么将奇数位置的元素减少到刚好比相邻的偶数位置元素小，要么将偶数位置的元素减少到刚好比相邻的奇数位置元素小。返回两种情况操作较少的作为答案。\r\n\r\n**图解：**\r\n\r\n![图解](https://pic.leetcode-cn.com/8342247fa98f3b1ced587dfb352d3ecc80c52b708c1310e61b7c33bf7361eed2.png)\r\n\r\n以输入样例 `[9, 6, 1, 6, 2]` 为例，检查奇数位置，可以将第一个元素 `9` 减小到 `5`，如果检查偶数位置，则需要将两个 `6` 减小到 `0`。\r\n\r\n\r\n**代码：**\r\n```python\r\nclass Solution:\r\n    def movesToMakeZigzag(self, nums: List[int]) -> int:\r\n        n = len(nums)\r\n        ans1, ans2 = 0, 0\r\n        for i in range(n):\r\n            # 奇数位置\r\n            if i % 2 == 0:\r\n                d1 = nums[i] - nums[i - 1] + 1 if i > 0 and nums[i] >= nums[i - 1] else 0\r\n                d2 = nums[i] - nums[i + 1] + 1 if i < n - 1 and nums[i] >= nums[i + 1] else 0\r\n                ans1 += max(d1, d2)\r\n            # 偶数位置\r\n            else:\r\n                d1 = nums[i] - nums[i - 1] + 1 if nums[i] >= nums[i - 1] else 0\r\n                d2 = nums[i] - nums[i + 1] + 1 if i < n - 1 and nums[i] >= nums[i + 1] else 0\r\n                ans2 += max(d1, d2)\r\n        return min(ans1, ans2)\r\n```\r\n",
+      "createdAt": "2019-08-06T03:36:03.342294+00:00",
+      "hitCount": 8541,
+      "identifier": "eJEAkr",
+      "isEditorsPick": true,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "ji-xiao-heng-zai-qi-xia-biao-huo-zhe-ou-okrbd",
+        "title": "【极小恒在奇下标或者偶下标】"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "decrease-elements-to-make-array-zigzag"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 9,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "fen-qing-kuang-tao-lun-python3-by-smoon1989",
+      "status": "PUBLISHED",
+      "summary": "思路：\n根据题意，我们遍历数组，分两种情况讨论，要么将奇数位置的元素减少到刚好比相邻的偶数位置元素小，要么将偶数位置的元素减少到刚好比相邻的奇数位置元素小。返回两种情况操作较少的作为答案。\n图解：\n以输入样例 [9, 6, 1, 6, 2] 为例，检查奇数位置，可以将第一个元素 9 减小到 5，如果检查偶数位置，则需要",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Math",
+          "nameTranslated": "数学",
+          "slug": "math",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python3",
+          "nameTranslated": "",
+          "slug": "python3",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/8342247fa98f3b1ced587dfb352d3ecc80c52b708c1310e61b7c33bf7361eed2.png",
+      "title": "分情况讨论 Python3",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 16,
+        "id": 18722,
+        "viewCount": 6208
+      },
+      "uuid": "eJEAkr",
+      "videosInfo": []
+    }
+  }
+}

@@ -1,0 +1,80 @@
+{
+  "data": {
+    "question": {
+      "__typename": "QuestionNode",
+      "book": null,
+      "boundTopicId": 1141,
+      "categoryTitle": "Database",
+      "codeSnippets": [
+        {
+          "__typename": "CodeSnippetNode",
+          "code": "# Write your MySQL query statement below",
+          "lang": "MySQL",
+          "langSlug": "mysql"
+        },
+        {
+          "__typename": "CodeSnippetNode",
+          "code": "/* Write your T-SQL query statement below */",
+          "lang": "MS SQL Server",
+          "langSlug": "mssql"
+        },
+        {
+          "__typename": "CodeSnippetNode",
+          "code": "/* Write your PL/SQL query statement below */",
+          "lang": "Oracle",
+          "langSlug": "oraclesql"
+        }
+      ],
+      "companyTagStats": null,
+      "content": "<p>Table: <code>World</code></p>\n\n<pre>\n+-------------+---------+\n| Column Name | Type    |\n+-------------+---------+\n| name        | varchar |\n| continent   | varchar |\n| area        | int     |\n| population  | int     |\n| gdp         | int     |\n+-------------+---------+\nname is the primary key column for this table.\nEach row of this table gives information about the name of a country, the continent to which it belongs, its area, the population, and its GDP value.\n</pre>\n\n<p>&nbsp;</p>\n\n<p>A country is <strong>big</strong> if:</p>\n\n<ul>\n\t<li>it has an area of at least&nbsp;three million (i.e., <code>3000000 km<sup>2</sup></code>), or</li>\n\t<li>it has a population of at least&nbsp;twenty-five million (i.e., <code>25000000</code>).</li>\n</ul>\n\n<p>Write an SQL query to report the name, population, and area of the <strong>big countries</strong>.</p>\n\n<p>Return the result table in <strong>any order</strong>.</p>\n\n<p>The query result format is in the following example.</p>\n\n<p>&nbsp;</p>\n<p><strong>Example 1:</strong></p>\n\n<pre>\n<strong>Input:</strong> \nWorld table:\n+-------------+-----------+---------+------------+--------------+\n| name        | continent | area    | population | gdp          |\n+-------------+-----------+---------+------------+--------------+\n| Afghanistan | Asia      | 652230  | 25500100   | 20343000000  |\n| Albania     | Europe    | 28748   | 2831741    | 12960000000  |\n| Algeria     | Africa    | 2381741 | 37100000   | 188681000000 |\n| Andorra     | Europe    | 468     | 78115      | 3712000000   |\n| Angola      | Africa    | 1246700 | 20609294   | 100990000000 |\n+-------------+-----------+---------+------------+--------------+\n<strong>Output:</strong> \n+-------------+------------+---------+\n| name        | population | area    |\n+-------------+------------+---------+\n| Afghanistan | 25500100   | 652230  |\n| Algeria     | 37100000   | 2381741 |\n+-------------+------------+---------+\n</pre>\n",
+      "contributors": [],
+      "dailyRecordStatus": null,
+      "difficulty": "Easy",
+      "dislikes": 0,
+      "editorType": "CKEDITOR",
+      "enableRunCode": true,
+      "envInfo": "{\"mysql\":[\"MySQL\",\"<p>\\u7248\\u672c\\uff1a<code>MySQL 8.0<\\/code><\\/p>\"],\"mssql\":[\"MS SQL Server\",\"<p>mssql server 2019.<\\/p>\"],\"oraclesql\":[\"Oracle\",\"<p>Oracle Sql 11.2.<\\/p>\"]}",
+      "exampleTestcases": "{\"headers\": {\"World\": [\"name\", \"continent\",\t\"area\",\t\"population\", \"gdp\"]}, \"rows\": {\"World\": [[\"Afghanistan\", \"Asia\", 652230, 25500100, 20343000000], [\"Albania\", \"Europe\", 28748, 2831741, 12960000000], [\"Algeria\", \"Africa\", 2381741, 37100000, 188681000000], [\"Andorra\", \"Europe\", 468, 78115,\t3712000000], [\"Angola\", \"Africa\", 1246700, 20609294, 100990000000]]}}",
+      "hints": [],
+      "isDailyQuestion": false,
+      "isLiked": null,
+      "isPaidOnly": false,
+      "isSubscribed": false,
+      "judgeType": "large",
+      "judgerAvailable": true,
+      "langToValidPlayground": "{\"cpp\": false, \"java\": false, \"python\": false, \"python3\": false, \"mysql\": false, \"mssql\": false, \"oraclesql\": false, \"c\": false, \"csharp\": false, \"javascript\": false, \"ruby\": false, \"bash\": false, \"swift\": false, \"golang\": false, \"scala\": false, \"html\": false, \"pythonml\": false, \"kotlin\": false, \"rust\": false, \"php\": false, \"typescript\": false, \"racket\": false, \"erlang\": false, \"elixir\": false}",
+      "likes": 181,
+      "metaData": "{\n  \"mysql\": [\n    \"Create table If Not Exists World (name varchar(255), continent varchar(255), area int, population int, gdp int)\"\n  ],\n  \"mssql\": [\n    \"Create table World (name varchar(255), continent varchar(255), area int, population int, gdp bigint)\"\n  ],\n  \"oraclesql\": [\n    \"Create table World (name varchar(255), continent varchar(255), area int, population int, gdp int)\"\n  ],\n  \"database\": true\n}",
+      "mysqlSchemas": [
+        "Create table If Not Exists World (name varchar(255), continent varchar(255), area int, population int, gdp int)",
+        "Truncate table World",
+        "insert into World (name, continent, area, population, gdp) values ('Afghanistan', 'Asia', '652230', '25500100', '20343000000')",
+        "insert into World (name, continent, area, population, gdp) values ('Albania', 'Europe', '28748', '2831741', '12960000000')",
+        "insert into World (name, continent, area, population, gdp) values ('Algeria', 'Africa', '2381741', '37100000', '188681000000')",
+        "insert into World (name, continent, area, population, gdp) values ('Andorra', 'Europe', '468', '78115', '3712000000')",
+        "insert into World (name, continent, area, population, gdp) values ('Angola', 'Africa', '1246700', '20609294', '100990000000')"
+      ],
+      "questionFrontendId": "595",
+      "questionId": "595",
+      "sampleTestCase": "{\"headers\": {\"World\": [\"name\", \"continent\",\t\"area\",\t\"population\", \"gdp\"]}, \"rows\": {\"World\": [[\"Afghanistan\", \"Asia\", 652230, 25500100, 20343000000], [\"Albania\", \"Europe\", 28748, 2831741, 12960000000], [\"Algeria\", \"Africa\", 2381741, 37100000, 188681000000], [\"Andorra\", \"Europe\", 468, 78115,\t3712000000], [\"Angola\", \"Africa\", 1246700, 20609294, 100990000000]]}}",
+      "similarQuestions": "[]",
+      "solution": null,
+      "stats": "{\"totalAccepted\": \"107.7K\", \"totalSubmission\": \"135.1K\", \"totalAcceptedRaw\": 107659, \"totalSubmissionRaw\": 135106, \"acRate\": \"79.7%\"}",
+      "status": null,
+      "style": "LEETCODE",
+      "title": "Big Countries",
+      "titleSlug": "big-countries",
+      "topicTags": [
+        {
+          "__typename": "TopicTagNode",
+          "name": "Database",
+          "slug": "database",
+          "translatedName": "数据库"
+        }
+      ],
+      "translatedContent": "<p>这里有张 <code>World</code> 表</p>\n\n<pre>\n+-----------------+------------+------------+--------------+---------------+\n| name            | continent  | area       | population   | gdp           |\n+-----------------+------------+------------+--------------+---------------+\n| Afghanistan     | Asia       | 652230     | 25500100     | 20343000      |\n| Albania         | Europe     | 28748      | 2831741      | 12960000      |\n| Algeria         | Africa     | 2381741    | 37100000     | 188681000     |\n| Andorra         | Europe     | 468        | 78115        | 3712000       |\n| Angola          | Africa     | 1246700    | 20609294     | 100990000     |\n+-----------------+------------+------------+--------------+---------------+\n</pre>\n\n<p>如果一个国家的面积超过 300 万平方公里，或者人口超过 2500 万，那么这个国家就是大国家。</p>\n\n<p>编写一个 SQL 查询，输出表中所有大国家的名称、人口和面积。</p>\n\n<p>例如，根据上表，我们应该输出:</p>\n\n<pre>\n+--------------+-------------+--------------+\n| name         | population  | area         |\n+--------------+-------------+--------------+\n| Afghanistan  | 25500100    | 652230       |\n| Algeria      | 37100000    | 2381741      |\n+--------------+-------------+--------------+\n</pre>\n",
+      "translatedTitle": "大的国家",
+      "ugcQuestionId": null
+    }
+  }
+}

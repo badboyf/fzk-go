@@ -1,0 +1,101 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "Krahets",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/jyd/avatar_1589712294.png",
+          "userSlug": "jyd"
+        },
+        "username": "jyd"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 解题思路：\r\n\r\n如下图所示，给定一个压入序列 $pushed$ 和弹出序列 $popped$ ，则压入 / 弹出操作的顺序（即排列）是 **唯一确定** 的。\r\n\r\n![Picture1.png](https://pic.leetcode-cn.com/c880f045c03a8e03b7908b2d49b658a9a32ba8f5d40cb19da62db32c7eb58830-Picture1.png){:width=500}\r\n\r\n如下图所示，栈的数据操作具有 **先入后出** 的特性，因此某些弹出序列是无法实现的。\r\n\r\n![Picture2.png](https://pic.leetcode-cn.com/4397f5b44038603d70568147824877cacdaa76cef22371c2c80ff55f915092fd-Picture2.png){:width=500}\r\n\r\n考虑借用一个辅助栈 $stack$ ，**模拟** 压入 / 弹出操作的排列。根据是否模拟成功，即可得到结果。\r\n\r\n- **入栈操作：** 按照压栈序列的顺序执行。\r\n- **出栈操作：** 每次入栈后，循环判断 “栈顶元素 $=$ 弹出序列的当前元素” 是否成立，将符合弹出序列顺序的栈顶元素全部弹出。\r\n\r\n> 由于题目规定 `栈的所有数字均不相等` ，因此在循环入栈中，每个元素出栈的位置的可能性是唯一的（若有重复数字，则具有多个可出栈的位置）。因而，在遇到 “栈顶元素 $=$ 弹出序列的当前元素” 就应立即执行出栈。\r\n\r\n##### 算法流程：\r\n\r\n1. **初始化：** 辅助栈 $stack$ ，弹出序列的索引 $i$ ；\r\n2. **遍历压栈序列：** 各元素记为 $num$ ；\r\n   1. 元素 $num$ 入栈；\r\n   2. 循环出栈：若 $stack$ 的栈顶元素 $=$ 弹出序列元素 $popped[i]$ ，则执行出栈与 $i++$ ；\r\n3. **返回值：** 若 $stack$ 为空，则此弹出序列合法。\r\n\r\n##### 复杂度分析：\r\n\r\n- **时间复杂度 $O(N)$ ：** 其中 $N$ 为列表 $pushed$ 的长度；每个元素最多入栈与出栈一次，即最多共 $2N$ 次出入栈操作。\r\n- **空间复杂度 $O(N)$ ：** 辅助栈 $stack$ 最多同时存储 $N$ 个元素。\r\n\r\n<![Picture3.png](https://pic.leetcode-cn.com/201e825436b3e28eac363c4d1bf3728a000ec76edd358f4098a5c24534e3ea0c-Picture3.png),![Picture4.png](https://pic.leetcode-cn.com/05948472d4096747117036d4fd7430b817b84cb39946718127c912afe56378d5-Picture4.png),![Picture5.png](https://pic.leetcode-cn.com/ba2f2b776b23d64a539d326fce219345114c26ff3c186388d1c9e2b267e3a6f7-Picture5.png),![Picture6.png](https://pic.leetcode-cn.com/c428090b921067f1c92d3c5e6f9abf45bda55e2ce44e99ecbc7db646251fe9fc-Picture6.png),![Picture7.png](https://pic.leetcode-cn.com/904b2334c1f1f7bc0c93f56e12c061aa69f34468a96c5bd9f50c06fa59e090ad-Picture7.png),![Picture8.png](https://pic.leetcode-cn.com/47909bda13373fab0c98972354bf942f19993776cb04e322a37c197198e0c705-Picture8.png),![Picture9.png](https://pic.leetcode-cn.com/83b13e44ad02b1046351707b7f4fd76bd1fa0d5e0413e8c0bc61fb9f890dad5e-Picture9.png),![Picture10.png](https://pic.leetcode-cn.com/e38264dc425209d2c0aaaab4d6050cd0a3d69d48c4c5877808e30788c752ff53-Picture10.png),![Picture11.png](https://pic.leetcode-cn.com/5c35507c10e3b7745ef769d6a879a28ee186be671daaf3ca75355153dd5543e4-Picture11.png),![Picture12.png](https://pic.leetcode-cn.com/94cddb1d8ac2ec779293b3dc7f18488caf5e23adbc3f14c60d44f7d8bca80c51-Picture12.png),![Picture13.png](https://pic.leetcode-cn.com/958c96bbe4d77e3d0642bb9b13e1aaaeab5564e722b6516314b37a4f0958a209-Picture13.png),![Picture14.png](https://pic.leetcode-cn.com/9181035f31451f0ee53a5892f97e810577f01c4317c5bd9d2518ae335aae2f7e-Picture14.png)>\r\n\r\n#### 代码：\r\n\r\n> 题目指出 `pushed 是 popped 的排列` 。因此，无需考虑 $pushed$ 和 $popped$ **长度不同** 或 **包含元素不同** 的情况。\r\n\r\n```python []\r\nclass Solution:\r\n    def validateStackSequences(self, pushed: List[int], popped: List[int]) -> bool:\r\n        stack, i = [], 0\r\n        for num in pushed:\r\n            stack.append(num) # num 入栈\r\n            while stack and stack[-1] == popped[i]: # 循环判断与出栈\r\n                stack.pop()\r\n                i += 1\r\n        return not stack\r\n```\r\n\r\n```java []\r\nclass Solution {\r\n    public boolean validateStackSequences(int[] pushed, int[] popped) {\r\n        Stack<Integer> stack = new Stack<>();\r\n        int i = 0;\r\n        for(int num : pushed) {\r\n            stack.push(num); // num 入栈\r\n            while(!stack.isEmpty() && stack.peek() == popped[i]) { // 循环判断与出栈\r\n                stack.pop();\r\n                i++;\r\n            }\r\n        }\r\n        return stack.isEmpty();\r\n    }\r\n}\r\n```",
+      "createdAt": "2020-04-22T09:31:04.404326+00:00",
+      "hitCount": 88557,
+      "identifier": "bX05EH",
+      "isEditorsPick": true,
+      "isMostPopular": true,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "zhan-de-mo-ni-jie-fa-by-smartliubo-u-z84n",
+        "title": "栈的模拟解法"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "zhan-de-ya-ru-dan-chu-xu-lie-lcof"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 332,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 28,
+          "reactionType": "AWESOME"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 8,
+          "reactionType": "CONFUSED"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 0,
+          "reactionType": "THUMBS_DOWN"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "mian-shi-ti-31-zhan-de-ya-ru-dan-chu-xu-lie-mo-n-2",
+      "status": "PUBLISHED",
+      "summary": " 解题思路：\n如下图所示，给定一个压入序列 pushed 和弹出序列 popped ，则压入 / 弹出操作的顺序（即排列）是 唯一确定 的。\n如下图所示，栈的数据操作具有 先入后出 的特性，因此某些弹出序列是无法实现的。\n考虑借用一个辅助栈 stack ，模拟 压入 / 弹出操作的排列。根据是否模拟成功，即可得到结果。",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python3",
+          "nameTranslated": "",
+          "slug": "python3",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/c880f045c03a8e03b7908b2d49b658a9a32ba8f5d40cb19da62db32c7eb58830-Picture1.png",
+      "title": "面试题31. 栈的压入、弹出序列（模拟，清晰图解）",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 216,
+        "id": 215152,
+        "viewCount": 63549
+      },
+      "uuid": "bX05EH",
+      "videosInfo": []
+    }
+  }
+}

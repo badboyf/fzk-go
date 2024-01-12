@@ -1,0 +1,86 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "Demigodliu 🥇 ",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/demigodliu/avatar_1614610883.png",
+          "userSlug": "demigodliu"
+        },
+        "username": "demigodliu"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "![图解每日一练.jpg](https://pic.leetcode-cn.com/1615817903-fzmpwZ-%E5%9B%BE%E8%A7%A3%E6%AF%8F%E6%97%A5%E4%B8%80%E7%BB%83.jpg)\n\n---\n\n### 🧠 解题思路\n\n因为题目让我们使用栈来构建数组，所以我们可以理出如下思路：\n\n1. 仅能使用入栈 $push$ 和出栈 $pop$ 方法。\n2. 创建一个主栈，存放 '$Push$' 和 '$Pop$' 操作记录，再创建一个辅助栈，用于存放数字 $1,2 ... n$ 。\n3. 以 $n$ 作为最大循环次数来进行循环，每个数字默认先压入栈，若该数字和 $target$ 同位数字不一致，则再将其弹出栈即可。\n4. 在每次操作辅助栈的同时，在主栈中压入记录名称即可。\n\n注意：$n$ 为最大循环次数，若过程中辅助栈的末位数字和 $target$ 末位一致，可以提前返回结果即可。\n\n---\n\n### 🎨 图解演示\n\n<![1.jpg](https://pic.leetcode-cn.com/1617447249-mpNdZx-1.jpg),![2.jpg](https://pic.leetcode-cn.com/1617447251-QFnKIS-2.jpg),![3.jpg](https://pic.leetcode-cn.com/1617447254-PFjzdY-3.jpg),![4.jpg](https://pic.leetcode-cn.com/1617447256-QQMkii-4.jpg),![5.jpg](https://pic.leetcode-cn.com/1617447258-BWfoss-5.jpg),![6.jpg](https://pic.leetcode-cn.com/1617447261-utCdNW-6.jpg)>\n\n---\n\n### 🍭 示例代码\n\n```Javascript\nvar buildArray = function(target, n) {\n    let stack = [], _stack = [];\n    for(let i = 0; i < n; i++){\n        _stack.push(i + 1);\n        stack.push(\"Push\");\n        if(_stack[_stack.length - 1] !== target[_stack.length - 1]){\n            stack.push(\"Pop\");\n            _stack.pop();\n        }\n        if(target.length === _stack.length) return stack;\n    }\n    return stack;\n};\n```\n\n---\n\n### 转身挥手\n\n嘿，少年，做图不易，留下个赞或评论再走吧！谢啦~ 💐\n\n差点忘了，祝你牛年大吉 🐮 ，AC 和 Offer 📑 多多益善~\n\n⛲⛲⛲ 期待下次再见~ ",
+      "createdAt": "2021-04-03T10:07:35.977777+00:00",
+      "hitCount": 1656,
+      "identifier": "BF9OkX",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "cyu-yan-zhi-jie-fa-by-wei-zk-nhn1",
+        "title": "C语言，直接法"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "build-an-array-with-stack-operations"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 51,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": true,
+      "slug": "zhan-yong-zhan-cao-zuo-gou-jian-shu-zu-b-l2qq",
+      "status": "PUBLISHED",
+      "summary": "🧠 解题思路\n因为题目让我们使用栈来构建数组，所以我们可以理出如下思路：\n\n仅能使用入栈 push 和出栈 pop 方法。\n创建一个主栈，存放 'Push' 和 'Pop' 操作记录，再创建一个辅助栈，用于存放数字 1,2 ... n 。\n以 n 作为最大循环次数来进行循环，每个数字默认先压入栈，若该数字和 targ",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Stack",
+          "nameTranslated": "栈",
+          "slug": "stack",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Array",
+          "nameTranslated": "数组",
+          "slug": "array",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "JavaScript",
+          "nameTranslated": "",
+          "slug": "javascript",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1615817903-fzmpwZ-%E5%9B%BE%E8%A7%A3%E6%AF%8F%E6%97%A5%E4%B8%80%E7%BB%83.jpg",
+      "title": "【辅助栈】用栈操作构建数组",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 10,
+        "id": 697868,
+        "viewCount": 1248
+      },
+      "uuid": "BF9OkX",
+      "videosInfo": []
+    }
+  }
+}

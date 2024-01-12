@@ -1,0 +1,86 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "Evan You",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/javascript-8/avatar_1627892933.png",
+          "userSlug": "javascript-8"
+        },
+        "username": "javascript-8"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n### 代码\n```javascript\n/**\n * @param {number[]} rowSum\n * @param {number[]} colSum\n * @return {number[][]}\n */\nvar restoreMatrix = function(rowSum, colSum) {\n    const [m,n] = [rowSum.length,colSum.length];\n    const matrix = Array(m).fill(0).map(()=>Array(n).fill(0));\n    for(let i = 0;i < m;i ++){\n        for(let j = 0;j < n;j ++){\n            matrix[i][j] = Math.min(rowSum[i],colSum[j]);\n            rowSum[i] -= matrix[i][j];\n            colSum[j] -= matrix[i][j];\n        }\n    }\n    return matrix;\n};\n```",
+      "createdAt": "2021-08-30T15:27:27.368499+00:00",
+      "hitCount": 343,
+      "identifier": "2oM99B",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "1605gei-ding-xing-he-lie-de-he-qiu-ke-xi-vcwz",
+        "title": "1605.给定行和列的和求可行矩阵 Python贪心方法逐步缩小检索范围！"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "find-valid-matrix-given-row-and-column-sums"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 4,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "tan-xin-si-xiang-by-javascript-8-tk67",
+      "status": "PUBLISHED",
+      "summary": "解题思路\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Greedy",
+          "nameTranslated": "贪心",
+          "slug": "greedy",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "JavaScript",
+          "nameTranslated": "",
+          "slug": "javascript",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "贪心算法",
+          "nameTranslated": "",
+          "slug": "tan-xin-suan-fa",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "",
+      "title": "贪心思想",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 968185,
+        "viewCount": 273
+      },
+      "uuid": "2oM99B",
+      "videosInfo": []
+    }
+  }
+}

@@ -1,0 +1,77 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "songhouhou",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/songhouhou-hEIEmRPxu8/avatar_1565758229.png",
+          "userSlug": "songhouhou"
+        },
+        "username": "songhouhou"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "# **1.正则表达式**\r\n**将\"()\"替换为\"o\"，将\"(al)\"替换为\"al\"即可。**\r\n注：Java中replace()、replaceAll()、replaceFirst()区别：replace()和replaceAll()都是替换所有，但replaceAll()支持正则表达式；replaceAll()和replaceFirst()都支持正则表达式，但replaceFirst()只替换第一个匹配项。\r\n```\r\nclass Solution {\r\n\tpublic String interpret(String command) {\r\n\t\tcommand = command.replace(\"()\", \"o\");\r\n\t\tcommand = command.replace(\"(al)\", \"al\");\r\n\t\treturn command;\r\n\t}\r\n}\r\n```\r\n# **2.模拟**\r\n执行用时： 0 ms , 在所有 Java 提交中击败了 100.00% 的用户\r\n内存消耗： 36.4 MB , 在所有 Java 提交中击败了 100.00% 的用户\r\n ```\r\nclass Solution {\r\n\tpublic String interpret(String command) {\r\n\t\tStringBuilder sb = new StringBuilder();\r\n\t\tfor (int i = 0; i < command.length(); i++) {\r\n\t\t\tif (command.charAt(i) == 'G') {\r\n\t\t\t\tsb.append('G');\r\n\t\t\t} else if (command.charAt(i) == '(' && command.charAt(i + 1) == ')') {\r\n\t\t\t\tsb.append(\"o\");\r\n\t\t\t\ti++;\r\n\t\t\t} else {\r\n\t\t\t\tsb.append(\"al\");\r\n\t\t\t\ti += 3;\r\n\t\t\t}\r\n\t\t}\r\n\t\treturn sb.toString();\r\n\t}\r\n}\r\n```\r\n",
+      "createdAt": "2020-12-07T06:29:03.866723+00:00",
+      "hitCount": 4846,
+      "identifier": "ZCM6Zn",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "java-zui-jian-dan-si-lu-stringbuffer-by-xbbe2",
+        "title": "JAVA 最简单思路 StringBuffer"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "goal-parser-interpretation"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 44,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": true,
+      "slug": "javaliang-chong-jie-fa-zheng-ze-biao-da-9od44",
+      "status": "PUBLISHED",
+      "summary": "1.正则表达式\n将\"()\"替换为\"o\"，将\"(al)\"替换为\"al\"即可。\n注：Java中replace()、replaceAll()、replaceFirst()区别：replace()和replaceAll()都是替换所有，但replaceAll()支持正则表达式；replaceAll()和replaceFirst",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "Java两种解法：正则表达式、模拟。执行用时： 0 ms , 在所有 Java 提交中击败了 100.00% 的用户 内存消耗： 36.4 MB , 在所有 Java 提交中击败了 100.00% 的用户。",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 2,
+        "id": 512384,
+        "viewCount": 2272
+      },
+      "uuid": "ZCM6Zn",
+      "videosInfo": []
+    }
+  }
+}

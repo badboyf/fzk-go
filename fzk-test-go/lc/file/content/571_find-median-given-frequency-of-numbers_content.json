@@ -1,0 +1,60 @@
+{
+  "data": {
+    "question": {
+      "__typename": "QuestionNode",
+      "book": null,
+      "boundTopicId": 2651,
+      "categoryTitle": "Database",
+      "codeSnippets": null,
+      "companyTagStats": null,
+      "content": null,
+      "contributors": [],
+      "dailyRecordStatus": null,
+      "difficulty": "Hard",
+      "dislikes": 0,
+      "editorType": "CKEDITOR",
+      "enableRunCode": true,
+      "envInfo": "{\"mysql\":[\"MySQL\",\"<p>\\u7248\\u672c\\uff1a<code>MySQL 8.0<\\/code><\\/p>\"],\"mssql\":[\"MS SQL Server\",\"<p>mssql server 2019.<\\/p>\"],\"oraclesql\":[\"Oracle\",\"<p>Oracle Sql 11.2.<\\/p>\"]}",
+      "exampleTestcases": "{\"headers\": {\"Numbers\": [\"num\", \"frequency\"]}, \"rows\": {\"Numbers\": [[0, 7], [1, 1], [2, 3], [3, 1]]}}",
+      "hints": [],
+      "isDailyQuestion": false,
+      "isLiked": null,
+      "isPaidOnly": true,
+      "isSubscribed": false,
+      "judgeType": "large",
+      "judgerAvailable": true,
+      "langToValidPlayground": null,
+      "likes": 57,
+      "metaData": "{\n  \"mysql\": [\n    \"Create table If Not Exists Numbers (num int, frequency int)\"\n  ],\n  \"mssql\": [\n    \"Create table Numbers (num int, frequency int)\"\n  ],\n  \"oraclesql\": [\n    \"Create table Numbers (num int, frequency int)\"\n  ],\n  \"database\": true\n}",
+      "mysqlSchemas": [
+        "Create table If Not Exists Numbers (num int, frequency int)",
+        "Truncate table Numbers",
+        "insert into Numbers (num, frequency) values ('0', '7')",
+        "insert into Numbers (num, frequency) values ('1', '1')",
+        "insert into Numbers (num, frequency) values ('2', '3')",
+        "insert into Numbers (num, frequency) values ('3', '1')"
+      ],
+      "questionFrontendId": "571",
+      "questionId": "571",
+      "sampleTestCase": "{\"headers\": {\"Numbers\": [\"num\", \"frequency\"]}, \"rows\": {\"Numbers\": [[0, 7], [1, 1], [2, 3], [3, 1]]}}",
+      "similarQuestions": "[{\"title\": \"Median Employee Salary\", \"titleSlug\": \"median-employee-salary\", \"difficulty\": \"Hard\", \"translatedTitle\": \"\\u5458\\u5de5\\u85aa\\u6c34\\u4e2d\\u4f4d\\u6570\"}]",
+      "solution": null,
+      "stats": "{\"totalAccepted\": \"7.3K\", \"totalSubmission\": \"15.1K\", \"totalAcceptedRaw\": 7255, \"totalSubmissionRaw\": 15082, \"acRate\": \"48.1%\"}",
+      "status": null,
+      "style": "LEETCODE",
+      "title": "Find Median Given Frequency of Numbers",
+      "titleSlug": "find-median-given-frequency-of-numbers",
+      "topicTags": [
+        {
+          "__typename": "TopicTagNode",
+          "name": "Database",
+          "slug": "database",
+          "translatedName": "数据库"
+        }
+      ],
+      "translatedContent": null,
+      "translatedTitle": "给定数字的频率查询中位数",
+      "ugcQuestionId": null
+    }
+  }
+}

@@ -1,0 +1,76 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "934786601",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/default_avatar.png",
+          "userSlug": "934786601"
+        },
+        "username": "934786601"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "```rust\r\nimpl Solution {\r\n    pub fn max_alive_year(birth: Vec<i32>, death: Vec<i32>) -> i32 {\r\n        let mut tab = vec![0; 256];\r\n        let mut ans = 0;\r\n        let mut max = 0;\r\n        let mut cur = 0;\r\n        for (b, d) in birth.into_iter().zip(death.into_iter()) {\r\n            tab[b as usize - 1900] += 1;\r\n            tab[d as usize - 1900 + 1] -= 1;\r\n        }\r\n        for i in 0..tab.len() {\r\n            cur += tab[i];\r\n            if cur > max {\r\n                max = cur;\r\n                ans = i as i32;\r\n            }\r\n        }\r\n        ans + 1900\r\n    }\r\n}\r\n```\r\n",
+      "createdAt": "2021-11-24T11:29:20.184065+00:00",
+      "hitCount": 17,
+      "identifier": "HXiviC",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "pai-xu-yi-bian-bian-li-by-mayonglin-aiqe",
+        "title": "排序，一遍遍历"
+      },
+      "position": 35,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "1610-sheng-cun-ren-shu-javajie-fa-by-huy-mima",
+        "title": "16.10 生存人数（Java解法）"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "living-people-lcci"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "rust-qu-jian-tong-ji-by-934786601-v4v5",
+      "status": "PUBLISHED",
+      "summary": "[该用户太懒了，只写了 20 行 Rust 代码]",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Rust",
+          "nameTranslated": "",
+          "slug": "rust",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "【rust】区间统计",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1120228,
+        "viewCount": 15
+      },
+      "uuid": "HXiviC",
+      "videosInfo": []
+    }
+  }
+}

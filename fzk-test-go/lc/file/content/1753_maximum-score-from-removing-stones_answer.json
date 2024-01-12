@@ -1,0 +1,76 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "我不是匠人",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/yaojunboy/avatar_1627783832.png",
+          "userSlug": "ac_wllysc"
+        },
+        "username": "ac_wllysc"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "## 分析\r\n- 题目：\r\n    - [1753. 移除石子的最大得分](/problems/maximum-score-from-removing-stones/)\r\n- 分类讨论\r\n    - 设$a \\leq b \\leq c$，当$a + b \\leq c$ ，无论怎么取，都要把前面两堆石子取完。\r\n    - 当$a + b \\gt c$，此时有$k = a + b - c$，是比$c$多的石子，我们考虑先将$k$在$a$和$b$两堆石子中内耗掉，即每次消耗2个石子，最终消耗$k/2$个，此时就变成了第一种情况了。\r\n## 代码\r\n```\r\nclass Solution {\r\npublic:\r\n    int maximumScore(int a, int b, int c) {\r\n        int d[3]={a, b, c};\r\n        sort(d, d+3);\r\n        if(d[0]+d[1] <= d[2]) return d[0]+d[1];\r\n        return (d[0]+d[1]-d[2])/2 + d[2];\r\n    }\r\n};\r\n```\r\n",
+      "createdAt": "2021-10-10T08:37:09.717278+00:00",
+      "hitCount": 176,
+      "identifier": "HSnKYr",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "zhao-gui-lu-by-yong-lan-de-zheng-qi-ji-ft3m",
+        "title": "找规律"
+      },
+      "position": 2,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "bu-na-yao-jian-ji-de-shu-xue-zheng-ming-rrl86",
+        "title": "不那么简洁的数学证明，2行极简97%附单行（1753. 移除石子的最大得分）"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "maximum-score-from-removing-stones"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "ling-dan-miao-yao-suan-tian-suan-di-suan-yz9b",
+      "status": "PREPUBLISH",
+      "summary": "分析\n\n题目：\n\n1753. 移除石子的最大得分\n\n\n分类讨论\n\n设a \\leq b \\leq c，当a + b \\leq c ，无论怎么取，都要把前面两堆石子取完。\n当a + b \\gt c，此时有k = a + b - c，是比c多的石子，我们考虑先将k在a和b两堆石子中内耗掉，即每次消耗2个石子，最终消耗k/2个",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "1753. 移除石子的最大得分【分类讨论】",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1039982,
+        "viewCount": 149
+      },
+      "uuid": "HSnKYr",
+      "videosInfo": []
+    }
+  }
+}

@@ -1,0 +1,93 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "ffreturn",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/ffreturn/avatar_1608859813.png",
+          "userSlug": "ffreturn"
+        },
+        "username": "ffreturn"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "![image.png](https://pic.leetcode-cn.com/1635673104-ZUBzZu-image.png)\n\n### 解题思路\n二分法计算\n- 按照l和r的范围去计算，这里l就是最小a,b,c, r就用最大值 2000000000\n- 按照当前值就可以计算有多少个被a和b和c整除的数字\n   - cnt = m/a+m/b+m/c-m/ab-m/bc-m/ac+m/abc\n   - 其中ab，bc，abc都是最小公倍数的意思\n- 坑： 避免溢出，计算用long\n\n### 代码\n\n```cpp\n\nclass Solution {\nprivate:\n    int gcd(int x, int y)\n    {\n        int tmp = x % y;\n        if (tmp > 0)\n        {\n            return gcd(y, tmp);\n        }\n        return y;\n    }\n\n    // 最小公倍数\n    long lcm(int x, int y)\n    {\n        return (long)x* (long)y / gcd(x, y);\n    }\n\npublic:\n    int nthUglyNumber(int n, int a, int b, int c) {\n        // 坑： 存在溢出，需要用long来计算\n        long ab = lcm(a, b);\n        long ac = lcm(a, c);\n        long bc = lcm(b, c);\n        long abc = lcm(ab, c);\n\n        long l = min(min(a, b), c);\n        long r = 2000000000;\n\n        while (l < r)\n        {\n            long m = (l+r)>>1;\n            if ((m/a+m/b+m/c-m/ab-m/ac-m/bc+m/abc) < n)\n            {\n                l = m+1;\n            }\n            else\n            {\n                r = m;\n            }\n        }\n\n        return l;\n    }\n};\n```",
+      "createdAt": "2021-10-31T09:39:32.916438+00:00",
+      "hitCount": 296,
+      "identifier": "u3O7Qz",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "pyrong-chi-yuan-li-er-fen-zhou-qi-you-hu-8aiq",
+        "title": "py+容斥原理+二分+周期优化，通俗易懂"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "ugly-number-iii"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "1201-cchao-100de-er-fen-fa-jie-fa-by-ffr-7cgf",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n二分法计算\n\n按照l和r的范围去计算，这里l就是最小a,b,c, r就用最大值 2000000000\n按照当前值就可以计算有多少个被a和b和c整除的数字\n\ncnt = m/a+m/b+m/c-m/ab-m/bc-m/ac+m/abc\n其中ab，bc，abc都是最小公倍数的意思\n\n\n坑： 避免溢出，计算用lon",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Math",
+          "nameTranslated": "数学",
+          "slug": "math",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "二分搜索",
+          "nameTranslated": "",
+          "slug": "er-fen-sou-suo",
+          "tagType": "ADDITIONAL_TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "梦想",
+          "nameTranslated": "",
+          "slug": "meng-xiang",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1635673104-ZUBzZu-image.png",
+      "title": "1201. c++超100的二分法解法",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 1,
+        "id": 1076476,
+        "viewCount": 207
+      },
+      "uuid": "u3O7Qz",
+      "videosInfo": []
+    }
+  }
+}

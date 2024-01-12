@@ -1,0 +1,102 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "灵茶山艾府",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/endlesscheng/avatar_1589367048.png",
+          "userSlug": "endlesscheng"
+        },
+        "username": "endlesscheng"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "考虑最多可以保留多少个元素不变。由于元素的位置不影响答案，且要求所有元素互不相同，我们可以将 $\\textit{nums}$ 排序，并去掉重复元素。\r\n\r\n对排序去重后的 $\\textit{nums}'$ 中的一段区间 $[l,r]$，若要保留这段区间内的所有元素，我们需要替换区间外的元素，填充到 $[\\textit{nums}'[l],\\textit{nums}'[r]]$ 内缺失的元素上。\r\n\r\n需要填充的元素个数为\r\n\r\n$$\\textit{nums}'[r]-\\textit{nums}'[l]+1-(r-l+1)$$\r\n\r\n记原数组长度为 $n$，则区间外有 $n-(r-l+1)$ 个元素可以用来填充。由于区间外的元素个数不能少于需要填充的元素个数，所以有\r\n\r\n$$\r\n\\textit{nums}'[r]-\\textit{nums}'[l]+1-(r-l+1) \\le n-(r-l+1)\r\n$$\r\n\r\n上式可化简为\r\n\r\n$$\r\n\\textit{nums}'[l]\\ge\\textit{nums}'[r]-n+1\r\n$$\r\n\r\n根据该式，我们可以枚举 $\\textit{nums}'[r]$，二分（或者用双指针）得到最小的满足该式的 $l$，此时 $[l,r]$ 区间内的元素均可以保留。用 $n$ 减去最多可以保留的元素个数，就是答案。\r\n\r\n```go\r\nfunc minOperations(nums []int) (ans int) {\r\n\tn := len(nums)\r\n\tsort.Ints(nums)\r\n\tnums = unique(nums)\r\n\tfor r, v := range nums {\r\n\t\tl := sort.SearchInts(nums[:r], v-n+1)\r\n\t\tans = max(ans, r-l+1) // [l,r] 内的元素均可以保留\r\n\t}\r\n\treturn n - ans\r\n}\r\n\r\n// 原地去重\r\nfunc unique(a []int) []int {\r\n\tk := 0\r\n\tfor _, v := range a[1:] {\r\n\t\tif a[k] != v {\r\n\t\t\tk++\r\n\t\t\ta[k] = v\r\n\t\t}\r\n\t}\r\n\treturn a[:k+1]\r\n}\r\n\r\nfunc max(a, b int) int {\r\n\tif b > a {\r\n\t\treturn b\r\n\t}\r\n\treturn a\r\n}\r\n```\r\n",
+      "createdAt": "2021-09-18T16:10:24.968833+00:00",
+      "hitCount": 1339,
+      "identifier": "lqwYCA",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "cpython3java-1qu-zhong-pai-xu-hua-dong-c-f24d",
+        "title": "c++/python3/java （1）去重+排序+滑动窗口 "
+      },
+      "position": 2,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "c-pai-xu-bian-li-qu-zhong-shuang-zhi-zhe-up6e",
+        "title": "【C++】排序 遍历去重 双指针"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "minimum-number-of-operations-to-make-array-continuous"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 17,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "on-zuo-fa-by-endlesscheng-l7yi",
+      "status": "PREPUBLISH",
+      "summary": "考虑最多可以保留多少个元素不变。由于元素的位置不影响答案，且要求所有元素互不相同，我们可以将 \\textit{nums} 排序，并去掉重复元素。\n对排序去重后的 \\textit{nums}' 中的一段区间 [l,r]，若要保留这段区间内的所有元素，我们需要替换区间外的元素，填充到 [\\textit{nums}'[l],",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Binary Search",
+          "nameTranslated": "二分查找",
+          "slug": "binary-search",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Go",
+          "nameTranslated": "",
+          "slug": "golang",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "去重",
+          "nameTranslated": "",
+          "slug": "qu-zhong",
+          "tagType": "ADDITIONAL_TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "二分",
+          "nameTranslated": "",
+          "slug": "er-fen",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "",
+      "title": "排序+去重+二分",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 2,
+        "id": 1005398,
+        "viewCount": 898
+      },
+      "uuid": "lqwYCA",
+      "videosInfo": []
+    }
+  }
+}

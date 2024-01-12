@@ -1,0 +1,79 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣 (LeetCode)",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/uploaded_files/2021/03/73c9f099-abbe-4d94-853f-f8abffd459cd/leetcode.png",
+          "userSlug": "leetcode"
+        },
+        "username": "LeetCode"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法一：前缀哈希【通过】\n\n**思路**\n\n遍历句子中每个单词，查看单词前缀是否为词根。\n\n**算法**\n\n将所有词根 `roots` 存储到集合 *Set* 中。遍历所有单词，判断其前缀是否为词根。如果是，则使用前缀代替该单词；否则不改变该单词。\n\n```python [solution1-Python]\ndef replaceWords(self, roots, sentence):\n    rootset = set(roots)\n\n    def replace(word):\n        for i in xrange(1, len(word)):\n            if word[:i] in rootset:\n                return word[:i]\n        return word\n\n    return \" \".join(map(replace, sentence.split()))\n```\n\n```java [solution1-Java]\nclass Solution {\n    public String replaceWords(List<String> roots, String sentence) {\n        Set<String> rootset = new HashSet();\n        for (String root: roots) rootset.add(root);\n\n        StringBuilder ans = new StringBuilder();\n        for (String word: sentence.split(\"\\\\s+\")) {\n            String prefix = \"\";\n            for (int i = 1; i <= word.length(); ++i) {\n                prefix = word.substring(0, i);\n                if (rootset.contains(prefix)) break;\n            }\n            if (ans.length() > 0) ans.append(\" \");\n            ans.append(prefix);\n        }\n        return ans.toString();\n    }\n}\n```\n\n**复杂度分析**\n\n* 时间复杂度：$O(\\sum w_i^2)$，其中 $w_i$ 是第 $i$ 个单词的长度。检查第 $i$ 个单词的所有前缀花费时间 $O(w_i^2)$。\n\n* 空间复杂度：$O(N)$，其中 $N$ 是句子的长度，词根使用 `rootset` 存储。\n\n\n#### 方法二：前缀树【通过】\n\n**思路和算法**\n\n把所有的词根放入前缀树中，在树上查找每个单词的最短词根，该操作可在线性时间内完成。\n\n```python [solution2-Python]\nclass Solution(object):\n    def replaceWords(self, roots, sentence):\n        Trie = lambda: collections.defaultdict(Trie)\n        trie = Trie()\n        END = True\n\n        for root in roots:\n            reduce(dict.__getitem__, root, trie)[END] = root\n\n        def replace(word):\n            cur = trie\n            for letter in word:\n                if letter not in cur or END in cur: break\n                cur = cur[letter]\n            return cur.get(END, word)\n\n        return \" \".join(map(replace, sentence.split()))\n```\n\n```java [solution2-Java]\nclass Solution {\n    public String replaceWords(List<String> roots, String sentence) {\n        TrieNode trie = new TrieNode();\n        for (String root: roots) {\n            TrieNode cur = trie;\n            for (char letter: root.toCharArray()) {\n                if (cur.children[letter - 'a'] == null)\n                    cur.children[letter - 'a'] = new TrieNode();\n                cur = cur.children[letter - 'a'];\n            }\n            cur.word = root;\n        }\n\n        StringBuilder ans = new StringBuilder();\n\n        for (String word: sentence.split(\"\\\\s+\")) {\n            if (ans.length() > 0)\n                ans.append(\" \");\n\n            TrieNode cur = trie;\n            for (char letter: word.toCharArray()) {\n                if (cur.children[letter - 'a'] == null || cur.word != null)\n                    break;\n                cur = cur.children[letter - 'a'];\n            }\n            ans.append(cur.word != null ? cur.word : word);\n        }\n        return ans.toString();\n    }\n}\n\nclass TrieNode {\n    TrieNode[] children;\n    String word;\n    TrieNode() {\n        children = new TrieNode[26];\n    }\n}\n```\n\n**复杂度分析**\n\n* 时间复杂度：$O(N)$，其中 $N$ 是 `sentence` 的长度。每次查询操作为线性时间复杂度。\n\n* 空间复杂度：$O(N)$，前缀树的大小。",
+      "createdAt": "2019-12-23T08:41:18.727666+00:00",
+      "hitCount": 15454,
+      "identifier": "o8faUv",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "ji-yu-zi-dian-shu-de-qian-zhui-he-zi-fu-uiis2",
+        "title": "基于字典树的前缀和字符串匹配"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "replace-words"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 17,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "dan-ci-ti-huan-by-leetcode",
+      "status": "PUBLISHED",
+      "summary": " 方法一：前缀哈希【通过】\n思路\n遍历句子中每个单词，查看单词前缀是否为词根。\n算法\n将所有词根 roots 存储到集合 Set 中。遍历所有单词，判断其前缀是否为词根。如果是，则使用前缀代替该单词；否则不改变该单词。\n复杂度分析\n\n\n时间复杂度：O(\\sum w_i^2)，其中 w_i 是第 i 个单词的长度。检查第",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "单词替换",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 36,
+        "id": 60430,
+        "viewCount": 11662
+      },
+      "uuid": "o8faUv",
+      "videosInfo": []
+    }
+  }
+}

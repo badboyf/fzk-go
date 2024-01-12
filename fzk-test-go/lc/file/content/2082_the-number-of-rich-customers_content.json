@@ -1,0 +1,61 @@
+{
+  "data": {
+    "question": {
+      "__typename": "QuestionNode",
+      "book": null,
+      "boundTopicId": 1118829,
+      "categoryTitle": "Database",
+      "codeSnippets": null,
+      "companyTagStats": null,
+      "content": null,
+      "contributors": [],
+      "dailyRecordStatus": null,
+      "difficulty": "Easy",
+      "dislikes": 0,
+      "editorType": "CKEDITOR",
+      "enableRunCode": true,
+      "envInfo": "{\"mysql\":[\"MySQL\",\"<p>\\u7248\\u672c\\uff1a<code>MySQL 8.0<\\/code><\\/p>\"],\"mssql\":[\"MS SQL Server\",\"<p>mssql server 2019.<\\/p>\"],\"oraclesql\":[\"Oracle\",\"<p>Oracle Sql 11.2.<\\/p>\"]}",
+      "exampleTestcases": "{\"headers\":{\"Store\":[\"bill_id\",\"customer_id\",\"amount\"]},\"rows\":{\"Store\":[[6,1,549],[8,1,834],[4,2,394],[11,3,657],[13,3,257]]}}",
+      "hints": [],
+      "isDailyQuestion": false,
+      "isLiked": null,
+      "isPaidOnly": true,
+      "isSubscribed": false,
+      "judgeType": "large",
+      "judgerAvailable": true,
+      "langToValidPlayground": null,
+      "likes": 0,
+      "metaData": "{\n  \"mysql\": [\n    \"Create table If Not Exists Store (bill_id int, customer_id int, amount int)\"\n  ],\n  \"mssql\": [\n    \"Create table Store (bill_id int, customer_id int, amount int)\"\n  ],\n  \"oraclesql\": [\n    \"Create table Store (bill_id int, customer_id int, amount int)\"\n  ],\n  \"database\": true\n}",
+      "mysqlSchemas": [
+        "Create table If Not Exists Store (bill_id int, customer_id int, amount int)",
+        "Truncate table Store",
+        "insert into Store (bill_id, customer_id, amount) values ('6', '1', '549')",
+        "insert into Store (bill_id, customer_id, amount) values ('8', '1', '834')",
+        "insert into Store (bill_id, customer_id, amount) values ('4', '2', '394')",
+        "insert into Store (bill_id, customer_id, amount) values ('11', '3', '657')",
+        "insert into Store (bill_id, customer_id, amount) values ('13', '3', '257')"
+      ],
+      "questionFrontendId": "2082",
+      "questionId": "2223",
+      "sampleTestCase": "{\"headers\":{\"Store\":[\"bill_id\",\"customer_id\",\"amount\"]},\"rows\":{\"Store\":[[6,1,549],[8,1,834],[4,2,394],[11,3,657],[13,3,257]]}}",
+      "similarQuestions": "[]",
+      "solution": null,
+      "stats": "{\"totalAccepted\": \"81\", \"totalSubmission\": \"93\", \"totalAcceptedRaw\": 81, \"totalSubmissionRaw\": 93, \"acRate\": \"87.1%\"}",
+      "status": null,
+      "style": "LEETCODE",
+      "title": "The Number of Rich Customers",
+      "titleSlug": "the-number-of-rich-customers",
+      "topicTags": [
+        {
+          "__typename": "TopicTagNode",
+          "name": "Database",
+          "slug": "database",
+          "translatedName": "数据库"
+        }
+      ],
+      "translatedContent": null,
+      "translatedTitle": null,
+      "ugcQuestionId": null
+    }
+  }
+}

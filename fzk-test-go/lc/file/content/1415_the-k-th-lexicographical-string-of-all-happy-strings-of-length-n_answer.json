@@ -1,0 +1,86 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "EUY",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/euyvvl/avatar_1635000444.png",
+          "userSlug": "euyvvl"
+        },
+        "username": "EUYVVL"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n1. 经典的回溯模板题\n### 代码\n\n```cpp\nclass Solution {\npublic:\n    set<string>st;\n    vector<char>vc={'a','b','c'};\n    void backtracing(int n,string& str){\n        if(str.size()==n){\n            st.insert(str);\n            return ;\n        }\n        for(int i=0;i<3;i++){\n            if(str.empty()||vc[i]!=str.back()){\n                str.push_back(vc[i]);\n                backtracing(n,str);\n                str.pop_back();\n            }\n        }\n    }\n    string getHappyString(int n, int k) {\n        string temp;\n        backtracing(n,temp);\n        if(st.size()<k){\n            return \"\";\n        }\n        int cnt=0;\n        for(auto ite=st.begin();ite!=st.end();ite++){\n            cnt++;\n            if(cnt==k){\n                return *ite;\n            }\n        }\n        return \" \";\n    }\n};\n```",
+      "createdAt": "2021-10-12T07:59:25.413667+00:00",
+      "hitCount": 93,
+      "identifier": "xkql1B",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "hui-su-zhao-chu-suo-you-de-xu-lie-by-hao-ebx3",
+        "title": "回溯，找出所有的序列"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "the-k-th-lexicographical-string-of-all-happy-strings-of-length-n"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "hui-su-mo-ban-ti-by-lwlvhy-8byt",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n\n经典的回溯模板题\n\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "String",
+          "nameTranslated": "字符串",
+          "slug": "string",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Backtracking",
+          "nameTranslated": "回溯",
+          "slug": "backtracking",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "回溯模板题",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1043537,
+        "viewCount": 78
+      },
+      "uuid": "xkql1B",
+      "videosInfo": []
+    }
+  }
+}

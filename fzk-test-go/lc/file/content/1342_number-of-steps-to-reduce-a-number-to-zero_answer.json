@@ -1,0 +1,79 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "翻斗花园胡图图",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/zhan-ke-ji-qiu-la/avatar_1624454402.png",
+          "userSlug": "zhan-ke-ji-qiu-la"
+        },
+        "username": "zhan-ke-ji-qiu-la"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 代码\n\n```cpp\nclass Solution {\npublic:\n    int numberOfSteps(int num) {\n        int ans = 0;\n        while(num)\n        {\n            if(1 & num) num -= 1;\n            else num >>= 1;\n            ans ++;\n        }\n        return ans;\n\n    }\n};\n```",
+      "createdAt": "2021-11-23T11:44:30.435046+00:00",
+      "hitCount": 2,
+      "identifier": "WLfDV9",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "1342-cchao-100de-mo-ni-jie-fa-by-ffretur-rx4c",
+        "title": "1342. c++超100的模拟解法"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "number-of-steps-to-reduce-a-number-to-zero"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "1342-jiang-shu-zi-bian-cheng-0-de-cao-zu-zbtg",
+      "status": "PUBLISHED",
+      "summary": "代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Bit Manipulation",
+          "nameTranslated": "位运算",
+          "slug": "bit-manipulation",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "1342. 将数字变成 0 的操作次数",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1118238,
+        "viewCount": 2
+      },
+      "uuid": "WLfDV9",
+      "videosInfo": []
+    }
+  }
+}

@@ -1,0 +1,76 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "刷题就此开始吧！",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/liu-yong-qi/avatar_1634986562.png",
+          "userSlug": "liu-yong-qi"
+        },
+        "username": "liu-yong-qi"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n先看代码吧!!!!\n记得点赞呀！！亲\n心情好的话！！给个关注呀！！\n![image.png](https://pic.leetcode-cn.com/1634437333-dEGRQM-image.png)\n\n\n### 代码\n\n```cpp\nclass Solution {\npublic:\n    int findCenter(vector<vector<int>>& edges) {\n        return edges[0][0]==edges[1][0]||edges[0][0]==edges[1][1]?edges[0][0]:edges[0][1];\n    }\n};\n```",
+      "createdAt": "2021-10-17T02:24:28.627014+00:00",
+      "hitCount": 256,
+      "identifier": "6q4XlS",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "qiao-miao-bi-dui-shuang-bai-tong-guo-570-mxpq",
+        "title": "【巧妙比对，双百通过】5702. 找出星型图的中心节点"
+      },
+      "position": 2,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "alton-zhao-chu-xing-xing-tu-de-zhong-xin-y8l0",
+        "title": "「Alton」- 找出星型图的中心节点 - Graph"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "find-center-of-star-graph"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "1-xing-dai-ma-shuang-bai-ti-jie-by-liu-y-0wnw",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n先看代码吧!!!!\n记得点赞呀！！亲\n心情好的话！！给个关注呀！！\n\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1634437333-dEGRQM-image.png",
+      "title": "1 行代码。。。双百题解",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 2,
+        "id": 1051289,
+        "viewCount": 230
+      },
+      "uuid": "6q4XlS",
+      "videosInfo": []
+    }
+  }
+}

@@ -1,0 +1,100 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "EUY",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/euyvvl/avatar_1635000444.png",
+          "userSlug": "euyvvl"
+        },
+        "username": "EUYVVL"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n**一道简单的树的遍历的题**\n1. 对二叉树进行遍历,记录每一条路径的节点的状况;\n2. 当遍历到叶子节点的时候,检查是否满足题目的回文条件;\n### 代码\n\n```cpp\n/**\n * Definition for a binary tree node.\n * struct TreeNode {\n *     int val;\n *     TreeNode *left;\n *     TreeNode *right;\n *     TreeNode() : val(0), left(nullptr), right(nullptr) {}\n *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}\n *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}\n * };\n */\nclass Solution {\npublic:\n    unordered_map<int,int>ump;\n    int res=0;\n    bool check(unordered_map<int,int>&ump){\n        bool cntodd=false;\n        for(auto ite=ump.begin();ite!=ump.end();ite++){\n            if(ite->second%2==0){\n                continue;\n            }\n            if(cntodd){\n                return false;\n            }\n            cntodd=true;\n        }\n        return true;\n    }  \n    void DFS(TreeNode* root){\n        if(root==nullptr){\n            return ;\n        }\n        ump[root->val]++;\n        if(root->left==nullptr&&root->right==nullptr){\n            if(check(ump)){\n                res++;\n            }\n        }\n        DFS(root->left);\n        DFS(root->right);\n        ump[root->val]--;\n    }\n    int pseudoPalindromicPaths (TreeNode* root) {\n        DFS(root);\n        return res;\n    }\n};\n```",
+      "createdAt": "2021-10-13T06:20:18.458177+00:00",
+      "hitCount": 88,
+      "identifier": "nZn6Mx",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "bian-li-yong-yin-yong-chuan-zhi-ti-gao-x-rohz",
+        "title": "遍历，用引用传值提高性能"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "pseudo-palindromic-paths-in-a-binary-tree"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "yi-dao-jian-dan-de-er-cha-shu-de-bian-li-s7u6",
+      "status": "PUBLISHED",
+      "summary": "解题思路\n一道简单的树的遍历的题\n\n对二叉树进行遍历,记录每一条路径的节点的状况;\n当遍历到叶子节点的时候,检查是否满足题目的回文条件;\n\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Tree",
+          "nameTranslated": "树",
+          "slug": "tree",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Array",
+          "nameTranslated": "数组",
+          "slug": "array",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Math",
+          "nameTranslated": "数学",
+          "slug": "math",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Counting",
+          "nameTranslated": "计数",
+          "slug": "counting",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "一道简单的二叉树的遍历",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1045065,
+        "viewCount": 73
+      },
+      "uuid": "nZn6Mx",
+      "videosInfo": []
+    }
+  }
+}

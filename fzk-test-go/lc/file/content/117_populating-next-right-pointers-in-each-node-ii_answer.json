@@ -1,0 +1,119 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣官方题解",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/leetcode-solution/avatar_1582018938.png",
+          "userSlug": "leetcode-solution"
+        },
+        "username": "LeetCode-Solution"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法一：层次遍历\n\n**思路与算法**\n\n这道题希望我们把二叉树各个层的点组织成链表，一个非常直观的思路是层次遍历。树的层次遍历基于广度优先搜索，它按照层的顺序遍历二叉树，在遍历第 $i$ 层前，一定会遍历完第 $i - 1$ 层。\n\n算法如下：初始化一个队列 $q$，将根结点放入队列中。当队列不为空的时候，记录当前队列大小为 $n$，从队列中以此取出 $n$ 个元素并通过这 $n$ 个元素拓展新节点。如此循环，直到队列为空。我们不难写出这样的代码：\n\n```cpp [demo-C++]\nq.push(root);\nwhile(!q.empty()) {\n    int n = q.size();\n    for (int i = 1; i <= n; ++i) {\n        auto f = q.front();\n        q.pop();\n        // 拓展新节点\n        if (f->left) {\n            q.push(f->left);\n        }\n        if (f->right) {\n            q.push(f->right);\n        }\n        // ... 遍历当前取出的 f\n    }\n}\n```\n\n这样做可以保证每次遍历的 $n$ 个点都是同一层的。我们可以在遍历每一层的时候修改这一层节点的 $\\text{next}$ 指针，这样就可以把每一层都组织成链表。\n\n**代码**\n\n```cpp [sol1-C++]\nclass Solution {\npublic:\n    Node* connect(Node* root) {\n        if (!root) {\n            return nullptr;\n        }\n        queue<Node*> q;\n        q.push(root);\n        while (!q.empty()) {\n            int n = q.size();\n            Node *last = nullptr;\n            for (int i = 1; i <= n; ++i) {\n                Node *f = q.front();\n                q.pop();\n                if (f->left) {\n                    q.push(f->left);\n                }\n                if (f->right) {\n                    q.push(f->right);\n                }\n                if (i != 1) {\n                    last->next = f;\n                }\n                last = f;\n            }\n        }\n        return root;\n    }\n};\n```\n\n```Java [sol1-Java]\nclass Solution {\n    public Node connect(Node root) {\n        if (root == null) {\n            return null;\n        }\n        Queue<Node> queue = new LinkedList<Node>();\n        queue.offer(root);\n        while (!queue.isEmpty()) {\n            int n = queue.size();\n            Node last = null;\n            for (int i = 1; i <= n; ++i) {\n                Node f = queue.poll();\n                if (f.left != null) {\n                    queue.offer(f.left);\n                }\n                if (f.right != null) {\n                    queue.offer(f.right);\n                }\n                if (i != 1) {\n                    last.next = f;\n                }\n                last = f;\n            }\n        }\n        return root;\n    }\n}\n```\n\n```JavaScript [sol1-JavaScript]\nvar connect = function(root) {\n    if (root === null) {\n        return null;\n    }\n    const queue = [root];\n    while (queue.length) {\n        const n = queue.length;\n        let last = null;\n        for (let i = 1; i <= n; ++i) {\n            let f = queue.shift();\n            if (f.left !== null) {\n                queue.push(f.left);\n            }\n            if (f.right !== null) {\n                queue.push(f.right);\n            }\n            if (i !== 1) {\n                last.next = f;\n            }\n            last = f;\n        }\n    }\n    return root;\n};\n```\n\n```Golang [sol1-Golang]\nfunc connect(root *Node) *Node {\n    if root == nil {\n        return nil\n    }\n    q := []*Node{root}\n    for len(q) > 0 {\n        tmp := q\n        q = nil\n        for i, node := range tmp {\n            if i+1 < len(tmp) {\n                node.Next = tmp[i+1]\n            }\n            if node.Left != nil {\n                q = append(q, node.Left)\n            }\n            if node.Right != nil {\n                q = append(q, node.Right)\n            }\n        }\n    }\n    return root\n}\n```\n\n```C [sol1-C]\nstruct Node *connect(struct Node *root) {\n    if (!root) {\n        return NULL;\n    }\n    struct Node *q[10001];\n    int left = 0, right = 0;\n    q[right++] = root;\n    while (left < right) {\n        int n = right - left;\n        struct Node *last = NULL;\n        for (int i = 1; i <= n; ++i) {\n            struct Node *f = q[left++];\n            if (f->left) {\n                q[right++] = f->left;\n            }\n            if (f->right) {\n                q[right++] = f->right;\n            }\n            if (i != 1) {\n                last->next = f;\n            }\n            last = f;\n        }\n    }\n    return root;\n}\n```\n\n**复杂度分析**\n\n记树上的点的个数为 $N$。\n\n+ 时间复杂度：$O(N)$。我们需要遍历这棵树上所有的点，时间复杂度为 $O(N)$。\n\n+ 空间复杂度：$O(N)$。即队列的空间代价。\n\n#### 方法二：使用已建立的 $\\text{next}$ 指针\n\n**思路与算法**\n\n因为必须处理树上的所有节点，所以无法降低时间复杂度，但是可以尝试降低空间复杂度。\n\n在方法一中，因为对树的结构一无所知，所以使用队列保证有序访问同一层的所有节点，并建立它们之间的连接。然而不难发现：一旦在某层的节点之间建立了 $\\text{next}$ 指针，那这层节点实际上形成了一个链表。因此，如果先去建立某一层的 $\\text{next}$ 指针，再去遍历这一层，就无需再使用队列了。\n\n基于该想法，提出降低空间复杂度的思路：如果第 $i$ 层节点之间已经建立 $\\text{next}$ 指针，就可以通过 $\\text{next}$ 指针访问该层的所有节点，同时对于每个第 $i$ 层的节点，我们又可以通过它的 $\\rm left$ 和 $\\rm right$ 指针知道其第 $i+1$ 层的孩子节点是什么，所以遍历过程中就能够按顺序为第 $i + 1$ 层节点建立 $\\text{next}$ 指针。\n\n具体来说：\n\n+ 从根节点开始。因为第 $0$ 层只有一个节点，不需要处理。可以在上一层为下一层建立 $\\text{next}$ 指针。该方法最重要的一点是：位于第 $x$ 层时为第 $x + 1$ 层建立 $\\text{next}$ 指针。一旦完成这些连接操作，移至第 $x + 1$ 层为第 $x + 2$ 层建立 $\\text{next}$ 指针。\n+ 当遍历到某层节点时，该层节点的 $\\text{next}$ 指针已经建立。这样就不需要队列从而节省空间。每次只要知道下一层的最左边的节点，就可以从该节点开始，像遍历链表一样遍历该层的所有节点。\n\n**代码**\n\n```cpp [sol2-C++]\nclass Solution {\npublic:\n    void handle(Node* &last, Node* &p, Node* &nextStart) {\n        if (last) {\n            last->next = p;\n        } \n        if (!nextStart) {\n            nextStart = p;\n        }\n        last = p;\n    }\n\n    Node* connect(Node* root) {\n        if (!root) {\n            return nullptr;\n        }\n        Node *start = root;\n        while (start) {\n            Node *last = nullptr, *nextStart = nullptr;\n            for (Node *p = start; p != nullptr; p = p->next) {\n                if (p->left) {\n                    handle(last, p->left, nextStart);\n                }\n                if (p->right) {\n                    handle(last, p->right, nextStart);\n                }\n            }\n            start = nextStart;\n        }\n        return root;\n    }\n};\n```\n\n```Java [sol2-Java]\nclass Solution {\n    Node last = null, nextStart = null;\n\n    public Node connect(Node root) {\n        if (root == null) {\n            return null;\n        }\n        Node start = root;\n        while (start != null) {\n            last = null;\n            nextStart = null;\n            for (Node p = start; p != null; p = p.next) {\n                if (p.left != null) {\n                    handle(p.left);\n                }\n                if (p.right != null) {\n                    handle(p.right);\n                }\n            }\n            start = nextStart;\n        }\n        return root;\n    }\n\n    public void handle(Node p) {\n        if (last != null) {\n            last.next = p;\n        } \n        if (nextStart == null) {\n            nextStart = p;\n        }\n        last = p;\n    }\n}\n```\n\n```JavaScript [sol2-JavaScript]\nlet last = null, nextStart = null;\nconst handle = (p) => {\n    if (last !== null) {\n        last.next = p;\n    } \n    if (nextStart === null) {\n        nextStart = p;\n    }\n    last = p;\n}\nvar connect = function(root) {\n    if (root === null) {\n        return null;\n    }\n    let start = root;\n    while (start != null) {\n        last = null;\n        nextStart = null;\n        for (let p = start; p !== null; p = p.next) {\n            if (p.left !== null) {\n                handle(p.left);\n            }\n            if (p.right !== null) {\n                handle(p.right);\n            }\n        }\n        start = nextStart;\n    }\n    return root;\n};\n```\n\n```Golang [sol2-Golang]\nfunc connect(root *Node) *Node {\n    start := root\n    for start != nil {\n        var nextStart, last *Node\n        handle := func(cur *Node) {\n            if cur == nil {\n                return\n            }\n            if nextStart == nil {\n                nextStart = cur\n            }\n            if last != nil {\n                last.Next = cur\n            }\n            last = cur\n        }\n        for p := start; p != nil; p = p.Next {\n            handle(p.Left)\n            handle(p.Right)\n        }\n        start = nextStart\n    }\n    return root\n}\n```\n\n```C [sol2-C]\nvoid handle(struct Node **last, struct Node **p, struct Node **nextStart) {\n    if (*last) {\n        (*last)->next = *p;\n    }\n    if (!(*nextStart)) {\n        *nextStart = *p;\n    }\n    *last = *p;\n}\n\nstruct Node *connect(struct Node *root) {\n    if (!root) {\n        return NULL;\n    }\n    struct Node *start = root;\n    while (start) {\n        struct Node *last = NULL, *nextStart = NULL;\n        for (struct Node *p = start; p != NULL; p = p->next) {\n            if (p->left) {\n                handle(&last, &(p->left), &nextStart);\n            }\n            if (p->right) {\n                handle(&last, &(p->right), &nextStart);\n            }\n        }\n        start = nextStart;\n    }\n    return root;\n}\n```\n\n**复杂度分析**\n\n+ 时间复杂度：$O(N)$。分析同「方法一」。\n\n+ 空间复杂度：$O(1)$。",
+      "createdAt": "2020-09-27T15:32:30.055308+00:00",
+      "hitCount": 50814,
+      "identifier": "52bc1o",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "bfsjie-jue-zui-hao-de-ji-bai-liao-100de-yong-hu-by",
+        "title": "BFS解决（最好的击败了100%的用户）"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "populating-next-right-pointers-in-each-node-ii"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 70,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 3,
+          "reactionType": "CONFUSED"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "tian-chong-mei-ge-jie-dian-de-xia-yi-ge-you-ce-15",
+      "status": "PUBLISHED",
+      "summary": "方法一：层次遍历 思路与算法 这道题希望我们把二叉树各个层的点组织成链表，一个非常直观的思路是层次遍历。树的层次遍历基于广度优先搜索，它按照层的顺序遍历二叉树，在遍历第 $i$ 层前，一定会遍历完第 $i - 1$ 层。 算法如下：初始化一个队列 $q$，将根结点放入队列中。当队列不为空的时候，记录当前队列大小为 $n",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Tree",
+          "nameTranslated": "树",
+          "slug": "tree",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Breadth-First Search",
+          "nameTranslated": "广度优先搜索",
+          "slug": "breadth-first-search",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C",
+          "nameTranslated": "",
+          "slug": "c",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Go",
+          "nameTranslated": "",
+          "slug": "golang",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "JavaScript",
+          "nameTranslated": "",
+          "slug": "javascript",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "填充每个节点的下一个右侧节点指针 II",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 154,
+        "id": 429828,
+        "viewCount": 34359
+      },
+      "uuid": "52bc1o",
+      "videosInfo": []
+    }
+  }
+}

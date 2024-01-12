@@ -1,0 +1,91 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "微扰理论",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/wfnuser/avatar_1633367766.png",
+          "userSlug": "wfnuser"
+        },
+        "username": "wfnuser"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n宽高比，我们可以直接算出来。但是直接用内建的高精度小数的话，很可能会被卡精度。\n\n所以我们把宽高比化成有理数，即宽和高都除以他们的最大公约数。然后用一个hashmap去算同样宽高比的矩形的数量，再之后就转化成一个组合问题啦。\n即宽高比相同的矩形有N个，那么他们组成多少个**可互换对**呢？🤔\n\n很显然，答案是 `N*(N-1)/2`\n\n### 代码\n\n```cpp\nclass Solution {\npublic:\n    int gcd(int a, int b) {\n        if (a < b) return gcd(b, a);\n        if (a % b == 0) return b;\n        return gcd(b, a%b);\n    }\n    \n    unordered_map<int, unordered_map<int, long long>> cnt;\n    \n    long long interchangeableRectangles(vector<vector<int>>& rectangles) {\n        for (auto r : rectangles) {\n            int c = gcd(r[0], r[1]);\n            r[0] /= c;\n            r[1] /= c;\n            \n            cnt[r[0]][r[1]]++;\n        }\n        \n        long long ans = 0;\n        \n        for (auto iter = cnt.begin(); iter != cnt.end(); iter++) {\n            for (auto i = iter->second.begin(); i != iter->second.end(); i++) {\n                ans += i->second * (i->second - 1) / 2;\n            }\n        }\n        \n        \n        return ans;\n    }\n};\n```\n\n### 相似题目： hash + 计数\n|题目|难度|\n|----------|------------|----------|\n|[447.回旋镖的数量](https://leetcode-cn.com/problems/number-of-boomerangs/solution/wei-rao-li-lun-ha-xi-biao-ko-hui-xuan-bi-gnxy/)|中等|\n|[2001.可互换矩形的组数](https://leetcode-cn.com/problems/number-of-pairs-of-interchangeable-rectangles/solution/wei-rao-li-lun-zui-da-gong-yue-shu-hashm-muzr/)|中等|\n\n\n### 关于我\n18年毕业于上海交通大学，一个在阿里、字节、腾讯都工作过的工程师，有丰富的面试经验，业余时间也是【悖论13】剧本杀的老板。实在卷不动了，目前(2021.8)在emqx从事存储研发，希望在今年多多输出。\n想了解我和我的公司或者一起刷题的可以 +v ： constant_variation\n\n最后，如果对你有帮助，**可以点个赞支持一下我哦** 也欢迎在leetcode上[关注我](https://leetcode-cn.com/u/wfnuser/)。",
+      "createdAt": "2021-09-12T05:07:55.736924+00:00",
+      "hitCount": 1964,
+      "identifier": "TdLPSB",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "xyfs-zao-zhi-dao-bu-hua-jian-guo-bu-liao-lk1i",
+        "title": "早知道不化简过不了，我就..."
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "number-of-pairs-of-interchangeable-rectangles"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 19,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": false,
+      "slug": "wei-rao-li-lun-zui-da-gong-yue-shu-hashm-muzr",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n宽高比，我们可以直接算出来。但是直接用内建的高精度小数的话，很可能会被卡精度。\n所以我们把宽高比化成有理数，即宽和高都除以他们的最大公约数。然后用一个hashmap去算同样宽高比的矩形的数量，再之后就转化成一个组合问题啦。\n即宽高比相同的矩形有N个，那么他们组成多少个可互换对呢？🤔\n很显然，答案是 N*(N-",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Hash Table",
+          "nameTranslated": "哈希表",
+          "slug": "hash-table",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Math",
+          "nameTranslated": "数学",
+          "slug": "math",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "【微扰理论】最大公约数+hashmap+组合计数",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 8,
+        "id": 993092,
+        "viewCount": 1383
+      },
+      "uuid": "TdLPSB",
+      "videosInfo": []
+    }
+  }
+}

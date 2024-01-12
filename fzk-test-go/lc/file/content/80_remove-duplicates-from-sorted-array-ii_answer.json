@@ -1,0 +1,129 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣官方题解",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/leetcode-solution/avatar_1582018938.png",
+          "userSlug": "leetcode-solution"
+        },
+        "username": "LeetCode-Solution"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法一：双指针\n\n**思路及解法**\n\n在阅读本题前，读者们可以先尝试解决「[26. 删除有序数组中的重复项](https://leetcode-cn.com/problems/remove-duplicates-from-sorted-array)」。\n\n因为给定数组是有序的，所以相同元素必然连续。我们可以使用双指针解决本题，遍历数组检查每一个元素是否应该被保留，如果应该被保留，就将其移动到指定位置。具体地，我们定义两个指针 $\\textit{slow}$ 和 $\\textit{fast}$ 分别为慢指针和快指针，其中慢指针表示处理出的数组的长度，快指针表示已经检查过的数组的长度，即 $\\textit{nums}[\\textit{fast}]$ 表示待检查的第一个元素，$\\textit{nums}[\\textit{slow} - 1]$ 为上一个应该被保留的元素所移动到的指定位置。\n\n因为本题要求相同元素最多出现两次而非一次，所以我们需要检查上上个应该被保留的元素 $\\textit{nums}[\\textit{slow} - 2]$ 是否和当前待检查元素 $\\textit{nums}[\\textit{fast}]$ 相同。当且仅当 $\\textit{nums}[\\textit{slow} - 2] = \\textit{nums}[\\textit{fast}]$ 时，当前待检查元素 $\\textit{nums}[\\textit{fast}]$ 不应该被保留（因为此时必然有 $\\textit{nums}[\\textit{slow} - 2] = nums[\\textit{slow} - 1] = \\textit{nums}[\\textit{fast}]$）。最后，$\\textit{slow}$ 即为处理好的数组的长度。\n\n特别地，数组的前两个数必然可以被保留，因此对于长度不超过 $2$ 的数组，我们无需进行任何处理，对于长度超过 $2$ 的数组，我们直接将双指针的初始值设为 $2$ 即可。\n\n**代码**\n\n```C++ [sol1-C++]\nclass Solution {\npublic:\n    int removeDuplicates(vector<int>& nums) {\n        int n = nums.size();\n        if (n <= 2) {\n            return n;\n        }\n        int slow = 2, fast = 2;\n        while (fast < n) {\n            if (nums[slow - 2] != nums[fast]) {\n                nums[slow] = nums[fast];\n                ++slow;\n            }\n            ++fast;\n        }\n        return slow;\n    }\n};\n```\n\n```Java [sol1-Java]\nclass Solution {\n    public int removeDuplicates(int[] nums) {\n        int n = nums.length;\n        if (n <= 2) {\n            return n;\n        }\n        int slow = 2, fast = 2;\n        while (fast < n) {\n            if (nums[slow - 2] != nums[fast]) {\n                nums[slow] = nums[fast];\n                ++slow;\n            }\n            ++fast;\n        }\n        return slow;\n    }\n}\n```\n\n```JavaScript [sol1-JavaScript]\nvar removeDuplicates = function(nums) {\n    const n = nums.length;\n    if (n <= 2) {\n        return n;\n    }\n    let slow = 2, fast = 2;\n    while (fast < n) {\n        if (nums[slow - 2] != nums[fast]) {\n            nums[slow] = nums[fast];\n            ++slow;\n        }\n        ++fast;\n    }\n    return slow;\n};\n```\n\n```go [sol1-Golang]\nfunc removeDuplicates(nums []int) int {\n    n := len(nums)\n    if n <= 2 {\n        return n\n    }\n    slow, fast := 2, 2\n    for fast < n {\n        if nums[slow-2] != nums[fast] {\n            nums[slow] = nums[fast]\n            slow++\n        }\n        fast++\n    }\n    return slow\n}\n```\n\n```C [sol1-C]\nint removeDuplicates(int* nums, int numsSize) {\n    if (numsSize <= 2) {\n        return numsSize;\n    }\n    int slow = 2, fast = 2;\n    while (fast < numsSize) {\n        if (nums[slow - 2] != nums[fast]) {\n            nums[slow] = nums[fast];\n            ++slow;\n        }\n        ++fast;\n    }\n    return slow;\n}\n```\n\n**复杂度分析**\n\n- 时间复杂度：$O(n)$，其中 $n$ 是数组的长度。我们最多遍历该数组一次。\n\n- 空间复杂度：$O(1)$。我们只需要常数的空间存储若干变量。",
+      "createdAt": "2021-04-05T15:25:40.889590+00:00",
+      "hitCount": 51921,
+      "identifier": "QFQVti",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "gong-shui-san-xie-guan-yu-shan-chu-you-x-glnq",
+        "title": "【宫水三叶】关于「删除有序数组重复项」的通解"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "remove-duplicates-from-sorted-array-ii"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 79,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "AWESOME"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "CONFUSED"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 0,
+          "reactionType": "THUMBS_DOWN"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "shan-chu-pai-xu-shu-zu-zhong-de-zhong-fu-yec2",
+      "status": "PREPUBLISH",
+      "summary": "方法一：双指针 思路及解法 在阅读本题前，读者们可以先尝试解决「26. 删除有序数组中的重复项」。 因为给定数组是有序的，所以相同元素必然连续。我们可以使用双指针解决本题，遍历数组检查每一个元素是否应该被保留，如果应该被保留，就将其移动到指定位置。具体地，我们定义两个指针 $\\textit{slow}$ 和 $\\tex",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Array",
+          "nameTranslated": "数组",
+          "slug": "array",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Two Pointers",
+          "nameTranslated": "双指针",
+          "slug": "two-pointers",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C",
+          "nameTranslated": "",
+          "slug": "c",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Go",
+          "nameTranslated": "",
+          "slug": "golang",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "JavaScript",
+          "nameTranslated": "",
+          "slug": "javascript",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "删除排序数组中的重复项 II",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 164,
+        "id": 702644,
+        "viewCount": 36176
+      },
+      "uuid": "QFQVti",
+      "videosInfo": []
+    }
+  }
+}

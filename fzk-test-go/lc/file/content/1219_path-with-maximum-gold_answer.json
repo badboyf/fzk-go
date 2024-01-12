@@ -1,0 +1,76 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "offer快到碗里来~",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/zhouzihong/avatar_1626862997.png",
+          "userSlug": "zhouzihong"
+        },
+        "username": "zhouzihong"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "![image.png](https://pic.leetcode-cn.com/1633054767-kvGuzx-image.png)\r\n抽象图一二ij\r\n```\r\nclass Solution {\r\npublic:\r\n    int ans=0;\r\n    int xx[4]={1,-1,0,0},yy[4]={0,0,1,-1};\r\n    int getMaximumGold(vector<vector<int>>& grid) {\r\n        int n=grid.size(),m=grid[0].size();\r\n        vector<vector<int>>vis(n,vector<int>(m));\r\n        for(int i=0;i<n;i++){\r\n            for(int j=0;j<m;j++){\r\n                if(grid[i][j]!=0){\r\n                    vis[i][j]=1;\r\n                    dfs(i,j,grid[i][j],grid,vis);\r\n                    vis[i][j]=0;\r\n                }\r\n            }\r\n        }\r\n        return ans;\r\n    }\r\n    void dfs(int x,int y,int add,vector<vector<int>>&grid,vector<vector<int>>&vis){\r\n        ans=max(ans,add);\r\n        int n=grid.size(),m=grid[0].size();\r\n        for(int i=0;i<4;i++){\r\n            int dx=xx[i]+x,dy=yy[i]+y;\r\n            if(dx<0||dx>=n||dy<0||dy>=m||grid[dx][dy]==0||vis[dx][dy]==1)continue;\r\n            vis[dx][dy]=1;\r\n            dfs(dx,dy,add+grid[dx][dy],grid,vis);\r\n            vis[dx][dy]=0;\r\n        }\r\n    }\r\n};\r\n```\r\n",
+      "createdAt": "2021-10-01T02:19:55.087578+00:00",
+      "hitCount": 294,
+      "identifier": "mzSGe3",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "code-go-1219ti-hui-su-qiu-jie-by-code-go-jhi2",
+        "title": "【Code Go】1219题，回溯求解"
+      },
+      "position": 3,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "hui-su-suan-fa-tu-wen-xiang-jie-by-sdwwld",
+        "title": "回溯算法（图文详解）"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "path-with-maximum-gold"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "duo-qi-dian-dfs-hui-su-by-zhouzihong-y0uk",
+      "status": "PREPUBLISH",
+      "summary": "抽象图一二ij",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1633054767-kvGuzx-image.png",
+      "title": "【多起点dfs】【回溯】",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1026462,
+        "viewCount": 235
+      },
+      "uuid": "mzSGe3",
+      "videosInfo": []
+    }
+  }
+}

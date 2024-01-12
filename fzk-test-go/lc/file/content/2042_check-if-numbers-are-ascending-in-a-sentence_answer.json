@@ -1,0 +1,83 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "》_01解题者_《",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/vigorous-yonathnnu/avatar_1635260875.png",
+          "userSlug": "01_qustionsolver"
+        },
+        "username": "01_qustionsolver"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n遍历一遍，直接截取\n\n### 代码\n\n```cpp\nclass Solution {\npublic:\n    bool areNumbersAscending(string s) {\n    int tmp=INT_MIN;\n    for(int i=0;i<s.size();i++){\n        if(isdigit(s[i])){\n            int j=i+1;\n            while(j<s.size()&&isdigit(s[j]))j++;\n            int k=stoi(s.substr(i,j-i));\n            if(k<=tmp)return false;\n            else tmp=k;\n            i=j;\n        }\n    }\n    return true;\n    }\n};\n```",
+      "createdAt": "2021-11-12T12:28:28.555604+00:00",
+      "hitCount": 46,
+      "identifier": "Btj5hw",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "javali-yong-tokenshou-wei-de-zi-fu-bian-clmk0",
+        "title": "Java利用token首位的字符编码判断token是否为数字"
+      },
+      "position": 2,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "cbian-li-zi-fu-chuan-by-happy_tang-2rpd",
+        "title": "c++遍历字符串"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "check-if-numbers-are-ascending-in-a-sentence"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "jing-dian-bu-guo-de-zi-fu-chuan-jie-qu-b-8uwo",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n遍历一遍，直接截取\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Sliding Window",
+          "nameTranslated": "滑动窗口",
+          "slug": "sliding-window",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "经典不过的字符串截取",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1098266,
+        "viewCount": 39
+      },
+      "uuid": "Btj5hw",
+      "videosInfo": []
+    }
+  }
+}

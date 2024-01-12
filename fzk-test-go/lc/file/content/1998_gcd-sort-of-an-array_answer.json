@@ -1,0 +1,77 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "心向远方",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/xin-xiang-yuan-fang/avatar_1631438329.png",
+          "userSlug": "xin-xiang-yuan-fang"
+        },
+        "username": "xin-xiang-yuan-fang"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\r\n**1.题意为任意两个数的公因数大于1，那么这两个数可以交换。由此可知如果a和b可交换，b和c可交换，那么a,b,c三者可以任意改变顺序，不难想到用并查集把所有公因数大于1的两个数合并。**\r\n\r\n**2.如果用两层循环来判断来合并任意两个数，此时必然会超时。因此考虑将每个数和自己的所有质因子进行合并，如15和质因子3，5进行合并，21和质因子3，7合并，这样保证了21和15在同一个集合中。这样对于每个数仅仅需要分解质因子的时间复杂度，远远低于两层循环所需的时间复杂度。**\r\n\r\n**3.合并之后，所有在一个并查集中的数可以任意交换。将原有的数组进行排序和新数组对比，如果原有数组和新数组的数字相同，则跳过，如果不同，则必须满足两个数在同一个并查集中，否则返回false，扫描一遍后如果没有返回false，则返回true.**\r\n### 代码\r\n\r\n```cpp\r\nconst int N = 3e5 + 10;\r\n\r\nclass Solution {\r\nprivate:\r\n    int p[N];\r\npublic:\r\n    int find(int x) {\r\n        if (x != p[x])  p[x] = find(p[x]);\r\n        return p[x];\r\n    }\r\n    void merge(int a, int b) {\r\n        int x = find(a), y = find(b);\r\n        if (x == y)     return;\r\n        p[x] = y;\r\n    }\r\n    bool gcdSort(vector<int>& nums) {\r\n        vector<int> nums1 = nums;\r\n        for (int i = 1; i < N; i++) p[i] = i;\r\n        // 分解质因数\r\n        for (auto c:nums) {\r\n            int k = c;\r\n            for (int i = 2; i <= c / i; i++) {\r\n                bool flag = false;\r\n                while (c % i == 0)\r\n                    c /= i, flag = true;\r\n                if (flag)\r\n                    merge(k, i);\r\n            }\r\n            // 合并质因子\r\n            if (c > 1)\r\n               merge(k, c);\r\n        }\r\n        sort(nums1.begin(), nums1.end());\r\n        // 对比原数组\r\n        for (int i = 0; i < nums1.size(); i++) {\r\n            if (nums1[i] == nums[i])    continue;\r\n            if (find(nums1[i]) != find(nums[i]))    return false;\r\n        }\r\n        return true;\r\n    }\r\n};\r\n```",
+      "createdAt": "2021-09-05T04:23:27.729200+00:00",
+      "hitCount": 2594,
+      "identifier": "EAg3wO",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "bing-cha-ji-zhi-yin-shu-fen-jie-by-chnxi-ugtc",
+        "title": "并查集 + 质因数分解"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "gcd-sort-of-an-array"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 35,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "bing-cha-ji-fen-jie-zhi-yin-shu-by-xin-x-ylsz",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n1.题意为任意两个数的公因数大于1，那么这两个数可以交换。由此可知如果a和b可交换，b和c可交换，那么a,b,c三者可以任意改变顺序，不难想到用并查集把所有公因数大于1的两个数合并。\n2.如果用两层循环来判断来合并任意两个数，此时必然会超时。因此考虑将每个数和自己的所有质因子进行合并，如15和质因子3，5进行",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "并查集+分解质因数",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 26,
+        "id": 979276,
+        "viewCount": 1499
+      },
+      "uuid": "EAg3wO",
+      "videosInfo": []
+    }
+  }
+}

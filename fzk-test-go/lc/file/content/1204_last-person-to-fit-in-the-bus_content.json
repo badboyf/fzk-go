@@ -1,0 +1,62 @@
+{
+  "data": {
+    "question": {
+      "__typename": "QuestionNode",
+      "book": null,
+      "boundTopicId": 33152,
+      "categoryTitle": "Database",
+      "codeSnippets": null,
+      "companyTagStats": null,
+      "content": null,
+      "contributors": [],
+      "dailyRecordStatus": null,
+      "difficulty": "Medium",
+      "dislikes": 0,
+      "editorType": "CKEDITOR",
+      "enableRunCode": true,
+      "envInfo": "{\"mysql\":[\"MySQL\",\"<p>\\u7248\\u672c\\uff1a<code>MySQL 8.0<\\/code><\\/p>\"],\"mssql\":[\"MS SQL Server\",\"<p>mssql server 2019.<\\/p>\"],\"oraclesql\":[\"Oracle\",\"<p>Oracle Sql 11.2.<\\/p>\"]}",
+      "exampleTestcases": "{\"headers\":{\"Queue\":[\"person_id\",\"person_name\",\"weight\",\"turn\"]},\"rows\":{\"Queue\":[[5,\"Alice\",250,1],[4,\"Bob\",175,5],[3,\"Alex\",350,2],[6,\"John Cena\",400,3],[1,\"Winston\",500,6],[2,\"Marie\",200,4]]}}",
+      "hints": [],
+      "isDailyQuestion": false,
+      "isLiked": null,
+      "isPaidOnly": true,
+      "isSubscribed": false,
+      "judgeType": "large",
+      "judgerAvailable": true,
+      "langToValidPlayground": null,
+      "likes": 39,
+      "metaData": "{\n  \"manual\": false,\n  \"mysql\": [\n    \"Create table If Not Exists Queue (person_id int, person_name varchar(30), weight int, turn int)\"\n  ],\n  \"mssql\": [\n    \"Create table Queue (person_id int, person_name varchar(30), weight int, turn int)\"\n  ],\n  \"oraclesql\": [\n    \"Create table Queue (person_id int, person_name varchar(30), weight int, turn int)\"\n  ],\n  \"database\": true\n}",
+      "mysqlSchemas": [
+        "Create table If Not Exists Queue (person_id int, person_name varchar(30), weight int, turn int)",
+        "Truncate table Queue",
+        "insert into Queue (person_id, person_name, weight, turn) values ('5', 'Alice', '250', '1')",
+        "insert into Queue (person_id, person_name, weight, turn) values ('4', 'Bob', '175', '5')",
+        "insert into Queue (person_id, person_name, weight, turn) values ('3', 'Alex', '350', '2')",
+        "insert into Queue (person_id, person_name, weight, turn) values ('6', 'John Cena', '400', '3')",
+        "insert into Queue (person_id, person_name, weight, turn) values ('1', 'Winston', '500', '6')",
+        "insert into Queue (person_id, person_name, weight, turn) values ('2', 'Marie', '200', '4')"
+      ],
+      "questionFrontendId": "1204",
+      "questionId": "1327",
+      "sampleTestCase": "{\"headers\":{\"Queue\":[\"person_id\",\"person_name\",\"weight\",\"turn\"]},\"rows\":{\"Queue\":[[5,\"Alice\",250,1],[4,\"Bob\",175,5],[3,\"Alex\",350,2],[6,\"John Cena\",400,3],[1,\"Winston\",500,6],[2,\"Marie\",200,4]]}}",
+      "similarQuestions": "[]",
+      "solution": null,
+      "stats": "{\"totalAccepted\": \"5.9K\", \"totalSubmission\": \"8.1K\", \"totalAcceptedRaw\": 5903, \"totalSubmissionRaw\": 8115, \"acRate\": \"72.7%\"}",
+      "status": null,
+      "style": "LEETCODE",
+      "title": "Last Person to Fit in the Bus",
+      "titleSlug": "last-person-to-fit-in-the-bus",
+      "topicTags": [
+        {
+          "__typename": "TopicTagNode",
+          "name": "Database",
+          "slug": "database",
+          "translatedName": "数据库"
+        }
+      ],
+      "translatedContent": null,
+      "translatedTitle": "最后一个能进入电梯的人",
+      "ugcQuestionId": null
+    }
+  }
+}

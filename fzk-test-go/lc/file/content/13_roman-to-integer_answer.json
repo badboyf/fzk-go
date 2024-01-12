@@ -1,0 +1,150 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣官方题解",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/leetcode-solution/avatar_1582018938.png",
+          "userSlug": "leetcode-solution"
+        },
+        "username": "LeetCode-Solution"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 📺 视频题解  \n![13. 罗马数字转整数.m4v](b29138ec-fc62-4a62-8e03-05e513550189)\n\n### 📖 文字题解\n#### 方法一：模拟\n\n**思路**\n\n通常情况下，罗马数字中小的数字在大的数字的右边。若输入的字符串满足该情况，那么可以将每个字符视作一个单独的值，累加每个字符对应的数值即可。\n\n例如 $\\texttt{XXVII}$ 可视作 $\\texttt{X}+\\texttt{X}+\\texttt{V}+\\texttt{I}+\\texttt{I}=10+10+5+1+1=27$。\n\n若存在小的数字在大的数字的左边的情况，根据规则需要减去小的数字。对于这种情况，我们也可以将每个字符视作一个单独的值，若一个数字右侧的数字比它大，则将该数字的符号取反。\n\n例如 $\\texttt{XIV}$ 可视作 $\\texttt{X}-\\texttt{I}+\\texttt{V}=10-1+5=14$。\n\n**代码**\n\n```C++ [sol1-C++]\nclass Solution {\nprivate:\n    unordered_map<char, int> symbolValues = {\n        {'I', 1},\n        {'V', 5},\n        {'X', 10},\n        {'L', 50},\n        {'C', 100},\n        {'D', 500},\n        {'M', 1000},\n    };\n\npublic:\n    int romanToInt(string s) {\n        int ans = 0;\n        int n = s.length();\n        for (int i = 0; i < n; ++i) {\n            int value = symbolValues[s[i]];\n            if (i < n - 1 && value < symbolValues[s[i + 1]]) {\n                ans -= value;\n            } else {\n                ans += value;\n            }\n        }\n        return ans;\n    }\n};\n```\n\n```Java [sol1-Java]\nclass Solution {\n    Map<Character, Integer> symbolValues = new HashMap<Character, Integer>() {{\n        put('I', 1);\n        put('V', 5);\n        put('X', 10);\n        put('L', 50);\n        put('C', 100);\n        put('D', 500);\n        put('M', 1000);\n    }};\n\n    public int romanToInt(String s) {\n        int ans = 0;\n        int n = s.length();\n        for (int i = 0; i < n; ++i) {\n            int value = symbolValues.get(s.charAt(i));\n            if (i < n - 1 && value < symbolValues.get(s.charAt(i + 1))) {\n                ans -= value;\n            } else {\n                ans += value;\n            }\n        }\n        return ans;\n    }\n}\n```\n\n```C# [sol1-C#]\npublic class Solution {\n    Dictionary<char, int> symbolValues = new Dictionary<char, int> {\n        {'I', 1},\n        {'V', 5},\n        {'X', 10},\n        {'L', 50},\n        {'C', 100},\n        {'D', 500},\n        {'M', 1000},\n    };\n\n    public int RomanToInt(string s) {\n        int ans = 0;\n        int n = s.Length;\n        for (int i = 0; i < n; ++i) {\n            int value = symbolValues[s[i]];\n            if (i < n - 1 && value < symbolValues[s[i + 1]]) {\n                ans -= value;\n            } else {\n                ans += value;\n            }\n        }\n        return ans;\n    }\n}\n```\n\n```go [sol1-Golang]\nvar symbolValues = map[byte]int{'I': 1, 'V': 5, 'X': 10, 'L': 50, 'C': 100, 'D': 500, 'M': 1000}\n\nfunc romanToInt(s string) (ans int) {\n    n := len(s)\n    for i := range s {\n        value := symbolValues[s[i]]\n        if i < n-1 && value < symbolValues[s[i+1]] {\n            ans -= value\n        } else {\n            ans += value\n        }\n    }\n    return\n}\n```\n\n```JavaScript [sol1-JavaScript]\nvar romanToInt = function(s) {\n    const symbolValues = new Map();\n    symbolValues.set('I', 1);\n    symbolValues.set('V', 5);\n    symbolValues.set('X', 10);\n    symbolValues.set('L', 50);\n    symbolValues.set('C', 100);\n    symbolValues.set('D', 500);\n    symbolValues.set('M', 1000);  \n    let ans = 0;\n    const n = s.length;\n    for (let i = 0; i < n; ++i) {\n        const value = symbolValues.get(s[i]);\n        if (i < n - 1 && value < symbolValues.get(s[i + 1])) {\n            ans -= value;\n        } else {\n            ans += value;\n        }\n    }\n    return ans;\n};\n```\n\n```Python [sol1-Python3]\nclass Solution:\n\n    SYMBOL_VALUES = {\n        'I': 1,\n        'V': 5,\n        'X': 10,\n        'L': 50,\n        'C': 100,\n        'D': 500,\n        'M': 1000,\n    }\n\n    def romanToInt(self, s: str) -> int:\n        ans = 0\n        n = len(s)\n        for i, ch in enumerate(s):\n            value = Solution.SYMBOL_VALUES[ch]\n            if i < n - 1 and value < Solution.SYMBOL_VALUES[s[i + 1]]:\n                ans -= value\n            else:\n                ans += value\n        return ans\n```\n\n```C [sol1-C]\nint romanToInt(char* s) {\n    int symbolValues[26];\n    symbolValues['I' - 'A'] = 1;\n    symbolValues['V' - 'A'] = 5;\n    symbolValues['X' - 'A'] = 10;\n    symbolValues['L' - 'A'] = 50;\n    symbolValues['C' - 'A'] = 100;\n    symbolValues['D' - 'A'] = 500;\n    symbolValues['M' - 'A'] = 1000;\n    int ans = 0;\n    int n = strlen(s);\n    for (int i = 0; i < n; ++i) {\n        int value = symbolValues[s[i] - 'A'];\n        if (i < n - 1 && value < symbolValues[s[i + 1] - 'A']) {\n            ans -= value;\n        } else {\n            ans += value;\n        }\n    }\n    return ans;\n}\n```\n\n**复杂度分析**\n\n- 时间复杂度：$O(n)$，其中 $n$ 是字符串 $s$ 的长度。\n\n- 空间复杂度：$O(1)$。",
+      "createdAt": "2021-05-13T14:12:54.672351+00:00",
+      "hitCount": 99008,
+      "identifier": "5ssiKE",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "yong-shi-9993nei-cun-9873jian-dan-jie-fa-by-donesp",
+        "title": "用时 99.93%，内存98.73%，简单解法"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "roman-to-integer"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 100,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 3,
+          "reactionType": "AWESOME"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "CONFUSED"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 0,
+          "reactionType": "THUMBS_DOWN"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "luo-ma-shu-zi-zhuan-zheng-shu-by-leetcod-w55p",
+      "status": "PUBLISHED",
+      "summary": "📺 视频题解 📖 文字题解 方法一：模拟 思路 通常情况下，罗马数字中小的数字在大的数字的右边。若输入的字符串满足该情况，那么可以将每个字符视作一个单独的值，累加每个字符对应的数值即可。 例如 $\\texttt{XXVII}$ 可视作 $\\texttt{X}+\\texttt{X}+\\texttt{V}+\\texttt{",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Hash Table",
+          "nameTranslated": "哈希表",
+          "slug": "hash-table",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Math",
+          "nameTranslated": "数学",
+          "slug": "math",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "String",
+          "nameTranslated": "字符串",
+          "slug": "string",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C",
+          "nameTranslated": "",
+          "slug": "c",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C#",
+          "nameTranslated": "",
+          "slug": "csharp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Go",
+          "nameTranslated": "",
+          "slug": "golang",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "JavaScript",
+          "nameTranslated": "",
+          "slug": "javascript",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "罗马数字转整数",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 129,
+        "id": 774992,
+        "viewCount": 66085
+      },
+      "uuid": "5ssiKE",
+      "videosInfo": [
+        {
+          "__typename": "VideoInfoNode",
+          "coverUrl": "https://video.leetcode-cn.com/image/cover/59A22A4C42D948CFBB5C3229FD0176CD-6-2.png",
+          "duration": 231.808,
+          "videoId": "4141f00571674957b917d4a347630f6e"
+        }
+      ]
+    }
+  }
+}

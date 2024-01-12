@@ -1,0 +1,72 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "zzk",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/zzk-2h/avatar_1617045510.png",
+          "userSlug": "zz-k"
+        },
+        "username": "zz-k"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "\n### 代码\n\n```cpp\nclass Solution {\npublic:\n    int findMaxValueOfEquation(vector<vector<int>>& points, int k) {\n        int n=points.size();\n        int ans=INT_MIN;\n        deque<int>q;\n        unordered_map<int,int>mp;\n        for(int i=0;i<n;i++) mp[points[i][0]]=points[i][1];\n        for(int i=0;i<n;i++){\n            while(!q.empty()&&points[i][0]-q.front()>k) q.pop_front();\n            if(!q.empty()){\n                int temp=q.front();\n                ans=max(ans,points[i][0]-temp+points[i][1]+mp[temp]);\n            }\n            while(!q.empty()&&points[i][1]-points[i][0]>mp[q.back()]-q.back()) q.pop_back();\n            q.push_back(points[i][0]);\n        }\n        return ans;\n    }\n};\n```\n前面用哈希表存导致速度有点慢，补一个不用哈希表的\n```\nclass Solution {\npublic:\n    int findMaxValueOfEquation(vector<vector<int>>& points, int k) {\n        int n=points.size();\n        int ans=INT_MIN;\n        deque<pair<int,int>>q;  \n        for(int i=0;i<n;i++){\n            while(!q.empty()&&points[i][0]-q.front().first>k) q.pop_front();\n            if(!q.empty()){\n                auto temp=q.front();\n                ans=max(ans,points[i][1]+points[i][0]+temp.second);\n            }\n            while(!q.empty()&&points[i][1]-points[i][0]>q.back().second) q.pop_back();\n            q.push_back({points[i][0],points[i][1]-points[i][0]});\n        }\n        return ans;\n    }\n};\n```\n",
+      "createdAt": "2021-10-04T10:45:24.349828+00:00",
+      "hitCount": 190,
+      "identifier": "sQbnAq",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "dan-diao-dui-lie-by-acw_wangdh15",
+        "title": "单调队列"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "max-value-of-equation"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "dan-diao-dui-lie-jie-fa-by-zzk020308-3m3j",
+      "status": "PREPUBLISH",
+      "summary": "代码\n前面用哈希表存导致速度有点慢，补一个不用哈希表的",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "单调队列解法",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1030921,
+        "viewCount": 134
+      },
+      "uuid": "sQbnAq",
+      "videosInfo": []
+    }
+  }
+}

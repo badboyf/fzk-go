@@ -1,0 +1,90 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "立十",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/li-shi-c/avatar_1626267862.png",
+          "userSlug": "li-shi-c"
+        },
+        "username": "li-shi-c"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n知识多了字符串处理的部分，仅供参考\n\n### 代码\n\n```java\nclass Solution {\n    boolean[] vis;\n    public String[] permutation(String S) {\n        int length = S.length();\n        List<String> res_l = new ArrayList<String>();\n        List<Character> char_l = new ArrayList<Character>();\n        List<Character> path = new ArrayList<Character>();\n        vis = new boolean[length];\n        for(int i = 0; i < length; i++){\n            char_l.add(S.charAt(i));\n        }\n        // 排序\n        Collections.sort(char_l);\n\n        // 数组，结果，起点，路径\n        backtrack(res_l, path, char_l, 0 , length);\n\n        // 结果的转化与输出\n        String [] res = new String[res_l.size()];\n        int index = 0;\n        for (String ch :res_l){\n            res[index++] = ch;\n        }\n\n        return res;\n    }\n\n    public void backtrack(List<String> res_l, List<Character> path, List<Character> char_l, int first, int length) {\n        if (first == length) {\t// 到底了，存入\n            // 转化 List<Character> 转 String\n            StringBuilder sb = new StringBuilder();\n            for (Character ch :path){\n                sb.append(ch);\n            }\n            String str = sb.toString();\n            res_l.add(str);\n            return;\n        }\n        \n        for (int i = 0; i < length; ++i) {\n            // 去重\n            if (vis[i] || (i > 0 && char_l.get(i) == char_l.get(i - 1) && !vis[i - 1])) {\n                continue;\n            }\n            // 加入\n            path.add(char_l.get(i));\n            vis[i] = true;\n\n            // 递归\n            backtrack(res_l, path, char_l,  first + 1, length);\n            \n            // 回溯，取出\n            vis[i] = false;\n            path.remove(first);\n        }\n    }\n\n\n}\n```",
+      "createdAt": "2021-09-24T08:00:30.143486+00:00",
+      "hitCount": 562,
+      "identifier": "HA5i9G",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "goyu-yan-guan-fang-mo-ban-xie-fa-by-feng-jxug",
+        "title": "go语言 官方模板写法"
+      },
+      "position": 3,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "mo-ban-by-si-zhou-r-rwbd",
+        "title": "模板"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "permutation-ii-lcci"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "dfsdi-gui-hui-su-zi-fu-chuan-chu-li-by-l-zm5e",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n知识多了字符串处理的部分，仅供参考\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Backtracking",
+          "nameTranslated": "回溯",
+          "slug": "backtracking",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "DFS",
+          "nameTranslated": "",
+          "slug": "dfs",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "",
+      "title": "DFS:递归 + 回溯 + 字符串处理",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1015016,
+        "viewCount": 430
+      },
+      "uuid": "HA5i9G",
+      "videosInfo": []
+    }
+  }
+}

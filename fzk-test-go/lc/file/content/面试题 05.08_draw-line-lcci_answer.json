@@ -1,0 +1,76 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "不刷穿力扣不改名",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/lvebe/avatar_1614056374.png",
+          "userSlug": "lvebe"
+        },
+        "username": "lvebe"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n我就想知道产品经理要是这么给程序员提要求，会不会被打死。\n接下来翻译翻译，翻译翻译什么叫惊喜。\nlength 表示一共有多少个int，w/32表示一行有多少int，length/(w/32)表示一共有多少行，y表示我们对第几行操作。x1是起始点，x2是结束点。**我们只需要把第y行的x1到x2的0置为1，把每个int的值按顺序加入数组**。题目翻译完毕。\n代码思路\n首先把y行之前的int 也就是0加入数组。把y行中x1到x2的0置为1，把每个int加入数组。把剩下的int加入数组\n### 代码\n\n```cpp\nclass Solution {\npublic:\n    vector<int> drawLine(int length, int w, int x1, int x2, int y) {\n        unsigned int cnt=0x80000000;高位为1000\n        int a=0;\n        vector<int> ans;\n        for(int i=0;i<y;++i){//把y行之前的int加入数组；\n            int n=w/32;\n            while(n!=0){\n                ans.push_back(0);\n                n--;\n            }\n        }\n        for(int j=0;j<=w;++j){\n            if(j>=x1&&j<=x2){//如果j在x1和x2之间；\n                a=a|cnt;//把j位置1；\n            }\n            cnt=cnt>>1;\n            if((j+1)%32==0){//将一个置换完成的int加入数组；\n                ans.push_back(a);\n                a=0;//恢复初值，为下一个int准备；\n                cnt=0x80000000;\n            }\n        }\n        if(length>w/32*(y+1)){//把剩下的int加入数组；\n            int m=length-w/32*(y+1);\n            for(int i=0;i<m;++i){\n                ans.push_back(0);\n            }\n        }\n            return ans;\n        }\n};\n```",
+      "createdAt": "2021-03-06T15:10:09.804920+00:00",
+      "hitCount": 777,
+      "identifier": "7mH2G5",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "c-5xing-dai-ma-bu-yong-dan-du-chu-li-tou-9rg5",
+        "title": "C++ 5行代码，不用单独处理头尾"
+      },
+      "position": 7,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "java-wei-yun-suan-shuang-bai-by-1ujin",
+        "title": "Java 位运算双百"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "draw-line-lcci"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 3,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "0mswei-yun-suan-by-lvebe-2m1n",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n我就想知道产品经理要是这么给程序员提要求，会不会被打死。\n接下来翻译翻译，翻译翻译什么叫惊喜。\nlength 表示一共有多少个int，w/32表示一行有多少int，length/(w/32)表示一共有多少行，y表示我们对第几行操作。x1是起始点，x2是结束点。我们只需要把第y行的x1到x2的0置为1，把每个i",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "0ms，位运算。",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 1,
+        "id": 639577,
+        "viewCount": 631
+      },
+      "uuid": "7mH2G5",
+      "videosInfo": []
+    }
+  }
+}

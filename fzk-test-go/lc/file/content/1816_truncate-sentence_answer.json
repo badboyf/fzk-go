@@ -1,0 +1,72 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "Bobby",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/angel-20/avatar_1576118816.png",
+          "userSlug": "bobby996"
+        },
+        "username": "bobby996"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n![image.png](https://pic.leetcode-cn.com/1636356740-DSZnCQ-image.png)\n首先定义一个下标为-1，一个count记录找到的空格数，\n如果当前空格数不等于k，则进行循环，用0开始查看空格的下标，\n如果找出的下标不等于-1，则count++，从该下标继续往后查找，如果\n找不到了，则退出循环，代表空格数还没找够k个值，直接返回s，\n否则直接截取字符串。\n\n\n### 代码\n\n```java\nclass Solution {\n    public String truncateSentence(String s, int k) {\n        int index = -1;\n        int count = 0 ;\n        while(count != k) {\n            index = s.indexOf(\" \",index + 1);\n            if(index != -1) {\n                count++;\n            }else {\n                break;\n            }\n        }\n        if(index == -1) {\n            return s;\n        }else {\n            return s.substring(0,index);\n        }\n    }\n}\n```",
+      "createdAt": "2021-11-08T07:35:09.103541+00:00",
+      "hitCount": 56,
+      "identifier": "3fzOoK",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "5722-jie-duan-ju-zi-pythonzui-ai-de-ti-m-erev",
+        "title": "5722. 截断句子 python最爱的题目类型"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "truncate-sentence"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": false,
+      "slug": "1816ti-10000-9006-by-bobby996-umwj",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n\n首先定义一个下标为-1，一个count记录找到的空格数，\n如果当前空格数不等于k，则进行循环，用0开始查看空格的下标，\n如果找出的下标不等于-1，则count++，从该下标继续往后查找，如果\n找不到了，则退出循环，代表空格数还没找够k个值，直接返回s，\n否则直接截取字符串。\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1636356740-DSZnCQ-image.png",
+      "title": "1816题 100.00%  90.06%",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1090692,
+        "viewCount": 55
+      },
+      "uuid": "3fzOoK",
+      "videosInfo": []
+    }
+  }
+}

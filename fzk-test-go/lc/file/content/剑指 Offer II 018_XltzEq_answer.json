@@ -1,0 +1,111 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "清风Python",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/qingfengpython/avatar_1620226448.png",
+          "userSlug": "qingfengpython"
+        },
+        "username": "qingfengpython"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "# [剑指offerII018.有效的回文](https://leetcode-cn.com/problems/XltzEq/solution/shua-chuan-jian-zhi-offer-day10-zi-fu-ch-y5ua/)\r\n> https://leetcode-cn.com/problems/XltzEq/solution/shua-chuan-jian-zhi-offer-day10-zi-fu-ch-y5ua/\r\n> \r\n> 难度：简单\r\n\r\n## 题目：\r\n给定一个字符串 s ，验证 s 是否是 回文串 ，只考虑字母和数字字符，可以忽略字母的大小写。\r\n本题中，将空字符串定义为有效的 回文串 。\r\n\r\n提示：\r\n- 1 <= s.length <= 2 * 10 ^ 5 \r\n- 字符串 s 由 ASCII 字符组成 \r\n\r\n## 示例：\r\n\r\n```\r\n示例 1:\r\n输入: s = \"A man, a plan, a canal: Panama\"\r\n输出: true\r\n解释：\"amanaplanacanalpanama\" 是回文串\r\n\r\n示例 2:\r\n输入: s = \"race a car\"\r\n输出: false\r\n解释：\"raceacar\" 不是回文串\r\n```\r\n\r\n## 分析\r\n### 无脑判断思维\r\n对于回文子串，最为简单的思维就是，将子串过滤并保存成合规字符串，然后正序逆序遍历如果都相等代表是回文子串。\r\n但这样有一个计算的时间浪费，如果这个字符串长度为2 * 10 ^ 5，我们的算法需要将这么大的数组拆分反转。\r\n然后在一个一个比较，但此时也许字符串的首尾第一个字符就是不一样的，完全没必要浪费这么大周折啊！\r\n所以我们应该考虑是否有更为便捷的思路。\r\n\r\n### 解题：\r\n```python []\r\nclass Solution:\r\n    def isPalindrome(self, s):\r\n        strs = \"\"\r\n        for i in s:\r\n            if i.isalnum():\r\n                strs += i.lower()\r\n        return strs == strs[::-1]\r\n```\r\n```java []\r\nclass Solution {\r\n    public boolean isPalindrome(String s) {\r\n        StringBuilder str = new StringBuilder();\r\n        for (int i = 0; i < s.length(); i++) {\r\n            char c = s.charAt(i);\r\n            if (Character.isLetterOrDigit(c)) {\r\n                str.append(Character.toLowerCase(c));\r\n            }\r\n        }\r\n        return str.toString().equals(new StringBuffer(str).reverse().toString());\r\n    }\r\n}\r\n```\r\n\r\n### 双指针思维\r\n上面说到便捷高效的思路，该是什么呢？没错，就是用到烂的双指针。\r\n1. 我们设置头尾双指针，然后分别向中间逼近\r\n2. 当left或right指向的内容不在考虑范围内时跳过\r\n3. 当left与right所指的字符不相等时立即终止\r\n4. 如果循环结束仍未终止则返回True即可\r\n\r\n### 解题：\r\n```python []\r\nclass Solution:\r\n    def isPalindrome(self, s):\r\n        left, right, flag = 0, len(s) - 1, False\r\n        while left <= right:\r\n            if not s[left].isalnum():\r\n                left += 1\r\n            elif not s[right].isalnum() and right > left:\r\n                right -= 1\r\n            else:\r\n                if s[left].lower() != s[right].lower():\r\n                    return False\r\n                left += 1\r\n                right -= 1\r\n        return True\r\n```\r\n\r\n```java []\r\nclass Solution {\r\n    public boolean isPalindrome(String s) {\r\n        int left = 0;\r\n        int right = s.length() - 1;\r\n        while (left <= right) {\r\n            if (!Character.isLetterOrDigit(s.charAt(left))) {\r\n                left += 1;\r\n            } else if (!Character.isLetterOrDigit(s.charAt(right))) {\r\n                right -= 1;\r\n            } else {\r\n                char char1 = Character.toLowerCase(s.charAt(left++));\r\n                char char2 = Character.toLowerCase(s.charAt(right--));\r\n                if (char1 != char2) {\r\n                    return false;\r\n                }\r\n            }\r\n        }\r\n        return true;\r\n    }\r\n}\r\n```\r\n\r\n欢迎关注我的公众号: **清风Python**，带你每日学习Python算法刷题的同时，了解更多python小知识。\r\n\r\n有喜欢力扣刷题的小伙伴可以加我微信（King_Uranus）互相鼓励，共同进步，一起玩转超级码力！\r\n\r\n我的个人博客：[https://qingfengpython.cn](https://qingfengpython.cn)\r\n\r\n力扣解题合集：[https://github.com/BreezePython/AlgorithmMarkdown](https://github.com/BreezePython/AlgorithmMarkdown)",
+      "createdAt": "2021-09-01T07:01:05.414829+00:00",
+      "hitCount": 2248,
+      "identifier": "UQb9DU",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "jian-zhi-offer-2-mian-shi-ti-18-shu-zhon-ldxb",
+        "title": "《剑指offer 2 面试题18》 书中算法C++实现"
+      },
+      "position": 3,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "java-shuang-zhi-zhen-stringbuilderjie-ju-ejw0",
+        "title": "Java 双指针、StringBuilder解决问题"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "XltzEq"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 5,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": false,
+      "slug": "shua-chuan-jian-zhi-offer-day10-zi-fu-ch-y5ua",
+      "status": "PREPUBLISH",
+      "summary": "剑指offerII018.有效的回文\n\nhttps://leetcode-cn.com/problems/XltzEq/solution/shua-chuan-jian-zhi-offer-day10-zi-fu-ch-y5ua/\n难度：简单\n\n题目：\n给定一个字符串 s ，验证 s 是否是 回文串 ，只考虑字母和数字",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Two Pointers",
+          "nameTranslated": "双指针",
+          "slug": "two-pointers",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "String",
+          "nameTranslated": "字符串",
+          "slug": "string",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python3",
+          "nameTranslated": "",
+          "slug": "python3",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "验证回文数",
+          "nameTranslated": "",
+          "slug": "yan-zheng-hui-wen-shu",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "",
+      "title": "刷穿剑指offer-Day10-字符串III-018.有效的回文 字符串反转与双指针思路分析",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 3,
+        "id": 971458,
+        "viewCount": 1247
+      },
+      "uuid": "UQb9DU",
+      "videosInfo": []
+    }
+  }
+}

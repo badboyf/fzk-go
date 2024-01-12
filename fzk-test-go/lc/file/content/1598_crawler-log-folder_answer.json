@@ -1,0 +1,76 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "大魔王",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/da-mo-wang-uc/avatar_1631583848.png",
+          "userSlug": "da-mo-wang-uc"
+        },
+        "username": "da-mo-wang-uc"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n计数原理，当遇到文件时就ans加1,遇到“../”就先判断ans是否为0，否则ans减1。这是从栈中简练出来的\n\n### 代码\n\n```cpp\nclass Solution {\npublic:\n    int minOperations(vector<string>& logs) {\n       int ans=0;\n        for(int i=0;i<logs.size();i++)\n        {\n            if(logs[i]==\"../\")\n            {\n                if(ans==0)continue;\n                else ans--;\n            }\n            else if(logs[i]==\"./\")continue;\n            else ans++;\n        }\n        return ans;\n    }\n};\n```",
+      "createdAt": "2021-10-05T12:13:26.780622+00:00",
+      "hitCount": 98,
+      "identifier": "ib0sxT",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "1598-wen-jian-jia-cao-zuo-ri-zhi-sou-suo-j4hc",
+        "title": "【1598. 文件夹操作日志搜索器】Java 6行解决"
+      },
+      "position": 2,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "ji-shu-fa-wen-jian-jia-cao-zuo-ri-zhi-so-u5ga",
+        "title": "【计数法】文件夹操作日志搜集器"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "crawler-log-folder"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "wen-jian-jia-cao-zuo-ri-zhi-sou-ji-qi-cs-xua2",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n计数原理，当遇到文件时就ans加1,遇到“../”就先判断ans是否为0，否则ans减1。这是从栈中简练出来的\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "文件夹操作日志搜集器（C++双百）",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1032268,
+        "viewCount": 93
+      },
+      "uuid": "ib0sxT",
+      "videosInfo": []
+    }
+  }
+}

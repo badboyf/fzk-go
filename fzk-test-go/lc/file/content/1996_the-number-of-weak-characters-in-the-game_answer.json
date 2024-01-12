@@ -1,0 +1,77 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "灵茶山艾府",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/endlesscheng/avatar_1589367048.png",
+          "userSlug": "endlesscheng"
+        },
+        "username": "endlesscheng"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "将角色按照**攻击从大到小**排序，攻击相同的按照**防御从小到大**排序。\r\n\r\n然后遍历数组，维护遍历过的角色的防御的最大值 $\\textit{maxDef}$。对于当前角色 $p$，如果 $p$ 的防御小于 $\\textit{maxDef}$，那么说明前面有防御比 $p$ 高的角色（记作 $q$）；同时，根据上面的排序规则，如果 $q$ 的攻击和 $p$ 相同，那么 $q$ 的防御不会超过 $p$，矛盾，因此 $q$ 的攻击必然大于 $p$，于是 $q$ 的攻防均高于 $p$，$p$ 是一个弱角色。\r\n\r\n```go\r\nfunc numberOfWeakCharacters(a [][]int) (ans int) {\r\n\tsort.Slice(a, func(i, j int) bool { a, b := a[i], a[j]; return a[0] > b[0] || a[0] == b[0] && a[1] < b[1] })\r\n\tmaxDef := 0\r\n\tfor _, p := range a {\r\n\t\tif p[1] < maxDef {\r\n\t\t\tans++\r\n\t\t} else {\r\n\t\t\tmaxDef = p[1]\r\n\t\t}\r\n\t}\r\n\treturn\r\n}\r\n```",
+      "createdAt": "2021-09-05T04:07:53.955079+00:00",
+      "hitCount": 4730,
+      "identifier": "2dAx7z",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "cpython3java-1pai-xu-zhi-zhen-by-hanxin_-kwr2",
+        "title": "c++/python3/java （1）排序+指针"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "the-number-of-weak-characters-in-the-game"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 56,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 6,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "jian-ji-xie-fa-pai-xu-yi-ci-bian-li-by-e-unnb",
+      "status": "PREPUBLISH",
+      "summary": "将角色按照攻击从大到小排序，攻击相同的按照防御从小到大排序。\n然后遍历数组，维护遍历过的角色的防御的最大值 \\textit{maxDef}。对于当前角色 p，如果 p 的防御小于 \\textit{maxDef}，那么说明前面有防御比 p 高的角色（记作 q）；同时，根据上面的排序规则，如果 q 的攻击和 p 相同，那么",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Go",
+          "nameTranslated": "",
+          "slug": "golang",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "简洁写法：排序+一次遍历",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 22,
+        "id": 979228,
+        "viewCount": 3275
+      },
+      "uuid": "2dAx7z",
+      "videosInfo": []
+    }
+  }
+}

@@ -1,0 +1,76 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "Reiner Braun",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/busy-johnsonbtt/avatar_1635424651.png",
+          "userSlug": "reiner-braud"
+        },
+        "username": "Reiner-Braud"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "策略：当n/current >=2 时，持续对下载流量加速，此间不下载；加速完成后，持续下载而不进行加速。\n\n\nclass Solution {\n    public int leastMinutes(int n) {\n        int cur = 1; //下载流量\n        int time = 0; //下载时间\n        while(n>0){\n            //持续加速过程\n            if (n/cur>=2){\n                time++;\n                cur *=2;               \n            }else{\n                //持续下载过程\n                time++;\n                n-=cur;\n            }\n        }\n        return time;\n    }\n}",
+      "createdAt": "2021-10-18T17:50:05.313313+00:00",
+      "hitCount": 376,
+      "identifier": "hGXzQd",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "3chong-fang-fa-hui-su-dpshu-xue-by-mount-pqbm",
+        "title": "3种方法，回溯，dp,数学【LCS 01. 下载插件】"
+      },
+      "position": 3,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "jia-su-by-jalonjia-48jq",
+        "title": "加速！"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "Ju9Xwi"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "lcs01-xia-zai-cha-jian-java-by-busy-john-c9sd",
+      "status": "PREPUBLISH",
+      "summary": "策略：当n/current >=2 时，持续对下载流量加速，此间不下载；加速完成后，持续下载而不进行加速。\nclass Solution {\npublic int leastMinutes(int n) {\nint cur = 1; //下载流量\nint time = 0; //下载时间\nwhile(n>0){\n//持",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "LCS01 下载插件（java）",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1054615,
+        "viewCount": 307
+      },
+      "uuid": "hGXzQd",
+      "videosInfo": []
+    }
+  }
+}

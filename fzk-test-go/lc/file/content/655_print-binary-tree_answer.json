@@ -1,0 +1,79 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣 (LeetCode)",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/uploaded_files/2021/03/73c9f099-abbe-4d94-853f-f8abffd459cd/leetcode.png",
+          "userSlug": "leetcode"
+        },
+        "username": "LeetCode"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法一：递归【通过】\n\n创建一个长度为 $height\\times(2^{height}-1)$ 的数组 $res$，其中 $height$ 是树的高度。先使用空字符串 `\"\"` 填充数组 $res$。然后递归调用 `fill(res, root, i, l, r)` 将节点的值输出到数组 $res$ 中，其中 $i$ 表示当前节点所在层数，$l$ 和 $r$ 表示当前子树在数组 $res$ 中的左右边界，当前节点被输出到数组 $res$ 第 $i$ 行的第 $l$ 列和第 $r$ 列中间位置上。\n\n在递归方法中，执行以下步骤：\n\n1. 如果到达树的末尾，即 `root = null`，直接返回。\n\n2. 确定当前节点所在的列 $j=(l+r)/2$。将当前节点输出到数组 $res$ 的第 $i$ 行第 $j$ 列，即 $res[i][j]$。\n\n3. 递归调用 `fill(res, root.left, i + 1, l, (l + r) / 2)`，输出 $root$ 的左子树。\n\n4. 递归调用 `fill(res, root.right, i + 1, (l + r + 1) / 2, r)`，输出 $root$ 的右子树。\n\n注意：在第三步和第四步的递归调用中需要更新行号，确保子节点可以输出的正确的位置。另外，也要根据 $l$ 和 $r$ 更新子树的左右边界。\n\n另外，创建方法 `getHeight(root)`， 用于计算 $root$ 为根节点的树高度 $height$。递归遍历树的所有分支，从中找出最深的一个分支作为树的高度。\n\n最后，将数组 $res$ 转换成题目要求格式。\n\n```java [solution1-Java]\npublic class Solution {\n    public List<List<String>> printTree(TreeNode root) {\n        int height = getHeight(root);\n        String[][] res = new String[height][(1 << height) - 1];\n        for(String[] arr:res)\n            Arrays.fill(arr,\"\");\n        List<List<String>> ans = new ArrayList<>();\n        fill(res, root, 0, 0, res[0].length);\n        for(String[] arr:res)\n            ans.add(Arrays.asList(arr));\n        return ans;\n    }\n    public void fill(String[][] res, TreeNode root, int i, int l, int r) {\n        if (root == null)\n            return;\n        res[i][(l + r) / 2] = \"\" + root.val;\n        fill(res, root.left, i + 1, l, (l + r) / 2);\n        fill(res, root.right, i + 1, (l + r + 1) / 2, r);\n    }\n    public int getHeight(TreeNode root) {\n        if (root == null)\n            return 0;\n        return 1 + Math.max(getHeight(root.left), getHeight(root.right));\n    }\n}\n```\n\n**复杂度分析**\n\n* 时间复杂度：$O(h*2^h)$，其中 $h$ 是树的高度，填充长度为 $h\\times(2^h-1)$ 的数组 $res$。\n\n* 空间复杂度：$O(h*2^h)$，数组 $res$ 的长度为 $h\\times(2^h-1)$。\n\n\n#### 方法二：使用队列（BFS） 【通过】\n\n**算法**\n\n也可以使用广度优先搜索解决该问题。使用类 $Params$ 存储树的节点 $node$，类中包含该节点的值，所在层数 $i$，和以该节点为根的子树的左边界 $l$ 和右边界 $r$。\n\n初始化一个与 *方法一* 用途相同的数组 $res$，将根节点 $root$ 加入到队列 $queue$ 中，然后执行以下步骤。\n\n1. 从队列中移除元素 $p$。\n\n2. 将该元素的值输出到 $res[p.i][(p.l + p.r) / 2]$，其中 $i$ 表示当前节点的所在行，$l$ 和 $r$ 表示当前子树的左右边界。这些值都是在节点加入 $queue$ 之前就已经计算好的。\n\n3. 如果节点 $p$ 有左孩子，则将它的左孩子加入到 $queue$，同时计算左孩子的所在行，和以该节点为根的子树的左右边界。\n\n4. 如果节点 $p$ 有右孩子，则将它的右孩子加入到 $queue$，同时计算右孩子的所在行，和以该节点为根的子树的左右边界。\n\n5. 回复步骤一到四，直到 $queue$ 为空。\n\n最后，将数组 $res$ 转换为题目要求的格式返回。\n\n```java [solution2-Java]\npublic class Solution\n/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     int val;\n *     TreeNode left;\n *     TreeNode right;\n *     TreeNode(int x) { val = x; }\n * }\n */\npublic class Solution {\n    class Params {\n        Params(TreeNode n, int ii, int ll, int rr) {\n            root = n;\n            i = ii;\n            l = ll;\n            r = rr;\n        }\n        TreeNode root;\n        int i, l, r;\n    }\n    public List < List < String >> printTree(TreeNode root) {\n        int height = getHeight(root);\n        System.out.println(height);\n        String[][] res = new String[height][(1 << height) - 1];\n        for (String[] arr: res)\n            Arrays.fill(arr, \"\");\n        List < List < String >> ans = new ArrayList < > ();\n        fill(res, root, 0, 0, res[0].length);\n        for (String[] arr: res)\n            ans.add(Arrays.asList(arr));\n        return ans;\n    }\n    public void fill(String[][] res, TreeNode root, int i, int l, int r) {\n        Queue < Params > queue = new LinkedList();\n        queue.add(new Params(root, 0, 0, res[0].length));\n        while (!queue.isEmpty()) {\n            Params p = queue.remove();\n            res[p.i][(p.l + p.r) / 2] = \"\" + p.root.val;\n            if (p.root.left != null)\n                queue.add(new Params(p.root.left, p.i + 1, p.l, (p.l + p.r) / 2));\n            if (p.root.right != null)\n                queue.add(new Params(p.root.right, p.i + 1, (p.l + p.r + 1) / 2, p.r));\n        }\n    }\n    public int getHeight(TreeNode root) {\n        Queue < TreeNode > queue = new LinkedList();\n        queue.add(root);\n        int height = 0;\n        while (!queue.isEmpty()) {\n            height++;\n            Queue < TreeNode > temp = new LinkedList();\n            while (!queue.isEmpty()) {\n                TreeNode node = queue.remove();\n                if (node.left != null)\n                    temp.add(node.left);\n                if (node.right != null)\n                    temp.add(node.right);\n            }\n            queue = temp;\n        }\n        return height;\n    }\n}\n```\n\n**复杂度分析**\n\n* 时间复杂度：$O(h*2^h)$，其中 $h$ 是树的高度，填充长度为 $h\\times(2^h-1)$ 的数组 $res$。\n\n* 空间复杂度：$O(h*2^h)$，数组  $res$ 的长度为 $h\\times(2^h-1)$。",
+      "createdAt": "2019-12-31T03:44:46.088395+00:00",
+      "hitCount": 10070,
+      "identifier": "CsXYJB",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "kan-liao-bu-hui-lai-zou-wo-fen-zhi-si-xi-tidj",
+        "title": "看了不会来揍我（分治思想+数组 解题）"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "print-binary-tree"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 11,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "shu-chu-er-cha-shu-by-leetcode",
+      "status": "PUBLISHED",
+      "summary": " 方法一：递归【通过】\n创建一个长度为 height\\times(2^{height}-1) 的数组 res，其中 height 是树的高度。先使用空字符串 \"\" 填充数组 res。然后递归调用 fill(res, root, i, l, r) 将节点的值输出到数组 res 中，其中 i 表示当前节点所在层数，l 和 ",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Recursion",
+          "nameTranslated": "递归",
+          "slug": "recursion",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "输出二叉树",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 16,
+        "id": 65178,
+        "viewCount": 7230
+      },
+      "uuid": "CsXYJB",
+      "videosInfo": []
+    }
+  }
+}

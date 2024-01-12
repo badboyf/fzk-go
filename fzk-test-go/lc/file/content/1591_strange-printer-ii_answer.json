@@ -1,0 +1,72 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "苏州小朋友",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/charleswangxiao-wang/avatar_1629620409.png",
+          "userSlug": "charleswangxiao-wang"
+        },
+        "username": "charleswangxiao-wang"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "16ms，打败100%，逆推\r\n按照提示，从上到下计算，一个矩形满足要求，要么矩形内都是该同一数字，要么还有先前已经上面删除的矩形（设为-1）\r\n\r\n```\r\nbool isPrintable(vector<vector<int>>& targetGrid) {\r\n\tint range[61][4];\r\n\tfor (int i = 0; i < 61; i++) {\r\n\t\trange[i][0] = INT_MAX;\r\n\t\trange[i][1] = INT_MIN;\r\n\t\trange[i][2] = INT_MAX;\r\n\t\trange[i][3] = INT_MIN;\r\n\t}\r\n\tbool existed[61];\r\n\tmemset(existed, 0, sizeof(existed));\r\n\tint cnt = 0;\r\n\tint row = targetGrid.size(), col = targetGrid[0].size();\r\n\tfor (int i = 0; i < row; i++) {\r\n\t\tfor (int j = 0; j < col; j++) {\r\n\t\t\tauto p = range[targetGrid[i][j]];\r\n\t\t\tp[0] = min(p[0], i);\r\n\t\t\tp[1] = max(p[1], i);\r\n\t\t\tp[2] = min(p[2], j);\r\n\t\t\tp[3] = max(p[3], j);\r\n\t\t\texisted[targetGrid[i][j]] = true;\r\n\t\t}\r\n\t}\r\n\r\n\tfor (int i = 0; i < 61; i++)\r\n\t\tcnt += existed[i];\r\n\r\n\twhile (true) {\r\n\t\tbool found = false;\r\n\t\tfor (int i = 0; i < 61; i++) {\r\n\t\t\tif (existed[i])\r\n\t\t\t{\r\n\t\t\t\tauto p = range[i];\r\n\t\t\t\tbool match = true;\r\n\t\t\t\tfor (int x = p[0]; x <= p[1]; x++)\r\n\t\t\t\t{\r\n\t\t\t\t\tif (!match)\r\n\t\t\t\t\t\tbreak;\r\n\t\t\t\t\tfor (int y = p[2]; y <= p[3]; y++) {\r\n\t\t\t\t\t\tif (targetGrid[x][y] != -1 && targetGrid[x][y] != i)\r\n\t\t\t\t\t\t{\r\n\t\t\t\t\t\t\tmatch = false;\r\n\t\t\t\t\t\t\tbreak;\r\n\t\t\t\t\t\t}\r\n\t\t\t\t\t}\r\n\t\t\t\t}\r\n\t\t\t\tif (match) {\r\n\t\t\t\t\tcnt--;\r\n\t\t\t\t\tfound = true;\r\n\t\t\t\t\texisted[i] = false;\r\n\t\t\t\t\tfor (int x = p[0]; x <= p[1]; x++)\r\n\t\t\t\t\t{\r\n\t\t\t\t\t\tfor (int y = p[2]; y <= p[3]; y++) {\r\n\t\t\t\t\t\t\ttargetGrid[x][y] = -1;\r\n\t\t\t\t\t\t}\r\n\t\t\t\t\t}\r\n\t\t\t\t}\r\n\t\t\t}\r\n\t\t}\r\n\r\n\r\n\t\tif (!found)\r\n\t\t\tbreak;\r\n\t}\r\n\treturn cnt == 0;\r\n}\r\n```\r\n",
+      "createdAt": "2021-09-03T13:54:27.936479+00:00",
+      "hitCount": 231,
+      "identifier": "UHxiTa",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "cyi-chong-qi-guai-de-si-lu-jian-tu-tuo-bu-pai-xu-b",
+        "title": "C++，一种奇怪的思路，建图+拓扑排序"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "strange-printer-ii"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "16msda-bai-100ni-tui-by-charleswangxiao-vyf41",
+      "status": "PUBLISHED",
+      "summary": "16ms，打败100%，逆推\n按照提示，从上到下计算，一个矩形满足要求，要么矩形内都是该同一数字，要么还有先前已经上面删除的矩形（设为-1）",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "16ms，打败100%，逆推",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 976696,
+        "viewCount": 181
+      },
+      "uuid": "UHxiTa",
+      "videosInfo": []
+    }
+  }
+}

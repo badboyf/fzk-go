@@ -1,0 +1,64 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣 (LeetCode)",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/uploaded_files/2021/03/73c9f099-abbe-4d94-853f-f8abffd459cd/leetcode.png",
+          "userSlug": "leetcode"
+        },
+        "username": "LeetCode"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "####  方法一：转换成字符串\n**算法：**\n让我们把给定的数字转换成一个二进制数字串。然后，我们应该简单地检查两个相邻的数字是否相同。 \n\n\n**复杂度分析**\n\n* 时间复杂度：$O(1)$。对于任意输入，我们执行 $O(w)$ 工作，其中 $w$ 是 n 中的二进制位数且 $w\\leq 32$。 \n* 空间复杂度：$O(1)$，或者 $O(w)$。 \n\n####  方法二：除以2\n我们可以通过 `n%2` 和 `n//2` 操作获得最后一位和其余的位。如果最后一位等于剩余的最后一位，那么两个相邻的位具有相同的值，则答案是 `False` 的，反之，答案是 `True` 的。 \n\n**复杂度分析**\n\n* 时间复杂度：$O(1)$。对于任意输入，我们执行 $O(w)$ 工作，其中 $w$ 是 n 中的二进制位数且 $w\\leq 32$。 \n* 空间复杂度：$O(1)$。",
+      "createdAt": "2019-08-23T09:48:38.669083+00:00",
+      "hitCount": 9346,
+      "identifier": "pz00EU",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "693-jiao-ti-wei-er-jin-zhi-shu-by-zhan-k-d6v2",
+        "title": "693. 交替位二进制数"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "binary-number-with-alternating-bits"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 3,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "jiao-ti-wei-er-jin-zhi-shu-by-leetcode",
+      "status": "PUBLISHED",
+      "summary": "§ 方法一：转换成字符串\n算法：\n让我们把给定的数字转换成一个二进制数字串。然后，我们应该简单地检查两个相邻的数字是否相同。\n复杂度分析\n\n时间复杂度：O(1)。对于任意输入，我们执行 O(w) 工作，其中 w 是 n 中的二进制位数且 w\\leq 32。\n空间复杂度：O(1)，或者 O(w)。\n\n§ 方法二：除以2\n",
+      "sunk": false,
+      "tags": [],
+      "thumbnail": "",
+      "title": "交替位二进制数",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 37,
+        "id": 22517,
+        "viewCount": 7964
+      },
+      "uuid": "pz00EU",
+      "videosInfo": []
+    }
+  }
+}

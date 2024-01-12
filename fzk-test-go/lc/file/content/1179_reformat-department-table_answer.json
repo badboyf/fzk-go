@@ -1,0 +1,76 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "雪鹰领主",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/xue-ying-ling-zhu/avatar_1628654629.png",
+          "userSlug": "weiwo20010101"
+        },
+        "username": "weiwo20010101"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "这道题还是非常难懂的。\r\n\r\n一般情况下，我们对于分组的使用都是 group by 主键，这样的话每一组都只有一条数据，但是这道题不存在一个字段的主键，而是存在一个(id,month)的联合主键，而要求的结果却是一个id一个条信息，因此我们不得不根据id分组 group by id,但是这样的话根据的month的不同情形，一组中有不只一条的数据，那此时我们怎么办呢?\r\n\r\n我们只能使用case a when b else c end 的句式了，相当于java里的if(a==b) if(a==c),相等的时候自然有数据了，但是当不相等的时候呢，就是null，结果就是if（）比较下一堆的null和一条有用的数据，那此时我们怎么办呢？\r\n\r\n我认为就是聚合函数忽视了为null的情况，返回了那个唯一的数据。\r\nhhh 我就这样理解了。",
+      "createdAt": "2021-09-26T08:20:38.107522+00:00",
+      "hitCount": 1634,
+      "identifier": "mx8yxl",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "case-when-tiao-jian-then-jie-guo-end-by-80j5g",
+        "title": "Case when 条件 then 结果  end"
+      },
+      "position": 4,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "zhong-xin-ge-shi-hua-bu-men-biao-by-hu-tool",
+        "title": "重新格式化部门表"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "reformat-department-table"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "wo-de-li-jie-hu-shuo-by-xue-ying-ling-zh-epgo",
+      "status": "PREPUBLISH",
+      "summary": "这道题还是非常难懂的。\n一般情况下，我们对于分组的使用都是 group by 主键，这样的话每一组都只有一条数据，但是这道题不存在一个字段的主键，而是存在一个(id,month)的联合主键，而要求的结果却是一个id一个条信息，因此我们不得不根据id分组 group by id,但是这样的话根据的month的不同情形，一",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "MySQL",
+          "nameTranslated": "",
+          "slug": "mysql",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "我的理解，（胡说）",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1018725,
+        "viewCount": 1397
+      },
+      "uuid": "mx8yxl",
+      "videosInfo": []
+    }
+  }
+}

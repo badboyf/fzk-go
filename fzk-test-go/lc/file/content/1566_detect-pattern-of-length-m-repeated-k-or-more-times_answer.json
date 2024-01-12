@@ -1,0 +1,100 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣官方题解",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/leetcode-solution/avatar_1582018938.png",
+          "userSlug": "leetcode-solution"
+        },
+        "username": "LeetCode-Solution"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法一：枚举\n\n**思路与算法**\n\n题目要求我们找到一个**连续**出现 $k$ 次且长度为 $m$ 的子数组。也就是说如果这个子数组的左端点是 $l$，那么对于任意 ${\\rm offset} \\in [0, m \\times k)$，都有 $a[l + {\\rm offset}] = a[l + ({\\rm offset} \\bmod m)]$。因此，我们可以枚举左端点 $l$，对于每个 $l$ 枚举 ${\\rm offset} \\in [0, m \\times k)$，判断是否满足条件即可。\n\n**代码**\n\n```cpp [sol1-C++]\nclass Solution {\npublic:\n    bool containsPattern(vector<int>& arr, int m, int k) {\n        int n = arr.size();\n        for (int l = 0; l <= n - m * k; ++l) {\n            int offset;\n            for (offset = 0; offset < m * k; ++offset) {\n                if (arr[l + offset] != arr[l + offset % m]) {\n                    break;\n                }\n            }\n            if (offset == m * k) {\n                return true;\n            }\n        }\n        return false;\n    }\n};\n```\n\n```Java [sol1-Java]\nclass Solution {\n    public boolean containsPattern(int[] arr, int m, int k) {\n        int n = arr.length;\n        for (int l = 0; l <= n - m * k; ++l) {\n            int offset;\n            for (offset = 0; offset < m * k; ++offset) {\n                if (arr[l + offset] != arr[l + offset % m]) {\n                    break;\n                }\n            }\n            if (offset == m * k) {\n                return true;\n            }\n        }\n        return false;\n    }\n}\n```\n\n```JavaScript [sol1-JavaScript]\nvar containsPattern = function(arr, m, k) {\n    const n = arr.length;\n    for (let l = 0; l <= n - m * k; ++l) {\n        let offset;\n        for (offset = 0; offset < m * k; ++offset) {\n            if (arr[l + offset] !== arr[l + offset % m]) {\n                break;\n            }\n        }\n        if (offset === m * k) {\n            return true;\n        }\n    }\n    return false;\n};\n```\n\n```Python [sol1-Python3]\nclass Solution:\n    def containsPattern(self, arr: List[int], m: int, k: int) -> bool:\n        n = len(arr)\n        for l in range(n - m * k + 1):\n            offset = 0\n            while offset < m * k:\n                if arr[l + offset] != arr[l + offset % m]:\n                    break\n                offset += 1\n            if offset == m * k:\n                return True\n        return False\n```\n\n**复杂度分析**\n\n+ 时间复杂度：$O(n \\times m \\times k)$。最外层循环 $l$ 的取值个数为 $n - m \\times k$，内层循环 $\\rm offset$ 的取值个数为 $m \\times k$，故渐进时间复杂度为 $O((n - m \\times k) \\times m \\times k) = O(n\\times m \\times k)$。\n+ 空间复杂度：$O(1)$。",
+      "createdAt": "2020-10-09T14:53:36.031902+00:00",
+      "hitCount": 3004,
+      "identifier": "fT1Ljr",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "shu-xue-shu-zu-by-euyvvl-hr2g",
+        "title": "数学-数组"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "detect-pattern-of-length-m-repeated-k-or-more-times"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "zhong-fu-zhi-shao-k-ci-qie-chang-du-wei-m-de-mo-2",
+      "status": "PUBLISHED",
+      "summary": "方法一：枚举 思路与算法 题目要求我们找到一个连续出现 $k$ 次且长度为 $m$ 的子数组。也就是说如果这个子数组的左端点是 $l$，那么对于任意 ${\\rm offset} \\in [0, m \\times k)$，都有 $a[l + {\\rm offset}] = a[l + ({\\rm offset} \\bmo",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Array",
+          "nameTranslated": "数组",
+          "slug": "array",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "JavaScript",
+          "nameTranslated": "",
+          "slug": "javascript",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "重复至少 K 次且长度为 M 的模式",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 4,
+        "id": 441150,
+        "viewCount": 2289
+      },
+      "uuid": "fT1Ljr",
+      "videosInfo": []
+    }
+  }
+}

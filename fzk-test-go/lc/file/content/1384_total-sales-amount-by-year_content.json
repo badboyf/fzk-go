@@ -1,0 +1,64 @@
+{
+  "data": {
+    "question": {
+      "__typename": "QuestionNode",
+      "book": null,
+      "boundTopicId": 158843,
+      "categoryTitle": "Database",
+      "codeSnippets": null,
+      "companyTagStats": null,
+      "content": null,
+      "contributors": [],
+      "dailyRecordStatus": null,
+      "difficulty": "Hard",
+      "dislikes": 0,
+      "editorType": "CKEDITOR",
+      "enableRunCode": true,
+      "envInfo": "{\"mysql\":[\"MySQL\",\"<p>\\u7248\\u672c\\uff1a<code>MySQL 8.0<\\/code><\\/p>\"],\"mssql\":[\"MS SQL Server\",\"<p>mssql server 2019.<\\/p>\"],\"oraclesql\":[\"Oracle\",\"<p>Oracle Sql 11.2.<\\/p>\"]}",
+      "exampleTestcases": "{\"headers\": {\"Product\": [\"product_id\", \"product_name\"], \"Sales\": [\"product_id\", \"period_start\", \"period_end\", \"average_daily_sales\"]}, \"rows\": {\"Product\": [[1, \"LC Phone \"], [2, \"LC T-Shirt\"], [3, \"LC Keychain\"]], \"Sales\": [[1, \"2019-01-25\", \"2019-02-28\", 100], [2, \"2018-12-01\", \"2020-01-01\", 10], [3, \"2019-12-01\", \"2020-01-31\", 1]]}}",
+      "hints": [],
+      "isDailyQuestion": false,
+      "isLiked": null,
+      "isPaidOnly": true,
+      "isSubscribed": false,
+      "judgeType": "large",
+      "judgerAvailable": true,
+      "langToValidPlayground": null,
+      "likes": 19,
+      "metaData": "{\n  \"mysql\": [\n    \"Create table If Not Exists Product (product_id int, product_name varchar(30))\",\n    \"Create table If Not Exists Sales (product_id varchar(30), period_start date, period_end date, average_daily_sales int)\"\n  ],\n  \"mssql\": [\n    \"Create table Product (product_id int, product_name varchar(30))\",\n    \"Create table Sales (product_id varchar(30), period_start date, period_end date, average_daily_sales int)\"\n  ],\n  \"oraclesql\": [\n    \"Create table Product (product_id int, product_name varchar(30))\",\n    \"Create table Sales (product_id varchar(30), period_start date, period_end date, average_daily_sales int)\",\n    \"ALTER SESSION SET nls_date_format='YYYY-MM-DD'\"\n  ],\n  \"database\": true\n}",
+      "mysqlSchemas": [
+        "Create table If Not Exists Product (product_id int, product_name varchar(30))",
+        "Create table If Not Exists Sales (product_id varchar(30), period_start date, period_end date, average_daily_sales int)",
+        "Truncate table Product",
+        "insert into Product (product_id, product_name) values ('1', 'LC Phone ')",
+        "insert into Product (product_id, product_name) values ('2', 'LC T-Shirt')",
+        "insert into Product (product_id, product_name) values ('3', 'LC Keychain')",
+        "Truncate table Sales",
+        "insert into Sales (product_id, period_start, period_end, average_daily_sales) values ('1', '2019-01-25', '2019-02-28', '100')",
+        "insert into Sales (product_id, period_start, period_end, average_daily_sales) values ('2', '2018-12-01', '2020-01-01', '10')",
+        "insert into Sales (product_id, period_start, period_end, average_daily_sales) values ('3', '2019-12-01', '2020-01-31', '1')"
+      ],
+      "questionFrontendId": "1384",
+      "questionId": "1518",
+      "sampleTestCase": "{\"headers\": {\"Product\": [\"product_id\", \"product_name\"], \"Sales\": [\"product_id\", \"period_start\", \"period_end\", \"average_daily_sales\"]}, \"rows\": {\"Product\": [[1, \"LC Phone \"], [2, \"LC T-Shirt\"], [3, \"LC Keychain\"]], \"Sales\": [[1, \"2019-01-25\", \"2019-02-28\", 100], [2, \"2018-12-01\", \"2020-01-01\", 10], [3, \"2019-12-01\", \"2020-01-31\", 1]]}}",
+      "similarQuestions": "[]",
+      "solution": null,
+      "stats": "{\"totalAccepted\": \"2.1K\", \"totalSubmission\": \"3.8K\", \"totalAcceptedRaw\": 2078, \"totalSubmissionRaw\": 3831, \"acRate\": \"54.2%\"}",
+      "status": null,
+      "style": "LEETCODE",
+      "title": "Total Sales Amount by Year",
+      "titleSlug": "total-sales-amount-by-year",
+      "topicTags": [
+        {
+          "__typename": "TopicTagNode",
+          "name": "Database",
+          "slug": "database",
+          "translatedName": "数据库"
+        }
+      ],
+      "translatedContent": null,
+      "translatedTitle": "按年度列出销售总额",
+      "ugcQuestionId": null
+    }
+  }
+}

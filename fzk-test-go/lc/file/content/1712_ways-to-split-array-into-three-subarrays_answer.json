@@ -1,0 +1,88 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "已注销",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/default_avatar.png",
+          "userSlug": ""
+        },
+        "username": "已注销"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "> [关注我，分享每日一题、周赛题解，还有大厂面经等你来拿~](https://blog.csdn.net/weixin_42396397/article/details/112554176)\r\n\r\n#### 思路：前缀和 + 二分\r\n\r\n- 根据题意，需要用到某段区间内的元素和，所以提前维护一个前缀和数组 $v$ ，$v[i]$ 记录给定数组中 $[0, i - 1]$ 区间的元素和（其中 $i = 1, 2, ..., n$）。\r\n- 遍历 $n$ 个位置，将位置 $i$ 作为 $left$ 和 $mid$ 子数组的分界线，二分查找 $mid$ 和 $right$ 的分界线范围。\r\n- 假设分界线范围为 $[x, y]$，则 $x$ 位置需满足的条件是 $v[x]$ - $v[i] >= v[i]$，此时才能满足 $left < mid$，同理 $y$ 位置需满足的条件是 $v[n]$ - $v[y] >= v[y]$ - $v[i]$，这样才能满足 $mid < right$。求出 $x, y$ 后，这段区间内的任一位置都能作为 $mid$ 和 $right$ 的分界线。\r\n- 这里需要特别说明的是，为了提前保证 $x <= y$，我们必须保证 $x$ 的范围条件 $v[x]$ - $v[i] >= v[i]$ 与 $y$ 的范围条件 $v[n]$ - $v[y] >= v[y]$ - $v[i]$ 不重合。由于我们的前缀和数组 $v[i]$ 是单调递增的，所以需要 $2 * v[i] <= v[x] <= v[y] <= (v[n] + v[i]) / 2$，也即 $3 * v[i] <= v[n]$。所以，每次二分之前，需要进行特判，若此时已有 $v[i] * 3 > v[n]$，则可以直接结束搜索。\r\n- 大部分朋友都会问我关于二分最后结果的问题，比如在代码里为什么最后是 $r - ll + 1$，而没有用到 $l$ 和 $rr$ 等指针，具体的解释可以看[我写的二分算法详解](https://mp.weixin.qq.com/s?__biz=Mzg3NzMzNzU1MA==&mid=2247483922&idx=1&sn=6f87cbdd079e2182f89313f0ad0ac286&chksm=cf25ccb3f85245a5d36ea1ac23751f27e479773b36b513101c8be40381613b16024a48ed97b8&token=1371888145&lang=zh_CN#rd)。在评论里我也简要说明了这个问题，如果有不太明白的朋友，欢迎继续在评论里跟我继续讨论~\r\n \r\n\r\n#### 代码：\r\n\r\n```c++\r\nclass Solution {\r\npublic:\r\n    int waysToSplit(vector<int>& a) {\r\n        int n = a.size();\r\n        vector<int> v(n + 1, 0);\r\n        // 初始化前缀和数组\r\n        for(int i = 1; i <= n; i++) {\r\n            v[i] = v[i - 1] + a[i - 1];\r\n        }\r\n        // 返回值 ret\r\n        long long ret = 0;\r\n        const int M = 1e9 + 7;\r\n        \r\n        for(int i = 1; i < n; i++) {\r\n            // 特判\r\n            if(v[i] * 3 > v[n]) break;\r\n            \r\n            // 第一次二分找右边界\r\n            int l = i + 1, r = n - 1;\r\n            while(l <= r) {\r\n                int mid = (l + r) / 2;\r\n                if(v[n] - v[mid] >= v[mid] - v[i]) {\r\n                    l = mid + 1;\r\n                } else {\r\n                    r = mid - 1;\r\n                }\r\n            }\r\n            \r\n            // 第二次二分找左边界\r\n            int ll = i + 1, rr = n - 1;\r\n            while(ll <= rr) {\r\n                int mid = (ll + rr) / 2;\r\n                if(v[mid] - v[i] >= v[i]) {\r\n                    rr = mid - 1;\r\n                } else {\r\n                    ll = mid + 1;\r\n                }\r\n            }\r\n            ret += r - ll + 1;\r\n        }\r\n        return ret % M;\r\n    }   \r\n};\r\n\r\n```\r\n\r\n\r\n\r\n#### 复杂度分析：\r\n\r\n- 时间复杂度为 $O(nlgn)$，遍历 $left$ 和 $mid$ 边界复杂度 $O(n)$，两次二分复杂度 $O(lgn)$\r\n\r\n- 空间复杂度为 $O(n)$，维护了前缀和数组\r\n\r\n---\r\n\r\n> [关注我，分享每日一题、周赛题解，还有大厂面经等你来拿~](https://blog.csdn.net/weixin_42396397/article/details/112554176)",
+      "createdAt": "2021-01-03T04:08:28.757204+00:00",
+      "hitCount": 8616,
+      "identifier": "PWeQpu",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "cong-shuang-zhi-zhen-dao-san-zhi-zhen-by-klrb",
+        "title": "从双指针到三指针"
+      },
+      "position": 2,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "5643-jiang-shu-zu-fen-cheng-san-ge-zi-sh-fmep",
+        "title": "[1712. 将数组分成三个子数组的方案数] 前缀和 + 二分查找/三指针"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "ways-to-split-array-into-three-subarrays"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 23,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 7,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": false,
+      "slug": "c-qian-zhui-he-er-fen-sou-suo-by-bndsbil-ida2",
+      "status": "PUBLISHED",
+      "summary": "关注我，分享每日一题、周赛题解，还有大厂面经等你来拿~\n\n 思路：前缀和 + 二分\n\n根据题意，需要用到某段区间内的元素和，所以提前维护一个前缀和数组 v ，v[i] 记录给定数组中 [0, i - 1] 区间的元素和（其中 i = 1, 2, ..., n）。\n遍历 n 个位置，将位置 i 作为 left 和 mi",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "二分",
+          "nameTranslated": "",
+          "slug": "er-fen",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "",
+      "title": "C++ 前缀和 + 二分搜索",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 21,
+        "id": 544602,
+        "viewCount": 5409
+      },
+      "uuid": "PWeQpu",
+      "videosInfo": []
+    }
+  }
+}

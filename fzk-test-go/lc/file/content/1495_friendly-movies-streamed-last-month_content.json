@@ -1,0 +1,69 @@
+{
+  "data": {
+    "question": {
+      "__typename": "QuestionNode",
+      "book": null,
+      "boundTopicId": 306836,
+      "categoryTitle": "Database",
+      "codeSnippets": null,
+      "companyTagStats": null,
+      "content": null,
+      "contributors": [],
+      "dailyRecordStatus": null,
+      "difficulty": "Easy",
+      "dislikes": 0,
+      "editorType": "CKEDITOR",
+      "enableRunCode": true,
+      "envInfo": "{\"mysql\":[\"MySQL\",\"<p>\\u7248\\u672c\\uff1a<code>MySQL 8.0<\\/code><\\/p>\"],\"mssql\":[\"MS SQL Server\",\"<p>mssql server 2019.<\\/p>\"],\"oraclesql\":[\"Oracle\",\"<p>Oracle Sql 11.2.<\\/p>\"]}",
+      "exampleTestcases": "{\"headers\": {\"TVProgram\": [\"program_date\", \"content_id\", \"channel\"], \"Content\": [\"content_id\", \"title\", \"Kids_content\", \"content_type\"]}, \"rows\": {\"TVProgram\": [[\"2020-06-10 08:00\", 1, \"LC-Channel\"], [\"2020-05-11 12:00\", 2, \"LC-Channel\"], [\"2020-05-12 12:00\", 3, \"LC-Channel\"], [\"2020-05-13 14:00\", 4, \"Disney Ch\"], [\"2020-06-18 14:00\", 4, \"Disney Ch\"], [\"2020-07-15 16:00\", 5, \"Disney Ch\"]], \"Content\": [[1, \"Leetcode Movie\", \"N\", \"Movies\"], [2, \"Alg. for Kids\", \"Y\", \"Series\"], [3, \"Database Sols\", \"N\", \"Series\"], [4, \"Aladdin\", \"Y\", \"Movies\"], [5, \"Cinderella\", \"Y\", \"Movies\"]]}}",
+      "hints": [],
+      "isDailyQuestion": false,
+      "isLiked": null,
+      "isPaidOnly": true,
+      "isSubscribed": false,
+      "judgeType": "large",
+      "judgerAvailable": true,
+      "langToValidPlayground": null,
+      "likes": 7,
+      "metaData": "{\n  \"mysql\": [\n    \"Create table If Not Exists TVProgram (program_date date, content_id int, channel varchar(30))\",\n    \"Create table If Not Exists Content (content_id varchar(30), title varchar(30), Kids_content ENUM('Y', 'N'), content_type varchar(30))\"\n  ],\n  \"mssql\": [\n    \"Create table TVProgram (program_date date, content_id int, channel varchar(30))\",\n    \"Create table Content (content_id varchar(30), title varchar(30), Kids_content varchar(2) NOT NULL CHECK(Kids_content IN('Y', 'N')), content_type varchar(30))\"\n  ],\n  \"oraclesql\": [\n    \"Create table TVProgram (program_date date, content_id int, channel varchar(30))\",\n    \"Create table Content (content_id varchar(30), title varchar(30), Kids_content varchar(2) NOT NULL CHECK(Kids_content IN('Y', 'N')), content_type varchar(30))\",\n    \"ALTER SESSION SET nls_date_format='YYYY-MM-DD HH24:MI'\"\n  ],\n  \"database\": true\n}",
+      "mysqlSchemas": [
+        "Create table If Not Exists TVProgram (program_date date, content_id int, channel varchar(30))",
+        "Create table If Not Exists Content (content_id varchar(30), title varchar(30), Kids_content ENUM('Y', 'N'), content_type varchar(30))",
+        "Truncate table TVProgram",
+        "insert into TVProgram (program_date, content_id, channel) values ('2020-06-10 08:00', '1', 'LC-Channel')",
+        "insert into TVProgram (program_date, content_id, channel) values ('2020-05-11 12:00', '2', 'LC-Channel')",
+        "insert into TVProgram (program_date, content_id, channel) values ('2020-05-12 12:00', '3', 'LC-Channel')",
+        "insert into TVProgram (program_date, content_id, channel) values ('2020-05-13 14:00', '4', 'Disney Ch')",
+        "insert into TVProgram (program_date, content_id, channel) values ('2020-06-18 14:00', '4', 'Disney Ch')",
+        "insert into TVProgram (program_date, content_id, channel) values ('2020-07-15 16:00', '5', 'Disney Ch')",
+        "Truncate table Content",
+        "insert into Content (content_id, title, Kids_content, content_type) values ('1', 'Leetcode Movie', 'N', 'Movies')",
+        "insert into Content (content_id, title, Kids_content, content_type) values ('2', 'Alg. for Kids', 'Y', 'Series')",
+        "insert into Content (content_id, title, Kids_content, content_type) values ('3', 'Database Sols', 'N', 'Series')",
+        "insert into Content (content_id, title, Kids_content, content_type) values ('4', 'Aladdin', 'Y', 'Movies')",
+        "insert into Content (content_id, title, Kids_content, content_type) values ('5', 'Cinderella', 'Y', 'Movies')"
+      ],
+      "questionFrontendId": "1495",
+      "questionId": "1639",
+      "sampleTestCase": "{\"headers\": {\"TVProgram\": [\"program_date\", \"content_id\", \"channel\"], \"Content\": [\"content_id\", \"title\", \"Kids_content\", \"content_type\"]}, \"rows\": {\"TVProgram\": [[\"2020-06-10 08:00\", 1, \"LC-Channel\"], [\"2020-05-11 12:00\", 2, \"LC-Channel\"], [\"2020-05-12 12:00\", 3, \"LC-Channel\"], [\"2020-05-13 14:00\", 4, \"Disney Ch\"], [\"2020-06-18 14:00\", 4, \"Disney Ch\"], [\"2020-07-15 16:00\", 5, \"Disney Ch\"]], \"Content\": [[1, \"Leetcode Movie\", \"N\", \"Movies\"], [2, \"Alg. for Kids\", \"Y\", \"Series\"], [3, \"Database Sols\", \"N\", \"Series\"], [4, \"Aladdin\", \"Y\", \"Movies\"], [5, \"Cinderella\", \"Y\", \"Movies\"]]}}",
+      "similarQuestions": "[]",
+      "solution": null,
+      "stats": "{\"totalAccepted\": \"4.2K\", \"totalSubmission\": \"7.7K\", \"totalAcceptedRaw\": 4184, \"totalSubmissionRaw\": 7721, \"acRate\": \"54.2%\"}",
+      "status": null,
+      "style": "LEETCODE",
+      "title": "Friendly Movies Streamed Last Month",
+      "titleSlug": "friendly-movies-streamed-last-month",
+      "topicTags": [
+        {
+          "__typename": "TopicTagNode",
+          "name": "Database",
+          "slug": "database",
+          "translatedName": "数据库"
+        }
+      ],
+      "translatedContent": null,
+      "translatedTitle": "上月播放的儿童适宜电影",
+      "ugcQuestionId": null
+    }
+  }
+}

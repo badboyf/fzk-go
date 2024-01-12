@@ -1,0 +1,79 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "꧁MxQuan.꧂",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/condescending-jangbuv/avatar_1629986743.png",
+          "userSlug": "condescending-jangbuv"
+        },
+        "username": "condescending-jangbuv"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "**遍历**\r\n分别计算start到destination的距离和destination到start的距离，返回较小的那个，注意循环的情况。\r\n- 时间复杂度：O(n)，n为数组长度。\r\n- 空间复杂度：O(1)。\r\n```c\r\nint distanceBetweenBusStops(int* distance, int distanceSize, int start, int destination){\r\n\tint res1 = 0, res2 = 0;\r\n\r\n    for(int i=start; i != destination; i=(i+1)%distanceSize)\t//start到destination的距离\r\n        res1 += distance[i];                                   \r\n    for(int j=destination; j != start; j=(j+1)%distanceSize)\t//destination到start的距离\r\n        res2 += distance[j];\r\n\r\n    return fmin(res1, res2);\t\t\t\t\t\t\t\t\t//返回较小的距离\r\n}\r\n```\r\n*写解题仅为自我回顾，如有错误敬请指出。*",
+      "createdAt": "2021-10-23T09:30:40.813993+00:00",
+      "hitCount": 191,
+      "identifier": "RrFVxZ",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "1184-cji-hu-shuang-bai-de-mo-ni-jie-fa-b-2cj1",
+        "title": "1184. c++几乎双百的模拟解法"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "distance-between-bus-stops"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "1184-gong-jiao-zhan-jian-de-ju-chi-by-co-hkf7",
+      "status": "PREPUBLISH",
+      "summary": "遍历\n分别计算start到destination的距离和destination到start的距离，返回较小的那个，注意循环的情况。\n\n时间复杂度：O(n)，n为数组长度。\n空间复杂度：O(1)。\n\n写解题仅为自我回顾，如有错误敬请指出。",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Array",
+          "nameTranslated": "数组",
+          "slug": "array",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C",
+          "nameTranslated": "",
+          "slug": "c",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "1184. 公交站间的距离",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1063028,
+        "viewCount": 159
+      },
+      "uuid": "RrFVxZ",
+      "videosInfo": []
+    }
+  }
+}

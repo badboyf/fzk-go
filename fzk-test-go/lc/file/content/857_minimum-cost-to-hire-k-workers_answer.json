@@ -1,0 +1,105 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣 (LeetCode)",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/uploaded_files/2021/03/73c9f099-abbe-4d94-853f-f8abffd459cd/leetcode.png",
+          "userSlug": "leetcode"
+        },
+        "username": "LeetCode"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法一：贪心\n\n显然，当我们选择 `K` 名工人时，会只要有一名工人恰好拿到了他的最低期望工资。因此，我们可以枚举是哪一名工人恰好拿到了他的最低期望工资，并检查在当前的“工资/质量”比值下，其他工人拿到的工资是否不少于他们的最低期望工资。如果有至少 `K - 1` 名工人满足条件，那么我们就在这些工人中选出 `K - 1` 名拿到工资最低的，加上枚举的那一名工人的最低期望工资，就得到了一个答案。在所有的答案中，返回最小值。\n\n注意这种方法可能会超出时间限制。\n\n```Java [sol1]\nclass Solution {\n    public double mincostToHireWorkers(int[] quality, int[] wage, int K) {\n        int N = quality.length;\n        double ans = 1e9;\n\n        for (int captain = 0; captain < N; ++captain) {\n            // Must pay at least wage[captain] / quality[captain] per qual\n            double factor = (double) wage[captain] / quality[captain];\n            double prices[] = new double[N];\n            int t = 0;\n            for (int worker = 0; worker < N; ++worker) {\n                double price = factor * quality[worker];\n                if (price < wage[worker]) continue;\n                prices[t++] = price;\n            }\n\n            if (t < K) continue;\n            Arrays.sort(prices, 0, t);\n            double cand = 0;\n            for (int i = 0; i < K; ++i)\n                cand += prices[i];\n            ans = Math.min(ans, cand);\n        }\n\n        return ans;\n    }\n}\n```\n\n```Python [sol1]\nclass Solution(object):\n    def mincostToHireWorkers(self, quality, wage, K):\n        from fractions import Fraction\n        ans = float('inf')\n\n        N = len(quality)\n        for captain in xrange(N):\n            # Must pay at least wage[captain] / quality[captain] per qual\n            factor = Fraction(wage[captain], quality[captain])\n            prices = []\n            for worker in xrange(N):\n                price = factor * quality[worker]\n                if price < wage[worker]: continue\n                prices.append(price)\n\n            if len(prices) < K: continue\n            prices.sort()\n            ans = min(ans, sum(prices[:K]))\n\n        return float(ans)\n```\n\n**复杂度分析**\n\n* 时间复杂度：$O(N^2 \\log N)$。\n\n* 空间复杂度：$O(N)$。\n\n#### 方法二：堆（优先队列）\n\n在方法一中，我们枚举了一名工人，并对剩下的工人计算对应的工资，并选出 `K - 1` 个工资最低的进行累加。事实上，我们可以定义一个“价值”，表示工人最低期望工资与工作质量之比。例如某位工人的最低期望工资为 `100`，工作质量为 `20`，那么他的价值为 `100 / 20 = 5.0`。\n\n可以发现，如果一名工人的价值为 `R`，当他恰好拿到最低期望工资时，如果所有价值高于 `R` 的工人都无法拿到最低期望工资，而所有价值低于 `R` 的工人都拿得比最低期望工资多。因此，我们可以按照这些工人的价值，对他们进行升序排序。排序后的第 `i` 名工人可以在它之前任选 `K - 1` 名工人，并计算对应的工资总和，为 `R * sum(quality[c1] + quality[c2] + ... + quality[c{k-1}] + quality[i])`，也就是说，我们需要在前 `i` 名工人中选择 `K` 个工作质量最低的。我们可以使用一个大根堆来实时维护 `K` 个最小值。\n\n```Java [sol2]\nclass Solution {\n    public double mincostToHireWorkers(int[] quality, int[] wage, int K) {\n        int N = quality.length;\n        Worker[] workers = new Worker[N];\n        for (int i = 0; i < N; ++i)\n            workers[i] = new Worker(quality[i], wage[i]);\n        Arrays.sort(workers);\n\n        double ans = 1e9;\n        int sumq = 0;\n        PriorityQueue<Integer> pool = new PriorityQueue();\n        for (Worker worker: workers) {\n            pool.offer(-worker.quality);\n            sumq += worker.quality;\n            if (pool.size() > K)\n                sumq += pool.poll();\n            if (pool.size() == K)\n                ans = Math.min(ans, sumq * worker.ratio());\n        }\n\n        return ans;\n    }\n}\n\nclass Worker implements Comparable<Worker> {\n    public int quality, wage;\n    public Worker(int q, int w) {\n        quality = q;\n        wage = w;\n    }\n\n    public double ratio() {\n        return (double) wage / quality;\n    }\n\n    public int compareTo(Worker other) {\n        return Double.compare(ratio(), other.ratio());\n    }\n}\n```\n\n```Python [sol2]\nclass Solution(object):\n    def mincostToHireWorkers(self, quality, wage, K):\n        from fractions import Fraction\n        workers = sorted((Fraction(w, q), q, w)\n                         for q, w in zip(quality, wage))\n\n        ans = float('inf')\n        pool = []\n        sumq = 0\n        for ratio, q, w in workers:\n            heapq.heappush(pool, -q)\n            sumq += q\n\n            if len(pool) > K:\n                sumq += heapq.heappop(pool)\n\n            if len(pool) == K:\n                ans = min(ans, ratio * sumq)\n\n        return float(ans)\n```\n\n**复杂度分析**\n\n* 时间复杂度：$O(N \\log N)$。\n\n* 空间复杂度：$O(N)$。",
+      "createdAt": "2019-08-12T17:11:57.562423+00:00",
+      "hitCount": 6987,
+      "identifier": "NNrHAH",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "zi-ben-jia-xing-wei-by-lianxin-ghqp",
+        "title": "资本家行为"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "minimum-cost-to-hire-k-workers"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 13,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "THUMBS_DOWN"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "gu-yong-k-ming-gong-ren-de-zui-di-cheng-ben-by-lee",
+      "status": "PUBLISHED",
+      "summary": "§ 方法一：贪心\n显然，当我们选择 K 名工人时，会只要有一名工人恰好拿到了他的最低期望工资。因此，我们可以枚举是哪一名工人恰好拿到了他的最低期望工资，并检查在当前的“工资/质量”比值下，其他工人拿到的工资是否不少于他们的最低期望工资。如果有至少 K - 1 名工人满足条件，那么我们就在这些工人中选出 K - 1 名拿",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Heap",
+          "nameTranslated": "堆",
+          "slug": "heap",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Greedy",
+          "nameTranslated": "贪心",
+          "slug": "greedy",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "优先队列",
+          "nameTranslated": "",
+          "slug": "you-xian-dui-lie",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "",
+      "title": "雇佣 K 名工人的最低成本",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 12,
+        "id": 20112,
+        "viewCount": 4423
+      },
+      "uuid": "NNrHAH",
+      "videosInfo": []
+    }
+  }
+}

@@ -1,0 +1,83 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "周凯修",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/smsqo/avatar_1595153409.png",
+          "userSlug": "smsqo"
+        },
+        "username": "smsqo"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "## 列出来发现是杨辉三角, 超简单! \r\n\r\n聚焦题目中的要求, \"字符串 `s` 按 **字典序排列**\". 我们不妨依次列出`n = 1, 2, 3, 4, 5, 6`时以`aeiou`分别开头的字典序的字符串数量(n为字符串长度). 对于`n = 1`时, 有: \r\n\r\n```shell\r\n\t\ta\te\ti\to\tu\r\nn = 1: \t1\t1\t1\t1\t1\r\n```\r\n\r\n再考虑 `n = 2`时. 先考虑长度为2的以u开头的字符串. 因为要按照字典序, 所以u后面只能接长度为1的, 以u开头的字符串, 即$u_2$ = $u_1$ ($u_n$表示以u开头的, 长度为n的字符串的数量); 再考虑长度为2的以o开头的字符串, 它后面可以接长度为1的以o或u开头的字符串, 即$o_2$=$o_1$+$u_1$; \r\n\r\n同理, $i_2$=$i_1$+$o_1$+$u_1$ ...等等! 这里的$o_1$+$u_1$不就是前面的$o_2$嘛! 即$i_2$=$i_1$+$o_2$. 同理我们可以得到: $a_2$=$a_1$+$e_2$, $e_2$=$e_1$+$i_2$, $i_2$=$i_1$+$o_2$, $o_2$=$o_1$+$u_1$, $u_2$比较特殊: u~2~=u~1~. \r\n\r\n将数据带进去, 就可以得到: \r\n\r\n```shell\r\n\t\ta\te\ti\to\tu\r\nn = 1: \t1\t1\t1\t1\t1\r\nn = 2:  5\t4\t3\t2\t1\r\n```\r\n\r\n再根据上面的方法写几行, 得到: \r\n\r\n```shell\r\n\t\ta\te\ti\to\tu\r\nn = 1: \t1\t1\t1\t1\t1\r\nn = 2:  5\t4\t3\t2\t1\r\nn = 3:  15\t10\t6\t3\t1\r\nn = 4:  25\t20\t10\t4\t1\r\nn = 5:  50\t25\t15\t5\t1\r\nn = 6:  96\t36\t21\t6\t1\r\n```\r\n\r\n发现规律了吗? 将上述表格左倾45°就得到了杨辉三角的一部分! \r\n\r\n\r\n\r\n![image-20210202193024408.png](https://pic.leetcode-cn.com/1612265437-qkEmvs-image-20210202193024408.png)\r\n\r\n![img](https://pic.leetcode-cn.com/1612265465-gjykFS-d6ca7bcb0a46f21fb27f41d6f8246b600d33aeef)\r\n\r\n当我们需要长度为n的字符串的数量时, 只要将这个表的第n行进行求和——或者, 求$a_{n+1}$就可以了, 因为将所有长度为n的字符串前面加上一个'a', 就可以不重不漏地得到所有以a开头的长度为(n+1)的字符串了. \r\n\r\n根据上图可以看到, $a_n$处于杨辉三角第n+3行的倒数第5个(从第0行开始, 见上图杨辉三角), 即: $a_n = C_{n+3}^{n+3-4} = C_{n+3}^{4} = \\frac{(n+3)(n+2)(n+1)n}{24}$. 因此最后的结果返回$a_{n+1} = \\frac{(n+4)(n+3)(n+2)(n+1)}{24}$即可:\r\n\r\n```python\r\nclass Solution:\r\n    def countVowelStrings(self, n: int) -> int:\r\n        return (n + 1) * (n + 2) * (n + 3) * (n + 4) // 24\r\n```\r\n\r\n\r\n\r\n",
+      "createdAt": "2021-02-02T11:31:06.237325+00:00",
+      "hitCount": 1760,
+      "identifier": "ngzRNx",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "bzhan-bu-shu-xue-by-boille-uzun",
+        "title": "B站补数学"
+      },
+      "position": 6,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "dong-tai-gui-hua-xiang-xi-zhu-shi-by-l0o0uis",
+        "title": "动态规划，详细注释"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "count-sorted-vowel-strings"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 10,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "lie-chu-lai-fa-xian-shi-yang-hui-san-jia-66kb",
+      "status": "PREPUBLISH",
+      "summary": "列出来发现是杨辉三角, 超简单!\n聚焦题目中的要求, \"字符串 s 按 字典序排列\". 我们不妨依次列出n = 1, 2, 3, 4, 5, 6时以aeiou分别开头的字典序的字符串数量(n为字符串长度). 对于n = 1时, 有:\n再考虑 n = 2时. 先考虑长度为2的以u开头的字符串. 因为要按照字典序, 所以u",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Math",
+          "nameTranslated": "数学",
+          "slug": "math",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python3",
+          "nameTranslated": "",
+          "slug": "python3",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1612265437-qkEmvs-image-20210202193024408.png",
+      "title": "列出来发现是杨辉三角, 超简单! ",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 2,
+        "id": 588282,
+        "viewCount": 1498
+      },
+      "uuid": "ngzRNx",
+      "videosInfo": []
+    }
+  }
+}

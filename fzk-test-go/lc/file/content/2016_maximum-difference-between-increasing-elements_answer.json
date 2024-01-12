@@ -1,0 +1,72 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "飞鸟",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/7aughing-nashgue/avatar_1605015234.png",
+          "userSlug": "lzxjack"
+        },
+        "username": "lzxjack"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n\n- 遍历数组，维护数组中元素的最小值\n- 若遇到比最小值大的数，更新最大差值\n- 否则，更新最小值\n\n### 代码\n\n```javascript\nconst maximumDifference = nums => {\n    // 假设元素最小值是nums[0]\n    let min = nums[0];\n    // 维护最大差值\n    let max = -1;\n    const len = nums.length;\n    for (let i = 1; i < len; i++) {\n        // 若遇到比最小值大的，再更新最大差值\n        if (nums[i] > min) {\n            max = Math.max(max, nums[i] - min);\n        } else {\n            // 更新最小值\n            min = Math.min(min, nums[i]);\n        }\n    }\n    return max;\n};\n```",
+      "createdAt": "2021-11-12T01:41:00.363571+00:00",
+      "hitCount": 59,
+      "identifier": "6Yc2OM",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "on-zuo-fa-by-endlesscheng-o2wp",
+        "title": "O(n) 做法"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "maximum-difference-between-increasing-elements"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "yi-ci-bian-li-javascript-by-lzxjack-2vuh",
+      "status": "PUBLISHED",
+      "summary": "解题思路\n\n遍历数组，维护数组中元素的最小值\n若遇到比最小值大的数，更新最大差值\n否则，更新最小值\n\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "JavaScript",
+          "nameTranslated": "",
+          "slug": "javascript",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "【一次遍历】JavaScript",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1097229,
+        "viewCount": 51
+      },
+      "uuid": "6Yc2OM",
+      "videosInfo": []
+    }
+  }
+}

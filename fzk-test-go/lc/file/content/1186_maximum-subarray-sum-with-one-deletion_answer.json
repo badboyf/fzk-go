@@ -1,0 +1,76 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "offer快到碗里来~",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/zhouzihong/avatar_1626862997.png",
+          "userSlug": "zhouzihong"
+        },
+        "username": "zhouzihong"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "![image.png](https://pic.leetcode-cn.com/1632969070-QvuRLE-image.png)\r\n抽象图一二ij\r\n```\r\nclass Solution {\r\npublic:\r\n    int maximumSum(vector<int>& arr) {\r\n        int n=arr.size();\r\n        bool flag=false;\r\n        int maxNum=INT_MIN;\r\n        for(int i=0;i<n;i++){\r\n            if(arr[i]>0){\r\n                flag=true;\r\n                break;\r\n            }\r\n            maxNum=max(maxNum,arr[i]);\r\n        }\r\n        if(flag==false)return maxNum;\r\n        vector<int>pre(n+2),nex(n+2);\r\n        int add=0;\r\n        for(int i=1;i<=n;i++){\r\n            add+=arr[i-1];\r\n            if(add<arr[i-1])add=arr[i-1];\r\n            pre[i]=add>0?add:0;\r\n        }\r\n        add=0;\r\n        for(int i=n;i>=1;i--){\r\n            add+=arr[i-1];\r\n            if(add<arr[i-1])add=arr[i-1];\r\n            nex[i]=add>0?add:0;\r\n        }\r\n        int ans=INT_MIN;\r\n        for(int i=1;i<=n;i++){\r\n            ans=max(max(ans,pre[i-1]+nex[i+1]+arr[i-1]),pre[i-1]+nex[i+1]);\r\n        }\r\n        return ans;\r\n    }\r\n};\r\n```\r\n",
+      "createdAt": "2021-09-30T02:31:33.315359+00:00",
+      "hitCount": 216,
+      "identifier": "MEYrqL",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "1186-shan-chu-yi-ci-de-dao-zi-shu-zu-zui-u151",
+        "title": "1186. 删除一次得到子数组最大和"
+      },
+      "position": 2,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "liang-ge-dong-tai-shu-zu-wei-hu-liang-ge-35cf",
+        "title": "两个动态数组维护两个动态规划转移方程，学到了"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "maximum-subarray-sum-with-one-deletion"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 3,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "tan-xin-yu-chu-li-qian-hou-zhui-by-zhouz-byry",
+      "status": "PREPUBLISH",
+      "summary": "抽象图一二ij",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1632969070-QvuRLE-image.png",
+      "title": "【贪心】【预处理前后缀】",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1025071,
+        "viewCount": 183
+      },
+      "uuid": "MEYrqL",
+      "videosInfo": []
+    }
+  }
+}

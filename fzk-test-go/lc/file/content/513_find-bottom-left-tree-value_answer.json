@@ -1,0 +1,93 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "秋雨❤美雪",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/da-luo-bo-ji/avatar_1627439679.png",
+          "userSlug": "qiu-yu-mei-xue"
+        },
+        "username": "qiu-yu-mei-xue"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n![图片.png](https://pic.leetcode-cn.com/1637942622-vuluvd-%E5%9B%BE%E7%89%87.png)\n\n广度优先搜索，按层遍历，记录每层第一个，最后一层的第一个即为答案。\n\n### 代码\n\n```cpp\n/**\n * Definition for a binary tree node.\n * struct TreeNode {\n *     int val;\n *     TreeNode *left;\n *     TreeNode *right;\n *     TreeNode() : val(0), left(nullptr), right(nullptr) {}\n *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}\n *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}\n * };\n */\nclass Solution {\npublic:\n    int findBottomLeftValue(TreeNode* root) {\n        int ans;\n        queue<TreeNode*> q;\n        q.push(root);\n        while(!q.empty()){\n            ans=q.front()->val;\n            int n=q.size();\n            while(n--){\n                TreeNode* t=q.front();\n                q.pop();\n                if(t->left)q.push(t->left);\n                if(t->right)q.push(t->right);\n            }\n        }\n        return ans;\n    }\n};\n```",
+      "createdAt": "2021-11-26T16:05:29.958838+00:00",
+      "hitCount": 23,
+      "identifier": "oJCbub",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "c-die-dai-fa-ceng-ci-bian-li-by-yi-ran-y-hzi8",
+        "title": "C++ 迭代法 层次遍历 "
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "find-bottom-left-tree-value"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "c-jian-dan-de-bfs-by-qiu-yu-mei-xue-atfe",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n广度优先搜索，按层遍历，记录每层第一个，最后一层的第一个即为答案。\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Breadth-First Search",
+          "nameTranslated": "广度优先搜索",
+          "slug": "breadth-first-search",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Queue",
+          "nameTranslated": "队列",
+          "slug": "queue",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "BFS",
+          "nameTranslated": "",
+          "slug": "bfs",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1637942622-vuluvd-%E5%9B%BE%E7%89%87.png",
+      "title": "【c++】简单的bfs",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1124334,
+        "viewCount": 18
+      },
+      "uuid": "oJCbub",
+      "videosInfo": []
+    }
+  }
+}

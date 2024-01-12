@@ -1,0 +1,84 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣官方题解",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/leetcode-solution/avatar_1582018938.png",
+          "userSlug": "leetcode-solution"
+        },
+        "username": "LeetCode-Solution"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "**方法一：模拟**\n\n我们每次通过取模运算得到 `n` 的最后一位，依次进行乘法和加法运算，最后将得到的积 `mul` 以及和 `add` 相减即可得到答案。\n\n```C++ [sol1]\nclass Solution {\npublic:\n    int subtractProductAndSum(int n) {\n        int add = 0, mul = 1;\n        while (n > 0) {\n            int digit = n % 10;\n            n /= 10;\n            add += digit;\n            mul *= digit;\n        }\n        return mul - add;\n    }\n};\n```\n\n```Python [sol1]\nclass Solution:\n    def subtractProductAndSum(self, n: int) -> int:\n        add, mul = 0, 1\n        while n > 0:\n            digit = n % 10\n            n //= 10\n            add += digit\n            mul *= digit\n        return mul - add\n```\n\n**复杂度分析**\n\n- 时间复杂度：$O(\\log N)$。整数 $N$ 的位数为 $\\lceil\\log_{10}(N + 1)\\rceil$，根据换底公式，它和时间复杂度中常用的以 $2$ 为底的 $\\log$ 只相差一个常数，因此可以表示为 $O(\\log N)$。\n\n- 空间复杂度：$O(1)$。",
+      "createdAt": "2020-02-18T13:44:40.195705+00:00",
+      "hitCount": 11194,
+      "identifier": "g91K1v",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "yi-ci-whilexun-huan-by-rayarsonlee-psd9",
+        "title": "一次while循环"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "subtract-the-product-and-sum-of-digits-of-an-integer"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 8,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "zheng-shu-de-ge-wei-ji-he-zhi-chai-by-leetcode-sol",
+      "status": "PUBLISHED",
+      "summary": "方法一：模拟\n我们每次通过取模运算得到 n 的最后一位，依次进行乘法和加法运算，最后将得到的积 mul 以及和 add 相减即可得到答案。\n复杂度分析\n\n\n时间复杂度：O(\\log N)。整数 N 的位数为 \\lceil\\log_{10}(N + 1)\\rceil，根据换底公式，它和时间复杂度中常用的以 2 为底的 \\",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python3",
+          "nameTranslated": "",
+          "slug": "python3",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "整数的各位积和之差",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 12,
+        "id": 101354,
+        "viewCount": 10090
+      },
+      "uuid": "g91K1v",
+      "videosInfo": []
+    }
+  }
+}

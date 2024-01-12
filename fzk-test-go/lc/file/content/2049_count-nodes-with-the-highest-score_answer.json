@@ -1,0 +1,102 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "灵茶山艾府",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/endlesscheng/avatar_1589367048.png",
+          "userSlug": "endlesscheng"
+        },
+        "username": "endlesscheng"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "对于一个点 $v$，删除与 $v$ 相连的边，剩余部分可以分为两类：\r\n\r\n- 以 $v$ 的子节点为根的子树；\r\n- 整棵树去掉以 $v$ 为根的子树后，剩余的部分。\r\n\r\n我们可以从 $0$ 出发，对整棵树跑一次 DFS，在算出子树大小的同时，根据题目要求计算出分数。\r\n\r\n```go\r\nfunc countHighestScoreNodes(parents []int) (ans int) {\r\n\tn := len(parents)\r\n\tg := make([][]int, n)\r\n\tfor w := 1; w < n; w++ {\r\n\t\tv := parents[w]\r\n\t\tg[v] = append(g[v], w) // 建树\r\n\t}\r\n\r\n\tmaxScore := 0\r\n\tvar dfs func(int) int\r\n\tdfs = func(v int) int {\r\n\t\tsize, score := 1, 1\r\n\t\tfor _, w := range g[v] {\r\n\t\t\tsz := dfs(w)\r\n\t\t\tsize += sz // 统计以 v 为根的子树的大小\r\n\t\t\tscore *= sz // 由于是二叉树所以 score 最大约为 (1e5/3)^3，在 64 位整数范围内\r\n\t\t}\r\n\t\tif v > 0 {\r\n\t\t\tscore *= n - size // 如果不是根节点，还要乘上「整棵树去掉以 v 为根的子树后，剩余的部分」\r\n\t\t}\r\n\t\tif score > maxScore {\r\n\t\t\tmaxScore, ans = score, 1\r\n\t\t} else if score == maxScore {\r\n\t\t\tans++\r\n\t\t}\r\n\t\treturn size\r\n\t}\r\n\tdfs(0)\r\n\treturn\r\n}\r\n```",
+      "createdAt": "2021-10-24T04:06:43.757510+00:00",
+      "hitCount": 1478,
+      "identifier": "QPANF3",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "tan-tan-zhu-code-shuang-bai-c-shen-sou-j-gi7s",
+        "title": "【谭谈丶Code】双百 C++ 深搜 简易算法"
+      },
+      "position": 2,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "java-dfs-by-lin_xia-yomi",
+        "title": "Java DFS"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "count-nodes-with-the-highest-score"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 7,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "liang-bian-dfs-by-endlesscheng-utf8",
+      "status": "PREPUBLISH",
+      "summary": "对于一个点 v，删除与 v 相连的边，剩余部分可以分为两类：\n\n以 v 的子节点为根的子树；\n整棵树去掉以 v 为根的子树后，剩余的部分。\n\n我们可以从 0 出发，对整棵树跑一次 DFS，在算出子树大小的同时，根据题目要求计算出分数。",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Tree",
+          "nameTranslated": "树",
+          "slug": "tree",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Depth-First Search",
+          "nameTranslated": "深度优先搜索",
+          "slug": "depth-first-search",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Go",
+          "nameTranslated": "",
+          "slug": "golang",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "DFS",
+          "nameTranslated": "",
+          "slug": "dfs",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "",
+      "title": "DFS 的同时计算分数",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 5,
+        "id": 1063923,
+        "viewCount": 1069
+      },
+      "uuid": "QPANF3",
+      "videosInfo": []
+    }
+  }
+}

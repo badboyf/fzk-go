@@ -1,0 +1,97 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "EUY",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/euyvvl/avatar_1635000444.png",
+          "userSlug": "euyvvl"
+        },
+        "username": "EUYVVL"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n**无脑DFS--->>>TLE**\n```\nclass Solution {\npublic:\n    int endR;\n    int endC;\n    set<string>st;\n    void backtracing(int startR,int startC,string str){\n        if(startR>endR){\n            return ;\n        }\n        if(startC>endC){\n            return ;\n        }\n        if(startR==endR&&startC==endC){\n            st.insert(str);\n            return ;\n        }\n        backtracing(startR,startC+1,str+\"H\");\n        backtracing(startR+1,startC,str+\"V\");\n    }\n    string kthSmallestPath(vector<int>& destination, int k) {\n        endR=destination[0];\n        endC=destination[1];\n        backtracing(0,0,\"\");\n        for(auto ite=st.begin();ite!=st.end();ite++){\n            if(k==1){\n                return *ite;\n            }\n            k--;\n        } \n        return \"\";  \n    }\n};\n```\n**根据题目的提示进行优化--->>>AC**\n1. R行,C列,由[i,j]到[R-1,C-1]的方案数是高中经典的排列组合题;\n2. 面对每一次选择,都有2种选择,向下或则向右;\n3. 如果向右计算还有多少剩余的路径可选(根据1里面的预先计算好的和k进行对比);\n4. 如果向下则k需要减去向右的选择那条路的总的选择数,因为那些一定大于向下的这些路径的;\n```cpp\nclass Solution{\npublic:\n    static const int N=30;\n    long long c[N+1][N+1];\n    string kthSmallestPath(vector<int>& destination, int k){\n        int endR=destination[0];\n        int endC=destination[1];\n        for(int i=0;i<=N;i++){\n            c[0][i]=0;\n            c[i][0]=1;\n        }\n        for(int i=1;i<=N;i++){\n            for(int j=1;j<=N;j++){\n                c[i][j]=c[i-1][j-1]+c[i-1][j];\n            }\n        }\n        string res=\"\";\n        int startC=0;\n        int startR=0;\n        while(startR<endR&&startC<endC){\n            long long cnt=c[endR-startR+endC-startC-1][endR-startR];\n            if(cnt>=k){\n                startC++;\n                res+=\"H\";\n            }\n            else{\n                res+=\"V\";\n                startR++;\n                k-=cnt;\n            }\n        }\n        while(startR<endR){\n            res+=\"V\";\n            startR++;\n        }\n        while(startC<endC){\n            res+=\"H\";\n            startC++;\n        }\n        return res;\n    }\n};\n```",
+      "createdAt": "2021-10-22T11:25:39.906570+00:00",
+      "hitCount": 71,
+      "identifier": "nz0c3X",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "javazu-he-shu-qiu-jie-si-lu-fen-xiang-by-hello-ang",
+        "title": "java组合数求解思路分享"
+      },
+      "position": 2,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "di-k-tiao-zui-xiao-zhi-ling-by-zerotrac2",
+        "title": "第 K 条最小指令"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "kth-smallest-instructions"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "pai-lie-zu-he-by-euyvvl-iqvl",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n无脑DFS--->>>TLE\n根据题目的提示进行优化--->>>AC\n\nR行,C列,由[i,j]到[R-1,C-1]的方案数是高中经典的排列组合题;\n面对每一次选择,都有2种选择,向下或则向右;\n如果向右计算还有多少剩余的路径可选(根据1里面的预先计算好的和k进行对比);\n如果向下则k需要减去向右的选择那条路",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Array",
+          "nameTranslated": "数组",
+          "slug": "array",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Math",
+          "nameTranslated": "数学",
+          "slug": "math",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "String",
+          "nameTranslated": "字符串",
+          "slug": "string",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "排列组合",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1061550,
+        "viewCount": 54
+      },
+      "uuid": "nz0c3X",
+      "videosInfo": []
+    }
+  }
+}

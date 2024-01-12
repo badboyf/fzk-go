@@ -1,0 +1,93 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "ffreturn",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/ffreturn/avatar_1608859813.png",
+          "userSlug": "ffreturn"
+        },
+        "username": "ffreturn"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "![image.png](https://pic.leetcode-cn.com/1633491117-IGBGeH-image.png)\n\n\n### 解题思路\n最长公共子序列 + 构建字符串\n\n***\n\n最长公共子序列 -》 动态规划解法\n\n- 定义\nd[i][j] 表示对于str1的长度i和str2的长度j最长公共字符串，这里预留0的位置，表示长度为0\n\n- 初始化\n为空\n\n- 计算\nstr1[i-1] == str2[j-1]\n   - 相等， d[i-1][j-1]+str1[i-1]\n   - 不相等， max(d[i-1][j], d[i][j-1])\n\n- 结果\nd[n1][n2],其中n1=str1.size(), n2=str2.size()\n\n***\n\n构建字符串\n- 指导原则：每个字符串里的相对顺序不能变；str1和str2顺序无关，因此都可以\n- 基于公共子序列，先插入非公共的前面，再是公共部分，最后是后面（非公共的），依次去插入直到全部\n\n### 代码\n\n```cpp\n\nclass Solution {\npublic:\n    string shortestCommonSupersequence(string str1, string str2) {\n        int n1 = str1.size();\n        int n2= str2.size();\n        vector<vector<string>> d(n1+1, vector<string>(n2+1));\n\n        for (int i = 1; i <= n1; ++i)\n        {\n            for (int j = 1; j <= n2; ++j)\n            {\n                if (str1[i-1] != str2[j-1])\n                {\n                    d[i][j] = d[i-1][j].size() > d[i][j-1].size() ? d[i-1][j] : d[i][j-1];\n                }\n                else\n                {\n                    d[i][j] = d[i-1][j-1] + str1[i-1];\n                }\n            }\n        }\n\n        // cout << d[n1][n2] << endl;\n        // 依次构建 ：先插入非公共的前面，再是公共部分，最后是后面（非公共的） ，循环直到结束\n        string res = \"\";\n        string lcs = d[n1][n2];\n        // str1和str2的遍历位置\n        int i = 0;\n        int j = 0;\n        for (char c : lcs)\n        {\n            // 非公共的前面\n            while(i < n1 && str1[i] != c)\n            {\n                res += str1[i];\n                ++i;\n            }\n            while(j < n2 && str2[j] != c)\n            {\n                res += str2[j];\n                ++j;\n            }\n\n            res += c;\n            // 公共部分的偏移+1\n            ++i;\n            ++j;\n        }\n        return res + str1.substr(i) + str2.substr(j);\n    }\n};\n```",
+      "createdAt": "2021-10-06T03:32:59.265394+00:00",
+      "hitCount": 236,
+      "identifier": "pO0Xo9",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "cpython3-lcscha-ru-by-hanxin_hanxin-si68",
+        "title": "c++/python3 LCS+插入"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "shortest-common-supersequence"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "1092-cjian-dan-yi-dong-de-zui-chang-gong-vm9c",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n最长公共子序列 + 构建字符串\n最长公共子序列 -》 动态规划解法\n\n\n定义\nd[i][j] 表示对于str1的长度i和str2的长度j最长公共字符串，这里预留0的位置，表示长度为0\n\n\n初始化\n为空\n\n\n计算\nstr1[i-1] == str2[j-1]\n\n相等， d[i-1][j-1]+str1[i-1]",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Dynamic Programming",
+          "nameTranslated": "动态规划",
+          "slug": "dynamic-programming",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "梦想",
+          "nameTranslated": "",
+          "slug": "meng-xiang",
+          "tagType": "ADDITIONAL_TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "最长上升子序列",
+          "nameTranslated": "",
+          "slug": "zui-chang-shang-sheng-zi-xu-lie",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1633491117-IGBGeH-image.png",
+      "title": "1092. c++简单易懂的最长公共子序列解法",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1032967,
+        "viewCount": 163
+      },
+      "uuid": "pO0Xo9",
+      "videosInfo": []
+    }
+  }
+}

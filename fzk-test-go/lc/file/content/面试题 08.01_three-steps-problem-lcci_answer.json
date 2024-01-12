@@ -1,0 +1,76 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "doraemon",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/doraemon-bm/avatar_1632152661.png",
+          "userSlug": "doraemon-bm"
+        },
+        "username": "doraemon-bm"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "\n### 代码\n\n```golang\nfunc waysToStep(n int) int {\n\tf := []int{1, 2, 4}\n\tif n <= 3 {\n\t\tswitch n {\n\t\tcase 1:\n\t\t\treturn f[0]\n\t\tcase 2:\n\t\t\treturn f[1]\n\t\tcase 3:\n\t\t\treturn f[2]\n\t\t}\n\t}\n\tfor i := 4; i <= n; i++ { //从第4个阶梯开始\n\t\ttem := f[0] + f[1] + f[2]\n\t\ttem = tem % 1000000007\n\t\tf[0] = f[1]\n\t\tf[1] = f[2]\n\t\tf[2] = tem\n\t}\n\treturn f[2]\n}\n```",
+      "createdAt": "2021-11-08T15:45:55.812617+00:00",
+      "hitCount": 43,
+      "identifier": "2gBtCk",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "jing-dian-dong-tai-gui-hua-javascript-by-fqtl",
+        "title": "【经典动态规划】JavaScript"
+      },
+      "position": 3,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "dong-tai-gui-hua-ya-suo-kong-jian-chang-wzv93",
+        "title": "动态规划，压缩空间，常数级空间"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "three-steps-problem-lcci"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "dong-tai-gui-hua-golang-by-doraemon-bm-sbch",
+      "status": "PREPUBLISH",
+      "summary": "代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Go",
+          "nameTranslated": "",
+          "slug": "golang",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "动态规划golang",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1091668,
+        "viewCount": 37
+      },
+      "uuid": "2gBtCk",
+      "videosInfo": []
+    }
+  }
+}

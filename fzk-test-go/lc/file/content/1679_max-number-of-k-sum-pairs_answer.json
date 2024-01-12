@@ -1,0 +1,105 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "剑轩",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/ethan-jx/avatar_1607498358.png",
+          "userSlug": "ethan-jx"
+        },
+        "username": "Ethan-JX"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": ">**代码中都包含了详细的注释，结合思路一起看，更容易看懂！**\n# 方法一：排序双指针法\n\n1. 将数据排序，用两个指针分别指向数组的头尾；\n2. 将两个指针指向的数求和；\n    1. 若和大于目标，则说明太大了，需要右指针左移（可以使和变小）；\n    2. 若和小于目标，则说明太小了，需要左指针右移（可以使和变大）；\n    3. 若和等于目标，则两个指针都往中间移动，结果+1。\n3. 循环2步骤直至左指针不在右指针的左边。\n\n### 代码\n```java []\nclass Solution {\n    public int maxOperations(int[] nums, int k) {\n        int result = 0;\n        //排序\n        Arrays.sort(nums);\n        //头尾指针\n        int i = 0, j = nums.length - 1;\n        while (i < j) {\n            int sum = nums[i] + nums[j];\n            if (k == sum) {//刚好相等。两个指针都往中间移动\n                result++;\n                i++;\n                j--;\n            } else if (k > sum) {//两数之和太小，左指针右移，让和变大\n                i++;\n            } else {//两数之和太大，右指针左移，让和变小\n                j--;\n            }\n        }\n        return result;\n    }\n}\n```\n时间复杂度O(nlogn + n),空间复杂度O(1)。\n**双百截图**\n![image.png](https://pic.leetcode-cn.com/1607336103-GmMLzZ-image.png)\n\n\n------\n------\n\n\n# 方法二：两遍循环hash法\n两遍循环，思路清晰易懂。\n\n1. 先通过一个Map存储数据出现的次数。\n2. 通过判断是否存在与之相加达到K的数据。\n3. 统计结果\n### 代码\n\n```java []\nclass Solution {\n    public int maxOperations(int[] nums, int k) {\n        Map<Integer, Integer> map = new HashMap<>(nums.length);\n        //统计每个数据出现的次数，key为数据，value为次数\n        for (int num : nums) {\n            Integer i = map.getOrDefault(num, 0);\n            map.put(num, i + 1);\n        }\n        int result = 0;\n        for (int num : nums) {\n            // 求和达到K的数据\n            int x = k - num;\n            // 从map获取x\n            int i = map.get(num);\n            //如果次数小于等于0，说明数据被使用过了【就算后面遍历到他，也可以跳过了】\n            if (i <= 0) {\n                continue;\n            }\n            //统计数量减一，先减去，防止两个相同的数据相加达到K，而只有一个数据\n            //【有个大兄弟有疑问，为什么直接删了。补充一下：因为是两遍循环，第一次就统计过所有的数据了，如果后面的if无法进入，那么之后也不可能了，删了就删了，无所谓了。】\n            map.put(num, i - 1);\n            // 是否有 另一个数据。且统计的数量大于0\n            if (map.containsKey(x) && map.get(x) > 0) {\n                result++;//结果+1\n                map.put(x, map.get(x) - 1);// 数量减一\n            }\n        }\n        return result;\n    }\n}\n```\n时间复杂度O(n),空间复杂度O(n)。\n\n\n\n------\n------\n\n\n# 方法三：一遍循环hash法\n方法二代码优化，直接一遍循环，将数据的统计和求和计算整合到一个循环中。\n### 代码\n\n```java []\nclass Solution {\n    public int maxOperations(int[] nums, int k) {\n        Map<Integer, Integer> map = new HashMap<>(nums.length);\n        int result = 0;\n        //统计每个数据出现的次数，key为数据，value为次数\n        for (int num : nums) {\n            // 获取求和的另一个数\n            int x = k - num;\n            // 从map获取x\n            Integer i = map.get(x);\n            // 是否有 另一个数据。且统计的数量大于0\n            if (i != null && map.get(x) > 0) {\n                result++;//结果+1\n                map.put(x, map.get(x) - 1);// 数量减一\n                continue;\n            }\n            //这个数没有被使用，统计数量+1\n            Integer count = map.getOrDefault(num, 0);\n            map.put(num, count + 1);\n        }\n        return result;\n    }\n}\n```\n时间复杂度O(n),空间复杂度O(n)。\n\n\n## 方法四：数组定位统计法【可惜内存超过限制】\n继续在方法三优化，直接通过数组映射的方式，统计数据，不需要hash，直接映射，按理说速度更快，可惜数据的取值太大了。导致需要的内存太大。\n32位*10^9 = 32,000,000,000 bit ≈3.725G内存。\n\n```java []\nclass Solution {\n    public int maxOperations(int[] nums, int k) {\n        int[] count = new int[1000000000];\n        int result = 0;\n        //统计每个数据出现的次数\n        for (int num : nums) {\n            // 获取求和的另一个数\n            int x = k - num;\n            // 是否有 另一个数据。且统计的数量大于0\n            if (count[x] > 0) {\n                result++;//结果+1\n                count[x]--;// 数量减一\n                continue;\n            }\n            //这个数没有被使用，统计数量+1\n            count[num]++;\n        }\n        return result;\n    }\n}\n```\n时间复杂度O(n),空间复杂度O(n)。\n\n------\n------\n\n# 总结\n按理说排序的时间复杂度是大于hash的，但是他的代码效率反而更高，说明hash算法的效率太低，或者冲突严重。\n\n**点个👍再走呗😂😘😊😁😭😜😝😄**",
+      "createdAt": "2020-12-07T03:40:41.792727+00:00",
+      "hitCount": 1325,
+      "identifier": "455BhK",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "yi-dao-jian-dan-de-ti-by-lwlvhy-3qxx",
+        "title": "一道简单的题"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "max-number-of-k-sum-pairs"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 13,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "xiang-xi-zhu-shi-si-lu-dian-ge-zan-ge-by-alk2",
+      "status": "PUBLISHED",
+      "summary": "代码中都包含了详细的注释，结合思路一起看，更容易看懂！\n\n方法一：排序双指针法\n\n将数据排序，用两个指针分别指向数组的头尾；\n将两个指针指向的数求和；\n\n若和大于目标，则说明太大了，需要右指针左移（可以使和变小）；\n若和小于目标，则说明太小了，需要左指针右移（可以使和变大）；\n若和等于目标，则两个指针都往中间移动，结",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Hash Table",
+          "nameTranslated": "哈希表",
+          "slug": "hash-table",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Two Pointers",
+          "nameTranslated": "双指针",
+          "slug": "two-pointers",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "指针",
+          "nameTranslated": "",
+          "slug": "zhi-zhen",
+          "tagType": "ADDITIONAL_TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "hash",
+          "nameTranslated": "",
+          "slug": "hash",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1607336103-GmMLzZ-image.png",
+      "title": "java双百，3种方法，排序双指针、hash统计求和",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 2,
+        "id": 512233,
+        "viewCount": 1095
+      },
+      "uuid": "455BhK",
+      "videosInfo": []
+    }
+  }
+}

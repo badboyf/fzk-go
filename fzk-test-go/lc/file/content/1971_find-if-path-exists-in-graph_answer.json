@@ -1,0 +1,72 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "学法语",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/fortbox1988/avatar_1576408965.png",
+          "userSlug": "xiaoweixiang"
+        },
+        "username": "xiaoweixiang"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "```java\n/*\n * Copyright (c) 2021\n * Author: xiaoweixiang\n */\nclass Solution {\n    public boolean validPath(int n, int[][] edges, int start, int end) {\n        AndCheck edge = new AndCheck(n);\n        for (int i = 0; i < edges.length; i++) {\n                edge.merge(edges[i][0], edges[i][1]);\n            \n        }\n        return edge.isConnected(start,end);\n\n    }\n\n     class AndCheck {\n        int[] parent;\n        int size;\n        public AndCheck(int size) {\n            this.size = size;\n            parent = new int[size];\n            for (int i = 0; i < parent.length; i++) {\n                parent[i] = i;\n            }\n        }\n\n        /**\n         * 1,find\n         * 2,isConnected\n         * 3,merge\n         */\n        public int find(int a) {\n            int b = parent[a];\n            if (b != a) return find(b);\n            return b;\n        }\n\n        public boolean isConnected(int a, int b) {\n            return find(a) == find(b);\n        }\n\n        public void merge(int a, int b) {\n            int c = find(a);\n            int d = find(b);\n            if (c == d) return;\n            parent[c] = d;\n        }\n    }\n}\n```",
+      "createdAt": "2021-09-12T11:20:14.666569+00:00",
+      "hitCount": 375,
+      "identifier": "99HeFN",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "c-bing-cha-ji-by-nilu_cn-p5qu",
+        "title": "【C++】【并查集】"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "find-if-path-exists-in-graph"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": false,
+      "slug": "zhi-jie-tao-yong-bing-cha-ji-mo-ban-jiu-ppe3y",
+      "status": "PREPUBLISH",
+      "summary": "[该用户太懒了，只写了 49 行 Java 代码]",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "直接套用并查集模板就好，几行代码而已",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 1,
+        "id": 993766,
+        "viewCount": 285
+      },
+      "uuid": "99HeFN",
+      "videosInfo": []
+    }
+  }
+}

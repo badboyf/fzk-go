@@ -1,0 +1,145 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣官方题解",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/leetcode-solution/avatar_1582018938.png",
+          "userSlug": "leetcode-solution"
+        },
+        "username": "LeetCode-Solution"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法一：贪心\n\n一方面，设糖果数量为 $n$，由于妹妹只能分到一半的糖果，所以答案不会超过 $\\dfrac{n}{2}$；另一方面，设这些糖果一共有 $m$ 种，答案也不会超过 $m$。\n\n若 $m\\le\\dfrac{n}{2}$，则可以每种糖果至少分一颗给妹妹，此时答案为 $m$；若 $m>\\dfrac{n}{2}$，则妹妹只能分到 $\\dfrac{n}{2}$ 种糖果，每种糖果分一颗，此时答案为 $\\dfrac{n}{2}$。\n\n综上所述，答案为 $\\min\\Big(m,\\dfrac{n}{2}\\Big)$。\n\n```Python [sol1-Python3]\nclass Solution:\n    def distributeCandies(self, candyType: List[int]) -> int:\n        return min(len(set(candyType)), len(candyType) // 2)\n```\n\n```C++ [sol1-C++]\nclass Solution {\npublic:\n    int distributeCandies(vector<int> &candyType) {\n        return min(unordered_set<int>(candyType.begin(), candyType.end()).size(), candyType.size() / 2);\n    }\n};\n```\n\n```Java [sol1-Java]\nclass Solution {\n    public int distributeCandies(int[] candyType) {\n        Set<Integer> set = new HashSet<Integer>();\n        for (int candy : candyType) {\n            set.add(candy);\n        }\n        return Math.min(set.size(), candyType.length / 2);\n    }\n}\n```\n\n```C# [sol1-C#]\npublic class Solution {\n    public int DistributeCandies(int[] candyType) {\n        ISet<int> set = new HashSet<int>();\n        foreach (int candy in candyType) {\n            set.Add(candy);\n        }\n        return Math.Min(set.Count, candyType.Length / 2);\n    }\n}\n```\n\n```go [sol1-Golang]\nfunc distributeCandies(candyType []int) int {\n    set := map[int]struct{}{}\n    for _, t := range candyType {\n        set[t] = struct{}{}\n    }\n    ans := len(candyType) / 2\n    if len(set) < ans {\n        ans = len(set)\n    }\n    return ans\n}\n```\n\n```JavaScript [sol1-JavaScript]\nvar distributeCandies = function(candyType) {\n    const set = new Set(candyType);\n    return Math.min(set.size, candyType.length / 2);\n};\n```\n\n```TypeScript [sol1-TypeScript]\nvar distributeCandies = function(candyType) {\n    const set = new Set(candyType);\n    return Math.min(set.size, candyType.length / 2);\n};\n```\n\n**复杂度分析**\n\n- 时间复杂度：$O(n)$，其中 $n$ 是数组 $\\textit{candies}$ 的长度。\n\n- 空间复杂度：$O(n)$。哈希表需要 $O(n)$ 的空间。",
+      "createdAt": "2021-10-29T02:41:10.200429+00:00",
+      "hitCount": 21971,
+      "identifier": "EqMeY6",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "fen-tang-guo-by-leetcode",
+        "title": "分糖果"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "distribute-candies"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 34,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 4,
+          "reactionType": "AWESOME"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "CONFUSED"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "fen-tang-guo-by-leetcode-solution-l4f6",
+      "status": "PUBLISHED",
+      "summary": "方法一：贪心 一方面，设糖果数量为 $n$，由于妹妹只能分到一半的糖果，所以答案不会超过 $\\dfrac{n}{2}$；另一方面，设这些糖果一共有 $m$ 种，答案也不会超过 $m$。 若 $m\\le\\dfrac{n}{2}$，则可以每种糖果至少分一颗给妹妹，此时答案为 $m$；若 $m>\\dfrac{n}{2}$，则",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Greedy",
+          "nameTranslated": "贪心",
+          "slug": "greedy",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Array",
+          "nameTranslated": "数组",
+          "slug": "array",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Hash Table",
+          "nameTranslated": "哈希表",
+          "slug": "hash-table",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C#",
+          "nameTranslated": "",
+          "slug": "csharp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Go",
+          "nameTranslated": "",
+          "slug": "golang",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "JavaScript",
+          "nameTranslated": "",
+          "slug": "javascript",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "TypeScript",
+          "nameTranslated": "",
+          "slug": "typescript",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "分糖果",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 64,
+        "id": 1072396,
+        "viewCount": 18256
+      },
+      "uuid": "EqMeY6",
+      "videosInfo": []
+    }
+  }
+}

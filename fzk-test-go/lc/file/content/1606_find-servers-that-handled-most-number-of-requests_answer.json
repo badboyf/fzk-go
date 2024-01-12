@@ -1,0 +1,107 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "EUY",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/euyvvl/avatar_1635000444.png",
+          "userSlug": "euyvvl"
+        },
+        "username": "EUYVVL"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n**这个和之前一道中等题有点类似**\n### 代码\n\n```cpp\ntypedef pair<int,int> pii;\nclass Solution {\npublic:\n    vector<int> busiestServers(int k, vector<int>& arrival, vector<int>& load) {\n        vector<int>cnt(k,0);\n        memset(cnt,0,sizeof(cnt));\n        set<int>st_free;\n        for(int i=0;i<k;i++){\n            st_free.insert(i);\n        }\n        //优先级队列自定义排序\n        auto cmp=[](const auto& A,const auto& B)->bool{\n            return A.second>B.second;\n        };\n        priority_queue<pii,vector<pii>,decltype(cmp)>que_busy(cmp);\n        for(int i=0;i<arrival.size();i++){\n            int start=arrival[i];\n            int time=load[i];\n            //在查询是否有空余的服务器前需要将完成任务的服务器释放;\n            while(!que_busy.empty()&&que_busy.top().second<=start){\n                st_free.insert(que_busy.top().first);\n                que_busy.pop();\n            }\n            auto ite=st_free.lower_bound(i%k);\n            //无法找到后继服务器并且有空余的服务器的时候从开头进行;\n            if(ite==st_free.end()&&!st_free.empty()){\n                ite=st_free.begin();\n            }\n            //有空余的服务器的时候;\n            if(ite!=st_free.end()){\n                int index=*ite;\n                cnt[index]++;\n                que_busy.push({index,start+time});\n                st_free.erase(index);\n            }\n        }\n        //处理结果\n        vector<int>res;\n        int maxi=0;\n        for(int i=0;i<k;i++){\n            if(cnt[i]>maxi){\n                res.clear();\n                maxi=cnt[i];\n                res.push_back(i);\n            }\n            else if(cnt[i]==maxi){\n                res.push_back(i);\n            }\n        }\n        return res;\n    }\n};\n```",
+      "createdAt": "2021-11-25T05:00:40.160286+00:00",
+      "hitCount": 7,
+      "identifier": "cfcVWh",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "you-xian-dui-lie-bao-cun-zheng-zai-yun-x-kzpu",
+        "title": "优先队列保存正在运行的server，set保存可用的server"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "find-servers-that-handled-most-number-of-requests"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "you-xian-ji-dui-lie-by-euyvvl-romp",
+      "status": "PUBLISHED",
+      "summary": "解题思路\n这个和之前一道中等题有点类似\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Array",
+          "nameTranslated": "数组",
+          "slug": "array",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Math",
+          "nameTranslated": "数学",
+          "slug": "math",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Counting",
+          "nameTranslated": "计数",
+          "slug": "counting",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "优先队列",
+          "nameTranslated": "",
+          "slug": "you-xian-dui-lie",
+          "tagType": "ADDITIONAL_TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Set",
+          "nameTranslated": "",
+          "slug": "set",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "",
+      "title": "优先级队列",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1121351,
+        "viewCount": 7
+      },
+      "uuid": "cfcVWh",
+      "videosInfo": []
+    }
+  }
+}

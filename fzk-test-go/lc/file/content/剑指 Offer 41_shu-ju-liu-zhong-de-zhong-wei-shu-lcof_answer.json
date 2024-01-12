@@ -1,0 +1,110 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "Krahets",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/jyd/avatar_1589712294.png",
+          "userSlug": "jyd"
+        },
+        "username": "jyd"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 解题思路：\r\n\r\n> 给定一长度为 $N$ 的无序数组，其中位数的计算方法：首先对数组执行排序（使用 $O(N \\log N)$ 时间），然后返回中间元素即可（使用 $O(1)$ 时间）。\r\n\r\n针对本题，根据以上思路，可以将数据流保存在一个列表中，并在添加元素时 **保持数组有序** 。此方法的时间复杂度为 $O(N)$ ，其中包括： 查找元素插入位置 $O(\\log N)$ （二分查找）、向数组某位置插入元素 $O(N)$ （插入位置之后的元素都需要向后移动一位）。 \r\n\r\n> 借助 **堆** 可进一步优化时间复杂度。\r\n\r\n建立一个 **小顶堆** $A$ 和 **大顶堆** $B$ ，各保存列表的一半元素，且规定：\r\n- $A$ 保存 **较大** 的一半，长度为 $\\frac{N}{2}$（ $N$ 为偶数）或 $\\frac{N+1}{2}$（ $N$ 为奇数）；\r\n- $B$ 保存 **较小** 的一半，长度为 $\\frac{N}{2}$（ $N$ 为偶数）或 $\\frac{N-1}{2}$（ $N$ 为奇数）；\r\n\r\n随后，中位数可仅根据 $A, B$ 的堆顶元素计算得到。\r\n\r\n![Picture1.png](https://pic.leetcode-cn.com/25837f1b195e56de20587a4ed97d9571463aa611789e768914638902add351f4-Picture1.png){:width=500}\r\n\r\n##### 算法流程：\r\n\r\n> 设元素总数为 $N = m + n$ ，其中 $m$ 和 $n$ 分别为 $A$ 和 $B$ 中的元素个数。\r\n\r\n**`addNum(num)` 函数：**\r\n\r\n1. 当 $m = n$（即 $N$ 为 **偶数**）：需向 $A$ 添加一个元素。实现方法：将新元素 $num$ 插入至 $B$ ，再将 $B$ 堆顶元素插入至 $A$ ；\r\n2. 当 $m \\ne n$（即 $N$ 为 **奇数**）：需向 $B$ 添加一个元素。实现方法：将新元素 $num$ 插入至 $A$ ，再将 $A$ 堆顶元素插入至 $B$ ；\r\n\r\n> 假设插入数字 $num$ 遇到情况 `1.` 。由于 $num$ 可能属于 “较小的一半” （即属于 $B$ ），因此不能将 $nums$ 直接插入至 $A$ 。而应先将 $num$ 插入至 $B$ ，再将 $B$ 堆顶元素插入至 $A$ 。这样就可以始终保持 $A$ 保存较大一半、 $B$ 保存较小一半。\r\n\r\n**`findMedian()` 函数：**\r\n\r\n1. 当 $m = n$（ $N$ 为 **偶数**）：则中位数为 $($ $A$ 的堆顶元素 + $B$ 的堆顶元素 $)/2$。\r\n2. 当 $m \\ne n$（ $N$ 为 **奇数**）：则中位数为 $A$ 的堆顶元素。\r\n\r\n<![Picture2.png](https://pic.leetcode-cn.com/5b4cb63f90f9c251db8618dff9b5069ecb0e645c391293fd94d0e7604ae15dca-Picture2.png),![Picture3.png](https://pic.leetcode-cn.com/d9715b3a6cae6d0f60813611625357e1c47c58a23f64741d7a60acb7c14855fc-Picture3.png),![Picture4.png](https://pic.leetcode-cn.com/2126c17a71dea7a623ebbaeed1ffbb1aad8bd6ab60e3e9a2d0e0d7dbf1724f98-Picture4.png),![Picture5.png](https://pic.leetcode-cn.com/c2adafcbbbdd55ac020d550bb5dd318213c64f618c934bd6d2f92ffc716fda92-Picture5.png),![Picture6.png](https://pic.leetcode-cn.com/f22e746386bc9a57aab0bd9c59eaa8272051d28287e88b9379844f7706c67749-Picture6.png),![Picture7.png](https://pic.leetcode-cn.com/c30881523513328ffca3284594c5c62053ca019191f1a18d4cb06ec9a508887c-Picture7.png),![Picture8.png](https://pic.leetcode-cn.com/0023c4dc2012a43233316442272d6157bc98337a711624e63a26ce9bcf4aba8a-Picture8.png),![Picture9.png](https://pic.leetcode-cn.com/ae8a595670ad9806718b33a2aec6696f2e66e05a638770c90bb87b182ace07b3-Picture9.png),![Picture10.png](https://pic.leetcode-cn.com/714ad718155f1ee69cf15977f9e6df76785b8a6d65b81437c68c6beee68d1b42-Picture10.png),![Picture11.png](https://pic.leetcode-cn.com/f5668310f0170aa83e4e9019ba7feab1d1863bea736b0ee902ae2f681468b932-Picture11.png),![Picture12.png](https://pic.leetcode-cn.com/c9b98c70ffefa63984b0edbf132f515e6bba6b4880c8b2a74525d0322ba612d8-Picture12.png),![Picture13.png](https://pic.leetcode-cn.com/1fc7ec5dbb0c03fff3a5460025c860249443ff6c65f433de515811b346c90f48-Picture13.png),![Picture14.png](https://pic.leetcode-cn.com/ce778733fa007e49236596b7c34a1f8567df4a72cd35bc87cee40fc7beb43488-Picture14.png)>\r\n\r\n##### 复杂度分析：\r\n\r\n- **时间复杂度：**\r\n  - **查找中位数 $O(1)$ ：** 获取堆顶元素使用 $O(1)$ 时间；\r\n  - **添加数字 $O(\\log N)$ ：** 堆的插入和弹出操作使用 $O(\\log N)$ 时间。  \r\n- **空间复杂度 $O(N)$ ：** 其中 $N$ 为数据流中的元素数量，小顶堆 $A$ 和大顶堆 $B$ 最多同时保存 $N$ 个元素。\r\n\r\n##### 代码：\r\n\r\nPython 中 heapq 模块是小顶堆。实现 **大顶堆** 方法： 小顶堆的插入和弹出操作均将元素 **取反** 即可。\r\nJava 使用 `PriorityQueue<>((x, y) -> (y - x))` 可方便实现大顶堆。\r\n\r\n```Python []\r\nfrom heapq import *\r\n\r\nclass MedianFinder:\r\n    def __init__(self):\r\n        self.A = [] # 小顶堆，保存较大的一半\r\n        self.B = [] # 大顶堆，保存较小的一半\r\n\r\n    def addNum(self, num: int) -> None:\r\n        if len(self.A) != len(self.B):\r\n            heappush(self.A, num)\r\n            heappush(self.B, -heappop(self.A))\r\n        else:\r\n            heappush(self.B, -num)\r\n            heappush(self.A, -heappop(self.B))\r\n\r\n    def findMedian(self) -> float:\r\n        return self.A[0] if len(self.A) != len(self.B) else (self.A[0] - self.B[0]) / 2.0\r\n```\r\n\r\n```Java []\r\nclass MedianFinder {\r\n    Queue<Integer> A, B;\r\n    public MedianFinder() {\r\n        A = new PriorityQueue<>(); // 小顶堆，保存较大的一半\r\n        B = new PriorityQueue<>((x, y) -> (y - x)); // 大顶堆，保存较小的一半\r\n    }\r\n    public void addNum(int num) {\r\n        if(A.size() != B.size()) {\r\n            A.add(num);\r\n            B.add(A.poll());\r\n        } else {\r\n            B.add(num);\r\n            A.add(B.poll());\r\n        }\r\n    }\r\n    public double findMedian() {\r\n        return A.size() != B.size() ? A.peek() : (A.peek() + B.peek()) / 2.0;\r\n    }\r\n}\r\n```\r\n\r\n> Push item on the heap, then pop and return the smallest item from the heap. The combined action runs more efficiently than heappush() followed by a separate call to heappop().\r\n\r\n根据以上文档说明，可将 Python 代码优化为：\r\n\r\n```Python []\r\nfrom heapq import *\r\n\r\nclass MedianFinder:\r\n    def __init__(self):\r\n        self.A = [] # 小顶堆，保存较大的一半\r\n        self.B = [] # 大顶堆，保存较小的一半\r\n\r\n    def addNum(self, num: int) -> None:\r\n        if len(self.A) != len(self.B):\r\n            heappush(self.B, -heappushpop(self.A, num))\r\n        else:\r\n            heappush(self.A, -heappushpop(self.B, -num))\r\n\r\n    def findMedian(self) -> float:\r\n        return self.A[0] if len(self.A) != len(self.B) else (self.A[0] - self.B[0]) / 2.0\r\n```",
+      "createdAt": "2020-04-30T16:37:18.211812+00:00",
+      "hitCount": 82663,
+      "identifier": "WrFDHK",
+      "isEditorsPick": true,
+      "isMostPopular": true,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "xiao-bai-cai-fen-xiang-shu-ju-liu-zhong-vnnm6",
+        "title": "小白菜🥬分享：数据流中的中位数"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "shu-ju-liu-zhong-de-zhong-wei-shu-lcof"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 349,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 27,
+          "reactionType": "AWESOME"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "CONFUSED"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "mian-shi-ti-41-shu-ju-liu-zhong-de-zhong-wei-shu-y",
+      "status": "PUBLISHED",
+      "summary": "解题思路：\n\n给定一长度为 N 的无序数组，其中位数的计算方法：首先对数组执行排序（使用 O(N \\log N) 时间），然后返回中间元素即可（使用 O(1) 时间）。\n\n针对本题，根据以上思路，可以将数据流保存在一个列表中，并在添加元素时 保持数组有序 。此方法的时间复杂度为 O(N) ，其中包括： 查找元素插入位",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Heap",
+          "nameTranslated": "堆",
+          "slug": "heap",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python3",
+          "nameTranslated": "",
+          "slug": "python3",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "优先队列",
+          "nameTranslated": "",
+          "slug": "you-xian-dui-lie",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/25837f1b195e56de20587a4ed97d9571463aa611789e768914638902add351f4-Picture1.png",
+      "title": "面试题41. 数据流中的中位数（优先队列 / 堆，清晰图解）",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 227,
+        "id": 227309,
+        "viewCount": 53891
+      },
+      "uuid": "WrFDHK",
+      "videosInfo": []
+    }
+  }
+}

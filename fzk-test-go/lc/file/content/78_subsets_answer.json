@@ -1,0 +1,136 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣官方题解",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/leetcode-solution/avatar_1582018938.png",
+          "userSlug": "leetcode-solution"
+        },
+        "username": "LeetCode-Solution"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 📺 视频题解  \n![78. 子集(1).mp4](fc18bbf0-3c5e-4e9b-bc96-15cebc3a92bf)\n\n### 📖 文字题解\n#### 方法一：迭代法实现子集枚举\n\n**思路与算法**\n\n记原序列中元素的总数为 $n$。原序列中的每个数字 $a_i$ 的状态可能有两种，即「在子集中」和「不在子集中」。我们用 $1$ 表示「在子集中」，$0$ 表示不在子集中，那么每一个子集可以对应一个长度为 $n$ 的 $0/1$ 序列，第 $i$ 位表示 $a_i$ 是否在子集中。例如，$n = 3$ ，$a = \\{ 5, 2, 9 \\}$ 时：\n\n| $0/1$ 序列 | 子集            | $0/1$ 序列对应的二进制数 |\n| ---------- | --------------- | ------------------------ |\n| $000$      | $\\{ \\}$         | $0$                      |\n| $001$      | $\\{ 9 \\}$       | $1$                      |\n| $010$      | $\\{ 2 \\}$       | $2$                      |\n| $011$      | $\\{ 2, 9 \\}$    | $3$                      |\n| $100$      | $\\{ 5 \\}$       | $4$                      |\n| $101$      | $\\{ 5, 9 \\}$    | $5$                      |\n| $110$      | $\\{ 5, 2 \\}$    | $6$                      |\n| $111$      | $\\{ 5, 2, 9 \\}$ | $7$                      |\n\n可以发现 $0/1$ 序列对应的二进制数正好从 $0$ 到 $2^n - 1$。我们可以枚举 $\\textit{mask} \\in [0, 2^n - 1]$，$\\textit{mask}$ 的二进制表示是一个 $0/1$ 序列，我们可以按照这个 $0/1$ 序列在原集合当中取数。当我们枚举完所有 $2^n$ 个 $\\textit{mask}$，我们也就能构造出所有的子集。\n\n**代码**\n\n```cpp [sol1-C++]\nclass Solution {\npublic:\n    vector<int> t;\n    vector<vector<int>> ans;\n\n    vector<vector<int>> subsets(vector<int>& nums) {\n        int n = nums.size();\n        for (int mask = 0; mask < (1 << n); ++mask) {\n            t.clear();\n            for (int i = 0; i < n; ++i) {\n                if (mask & (1 << i)) {\n                    t.push_back(nums[i]);\n                }\n            }\n            ans.push_back(t);\n        }\n        return ans;\n    }\n};\n```\n\n```Java [sol1-Java]\nclass Solution {\n    List<Integer> t = new ArrayList<Integer>();\n    List<List<Integer>> ans = new ArrayList<List<Integer>>();\n\n    public List<List<Integer>> subsets(int[] nums) {\n        int n = nums.length;\n        for (int mask = 0; mask < (1 << n); ++mask) {\n            t.clear();\n            for (int i = 0; i < n; ++i) {\n                if ((mask & (1 << i)) != 0) {\n                    t.add(nums[i]);\n                }\n            }\n            ans.add(new ArrayList<Integer>(t));\n        }\n        return ans;\n    }\n}\n```\n\n```Golang [sol1-Golang]\nfunc subsets(nums []int) (ans [][]int) {\n    n := len(nums)\n    for mask := 0; mask < 1<<n; mask++ {\n        set := []int{}\n        for i, v := range nums {\n            if mask>>i&1 > 0 {\n                set = append(set, v)\n            }\n        }\n        ans = append(ans, append([]int(nil), set...))\n    }\n    return\n}\n```\n\n```JavaScript [sol1-JavaScript]\nvar subsets = function(nums) {\n    const ans = [];\n    const n = nums.length;\n    for (let mask = 0; mask < (1 << n); ++mask) {\n        const t = [];\n        for (let i = 0; i < n; ++i) {\n            if (mask & (1 << i)) {\n                t.push(nums[i]);\n            }\n        }\n        ans.push(t);\n    }\n    return ans;\n};\n```\n\n```C [sol1-C]\nint** subsets(int* nums, int numsSize, int* returnSize, int** returnColumnSizes) {\n    int** ans = malloc(sizeof(int*) * (1 << numsSize));\n    *returnColumnSizes = malloc(sizeof(int) * (1 << numsSize));\n    *returnSize = 1 << numsSize;\n    int t[numsSize];\n    for (int mask = 0; mask < (1 << numsSize); ++mask) {\n        int tSize = 0;\n        for (int i = 0; i < numsSize; ++i) {\n            if (mask & (1 << i)) {\n                t[tSize++] = nums[i];\n            }\n        }\n        int* tmp = malloc(sizeof(int) * tSize);\n        memcpy(tmp, t, sizeof(int) * tSize);\n        (*returnColumnSizes)[mask] = tSize;\n        ans[mask] = tmp;\n    }\n    return ans;\n}\n```\n\n**复杂度分析**\n\n+ 时间复杂度：$O(n \\times 2^n)$。一共 $2^n$ 个状态，每种状态需要 $O(n)$ 的时间来构造子集。\n\n+ 空间复杂度：$O(n)$。即构造子集使用的临时数组 $t$ 的空间代价。\n\n#### 方法二：递归法实现子集枚举\n\n**思路与算法**\n\n我们也可以用递归来实现子集枚举。\n\n假设我们需要找到一个长度为 $n$ 的序列 $a$ 的所有子序列，代码框架是这样的：\n\n```cpp [demo1-C++]\nvector<int> t;\nvoid dfs(int cur, int n) {\n    if (cur == n) {\n        // 记录答案\n        // ...\n        return;\n    }\n    // 考虑选择当前位置\n    t.push_back(cur);\n    dfs(cur + 1, n, k);\n    t.pop_back();\n    // 考虑不选择当前位置\n    dfs(cur + 1, n, k);\n}\n```\n\n上面的代码中，$\\text{dfs}(\\textit{cur}, n)$ 参数表示当前位置是 $\\textit{cur}$，原序列总长度为 $n$。原序列的每个位置在答案序列中的状态有被选中和不被选中两种，我们用 $t$ 数组存放已经被选出的数字。在进入 $\\text{dfs}(\\textit{cur}, n)$ 之前 $[0, \\textit{cur} - 1]$ 位置的状态是确定的，而 $[\\textit{cur}, n - 1]$ 内位置的状态是不确定的，$\\text{dfs}(\\textit{cur}, n)$ 需要确定 $\\textit{cur}$ 位置的状态，然后求解子问题 ${\\text{dfs}(cur + 1}, n)$。对于 $\\textit{cur}$ 位置，我们需要考虑 $a[\\textit{cur}]$ 取或者不取，如果取，我们需要把 $a[\\textit{cur}]$ 放入一个临时的答案数组中（即上面代码中的 $t$），再执行 ${\\text{dfs}(cur + 1}, n)$，执行结束后需要对 $t$ 进行回溯；如果不取，则直接执行 ${\\text{dfs}(cur + 1}, n)$。在整个递归调用的过程中，$\\textit{cur}$ 是从小到大递增的，当 $\\textit{cur}$ 增加到 $n$ 的时候，记录答案并终止递归。可以看出二进制枚举的时间复杂度是 $O(2 ^ n)$。\n\n**代码**\n\n```cpp [sol2-C++]\nclass Solution {\npublic:\n    vector<int> t;\n    vector<vector<int>> ans;\n\n    void dfs(int cur, vector<int>& nums) {\n        if (cur == nums.size()) {\n            ans.push_back(t);\n            return;\n        }\n        t.push_back(nums[cur]);\n        dfs(cur + 1, nums);\n        t.pop_back();\n        dfs(cur + 1, nums);\n    }\n\n    vector<vector<int>> subsets(vector<int>& nums) {\n        dfs(0, nums);\n        return ans;\n    }\n};\n```\n\n```Java [sol2-Java]\nclass Solution {\n    List<Integer> t = new ArrayList<Integer>();\n    List<List<Integer>> ans = new ArrayList<List<Integer>>();\n\n    public List<List<Integer>> subsets(int[] nums) {\n        dfs(0, nums);\n        return ans;\n    }\n\n    public void dfs(int cur, int[] nums) {\n        if (cur == nums.length) {\n            ans.add(new ArrayList<Integer>(t));\n            return;\n        }\n        t.add(nums[cur]);\n        dfs(cur + 1, nums);\n        t.remove(t.size() - 1);\n        dfs(cur + 1, nums);\n    }\n}\n```\n\n```Golang [sol2-Golang]\nfunc subsets(nums []int) (ans [][]int) {\n    set := []int{}\n    var dfs func(int)\n    dfs = func(cur int) {\n        if cur == len(nums) {\n            ans = append(ans, append([]int(nil), set...))\n            return\n        }\n        set = append(set, nums[cur])\n        dfs(cur + 1)\n        set = set[:len(set)-1]\n        dfs(cur + 1)\n    }\n    dfs(0)\n    return\n}\n```\n\n```JavaScript [sol2-JavaScript]\nvar subsets = function(nums) {\n    const t = [];\n    const ans = [];\n    const n = nums.length;\n    const dfs = (cur) => {\n        if (cur === nums.length) {\n            ans.push(t.slice());\n            return;\n        }\n        t.push(nums[cur]);\n        dfs(cur + 1, nums);\n        t.pop(t.length - 1);\n        dfs(cur + 1, nums);\n    }\n    dfs(0, nums);\n    return ans;\n};\n```\n\n```C [sol2-C]\nint** ans;\nint* ansColSize;\nint ansSize;\n\nint* t;\nint tSize;\n\nvoid dfs(int cur, int* nums, int numsSize) {\n    if (cur == numsSize) {\n        int* tmp = malloc(sizeof(int) * tSize);\n        memcpy(tmp, t, sizeof(int) * tSize);\n        ansColSize[ansSize] = tSize;\n        ans[ansSize++] = tmp;\n        return;\n    }\n    t[tSize++] = nums[cur];\n    dfs(cur + 1, nums, numsSize);\n    tSize--;\n    dfs(cur + 1, nums, numsSize);\n}\n\nint** subsets(int* nums, int numsSize, int* returnSize, int** returnColumnSizes) {\n    ans = malloc(sizeof(int*) * (1 << numsSize));\n    ansColSize = malloc(sizeof(int) * (1 << numsSize));\n    t = malloc(sizeof(int) * numsSize);\n    *returnSize = 1 << numsSize;\n    ansSize = tSize = 0;\n    dfs(0, nums, numsSize);\n    *returnColumnSizes = ansColSize;\n    return ans;\n}\n```\n\n**复杂度分析**\n\n+ 时间复杂度：$O(n \\times 2 ^ n)$。一共 $2^n$ 个状态，每种状态需要 $O(n)$ 的时间来构造子集。\n\n+ 空间复杂度：$O(n)$。临时数组 $t$ 的空间代价是 $O(n)$，递归时栈空间的代价为 $O(n)$。",
+      "createdAt": "2020-09-19T15:48:02.569220+00:00",
+      "hitCount": 163215,
+      "identifier": "ueBIY9",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "c-zong-jie-liao-hui-su-wen-ti-lei-xing-dai-ni-gao-",
+        "title": "C++ 总结了回溯问题类型 带你搞懂回溯算法(大量例题)"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "subsets"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 136,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 14,
+          "reactionType": "AWESOME"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 10,
+          "reactionType": "CONFUSED"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "THUMBS_DOWN"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "zi-ji-by-leetcode-solution",
+      "status": "PUBLISHED",
+      "summary": "📺 视频题解 📖 文字题解 方法一：迭代法实现子集枚举 思路与算法 记原序列中元素的总数为 $n$。原序列中的每个数字 $a_i$ 的状态可能有两种，即「在子集中」和「不在子集中」。我们用 $1$ 表示「在子集中」，$0$ 表示不在子集中，那么每一个子集可以对应一个长度为 $n$ 的 $0/1$ 序列，第 $i$ 位表",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Bit Manipulation",
+          "nameTranslated": "位运算",
+          "slug": "bit-manipulation",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Array",
+          "nameTranslated": "数组",
+          "slug": "array",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C",
+          "nameTranslated": "",
+          "slug": "c",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Go",
+          "nameTranslated": "",
+          "slug": "golang",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "JavaScript",
+          "nameTranslated": "",
+          "slug": "javascript",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "子集",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 174,
+        "id": 420294,
+        "viewCount": 108693
+      },
+      "uuid": "ueBIY9",
+      "videosInfo": [
+        {
+          "__typename": "VideoInfoNode",
+          "coverUrl": "https://video.leetcode-cn.com/image/cover/C4F2EC5427EB4456AD6BEC8BE8D46DE5-6-2.png",
+          "duration": 715.8827,
+          "videoId": "7a809ab4f6b94683ae2ef69f68fc6b0a"
+        }
+      ]
+    }
+  }
+}

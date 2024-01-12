@@ -1,0 +1,72 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "骑猪骚男猪壮壮",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/ll0626/avatar_1631713561.png",
+          "userSlug": "ll0626"
+        },
+        "username": "ll0626"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n定义符号位比较多，感觉算法不太稳定，提交多次执行用时差距比较大！\n执行用时88ms（89.74%）；\n内存消耗79.3MB（96.15%）；\n![image.png](https://pic.leetcode-cn.com/1631895299-ilGqDD-image.png)\n![image.png](https://pic.leetcode-cn.com/1631895350-vUkPxs-image.png)\n这题测试案例一如既往的坑！！！\n话不多说，简述一下思路：\n先解读一下题意，要求返回轮转次数而不是利润！所有人上去之后可以不用管他们下来与否了。。。（只管上）；\n先定义几个变量：当前摩天轮上的四个箱子各自的人数；当前正在等待的人数（每次上摩天轮前先把下一次需要进入等待队列的人数先加上即customers先进入currentwait中）；\ncnc即轮转次数，costtotal为总花费；\ni1(有点意外，一开始没注意审题，“ customers[i] 是在第 i 次轮转（下标从 0 开始）之前到达的新游客的数量。这也意味着你必须在新游客到来前轮转 i 次。”这句话很关键，会卡第138个测试案例，第一个costomers[0]为0！！！这意味需要多转一次，直到有人上摩天轮)所以在改bug时加了这个标志位；可以重构这个cpp；\nok也是标志位跳出死循环；\n\n首先剪枝去除一些明显亏本的直接返回-1；\n然后摸拟过程，从第一个不是0的开始登摩天轮开始玩；每次判断当前等待队列人数是大于4还是小于4，分别操作；然后转动摩天轮；\n所有人（customers数组走完后）进入队列之后，直接模除4；如果余数的那些人的利润小于一次轮转花费就不让他们上了，游戏结束！\n\n注意：\n1、本题流程不是很复杂，条件判据较多，多测试几次bug改改就行；\n2、注意%4+1会导致数组溢出，就再%一次；\n\n\n### 代码\n\n```cpp\nclass Solution {\npublic:\n    int minOperationsMaxProfit(vector<int>& customers, int boardingCost, int runningCost)\n    {\n        //统计摩天轮当前人数；排队人数；下一轮进入人数；\n        int currentmtl[4] = { 0 };\n        int currentwait = 0;\n        int i = 0;\n        int i1=0;\n        int costtotal;\n        int cnc = 0;//计数；\n        int k = 0;//当前底部轮号；\n        int boardcost = boardingCost * (accumulate(customers.begin(), customers.end(), 0));\n        int ok = 0;\n        if (boardcost < runningCost * customers.size() + 4)return-1;\n        while (true)\n        {\n            if (customers[i] != 0)\n            {\n                i1=i;\n                currentwait += customers[i];\n                //cout << 1;\n                //cnc++;\n                break;\n            }\n            else\n            {\n                i++;\n                //cnc++;\n            }\n        }\n        while ((currentwait != 0 || (currentmtl[1] != 0 && currentmtl[2] != 0 && currentmtl[3] != 0 && currentmtl != 0)) && ok == 0)\n        {\n            if (i == customers.size())//所有待排队的人全部进入摩天轮；\n            {\n                //cout << 2;\n                if (currentwait == 0)\n                {\n                    ok = 1;\n                    //cout << 3;\n                    //for (int m = 0; m < 4; m++)\n                        //if (currentmtl[m] != 0)\n                           // cnc++;\n                }\n\n                else\n                {\n                    ok = 1;\n                    //cout << 4;\n                    if (currentwait % 4 == 0)\n                    {\n                        //cout << 1;\n                        cnc += currentwait / 4;\n                    }\n                    else\n                    {\n                        cnc += currentwait / 4 ;\n                        int s_yu = currentwait % 4;\n                        if (s_yu * boardingCost > runningCost)cnc++;\n                       // cout << 2;\n                    }\n\n                }\n            }\n            else\n            {\n                //cout << 5;\n                for (i; i < customers.size(); i++)//从第一轮开始转；\n                {\n                    //cout << 6;\n                    if (cnc == 0)//第一次轮转；\n                    {\n                        if (currentwait > 4)\n                        {\n                            currentmtl[0] = 4;\n                            currentwait -= 4;\n                            cnc++;\n                        }\n                        else\n                        {\n                            currentmtl[0] = currentwait;\n                            currentwait = 0;\n                            cnc++;\n                        }\n                    }\n                    else//后续轮转直至所有人进入队列排队；\n                    {\n                        currentwait += customers[i];\n                        if (currentwait > 4)\n                        {\n                            currentwait -= 4;\n                            k = (cnc % 4 + 1) % 4;\n                            currentmtl[k] = 4;\n                            cnc++;\n                        }\n                        else\n                        {\n                            k = (cnc % 4 + 1) % 4;\n                            currentmtl[k] = currentwait;\n                            currentwait = 0;\n                            cnc++;\n                        }\n\n                    }\n\n                }\n            }\n        }\n        if(customers[0]==0)\n        {\n            for(int w=0;w<=i1;w++)\n            {\n                if(customers[w]==0)\n                {\n                    cnc++;\n                }\n            }\n        }\n        costtotal = boardcost - cnc * runningCost;\n        return costtotal>0?cnc:-1;\n    }\n};\n\n```",
+      "createdAt": "2021-09-17T16:32:54.411559+00:00",
+      "hitCount": 75,
+      "identifier": "EDoc2S",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "maximum-profit-by-ikaruga",
+        "title": "【经营摩天轮的最大利润】模拟"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "maximum-profit-of-operating-a-centennial-wheel"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "sui-bian-_mo-tian-lun-huan-shi-mang-by-l-rg2w",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n定义符号位比较多，感觉算法不太稳定，提交多次执行用时差距比较大！\n执行用时88ms（89.74%）；\n内存消耗79.3MB（96.15%）；\n\n\n这题测试案例一如既往的坑！！！\n话不多说，简述一下思路：\n先解读一下题意，要求返回轮转次数而不是利润！所有人上去之后可以不用管他们下来与否了。。。（只管上）；\n先定",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1631895299-ilGqDD-image.png",
+      "title": "随便_摩天轮（还是莽！）",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 1,
+        "id": 1003728,
+        "viewCount": 65
+      },
+      "uuid": "EDoc2S",
+      "videosInfo": []
+    }
+  }
+}

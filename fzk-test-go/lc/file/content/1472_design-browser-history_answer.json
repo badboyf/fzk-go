@@ -1,0 +1,76 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "934786601",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/default_avatar.png",
+          "userSlug": "934786601"
+        },
+        "username": "934786601"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "```rust\r\nstruct BrowserHistory {\r\n    fifo: Vec<String>,\r\n    cur: usize,\r\n}\r\n\r\n\r\n/**\r\n * `&self` means the method takes an immutable reference.\r\n * If you need a mutable reference, change it to `&mut self` instead.\r\n */\r\nimpl BrowserHistory {\r\n\r\n    fn new(homepage: String) -> Self {\r\n        let mut fifo = Vec::with_capacity(2048);\r\n        fifo.push(homepage);\r\n        Self {fifo, cur: 0}\r\n    }\r\n    \r\n    fn visit(&mut self, url: String) {\r\n        self.fifo.truncate(self.cur + 1);\r\n        self.fifo.push(url);\r\n        self.cur += 1;\r\n    }\r\n    \r\n    fn back(&mut self, steps: i32) -> String {\r\n        let steps = steps as usize;\r\n        self.cur = if steps > self.cur {0}\r\n        else {self.cur - steps};\r\n        self.fifo[self.cur].clone()\r\n    }\r\n    \r\n    fn forward(&mut self, steps: i32) -> String {\r\n        let steps = steps as usize;\r\n        self.cur = (steps + self.cur).min(self.fifo.len() - 1);\r\n        self.fifo[self.cur].clone()\r\n    }\r\n}\r\n```\r\n",
+      "createdAt": "2021-11-16T07:49:22.553672+00:00",
+      "hitCount": 49,
+      "identifier": "sTnwPc",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "hao-ti-jian-shi-dao-liao-shuang-xiang-li-6df2",
+        "title": "好题，见识到了双向链表的强大"
+      },
+      "position": 32,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "javashuang-zhan-by-killshad0w-a8o3",
+        "title": "Java+双栈"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "design-browser-history"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "rust-mo-ni-by-934786601-ij4d",
+      "status": "PUBLISHED",
+      "summary": "[该用户太懒了，只写了 37 行 Rust 代码]",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Rust",
+          "nameTranslated": "",
+          "slug": "rust",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "【rust】模拟",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1104947,
+        "viewCount": 45
+      },
+      "uuid": "sTnwPc",
+      "videosInfo": []
+    }
+  }
+}

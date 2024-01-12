@@ -1,0 +1,61 @@
+{
+  "data": {
+    "question": {
+      "__typename": "QuestionNode",
+      "book": null,
+      "boundTopicId": 583581,
+      "categoryTitle": "Database",
+      "codeSnippets": null,
+      "companyTagStats": null,
+      "content": null,
+      "contributors": [],
+      "dailyRecordStatus": null,
+      "difficulty": "Easy",
+      "dislikes": 0,
+      "editorType": "CKEDITOR",
+      "enableRunCode": true,
+      "envInfo": "{\"mysql\":[\"MySQL\",\"<p>\\u7248\\u672c\\uff1a<code>MySQL 8.0<\\/code><\\/p>\"],\"mssql\":[\"MS SQL Server\",\"<p>mssql server 2019.<\\/p>\"],\"oraclesql\":[\"Oracle\",\"<p>Oracle Sql 11.2.<\\/p>\"]}",
+      "exampleTestcases": "{\"headers\":{\"Employees\":[\"emp_id\",\"event_day\",\"in_time\",\"out_time\"]},\"rows\":{\"Employees\":[[\"1\",\"2020-11-28\",\"4\",\"32\"],[\"1\",\"2020-11-28\",\"55\",\"200\"],[\"1\",\"2020-12-3\",\"1\",\"42\"],[\"2\",\"2020-11-28\",\"3\",\"33\"],[\"2\",\"2020-12-9\",\"47\",\"74\"]]}}",
+      "hints": [],
+      "isDailyQuestion": false,
+      "isLiked": null,
+      "isPaidOnly": true,
+      "isSubscribed": false,
+      "judgeType": "large",
+      "judgerAvailable": true,
+      "langToValidPlayground": null,
+      "likes": 3,
+      "metaData": "{\n  \"mysql\": [\n    \"Create table If Not Exists Employees(emp_id int, event_day date, in_time int, out_time int)\"\n  ],\n  \"mssql\": [\n    \"Create table Employees(emp_id int, event_day date, in_time int, out_time int)\"\n  ],\n  \"oraclesql\": [\n    \"Create table Employees(emp_id int, event_day date, in_time int, out_time int)\",\n    \"ALTER SESSION SET nls_date_format='YYYY-MM-DD'\"\n  ],\n  \"database\": true\n}",
+      "mysqlSchemas": [
+        "Create table If Not Exists Employees(emp_id int, event_day date, in_time int, out_time int)",
+        "Truncate table Employees",
+        "insert into Employees (emp_id, event_day, in_time, out_time) values ('1', '2020-11-28', '4', '32')",
+        "insert into Employees (emp_id, event_day, in_time, out_time) values ('1', '2020-11-28', '55', '200')",
+        "insert into Employees (emp_id, event_day, in_time, out_time) values ('1', '2020-12-3', '1', '42')",
+        "insert into Employees (emp_id, event_day, in_time, out_time) values ('2', '2020-11-28', '3', '33')",
+        "insert into Employees (emp_id, event_day, in_time, out_time) values ('2', '2020-12-9', '47', '74')"
+      ],
+      "questionFrontendId": "1741",
+      "questionId": "1892",
+      "sampleTestCase": "{\"headers\":{\"Employees\":[\"emp_id\",\"event_day\",\"in_time\",\"out_time\"]},\"rows\":{\"Employees\":[[\"1\",\"2020-11-28\",\"4\",\"32\"],[\"1\",\"2020-11-28\",\"55\",\"200\"],[\"1\",\"2020-12-3\",\"1\",\"42\"],[\"2\",\"2020-11-28\",\"3\",\"33\"],[\"2\",\"2020-12-9\",\"47\",\"74\"]]}}",
+      "similarQuestions": "[]",
+      "solution": null,
+      "stats": "{\"totalAccepted\": \"2.3K\", \"totalSubmission\": \"2.7K\", \"totalAcceptedRaw\": 2279, \"totalSubmissionRaw\": 2701, \"acRate\": \"84.4%\"}",
+      "status": null,
+      "style": "LEETCODE",
+      "title": "Find Total Time Spent by Each Employee",
+      "titleSlug": "find-total-time-spent-by-each-employee",
+      "topicTags": [
+        {
+          "__typename": "TopicTagNode",
+          "name": "Database",
+          "slug": "database",
+          "translatedName": "数据库"
+        }
+      ],
+      "translatedContent": null,
+      "translatedTitle": "查找每个员工花费的总时间",
+      "ugcQuestionId": null
+    }
+  }
+}

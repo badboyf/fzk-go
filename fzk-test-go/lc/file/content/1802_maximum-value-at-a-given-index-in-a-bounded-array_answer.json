@@ -1,0 +1,103 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "liberg",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/li-bing-liang/avatar_1594533615.png",
+          "userSlug": "liberg"
+        },
+        "username": "liberg"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\r\n\r\n过程模拟，从 $index$ 开始往两边扩充：维护一个 $[l,r]$ 范围，每次往范围内每个位置 $+1$ ，通过这种方式维护一个向上生长的“三角形”。\r\n![image.png](https://pic.leetcode-cn.com/1622036094-HLJjDG-image.png)\r\n\r\n\r\n\r\n\r\n\r\n- 时间复杂度$O(\\sqrt{M})$，其中$M=maxSum-n$。\r\n- 空间复杂度$O(1)$。\r\n\r\n### 参考代码\r\n```java []\r\npublic int maxValue(int n, int index, int maxSum) {\r\n    int l = index, r = index;\r\n    int ans = 1;\r\n    // 整个数组一开始全部填充为1，\r\n    // rest记录先全部填充1后，剩下1的个数\r\n    int rest = maxSum - n;\r\n    while (l > 0 || r < n - 1) {\r\n        int len = r - l + 1;\r\n        if (rest >= len) {\r\n            // 当前[l,r]范围全部+1\r\n            rest -= len;\r\n            ans++;\r\n            // 往左右两边扩\r\n            l = Math.max(0, l - 1);\r\n            r = Math.min(n - 1, r + 1);\r\n        } else {\r\n            break;\r\n        }\r\n    }\r\n    // 扩大到整个数组之后，剩余的值“雨露均沾”一下\r\n    ans += rest / n;\r\n    return ans;\r\n}\r\n```\r\n```python []\r\nclass Solution:\r\n    def maxValue(self, n: int, index: int, maxSum: int) -> int:\r\n        ans = 1\r\n        rest = maxSum - n\r\n        l = r = index\r\n        while l>0 or r<n-1:\r\n            len = r-l+1\r\n            if rest >= len:\r\n                rest -= len;\r\n                ans+=1\r\n                l = max(0, l-1)\r\n                r = min(n-1, r+1)\r\n            else:\r\n                break\r\n        ans += rest//n\r\n        return ans\r\n```\r\n```typescript []\r\nfunction maxValue(n: number, index: number, maxSum: number): number {\r\n    let l = index, r = index;\r\n    let ans = 1;\r\n    // 整个数组一开始全部填充为1，\r\n    // rest记录先全部填充1后，剩下1的个数\r\n    let rest = maxSum - n;\r\n    while (l > 0 || r < n - 1) {\r\n        let len = r - l + 1;\r\n        if (rest >= len) {\r\n            // 当前[l,r]范围全部+1\r\n            rest -= len;\r\n            ans++;\r\n            // 往左右两边扩\r\n            l = Math.max(0, l - 1);\r\n            r = Math.min(n - 1, r + 1);\r\n        } else {\r\n            break;\r\n        }\r\n    }\r\n    // 扩大到整个数组之后，剩余的值“雨露均沾”一下\r\n    ans += Math.floor(rest / n);\r\n    return ans;\r\n};\r\n```",
+      "createdAt": "2021-03-21T05:39:03.965992+00:00",
+      "hitCount": 3231,
+      "identifier": "Za979A",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "given-index-in-a-bounded-array-by-ikarug-b8uc",
+        "title": "【有界数组中指定下标处的最大值】狠狠的 wa 了好几发"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "maximum-value-at-a-given-index-in-a-bounded-array"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 37,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 3,
+          "reactionType": "AWESOME"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "THUMBS_DOWN"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "shu-xue-guo-cheng-mo-ni-zui-qing-xi-de-j-gz30",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n过程模拟，从 index 开始往两边扩充：维护一个 [l,r] 范围，每次往范围内每个位置 +1 ，通过这种方式维护一个向上生长的“三角形”。\n\n\n时间复杂度O(\\sqrt{M})，其中M=maxSum-n。\n空间复杂度O(1)。\n\n参考代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Math",
+          "nameTranslated": "数学",
+          "slug": "math",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "TypeScript",
+          "nameTranslated": "",
+          "slug": "typescript",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1622036094-HLJjDG-image.png",
+      "title": "数学过程模拟（最清晰的Java实现）",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 24,
+        "id": 670810,
+        "viewCount": 2235
+      },
+      "uuid": "Za979A",
+      "videosInfo": []
+    }
+  }
+}

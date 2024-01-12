@@ -1,0 +1,81 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "yelantf",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/yelantf/avatar_1628565392.png",
+          "userSlug": "yelantf"
+        },
+        "username": "yelantf"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "其实就三种情况，\n1. 在中间能够找到一个节点`cur`，满足`cur->val<=val<=cur->next->val`，直接插入即可\n2. 找不到，则一定是所有的值都比它小或大，其实都会插入到边界跳跃点，即找到`cur`，满足`val<=cur->next->val<cur->val`(比最小的还小）或`cur->next->val<cur->val<=val`（比最大的还大）\n\n因此其实就三个不等式，`cur->val<=val`, `cur->next->val>=val`, `cur->next->val>=cur->val`，三个式子中满足一个或三个时，cur即为插入点。\n\n```cpp [cpp1]\nclass Solution {\npublic:\n    Node* insert(Node* head, int insertVal) {\n        if(head==nullptr) {\n            head = new Node(insertVal);\n            head->next = head;\n            return head;\n        }\n        auto cur = head;\n        while(cur->next!=head){\n            if((cur->val<=insertVal)^(cur->next->val>=insertVal)^(cur->next->val>=cur->val)) break;\n            cur = cur->next;\n        }\n        cur->next = new Node(insertVal, cur->next);\n        return head;\n    }\n}\n```\n\n上面是异或写的，下面用if拆了一下，可能更清晰一点。\n\n```cpp [cpp2]\nclass Solution {\npublic:\n    Node* insert(Node* head, int insertVal) {\n        if(head==nullptr) {\n            head = new Node(insertVal);\n            head->next = head;\n            return head;\n        }\n        auto cur = head;\n        while(cur->next!=head){\n            if(cur->next->val<cur->val){\n                if(cur->next->val>=insertVal) break;\n                else if(cur->val<=insertVal) break;\n            }\n            if(cur->val<=insertVal&&cur->next->val>=insertVal) break;\n            cur = cur->next;\n        }\n        cur->next = new Node(insertVal, cur->next);\n        return head;\n    }\n}",
+      "createdAt": "2021-09-17T08:33:52.150411+00:00",
+      "hitCount": 1534,
+      "identifier": "dw1h7g",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "yi-ci-bian-li-jie-jue-by-192095972_y-uu94",
+        "title": "一次遍历解决"
+      },
+      "position": 2,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "javajian-ji-dai-ma-by-fszhang-so3h",
+        "title": "Java简洁代码"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "4ueAj6"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 21,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 3,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "gan-jue-da-jia-xie-de-du-you-dian-fu-za-k1klz",
+      "status": "PREPUBLISH",
+      "summary": "其实就三种情况，\n\n在中间能够找到一个节点cur，满足cur->val<=val<=cur->next->val，直接插入即可\n找不到，则一定是所有的值都比它小或大，其实都会插入到边界跳跃点，即找到cur，满足val<=cur->next->val<cur->val(比最小的还小）或cur->next->val<cur",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "感觉大家写得都有点复杂...",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 9,
+        "id": 1003043,
+        "viewCount": 1072
+      },
+      "uuid": "dw1h7g",
+      "videosInfo": []
+    }
+  }
+}

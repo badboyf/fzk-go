@@ -1,0 +1,101 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣 (LeetCode)",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/uploaded_files/2021/03/73c9f099-abbe-4d94-853f-f8abffd459cd/leetcode.png",
+          "userSlug": "leetcode"
+        },
+        "username": "LeetCode"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "本题不可以使用如下的贪心算法：先找到一条樱桃最多的路径走到右下角，然后摘下樱桃，再从摘完后的樱桃地找到最多的樱桃路径返回，摘下樱桃。\n\n在下面的情况，就会找不到最佳的答案：\n\n```\n11100\n00101\n10100\n00100\n00111\n```\n\n### 方法一：记忆化递归（自顶向下）\n\n+ 与其从左上角走到右下角，再从右下角走到左上角，不如直接考虑从左上角选两条路走到右下角；\n+ 在走了 `t` 步之后，我们可能处于的位置 `(x, y)` 满足 `x + y = t`。因此如果我们在位置 `(x1, x1)` 和 `(x2, x2)` 有两个人，那么 `x2 = x1 + y1 - y2`。这意味着 `x1，y1，y2` 唯一地决定了两个走了 `t` 步数的人。\n\n**算法**：\n\n- 定义 `dp[x1][y1][x2]` 是两个人从 `(x1, y1)` 和 `(x2, y2)` 开始，朝着 `(N - 1, N - 1)` 所能摘到最多的樱桃数量，其中 `y2 = x1 + y1 - x2`。\n\n- 如果 `grid[x1][y1]` 和 `grid[r2][x2]` 不是荆棘，那么 `dp[x1][y1][x2]` 的值是 `(grid[x1][y1] + grid[r2][x2])`，加上 `dp[x1+1][y1][x2]`，`dp[x1][y1+1][x2]`，`dp[x1+1][y1][x2+1]`，`dp[x1][y1+1][x2+1]` 的最大值。在 `(x1, y1) == (r2, x2)` 的情况下，我们要避免重复计数。\n- 为什么要加上 `dp[r+1][y1][x2]`，`dp[x1][y1+1][x2]`，`dp[x1+1][y1][x2+1]`，`dp[x1][y1+1][x2+1]`的最大值？它对应 1 号和人 2 号向下或向右移动的 4 种可能性：\n  - 1 号向下和 2 号向下：`dp[x1 + 1][y1][x2]`；\n  - 1 号向右和 2 号向下：`dp[x1][y1 + 1][x2]`；\n  - 1 号向下和 2 号向右：`dp[x1 + 1][y1][x2 + 1]`；\n  - 1 号向右和 2 号向右：`dp[x1][y1 + 1][x2 + 1]`。\n\n```Java []\nclass Solution {\n    private int[][][] memo;\n    private int[][] grid;\n    private int N;\n\n    public int cherryPickup(int[][] grid) {\n        this.grid = grid;\n        N = grid.length;\n        memo = new int[N][N][N];\n        for (int i = 0; i < N; i++) {\n            for (int j = 0; j < N; j++) {\n                Arrays.fill(memo[i][j], Integer.MIN_VALUE);\n            }\n        }\n        return Math.max(0, dfs(0, 0, 0));\n    }\n\n    public int dfs(int x1, int y1, int x2) {\n        int y2 = x1 + y1 - x2;\n\n        // 越界或者遇到障碍的时候\n        if (x1 == N || y2 == N || y1 == N || x2 == N || grid[x1][y1] == -1 || grid[x2][y2] == -1) {\n            return -1;\n        }\n\n        // 走到了边，注意是并且并且\n        if (x1 == N - 1 && y1 == N - 1) {\n            return grid[x1][y1];\n        }\n\n        // 记忆化\n        if (memo[x1][y1][x2] != Integer.MIN_VALUE) {\n            return memo[x1][y1][x2];\n        }\n\n        int res = Math.max(Math.max(dfs(x1, y1 + 1, x2 + 1), dfs(x1 + 1, y1, x2 + 1)),\n                Math.max(dfs(x1, y1 + 1, x2), dfs(x1 + 1, y1, x2)));\n\n        if (res < 0) {\n            return memo[x1][y1][x2] = -1;\n        }\n        res += grid[x1][y1];\n        if (x1 != x2) {\n            res += grid[x2][y2];\n        }\n        return memo[x1][y1][x2] = res;\n    }\n}\n```\n\n\n**复杂度分析**\n\n* 时间复杂度：$O(N^3)$。其中 $N$ 是 `grid` 的长度，动态规划有 $O(N^3)$ 的状态。\n* 空间复杂度：$O(N^3)$，`memo` 所使用的空间。\n\n###  方法二：动态规划（自底向上）\n\n假设 `r1+c1=t` 是第 `t` 层。因为递归只能引用下一层，所以我们一次需要在内存中保留两层。\n\n**算法：**\n在第 `t` 步，`dp[c1][c2]` 为两个人从 `(0, 0)` 到 `(r1, c1)` 和 `(0, 0)` 到 `(r2, c2)` 能摘到最多樱桃的数量，其中 `r1 = t-c1, r2 = t-c2`。我们的动态规划类似于方法一。\n\n```Java []\nclass Solution {\n    public int cherryPickup(int[][] grid) {\n        int N = grid.length;\n        int[][] dp = new int[N][N];\n        for (int[] row : dp) {\n            Arrays.fill(row, Integer.MIN_VALUE);\n        }\n        dp[0][0] = grid[0][0];\n\n        // 一共要走 2 * N - 2 步，满足横纵坐标之和为 t\n        for (int t = 1; t <= 2 * N - 2; t++) {\n            int[][] dp2 = new int[N][N];\n            for (int[] row : dp2) {\n                Arrays.fill(row, Integer.MIN_VALUE);\n            }\n\n            // 枚举横坐标\n            for (int i = Math.max(0, t - (N - 1)); i <= Math.min(N - 1, t); i++) {\n                // 枚举纵坐标\n                for (int j = Math.max(0, t - (N - 1)); j <= Math.min(N - 1, t); j++) {\n                    // 遇到墙\n                    if (grid[i][t - i] == -1 || grid[j][t - j] == -1) {\n                        continue;\n                    }\n\n                    // 否则加上 0 或者加上 1\n                    int res = grid[i][t - i];\n                    if (i != j) {\n                        // 不重合的时候加上另一个坐标\n                        res += grid[j][t - j];\n                    }\n\n                    // 枚举上一步的坐标\n                    for (int pi = i - 1; pi <= i; pi++) {\n                        for (int pj = j - 1; pj <= j; pj++) {\n                            if (pi >= 0 && pj >= 0) {\n                                dp2[i][j] = Math.max(dp2[i][j], dp[pi][pj] + res);\n                            }\n                        }\n                    }\n                }\n            }\n            dp = dp2;\n        }\n        return Math.max(0, dp[N - 1][N - 1]);\n    }\n}\n```\n\n**复杂度分析**\n\n* 时间复杂度：$O(N^3)$。其中 $N$ 是 `grid` 的长度。\n* 空间复杂度：$O(N^2)$，`dp` 和 `dp2` 所使用的空间。",
+      "createdAt": "2019-11-01T07:36:20.279414+00:00",
+      "hitCount": 10065,
+      "identifier": "RsQnEN",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "dong-tai-gui-hua-xiang-xi-jie-xi-tu-jie-by-newhar",
+        "title": "动态规划-详细解析 + 图解"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "cherry-pickup"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 19,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "CONFUSED"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "AWESOME"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "THUMBS_DOWN"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "zhai-ying-tao-by-leetcode",
+      "status": "PUBLISHED",
+      "summary": "本题不可以使用如下的贪心算法：先找到一条樱桃最多的路径走到右下角，然后摘下樱桃，再从摘完后的樱桃地找到最多的樱桃路径返回，摘下樱桃。\n在下面的情况，就会找不到最佳的答案：\n方法一：记忆化递归（自顶向下）\n\n与其从左上角走到右下角，再从右下角走到左上角，不如直接考虑从左上角选两条路走到右下角；\n在走了 t 步之后，我们可",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Dynamic Programming",
+          "nameTranslated": "动态规划",
+          "slug": "dynamic-programming",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "摘樱桃",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 14,
+        "id": 39818,
+        "viewCount": 6378
+      },
+      "uuid": "RsQnEN",
+      "videosInfo": []
+    }
+  }
+}

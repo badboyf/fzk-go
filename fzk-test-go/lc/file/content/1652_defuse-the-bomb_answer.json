@@ -1,0 +1,79 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "稳健",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/zhi-xing-qie-wen-jian-69/avatar_1612197356.png",
+          "userSlug": "wen-jian-69"
+        },
+        "username": "wen-jian-69"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "```\r\nclass Solution {\r\n    public int[] decrypt(int[] code, int k) {\r\n        int n = code.length;\r\n        int[] ans = new int[n];\r\n        for (int i = 0; i < n; i++) {\r\n            ans[i] = 0;\r\n            if (k > 0) {\r\n                for (int j = i + n + 1; j <= i + n + k; j++) ans[i] += code[j % n];\r\n            }\r\n            if (k < 0) {\r\n                for (int j = i + n - 1; j >= i + n + k; j--) ans[i] += code[j % n];\r\n            }\r\n        }\r\n        return ans;\r\n    }\r\n}\r\n```\r\n",
+      "createdAt": "2021-09-05T15:29:17.765996+00:00",
+      "hitCount": 290,
+      "identifier": "6W18bb",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "python-bao-li-mo-ni-or-shuang-duan-dui-l-7j5o",
+        "title": "[Python] 暴力模拟 or 滑动窗口"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "defuse-the-bomb"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "1652-chai-zha-dan-javajian-dan-shi-xian-vtf65",
+      "status": "PUBLISHED",
+      "summary": "[该用户太懒了，只写了 16 行代码]",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Simulation",
+          "nameTranslated": "模拟",
+          "slug": "simulation",
+          "tagType": "TOPIC"
+        }
+      ],
+      "thumbnail": "",
+      "title": "【1652. 拆炸弹】Java简单实现",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 980470,
+        "viewCount": 241
+      },
+      "uuid": "6W18bb",
+      "videosInfo": []
+    }
+  }
+}

@@ -1,0 +1,76 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "小新新",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/zoubin0815/avatar_1612142778.png",
+          "userSlug": "zzzzbbbb"
+        },
+        "username": "zzzzbbbb"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "```\r\n// 判断两个r之间是否有共同语言\r\nconst h = (arr1,arr2) => new Set([...arr1,...arr2]).size==[...arr1,...arr2].length;\r\n\r\nvar minimumTeachings = function(n, languages, friendships) {\r\n    const sign = new Array(n+1).fill(0);// 对不能交流里的人使用的语言进行计数\r\n    const ns = new Array(501).fill(0); // 用于记录无共同语言\r\n    const arr = new Array(501).fill(0); // 记录不能交流里面的人用的语言\r\n    for(let i = 0 ; i < friendships.length ; i++){\r\n        let temp1 = friendships[i][0]-1,temp2 = friendships[i][1]-1\r\n        if(h(languages[temp1],languages[temp2])){\r\n            arr[temp1]=languages[temp1]\r\n            arr[temp2]=languages[temp2]     \r\n            ns[temp1+1]++;ns[temp2+1]++;\r\n        }\r\n    }\r\n      // 统计不能交流里用的语言\r\n    for(let i = 0 ; i < arr.length ; i++)\r\n        for(let j = 0 ; j < arr[i].length ; j++) sign[arr[i][j]]++;   \r\n    // 得到会的最多的语言\r\n    let nums = Math.max(...sign);\r\n    let total=0;\r\n    // 统计不能交流的人\r\n    for(let i = 0 ; i < ns.length ; i++) if(ns[i]) total++;\r\n    return total-nums;\r\n};\r\n```\r\n",
+      "createdAt": "2021-02-03T07:18:55.119348+00:00",
+      "hitCount": 336,
+      "identifier": "hVnj4o",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "shi-jian-fu-za-du-wei-on2de-jie-fa-by-ro-v0ra",
+        "title": "时间复杂度为O(n^2)的解法"
+      },
+      "position": 3,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "cpython3-mo-ni-tong-ji-tan-xin-by-hanxin-xecx",
+        "title": "c++/python3 模拟 统计 贪心 "
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "minimum-number-of-people-to-teach"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 5,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "-by-zoubin0815-t9db",
+      "status": "PREPUBLISH",
+      "summary": "[该用户太懒了，只写了 25 行代码]",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "JavaScript",
+          "nameTranslated": "",
+          "slug": "javascript",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "^^",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 589459,
+        "viewCount": 288
+      },
+      "uuid": "hVnj4o",
+      "videosInfo": []
+    }
+  }
+}

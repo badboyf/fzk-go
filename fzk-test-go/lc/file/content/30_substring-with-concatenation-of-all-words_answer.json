@@ -1,0 +1,87 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "powcai",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/powcai/avatar_1541162867.png",
+          "userSlug": "powcai"
+        },
+        "username": "powcai"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 思路：\n\n一开始，我的想法是，每次从 `s` 截取一定长度（固定）的字符串，看这段字符串出现单词个数是否和要匹配的单词个数相等!如下代码：\n\n```Python []\nclass Solution:\n    def findSubstring(self, s: str, words: List[str]) -> List[int]:\n        from collections import Counter\n        if not s or not words:return []\n        all_len = sum(map(len, words))\n        n = len(s)\n        words = Counter(words)\n        res = []\n        for i in range(0, n - all_len + 1):\n            tmp = s[i:i+all_len]\n            flag = True\n            for key in words:\n                if words[key] != tmp.count(key):\n                    flag = False\n                    break\n            if flag:res.append(i)\n        return res\n```\n\n但是比如：`s = \"ababaab\", words = [\"ab\",\"ba\",\"ba\"]` 就会报错！\n\n错误原因：因为计算时候我们会从字符串中间计算，也就是说会出现单词截断的问题。\n\n所以我想另一种方法：\n\n**思路一：**\n\n因为单词长度固定的，我们可以计算出截取字符串的单词个数是否和 `words` 里相等，所以我们可以借用哈希表。\n\n一个是哈希表是 `words`，一个哈希表是截取的字符串，比较两个哈希是否相等！\n\n因为遍历和比较都是线性的，所以时间复杂度：$O(n^2)$\n\n------\n\n上面思路每次都要反复遍历 `s`；下面介绍滑动窗口。\n\n**思路二：**\n\n滑动窗口！\n\n我们一直在 `s` 维护着所有单词长度总和的一个长度队列！\n\n时间复杂度：$O(n)$\n\n还可以再优化，只是加一些判断，详细看代码吧！\n\n\n\n------\n\n### 代码：\n\n**思路一**：\n\n```Python [solution1]\nclass Solution:\n    def findSubstring(self, s: str, words: List[str]) -> List[int]:\n        from collections import Counter\n        if not s or not words:return []\n        one_word = len(words[0])\n        all_len = len(words) * one_word\n        n = len(s)\n        words = Counter(words)\n        res = []\n        for i in range(0, n - all_len + 1):\n            tmp = s[i:i+all_len]\n            c_tmp = []\n            for j in range(0, all_len, one_word):\n                c_tmp.append(tmp[j:j+one_word])\n            if Counter(c_tmp) == words:\n                res.append(i)\n        return res\n```\n```Java  [solution1]\nclass Solution {\n    public List<Integer> findSubstring(String s, String[] words) {\n        List<Integer> res = new ArrayList<>();\n        if (s == null || s.length() == 0 || words == null || words.length == 0) return res;\n        HashMap<String, Integer> map = new HashMap<>();\n        int one_word = words[0].length();\n        int word_num = words.length;\n        int all_len = one_word * word_num;\n        for (String word : words) {\n            map.put(word, map.getOrDefault(word, 0) + 1);\n        }\n        for (int i = 0; i < s.length() - all_len + 1; i++) {\n            String tmp = s.substring(i, i + all_len);\n            HashMap<String, Integer> tmp_map = new HashMap<>();\n            for (int j = 0; j < all_len; j += one_word) {\n                String w = tmp.substring(j, j + one_word);\n                tmp_map.put(w, tmp_map.getOrDefault(w, 0) + 1);\n            }\n            if (map.equals(tmp_map)) res.add(i);\n        }\n        return res;\n    }\n}\n```\n\n**思路二：**\n\n\n```Python [solution2]\nclass Solution:\n    def findSubstring(self, s: str, words: List[str]) -> List[int]:\n        from collections import Counter\n        if not s or not words:return []\n        one_word = len(words[0])\n        word_num = len(words)\n        n = len(s)\n        words = Counter(words)\n        res = []\n        for i in range(0, one_word):\n            cur_cnt = 0\n            left = i\n            right = i\n            cur_Counter = Counter()\n            while right + one_word <= n:\n                w = s[right:right + one_word]\n                right += one_word\n                cur_Counter[w] += 1\n                cur_cnt += 1\n                while cur_Counter[w] > words[w]:\n                    left_w = s[left:left+one_word]\n                    left += one_word\n                    cur_Counter[left_w] -= 1\n                    cur_cnt -= 1\n                if cur_cnt == word_num :\n                    res.append(left)\n        return res\n```\n```Java [solution2]\nclass Solution {\n    public List<Integer> findSubstring(String s, String[] words) {\n        List<Integer> res = new ArrayList<>();\n        if (s == null || s.length() == 0 || words == null || words.length == 0) return res;\n        HashMap<String, Integer> map = new HashMap<>();\n        int one_word = words[0].length();\n        int word_num = words.length;\n        int all_len = one_word * word_num;\n        for (String word : words) {\n            map.put(word, map.getOrDefault(word, 0) + 1);\n        }\n        for (int i = 0; i < one_word; i++) {\n            int left = i, right = i, count = 0;\n            HashMap<String, Integer> tmp_map = new HashMap<>();\n            while (right + one_word <= s.length()) {\n                String w = s.substring(right, right + one_word);\n                tmp_map.put(w, tmp_map.getOrDefault(w, 0) + 1);\n                right += one_word;\n                count++;\n                while (tmp_map.getOrDefault(w, 0) > map.getOrDefault(w, 0)) {\n                    String t_w = s.substring(left, left + one_word);\n                    count--;\n                    tmp_map.put(t_w, tmp_map.getOrDefault(t_w, 0) - 1);\n                    left += one_word;\n                }\n                if (count == word_num) res.add(left);\n\n            }\n        }\n\n        return res;\n    }\n}\n```\n\n**再优化：**\n\n```Python [solution3]\nclass Solution:\n    def findSubstring(self, s: str, words: List[str]) -> List[int]:\n        from collections import Counter\n        if not s or not words:return []\n        one_word = len(words[0])\n        word_num = len(words)\n        n = len(s)\n        if n < one_word:return []\n        words = Counter(words)\n        res = []\n        for i in range(0, one_word):\n            cur_cnt = 0\n            left = i\n            right = i\n            cur_Counter = Counter()\n            while right + one_word <= n:\n                w = s[right:right + one_word]\n                right += one_word\n                if w not in words:\n                    left = right\n                    cur_Counter.clear()\n                    cur_cnt = 0\n                else:\n                    cur_Counter[w] += 1\n                    cur_cnt += 1\n                    while cur_Counter[w] > words[w]:\n                        left_w = s[left:left+one_word]\n                        left += one_word\n                        cur_Counter[left_w] -= 1\n                        cur_cnt -= 1\n                    if cur_cnt == word_num :\n                        res.append(left)\n        return res\n```\n```Java [solution3]\nclass Solution {\n    public List<Integer> findSubstring(String s, String[] words) {\n        List<Integer> res = new ArrayList<>();\n        if (s == null || s.length() == 0 || words == null || words.length == 0) return res;\n        HashMap<String, Integer> map = new HashMap<>();\n        int one_word = words[0].length();\n        int word_num = words.length;\n        int all_len = one_word * word_num;\n        for (String word : words) {\n            map.put(word, map.getOrDefault(word, 0) + 1);\n        }\n        for (int i = 0; i < one_word; i++) {\n            int left = i, right = i, count = 0;\n            HashMap<String, Integer> tmp_map = new HashMap<>();\n            while (right + one_word <= s.length()) {\n                String w = s.substring(right, right + one_word);\n                right += one_word;\n                if (!map.containsKey(w)) {\n                    count = 0;\n                    left = right;\n                    tmp_map.clear();\n                } else {\n                    tmp_map.put(w, tmp_map.getOrDefault(w, 0) + 1);\n                    count++;\n                    while (tmp_map.getOrDefault(w, 0) > map.getOrDefault(w, 0)) {\n                        String t_w = s.substring(left, left + one_word);\n                        count--;\n                        tmp_map.put(t_w, tmp_map.getOrDefault(t_w, 0) - 1);\n                        left += one_word;\n                    }\n                    if (count == word_num) res.add(left);\n                }\n            }\n        }\n        return res;\n    }\n}\n```",
+      "createdAt": "2019-05-03T09:52:24.950304+00:00",
+      "hitCount": 94952,
+      "identifier": "bsotnP",
+      "isEditorsPick": true,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "xiang-xi-tong-su-de-si-lu-fen-xi-duo-jie-fa-by-w-6",
+        "title": "详细通俗的思路分析，多解法"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "substring-with-concatenation-of-all-words"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 162,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 9,
+          "reactionType": "AWESOME"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 5,
+          "reactionType": "CONFUSED"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "THUMBS_DOWN"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "chuan-lian-suo-you-dan-ci-de-zi-chuan-by-powcai",
+      "status": "PUBLISHED",
+      "summary": "思路：\n一开始，我的想法是，每次从 s 截取一定长度（固定）的字符串，看这段字符串出现单词个数是否和要匹配的单词个数相等!如下代码：\n但是比如：s = \"ababaab\", words = [\"ab\",\"ba\",\"ba\"] 就会报错！\n错误原因：因为计算时候我们会从字符串中间计算，也就是说会出现单词截断的问题。\n所以我",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "串联所有单词的子串",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 137,
+        "id": 3825,
+        "viewCount": 63684
+      },
+      "uuid": "bsotnP",
+      "videosInfo": []
+    }
+  }
+}

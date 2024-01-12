@@ -1,0 +1,121 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣官方题解",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/leetcode-solution/avatar_1582018938.png",
+          "userSlug": "leetcode-solution"
+        },
+        "username": "LeetCode-Solution"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法一：深度优先搜索\n\n**思路和算法**\n\n我们可以使用深度优先搜索的方式求出所有可能的路径。具体地，我们从 $0$ 号点出发，使用栈记录路径上的点。每次我们遍历到点 $n-1$，就将栈中记录的路径加入到答案中。\n\n特别地，因为本题中的图为有向无环图（$\\text{DAG}$），搜索过程中不会反复遍历同一个点，因此我们无需判断当前点是否遍历过。\n\n**代码**\n\n```C++ [sol1-C++]\nclass Solution {\npublic:\n    vector<vector<int>> ans;\n    vector<int> stk;\n\n    void dfs(vector<vector<int>>& graph, int x, int n) {\n        if (x == n) {\n            ans.push_back(stk);\n            return;\n        }\n        for (auto& y : graph[x]) {\n            stk.push_back(y);\n            dfs(graph, y, n);\n            stk.pop_back();\n        }\n    }\n\n    vector<vector<int>> allPathsSourceTarget(vector<vector<int>>& graph) {\n        stk.push_back(0);\n        dfs(graph, 0, graph.size() - 1);\n        return ans;\n    }\n};\n```\n\n```Java [sol1-Java]\nclass Solution {\n    List<List<Integer>> ans = new ArrayList<List<Integer>>();\n    Deque<Integer> stack = new ArrayDeque<Integer>();\n\n    public List<List<Integer>> allPathsSourceTarget(int[][] graph) {\n        stack.offerLast(0);\n        dfs(graph, 0, graph.length - 1);\n        return ans;\n    }\n\n    public void dfs(int[][] graph, int x, int n) {\n        if (x == n) {\n            ans.add(new ArrayList<Integer>(stack));\n            return;\n        }\n        for (int y : graph[x]) {\n            stack.offerLast(y);\n            dfs(graph, y, n);\n            stack.pollLast();\n        }\n    }\n}\n```\n\n```Python [sol1-Python3]\nclass Solution:\n    def allPathsSourceTarget(self, graph: List[List[int]]) -> List[List[int]]:\n        ans = list()\n        stk = list()\n\n        def dfs(x: int):\n            if x == len(graph) - 1:\n                ans.append(stk[:])\n                return\n            \n            for y in graph[x]:\n                stk.append(y)\n                dfs(y)\n                stk.pop()\n        \n        stk.append(0)\n        dfs(0)\n        return ans\n```\n\n```C [sol1-C]\nint** ans;\nint stk[15];\nint stkSize;\n\nvoid dfs(int x, int n, int** graph, int* graphColSize, int* returnSize, int** returnColumnSizes) {\n    if (x == n) {\n        int* tmp = malloc(sizeof(int) * stkSize);\n        memcpy(tmp, stk, sizeof(int) * stkSize);\n        ans[*returnSize] = tmp;\n        (*returnColumnSizes)[(*returnSize)++] = stkSize;\n        return;\n    }\n    for (int i = 0; i < graphColSize[x]; i++) {\n        int y = graph[x][i];\n        stk[stkSize++] = y;\n        dfs(y, n, graph, graphColSize, returnSize, returnColumnSizes);\n        stkSize--;\n    }\n}\n\nint** allPathsSourceTarget(int** graph, int graphSize, int* graphColSize, int* returnSize, int** returnColumnSizes) {\n    stkSize = 0;\n    stk[stkSize++] = 0;\n    ans = malloc(sizeof(int*) * 16384);\n    *returnSize = 0;\n    *returnColumnSizes = malloc(sizeof(int) * 16384);\n    dfs(0, graphSize - 1, graph, graphColSize, returnSize, returnColumnSizes);\n    return ans;\n}\n```\n\n```go [sol1-Golang]\nfunc allPathsSourceTarget(graph [][]int) (ans [][]int) {\n    stk := []int{0}\n    var dfs func(int)\n    dfs = func(x int) {\n        if x == len(graph)-1 {\n            ans = append(ans, append([]int(nil), stk...))\n            return\n        }\n        for _, y := range graph[x] {\n            stk = append(stk, y)\n            dfs(y)\n            stk = stk[:len(stk)-1]\n        }\n    }\n    dfs(0)\n    return\n}\n```\n\n```JavaScript [sol1-JavaScript]\nvar allPathsSourceTarget = function(graph) {\n    const stack = [], ans = [];\n\n    const dfs = (graph, x, n) => {\n        if (x === n) {\n            ans.push(stack.slice());\n            return;\n        }\n        for (const y of graph[x]) {\n            stack.push(y);\n            dfs(graph, y, n);\n            stack.pop();\n        }\n    }\n\n    stack.push(0);\n    dfs(graph, 0, graph.length - 1);\n    return ans;\n};\n```\n\n**复杂度分析**\n\n- 时间复杂度：$O(n \\times 2^n)$，其中 $n$ 为图中点的数量。我们可以找到一种最坏情况，即每一个点都可以去往编号比它大的点。此时路径数为 $O(2^n)$，且每条路径长度为 $O(n)$，因此总时间复杂度为 $O(n \\times 2^n)$。\n\n- 空间复杂度：$O(n)$，其中 $n$ 为点的数量。主要为栈空间的开销。注意返回值不计入空间复杂度。",
+      "createdAt": "2021-10-08T07:14:33.421332+00:00",
+      "hitCount": 787,
+      "identifier": "8iHQLs",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "jian-zhi-offer-2-mian-shi-ti-110-shu-zho-09t7",
+        "title": "《剑指offer 2 面试题110》 书中算法C++实现"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "bP4bmD"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 4,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "suo-you-lu-jing-by-leetcode-solution-z37g",
+      "status": "PUBLISHED",
+      "summary": "方法一：深度优先搜索 思路和算法 我们可以使用深度优先搜索的方式求出所有可能的路径。具体地，我们从 $0$ 号点出发，使用栈记录路径上的点。每次我们遍历到点 $n-1$，就将栈中记录的路径加入到答案中。 特别地，因为本题中的图为有向无环图（$\\text{DAG}$），搜索过程中不会反复遍历同一个点，因此我们无需判断当前",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Depth-First Search",
+          "nameTranslated": "深度优先搜索",
+          "slug": "depth-first-search",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Graph",
+          "nameTranslated": "图",
+          "slug": "graph",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C",
+          "nameTranslated": "",
+          "slug": "c",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Go",
+          "nameTranslated": "",
+          "slug": "golang",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "JavaScript",
+          "nameTranslated": "",
+          "slug": "javascript",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "所有路径",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 2,
+        "id": 1036319,
+        "viewCount": 572
+      },
+      "uuid": "8iHQLs",
+      "videosInfo": []
+    }
+  }
+}

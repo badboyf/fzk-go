@@ -1,0 +1,86 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "ffreturn",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/ffreturn/avatar_1608859813.png",
+          "userSlug": "ffreturn"
+        },
+        "username": "ffreturn"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "![image.png](https://pic.leetcode-cn.com/1634969779-yulHQt-image.png)\n\n### 解题思路\n分类讨论，总结下来可能的情况有：\n1. 恰好都一个：1234567 删除1个\n2. 全部都一样：2222222 删除1个\n3. 每个数量都一样，只是一个多1：11 22 333\n4. 每个数量都正好相等，只是额外多1：11 22 33 4\n\n***\n\n分析好可能性后，解决办法就呼之欲出了：\n- 维持 数字 到 计数 的映射\n- 维持 计数 到 计数的计数 的 映射\n- 单次遍历去更新上面两个映射表\n- 考虑分类各种情况去更新结果\n\n\n### 代码\n\n```cpp\nclass Solution {\npublic:\n    int maxEqualFreq(vector<int>& nums) {\n        unordered_map<int, int> num2cnt;\n        unordered_map<int, int> cnt2cnt;\n\n        // 不同数字计数\n        int diffs = 0;\n        // 最大的次数\n        int maxCnt = 0;\n\n        int n =nums.size();\n        int res = 0;\n\n        for (int i = 0; i < n; ++i)\n        {\n            int curr = nums[i];\n\n            if (num2cnt.find(curr) == num2cnt.end())\n            {\n                ++diffs;\n            }\n            ++num2cnt[curr];\n            maxCnt = max(maxCnt, num2cnt[curr]);\n\n            // 更新计数到计数的计数的映射\n            ++cnt2cnt[num2cnt[curr]];\n            --cnt2cnt[num2cnt[curr]-1];\n\n            // 两种情况：\n            // 恰好都一个：1234567 删除1个\n            // 全部都一样：2222222 删除1个\n            if (diffs == 1 || diffs == i + 1)\n            {\n                res = i + 1;\n            }\n            // 每个数量都一样，只是最多的多1：11 22 333\n            else if (cnt2cnt[maxCnt] == 1 && cnt2cnt[maxCnt-1] == diffs-1)\n            {\n                res = i + 1;\n            }\n            // 每个数量都正好相等，只是额外多1：11 22 33 4\n            else if (cnt2cnt[maxCnt] == diffs - 1 && cnt2cnt[1] == 1)\n            {\n                res = i + 1;\n            }\n        }\n\n        return res;\n    }\n};\n```",
+      "createdAt": "2021-10-23T06:16:58.253676+00:00",
+      "hitCount": 81,
+      "identifier": "cuqzsl",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "ha-xi-biao-ji-shu-cnt-ha-xi-biao-ji-shu-tbg0b",
+        "title": "【哈希表计数cnt】【哈希表计数cntcnt】【两个坑】"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "maximum-equal-frequency"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "1224-czhong-gui-zhong-ju-de-ha-xi-jie-fa-i84t",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n分类讨论，总结下来可能的情况有：\n\n恰好都一个：1234567 删除1个\n全部都一样：2222222 删除1个\n每个数量都一样，只是一个多1：11 22 333\n每个数量都正好相等，只是额外多1：11 22 33 4\n\n分析好可能性后，解决办法就呼之欲出了：\n\n维持 数字 到 计数 的映射\n维持 计数 到 计",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "梦想",
+          "nameTranslated": "",
+          "slug": "meng-xiang",
+          "tagType": "ADDITIONAL_TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "哈希",
+          "nameTranslated": "",
+          "slug": "ha-xi",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1634969779-yulHQt-image.png",
+      "title": "1224. c++中规中矩的哈希解法",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1062682,
+        "viewCount": 64
+      },
+      "uuid": "cuqzsl",
+      "videosInfo": []
+    }
+  }
+}

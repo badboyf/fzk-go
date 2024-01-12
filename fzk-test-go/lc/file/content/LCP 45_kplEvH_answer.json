@@ -1,0 +1,93 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "Flash500",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/wang-xu/avatar_1531443842.png",
+          "userSlug": "flash500"
+        },
+        "username": "flash500"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n此处撰写解题思路\n\n### 代码\n\n```golang\nfunc bicycleYard(position []int, terrain [][]int, obstacle [][]int) [][]int {\n\tdx := []int{0, 1, 0, -1}\n\tdy := []int{1, 0, -1, 0}\n\tN := len(terrain)\n\tM := len(terrain[0])\n\tvis := make([][][101]bool, N)\n\tfor i := range vis {\n\t\tvis[i] = make([][101]bool, M)\n\t}\n\tvar queue [][]int\n\tvis[position[0]][position[1]][1] = true\n\tqueue = append(queue, append(position, 1))\n\tfor len(queue) > 0 {\n\t\tx := queue[0][0]\n\t\ty := queue[0][1]\n\t\to := queue[0][2]\n\t\tqueue = queue[1:]\n\t\tfor d := 0; d < 4; d++ {\n\t\t\tnx := x + dx[d]\n\t\t\tny := y + dy[d]\n\t\t\tif nx >= 0 && ny >= 0 && nx < N && ny < M {\n\t\t\t\tno := o + terrain[x][y] - terrain[nx][ny] - obstacle[nx][ny]\n\t\t\t\tif no > 0 && no <= 100 && vis[nx][ny][no] == false {\n\t\t\t\t\tvis[nx][ny][no] = true\n\t\t\t\t\tqueue = append(queue, []int{nx, ny, no})\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t}\n\tvis[position[0]][position[1]][1] = false\n\tvar res [][]int\n\tfor i := 0; i < N; i++ {\n\t\tfor j := 0; j < M; j++ {\n\t\t\tif vis[i][j][1] {\n\t\t\t\tres = append(res, []int{i, j})\n\t\t\t}\n\t\t}\n\t}\n\treturn res\n}\n```",
+      "createdAt": "2021-11-21T07:56:41.608061+00:00",
+      "hitCount": 14,
+      "identifier": "dlB1iM",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "zhuang-tai-she-ji-bfs-by-endlesscheng-nf0j",
+        "title": "状态设计+BFS "
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "kplEvH"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "lcp2021qiu-ji-tuan-dui-sai-t2golangbfsbu-xbme",
+      "status": "PUBLISHED",
+      "summary": "解题思路\n此处撰写解题思路\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Go",
+          "nameTranslated": "",
+          "slug": "golang",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "BFS",
+          "nameTranslated": "",
+          "slug": "bfs",
+          "tagType": "ADDITIONAL_TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Golang",
+          "nameTranslated": "",
+          "slug": "golang-2",
+          "tagType": "ADDITIONAL_TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "go",
+          "nameTranslated": "",
+          "slug": "go-3",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "",
+      "title": "LCP，2021，秋季，团队赛，T2，Golang，bfs，不重复统计相同点的相同速度",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1114005,
+        "viewCount": 13
+      },
+      "uuid": "dlB1iM",
+      "videosInfo": []
+    }
+  }
+}

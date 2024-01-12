@@ -1,0 +1,86 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "ffreturn",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/ffreturn/avatar_1608859813.png",
+          "userSlug": "ffreturn"
+        },
+        "username": "ffreturn"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "![image.png](https://pic.leetcode-cn.com/1635511223-tnqmtA-image.png)\n\n\n### 解题思路\n思路\n- 基于words去构建数量的数组，按照升序排列\n- 基于每个queries的数字，二分查找找到数量，并返回\n\n### 代码\n\n```cpp\n\nclass Solution {\nprivate:\n    // 转换函数，基于字符串去得到最小字母出现频次\n    int convert(const string& word)\n    {\n        int cnt[26];\n        memset(cnt, 0, sizeof(cnt));\n        for (char c : word)\n        {\n            ++cnt[c-'a'];\n        }\n\n        for (int i = 0; i < 26; ++i)\n        {\n            if (cnt[i] > 0)\n            {\n                return cnt[i];\n            }\n        }\n\n        return 0;\n    }\n\npublic:\n    vector<int> numSmallerByFrequency(vector<string>& queries, vector<string>& words) {\n        int nw = words.size();\n        vector<int> nums(nw, 0);\n        for (int i = 0; i < nw; ++i)\n        {\n            nums[i] = convert(words[i]);\n        }\n        // 排序\n        sort(nums.begin(), nums.end());\n\n        vector<int> res(queries.size(), 0);\n        for (int i = 0; i < queries.size(); ++i)\n        {\n            int curr = convert(queries[i]);\n\n            // 二分法找大于curr的边界\n            auto iter = upper_bound(nums.begin(), nums.end(), curr);\n            if (iter != nums.end())\n            {\n                // cout << iter - nums.begin() << endl;\n                res[i] = nw - (iter - nums.begin());\n            }\n        }\n\n        return res;\n    }\n};\n```",
+      "createdAt": "2021-10-29T12:41:09.133959+00:00",
+      "hitCount": 81,
+      "identifier": "yIS8kX",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "1170czheng-chang-mo-ni-yong-ha-xi-biao-b-9ycl",
+        "title": "「再也不会」正常模拟，用哈希表遍历，数组存结果即可"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "compare-strings-by-frequency-of-the-smallest-character"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "1170-cchao-100de-pai-xu-jia-er-fen-fa-by-fczn",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n思路\n\n基于words去构建数量的数组，按照升序排列\n基于每个queries的数字，二分查找找到数量，并返回\n\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "二分搜索",
+          "nameTranslated": "",
+          "slug": "er-fen-sou-suo",
+          "tagType": "ADDITIONAL_TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "梦想",
+          "nameTranslated": "",
+          "slug": "meng-xiang",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1635511223-tnqmtA-image.png",
+      "title": "1170. c++超100的排序加二分法",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1073325,
+        "viewCount": 65
+      },
+      "uuid": "yIS8kX",
+      "videosInfo": []
+    }
+  }
+}

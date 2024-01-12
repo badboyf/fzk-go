@@ -1,0 +1,86 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "ITCharge",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/itcharge/avatar_1625563958.png",
+          "userSlug": "itcharge"
+        },
+        "username": "ITCharge"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "## 题目大意\n\n给定一个二维整数矩阵 `grid`，其中 `grid[i][j]` 表示矩阵第 `i` 行、第 `j` 列上网格块的颜色值。再给定一个起始位置 `(row, col)`，以及一个目标颜色 `color`。\n\n要求：对起始位置 `(row, col)` 所在的连通分量边界填充颜色为 `color`。并返回最终的二维整数矩阵 `grid`。\n\n- 连通分量：当两个相邻（上下左右四个方向上）网格块的颜色值相同时，它们属于同一连通分量。\n- 连通分量边界：当前连通分量最外圈的所有网格块，这些网格块与连通分量的颜色相同，与其他周围网格块颜色不同。边界上的网格块也是连通分量边界。\n\n## 解题思路\n\n深度优先搜索。使用二维数组 `visited` 标记访问过的节点。遍历上、下、左、右四个方向上的点。如果下一个点位置越界，或者当前位置与下一个点位置颜色不一样，则对该节点进行染色。\n\n在遍历的过程中注意使用 `visited` 标记访问过的节点，以免重复遍历。\n\n## 代码\n\n```Python\nclass Solution:\n    directs = [(0, 1), (0, -1), (1, 0), (-1, 0)]\n\n    def dfs(self, grid, i, j, origin_color, color, visited):\n        rows, cols = len(grid), len(grid[0])\n\n        for direct in self.directs:\n            new_i = i + direct[0]\n            new_j = j + direct[1]\n\n            # 下一个位置越界，则当前点在边界，对其进行着色\n            if new_i < 0 or new_i >= rows or new_j < 0 or new_j >= cols:\n                grid[i][j] = color\n                continue\n\n            # 如果访问过，则跳过\n            if visited[new_i][new_j]:\n                continue\n\n            # 如果下一个位置颜色与当前颜色相同，则继续搜索\n            if grid[new_i][new_j] == origin_color:\n                visited[new_i][new_j] = True\n                self.dfs(grid, new_i, new_j, origin_color, color, visited)\n            # 下一个位置颜色与当前颜色不同，则当前位置为连通区域边界，对其进行着色\n            else:\n                grid[i][j] = color\n\n\n    def colorBorder(self, grid: List[List[int]], row: int, col: int, color: int) -> List[List[int]]:\n        if not grid:\n            return grid\n\n        rows, cols = len(grid), len(grid[0])\n        visited = [[False for _ in range(cols)] for _ in range(rows)]\n        visited[row][col] = True\n\n        self.dfs(grid, row, col, grid[row][col], color, visited)\n\n        return grid\n```\n\n",
+      "createdAt": "2021-10-15T06:13:14.447799+00:00",
+      "hitCount": 213,
+      "identifier": "fzm5AP",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "1034-bian-kuang-zhao-se-by-jnpeng945-ppxh",
+        "title": "1034. 边框着色 - DFS"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "coloring-a-border"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "itcharge-1034-bian-kuang-zhao-se-dfs-by-nhx8o",
+      "status": "PREPUBLISH",
+      "summary": "题目大意\n给定一个二维整数矩阵 grid，其中 grid[i][j] 表示矩阵第 i 行、第 j 列上网格块的颜色值。再给定一个起始位置 (row, col)，以及一个目标颜色 color。\n要求：对起始位置 (row, col) 所在的连通分量边界填充颜色为 color。并返回最终的二维整数矩阵 grid。\n\n连通分",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Depth-First Search",
+          "nameTranslated": "深度优先搜索",
+          "slug": "depth-first-search",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "DFS",
+          "nameTranslated": "",
+          "slug": "dfs",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "",
+      "title": "「ITCharge」1034. 边框着色「 DFS」",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1048615,
+        "viewCount": 153
+      },
+      "uuid": "fzm5AP",
+      "videosInfo": []
+    }
+  }
+}

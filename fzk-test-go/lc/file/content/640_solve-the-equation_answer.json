@@ -1,0 +1,72 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣 (LeetCode)",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/uploaded_files/2021/03/73c9f099-abbe-4d94-853f-f8abffd459cd/leetcode.png",
+          "userSlug": "leetcode"
+        },
+        "username": "LeetCode"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法一：拆分方程【通过】\n\n首先使用 `=` 将方程左右两边拆分开，然后使用方法 `breakIt` 分别遍历方程的左右两边，解析出其中的数字和 `x`，并将结果以数组的形式返回。\n\n对任意一个给定的方程，将其转换为所有的 `x` 都在 `=` 左侧，所有的数字都在 `=` 右侧，如下所示。\n\n`x+5-3+x=6+x-2`\n\n`x+x-x=6-2-5+3`\n\n把在原始方程左边的 `x` 看做正值，右边的 `x` 看做负值。同理，原始方程左边每个数字都被看做负数，右边每个数字都看作正数。那么 $lhs$ 包含了方程中所有的 `x`，$rhs$ 包含了方程中所有的数字。\n\n此外，在解析 `x` 的同时，也需要确定 `x` 转换到左边后的系数；同理也需要确定数字转换到右边的符号。\n\n最后通过 $rhs$ 和 $lhs$ 的比值得到最终结果。如果方程有无限解，则 $lhs$ 和 $rhs$ 都为 0，例如 `x+1=x+1`；如果方程无解，则 `x` 的系数（$lhs$）为 0，有效数字（$rhs$）不为 0。\n\n```java [solution1-Java]\npublic class Solution {\n    public String coeff(String x) {\n        if (x.length() > 1 && x.charAt(x.length() - 2) >= '0' && x.charAt(x.length() - 2) <= '9')\n            return x.replace(\"x\", \"\");\n        return x.replace(\"x\", \"1\");\n    }\n    public String solveEquation(String equation) {\n        String[] lr = equation.split(\"=\");\n        int lhs = 0, rhs = 0;\n        for (String x: breakIt(lr[0])) {\n            if (x.indexOf(\"x\") >= 0) {\n                lhs += Integer.parseInt(coeff(x));\n            } else\n                rhs -= Integer.parseInt(x);\n        }\n        for (String x: breakIt(lr[1])) {\n            if (x.indexOf(\"x\") >= 0)\n                lhs -= Integer.parseInt(coeff(x));\n            else\n                rhs += Integer.parseInt(x);\n        }\n        if (lhs == 0) {\n            if (rhs == 0)\n                return \"Infinite solutions\";\n            else\n                return \"No solution\";\n        }\n        return \"x=\" + rhs / lhs;\n    }\n    public List < String > breakIt(String s) {\n        List < String > res = new ArrayList < > ();\n        String r = \"\";\n        for (int i = 0; i < s.length(); i++) {\n            if (s.charAt(i) == '+' || s.charAt(i) == '-') {\n                if (r.length() > 0)\n                    res.add(r);\n                r = \"\" + s.charAt(i);\n            } else\n                r += s.charAt(i);\n        }\n        res.add(r);\n        return res;\n    }\n}\n```\n\n**复杂度分析**\n\n* 时间复杂度：$O(n)$，计算 $lhs$ 和 $rhs$ 需要时间 $O(n)$。\n\n* 空间复杂度：$O(n)$，数组 $res$ 的长度最大为 $n$。 \n\n\n#### 方法二：使用正则表达式拆分方程【通过】\n\n**算法**\n\n在 *方法一* 中，使用方法 `beankIt` 拆分方程两边的每一项。本方法中使用 `+` 或 `-` 拆分，其他步骤与方法一相同。\n\n正则表达式用于根据特定条件匹配目标字符串，所以也可以使用正则表达式（regex）拆分方程的每一项。例如正则表达式 `?=n` 表示匹配到的字符串后面必须有 `n`，但 `n` 本身不在匹配到的字符串中。\n\n为了确保拆分后的数字具有正负号，因此 `+` 或 `-` 在拆分后也应该与对应的数字一起保留。\n\n```java [solution2-Java]\npublic class Solution {\n    public String coeff(String x) {\n        if (x.length() > 1 && x.charAt(x.length() - 2) >= '0' && x.charAt(x.length() - 2) <= '9')\n            return x.replace(\"x\", \"\");\n        return x.replace(\"x\", \"1\");\n    }\n    public String solveEquation(String equation) {\n        String[] lr = equation.split(\"=\");\n        int lhs = 0, rhs = 0;\n        for (String x: lr[0].split(\"(?=\\\\+)|(?=-)\")) {\n            if (x.indexOf(\"x\") >= 0) {\n\n                lhs += Integer.parseInt(coeff(x));\n            } else\n                rhs -= Integer.parseInt(x);\n        }\n        for (String x: lr[1].split(\"(?=\\\\+)|(?=-)\")) {\n            if (x.indexOf(\"x\") >= 0)\n                lhs -= Integer.parseInt(coeff(x));\n            else\n                rhs += Integer.parseInt(x);\n        }\n        if (lhs == 0) {\n            if (rhs == 0)\n                return \"Infinite solutions\";\n            else\n                return \"No solution\";\n        } else\n            return \"x=\" + rhs / lhs;\n    }\n}\n```\n\n**复杂度分析**\n\n* 时间复杂度：$O(n)$，计算 $lhs$ 和 $rhs$ 需要时间 $O(n)$。\n\n* 空间复杂度：$O(n)$，数组 $res$ 的长度最大为 $n$。",
+      "createdAt": "2019-12-23T08:41:16.476758+00:00",
+      "hitCount": 12476,
+      "identifier": "IpQwtX",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "java-xie-de-bu-hao-bu-yao-pen-wo-by-en-z-01vn",
+        "title": "Java 写得不好，不要喷我"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "solve-the-equation"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 11,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "qiu-jie-fang-cheng-by-leetcode",
+      "status": "PUBLISHED",
+      "summary": " 方法一：拆分方程【通过】\n首先使用 = 将方程左右两边拆分开，然后使用方法 breakIt 分别遍历方程的左右两边，解析出其中的数字和 x，并将结果以数组的形式返回。\n对任意一个给定的方程，将其转换为所有的 x 都在 = 左侧，所有的数字都在 = 右侧，如下所示。\nx+5-3+x=6+x-2\nx+x-x=6-2-5+",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "求解方程",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 7,
+        "id": 60423,
+        "viewCount": 9828
+      },
+      "uuid": "IpQwtX",
+      "videosInfo": []
+    }
+  }
+}

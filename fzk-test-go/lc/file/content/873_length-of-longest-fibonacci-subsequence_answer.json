@@ -1,0 +1,94 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣 (LeetCode)",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/uploaded_files/2021/03/73c9f099-abbe-4d94-853f-f8abffd459cd/leetcode.png",
+          "userSlug": "leetcode"
+        },
+        "username": "LeetCode"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法一：使用 Set 的暴力法\n\n**思路**\n\n每个斐波那契式的子序列都依靠两个相邻项来确定下一个预期项。例如，对于 `2, 5`，我们所期望的子序列必定以 `7, 12, 19, 31` 等继续。\n\n我们可以使用 `Set` 结构来快速确定下一项是否在数组 `A` 中。由于这些项的值以指数形式增长，最大值 $\\leq 10^9$ 的斐波那契式的子序列最多有 43 项。\n\n**算法**\n\n对于每个起始对 `A[i], A[j]`，我们保持下一个预期值 `y = A[i] + A[j]` 和此前看到的最大值 `x = A[j]`。如果 `y` 在数组中，我们可以更新这些值 `(x, y) -> (y, x+y)`。\n\n此外，由于子序列的长度大于等于 3 只能是斐波那契式的，所以我们必须在最后进行检查 `ans >= 3 ? ans : 0`。\n\n```cpp [RGECz9nf-C++]\nclass Solution {\npublic:\n    int lenLongestFibSubseq(vector<int>& A) {\n        int N = A.size();\n        unordered_set<int> S(A.begin(), A.end());\n\n        int ans = 0;\n        for (int i = 0; i < N; ++i)\n            for (int j = i+1; j < N; ++j) {\n                /* With the starting pair (A[i], A[j]),\n                 * y represents the future expected value in\n                 * the fibonacci subsequence, and x represents\n                 * the most current value found. */\n                int x = A[j], y = A[i] + A[j];\n                int length = 2;\n                while (S.find(y) != S.end()) {\n                    int z = x + y;\n                    x = y;\n                    y = z;\n                    ans = max(ans, ++length);\n                }\n            }\n\n        return ans >= 3 ? ans : 0;\n    }\n};\n```\n```java [RGECz9nf-Java]\nclass Solution {\n    public int lenLongestFibSubseq(int[] A) {\n        int N = A.length;\n        Set<Integer> S = new HashSet();\n        for (int x: A) S.add(x);\n\n        int ans = 0;\n        for (int i = 0; i < N; ++i)\n            for (int j = i+1; j < N; ++j) {\n                /* With the starting pair (A[i], A[j]),\n                 * y represents the future expected value in\n                 * the fibonacci subsequence, and x represents\n                 * the most current value found. */\n                int x = A[j], y = A[i] + A[j];\n                int length = 2;\n                while (S.contains(y)) {\n                    // x, y -> y, x+y\n                    int tmp = y;\n                    y += x;\n                    x = tmp;\n                    ans = Math.max(ans, ++length);\n                }\n            }\n\n        return ans >= 3 ? ans : 0;\n    }\n}\n```\n```python [RGECz9nf-Python]\nclass Solution(object):\n    def lenLongestFibSubseq(self, A):\n        S = set(A)\n        ans = 0\n        for i in xrange(len(A)):\n            for j in xrange(i+1, len(A)):\n                \"\"\"\n                With the starting pair (A[i], A[j]),\n                y represents the future expected value in\n                the fibonacci subsequence, and x represents\n                the most current value found.\n                \"\"\"\n                x, y = A[j], A[i] + A[j]\n                length = 2\n                while y in S:\n                    x, y = y, x + y\n                    length += 1\n                ans = max(ans, length)\n        return ans if ans >= 3 else 0\n```\n\n\n**复杂度分析**\n\n* 时间复杂度：$O(N^2 \\log M)$，其中 $N$ 是 `A` 的长度，$M$ 是 `A` 中的最大值。\n* 空间复杂度：$O(N)$，集合（set）`S` 使用的空间。\n\n\n\n\n\n\n---\n#### 方法二：动态规划\n\n**思路**\n\n将斐波那契式的子序列中的两个连续项 `A[i], A[j]` 视为单个结点 `(i, j)`，整个子序列是这些连续结点之间的路径。\n\n例如，对于斐波那契式的子序列 `(A[1] = 2, A[2] = 3, A[4] = 5, A[7] = 8, A[10] = 13)`，结点之间的路径为 `(1, 2) <-> (2, 4) <-> (4, 7) <-> (7, 10)`。\n\n这样做的动机是，只有当 `A[i] + A[j] == A[k]` 时，两结点 `(i, j)` 和 `(j, k)` 才是连通的，我们需要这些信息才能知道这一连通。现在我们得到一个类似于 *最长上升子序列* 的问题。\n\n**算法**\n\n设 `longest[i, j]` 是结束在 `[i, j]` 的最长路径。那么 如果 `(i, j)` 和 `(j, k)` 是连通的， `longest[j, k] = longest[i, j] + 1`。\n\n由于 `i` 由 `A.index(A[k] - A[j])` 唯一确定，所以这是有效的：我们在 `i` 潜在时检查每组 `j < k`，并相应地更新 `longest[j, k]`。\n\n```cpp [UNSjQ9SB-C++]\nclass Solution {\npublic:\n    int lenLongestFibSubseq(vector<int>& A) {\n        int N = A.size();\n        unordered_map<int, int> index;\n        for (int i = 0; i < N; ++i)\n            index[A[i]] = i;\n\n        unordered_map<int, int> longest;\n        int ans = 0;\n        for (int k = 0; k < N; ++k)\n            for (int j = 0; j < k; ++j) {\n                if (A[k] - A[j] < A[j] && index.count(A[k] - A[j])) {\n                    int i = index[A[k] - A[j]];\n                    longest[j * N + k] = longest[i * N + j] + 1;\n                    ans = max(ans, longest[j * N + k] + 2);\n                }\n            }\n\n        return ans >= 3 ? ans : 0;\n    }\n};\n```\n```java [UNSjQ9SB-Java]\nclass Solution {\n    public int lenLongestFibSubseq(int[] A) {\n        int N = A.length;\n        Map<Integer, Integer> index = new HashMap();\n        for (int i = 0; i < N; ++i)\n            index.put(A[i], i);\n\n        Map<Integer, Integer> longest = new HashMap();\n        int ans = 0;\n\n        for (int k = 0; k < N; ++k)\n            for (int j = 0; j < k; ++j) {\n                int i = index.getOrDefault(A[k] - A[j], -1);\n                if (i >= 0 && i < j) {\n                    // Encoding tuple (i, j) as integer (i * N + j)\n                    int cand = longest.getOrDefault(i * N + j, 2) + 1;\n                    longest.put(j * N + k, cand);\n                    ans = Math.max(ans, cand);\n                }\n            }\n\n        return ans >= 3 ? ans : 0;\n    }\n}\n```\n```python [UNSjQ9SB-Python]\nclass Solution(object):\n    def lenLongestFibSubseq(self, A):\n        index = {x: i for i, x in enumerate(A)}\n        longest = collections.defaultdict(lambda: 2)\n\n        ans = 0\n        for k, z in enumerate(A):\n            for j in xrange(k):\n                i = index.get(z - A[j], None)\n                if i is not None and i < j:\n                    cand = longest[j, k] = longest[i, j] + 1\n                    ans = max(ans, cand)\n\n        return ans if ans >= 3 else 0\n```\n\n\n**复杂度分析**\n\n* 时间复杂度：$O(N^2)$，其中 $N$ 是 `A` 的长度。\n* 空间复杂度：$O(N \\log M)$，其中 $M$ 是 `A` 中最大的元素。我们可以证明子序列中的元素数量是有限的（复杂度 $O(\\log \\frac{M}{a})$，其中 $a$ 是子序列中最小的元素）。",
+      "createdAt": "2018-07-29T17:05:04.670887+00:00",
+      "hitCount": 25760,
+      "identifier": "m8TqfS",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "zhuang-tai-ding-yi-hen-shi-zhong-yao-by-christmas_",
+        "title": "状态定义很是重要！"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "length-of-longest-fibonacci-subsequence"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 30,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 3,
+          "reactionType": "AWESOME"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "THUMBS_DOWN"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "CONFUSED"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "zui-chang-de-fei-bo-na-qi-zi-xu-lie-de-chang-du-by",
+      "status": "PUBLISHED",
+      "summary": "思路\n每个斐波那契式的子序列都依靠两个相邻项来确定下一个预期项。例如，对于 2, 5，我们所期望的子序列必定以 7, 12, 19, 31 等继续。\n我们可以使用 Set 结构来快速确定下一项是否在数组 A 中。由于这些项的值以指数形式增长，最大值 \\leq 10^9 的斐波那契式的子序列最多有 43 项。\n算法\n对于",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Dynamic Programming",
+          "nameTranslated": "动态规划",
+          "slug": "dynamic-programming",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "最长的斐波那契子序列的长度",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 35,
+        "id": 3531,
+        "viewCount": 13006
+      },
+      "uuid": "m8TqfS",
+      "videosInfo": []
+    }
+  }
+}

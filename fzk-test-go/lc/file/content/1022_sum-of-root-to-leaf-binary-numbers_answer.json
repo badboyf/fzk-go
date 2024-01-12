@@ -1,0 +1,98 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "Best 进行时",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/best-jin-xing-shi-k/avatar_1616337291.png",
+          "userSlug": "wty2002"
+        },
+        "username": "WTY2002"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "![image.png](https://pic.leetcode-cn.com/1637376002-wtIgZY-image.png)\r\n**思路：**\r\n递归遍历整个二叉树，将从根到叶子结点的序列存储到一个vector容器中，每次访问到叶子结点，就计算一次中间结果，并将中间结果加到最终结果中。\r\n\r\n**缺点：**\r\n临时的vector容器占用内存比较大。\r\n\r\n```C++ []\r\n/**\r\n * Definition for a binary tree node.\r\n * struct TreeNode {\r\n *     int val;\r\n *     TreeNode *left;\r\n *     TreeNode *right;\r\n *     TreeNode() : val(0), left(nullptr), right(nullptr) {}\r\n *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}\r\n *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}\r\n * };\r\n */\r\nclass Solution {\r\npublic:\r\n    int ans = 0;\r\n    vector<int>a;\r\n    int compute(vector<int>& a){//计算中间结果\r\n        int n = a.size() - 1,sum = 0;\r\n        for(int i = 0; i <= n; i++){\r\n            sum += pow(2,n - i) * a[i];\r\n        }\r\n        return sum;\r\n    }\r\n    void DFS(TreeNode* root){//遍历二叉树，存储中间结果\r\n        if(root){\r\n            a.push_back(root->val);\r\n            if(!root->left && !root->right){\r\n                ans += compute(a);\r\n            }\r\n            DFS(root->left);\r\n            DFS(root->right);\r\n            a.pop_back();\r\n        }\r\n    }\r\n    int sumRootToLeaf(TreeNode* root) {\r\n        DFS(root);\r\n        return ans;\r\n    }\r\n};\r\n```\r\n",
+      "createdAt": "2021-11-20T02:46:51.972531+00:00",
+      "hitCount": 76,
+      "identifier": "r6jRWw",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "er-cha-shu-by-euyvvl-pts4",
+        "title": "二叉树"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "sum-of-root-to-leaf-binary-numbers"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "AWESOME"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "dfsbian-li-er-cha-shu-by-best-jin-xing-s-8fg1",
+      "status": "PUBLISHED",
+      "summary": "思路：\n递归遍历整个二叉树，将从根到叶子结点的序列存储到一个vector容器中，每次访问到叶子结点，就计算一次中间结果，并将中间结果加到最终结果中。\n缺点：\n临时的vector容器占用内存比较大。",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Recursion",
+          "nameTranslated": "递归",
+          "slug": "recursion",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "递归算法",
+          "nameTranslated": "",
+          "slug": "di-gui-suan-fa",
+          "tagType": "ADDITIONAL_TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "DFS",
+          "nameTranslated": "",
+          "slug": "dfs",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1637376002-wtIgZY-image.png",
+      "title": "DFS遍历二叉树",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1111715,
+        "viewCount": 66
+      },
+      "uuid": "r6jRWw",
+      "videosInfo": []
+    }
+  }
+}

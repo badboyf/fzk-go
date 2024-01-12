@@ -1,0 +1,147 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "极客学长Bravo",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/yanglr/avatar_1627565453.png",
+          "userSlug": "yanglr"
+        },
+        "username": "yanglr"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "\n> 欢迎大家关注我的LeetCode代码仓库：[https://github.com/yanglr/leetcode-ac](https://github.com/yanglr/leetcode-ac), \n>\n> 所有代码(含有各种主流语言及Shell、SQL等)已上传到此仓库。\n>\n> 目前已完成的**450道**题都有完整版C++代码。\n\n### 几乎所有题目都会追求一题多解和最优解法，真诚求star！\n\n\n![image.png](https://pic.leetcode-cn.com/1633227167-ASqSDC-image.png)\n\n\n\n## 解题思路\n\n**题意**: 原数组中的任意数处于区间[1 ≤ n ≤ $10^5$], 要求删除一个连续的子数组, 使得剩下的数的和是p的倍数, 存在就返回子数组的最短长度, 否则返回-1。\n\n<br>\n\n### 方法: 前缀和 + 哈希表\n\n可以基于前缀和和哈希表来做, 前缀和数组取名preSum, 哈希表取名dict。\n\n用 rangeSum 表示要删除的子数组的和, 根据前缀和的定义可知 `rangeSum == preSum[j] - preSum[i]` (其中 i < j)。\n\n那么本题可以转换为：找满足等式 `(allSum - rangeSum) % p == 0 `中rangeSum对应区间的最短长度。\n\n再由**同余定理**可知: (allSum - rangeSum) % p == 0 <=> allSum % p = rangeSum % p = (preSum2 - preSum1) % p <=> (allSum + preSum1) % p = preSum2 % p\n\n\n\n**但需要注意的是**: 当%p之前的和是负数时要记得加上p\n\n<br>\n\n\n**具体的实现步骤是:**\n使用一个变量minLen存储最短的满足要求的子数组的长度，\n将 任意一个前缀和 %p 的结果存储在哈希表中, 看后面是否会重复出现, 如果能重复出现, 就在第一次重复出现时更新 minLen的值。\n循环结束时, 判断minLen是否是初始值, 如果是返回-1, 如果不是, 就返回当前 minLen的值。\n\n\n\n<br>\n\n### 为什么哈希表需要放入键值对{0, -1}?\n\n`rangeSum == preSum[j] - preSum[i]` (其中 i < j)。\n\n因为有一个特殊情形, 当区间和(rangeSum)对应的前缀和之差中被减数(即这里的`preSum[i]`)%p得到的余数是0时, 区间的起点index会成为0。此时的被减数变得可有可无了, 长度按更长的算, 即j+1或j-(-1)。\n\n为方便起见，一般可以把哈希表中加入一个键值对 {0, -1}，有利于后面求区间长度。\n\n***\n\n另外, 需要注意的是: 对于C++/Java等语言, 记得要防止大整数溢出, 比我我用C++实现, 求preSum 时使用long long。\n\n\n\n<br>\n\n\n\n#### 已 AC的C++代码\n\n```C++\nclass Solution {\npublic:\n    /* 题意: 1 <= p <= 10^9 */\n    int minSubarray(vector<int>& nums, int p) {\n        long long allSum = 0;\n        for (auto& num : nums)\n            allSum += num;        \n        if (allSum < p) return -1;\n\n        int mod = 0;        \n        mod = allSum % p;\n        if (mod == 0) return 0;\n        unordered_map<int, int> dict; // dict: 某个前缀和%k得到的余数->pos\n        dict[0] = -1;\n        const int len = nums.size();\n        int minLen = len;\n        long long preSum = 0;\n        for (int i = 0; i < len; i++)\n        {\n            preSum += nums[i];\n            int curMod = preSum % p;\n            int target = (curMod - mod + p) % p; /* 这里curMod - mod 需要 + p使其成为一个>p的数, 方便后面求mod p */\n            if (dict.count(target))\n                minLen = min(minLen, i - dict[target]);\n            dict[curMod] = i; /* 记录curMod的最后一次出现时的index: 不论此时哈希表里面有没有curMod, 都需要更新其index */\n        }\n        return minLen == len ? -1 : minLen;\n    }\n};\n```\n\n### 运行结果:\n\n\n![image.png](https://pic.leetcode-cn.com/1633227443-nRmgRz-bb3013e987ed002d4bb898380d92e854.png)\n\n图片如果看不到, 请点击\n<https://pic.rmb.bdstatic.com/bjh/bb3013e987ed002d4bb898380d92e854.png> 查看。\n\n<br>\n\n执行用时：132 ms, 在所有 C++ 提交中击败了 **98.92%** 的用户\n内存消耗：65 MB, 在所有 C++ 提交中击败了 **64.87%** 的用户\n\n\n\n<br/>\n\n\n大家好，我是**极客学长**，点击[我的头像](https://github.com/yanglr/leetcode-ac)，查看力扣详细刷题攻略，你会发现相见恨晚！\n\n\n**如果感觉题解对你有帮助，不要吝啬给一个👍吧！**\n\n<br/>\n\n\n好了，**AC一时爽，一直AC一直爽**！\n\n<br/>\n\n本人公众号 [大白技术控](https://mp.weixin.qq.com/s/d8RvIYtPOeGM2UOoP0xGkg), 2万读者。\n\n知乎 [Bravo Yeung](https://www.zhihu.com/people/legege007), 4.5万读者。\n\nB站 [极客学长呀](https://space.bilibili.com/1443957), 后续会用视频的形式来带大家刷LeetCode题，欢迎点个关注，敬请期待~\n\n<br/>\n\n更多清晰易懂的代码 (C++/Java/C#/Python/Go) 的 LeetCode 题解，会在我的 github 仓库 [https://github.com/yanglr/leetcode-ac](https://github.com/yanglr/leetcode-ac)中持续更新, 欢迎小伙伴们 star/fork，如果有不错的解法也欢迎提PR。\n\n\n\n**ps:** 仓库的代码中可以直接拿来本地调试喔，框架已搭好，根据自己的需求调整 test case即可~\n\n<br>\n\n### 类似的题:\n\n[leetcode 523. 连续的子数组和](https://leetcode-cn.com/problems/continuous-subarray-sum/), 快去拿下吧！😎 ",
+      "createdAt": "2021-10-03T02:00:23.105313+00:00",
+      "hitCount": 393,
+      "identifier": "WqrdgO",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "zuo-yi-ti-song-yi-ti-li-kou-shang-bu-shao-lei-si-t",
+        "title": "做一题送一题，力扣上不少类似题"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "make-sum-divisible-by-p"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 7,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "geekplayers-leetcode-ac-qing-xi-yi-dong-1htok",
+      "status": "PREPUBLISH",
+      "summary": "欢迎大家关注我的LeetCode代码仓库：https://github.com/yanglr/leetcode-ac,\n所有代码(含有各种主流语言及Shell、SQL等)已上传到此仓库。\n目前已完成的450道题都有完整版C++代码。\n\n几乎所有题目都会追求一题多解和最优解法，真诚求star！\n解题思路\n题意: 原数组",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Hash Table",
+          "nameTranslated": "哈希表",
+          "slug": "hash-table",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Prefix Sum",
+          "nameTranslated": "前缀和",
+          "slug": "prefix-sum",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "校招",
+          "nameTranslated": "",
+          "slug": "xiao-zhao",
+          "tagType": "ADDITIONAL_TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "题解",
+          "nameTranslated": "",
+          "slug": "ti-jie",
+          "tagType": "ADDITIONAL_TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "每日一题",
+          "nameTranslated": "",
+          "slug": "mei-ri-yi-ti",
+          "tagType": "ADDITIONAL_TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "大厂面试",
+          "nameTranslated": "",
+          "slug": "da-han-mian-shi",
+          "tagType": "ADDITIONAL_TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "每日打卡",
+          "nameTranslated": "",
+          "slug": "mei-ri-da-qia",
+          "tagType": "ADDITIONAL_TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "秋招",
+          "nameTranslated": "",
+          "slug": "qiu-zhao",
+          "tagType": "ADDITIONAL_TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "刷题交流",
+          "nameTranslated": "",
+          "slug": "shua-ti-jiao-liu",
+          "tagType": "ADDITIONAL_TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "考研",
+          "nameTranslated": "",
+          "slug": "kao-yan-2",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1633227167-ASqSDC-image.png",
+      "title": "清晰易懂的前缀和解法(击败98.9%), 含详细注释【大白技术控】",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 5,
+        "id": 1028850,
+        "viewCount": 243
+      },
+      "uuid": "WqrdgO",
+      "videosInfo": []
+    }
+  }
+}

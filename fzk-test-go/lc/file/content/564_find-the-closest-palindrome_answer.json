@@ -1,0 +1,89 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣 (LeetCode)",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/uploaded_files/2021/03/73c9f099-abbe-4d94-853f-f8abffd459cd/leetcode.png",
+          "userSlug": "leetcode"
+        },
+        "username": "LeetCode"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法一 暴力[超过时间限制]\n\n最简单的解决方案是考虑小于给定数量$n$的每个可能的数字，从给定数字减1开始，然后按降序继续。类似地，我们可以考虑每个可能的数字大于$n$，从给定数字递增1并按升序排列。我们可以继续以另一种方式这样做，直到找到一个回文数。\n\n```java [solution1-Java]\npublic class Solution {\n    public int arrayNesting(int[] nums) {\n        int res = 0;\n        for (int i = 0; i < nums.length; i++) {\n            int start = nums[i], count = 0;\n            do {\n                start = nums[start];\n                count++;\n            }\n            while (start != nums[i]);\n            res = Math.max(res, count);\n\n        }\n        return res;\n    }\n}\n```\n**复杂度分析**\n\n* 时间复杂度：$O(\\sqrt{n})$。在最坏的情况下，最多可以生成 $2 * \\sqrt {n}$ 个数字。\n\n* 空间复杂度：$O(1)$。使用了常数级的空间。\n\n---\n\n#### 方法二 数学方法[通过]\n\n**算法**\n\n要理解这种方法，让我们从一个简单的例子开始。假设给我们的数字是 “abcxy”。将此数字转换为回文的一种方法是将字符串的一半复制到另一半。如果我们尝试将后半部分复制到上半部分，获得的新回文将是 “yxcxy”，它位于原始数字的绝对值 $\\ left | 10000（a-y）+ 1000（b-x）\\ right |$。但是，如果我们将前半部分复制到字符串的后半部分，我们获 “abcba”，它位于 $\\ left | 10（x-b）+（y-a）\\ right |$ 的绝对差值。在任何一种情况下，试图更改 $c$ 将在绝对差异中产生至少 100 的额外值。\n\n从上面的插图中，我们可以得出结论，如果使用复制来生成回文数，我们应该始终将前半部分复制到后半部分。在这个实现中，我们已经将这样的数字存储在 $a$ 中，差额为 $diff1$ 来自 $n$。\n\n但是，还存在另一种情况，其中中间索引处的数字递增或递减。在这种情况下，仅对中心数字进行更改可能是有用的，因为这种变化可能导致回文形成更接近原始数字。例如使用上述标准，得到的回文将是 10901，与 11011 相比与 11011 的差异更大。如果在中间数字处出现 0，则会出现类似的情况。但是，如前所述，我们只需考虑前半位数来获得新的回文数据。这种特殊效果在中间数字处出现 0 或 9，因为只有递减 0 并且在该数字位置递增 9 可以导致其余数字向左移动。在任何其他情况下，情况归结为第一段中讨论的情况。\n\n\n现在，每当我们在中间指数附近找到0时，为了考虑小于 $n$ 的回文，我们从数字的前半部分减 1，以获得新的回文一半，例如如果给定的数字$n$是 20001，我们从 200 减去 1，创建一个 199xx 的数字。为了获得新的回文，我们复制前半部分以获得 19991。另一个例子是10000，（MSB为1），我们从 100 减去 1 创建 099xx 作为新的数字转换为 9999 作为新的回文。这个数字存储在 $b$ 中，与 $n$ 相差 $diff2$。\n\n类似的处理需要用中间数字 9 来完成，除了这次我们需要考虑大于当前数字的数字。为此，我们在上半部分添加 1。例如取数字 10987，我们添加 1 到 109，创建一个 110xx 的形式（11011 是新的回文）。这个回文存储在 $c$ 中，与 $n$ 相差 $diff3$。\n\n在这三个回文中，我们可以选择与 $n$ 最小差异的那个。此外，在平局的情况下，我们需要返回获得的最小回文。我们可以观察到，只有当一个数字大于 $n$ 且另一个数字小于 $n$ 时才可能出现平局。此外，我们知道 $b$ 是通过减少 $n$ 获得的。因此，如果 $b$ 和任何其他数字之间发生冲突，我们需要选择 $b$。同样，$c$ 是通过增加 $n$ 获得的。因此，如果 $c$ 和任何其他数字之间存在平局，我们需要选择 $c$ 以外的数字。\n\n\n\n```java [solution2-Java]\npublic class Solution {\n    public String mirroring(String s) {\n        String x = s.substring(0, (s.length()) / 2);\n        return x + (s.length() % 2 == 1 ? s.charAt(s.length() / 2) : \"\") + new StringBuilder(x).reverse().toString();\n    }\n    public String nearestPalindromic(String n) {\n        if (n.equals(\"1\"))\n            return \"0\";\n\n        String a = mirroring(n);\n        long diff1 = Long.MAX_VALUE;\n        diff1 = Math.abs(Long.parseLong(n) - Long.parseLong(a));\n        if (diff1 == 0)\n            diff1 = Long.MAX_VALUE;\n\n        StringBuilder s = new StringBuilder(n);\n        int i = (s.length() - 1) / 2;\n        while (i >= 0 && s.charAt(i) == '0') {\n            s.replace(i, i + 1, \"9\");\n            i--;\n        }\n        if (i == 0 && s.charAt(i) == '1') {\n            s.delete(0, 1);\n            int mid = (s.length() - 1) / 2;\n            s.replace(mid, mid + 1, \"9\");\n        } else\n            s.replace(i, i + 1, \"\" + (char)(s.charAt(i) - 1));\n        String b = mirroring(s.toString());\n        long diff2 = Math.abs(Long.parseLong(n) - Long.parseLong(b));\n\n\n        s = new StringBuilder(n);\n        i = (s.length() - 1) / 2;\n        while (i >= 0 && s.charAt(i) == '9') {\n            s.replace(i, i + 1, \"0\");\n            i--;\n        }\n        if (i < 0) {\n            s.insert(0, \"1\");\n        } else\n            s.replace(i, i + 1, \"\" + (char)(s.charAt(i) + 1));\n        String c = mirroring(s.toString());\n        long diff3 = Math.abs(Long.parseLong(n) - Long.parseLong(c));\n\n        if (diff2 <= diff1 && diff2 <= diff3)\n            return b;\n        if (diff1 <= diff3 && diff1 <= diff2)\n            return a;\n        else\n            return c;\n    }\n}\n```\n**复杂度分析**\n\n* 时间复杂度：$O(l)$。扫描，插入，删除，镜像需要 $O(l)$，其中 $l$ 是字符串的长度。\n\n* 空间复杂度：$O(l)$。需要临时变量用于存储字符串。\n\n---",
+      "createdAt": "2019-08-23T05:13:25.060252+00:00",
+      "hitCount": 11017,
+      "identifier": "xOLGHL",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "7xing-shuang-bai-by-luo-bi-da-quan-j37e",
+        "title": "7行双百，根本就不是困难题，只不过特殊情况特别多处理起来特别恶心"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "find-the-closest-palindrome"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 6,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "AWESOME"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "THUMBS_DOWN"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "xun-zhao-zui-jin-de-hui-wen-shu-by-leetcode",
+      "status": "PUBLISHED",
+      "summary": "§ 方法一 暴力[超过时间限制]\n最简单的解决方案是考虑小于给定数量n的每个可能的数字，从给定数字减1开始，然后按降序继续。类似地，我们可以考虑每个可能的数字大于n，从给定数字递增1并按升序排列。我们可以继续以另一种方式这样做，直到找到一个回文数。\n复杂度分析\n\n\n时间复杂度：O(\\sqrt{n})。在最坏的情况下，最",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "String",
+          "nameTranslated": "字符串",
+          "slug": "string",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "寻找最近的回文数",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 13,
+        "id": 22431,
+        "viewCount": 8440
+      },
+      "uuid": "xOLGHL",
+      "videosInfo": []
+    }
+  }
+}

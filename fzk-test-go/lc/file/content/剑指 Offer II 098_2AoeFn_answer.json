@@ -1,0 +1,86 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "vanilla111",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/vanilla111/avatar_1566265236.png",
+          "userSlug": "vanilla111"
+        },
+        "username": "vanilla111"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "这题只要换个思路就非常简单，那就是：**从左上角移动到右下角，总共需要移动 m+n-2 次，如果选择其中m-1次向下走 (或者选其中n-1次向右走)**，我们就能到达目的位置。 那么这其实就是一个组合数学的问题，也就是：**总方案数为 C(m+n-2, m-1) = C(m+n-2, n-1)**。至于组合数怎么计算这个问题？只要把式子拆成多个分数相乘的形式，然后代码中用循环即可实现。\n\n\n``` java\nclass Solution {\n    public int uniquePaths(int m, int n) {\n        long ans = 1;\n        // 总共移动 m+n-2次，选择其中m-1次向下走 (或者选其中n-1次向右走)\n        // 于是总方案数为 C(m+n-2, m-1) = C(m+n-2, n-1)\n        for (int x = n, y = 1; y < m; x++, y++) {\n            ans = ans * x / y;\n        }\n        return (int) ans;\n    }\n}\n```\n",
+      "createdAt": "2021-09-16T13:23:24.096138+00:00",
+      "hitCount": 662,
+      "identifier": "LEH7jX",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "jian-zhi-offer-2-mian-shi-ti-98-shu-zhon-vo2b",
+        "title": "《剑指offer 2 面试题98》 书中算法C++实现"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "2AoeFn"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 5,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "java-100shu-xue-yong-yuan-de-shen-by-van-auvt",
+      "status": "PREPUBLISH",
+      "summary": "这题只要换个思路就非常简单，那就是：从左上角移动到右下角，总共需要移动 m+n-2 次，如果选择其中m-1次向下走 (或者选其中n-1次向右走)，我们就能到达目的位置。 那么这其实就是一个组合数学的问题，也就是：总方案数为 C(m+n-2, m-1) = C(m+n-2, n-1)。至于组合数怎么计算这个问题？只要把式",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Math",
+          "nameTranslated": "数学",
+          "slug": "math",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Combinatorics",
+          "nameTranslated": "组合数学",
+          "slug": "combinatorics",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "Java 100%，数学永远的神",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 2,
+        "id": 1001690,
+        "viewCount": 539
+      },
+      "uuid": "LEH7jX",
+      "videosInfo": []
+    }
+  }
+}

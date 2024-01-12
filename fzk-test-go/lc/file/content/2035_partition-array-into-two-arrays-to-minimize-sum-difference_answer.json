@@ -1,0 +1,98 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "灵茶山艾府",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/endlesscheng/avatar_1589367048.png",
+          "userSlug": "endlesscheng"
+        },
+        "username": "endlesscheng"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "两个数组和之差可以视作从 $\\textit{nums}$ 中选 $n$ 个数取正号，其余 $n$ 个数取负号，然后求元素和。\r\n\r\n我们可以使用折半枚举的方法，枚举 $\\textit{nums}$ 的前 $n$ 个元素取正或取负的所有情况，按取正的个数分组，并按照元素和排序。然后枚举 $\\textit{nums}$ 的后 $n$ 个元素取正或取负的所有情况，然后去对应的组里二分找元素和最近的数，答案即为所有情况中最小的差值。\r\n\r\n相似题目：\r\n\r\n- [1755. 最接近目标值的子序列和](https://leetcode-cn.com/problems/closest-subsequence-sum/)\r\n\r\n```go\r\nfunc minimumDifference(nums []int) int {\r\n\tn := len(nums) / 2\r\n\ta := nums[:n]\r\n\tres := make([][]int, n+1)\r\n\tfor i := 0; i < 1<<n; i++ {\r\n\t\tsum, cnt := 0, 0\r\n\t\tfor j, v := range a {\r\n\t\t\tif i>>j&1 > 0 { // 1 视作取正\r\n\t\t\t\tsum += v\r\n\t\t\t\tcnt++\r\n\t\t\t} else { // 0 视作取负\r\n\t\t\t\tsum -= v\r\n\t\t\t}\r\n\t\t}\r\n\t\tres[cnt] = append(res[cnt], sum) // 按照取正的个数将元素和分组\r\n\t}\r\n\r\n\tfor _, b := range res {\r\n\t\tsort.Ints(b) // 排序，方便下面二分\r\n\t}\r\n\r\n\tans := math.MaxInt64\r\n\ta = nums[n:]\r\n\tfor i := 0; i < 1<<n; i++ {\r\n\t\tsum, cnt := 0, 0\r\n\t\tfor j, v := range a {\r\n\t\t\tif i>>j&1 > 0 {\r\n\t\t\t\tsum += v\r\n\t\t\t\tcnt++\r\n\t\t\t} else {\r\n\t\t\t\tsum -= v\r\n\t\t\t}\r\n\t\t}\r\n\t\t// 在对应的组里二分最近的数\r\n\t\tb := res[cnt]\r\n\t\tj := sort.SearchInts(b, sum)\r\n\t\tif j < len(b) {\r\n\t\t\tans = min(ans, b[j]-sum)\r\n\t\t}\r\n\t\tif j > 0 {\r\n\t\t\tans = min(ans, sum-b[j-1])\r\n\t\t}\r\n\t}\r\n\treturn ans\r\n}\r\n\r\nfunc min(a, b int) int {\r\n\tif a > b {\r\n\t\treturn b\r\n\t}\r\n\treturn a\r\n}\r\n```",
+      "createdAt": "2021-10-10T04:08:48.863506+00:00",
+      "hitCount": 3335,
+      "identifier": "FKslGW",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "zui-jie-jin-mu-biao-zhi-de-zi-xu-lie-he-m0sq3",
+        "title": "“最接近目标值的子序列和” 问题解法总结"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "partition-array-into-two-arrays-to-minimize-sum-difference"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 18,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "zhe-ban-mei-ju-pai-xu-er-fen-by-endlessc-04fn",
+      "status": "PREPUBLISH",
+      "summary": "两个数组和之差可以视作从 \\textit{nums} 中选 n 个数取正号，其余 n 个数取负号，然后求元素和。\n我们可以使用折半枚举的方法，枚举 \\textit{nums} 的前 n 个元素取正或取负的所有情况，按取正的个数分组，并按照元素和排序。然后枚举 \\textit{nums} 的后 n 个元素取正或取负的所有",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Bit Manipulation",
+          "nameTranslated": "位运算",
+          "slug": "bit-manipulation",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Binary Search",
+          "nameTranslated": "二分查找",
+          "slug": "binary-search",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Go",
+          "nameTranslated": "",
+          "slug": "golang",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "二分",
+          "nameTranslated": "",
+          "slug": "er-fen",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "",
+      "title": "折半枚举+排序+二分",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 11,
+        "id": 1039419,
+        "viewCount": 2082
+      },
+      "uuid": "FKslGW",
+      "videosInfo": []
+    }
+  }
+}

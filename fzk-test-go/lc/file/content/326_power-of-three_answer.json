@@ -1,0 +1,119 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣官方题解",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/leetcode-solution/avatar_1582018938.png",
+          "userSlug": "leetcode-solution"
+        },
+        "username": "LeetCode-Solution"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法一：试除法\n\n**思路与算法**\n\n我们不断地将 $n$ 除以 $3$，直到 $n=1$。如果此过程中 $n$ 无法被 $3$ 整除，就说明 $n$ 不是 $3$ 的幂。\n\n本题中的 $n$ 可以为负数或 $0$，可以直接提前判断该情况并返回 $\\text{False}$，也可以进行试除，因为负数或 $0$ 也无法通过多次除以 $3$ 得到 $1$。\n\n**代码**\n\n```C++ [sol1-C++]\nclass Solution {\npublic:\n    bool isPowerOfThree(int n) {\n        while (n && n % 3 == 0) {\n            n /= 3;\n        }\n        return n == 1;\n    }\n};\n```\n\n```Java [sol1-Java]\nclass Solution {\n    public boolean isPowerOfThree(int n) {\n        while (n != 0 && n % 3 == 0) {\n            n /= 3;\n        }\n        return n == 1;\n    }\n}\n```\n\n```C# [sol1-C#]\npublic class Solution {\n    public bool IsPowerOfThree(int n) {\n        while (n != 0 && n % 3 == 0) {\n            n /= 3;\n        }\n        return n == 1;\n    }\n}\n```\n\n```Python [sol1-Python3]\nclass Solution:\n    def isPowerOfThree(self, n: int) -> bool:\n        while n and n % 3 == 0:\n            n //= 3\n        return n == 1\n```\n\n```JavaScript [sol1-JavaScript]\nvar isPowerOfThree = function(n) {\n    while (n !== 0 && n % 3 === 0) {\n        n = Math.floor(n / 3);\n    }\n    return n === 1;\n};\n```\n\n```go [sol1-Golang]\nfunc isPowerOfThree(n int) bool {\n    for n > 0 && n%3 == 0 {\n        n /= 3\n    }\n    return n == 1\n}\n```\n\n**复杂度分析**\n\n- 时间复杂度：$O(\\log n)$。当 $n$ 是 $3$ 的幂时，需要除以 $3$ 的次数为 $\\log_3 n = O(\\log n)$；当 $n$ 不是 $3$ 的幂时，需要除以 $3$ 的次数小于该值。\n\n- 空间复杂度：$O(1)$。\n\n#### 方法二：判断是否为最大 $3$ 的幂的约数\n\n**思路与算法**\n\n我们还可以使用一种较为取巧的做法。\n\n在题目给定的 $32$ 位有符号整数的范围内，最大的 $3$ 的幂为 $3^{19} = 1162261467$。我们只需要判断 $n$ 是否是 $3^{19}$ 的约数即可。\n\n与方法一不同的是，这里需要特殊判断 $n$ 是负数或 $0$ 的情况。\n\n**代码**\n\n```C++ [sol2-C++]\nclass Solution {\npublic:\n    bool isPowerOfThree(int n) {\n        return n > 0 && 1162261467 % n == 0;\n    }\n};\n```\n\n```Java [sol2-Java]\nclass Solution {\n    public boolean isPowerOfThree(int n) {\n        return n > 0 && 1162261467 % n == 0;\n    }\n}\n```\n\n```C# [sol2-C#]\npublic class Solution {\n    public bool IsPowerOfThree(int n) {\n        return n > 0 && 1162261467 % n == 0;\n    }\n}\n```\n\n```Python [sol2-Python3]\nclass Solution:\n    def isPowerOfThree(self, n: int) -> bool:\n        return n > 0 and 1162261467 % n == 0\n```\n\n```JavaScript [sol2-JavaScript]\nvar isPowerOfThree = function(n) {\n    return n > 0 && 1162261467 % n === 0;\n};\n```\n\n```go [sol2-Golang]\nfunc isPowerOfThree(n int) bool {\n    return n > 0 && 1162261467%n == 0\n}\n```\n\n**复杂度分析**\n\n- 时间复杂度：$O(1)$。\n\n- 空间复杂度：$O(1)$。",
+      "createdAt": "2021-09-22T14:39:38.714374+00:00",
+      "hitCount": 26618,
+      "identifier": "LTTL6O",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "gong-shui-san-xie-yi-ti-san-jie-shu-xue-8oiip",
+        "title": "【宫水三叶】一题三解 :「数学」&「倍数/约数」&「打表」"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "power-of-three"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 45,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 4,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "3de-mi-by-leetcode-solution-hnap",
+      "status": "PREPUBLISH",
+      "summary": "方法一：试除法 思路与算法 我们不断地将 $n$ 除以 $3$，直到 $n=1$。如果此过程中 $n$ 无法被 $3$ 整除，就说明 $n$ 不是 $3$ 的幂。 本题中的 $n$ 可以为负数或 $0$，可以直接提前判断该情况并返回 $\\text{False}$，也可以进行试除，因为负数或 $0$ 也无法通过多次除以 ",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Math",
+          "nameTranslated": "数学",
+          "slug": "math",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C#",
+          "nameTranslated": "",
+          "slug": "csharp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Go",
+          "nameTranslated": "",
+          "slug": "golang",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "JavaScript",
+          "nameTranslated": "",
+          "slug": "javascript",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "3的幂",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 76,
+        "id": 1011809,
+        "viewCount": 22127
+      },
+      "uuid": "LTTL6O",
+      "videosInfo": []
+    }
+  }
+}

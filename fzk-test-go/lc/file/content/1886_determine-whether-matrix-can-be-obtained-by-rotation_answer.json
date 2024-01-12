@@ -1,0 +1,98 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣官方题解",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/leetcode-solution/avatar_1582018938.png",
+          "userSlug": "leetcode-solution"
+        },
+        "username": "LeetCode-Solution"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法一：模拟轮转操作\n\n**提示 $1$**\n\n将一个矩阵 $90$ 度顺时针旋转 $4$ 次，旋转后的矩阵与本身一致。\n\n**思路与算法**\n\n根据 **提示 $1$**，我们可以模拟 $4$ 次将 $\\textit{mat}$ $90$ 度顺时针旋转的操作，并在每次旋转操作后与 $\\textit{target}$ 比较。\n\n对于旋转操作，可以建立额外数组实现，也可以原地旋转。不同方法的具体细节与相关推导读者可以参考[「48. 旋转图像」的题解](https://leetcode-cn.com/problems/rotate-image/solution/xuan-zhuan-tu-xiang-by-leetcode-solution-vu3m/)。\n\n本文中，我们采用原地旋转的方式（即上文题解链接中的 **方法二**）实现旋转操作。\n\n**代码**\n\n```C++ [sol1-C++]\nclass Solution {\npublic:\n    int temp;\n    bool flag;\n\n    bool findRotation(vector<vector<int>>& mat, vector<vector<int>>& target) {\n        int n = mat.size();\n        // 最多旋转 4 次\n        for (int k = 0; k < 4; ++k) {\n            // 旋转操作\n            for (int i = 0; i < n / 2; ++i) {\n                for (int j = 0; j < (n + 1) / 2; ++j) {\n                    temp = mat[i][j];\n                    mat[i][j] = mat[n-1-j][i];\n                    mat[n-1-j][i] = mat[n-1-i][n-1-j];\n                    mat[n-1-i][n-1-j] = mat[j][n-1-i];\n                    mat[j][n-1-i] = temp;\n                }\n            }\n            \n            if (mat == target) {\n                return true;\n            }\n        }\n        return false;    \n    }\n};\n```\n\n```Python [sol1-Python3]\nclass Solution:\n    def findRotation(self, mat: List[List[int]], target: List[List[int]]) -> bool:\n        n = len(mat)\n        # 最多旋转 4 次\n        for k in range(4):\n            # 旋转操作\n            for i in range(n // 2):\n                for j in range((n + 1) // 2):\n                    mat[i][j], mat[n-1-j][i], mat[n-1-i][n-1-j], mat[j][n-1-i] \\\n                        = mat[n-1-j][i], mat[n-1-i][n-1-j], mat[j][n-1-i], mat[i][j]\n            \n            if mat == target:\n                return True\n        return False\n```\n\n**复杂度分析**\n\n- 时间复杂度：$O(n^2)$，其中 $n$ 为 $\\textit{mat}$ 的边长。我们最多进行 $4$ 次旋转与比较操作，每次旋转操作的时间复杂度为 $O(n^2)$，每次比较操作的时间复杂度为 $O(n^2)$。\n\n- 空间复杂度：$O(1)$。",
+      "createdAt": "2021-06-06T05:04:53.740949+00:00",
+      "hitCount": 2753,
+      "identifier": "JPgQ0J",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "mei-ju-si-chong-qing-kuang-jin-xing-bi-j-r3ko",
+        "title": "枚举四种情况进行比较即可"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "determine-whether-matrix-can-be-obtained-by-rotation"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "pan-duan-ju-zhen-jing-lun-zhuan-hou-shi-qa9d0",
+      "status": "PUBLISHED",
+      "summary": "方法一：模拟轮转操作 提示 $1$ 将一个矩阵 $90$ 度顺时针旋转 $4$ 次，旋转后的矩阵与本身一致。 思路与算法 根据 提示 $1$，我们可以模拟 $4$ 次将 $\\textit{mat}$ $90$ 度顺时针旋转的操作，并在每次旋转操作后与 $\\textit{target}$ 比较。 对于旋转操作，可以建立额",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Math",
+          "nameTranslated": "数学",
+          "slug": "math",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Simulation",
+          "nameTranslated": "模拟",
+          "slug": "simulation",
+          "tagType": "TOPIC"
+        }
+      ],
+      "thumbnail": "",
+      "title": "判断矩阵经轮转后是否一致",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 4,
+        "id": 815371,
+        "viewCount": 2156
+      },
+      "uuid": "JPgQ0J",
+      "videosInfo": []
+    }
+  }
+}

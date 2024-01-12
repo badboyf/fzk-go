@@ -1,0 +1,72 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "RayarsonLee",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/rayarsonlee/avatar_1634100852.png",
+          "userSlug": "rayarsonlee"
+        },
+        "username": "RayarsonLee"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n只要两个数组中的元素及其数量完全相同,即可通过多次反转得到.\n### 代码\n\n```cpp\nclass Solution\n{\npublic:\n    bool canBeEqual(vector<int>& target, vector<int>& arr)\n    {\n        sort(target.begin(), target.end());\n        sort(arr.begin(), arr.end());\n        return target == arr;\n    }\n};\n\n```",
+      "createdAt": "2021-10-15T11:16:46.451292+00:00",
+      "hitCount": 157,
+      "identifier": "ZuBQHR",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "kuai-su-de-chu-jie-lun-de-shu-xue-fang-f-00dt",
+        "title": "快速得出结论的数学方法"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "make-two-arrays-equal-by-reversing-sub-arrays"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 3,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "pai-xu-by-rayarsonlee-mf0o",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n只要两个数组中的元素及其数量完全相同,即可通过多次反转得到.\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "排序",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1049235,
+        "viewCount": 148
+      },
+      "uuid": "ZuBQHR",
+      "videosInfo": []
+    }
+  }
+}

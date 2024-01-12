@@ -1,0 +1,79 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "飞鸟",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/7aughing-nashgue/avatar_1605015234.png",
+          "userSlug": "lzxjack"
+        },
+        "username": "lzxjack"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n\n- 定义队列，存放请求的时刻\n- 每次发起请求时，先将新的请求时刻`t`入队\n- 再循环判断队头的数，是否小于`t-3000`，若小于，队头出队。这样就可以将`3000 ms`以外的时刻全部去除\n- 循环完毕，返回队列长度\n\n### 代码\n\n```javascript\nclass RecentCounter {\n    constructor() {\n        this.queue = [];\n    }\n    ping(t) {\n        this.queue.push(t);\n        while (this.queue[0] < t - 3000) {\n            this.queue.shift();\n        }\n        return this.queue.length;\n    }\n}\n```",
+      "createdAt": "2021-10-30T02:54:01.534111+00:00",
+      "hitCount": 146,
+      "identifier": "WBMlqG",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "shua-chuan-jian-zhi-offer-day18-zhan-ii-de51o",
+        "title": " 刷穿剑指offer-Day20-队列I-042.最近请求次数 二分查找与队列解题的复杂度分析"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "H8086Q"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 3,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "dui-lie-javascript-by-lzxjack-le9p",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n\n定义队列，存放请求的时刻\n每次发起请求时，先将新的请求时刻t入队\n再循环判断队头的数，是否小于t-3000，若小于，队头出队。这样就可以将3000 ms以外的时刻全部去除\n循环完毕，返回队列长度\n\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Queue",
+          "nameTranslated": "队列",
+          "slug": "queue",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "JavaScript",
+          "nameTranslated": "",
+          "slug": "javascript",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "【队列】JavaScript",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1073956,
+        "viewCount": 134
+      },
+      "uuid": "WBMlqG",
+      "videosInfo": []
+    }
+  }
+}

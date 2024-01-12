@@ -1,0 +1,76 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "ffreturn",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/ffreturn/avatar_1608859813.png",
+          "userSlug": "ffreturn"
+        },
+        "username": "ffreturn"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "![WX20210304-202056@2x.png](https://pic.leetcode-cn.com/1614860470-rGdujc-WX20210304-202056@2x.png)\n\n\n### 代码\n\n```bash\n# Read from the file file.txt and output the tenth line to stdout.\nsed -n \"10p\" file.txt\n```",
+      "createdAt": "2021-03-04T12:21:20.868783+00:00",
+      "hitCount": 7061,
+      "identifier": "FLW6up",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "sed-tail-head-by-wanglongjiang-43c9",
+        "title": "sed、tail、head"
+      },
+      "position": 3,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "ni-yun-xing-guo-ma-by-novice2master",
+        "title": "你运行过吗？"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "tenth-line"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 10,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "shuang-bai-jie-da-by-ffreturn-68bk",
+      "status": "PREPUBLISH",
+      "summary": "代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Bash",
+          "nameTranslated": "",
+          "slug": "bash",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1614860470-rGdujc-WX20210304-202056@2x.png",
+      "title": "双百解答",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 2,
+        "id": 634987,
+        "viewCount": 6021
+      },
+      "uuid": "FLW6up",
+      "videosInfo": []
+    }
+  }
+}

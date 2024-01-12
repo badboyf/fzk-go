@@ -1,0 +1,88 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "一不小心就",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/yi-bu-xiao-xin-jiu/avatar_1584443468.png",
+          "userSlug": "yi-bu-xiao-xin-jiu"
+        },
+        "username": "yi-bu-xiao-xin-jiu"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "思路都在代码和注释里\r\n```\r\nclass Solution {\r\n    public int[] shortestSeq(int[] big, int[] small) {\r\n        // 最短窗口大小\r\n        int minLength = big.length + 1;\r\n        // 数组加哈希表记录匹配情况\r\n        int[] count = new int[small.length];\r\n        Map<Integer, Integer> map = new HashMap<>();\r\n        for (int i = 0; i < small.length; i ++) {\r\n            map.put(small[i], i);\r\n        }\r\n        // 窗口左右边界\r\n        int left = 0, right = 0;\r\n        // 用find记录匹配的个数\r\n        int find = 0;\r\n        int[] res = new int[2];\r\n        // 扩展右边界\r\n        while (right < big.length) {\r\n            int rightNum = big[right];\r\n            if (map.containsKey(rightNum)) {\r\n                count[map.get(rightNum)] ++;\r\n                if (count[map.get(rightNum)] == 1) {\r\n                    find ++;\r\n                }\r\n            }\r\n            // 缩小左边界\r\n            while (find == small.length) {\r\n                if (right - left + 1 < minLength) {\r\n                    res[0] = left;\r\n                    res[1] = right;\r\n                    minLength = right - left + 1;\r\n                }\r\n                int leftNum = big[left];\r\n                if (map.containsKey(leftNum)) {\r\n                    count[map.get(leftNum)] --;\r\n                    if (count[map.get(leftNum)] == 0) {\r\n                        find --;\r\n                    }\r\n                }\r\n                left ++;\r\n            }\r\n            right ++;\r\n        }\r\n        return minLength <= big.length ? res : new int[0];\r\n    }\r\n}\r\n```\r\n",
+      "createdAt": "2021-03-23T08:04:00.846862+00:00",
+      "hitCount": 1308,
+      "identifier": "7eHdkC",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "mian-shi-ti-1718-zui-duan-chao-chuan-shu-d73s",
+        "title": "面试题 17.18. 最短超串：双指针加哈希-逐行注释"
+      },
+      "position": 3,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "xiang-xi-tu-jie-hua-dong-chuang-kou-chao-qi7g",
+        "title": "【详细图解】滑动窗口（超99）"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "shortest-supersequence-lcci"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 5,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "ha-xi-hua-dong-chuang-kou-by-yi-bu-xiao-5czum",
+      "status": "PREPUBLISH",
+      "summary": "思路都在代码和注释里",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "哈希",
+          "nameTranslated": "",
+          "slug": "ha-xi",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "",
+      "title": "哈希 + 滑动窗口",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 675394,
+        "viewCount": 998
+      },
+      "uuid": "7eHdkC",
+      "videosInfo": []
+    }
+  }
+}

@@ -1,0 +1,81 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "oliver",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/h0ss/avatar_1586754523.png",
+          "userSlug": "oliverlink"
+        },
+        "username": "oliverlink"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n**1、** 本题需要求出子数组之和为k的数组个数，如果限定了只有正数那么可以直接使用滑动窗口来解决，但这里可能存在负数，因此每次加入值不一定会增大和值，减去值不一定会减小和值；\n\n**2、** 先看一个例子，对于数组【1，2，3，4，5】，按照题目要求求解。我们可以先统计一下前n项的和值出现的次数，也就是所谓的前缀和，这里将前缀和为0也统计进来：\n位置|前n项和[sum]|出现次数\n-|:-:|-:\n0️⃣|0|1\n1️⃣|1|1\n2️⃣|3|1\n3️⃣|6|1\n4️⃣|10|1\n5️⃣|15|1\n\n**1）** 此时假设k=6，我们肉眼可见的数组和值为6的是【1，2，3】，那么对应到前缀和里面就是3️⃣这个位置，它其实可以看成3️⃣－0️⃣ 得到的区间和值；\n\n**2）** 再假设k=7，那么我们可以发现数组和值为7的是【3，4】，此时我们可以发现在前缀和中没有找到和值为7的，那么说明该子数组的起始位置并非0；此时按照滑动窗口的思路就应该移动左指针，当左指针移动到索引2时就可以发现，索引2、3构成的子数组是满足条件的，借助上一个假设我们可以发现这里的和值7其实可以通过4️⃣－2️⃣来得到，因此我们实际上可以通过前缀和的差值来得出各个区间的和值，也就可以轻易得到和值为k的子数组了。\n\n**3、** 具体解题上我们还应该考虑前n项和重复出现的情况，因此这里需要使用hash表来进行前缀和的统计，并且在初始化时应该写入(0，1)，否则当子数组起始位置为0时将无法被匹配到；接着我们可以确定下来每次寻找子数组时应该在hash表中寻找的键值是sum-k，因为直接寻找k只可以找到那些起始位置为0的子数组，而寻找sum-k因为我们事先插入了一个0的键值，因此这里也不会忽略掉这种情况。\n### 代码\n\n```java\nclass Solution {\n    public int subarraySum(int[] nums, int k) {\n        Map<Integer,Integer> map = new HashMap<>();\n        map.put(0, 1);\n        int sum = 0;\n        int count = 0;\n        for (int i=0;i<nums.length;++i) {\n            sum += nums[i];\n            count += map.getOrDefault(sum-k, 0);\n            map.put(sum, map.getOrDefault(sum, 0) + 1);\n        }\n        return count;\n    }\n}\n```",
+      "createdAt": "2021-11-05T20:27:49.986778+00:00",
+      "hitCount": 998,
+      "identifier": "2PlCOQ",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "shua-chuan-jian-zhi-offer-day07-shu-zu-i-jdnu",
+        "title": " 刷穿剑指offer-Day07-数组III-010.和为k的子数组 前缀和的思路讲解"
+      },
+      "position": 2,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "liang-ci-bian-li-bi-yi-ci-bian-li-man-by-2sk9",
+        "title": "两次遍历，比一次遍历慢"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "QTMn0o"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 6,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "qian-zhui-he-hash-table-he-wei-k-de-zi-s-knqq",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n1、 本题需要求出子数组之和为k的数组个数，如果限定了只有正数那么可以直接使用滑动窗口来解决，但这里可能存在负数，因此每次加入值不一定会增大和值，减去值不一定会减小和值；\n2、 先看一个例子，对于数组【1，2，3，4，5】，按照题目要求求解。我们可以先统计一下前n项的和值出现的次数，也就是所谓的前缀和，这里将",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "前缀和/hash table--和为 k 的子数组",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 4,
+        "id": 1086537,
+        "viewCount": 634
+      },
+      "uuid": "2PlCOQ",
+      "videosInfo": []
+    }
+  }
+}

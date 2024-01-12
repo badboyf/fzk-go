@@ -1,0 +1,76 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "天岚",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/tian-lan-51/avatar_1630124335.png",
+          "userSlug": "skyshine94"
+        },
+        "username": "skyshine94"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\nReentrantLock可重入锁\n\n### 代码\n\n```java\nclass H2O {\n\n    public H2O() {\n        \n    }\n\n    //定义Lock\n    private Lock lock = new ReentrantLock();\n    //定义Condition\n    private Condition condition = lock.newCondition();\n    //定义标记\n    private static int number = 1;\n\n    public void hydrogen(Runnable releaseHydrogen) throws InterruptedException {\n\t\tlock.lock();\n        try {\n            while(number == 0){\n                //线程等待\n                condition.await();\n            }\n            // releaseHydrogen.run() outputs \"H\". Do not change or remove this line.\n            releaseHydrogen.run();\n            //判断打印H的个数\n            if(number == 1){\n                number++;\n            }else if(number == 2){\n                //打印O\n                number = 0;\n            }\n            condition.signalAll();\n        }finally{\n            lock.unlock();\n        }\n    }\n\n    public void oxygen(Runnable releaseOxygen) throws InterruptedException {\n        lock.lock();\n        try {\n            while(number == 1 || number == 2){\n                //线程等待\n                condition.await();\n            }\n            // releaseOxygen.run() outputs \"O\". Do not change or remove this line.\n            releaseOxygen.run();\n            //打印H\n            number = 1;\n            condition.signalAll();\n        }finally{\n            lock.unlock();\n        }\n    }\n}\n```",
+      "createdAt": "2021-09-08T10:04:06.611736+00:00",
+      "hitCount": 883,
+      "identifier": "xV5pen",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "tiao-jian-bian-liang-xin-hao-liang-yuan-2cv85",
+        "title": "条件变量+信号量+原子操作"
+      },
+      "position": 2,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "chang-you-duo-xian-cheng-zhi-h2osheng-ch-8f7g",
+        "title": "畅游多线程之H2O生成"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "building-h2o"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 3,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "h2o-sheng-cheng-by-skyshine94-l9b2",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\nReentrantLock可重入锁\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "H2O 生成",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 986131,
+        "viewCount": 697
+      },
+      "uuid": "xV5pen",
+      "videosInfo": []
+    }
+  }
+}

@@ -1,0 +1,89 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "生存就是最大的幸运",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/qcdxctcc/avatar_1632470489.png",
+          "userSlug": "qcdxctcc"
+        },
+        "username": "QcdxCtcc"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "目标结果是x+y\r\n出现一个\"A\"，有x+y=(2x+y)+y=2x+2y\r\n出现一个\"B\"，有x+y=x+(2y+x)=2x+2y\r\n所以每出现一个A/B，都使x+y的值翻倍\r\n因此结果是2**len(s)\r\n\r\n\r\n\r\nPS：字节跳动内推啦，各位走过路过不要错过呀。\r\nhttps://job.toutiao.com/s/eaHwWsg\r\n实习/正式均可，工作地可选 北京/上海/杭州。有兴趣可私聊戳我。",
+      "createdAt": "2020-09-12T17:00:40.612464+00:00",
+      "hitCount": 6830,
+      "identifier": "cYinOl",
+      "isEditorsPick": false,
+      "isMostPopular": true,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "zhi-jie-return-by-feng-yan-wu-hen-z8r7",
+        "title": "直接return"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "nGK0Fy"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 123,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 11,
+          "reactionType": "AWESOME"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "CONFUSED"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "bu-xu-yao-bian-li-you-shu-xue-fang-fa-by-qcdxctcc",
+      "status": "PUBLISHED",
+      "summary": "目标结果是x+y\n出现一个\"A\"，有x+y=(2x+y)+y=2x+2y\n出现一个\"B\"，有x+y=x+(2y+x)=2x+2y\n所以每出现一个A/B，都使x+y的值翻倍\n因此结果是2**len(s)\nPS：字节跳动内推啦，各位走过路过不要错过呀。\nhttps://job.toutiao.com/s/eaHwWsg\n实",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Math",
+          "nameTranslated": "数学",
+          "slug": "math",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python3",
+          "nameTranslated": "",
+          "slug": "python3",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "不需要遍历，有数学方法",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 43,
+        "id": 411681,
+        "viewCount": 6007
+      },
+      "uuid": "cYinOl",
+      "videosInfo": []
+    }
+  }
+}

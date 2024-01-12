@@ -1,0 +1,84 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "Tim Dong",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/ytmartian/avatar_1628220629.png",
+          "userSlug": "ytmartian"
+        },
+        "username": "ytmartian"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "对于位置i，两个子序列可以选择用或者不用\r\n\r\n暴力做法，其它语言没准会超时。\r\n\r\n```cpp\r\nclass Solution {\r\npublic:\r\n    int ans = 0;\r\n    int maxProduct(string s) {\r\n        string s1, s2;\r\n        dfs(s, s1, s2, 0);\r\n        return ans;\r\n    }\r\n    \r\n    void dfs(string &s, string s1, string s2, int index) {\r\n        if(check(s1) && check(s2)) ans = max(ans, int(s1.size() * s2.size()));\r\n        if(index == s.size()) return;\r\n        dfs(s, s1 + s[index], s2, index + 1);//子序列s1使用该字符\r\n        dfs(s, s1, s2 + s[index], index + 1);//子序列s2使用该字符\r\n        dfs(s, s1, s2, index + 1);//子序列都不使用该字符\r\n    }\r\n    \r\n    bool check(string &s) {\r\n        int l = 0, r = s.size() - 1;\r\n        while(l < r) {\r\n            if(s[l++] != s[r--]) return false;\r\n        }\r\n        return true;\r\n    }\r\n};\r\n```\r\n使用引用传递加快速度：\r\n\r\n```cpp\r\nvoid dfs(string &s, string &s1, string &s2, int index) {\r\n    if(check(s1) && check(s2)) ans = max(ans, int(s1.size() * s2.size()));\r\n    if(index == s.size()) return;\r\n    s1.push_back(s[index]);\r\n    dfs(s, s1, s2, index + 1);\r\n    s1.pop_back();\r\n    s2.push_back(s[index]);\r\n    dfs(s, s1, s2, index + 1);\r\n    s2.pop_back();\r\n    dfs(s, s1, s2, index + 1);\r\n}\r\n```",
+      "createdAt": "2021-09-12T04:12:39.887960+00:00",
+      "hitCount": 3099,
+      "identifier": "WT4Ovm",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "xyfs-zhuang-ya-zhi-hou-wo-ke-jiu-yao-bao-8sq7",
+        "title": "状压之后，我可就要暴力了！┗|｀O′|┛ 嗷~~"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "maximum-product-of-the-length-of-two-palindromic-subsequences"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 39,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 5,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "dfsliang-ge-zi-xu-lie-by-ytmartian-svyn",
+      "status": "PREPUBLISH",
+      "summary": "对于位置i，两个子序列可以选择用或者不用\n暴力做法，其它语言没准会超时。\n使用引用传递加快速度：",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "DFS",
+          "nameTranslated": "",
+          "slug": "dfs",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "",
+      "title": "dfs两个子序列",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 23,
+        "id": 992952,
+        "viewCount": 2187
+      },
+      "uuid": "WT4Ovm",
+      "videosInfo": []
+    }
+  }
+}

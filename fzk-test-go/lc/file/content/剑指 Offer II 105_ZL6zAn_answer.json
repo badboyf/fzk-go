@@ -1,0 +1,81 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "%'YE'%",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/_yes/avatar_1621581185.png",
+          "userSlug": "_yes"
+        },
+        "username": "_YES"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n此处撰写解题思路\n\n### 代码\n\n```java\nclass Solution {\n    private static int curArea;\n    public int maxAreaOfIsland(int[][] grid) {\n        if (grid == null || grid[0] == null) {\n            return 0;\n        }\n        int N = grid.length;\n        int M = grid[0].length;   \n        int maxArea = 0;\n        for (int i = 0; i < N; i++) {\n            for (int j = 0; j < M; j++) {\n                if (grid[i][j] == 1) {\n                    curArea = 0;\n                    infect(grid, i, j, N, M);\n                    maxArea = Math.max(maxArea, curArea);\n                }\n            }\n        }\n        return maxArea;\n    }\n    public static void infect(int[][] grid, int i, int j, int N, int M) {\n        if (i < 0 || i >= N || j < 0 || j >= M || grid[i][j] != 1) {\n            return;\n        }\n        grid[i][j] = 2;\n        curArea++;\n        infect(grid, i, j - 1, N, M);\n        infect(grid, i, j + 1, N, M);\n        infect(grid, i + 1, j, N, M);\n        infect(grid, i - 1, j, N, M);\n    }\n}\n```",
+      "createdAt": "2021-11-27T10:26:06.771000+00:00",
+      "hitCount": 7,
+      "identifier": "GJIFMP",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "go-dfs-and-bfs-by-lazydog-dglx",
+        "title": "Go      DFS and BFS"
+      },
+      "position": 21,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "bing-cha-ji-by-tangy97-8cuq",
+        "title": "并查集"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "ZL6zAn"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "AWESOME"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 0,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "dao-yu-de-zui-da-mian-ji-by-_yes-xg37",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n此处撰写解题思路\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "岛屿的最大面积",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1125226,
+        "viewCount": 7
+      },
+      "uuid": "GJIFMP",
+      "videosInfo": []
+    }
+  }
+}

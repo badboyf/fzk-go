@@ -1,0 +1,76 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "offer快到碗里来~",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/zhouzihong/avatar_1626862997.png",
+          "userSlug": "zhouzihong"
+        },
+        "username": "zhouzihong"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "\r\n抽象固定维护寻找\r\n举例找规律，遍历，找出一段计数，固定i，向右找j，找出一段\r\n![image.png](https://pic.leetcode-cn.com/1629442361-QifNYx-image.png)\r\n\r\n```\r\nclass Solution {\r\npublic:\r\n    int findSubstringInWraproundString(string p) {\r\n        int i=0;\r\n        int n=p.size();\r\n        int ans=0;\r\n        while(i<n){\r\n            int j=i+1;\r\n            while(j<n&&(p[j]==p[j-1]+1||p[j]=='a'&&p[j-1]=='z'))j++;\r\n            ans+=sum(j-i);\r\n            i=j;\r\n        }\r\n        return ans;\r\n    }\r\n    int sum(int len){\r\n        return len*(len+1)/2;\r\n    }\r\n};\r\n```\r\n去重，不适合使用哈希表，abc直接计算=6但是需要插入6次哈希表，考虑固定a，\r\n求出以每个单词结尾的最长长度，比如\r\nzaba中z:1,a:2,b:3,则1+2+3就不重不漏，因为z:1->z，a:2->za，a，b:3代表\r\nzab,ab,b\r\n固定i，维护len，统计最长长度\r\n```\r\nclass Solution {\r\npublic:\r\n    int findSubstringInWraproundString(string p) {\r\n        int i=0;\r\n        int n=p.size();\r\n        int ans=0;\r\n        vector<int>chars(26,0);\r\n        int len=1;\r\n        chars[p[0]-'a']=1;\r\n        for(int i=1;i<n;i++){\r\n            if(p[i-1]+1==p[i]||p[i-1]=='z'&&p[i]=='a')len++;\r\n            else len=1;\r\n            chars[p[i]-'a']=max(chars[p[i]-'a'],len);\r\n        }\r\n        return accumulate(chars.begin(),chars.end(),0);\r\n    }\r\n};\r\n```\r\n",
+      "createdAt": "2021-08-20T06:52:48.078485+00:00",
+      "hitCount": 962,
+      "identifier": "pKpgYF",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "c-yi-ci-bian-li-by-da-li-wang-6",
+        "title": "C++ 一次遍历"
+      },
+      "position": 2,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "xi-fa-dai-ni-xue-suan-fa-yi-ci-gao-ding-qian-zhui-",
+        "title": "【西法带你学算法】一次搞定前缀和"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "unique-substrings-in-wraparound-string"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 5,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "xie-chu-wo-de-si-kao-guo-cheng-cong-zhon-jwku",
+      "status": "PREPUBLISH",
+      "summary": "抽象固定维护寻找\n举例找规律，遍历，找出一段计数，固定i，向右找j，找出一段\n\n去重，不适合使用哈希表，abc直接计算=6但是需要插入6次哈希表，考虑固定a，\n求出以每个单词结尾的最长长度，比如\nzaba中z:1,a:2,b:3,则1+2+3就不重不漏，因为z:1->z，a:2->za，a，b:3代表\nzab,ab,b",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1629442361-QifNYx-image.png",
+      "title": "写出我的思考过程，从重点如何去重",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 6,
+        "id": 947521,
+        "viewCount": 711
+      },
+      "uuid": "pKpgYF",
+      "videosInfo": []
+    }
+  }
+}

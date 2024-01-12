@@ -1,0 +1,86 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "ffreturn",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/ffreturn/avatar_1608859813.png",
+          "userSlug": "ffreturn"
+        },
+        "username": "ffreturn"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "![image.png](https://pic.leetcode-cn.com/1636889337-nOGhaF-image.png)\n\n\n### 解题思路\n动态规划\n\n- 题目分析\n    - 本质就是拆分连续多段，且段数必须是d，然后找到最小累加的和\n\n- 定义\nd[i][j] 表示位置i的第j天的最小难度\n这里我们额外预留一个0的位置方便边缘情况，而且和第i天完全对齐\n\n- 初始化\n   - 默认是个极大值，比如 300000（300*1000）\n   - d[i][1] 就是从1到i位置之间的最大值，因为一天全部难度都要考虑，而且事实里面最大值\n\n- 计算\n   - 辅助： 构建一个额外数组 maxVal[i][j] 表示从i到j的范围内的最大值，这个可以单词遍历去构建好\n   - d[i][j] = min_over_k(d[k][j-1] + maxVal[k+1][i]), 其中k的范围是 1到i, 本质就是基于之前k的位置而且少一天，加上一天的范围内取一个最小值\n   - 计算方式从下至上，即从更小范围计算更大\n\n- 结果\nd[n][d]\n\n### 代码\n\n```cpp\nclass Solution {\npublic:\n    int minDifficulty(vector<int>& jobDifficulty, int days) {\n        int MAX = 0x1f1f1f1f;\n        int n = jobDifficulty.size();\n        int d[n+1][days+1];\n        memset(d, MAX, sizeof(d));\n\n        int maxVal[n+1][n+1];\n        memset(maxVal, 0, sizeof(maxVal));\n        // 注意：这里预留了一个0位置，所以是从1，开始，但是jobDifficulty的索引得减一\n        for (int i = 1; i <= n; ++i)\n        {\n            for (int j = i; j <= n; ++j)\n            {\n                if (i != j)\n                {\n                    maxVal[i][j] = max(maxVal[i][j-1], jobDifficulty[j-1]);\n                }\n                else\n                {\n                    maxVal[i][j] = jobDifficulty[i-1];\n                }\n            }\n        }\n\n        // 初始化一天的结果:即开头1到现在位置\n        for (int i = 1; i <= n; ++i)\n        {\n            d[i][1] = maxVal[1][i];\n        }\n\n        for (int j = 2; j <= days; ++j)\n        {\n            for (int i = 1; i <= n; ++i)\n            {\n                // 遍历比当前i更小范围去找到最小的难度\n                for (int k = 1; k < i; ++k)\n                {\n                    d[i][j] = min(d[i][j], d[k][j-1] + maxVal[k+1][i]);\n                }\n            }\n        }\n\n        // 如果不可达 需要返回-1\n        return d[n][days] == MAX ? -1 : d[n][days];\n    }\n};\n```",
+      "createdAt": "2021-11-14T11:29:45.377129+00:00",
+      "hitCount": 34,
+      "identifier": "h0QCs4",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "regular-dp-by-yzboostforest-gvv1",
+        "title": "Regular DP"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "minimum-difficulty-of-a-job-schedule"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "1335-czhong-gui-zhong-ju-de-dong-tai-gui-8em4",
+      "status": "PUBLISHED",
+      "summary": "解题思路\n动态规划\n\n\n题目分析\n\n本质就是拆分连续多段，且段数必须是d，然后找到最小累加的和\n\n\n\n定义\nd[i][j] 表示位置i的第j天的最小难度\n这里我们额外预留一个0的位置方便边缘情况，而且和第i天完全对齐\n\n\n初始化\n\n默认是个极大值，比如 300000（300*1000）\nd[i][1] 就是从1到i位置",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Dynamic Programming",
+          "nameTranslated": "动态规划",
+          "slug": "dynamic-programming",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "梦想",
+          "nameTranslated": "",
+          "slug": "meng-xiang",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1636889337-nOGhaF-image.png",
+      "title": "1335. c++中规中矩的动态规划解法",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1101663,
+        "viewCount": 28
+      },
+      "uuid": "h0QCs4",
+      "videosInfo": []
+    }
+  }
+}

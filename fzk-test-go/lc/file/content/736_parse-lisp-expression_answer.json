@@ -1,0 +1,86 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣 (LeetCode)",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/uploaded_files/2021/03/73c9f099-abbe-4d94-853f-f8abffd459cd/leetcode.png",
+          "userSlug": "leetcode"
+        },
+        "username": "LeetCode"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "####  方法：递归分析法 [Accepted]\n**算法：**\n这个问题从表达式的语法看相对简单，但是在解决的过程中会出现较大的困难。\n\n表达式中会包含子表达式，这种情况适合用递归来解决。\n\n一个难点是如何管理变量的正确范围。我们可以用栈来存放变量和值的对应关系，当进入变量作用的括号范围时，就将变量和值的哈希映射添加到栈中，当出括号内时，就弹出栈顶元素。\n\n`evaluate` 方法会检查每个表达式 `expression` 采用的形式\n- 如果 `expression` 是数字开头，则它是一个整数：返回它。 \n- 如果 `expression` 以字母开头，则它是一个变量。则检查该变量的作用域。 \n- 否则我们将 `expression` 中的标记（变量或表达式）分组，通过计算 `bal = '(' 的数量减去 ')' 的数量`，当 `bal` 为零时，则我们得到一个标记。举个例子：`(add 1 (add 2 3))` 可以获得两个标记 `'1'` 和 `'(add 2 3)'`。\n- 计算每个标记并返回它们的加法或乘法得结果。 \n- 对于 `let` 表达式，按顺序计算每个表达式并将其值分配给当前作用域中的变量，然后返回对最终表达式的求值。 \n \n```Python [ ]\ndef implicit_scope(func):\n    def wrapper(*args):\n        args[0].scope.append({})\n        ans = func(*args)\n        args[0].scope.pop()\n        return ans\n    return wrapper\n\nclass Solution(object):\n    def __init__(self):\n        self.scope = [{}]\n\n    @implicit_scope\n    def evaluate(self, expression):\n        if not expression.startswith('('):\n            if expression[0].isdigit() or expression[0] == '-':\n                return int(expression)\n            for local in reversed(self.scope):\n                if expression in local: return local[expression]\n\n        tokens = list(self.parse(expression[5 + (expression[1] == 'm'): -1]))\n        if expression.startswith('(add'):\n            return self.evaluate(tokens[0]) + self.evaluate(tokens[1])\n        elif expression.startswith('(mult'):\n            return self.evaluate(tokens[0]) * self.evaluate(tokens[1])\n        else:\n            for j in xrange(1, len(tokens), 2):\n                self.scope[-1][tokens[j-1]] = self.evaluate(tokens[j])\n            return self.evaluate(tokens[-1])\n\n    def parse(self, expression):\n        bal = 0\n        buf = []\n        for token in expression.split():\n            bal += token.count('(') - token.count(')')\n            buf.append(token)\n            if bal == 0:\n                yield \" \".join(buf)\n                buf = []\n        if buf:\n            yield \" \".join(buf)\n```\n\n```Java [ ]\nclass Solution {\n    ArrayList<Map<String, Integer>> scope;\n    public Solution() {\n        scope = new ArrayList();\n        scope.add(new HashMap());\n    }\n\n    public int evaluate(String expression) {\n        scope.add(new HashMap());\n        int ans = evaluate_inner(expression);\n        scope.remove(scope.size() - 1);\n        return ans;\n    }\n\n    public int evaluate_inner(String expression) {\n        if (expression.charAt(0) != '(') {\n            if (Character.isDigit(expression.charAt(0)) || expression.charAt(0) == '-')\n                return Integer.parseInt(expression);\n            for (int i = scope.size() - 1; i >= 0; --i) {\n                if (scope.get(i).containsKey(expression))\n                    return scope.get(i).get(expression);\n            }\n        }\n\n        List<String> tokens = parse(expression.substring(\n                expression.charAt(1) == 'm' ? 6 : 5, expression.length() - 1));\n        if (expression.startsWith(\"add\", 1)) {\n            return evaluate(tokens.get(0)) + evaluate(tokens.get(1));\n        } else if (expression.startsWith(\"mult\", 1)) {\n            return evaluate(tokens.get(0)) * evaluate(tokens.get(1));\n        } else {\n            for (int j = 1; j < tokens.size(); j += 2) {\n                scope.get(scope.size() - 1).put(tokens.get(j-1), evaluate(tokens.get(j)));\n            }\n            return evaluate(tokens.get(tokens.size() - 1));\n        }\n    }\n\n    public List<String> parse(String expression) {\n        List<String> ans = new ArrayList();\n        int bal = 0;\n        StringBuilder buf = new StringBuilder();\n        for (String token: expression.split(\" \")) {\n            for (char c: token.toCharArray()) {\n                if (c == '(') bal++;\n                if (c == ')') bal--;\n            }\n            if (buf.length() > 0) buf.append(\" \");\n            buf.append(token);\n            if (bal == 0) {\n                ans.add(new String(buf));\n                buf = new StringBuilder();\n            }\n        }\n        if (buf.length() > 0)\n            ans.add(new String(buf));\n\n        return ans;\n    }\n}\n```\n\n**复杂度分析**\n\n* 时间复杂度：$O(N^2)$。其中 $N$ 指的是 `expression` 的长度。每个表达式只计算一次，但在计算过程中可能要搜索整个范围。 \n* 空间复杂度：$O(N^2)$，在进行中间求值时，我们可以将 $O(N)$ 个新字符串传递给 `evaluate` 函数，每个字符串的长度为 $O(N)$。通过优化，可以将总空间复杂度降低到 $O(N)$。",
+      "createdAt": "2019-12-03T07:09:02.810395+00:00",
+      "hitCount": 3929,
+      "identifier": "WowYA6",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "di-gui-luo-ji-jian-dan-c-by-zhouzihong-e4w2",
+        "title": "【递归】【逻辑简单】【C++】"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "parse-lisp-expression"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 7,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "lisp-yu-fa-jie-xi-by-leetcode",
+      "status": "PUBLISHED",
+      "summary": "方法：递归分析法 [Accepted] 算法： 这个问题从表达式的语法看相对简单，但是在解决的过程中会出现较大的困难。 表达式中会包含子表达式，这种情况适合用递归来解决。 一个难点是如何管理变量的正确范围。我们可以用栈来存放变量和值的对应关系，当进入变量作用的括号范围时，就将变量和值的哈希映射添加到栈中，当出括号内时，",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Recursion",
+          "nameTranslated": "递归",
+          "slug": "recursion",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "Lisp 语法解析",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 2,
+        "id": 49387,
+        "viewCount": 3005
+      },
+      "uuid": "WowYA6",
+      "videosInfo": []
+    }
+  }
+}

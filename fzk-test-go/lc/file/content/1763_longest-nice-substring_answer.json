@@ -1,0 +1,81 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "LifeAndDonuts",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/r4c12/avatar_1614314577.png",
+          "userSlug": "life-and-donuts"
+        },
+        "username": "life-and-donuts"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "## 方法一：枚举\n\n使用位运算。\n\n```cpp\nclass Solution {\npublic:\n    string longestNiceSubstring(string s) {\n        int n = s.size();\n        string ans;\n        \n        for (int i = 0; i < n; ++i) {\n            int a = 0, b = 0;\n            for (int j = i; j < n; ++j) {\n                if ('a' <= s[j] && s[j] <= 'z') a |= 1 << (s[j] - 'a');\n                else b |= 1 << (s[j] - 'A');\n                if (a == b && j - i + 1 > ans.size()) {\n                    ans = s.substr(i, j - i + 1);\n                }\n            }\n        }\n        \n        return ans;\n    }\n};\n```\n\n稍微优化一点的方案就是，如果从 $i$ 出发最远能够到达 $k$，那么下一次就可以直接从 $k+1$ 开始遍历，但是最差时间复杂度仍然是 $\\mathcal{O}(n^2)$。\n\n```cpp\nclass Solution {\npublic:\n    string longestNiceSubstring(string s) {\n        int n = s.size();\n        int beg = 0, end = 0;\n        int i = 0;\n        \n        while (i < n) {\n            int k = i, a = 0, b = 0;\n            \n            for (int j = i; j < n; ++j) {\n                if ('a' <= s[j] && s[j] <= 'z') {\n                    a |= 1 << (s[j] - 'a');\n                } else {\n                    b |= 1 << (s[j] - 'A');\n                }\n                if (a == b) {\n                    k = j;\n                }\n            }\n            \n            if (k - i > end - beg) {\n                beg = i, end = k;\n            }\n            \n            i = k + 1;\n        }\n        \n        return beg == end ? \"\" : s.substr(beg, end - beg + 1);\n    }\n};\n```\n\n> **时间复杂度**：$\\mathcal{O}(n^2)$  \n> **空间复杂度**：$\\mathcal{O}(1)$\n\n## 方法二：分治\n\n类似题目：[395. 至少有K个重复字符的最长子串](https://leetcode-cn.com/problems/longest-substring-with-at-least-k-repeating-characters/)\n\n```c++\nclass Solution {\npublic:\n    string longestNiceSubstring(string s) {\n        function<string(int, int)> search = [&] (int beg, int end) -> string {\n            if (beg >= end) {\n                return \"\";\n            }\n\n            int a = 0, b = 0;\n\n            for (int i = beg; i <= end; ++i) {\n                if ('a' <= s[i] && s[i] <= 'z') {\n                    a |= 1 << (s[i] - 'a');\n                } else {\n                    b |= 1 << (s[i] - 'A');\n                }\n            }\n\n            int c = a & b;\n            int split = -1;\n\n            for (int i = beg; i <= end; ++i) {\n                int id = 'a' <= s[i] && s[i] <= 'z' ? s[i] - 'a' : s[i] - 'A';\n                if (((c >> id) & 1) == 0) {\n                    split = i;\n                    break;\n                }\n            }\n\n            if (split == -1) {\n                return s.substr(beg, end - beg + 1);\n            }\n\n            string left = search(beg, split - 1), right = search(split + 1, end);\n\n            return left.size() >= right.size() ? left : right;\n        };\n\n        return search(0, s.size() - 1);\n    }\n};\n```\n\n> **时间复杂度**：$\\mathcal{O}(n)$  \n> **空间复杂度**：$\\mathcal{O}(1)$",
+      "createdAt": "2021-02-20T16:52:28.838868+00:00",
+      "hitCount": 3114,
+      "identifier": "4nw6IK",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "onfen-zhi-suan-fa-by-boille-gpxb",
+        "title": "O(n^3)>O(nlogn)>O(n)：分治+滑窗"
+      },
+      "position": 2,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "goyu-yan-bao-li-po-jie-ye-ke-yi-shuo-shi-zdjp",
+        "title": "GO语言暴力破解，也可以说是双指针。"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "longest-nice-substring"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 16,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "you-ya-yi-dian-de-n2-jie-fa-by-r4c12-2w2s",
+      "status": "PREPUBLISH",
+      "summary": "方法一：枚举\n使用位运算。\n稍微优化一点的方案就是，如果从 i 出发最远能够到达 k，那么下一次就可以直接从 k+1 开始遍历，但是最差时间复杂度仍然是 \\mathcal{O}(n^2)。\n\n时间复杂度：\\mathcal{O}(n^2)\n空间复杂度：\\mathcal{O}(1)\n\n方法二：分治\n类似题目：395. 至少",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "优雅一点的 n^2 解法",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 6,
+        "id": 612684,
+        "viewCount": 2448
+      },
+      "uuid": "4nw6IK",
+      "videosInfo": []
+    }
+  }
+}

@@ -1,0 +1,93 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "chang_haoo",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/chang_haoo/avatar_1615688684.png",
+          "userSlug": "chang_haoo"
+        },
+        "username": "chang_haoo"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "直接Set或者Map或者用数组模拟太简单了，这里就不写了，写了点比较有意思的解法。\r\n1. 位运算\r\n>   把每一个字母映射到一个int值的二进制位上，最后与二十六个字母全满时候的状态做对比即可。\r\n```java\r\nclass Solution {\r\n    public boolean checkIfPangram(String sentence) {\r\n        int res = 0;\r\n        for ( char c : sentence.toCharArray()) {\r\n            res |= 1 << (c - 'a');\r\n            if ((res ^ 0x3ffffff) == 0) {\r\n                return true;\r\n            }\r\n        }\r\n        return false;\r\n    }\r\n}\r\n```\r\n2. 质数法\r\n>   用二十六个质数表示每一个字母，用python主要因为python的整型没上限。\r\n```python\r\nclass Solution:\r\n    def checkIfPangram(self, sentence: str) -> bool:\r\n        arr = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29,\r\n               31, 37, 41, 43, 47, 53, 59, 61, 67, 71,\r\n               73, 79, 83, 89, 97, 101]\r\n        res = 1\r\n        for c in sentence:\r\n            if res % arr[ord(c) - 97] != 0:\r\n                res *= arr[ord(c) - 97]\r\n        if res == 232862364358497360900063316880507363070:\r\n            return True\r\n        return False\r\n```",
+      "createdAt": "2021-04-18T12:45:47.545326+00:00",
+      "hitCount": 2523,
+      "identifier": "acEhQb",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "c-shuang-100-by-newlife_with-dj72",
+        "title": "C++ 双100%"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "check-if-the-sentence-is-pangram"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 22,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "wei-yun-suan-zhi-shu-ji-shu-zhi-neng-zai-mu0c",
+      "status": "PUBLISHED",
+      "summary": "直接Set或者Map或者用数组模拟太简单了，这里就不写了，写了点比较有意思的解法。\n\n位运算\n\n\n把每一个字母映射到一个int值的二进制位上，最后与二十六个字母全满时候的状态做对比即可。\n\n\n质数法\n\n\n用二十六个质数表示每一个字母，用python主要因为python的整型没上限。",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Bit Manipulation",
+          "nameTranslated": "位运算",
+          "slug": "bit-manipulation",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "质数",
+          "nameTranslated": "",
+          "slug": "zhi-shu",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "",
+      "title": "【位运算 & 质数计数】只能在简单题里面找点乐子了",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 10,
+        "id": 729796,
+        "viewCount": 2168
+      },
+      "uuid": "acEhQb",
+      "videosInfo": []
+    }
+  }
+}

@@ -1,0 +1,76 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "罅隙.",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/xia-xi-uc/avatar_1635058350.png",
+          "userSlug": "xia-xi-uc"
+        },
+        "username": "xia-xi-uc"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n首先我们将小时都化为分钟便于统一处理。唯一棘手的问题是两端的时间长短判断，对此我们只需判断是将这两个时间看成是1天\n时间短还是看成两天时间短即可\n\n### 代码\n\n```c\nint strToint(char*s)\n{\n    int h = 0;\n    int m = 0; \n    for(int i = 0; i < 2; i++)\n    {\n        h = h * 10 + s[i] - '0';\n    }\n    for(int i = 3; i < 5; i++)\n    {\n        m = m * 10 + s[i] - '0';\n    }\n    return h * 60 + m;\n}\n\nint cmp(void* a, void* b)\n{\n    return *(int*)a > *(int*)b;    \n}\n\nint findMinDifference(char ** timePoints, int timePointsSize)\n{\n    int m[timePointsSize];\n    int len = timePointsSize - 1;\n    for(int i = 0; i < timePointsSize; i++)\n    {\n        m[i] = strToint(timePoints[i]);\n    }\n    qsort(m, timePointsSize, sizeof(int), &cmp);\n    int min_1 = 0;//考虑边界情况\n    int min_2 = 24 * 60;\n    min_1 = m[0] + 24 * 60 - m[len] > m[len] - m[0]? m[len] - m[0]: m[0] + 24 * 60 - m[len];\n    for(int i = 0; i < len ;i++)//for语句的判断限制条件出错\n    {\n        if(m[i + 1] - m[i] < min_2)\n            min_2 = m[i+1] - m[i];\n    }\n    return  min_1 < min_2? min_1:min_2;\n}\n```\n![image.png](https://pic.leetcode-cn.com/1637039331-FxUvaL-image.png)\n",
+      "createdAt": "2021-11-16T05:12:50.371174+00:00",
+      "hitCount": 166,
+      "identifier": "bLBj8v",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "539-zui-xiao-shi-jian-chai-ha-xi-biao-by-gyy4",
+        "title": "539. 最小时间差（哈希表）"
+      },
+      "position": 2,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "zhi-yao-wo-de-dai-ma-gou-duan-mian-shi-g-d4q7",
+        "title": "只要我的代码够短，面试官就会觉得🐂🖊"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "minimum-time-difference"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "chun-cyu-yan-jian-dan-yi-dong-gua-he-xia-m90x",
+      "status": "PUBLISHED",
+      "summary": "解题思路\n首先我们将小时都化为分钟便于统一处理。唯一棘手的问题是两端的时间长短判断，对此我们只需判断是将这两个时间看成是1天\n时间短还是看成两天时间短即可\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "C",
+          "nameTranslated": "",
+          "slug": "c",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1637039331-FxUvaL-image.png",
+      "title": "【纯C语言】简单易懂，适合小白",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1104637,
+        "viewCount": 128
+      },
+      "uuid": "bLBj8v",
+      "videosInfo": []
+    }
+  }
+}

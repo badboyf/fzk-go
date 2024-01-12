@@ -1,0 +1,93 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "EUY",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/euyvvl/avatar_1635000444.png",
+          "userSlug": "euyvvl"
+        },
+        "username": "EUYVVL"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n![QAQ.png](https://pic.leetcode-cn.com/1634895230-mvaWTQ-QAQ.png)\n\n**一道简单的哈希表的题**\n1. 使用4个哈希表分别记录行,列,左上到右下,右上到左下的每一条路的个数;\n2. 这里在记录的时候,会有点坑,有的时候lamps里会出现两次点亮相同的坐标,这个时候需要判断这个坐标在之前是否已经点亮过;\n3. 每一次进行queries的时候,如果进行查询的坐标的周围的八个坐标出现在lamps里,需要将这个坐标进行移除;\n### 代码\n\n```cpp\nclass Solution {\npublic:\n    unordered_map<int,int>umpR;\n    unordered_map<int,int>umpC;\n    unordered_map<int,int>umpL_R;\n    unordered_map<int,int>umpR_L;\n    set<long long>st;\n    int dir[9][2]={{1,0},{-1,0},{0,1},{0,-1},{1,-1},{1,1},{-1,1},{-1,-1},{0,0}};\n    vector<int> gridIllumination(int n, vector<vector<int>>& lamps, vector<vector<int>>& queries) {\n        vector<int>res;\n        int N=lamps.size();\n        for(auto& vc:lamps){\n            long long index=(long long)(vc[0]*(long long)n)+(long long)vc[1];\n            if(st.find(index)!=st.end()){\n                continue;\n            }\n            int L_R=vc[0]-vc[1];\n            int R_L=vc[0]+vc[1];\n            umpL_R[L_R]++;\n            umpR_L[R_L]++;\n            umpR[vc[0]]++;\n            umpC[vc[1]]++;\n            st.insert(vc[0]*(long long)n+vc[1]);\n        }\n        for(auto& vc:queries){\n            int L_R1=vc[0]-vc[1];\n            int R_L1=vc[0]+vc[1];\n            bool Flag1=umpR.count(vc[0]);\n            bool Flag2=umpC.count(vc[1]);\n            bool Flag3=umpL_R.count(L_R1);\n            bool Flag4=umpR_L.count(R_L1);\n            if((!Flag1&&!Flag2&&!Flag3&&!Flag4)){\n                res.push_back(0);\n            }\n            else{\n                res.push_back(1);\n            }\n            for(int k=0;k<9;k++){\n                int x=vc[0]+dir[k][0];\n                int y=vc[1]+dir[k][1];\n                if(x<0||x>=n||y<0||y>=n){\n                    continue;\n                }\n                if(st.find(x*(long long)n+y)!=st.end()){\n                    st.erase(x*n+y);\n                    umpR[x]--;\n                    if(umpR[x]<=0){\n                        umpR.erase(x);\n                    }\n                    umpC[y]--;\n                    if(umpC[y]<=0){\n                        umpC.erase(y);\n                    }\n                    umpL_R[x-y]--;\n                    if(umpL_R[x-y]<=0){\n                        umpL_R.erase(x-y);\n                    }\n                    umpR_L[x+y]--;\n                    if(umpR_L[x+y]<=0){\n                        umpR_L.erase(x+y);\n                    }\n                }\n            }\n        }\n        return res;\n    }\n};\n```",
+      "createdAt": "2021-10-22T09:33:27.847152+00:00",
+      "hitCount": 74,
+      "identifier": "tnUYXw",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "1001-cjian-dan-yi-dong-de-duo-ha-xi-biao-ztwu",
+        "title": "1001. c++简单易懂的多哈希表解法"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "grid-illumination"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "ha-xi-biao-setji-he-by-euyvvl-46x6",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n一道简单的哈希表的题\n\n使用4个哈希表分别记录行,列,左上到右下,右上到左下的每一条路的个数;\n这里在记录的时候,会有点坑,有的时候lamps里会出现两次点亮相同的坐标,这个时候需要判断这个坐标在之前是否已经点亮过;\n每一次进行queries的时候,如果进行查询的坐标的周围的八个坐标出现在lamps里,需要将",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Array",
+          "nameTranslated": "数组",
+          "slug": "array",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Hash Table",
+          "nameTranslated": "哈希表",
+          "slug": "hash-table",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Set",
+          "nameTranslated": "",
+          "slug": "set",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1634895230-mvaWTQ-QAQ.png",
+      "title": "哈希表+set集合",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1061420,
+        "viewCount": 60
+      },
+      "uuid": "tnUYXw",
+      "videosInfo": []
+    }
+  }
+}

@@ -1,0 +1,107 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "EUY",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/euyvvl/avatar_1635000444.png",
+          "userSlug": "euyvvl"
+        },
+        "username": "EUYVVL"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n**一道简单的BFS+矩阵的模拟题**\n### 代码\n\n```cpp\nclass Solution {\npublic:\n    int dir[4][2]={{-1,0},{1,0},{0,1},{0,-1}};\n    vector<vector<int>> highestPeak(vector<vector<int>>& isWater) {\n        int R=isWater.size();\n        int C=isWater[0].size();\n        queue<pair<int,int>>que;\n        unordered_set<int>ust;\n        vector<vector<int>>res(R,vector<int>(C,0));\n        for(int i=0;i<R;i++){\n            for(int j=0;j<C;j++){\n                if(isWater[i][j]==0){\n                    continue;\n                }\n                que.push({i*C+j,0});\n                ust.insert(i*C+j);\n            }\n        }\n        while(!que.empty()){\n            auto [d,h]=que.front();\n            que.pop();\n            int x=d/C;\n            int y=d%C;\n            for(int i=0;i<4;i++){\n                int xx=x+dir[i][0];\n                int yy=y+dir[i][1];\n                //如果以前遍历过这一个点,那么这个点肯定要按照之前的那个值,而不是现在这个值;\n                if(xx>=0&&xx<R&&yy>=0&&yy<C&&isWater[xx][yy]==0&&ust.find(xx*C+yy)==ust.end()){\n                    ust.insert(xx*C+yy);\n                    que.push({xx*C+yy,h+1});\n                    res[xx][yy]=h+1;\n                }\n            }\n        }        \n        return res;\n    }\n};\n```",
+      "createdAt": "2021-11-18T11:49:48.324878+00:00",
+      "hitCount": 19,
+      "identifier": "tgkAv5",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "bfs-by-rain-ru-iqhs",
+        "title": "bfs"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "map-of-highest-peak"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "bfs-by-euyvvl-8hei",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n一道简单的BFS+矩阵的模拟题\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Array",
+          "nameTranslated": "数组",
+          "slug": "array",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Math",
+          "nameTranslated": "数学",
+          "slug": "math",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Matrix",
+          "nameTranslated": "矩阵",
+          "slug": "matrix",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "BFS",
+          "nameTranslated": "",
+          "slug": "bfs",
+          "tagType": "ADDITIONAL_TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Set",
+          "nameTranslated": "",
+          "slug": "set",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "",
+      "title": "BFS",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1109118,
+        "viewCount": 18
+      },
+      "uuid": "tgkAv5",
+      "videosInfo": []
+    }
+  }
+}

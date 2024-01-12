@@ -1,0 +1,83 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "我不是匠人",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/yaojunboy/avatar_1627783832.png",
+          "userSlug": "ac_wllysc"
+        },
+        "username": "ac_wllysc"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "## 分析\r\n- 题目：\r\n    - [1786. 从第一个节点出发到最后一个节点的受限路径数](/problems/number-of-restricted-paths-from-first-to-last-node/)\r\n- 思路：\r\n    - 先求出从终点$n$到每个点的最短路，然后按照受限约束，从后往前递推出总方案数。\r\n- 参考视频：\r\n    - [花花酱讲解视频](https://www.bilibili.com/video/BV1Df4y147TB?from=search&seid=13895121544620164690&spm_id_from=333.337.0.0)\r\n## 代码\r\n```c\r\nclass Solution {\r\npublic:\r\n    using PII = pair<int, int>;\r\n    int countRestrictedPaths(int n, vector<vector<int>>& edges) {\r\n        // 从n往1求最短路径，然后求每个节点上的组合种类\r\n        vector<vector<PII>> g(n+1);\r\n        for(auto const& e: edges) {\r\n            g[e[0]].emplace_back(e[1], e[2]);\r\n            g[e[1]].emplace_back(e[0], e[2]);\r\n        }\r\n        // dijkstra\r\n        \r\n        vector<int> dist(n+1, INT_MAX), f(n+1);\r\n        const int MOD = 1e9+7;\r\n         // vector<int> dist(n + 1, INT_MAX / 2);\r\n        dist[n] = 0;\r\n        priority_queue<PII, vector<PII>, std::greater<PII>> pq;\r\n        pq.emplace(0, n);\r\n        f[n] = 1;\r\n        while (!pq.empty()) {\r\n            // 要删除的元素 不能取引用 否则会报vector类似的恶心错误\r\n          // 这个bug找半天，const auto &[d, u] = pq.top()\r\n             const auto [d, u] = pq.top(); pq.pop();\r\n            if(d > dist[u]) continue;\r\n            for(auto [v, w]: g[u]) {\r\n                if(dist[v] > dist[u] + w){\r\n                    pq.emplace(dist[v] = dist[u] + w, v);\r\n                }\r\n                if(dist[v] > dist[u]) {\r\n                    f[v] = (f[v] + f[u]) % MOD;\r\n                }\r\n            }\r\n    }\r\n        return f[1];\r\n    }\r\n};\r\n```\r\n",
+      "createdAt": "2021-11-20T09:41:02.510701+00:00",
+      "hitCount": 44,
+      "identifier": "kOhuW8",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "dijkstrazui-duan-lu-tuo-bu-pai-xu-javasc-jquy",
+        "title": "dijkstra最短路 + 拓扑排序 | JavaScript"
+      },
+      "position": 31,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "javaji-yi-hua-sou-suo-by-soap88-8p0r",
+        "title": "java记忆化搜索"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "number-of-restricted-paths-from-first-to-last-node"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "1786-cong-di-yi-ge-jie-dian-chu-fa-dao-z-9zu9",
+      "status": "PUBLISHED",
+      "summary": "分析\n\n题目：\n\n1786. 从第一个节点出发到最后一个节点的受限路径数\n\n\n思路：\n\n先求出从终点n到每个点的最短路，然后按照受限约束，从后往前递推出总方案数。\n\n\n参考视频：\n\n花花酱讲解视频\n\n\n\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Shortest Path",
+          "nameTranslated": "最短路",
+          "slug": "shortest-path",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "1786. 从第一个节点出发到最后一个节点的受限路径数【231周赛T3】【Dijkstra】",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1112384,
+        "viewCount": 26
+      },
+      "uuid": "kOhuW8",
+      "videosInfo": []
+    }
+  }
+}

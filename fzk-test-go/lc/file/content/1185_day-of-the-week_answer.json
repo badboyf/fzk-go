@@ -1,0 +1,72 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "罅隙.",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/xia-xi-uc/avatar_1635058350.png",
+          "userSlug": "xia-xi-uc"
+        },
+        "username": "xia-xi-uc"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n查日历可以知道，1971年的1月1日是星期5，因此我们只需求给定日期距离其实时间过去了多少天即可推算出星期几\n\n### 代码\n\n```c\nbool is_leap(int year)//判断闰年\n{\n    return (year % 400 == 0) || (year % 4 == 0 && year % 100 != 0);\n}\n\nchar * dayOfTheWeek(int day, int month, int year)\n{\n    char* ans[] = {\"Sunday\", \"Monday\", \"Tuesday\", \"Wednesday\", \"Thursday\", \"Friday\", \"Saturday\"};\n    int m[13] = {0,31,28,31,30,31,30,31,31,30,31,30,31};\n    int sum= 0;\n    for(int i = 1971; i < year; i++)\n    {\n        if(is_leap(i))\n            sum += 366;\n        else\n            sum += 365;\n    }\n\n    for(int i = 1; i < month; i++)\n    {\n        sum += m[i];\n    }\n\n    if(month > 2 && is_leap(year))//注意大于2月的情况才需要考虑是否要额外加1\n        sum += 1 + day;\n    else\n        sum += day;\n    return ans[(5 + sum - 1) % 7];\n}\n\n```\n![image.png](https://pic.leetcode-cn.com/1637374954-yKRQhg-image.png)",
+      "createdAt": "2021-11-20T02:25:26.392300+00:00",
+      "hitCount": 73,
+      "identifier": "NC8JZH",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "1185-cchao-100de-gui-lu-jie-fa-by-ffretu-etug",
+        "title": "1185. c++超100的规律解法"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "day-of-the-week"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "shua-bao-leetcode-po-su-de-si-xiang-cyu-yo2cm",
+      "status": "PUBLISHED",
+      "summary": "解题思路\n查日历可以知道，1971年的1月1日是星期5，因此我们只需求给定日期距离其实时间过去了多少天即可推算出星期几\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "C",
+          "nameTranslated": "",
+          "slug": "c",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1637374954-yKRQhg-image.png",
+      "title": "【刷爆Leetcode】朴素的思想，C语言实现，简单易懂",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 5,
+        "id": 1111664,
+        "viewCount": 58
+      },
+      "uuid": "NC8JZH",
+      "videosInfo": []
+    }
+  }
+}

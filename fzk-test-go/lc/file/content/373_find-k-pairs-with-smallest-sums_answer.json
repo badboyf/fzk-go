@@ -1,0 +1,83 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "茅十八",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/guo-dong-30/avatar_1587915243.png",
+          "userSlug": "guo-dong-30"
+        },
+        "username": "guo-dong-30"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n整体思路还是延用的剑指Offer第二册中61题的题解。何海涛yyds！\n一般Top K问题，求最小K个数用大根堆就完事了。但是这题会超时……\n超时的原因是我们没有利用起来数组已经有序这一条件！在有这个条件的前提下，可以用类似鸽巢原理（或滑动窗口？Anyway 我也不知道怎么形容了）的思路。\n\n### 代码\n\n```cpp\nclass Solution {\npublic:\n    vector<vector<int>> kSmallestPairs(vector<int>& nums1, vector<int>& nums2, int k) {\n        // 优先队列中元素类型，pair的first表示nums1中下标，second表示nums2中的下标\n        using T = pair<int, int>;\n        // 构造比较函数，目的是实现小根堆，一个pair对应的nums1和nums2的元素之和越小，越排在前面\n        auto cmp = [&nums1, &nums2](T& a, T& b) {\n            return (nums1[a.first] + nums2[a.second]) > (nums1[b.first] + nums2[b.second]);\n        };\n        // 优先队列（小根堆）\n        priority_queue<T, deque<T>, decltype(cmp)> q(cmp);\n\n        /*       第一部分         */\n        if (nums2.size() > 0) {\n            // 从nums1中取k个和nums2的第0号元素配对\n            for (int i = 0; i < min<int>(k, nums1.size()); ++i) { \n                q.emplace(i, 0);\n            }\n        }\n        // 上述操作，不需要从nums1中取多于k个的元素（那必然不是最小的k个中的）\n\n        vector<vector<int>> ans;\n        /*       第二部分         */\n        for (int i = 0; i < k && !q.empty(); ++i) {\n            // 取出最小的下标对\n            auto& [x, y] = q.top();\n            ans.push_back({nums1[x], nums2[y]});\n            // nums2中的下标+1 （nums1中下标不用加，因为第一部分都加过了）\n            if (y+1 < nums2.size()) {\n                q.emplace(x, y+1);\n            }\n            q.pop(); // 最后pop，因为我们的x和y是引用，在前面任何一个位置pop了，都会导致下面用到x和y的时候数据不准！\n        }\n        return ans;\n    }\n};\n```\n如果这个题解对你有帮助，欢迎关注我吧！\n![灵笼.jpg](https://pic.leetcode-cn.com/1636040469-ynsizo-%E7%81%B5%E7%AC%BC.jpg)\n",
+      "createdAt": "2021-11-04T15:41:20.860885+00:00",
+      "hitCount": 361,
+      "identifier": "YJs8RH",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "c-mei-ban-dai-ma-ban-yun-dui-by-xioacd99-b4w5",
+        "title": "C++ 美版代码搬运 堆"
+      },
+      "position": 2,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "zui-da-dui-he-zui-xiao-dui-shi-xian-by-m-c1mj",
+        "title": "最大堆和最小堆实现"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "find-k-pairs-with-smallest-sums"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "cwu-chao-shi-quan-zhu-shi-ban-by-guo-don-obpt",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n整体思路还是延用的剑指Offer第二册中61题的题解。何海涛yyds！\n一般Top K问题，求最小K个数用大根堆就完事了。但是这题会超时……\n超时的原因是我们没有利用起来数组已经有序这一条件！在有这个条件的前提下，可以用类似鸽巢原理（或滑动窗口？Anyway 我也不知道怎么形容了）的思路。\n代码\n如果这个题解",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Heap (Priority Queue)",
+          "nameTranslated": "堆（优先队列）",
+          "slug": "heap-priority-queue",
+          "tagType": "TOPIC"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1636040469-ynsizo-%E7%81%B5%E7%AC%BC.jpg",
+      "title": "C++无超时，全注释版",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 1,
+        "id": 1084722,
+        "viewCount": 276
+      },
+      "uuid": "YJs8RH",
+      "videosInfo": []
+    }
+  }
+}

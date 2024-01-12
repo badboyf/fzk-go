@@ -1,0 +1,7 @@
+go mod init fzk-go2
+go mod tidy
+
+
+
+打包
+go build

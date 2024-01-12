@@ -1,0 +1,76 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "我是老王不要慌",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/wanglongjiang/avatar_1615683406.png",
+          "userSlug": "wanglongjiang"
+        },
+        "username": "wanglongjiang"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n思路：二分查找\nk最大可能是piles中的最大值（h与piles.length相同时）\nk最小可能是1\n所以可以用二分查找，在1..max(piles)中选择一个值mid，\n用piles[i]除以mid得到这堆香蕉能吃多长时间，一次猜测过程中需要合计所有的时间time\n如果time<=h，时间有富裕，需要继续缩小mid的大小\n如果time>h,时间不够，需要增加mid的大小\n\n时间复杂度：O(nlogn)\n空间复杂度：O(1)\n### 代码\n\n```python3\nclass Solution:\n    def minEatingSpeed(self, piles: List[int], h: int) -> int:\n        n = len(piles)\n        start, end = 1, max(piles)\n        while start < end:\n            mid = (start + end) // 2\n            time = 0\n            for i in range(n):\n                time += (piles[i] + mid - 1) // mid\n            if time <= h:\n                end = mid\n            else:\n                start = mid + 1\n        return end\n```",
+      "createdAt": "2021-09-29T00:32:37.546293+00:00",
+      "hitCount": 550,
+      "identifier": "Mt3Cq4",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "c-er-fen-cha-zhao-miao-dong-073-fei-fei-xetfw",
+        "title": "C++ 二分查找 秒懂（073. 狒狒吃香蕉）"
+      },
+      "position": 2,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "jian-zhi-ii-073fei-fei-chi-xiang-jiao-by-3lir",
+        "title": "剑指II 073狒狒吃香蕉"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "nZZqjQ"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "er-fen-cha-zhao-by-wanglongjiang-udga",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n思路：二分查找\nk最大可能是piles中的最大值（h与piles.length相同时）\nk最小可能是1\n所以可以用二分查找，在1..max(piles)中选择一个值mid，\n用piles[i]除以mid得到这堆香蕉能吃多长时间，一次猜测过程中需要合计所有的时间time\n如果time<=h，时间有富裕，需要继续",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Binary Search",
+          "nameTranslated": "二分查找",
+          "slug": "binary-search",
+          "tagType": "TOPIC"
+        }
+      ],
+      "thumbnail": "",
+      "title": "二分查找",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1023303,
+        "viewCount": 426
+      },
+      "uuid": "Mt3Cq4",
+      "videosInfo": []
+    }
+  }
+}

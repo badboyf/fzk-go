@@ -1,0 +1,131 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣官方题解",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/leetcode-solution/avatar_1582018938.png",
+          "userSlug": "leetcode-solution"
+        },
+        "username": "LeetCode-Solution"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 前言\n\n本题是「[91. 解码方法](https://leetcode-cn.com/problems/decode-ways/)」的进阶题目。\n\n#### 方法一：动态规划\n\n**思路与算法**\n\n对于给定的字符串 $s$，设它的长度为 $n$，其中的字符从左到右依次为 $s[1], s[2], \\cdots, s[n]$。我们可以使用动态规划的方法计算出字符串 $s$ 的解码方法数。\n\n具体地，设 $f_i$ 表示字符串 $s$ 的前 $i$ 个字符 $s[1..i]$ 的解码方法数。在进行状态转移时，我们可以考虑最后一次解码使用了 $s$ 中的哪些字符，那么会有下面的两种情况：\n\n- 第一种情况是我们使用了一个字符，即 $s[i]$ 进行解码，那么：\n\n    - 如果 $s[i]$ 为 $*$，那么它对应着 $[1, 9]$ 中的任意一种编码，有 $9$ 种方案。因此状态转移方程为：\n\n    $$\n    f_i = 9 \\times f_{i-1}\n    $$\n\n    - 如果 $s[i]$ 为 $0$，那么它无法被解码。因此状态转移方程为：\n\n    $$\n    f_i = 0\n    $$\n\n    - 对于其它的情况，$s[i] \\in [1, 9]$，分别对应一种编码。因此状态转移方程为：\n    \n    $$\n    f_i = f_{i-1}\n    $$\n\n- 第二种情况是我们使用了两个字符，即 $s[i-1]$ 和 $s[i]$ 进行编码。与第一种情况类似，我们需要进行分类讨论：\n\n    - 如果 $s[i-1]$ 和 $s[i]$ 均为 $*$，那么它们对应着 $[11,19]$ 以及 $[21, 26]$ 中的任意一种编码，有 $15$ 种方案。因此状态转移方程为：\n\n    $$\n    f_i = 15 \\times f_{i-2}\n    $$\n\n    - 如果仅有 $s[i-1]$ 为 $*$，那么当 $s[i] \\in [0, 6]$ 时，$s[i-1]$ 可以选择 $1$ 和 $2$；当 $s[i] \\in [7, 9]$ 时，$s[i-1]$ 只能选择 $1$。因此状态转移方程为：\n\n    $$\n    f_i = \\begin{cases}\n    2 \\times f_{i-2}, & \\quad s[i-1] \\in [1, 6] \\\\\n    f_{i-2}, & \\quad s[i-1] \\in [7, 9]\n    \\end{cases}\n    $$\n\n    - 如果仅有 $s[i]$ 为 $*$，那么当 $s[i-1]$ 为 $1$ 时，$s[i]$ 可以在 $[1, 9]$ 中进行选择；当 $s[i-1]$ 为 $2$ 时，$s[i]$ 可以在 $[1, 6]$ 中进行选择；对于其余情况，它们无法被解码。因此状态转移方程为：\n\n    $$\n    f_i = \\begin{cases}\n    9 \\times f_{i-2}, & \\quad s[i] = 1 \\\\\n    6 \\times f_{i-2}, & \\quad s[i] = 2 \\\\\n    0, & \\quad \\text{otherwise}\n    \\end{cases}\n    $$\n\n    - 如果 $s[i-1]$ 和 $s[i]$ 均不为 $*$，那么只有 $s[i-1]$ 不为 $0$ 并且 $s[i-1]$ 和 $s[i]$ 组成的数字小于等于 $26$ 时，它们才能被解码。因此状态转移方程为：\n\n    $$\n    f_i = \\begin{cases}\n    f_{i-2}, & \\quad s[i-1] \\neq 0 \\wedge \\overline{s[i-1]s[i]} \\leq 26 \\\\\n    0, & \\quad \\text{otherwise}\n    \\end{cases}\n    $$\n\n将上面的两种状态转移方程在对应的条件满足时进行累加，即可得到 $f_i$ 的值。在动态规划完成后，最终的答案即为 $f_n$。\n\n**细节**\n\n动态规划的边界条件为：\n\n$$\nf_0 = 1\n$$\n\n即**空字符串可以有 $1$ 种解码方法，解码出一个空字符串**。\n\n同时，由于在大部分语言中，字符串的下标是从 $0$ 而不是 $1$ 开始的，因此在代码的编写过程中，我们需要将所有字符串的下标减去 $1$，与使用的语言保持一致。\n\n最终的状态转移方程可以写成：\n\n$$\nf_i = \\alpha \\times f_{i-1} + \\beta \\times f_{i-2}\n$$\n\n的形式。为了使得代码更加易读，我们可以使用两个辅助函数，给定对应的一个或两个字符，分别计算出 $\\alpha$ 和 $\\beta$ 的值。\n\n注意到在状态转移方程中，$f_i$ 的值仅与 $f_{i-1}$ 和 $f_{i-2}$ 有关，因此我们可以使用三个变量进行状态转移，省去数组的空间。\n\n**代码**\n\n```C++ [sol1-C++]\nclass Solution {\nprivate:\n    static constexpr int mod = 1000000007;\n\npublic:\n    int numDecodings(string s) {\n        auto check1digit = [](char ch) -> int {\n            if (ch == '0') {\n                return 0;\n            }\n            return ch == '*' ? 9 : 1;\n        };\n\n        auto check2digits = [](char c0, char c1) -> int {\n            if (c0 == '*' && c1 == '*') {\n                return 15;\n            }\n            if (c0 == '*') {\n                return c1 <= '6' ? 2 : 1;\n            }\n            if (c1 == '*') {\n                if (c0 == '1') {\n                    return 9;\n                }\n                if (c0 == '2') {\n                    return 6;\n                }\n                return 0;\n            }\n            return c0 != '0' && (c0 - '0') * 10 + (c1 - '0') <= 26;\n        };\n\n        int n = s.size();\n        // a = f[i-2], b = f[i-1], c = f[i]\n        int a = 0, b = 1, c = 0;\n        for (int i = 1; i <= n; ++i) {\n            c = (long long)b * check1digit(s[i - 1]) % mod;\n            if (i > 1) {\n                c = (c + (long long)a * check2digits(s[i - 2], s[i - 1])) % mod;\n            }\n            a = b;\n            b = c;\n        }\n        return c;\n    }\n};\n```\n\n```Java [sol1-Java]\nclass Solution {\n    static final int MOD = 1000000007;\n\n    public int numDecodings(String s) {\n        int n = s.length();\n        // a = f[i-2], b = f[i-1], c = f[i]\n        long a = 0, b = 1, c = 0;\n        for (int i = 1; i <= n; ++i) {\n            c = b * check1digit(s.charAt(i - 1)) % MOD;\n            if (i > 1) {\n                c = (c + a * check2digits(s.charAt(i - 2), s.charAt(i - 1))) % MOD;\n            }\n            a = b;\n            b = c;\n        }\n        return (int) c;\n    }\n\n    public int check1digit(char ch) {\n        if (ch == '0') {\n            return 0;\n        }\n        return ch == '*' ? 9 : 1;\n    }\n\n    public int check2digits(char c0, char c1) {\n        if (c0 == '*' && c1 == '*') {\n            return 15;\n        }\n        if (c0 == '*') {\n            return c1 <= '6' ? 2 : 1;\n        }\n        if (c1 == '*') {\n            if (c0 == '1') {\n                return 9;\n            }\n            if (c0 == '2') {\n                return 6;\n            }\n            return 0;\n        }\n        return (c0 != '0' && (c0 - '0') * 10 + (c1 - '0') <= 26) ? 1 : 0;\n    }\n}\n```\n\n```C# [sol1-C#]\npublic class Solution {\n    const int MOD = 1000000007;\n\n    public int NumDecodings(string s) {\n        int n = s.Length;\n        // a = f[i-2], b = f[i-1], c = f[i]\n        long a = 0, b = 1, c = 0;\n        for (int i = 1; i <= n; ++i) {\n            c = b * Check1digit(s[i - 1]) % MOD;\n            if (i > 1) {\n                c = (c + a * Check2digits(s[i - 2], s[i - 1])) % MOD;\n            }\n            a = b;\n            b = c;\n        }\n        return (int) c;\n    }\n\n    public int Check1digit(char ch) {\n        if (ch == '0') {\n            return 0;\n        }\n        return ch == '*' ? 9 : 1;\n    }\n\n    public int Check2digits(char c0, char c1) {\n        if (c0 == '*' && c1 == '*') {\n            return 15;\n        }\n        if (c0 == '*') {\n            return c1 <= '6' ? 2 : 1;\n        }\n        if (c1 == '*') {\n            if (c0 == '1') {\n                return 9;\n            }\n            if (c0 == '2') {\n                return 6;\n            }\n            return 0;\n        }\n        return (c0 != '0' && (c0 - '0') * 10 + (c1 - '0') <= 26) ? 1 : 0;\n    }\n}\n```\n\n```Python [sol1-Python3]\nclass Solution:\n    def numDecodings(self, s: str) -> int:\n        mod = 10**9 + 7\n        \n        def check1digit(ch: str) -> int:\n            if ch == \"0\":\n                return 0\n            return 9 if ch == \"*\" else 1\n        \n        def check2digits(c0: str, c1: str) -> int:\n            if c0 == c1 == \"*\":\n                return 15\n            if c0 == \"*\":\n                return 2 if c1 <= \"6\" else 1\n            if c1 == \"*\":\n                return 9 if c0 == \"1\" else (6 if c0 == \"2\" else 0)\n            return int(c0 != \"0\" and int(c0) * 10 + int(c1) <= 26)\n\n        n = len(s)\n        # a = f[i-2], b = f[i-1], c = f[i]\n        a, b, c = 0, 1, 0\n        for i in range(1, n + 1):\n            c = b * check1digit(s[i - 1])\n            if i > 1:\n                c += a * check2digits(s[i - 2], s[i - 1])\n            c %= mod\n            a = b\n            b = c\n        \n        return c\n```\n\n```JavaScript [sol1-JavaScript]\nvar numDecodings = function(s) {\n    const MOD = 1000000007;\n    const n = s.length;\n    // a = f[i-2], b = f[i-1], c = f[i]\n    let a = 0, b = 1, c = 0;\n    for (let i = 1; i <= n; ++i) {\n        c = b * check1digit(s[i - 1]) % MOD;\n        if (i > 1) {\n            c = (c + a * check2digits(s[i - 2], s[i - 1])) % MOD;\n        }\n        a = b;\n        b = c;\n    }\n    return c;\n}\n\nconst check1digit = (ch) => {\n    if (ch === '0') {\n        return 0;\n    }\n    return ch === '*' ? 9 : 1;\n}\n\nconst check2digits = (c0, c1) => {\n    if (c0 === '*' && c1 === '*') {\n        return 15;\n    }\n    if (c0 === '*') {\n        return c1.charCodeAt() <= '6'.charCodeAt() ? 2 : 1;\n    }\n    if (c1 === '*') {\n        if (c0 === '1') {\n            return 9;\n        }\n        if (c0 === '2') {\n            return 6;\n        }\n        return 0;\n    }\n    return (c0 !== '0' && (c0.charCodeAt() - '0'.charCodeAt()) * 10 + (c1.charCodeAt() - '0'.charCodeAt()) <= 26) ? 1 : 0;\n}\n```\n\n```go [sol1-Golang]\nfunc check1digit(ch byte) int {\n    if ch == '*' {\n        return 9\n    }\n    if ch == '0' {\n        return 0\n    }\n    return 1\n}\n\nfunc check2digits(c0, c1 byte) int {\n    if c0 == '*' && c1 == '*' {\n        return 15\n    }\n    if c0 == '*' {\n        if c1 <= '6' {\n            return 2\n        }\n        return 1\n    }\n    if c1 == '*' {\n        if c0 == '1' {\n            return 9\n        }\n        if c0 == '2' {\n            return 6\n        }\n        return 0\n    }\n    if c0 != '0' && (c0-'0')*10+(c1-'0') <= 26 {\n        return 1\n    }\n    return 0\n}\n\nfunc numDecodings(s string) int {\n    const mod int = 1e9 + 7\n    a, b, c := 0, 1, 0\n    for i := range s {\n        c = b * check1digit(s[i]) % mod\n        if i > 0 {\n            c = (c + a*check2digits(s[i-1], s[i])) % mod\n        }\n        a, b = b, c\n    }\n    return c\n}\n```\n\n**复杂度分析**\n\n- 时间复杂度：$O(n)$，其中 $n$ 是字符串 $s$ 的长度。\n\n- 空间复杂度：$O(1)$。",
+      "createdAt": "2021-09-26T15:44:32.702686+00:00",
+      "hitCount": 23393,
+      "identifier": "QnOmDP",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "gong-shui-san-xie-fen-qing-kuang-tao-lun-902h",
+        "title": "【宫水三叶】一题双解 :「分情况讨论 DP」&「枚举 DP」"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "decode-ways-ii"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 40,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 5,
+          "reactionType": "AWESOME"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "CONFUSED"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "jie-ma-fang-fa-ii-by-leetcode-solution-23af",
+      "status": "PREPUBLISH",
+      "summary": "前言 本题是「91. 解码方法」的进阶题目。 方法一：动态规划 思路与算法 对于给定的字符串 $s$，设它的长度为 $n$，其中的字符从左到右依次为 $s[1], s[2], \\cdots, s[n]$。我们可以使用动态规划的方法计算出字符串 $s$ 的解码方法数。 具体地，设 $f_i$ 表示字符串 $s$ 的前 $",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "String",
+          "nameTranslated": "字符串",
+          "slug": "string",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Dynamic Programming",
+          "nameTranslated": "动态规划",
+          "slug": "dynamic-programming",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C#",
+          "nameTranslated": "",
+          "slug": "csharp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Go",
+          "nameTranslated": "",
+          "slug": "golang",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "JavaScript",
+          "nameTranslated": "",
+          "slug": "javascript",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "解码方法 II",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 100,
+        "id": 1019436,
+        "viewCount": 14928
+      },
+      "uuid": "QnOmDP",
+      "videosInfo": []
+    }
+  }
+}

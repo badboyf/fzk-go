@@ -1,0 +1,76 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "simpleqin",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/simpleqin/avatar_1567340731.png",
+          "userSlug": "simpleqin"
+        },
+        "username": "simpleqin"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "题目是要求所有子序列的最大公约数去重后的个数，观察数量级，肯定不能枚举所有子序列，因此我们可以从另一个角度出发，枚举所有可能的最大公约数，判断是否为某个子序列的公约数。\n因此，我们要解决的问题就是如何判断一个数是否为某个子序列的公约数。\n我们可以采用类似素数筛的方式，枚举每一个数i，判断2*i、3*i、4*i…..的公约数是否为i，如果为i，则贡献加一。\n筛法的复杂度为n/1 + n/2 + n/3 + … + n/n，渐进为O(n * logn)，而gcd的复杂度为O(logn)，所以总复杂度为O(n * logn * logn)。\n有了以上思路，代码就可以很容易的写出来。\n\n```\nclass Solution {\npublic:\n    int f[200010];\n    int gcd(int a,int b)\n    {\n        if(b == 0)\n            return a;\n        return gcd(b,a%b);\n    }\n    int countDifferentSubsequenceGCDs(vector<int>& nums) \n    {\n        int maxn = 0;\n        memset(f,0,sizeof(f));\n        int ans = 0;\n        for(int i=0;i<nums.size();i++)\n        {\n            maxn = max(maxn,nums[i]);\n            f[nums[i]]++;\n            if(f[nums[i]] == 1)\n                ans++;\n        }\n        for(int i=1;i<=maxn;i++)\n        {\n            if(f[i])\n                continue;\n            int g = 0;\n            for(int j=i;j<=maxn;j+=i)\n            {\n                if(f[j])\n                {\n                    g = gcd(j,g);\n                    if(g == i)\n                        break;\n                }\n            }\n            if(g == i)\n                ans++;\n        }\n        \n        return ans;\n    }\n};\n```\n",
+      "createdAt": "2021-04-04T04:08:05.021175+00:00",
+      "hitCount": 1576,
+      "identifier": "UtAvrk",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "gen-ju-da-lao-si-lu-ju-li-jiang-jie-bian-adhb",
+        "title": "根据大佬思路，举例讲解，便于更好理解"
+      },
+      "position": 3,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "kao-lu-mei-yi-ge-shu-shi-fou-ke-yi-cheng-2sb2",
+        "title": "考虑每一个数是否可以成为某个子序列的最大公因数即可，代码简短"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "number-of-different-subsequences-gcds"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 12,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "lei-su-shu-shai-fa-by-simpleqin-kpc4",
+      "status": "PREPUBLISH",
+      "summary": "题目是要求所有子序列的最大公约数去重后的个数，观察数量级，肯定不能枚举所有子序列，因此我们可以从另一个角度出发，枚举所有可能的最大公约数，判断是否为某个子序列的公约数。\n因此，我们要解决的问题就是如何判断一个数是否为某个子序列的公约数。\n我们可以采用类似素数筛的方式，枚举每一个数i，判断2i、3i、4*i…..的公约数",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "类素数筛法",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 9,
+        "id": 699102,
+        "viewCount": 1181
+      },
+      "uuid": "UtAvrk",
+      "videosInfo": []
+    }
+  }
+}

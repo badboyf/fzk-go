@@ -1,0 +1,89 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "Xianxian",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/chen-qi-xian/avatar_1630669423.png",
+          "userSlug": "chen-qi-xian"
+        },
+        "username": "chen-qi-xian"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "竞赛时受到曾经做过的一道题 [Leetcode 5.最长回文子串](https://leetcode-cn.com/problems/longest-palindromic-substring/) 的启发，进行简单修改，即可得到满足题意的解法。\n\n**【解题思路】**\n由于题目限制word2子串拼接在word1子串的后面，因此可以先将两个字符串拼接成一个大字符串`word = word1 + word2`，而后即可转化成对word求解最长回文子串问题。但本题的难点在于，需要保证word1和word2的子串非空，这就需要对最长回文子串问题的解法进行一定的改进。\n首先定义状态：`dp[i][j]`表示在word中，以下标i起始到下标j结尾的连续子串中，最长回文子串的长度。\n故可以根据`word[i]` `word[j]`是否相等进行状态转移：\n写出状态转移方程：\n- `word[i] == word[j] : dp[i][j] = dp[i+1][j-1] + 2;`\n- `word[i] != word[j] : dp[i][j] = max(dp[i][j-1], dp[i+1][j]);`\n\n本题只需再增加一个小小的限制，即更新最长回文串的时机需要保证i和j两个下标分别属于word1和word2两段。\n而我们知道只有当`word[i] == word[j]`时才有可能同时取到word1和word2里的字符，\n因此只有当`word[i] == word[j]`时，我们才更新最长回文子串长度即可。\n\n最后要注意一个细节：就是对于word1 = \"a\" word2 = \"a\"这种用例，需要特殊判断word1的最后一个字符是否与word2第一个字符相等，若相等则res初始化为2.\n\n```C++ []\nclass Solution {\npublic:\n    int longestPalindrome(string w1, string w2) {\n        int l1 = w1.size(), l2 = w2.size(), len = l1 + l2;\n        // 拼接w1 w2得到一个完整的字符串w\n        string w = w1 + w2;\n        vector<vector<int>> dp(len, vector<int>(len, 0));\n        // 特殊判断word1的最后一个字符是否与word2第一个字符相等，若相等则res初始化为2.\n        int res = (w[l1-1] == w[l1]) ? 2: 0;\n        // 以下与计算最长回文子串解法一致\n        for(int i = 0 ; i < len ; i ++) {\n            dp[i][i] = 1;\n        }\n        for(int i = 0 ; i < len - 1 ; i ++) {\n            dp[i][i+1] = (w[i] == w[i+1])? 2: 1;\n        }\n        \n        for(int l = 2 ; l < len ; l ++) {\n            for(int i = 0 ; i + l < len ; i ++) {\n                int j = i + l;\n                if(w[i] == w[j]) {\n                    dp[i][j] = dp[i+1][j-1] + 2;\n                    // 唯一的区别就在于当两端字符相等更新最长回文子串时\n                    // 若 i j 分别属于两个字符串，才更新最终结果值\n                    if(i < l1 && j >= l1){\n                        res = max(res, dp[i][j]);\n                    }\n                }\n                else {\n                    dp[i][j] = max(dp[i][j-1], dp[i+1][j]);\n                }\n            }\n        }\n        return res;\n    }\n};\n```\n\n",
+      "createdAt": "2021-02-21T04:28:26.221937+00:00",
+      "hitCount": 2652,
+      "identifier": "MoayIe",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "zui-chang-hui-wen-zi-xu-lie-xian-zhi-tia-g6nx",
+        "title": "1771. 最长回文子序列+限制条件"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "maximize-palindrome-length-from-subsequences"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 32,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 3,
+          "reactionType": "AWESOME"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "CONFUSED"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "dong-tai-gui-hua-jie-jue-hui-wen-chuan-w-yfvc",
+      "status": "PREPUBLISH",
+      "summary": "竞赛时受到曾经做过的一道题 Leetcode 5.最长回文子串 的启发，进行简单修改，即可得到满足题意的解法。\n【解题思路】\n由于题目限制word2子串拼接在word1子串的后面，因此可以先将两个字符串拼接成一个大字符串word = word1 + word2，而后即可转化成对word求解最长回文子串问题。但本题的难点",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Dynamic Programming",
+          "nameTranslated": "动态规划",
+          "slug": "dynamic-programming",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "动态规划解决回文串问题",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 11,
+        "id": 613160,
+        "viewCount": 1930
+      },
+      "uuid": "MoayIe",
+      "videosInfo": []
+    }
+  }
+}

@@ -1,0 +1,62 @@
+{
+  "data": {
+    "question": {
+      "__typename": "QuestionNode",
+      "book": null,
+      "boundTopicId": 2643,
+      "categoryTitle": "Database",
+      "codeSnippets": null,
+      "companyTagStats": null,
+      "content": null,
+      "contributors": [],
+      "dailyRecordStatus": null,
+      "difficulty": "Medium",
+      "dislikes": 0,
+      "editorType": "CKEDITOR",
+      "enableRunCode": true,
+      "envInfo": "{\"mysql\":[\"MySQL\",\"<p>\\u7248\\u672c\\uff1a<code>MySQL 8.0<\\/code><\\/p>\"],\"mssql\":[\"MS SQL Server\",\"<p>mssql server 2019.<\\/p>\"],\"oraclesql\":[\"Oracle\",\"<p>Oracle Sql 11.2.<\\/p>\"]}",
+      "exampleTestcases": "{\"headers\":{\"Insurance\":[\"pid\",\"tiv_2015\",\"tiv_2016\",\"lat\",\"lon\"]},\"rows\":{\"Insurance\":[[1,10,5,10,10],[2,20,20,20,20],[3,10,30,20,20],[4,10,40,40,40]]}}",
+      "hints": [
+        "Make the (LAT, LON) a pair to represent the location information"
+      ],
+      "isDailyQuestion": false,
+      "isLiked": null,
+      "isPaidOnly": true,
+      "isSubscribed": false,
+      "judgeType": "large",
+      "judgerAvailable": true,
+      "langToValidPlayground": null,
+      "likes": 38,
+      "metaData": "{\n  \"mysql\": [\n    \"Create Table If Not Exists Insurance (pid int, tiv_2015 float, tiv_2016 float, lat float, lon float)\"\n  ],\n  \"mssql\": [\n    \"Create Table Insurance (pid int, tiv_2015 float, tiv_2016 float, lat float, lon float)\"\n  ],\n  \"oraclesql\": [\n    \"Create Table Insurance (pid int, tiv_2015 float, tiv_2016 float, lat float, lon float)\"\n  ],\n  \"database\": true\n}",
+      "mysqlSchemas": [
+        "Create Table If Not Exists Insurance (pid int, tiv_2015 float, tiv_2016 float, lat float, lon float)",
+        "Truncate table Insurance",
+        "insert into Insurance (pid, tiv_2015, tiv_2016, lat, lon) values ('1', '10', '5', '10', '10')",
+        "insert into Insurance (pid, tiv_2015, tiv_2016, lat, lon) values ('2', '20', '20', '20', '20')",
+        "insert into Insurance (pid, tiv_2015, tiv_2016, lat, lon) values ('3', '10', '30', '20', '20')",
+        "insert into Insurance (pid, tiv_2015, tiv_2016, lat, lon) values ('4', '10', '40', '40', '40')"
+      ],
+      "questionFrontendId": "585",
+      "questionId": "585",
+      "sampleTestCase": "{\"headers\":{\"Insurance\":[\"pid\",\"tiv_2015\",\"tiv_2016\",\"lat\",\"lon\"]},\"rows\":{\"Insurance\":[[1,10,5,10,10],[2,20,20,20,20],[3,10,30,20,20],[4,10,40,40,40]]}}",
+      "similarQuestions": "[]",
+      "solution": null,
+      "stats": "{\"totalAccepted\": \"9K\", \"totalSubmission\": \"15.5K\", \"totalAcceptedRaw\": 9002, \"totalSubmissionRaw\": 15458, \"acRate\": \"58.2%\"}",
+      "status": null,
+      "style": "LEETCODE",
+      "title": "Investments in 2016",
+      "titleSlug": "investments-in-2016",
+      "topicTags": [
+        {
+          "__typename": "TopicTagNode",
+          "name": "Database",
+          "slug": "database",
+          "translatedName": "数据库"
+        }
+      ],
+      "translatedContent": null,
+      "translatedTitle": "2016年的投资",
+      "ugcQuestionId": null
+    }
+  }
+}

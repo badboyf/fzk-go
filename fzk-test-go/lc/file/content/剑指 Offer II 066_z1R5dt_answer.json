@@ -1,0 +1,79 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "Veyron",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/da-jia-hao-158/avatar_1598412397.png",
+          "userSlug": "da-jia-hao-158"
+        },
+        "username": "da-jia-hao-158"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "```\r\nclass MapSum {\r\npublic:\r\n    MapSum *children[26];//前缀树的数据结构，存储每个单词的字母\r\n    int word;\r\n    /** Initialize your data structure here. */\r\n    MapSum() {\r\n        memset(children,0,sizeof(children));\r\n        word = 0;\r\n    }\r\n    \r\n    void insert(string key, int val) {//把输入的单词，放入树中（每个字母开辟一片空间）\r\n        MapSum *node = this;\r\n        for(auto tmp:key){\r\n            if(node->children[tmp-'a'] == NULL){\r\n                node->children[tmp-'a'] = new MapSum();\r\n            }\r\n            node = node->children[tmp-'a'];\r\n        }\r\n        node->word = val;//单词存完后，把随带的数字存到末尾\r\n    }\r\n    \r\n    int sum(string prefix) {\r\n        int sum = 0;\r\n        MapSum *node = this;\r\n        for(auto tmp:prefix){\r\n            if(node->children[tmp-'a'] == NULL)\r\n                return 0;\r\n            node = node->children[tmp-'a'];\r\n        }\r\n        //先把当前的prefix遍历完，走完所有前缀。然后从最后一个字母出发，把所有同前缀的数字加上\r\n        //用递归的方式，深度遍历树\r\n        return getSum(node);\r\n    }\r\n\r\n    int getSum(MapSum *node){\r\n        if(node == NULL)return 0;\r\n        int res = node->word;//先把到当前字母的值存下来（如果有的话）\r\n        for(auto tmp:node->children){//遍历这个节点的所有子节点\r\n            res+=getSum(tmp);//把子节点的值都汇集起来\r\n        }\r\n        return res;\r\n    }\r\n};\r\n\r\n/**\r\n * Your MapSum object will be instantiated and called as such:\r\n * MapSum* obj = new MapSum();\r\n * obj->insert(key,val);\r\n * int param_2 = obj->sum(prefix);\r\n */\r\n```\r\n",
+      "createdAt": "2021-10-21T14:12:09.855605+00:00",
+      "hitCount": 137,
+      "identifier": "lQ5i2Q",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "jian-zhi-offer-2-mian-shi-ti-66-shu-zhon-yv9r",
+        "title": "《剑指offer 2 面试题66》 书中算法C++实现"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "z1R5dt"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "c-qian-zhui-shu-miao-dong-066-dan-ci-zhi-nc2j",
+      "status": "PREPUBLISH",
+      "summary": "[该用户太懒了，只写了 50 行代码]",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Trie",
+          "nameTranslated": "字典树",
+          "slug": "trie",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "C++ 前缀树 秒懂 （066. 单词之和）",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1060035,
+        "viewCount": 124
+      },
+      "uuid": "lQ5i2Q",
+      "videosInfo": []
+    }
+  }
+}

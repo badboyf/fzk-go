@@ -1,0 +1,72 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "qwf",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/default_avatar.png",
+          "userSlug": "qwf"
+        },
+        "username": "qwf"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\nBFS逐层遍历，逐层判断\n\n### 代码\n\n```cpp\n/**\n * Definition for a binary tree node.\n * struct TreeNode {\n *     int val;\n *     TreeNode *left;\n *     TreeNode *right;\n *     TreeNode() : val(0), left(nullptr), right(nullptr) {}\n *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}\n *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}\n * };\n */\nclass Solution {\npublic:\n    bool isEvenOddTree(TreeNode* root) {\n        if(root == NULL){\n            return true;\n        }\n        queue<TreeNode*> q;\n        q.push(root);\n        int level = 0;\n        while(!q.empty()){\n            int num = q.size(); // 当前level层的节点数\n            int pre = -1; // 服务于条件2，存前一位的数值\n            while(num--){\n                TreeNode* t = q.front();\n                q.pop();\n                if(t->val % 2 != (1 - level % 2)){ // 条件1：奇偶数\n                    return false;\n                }\n                if(pre != -1){\n                    bool res = (level % 2 == 0) ? (pre < t->val) : (pre > t->val); // 条件2：递增/递减\n                    if(!res){\n                        return false;\n                    }\n                }\n                pre = t->val;\n                if(t->left){\n                    q.push(t->left);\n                }\n                if(t->right){\n                    q.push(t->right);\n                }\n            }\n            level++;\n        }\n        return true;\n    }\n};\n```",
+      "createdAt": "2021-11-23T09:55:15.445245+00:00",
+      "hitCount": 10,
+      "identifier": "8xrLAM",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "bfsceng-xu-bian-li-zhu-ceng-pan-duan-ji-vfci2",
+        "title": "BFS层序遍历，逐层判断即可"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "even-odd-tree"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "bfs-dai-ma-zheng-ji-yi-dong-by-qwf-qrz6",
+      "status": "PUBLISHED",
+      "summary": "解题思路\nBFS逐层遍历，逐层判断\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "BFS + 代码整洁易懂",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1118069,
+        "viewCount": 10
+      },
+      "uuid": "8xrLAM",
+      "videosInfo": []
+    }
+  }
+}

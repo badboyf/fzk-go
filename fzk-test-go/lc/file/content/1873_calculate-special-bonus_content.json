@@ -1,0 +1,61 @@
+{
+  "data": {
+    "question": {
+      "__typename": "QuestionNode",
+      "book": null,
+      "boundTopicId": 794609,
+      "categoryTitle": "Database",
+      "codeSnippets": null,
+      "companyTagStats": null,
+      "content": null,
+      "contributors": [],
+      "dailyRecordStatus": null,
+      "difficulty": "Easy",
+      "dislikes": 0,
+      "editorType": "CKEDITOR",
+      "enableRunCode": true,
+      "envInfo": "{\"mysql\":[\"MySQL\",\"<p>\\u7248\\u672c\\uff1a<code>MySQL 8.0<\\/code><\\/p>\"],\"mssql\":[\"MS SQL Server\",\"<p>mssql server 2019.<\\/p>\"],\"oraclesql\":[\"Oracle\",\"<p>Oracle Sql 11.2.<\\/p>\"]}",
+      "exampleTestcases": "{\"headers\":{\"Employees\":[\"employee_id\",\"name\",\"salary\"]},\"rows\":{\"Employees\":[[2,\"Meir\",3000],[3,\"Michael\",3800],[7,\"Addilyn\",7400],[8,\"Juan\",6100],[9,\"Kannon\",7700]]}}",
+      "hints": [],
+      "isDailyQuestion": false,
+      "isLiked": null,
+      "isPaidOnly": true,
+      "isSubscribed": false,
+      "judgeType": "large",
+      "judgerAvailable": true,
+      "langToValidPlayground": null,
+      "likes": 8,
+      "metaData": "{\n  \"mysql\": [\n    \"Create table If Not Exists Employees (employee_id int, name varchar(30), salary int)\"\n  ],\n  \"mssql\": [\n    \"Create table Employees (employee_id int, name varchar(30), salary int)\"\n  ],\n  \"oraclesql\": [\n    \"Create table Employees (employee_id int, name varchar(30), salary int)\"\n  ],\n  \"database\": true\n}",
+      "mysqlSchemas": [
+        "Create table If Not Exists Employees (employee_id int, name varchar(30), salary int)",
+        "Truncate table Employees",
+        "insert into Employees (employee_id, name, salary) values ('2', 'Meir', '3000')",
+        "insert into Employees (employee_id, name, salary) values ('3', 'Michael', '3800')",
+        "insert into Employees (employee_id, name, salary) values ('7', 'Addilyn', '7400')",
+        "insert into Employees (employee_id, name, salary) values ('8', 'Juan', '6100')",
+        "insert into Employees (employee_id, name, salary) values ('9', 'Kannon', '7700')"
+      ],
+      "questionFrontendId": "1873",
+      "questionId": "2024",
+      "sampleTestCase": "{\"headers\":{\"Employees\":[\"employee_id\",\"name\",\"salary\"]},\"rows\":{\"Employees\":[[2,\"Meir\",3000],[3,\"Michael\",3800],[7,\"Addilyn\",7400],[8,\"Juan\",6100],[9,\"Kannon\",7700]]}}",
+      "similarQuestions": "[]",
+      "solution": null,
+      "stats": "{\"totalAccepted\": \"2.5K\", \"totalSubmission\": \"3K\", \"totalAcceptedRaw\": 2471, \"totalSubmissionRaw\": 3026, \"acRate\": \"81.7%\"}",
+      "status": null,
+      "style": "LEETCODE",
+      "title": "Calculate Special Bonus",
+      "titleSlug": "calculate-special-bonus",
+      "topicTags": [
+        {
+          "__typename": "TopicTagNode",
+          "name": "Database",
+          "slug": "database",
+          "translatedName": "数据库"
+        }
+      ],
+      "translatedContent": null,
+      "translatedTitle": "计算特殊奖金",
+      "ugcQuestionId": null
+    }
+  }
+}

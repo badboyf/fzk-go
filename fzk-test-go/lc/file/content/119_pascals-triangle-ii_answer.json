@@ -1,0 +1,122 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣官方题解",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/leetcode-solution/avatar_1582018938.png",
+          "userSlug": "leetcode-solution"
+        },
+        "username": "LeetCode-Solution"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法一：递推\n\n杨辉三角，是二项式系数在三角形中的一种几何排列。它是中国古代数学的杰出研究成果之一，它把二项式系数图形化，把组合数内在的一些代数性质直观地从图形中体现出来，是一种离散型的数与形的结合。\n\n杨辉三角具有以下性质：\n\n1. 每行数字左右对称，由 $1$ 开始逐渐变大再变小，并最终回到 $1$。\n\n2. 第 $n$ 行（从 $0$ 开始编号）的数字有 $n+1$ 项，前 $n$ 行共有 $\\frac{n(n+1)}{2}$ 个数。\n\n3. 第 $n$ 行的第 $m$ 个数（从 $0$ 开始编号）可表示为可以被表示为组合数 $\\mathcal{C}(n,m)$，记作 $\\mathcal{C}_n^m$ 或 $\\binom{n}{m}$，即为从 $n$ 个不同元素中取 $m$ 个元素的组合数。我们可以用公式来表示它：$\\mathcal{C}_n^m=\\dfrac{n!}{m!(n-m)!}$\n\n4. 每个数字等于上一行的左右两个数字之和，可用此性质写出整个杨辉三角。即第 $n$ 行的第 $i$ 个数等于第 $n-1$ 行的第 $i-1$ 个数和第 $i$ 个数之和。这也是组合数的性质之一，即 $\\mathcal{C}_n^i=\\mathcal{C}_{n-1}^i+\\mathcal{C}_{n-1}^{i-1}$。\n\n5. $(a+b)^n$ 的展开式（二项式展开）中的各项系数依次对应杨辉三角的第 $n$ 行中的每一项。\n\n依据性质 $4$，我们可以一行一行地计算杨辉三角。每当我们计算出第 $i$ 行的值，我们就可以在线性时间复杂度内计算出第 $i+1$ 行的值。\n\n**代码**\n\n```C++ [sol1-C++]\nclass Solution {\npublic:\n    vector<int> getRow(int rowIndex) {\n        vector<vector<int>> C(rowIndex + 1);\n        for (int i = 0; i <= rowIndex; ++i) {\n            C[i].resize(i + 1);\n            C[i][0] = C[i][i] = 1;\n            for (int j = 1; j < i; ++j) {\n                C[i][j] = C[i - 1][j - 1] + C[i - 1][j];\n            }\n        }\n        return C[rowIndex];\n    }\n};\n```\n\n```Java [sol1-Java]\nclass Solution {\n    public List<Integer> getRow(int rowIndex) {\n        List<List<Integer>> C = new ArrayList<List<Integer>>();\n        for (int i = 0; i <= rowIndex; ++i) {\n            List<Integer> row = new ArrayList<Integer>();\n            for (int j = 0; j <= i; ++j) {\n                if (j == 0 || j == i) {\n                    row.add(1);\n                } else {\n                    row.add(C.get(i - 1).get(j - 1) + C.get(i - 1).get(j));\n                }\n            }\n            C.add(row);\n        }\n        return C.get(rowIndex);\n    }\n}\n```\n\n```go [sol1-Golang]\nfunc getRow(rowIndex int) []int {\n    C := make([][]int, rowIndex+1)\n    for i := range C {\n        C[i] = make([]int, i+1)\n        C[i][0], C[i][i] = 1, 1\n        for j := 1; j < i; j++ {\n            C[i][j] = C[i-1][j-1] + C[i-1][j]\n        }\n    }\n    return C[rowIndex]\n}\n```\n\n```JavaScript [sol1-JavaScript]\nvar getRow = function(rowIndex) {\n    const C = new Array(rowIndex + 1).fill(0);\n    for (let i = 0; i <= rowIndex; ++i) {\n        C[i] = new Array(i + 1).fill(0);\n        C[i][0] = C[i][i] = 1;\n        for (let j = 1; j < i; j++) {\n            C[i][j] = C[i - 1][j - 1] + C[i - 1][j];\n        }\n    }\n    return C[rowIndex];\n};\n```\n\n```C [sol1-C]\nint* getRow(int rowIndex, int* returnSize) {\n    *returnSize = rowIndex + 1;\n    int* C[rowIndex + 1];\n    for (int i = 0; i <= rowIndex; ++i) {\n        C[i] = malloc(sizeof(int) * (i + 1));\n        C[i][0] = C[i][i] = 1;\n        for (int j = 1; j < i; ++j) {\n            C[i][j] = C[i - 1][j - 1] + C[i - 1][j];\n        }\n    }\n    return C[rowIndex];\n}\n```\n\n**优化**\n\n注意到对第 $i+1$ 行的计算仅用到了第 $i$ 行的数据，因此可以使用**滚动数组**的思想优化空间复杂度。\n\n```C++ [sol2-C++]\nclass Solution {\npublic:\n    vector<int> getRow(int rowIndex) {\n        vector<int> pre, cur;\n        for (int i = 0; i <= rowIndex; ++i) {\n            cur.resize(i + 1);\n            cur[0] = cur[i] = 1;\n            for (int j = 1; j < i; ++j) {\n                cur[j] = pre[j - 1] + pre[j];\n            }\n            pre = cur;\n        }\n        return pre;\n    }\n};\n```\n\n```Java [sol2-Java]\nclass Solution {\n    public List<Integer> getRow(int rowIndex) {\n        List<Integer> pre = new ArrayList<Integer>();\n        for (int i = 0; i <= rowIndex; ++i) {\n            List<Integer> cur = new ArrayList<Integer>();\n            for (int j = 0; j <= i; ++j) {\n                if (j == 0 || j == i) {\n                    cur.add(1);\n                } else {\n                    cur.add(pre.get(j - 1) + pre.get(j));\n                }\n            }\n            pre = cur;\n        }\n        return pre;\n    }\n}\n```\n\n```go [sol2-Golang]\nfunc getRow(rowIndex int) []int {\n    var pre, cur []int\n    for i := 0; i <= rowIndex; i++ {\n        cur = make([]int, i+1)\n        cur[0], cur[i] = 1, 1\n        for j := 1; j < i; j++ {\n            cur[j] = pre[j-1] + pre[j]\n        }\n        pre = cur\n    }\n    return pre\n}\n```\n\n```JavaScript [sol2-JavaScript]\nvar getRow = function(rowIndex) {\n    let pre = [], cur = [];\n    for (let i = 0; i <= rowIndex; ++i) {\n        cur = new Array(i + 1).fill(0);\n        cur[0] = cur[i] =1;\n        for (let j = 1; j < i; ++j) {\n            cur[j] = pre[j - 1] + pre[j];\n        }\n        pre = cur;\n    }\n    return pre;\n};\n```\n\n```C [sol2-C]\nint* getRow(int rowIndex, int* returnSize) {\n    *returnSize = rowIndex + 1;\n    int* pre = malloc(sizeof(int) * (*returnSize));\n    memset(pre, 0, sizeof(int) * (*returnSize));\n    int* cur = malloc(sizeof(int) * (*returnSize));\n    memset(cur, 0, sizeof(int) * (*returnSize));\n    for (int i = 0; i <= rowIndex; ++i) {\n        cur[0] = cur[i] = 1;\n        for (int j = 1; j < i; ++j) {\n            cur[j] = pre[j - 1] + pre[j];\n        }\n        int* tmp = pre;\n        pre = cur;\n        cur = tmp;\n    }\n    return pre;\n}\n```\n\n**进一步优化**\n\n能否只用一个数组呢？\n\n递推式 $\\mathcal{C}_n^i=\\mathcal{C}_{n-1}^i+\\mathcal{C}_{n-1}^{i-1}$ 表明，当前行第 $i$ 项的计算只与上一行第 $i-1$ 项及第 $i$ 项有关。因此我们可以倒着计算当前行，这样计算到第 $i$ 项时，第 $i-1$ 项仍然是上一行的值。\n\n```C++ [sol3-C++]\nclass Solution {\npublic:\n    vector<int> getRow(int rowIndex) {\n        vector<int> row(rowIndex + 1);\n        row[0] = 1;\n        for (int i = 1; i <= rowIndex; ++i) {\n            for (int j = i; j > 0; --j) {\n                row[j] += row[j - 1];\n            }\n        }\n        return row;\n    }\n};\n```\n\n```Java [sol3-Java]\nclass Solution {\n    public List<Integer> getRow(int rowIndex) {\n        List<Integer> row = new ArrayList<Integer>();\n        row.add(1);\n        for (int i = 1; i <= rowIndex; ++i) {\n            row.add(0);\n            for (int j = i; j > 0; --j) {\n                row.set(j, row.get(j) + row.get(j - 1));\n            }\n        }\n        return row;\n    }\n}\n```\n\n```go [sol3-Golang]\nfunc getRow(rowIndex int) []int {\n    row := make([]int, rowIndex+1)\n    row[0] = 1\n    for i := 1; i <= rowIndex; i++ {\n        for j := i; j > 0; j-- {\n            row[j] += row[j-1]\n        }\n    }\n    return row\n}\n```\n\n```JavaScript [sol3-JavaScript]\nvar getRow = function(rowIndex) {\n    const row = new Array(rowIndex + 1).fill(0);\n    row[0] = 1;\n    for (let i = 1; i <= rowIndex; ++i) {\n        for (let j = i; j > 0; --j) {\n            row[j] += row[j - 1];\n        }\n    }\n    return row;\n};\n```\n\n```C [sol3-C]\nint* getRow(int rowIndex, int* returnSize) {\n    *returnSize = rowIndex + 1;\n    int* row = malloc(sizeof(int) * (*returnSize));\n    memset(row, 0, sizeof(int) * (*returnSize));\n    row[0] = 1;\n    for (int i = 1; i <= rowIndex; ++i) {\n        for (int j = i; j > 0; --j) {\n            row[j] += row[j - 1];\n        }\n    }\n    return row;\n}\n```\n\n**复杂度分析**\n\n- 时间复杂度：$O(\\textit{rowIndex}^2)$。\n\n- 空间复杂度：$O(1)$。不考虑返回值的空间占用。\n\n#### 方法二：线性递推\n\n由组合数公式 $\\mathcal{C}_n^m=\\dfrac{n!}{m!(n-m)!}$，可以得到同一行的相邻组合数的关系\n\n$$\\mathcal{C}_n^m= \\mathcal{C}_n^{m-1} \\times \\dfrac{n-m+1}{m}$$\n\n由于 $\\mathcal{C}_n^0=1$，利用上述公式我们可以在线性时间计算出第 $n$ 行的所有组合数。\n\n**代码**\n\n```C++ [sol4-C++]\nclass Solution {\npublic:\n    vector<int> getRow(int rowIndex) {\n        vector<int> row(rowIndex + 1);\n        row[0] = 1;\n        for (int i = 1; i <= rowIndex; ++i) {\n            row[i] = 1LL * row[i - 1] * (rowIndex - i + 1) / i;\n        }\n        return row;\n    }\n};\n```\n\n```Java [sol4-Java]\nclass Solution {\n    public List<Integer> getRow(int rowIndex) {\n        List<Integer> row = new ArrayList<Integer>();\n        row.add(1);\n        for (int i = 1; i <= rowIndex; ++i) {\n            row.add((int) ((long) row.get(i - 1) * (rowIndex - i + 1) / i));\n        }\n        return row;\n    }\n}\n```\n\n```go [sol4-Golang]\nfunc getRow(rowIndex int) []int {\n    row := make([]int, rowIndex+1)\n    row[0] = 1\n    for i := 1; i <= rowIndex; i++ {\n        row[i] = row[i-1] * (rowIndex - i + 1) / i\n    }\n    return row\n}\n```\n\n```JavaScript [sol4-JavaScript]\nvar getRow = function(rowIndex) {\n    const row = new Array(rowIndex + 1).fill(0);\n    row[0] = 1;\n    for (let i = 1; i <= rowIndex; ++i) {\n        row[i] = row[i - 1] * (rowIndex - i + 1) / i;\n    }\n    return row;\n};\n```\n\n```C [sol4-C]\nint* getRow(int rowIndex, int* returnSize) {\n    *returnSize = rowIndex + 1;\n    int* row = malloc(sizeof(int) * (*returnSize));\n    row[0] = 1;\n    for (int i = 1; i <= rowIndex; ++i) {\n        row[i] = 1LL * row[i - 1] * (rowIndex - i + 1) / i;\n    }\n    return row;\n}\n```\n\n**复杂度分析**\n\n- 时间复杂度：$O(\\textit{rowIndex})$。\n\n- 空间复杂度：$O(1)$。不考虑返回值的空间占用。",
+      "createdAt": "2021-02-11T10:34:44.797705+00:00",
+      "hitCount": 50011,
+      "identifier": "yZAZdV",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "tong-su-yi-dong-yi-bian-jiu-hui-de-pa-si-ok71",
+        "title": "通俗易懂 一遍就会的 帕斯卡三角形！"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "pascals-triangle-ii"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 53,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 4,
+          "reactionType": "AWESOME"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 4,
+          "reactionType": "CONFUSED"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "THUMBS_DOWN"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "yang-hui-san-jiao-ii-by-leetcode-solutio-shuk",
+      "status": "PREPUBLISH",
+      "summary": "方法一：递推 杨辉三角，是二项式系数在三角形中的一种几何排列。它是中国古代数学的杰出研究成果之一，它把二项式系数图形化，把组合数内在的一些代数性质直观地从图形中体现出来，是一种离散型的数与形的结合。 杨辉三角具有以下性质： 每行数字左右对称，由 $1$ 开始逐渐变大再变小，并最终回到 $1$。 第 $n$ 行（从 $0",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Math",
+          "nameTranslated": "数学",
+          "slug": "math",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C",
+          "nameTranslated": "",
+          "slug": "c",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Go",
+          "nameTranslated": "",
+          "slug": "golang",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "JavaScript",
+          "nameTranslated": "",
+          "slug": "javascript",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "杨辉三角 II",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 141,
+        "id": 601082,
+        "viewCount": 35866
+      },
+      "uuid": "yZAZdV",
+      "videosInfo": []
+    }
+  }
+}

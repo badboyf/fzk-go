@@ -1,0 +1,93 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "Jomheo",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/jomheo/avatar_1619411394.png",
+          "userSlug": "jomheo"
+        },
+        "username": "jomheo"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "```go\nfunc countNicePairs(nums []int) int {\n\tres := 0\n\thashTable := make(map[int]int, 0)\n\tfor _, val := range nums {\n\t\thashTable[val-rev(val)]++\n\t}\n\tfor _, val := range hashTable {\n\t\tif val >= 2 {\n\t\t\tres += val * (val - 1) / 2\n\n\t\t}\n\t}\n\n\treturn res % 1000000007\n}\n\n// 反转数字\nfunc rev(a int) (res int) {\n\tfor a > 0 {\n\t\tres = res*10 + a%10\n\t\ta /= 10\n\t}\n\treturn\n}\n```",
+      "createdAt": "2021-11-13T08:24:31.061772+00:00",
+      "hitCount": 18,
+      "identifier": "s2lmkK",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "gong-shi-bian-xing-ha-xi-ji-shu-by-qwf-eff7",
+        "title": "公式变形 -> 哈希计数"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "count-nice-pairs-in-an-array"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "go-hash-by-jomheo-btq1",
+      "status": "PREPUBLISH",
+      "summary": "[该用户太懒了，只写了 24 行代码]",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Hash Table",
+          "nameTranslated": "哈希表",
+          "slug": "hash-table",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Go",
+          "nameTranslated": "",
+          "slug": "golang",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "hash",
+          "nameTranslated": "",
+          "slug": "hash",
+          "tagType": "ADDITIONAL_TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "hashmap",
+          "nameTranslated": "",
+          "slug": "hashmap",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "",
+      "title": "Go Hash",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1099409,
+        "viewCount": 13
+      },
+      "uuid": "s2lmkK",
+      "videosInfo": []
+    }
+  }
+}

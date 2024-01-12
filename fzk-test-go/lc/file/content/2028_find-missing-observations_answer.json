@@ -1,0 +1,77 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "微扰理论",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/wfnuser/avatar_1633367766.png",
+          "userSlug": "wfnuser"
+        },
+        "username": "wfnuser"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\nmean * (m + n) 求总数\nsum(rolls) 求已经有的数量\nsum = mean * (m+n) - sum(rolls) 剩下需要补充的平均分配就行\n< N * 1 或者 > N * 6 则不可能有合法分配\n\n### 代码\n\n```cpp\nclass Solution {\npublic:\n    vector<int> missingRolls(vector<int>& rolls, int mean, int n) {\n        int m = rolls.size();\n        int total = m + n;\n        int sum = total * mean;\n        int sum1 = 0;\n        for (auto r: rolls) {\n            sum1 += r;\n        }\n        int sum2 = sum - sum1;\n        vector<int> ans;\n        if (sum2 < n || sum2 > 6 * n) return ans;\n        int r = sum2 % n;\n        int v = sum2 / n;\n        \n        for (int i = 0; i < n; i++) {\n            if (i < r) {\n                ans.push_back(v+1);\n            } else {\n                ans.push_back(v);\n            } \n        }\n        \n        return ans;\n    }\n};\n```\n\n\n## 关于我\n大家好，我是微扰君。18年毕业于上海交通大学，一个在阿里、字节、腾讯都工作过的工程师，有丰富的面试经验。从 2021.4 开始在emqx从事存储研发，希望在今年多多输出。\n\n**现在是北京【悖论13】剧本杀的老板，欢迎大家来探店。**\n想了解我的店或者一起刷题的可以 +v ： constant_variation\n\n最后，如果对你有帮助，**可以点个赞支持一下我哦** 也欢迎在leetcode上[关注我](https://leetcode-cn.com/u/wfnuser/)。\n<br/>\n![image.png](https://pic.leetcode-cn.com/1632983441-PMDTfv-image.png)\n",
+      "createdAt": "2021-10-03T05:33:39.936146+00:00",
+      "hitCount": 679,
+      "identifier": "IYk763",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "java-tan-xin-on-by-ichwin-kk11",
+        "title": "Java 模拟 求平均数然后补余数 O(N)"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "find-missing-observations"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 6,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": false,
+      "slug": "wei-rao-li-lun-mo-ni-ti-zhi-jie-ping-jun-b2hm",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\nmean * (m + n) 求总数\nsum(rolls) 求已经有的数量\nsum = mean * (m+n) - sum(rolls) 剩下需要补充的平均分配就行\n< N * 1 或者 > N * 6 则不可能有合法分配\n代码\n关于我\n大家好，我是微扰君。18年毕业于上海交通大学，一个在阿里、字节、腾讯都",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1632983441-PMDTfv-image.png",
+      "title": "【微扰理论】模拟题 直接平均分配",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 3,
+        "id": 1029223,
+        "viewCount": 548
+      },
+      "uuid": "IYk763",
+      "videosInfo": []
+    }
+  }
+}

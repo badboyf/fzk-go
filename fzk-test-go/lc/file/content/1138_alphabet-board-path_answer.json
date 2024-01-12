@@ -1,0 +1,86 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "ffreturn",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/ffreturn/avatar_1608859813.png",
+          "userSlug": "ffreturn"
+        },
+        "username": "ffreturn"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "\n![image.png](https://pic.leetcode-cn.com/1635002843-GsHLMo-image.png)\n\n### 解题思路\n模拟解法\n- 如何将字符a映射到地址呢？ x=(c-'a')/5, y=(c-'a')\n- 从当前坐标（x,y）移动到目的的坐标(dx, dy)，初始坐标是0,0 ，这里考虑四种情况\n   - x < dx: D\n   - y < dy: R\n   - x > dx: U\n   - y > dy: L\n- 最后到自己就是'!'\n\n### 代码\n\n```cpp\nclass Solution {\npublic:\n    string alphabetBoardPath(string target) {\n        int x = 0;\n        int y = 0;\n\n        string res = \"\";\n        for (char c : target)\n        {\n            int dx = (c-'a') / 5;\n            int dy = (c-'a') % 5;\n\n            // 因为z很特殊，所以必须优先移动L保证可达\n            if (y > dy)\n            {\n                res += string(y-dy, 'L');\n            }\n            if (x > dx)\n            {\n                res += string(x-dx, 'U');\n            }\n            if (y < dy)\n            {\n                res += string(dy-y, 'R');\n            }\n            if (x < dx)\n            {\n                res += string(dx-x, 'D');\n            }\n\n            res += '!';\n            x = dx;\n            y = dy;\n        }\n\n        return res;\n    }\n};\n```",
+      "createdAt": "2021-10-23T15:27:56.638539+00:00",
+      "hitCount": 104,
+      "identifier": "PbNOUI",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "jian-dan-mo-ni-zuo-biao-ying-she-by-zhou-u1zf",
+        "title": "【简单模拟】【坐标映射】"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "alphabet-board-path"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "1138-cchao-100de-mo-ni-jie-fa-by-ffretur-atlh",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n模拟解法\n\n如何将字符a映射到地址呢？ x=(c-'a')/5, y=(c-'a')\n从当前坐标（x,y）移动到目的的坐标(dx, dy)，初始坐标是0,0 ，这里考虑四种情况\n\nx < dx: D\ny < dy: R\nx > dx: U\ny > dy: L\n\n\n最后到自己就是'!'\n\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "梦想",
+          "nameTranslated": "",
+          "slug": "meng-xiang",
+          "tagType": "ADDITIONAL_TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Simulation",
+          "nameTranslated": "模拟",
+          "slug": "simulation",
+          "tagType": "TOPIC"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1635002843-GsHLMo-image.png",
+      "title": "1138. c++超100的模拟解法",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1063461,
+        "viewCount": 78
+      },
+      "uuid": "PbNOUI",
+      "videosInfo": []
+    }
+  }
+}

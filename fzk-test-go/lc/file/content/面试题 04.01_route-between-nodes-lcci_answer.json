@@ -1,0 +1,86 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "vanilla111",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/vanilla111/avatar_1566265236.png",
+          "userSlug": "vanilla111"
+        },
+        "username": "vanilla111"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n\n本题典型的DFS或者BFS解题套路， 需要注意的是：**图中可能存在自环和平行边，建图的时候需要多加注意**。\n\n``` go\nfunc findWhetherExistsPath(n int, graph [][]int, start int, target int) bool {\n\t// 图中可能存在自环和平行边\n\tg := make([]map[int]bool, n)\n    for i := 0; i < n; i++ {\n        g[i] = make(map[int]bool)\n    }\n\tfor _, edge := range graph {\n\t\tif edge[0] != edge[1] {\n\t\t\tg[edge[0]][edge[1]] = true\n\t\t}\n\t}\n\t// bfs\n\tq := make([]int, 1)\n\tq[0] = start\n\tvisit := make([]bool, n)\n\tfor len(q) > 0 {\n\t\tcur := q[0]\n\t\tq = q[1:]\n\t\tif visit[cur] {\n\t\t\tcontinue\n\t\t}\n\t\tvisit[cur] = true\n\t\tif cur == target {\n\t\t\treturn true\n\t\t}\n\t\tfor k, _ := range g[cur] {\n\t\t\tif !visit[k] {\n\t\t\t\tq = append(q, k)\n\t\t\t}\n\t\t}\n\t}\n\treturn false\n}\n```\n",
+      "createdAt": "2021-10-06T14:47:38.463316+00:00",
+      "hitCount": 619,
+      "identifier": "Q8vIBF",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "mapgou-zao-lin-jie-biao-java-bfsdai-zhu-ibprb",
+        "title": "Map构造邻接表+JAVA-BFS+带注释"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "route-between-nodes-lcci"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 4,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "go-lin-jie-biao-yan-du-you-xian-sou-suo-1tzwg",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n本题典型的DFS或者BFS解题套路， 需要注意的是：图中可能存在自环和平行边，建图的时候需要多加注意。",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Go",
+          "nameTranslated": "",
+          "slug": "golang",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "BFS",
+          "nameTranslated": "",
+          "slug": "bfs",
+          "tagType": "ADDITIONAL_TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "广度优先",
+          "nameTranslated": "",
+          "slug": "yan-du-you-xian",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "",
+      "title": "Go 邻接表/广度优先搜索",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1033966,
+        "viewCount": 487
+      },
+      "uuid": "Q8vIBF",
+      "videosInfo": []
+    }
+  }
+}

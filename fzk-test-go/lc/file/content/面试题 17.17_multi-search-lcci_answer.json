@@ -1,0 +1,79 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "CheungQ",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/default_avatar.png",
+          "userSlug": "cheungq-6"
+        },
+        "username": "cheungq-6"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "1. 把`smalls`数组构建字典树\n2. 把`big`数组从第`i`位开始到结尾的子序列拿到字典树上匹配，`i`从0开始分别求解，直到结束\n3. 因为匹配的时候需要知道当前字典树上字符串结束节点是哪个字符的，所以字典树的节点需要额外记录下各自归属与`smalls`数组中对应字符串的下标\n4. 在树上匹配的过程中，但凡匹配到了一个结束字符，就在结果数组的对应这个字符串下标的子数组中插入一个当前匹配的`big`字符串子序列的开始下标\n\n\n# 代码\n```java\nclass Solution {\n    public int[][] multiSearch(String big, String[] smalls) {\n        Trie trie = new Trie();\n        trie.smallsCount = smalls.length;\n        trie.insert(smalls);\n        return trie.search(big);\n    }\n\n\n    public class Trie{\n\n        Node tree;\n        int smallsCount = 0;\n\n        public Trie(){\n            tree = new Node();\n        }\n\n        void insert(String[] strArr){\n            for (int idx = 0; idx < strArr.length; idx++) {\n                Node cur = tree;\n                String str = strArr[idx];\n                int i = -1;\n                while (++i < str.length()){\n                    int child = str.charAt(i)-'a';\n                    if (cur.children[child] == null){\n                        cur.children[child] = new Node();\n                    }\n                    cur = cur.children[child];\n                }\n                cur.flag = true;\n                cur.smallIndex = idx;\n            }\n        }\n\n        int[][] search(String str){\n            int[][] res = new int[smallsCount][];\n            List<List<Integer>> list = new ArrayList<>();\n            for (int i = 0; i < smallsCount; i++) {\n                list.add(new ArrayList<>());\n            }\n\n            for (int i = 0; i < str.length(); i++) {\n                String subStr = str.substring(i);\n                Node cur = tree;\n                int idx = -1;\n                while (cur != null && ++idx < subStr.length()){\n                    char c = subStr.charAt(idx);\n                    if (cur.children[c-'a'] != null){\n                        cur = cur.children[c-'a'];\n                        if (cur.flag){\n                            list.get(cur.smallIndex).add(i);\n                        }\n                    }else{\n                        break;\n                    }\n                }\n            }\n            for (int i = 0; i < list.size(); i++) {\n                res[i] = list.get(i).stream().mapToInt(Integer::intValue).toArray();\n            }\n            return res;\n        }\n\n\n\n\n        class Node{\n            boolean flag = false;\n            Node[] children;\n            int smallIndex = -1;\n            public Node(){\n                children = new Node[26];\n            }\n        }\n    }\n}\n```\n",
+      "createdAt": "2021-11-25T14:54:22.745375+00:00",
+      "hitCount": 12,
+      "identifier": "BjNkzY",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "mian-shi-ti-1717-duo-ci-sou-suo-python-j-61is",
+        "title": "面试题 17.17. 多次搜索，前缀树，Python + Java"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "multi-search-lcci"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "smallsshu-zu-gou-jian-zi-dian-shu-by-che-pch6",
+      "status": "PUBLISHED",
+      "summary": "把smalls数组构建字典树\n把big数组从第i位开始到结尾的子序列拿到字典树上匹配，i从0开始分别求解，直到结束\n因为匹配的时候需要知道当前字典树上字符串结束节点是哪个字符的，所以字典树的节点需要额外记录下各自归属与smalls数组中对应字符串的下标\n在树上匹配的过程中，但凡匹配到了一个结束字符，就在结果数组的对应",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Trie",
+          "nameTranslated": "字典树",
+          "slug": "trie",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "smalls数组构建字典树",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1122484,
+        "viewCount": 11
+      },
+      "uuid": "BjNkzY",
+      "videosInfo": []
+    }
+  }
+}

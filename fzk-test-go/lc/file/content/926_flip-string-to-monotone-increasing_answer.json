@@ -1,0 +1,84 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣 (LeetCode)",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/uploaded_files/2021/03/73c9f099-abbe-4d94-853f-f8abffd459cd/leetcode.png",
+          "userSlug": "leetcode"
+        },
+        "username": "LeetCode"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法一：前缀和\n\n**思路**\n\n对于一个包含 5 个数字的字符串来说，答案可能是 `'00000'`，`'00001'`，`'00011'`，`'00111'`，`'01111'`，`'11111'` 中的任何一个。可以依次原始字符串转换成每个答案的代价，其中计算分成两个部分，左边全 `0` 的部分和右边全 `1` 的部分。\n\n显然，这个问题可以简化成： 对于每种分割方法，左边有多少个 `1` 需要去反转，右边有多少个 `0` 需要去反转。\n\n对这个问题，可以用全缀和来解决。定义 `P[i+1] = A[0] + A[1] + ... + A[i]`，`P` 可以在线性时间计算出来。\n\n假设最终答案是 `x` 个 `0` 跟 `N - x` 个 `1`，那么就必须反转 `P[x]` 个 `1`， `(N-x) - (P[N] - P[x])` 个 `0`。 其中 `P[N] - P[x]` 是右边全 `1` 部分原本 `1` 的个数。\n\n**算法**\n\n举个例子，对于 `S = \"010110\"`： `P = [0, 0, 1, 1, 2, 3, 3]`。假设 `x=3`，即最终答案左边有三个 `0`。\n\n有 `P[3] = 1` 个 `1` 在左边全 `0` 部分，`P[6] - P[3] = 2` 个 `1` 在右边全 `1` 部分。\n\n所以，左边有 `P[3] = 1` 个 `1` 需要反转，右边有 `(N-x) - (P[N] - P[x]) = 1` 个 `0` 需要去反转。\n\n```java [solution1-Java]\nclass Solution {\n    public int minFlipsMonoIncr(String S) {\n        int N = S.length();\n        int[] P = new int[N + 1];\n        for (int i = 0; i < N; ++i)\n            P[i+1] = P[i] + (S.charAt(i) == '1' ? 1 : 0);\n\n        int ans = Integer.MAX_VALUE;\n        for (int j = 0; j <= N; ++j) {\n            ans = Math.min(ans, P[j] + N-j-(P[N]-P[j]));\n        }\n\n        return ans;\n    }\n}\n```\n\n```python [solution1-Python]\nclass Solution(object):\n    def minFlipsMonoIncr(self, S):\n        P = [0]\n        for x in S:\n            P.append(P[-1] + int(x))\n\n        return min(P[j] + len(S)-j-(P[-1]-P[j])\n                   for j in xrange(len(P)))\n```\n\n**复杂度分析**\n\n* 时间复杂度： $O(N)$，其中 $N$ 是 `S` 的长度。\n\n* 空间复杂度： $O(N)$。",
+      "createdAt": "2019-08-06T05:58:04.366670+00:00",
+      "hitCount": 7481,
+      "identifier": "LOr3uQ",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "c-dong-tai-gui-hua-si-lu-qing-xi-by-moun-676e",
+        "title": "C++ : 动态规划 思路清晰"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "flip-string-to-monotone-increasing"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 20,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "jiang-zi-fu-chuan-fan-zhuan-dao-dan-diao-di-zeng-b",
+      "status": "PUBLISHED",
+      "summary": "§ 方法一：前缀和\n思路\n对于一个包含 5 个数字的字符串来说，答案可能是 '00000'，'00001'，'00011'，'00111'，'01111'，'11111' 中的任何一个。可以依次原始字符串转换成每个答案的代价，其中计算分成两个部分，左边全 0 的部分和右边全 1 的部分。\n显然，这个问题可以简化成： 对",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "将字符串翻转到单调递增",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 27,
+        "id": 18757,
+        "viewCount": 5402
+      },
+      "uuid": "LOr3uQ",
+      "videosInfo": []
+    }
+  }
+}

@@ -1,0 +1,72 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "罅隙.",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/xia-xi-uc/avatar_1635058350.png",
+          "userSlug": "xia-xi-uc"
+        },
+        "username": "xia-xi-uc"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n此处撰写解题思路\n\n### 代码\n\n```c\nint maxProduct(int* nums, int numsSize)\n{\n    int max1 ;\n    int max2 ;\n    if(nums[0]>nums[1])\n    {\n        max1 = nums[0]; \n        max2 = nums[1];\n    }\n    else\n    {\n        max2 = nums[0];\n        max1 =nums[1];\n    }\n\n    for(int i = 2;i < numsSize; i++)\n    {\n        if(max1 < nums[i])\n        {\n            max2 = max1;\n            max1 = nums[i]; \n        }\n        else if(max2 < nums[i])\n        {\n            max2 = nums[i];\n        }\n    }\n    return (max1 - 1)*(max2 - 1);\n}\n```",
+      "createdAt": "2021-11-06T09:36:45.033130+00:00",
+      "hitCount": 94,
+      "identifier": "cwDrod",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "java-liang-xing-dai-ma-gao-ding-by-qiumg-hcrz",
+        "title": "JAVA　两行代码搞定"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "maximum-product-of-two-elements-in-an-array"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "jian-dan-ming-liao-cyu-yan-shi-xian-by-x-mccs",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n此处撰写解题思路\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "C",
+          "nameTranslated": "",
+          "slug": "c",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "简单明了，C语言实现",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1087480,
+        "viewCount": 84
+      },
+      "uuid": "cwDrod",
+      "videosInfo": []
+    }
+  }
+}

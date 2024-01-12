@@ -1,0 +1,74 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "杨兴元",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/user7056k/avatar_1535117469.png",
+          "userSlug": "user7056k"
+        },
+        "username": "user7056K"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路：\r\n乍一看这一题貌似毫无头绪，什么是字典序？如何定位这个数？没错，刚接触这个题目的时候，我的脑筋里也是一团乱麻。\r\n\r\n但是我觉得作为一个拥有聪明才智的程序员来说，最重要的能力就是迅速抽象问题、拆解问题的能力。经过一段时间的思考，我的脑筋里还是没有答案。\r\n\r\n哈哈。\r\n\r\n言归正传，我们来分析一下这个问题。\r\n\r\n首先，什么是字典序？\r\n\r\n### 什么是字典序？\r\n简而言之，就是根据数字的前缀进行排序，\r\n\r\n比如 10 < 9，因为 10 的前缀是 1，比 9 小。\r\n\r\n再比如 112 < 12，因为 112 的前缀 11 小于 12。\r\n\r\n这样排序下来，会跟平常的升序排序会有非常大的不同。先给你一个直观的感受，一个数乘 10，或者加 1，哪个大？可能你会吃惊，后者会更大。\r\n\r\n但其实掌握它的本质之后，你一点都不会吃惊。\r\n\r\n### 问题建模：\r\n\r\n画一个图你就懂了。\r\n\r\n![](https://pic.leetcode-cn.com/2d29fc99e0e23eac3bd5a25997ffc111694e1024d24a62677decb89e15f6dfce-file_1568710778725){:width=400}\r\n\r\n每一个节点都拥有 10 个孩子节点，因为作为一个前缀 ，它后面可以接 0~9 这十个数字。而且你可以非常容易地发现，整个字典序排列也就是对十叉树进行先序遍历。1, 10,  100, 101, ... 11, 110 ... \r\n\r\n回到题目的意思，我们需要找到排在第k位的数。找到他的排位，需要搞清楚三件事情:\r\n\r\n1. 怎么确定一个前缀下所有子节点的个数？\r\n2. 如果第 k 个数在当前的前缀下，怎么继续往下面的子节点找？\r\n3. 如果第 k 个数不在当前的前缀，即当前的前缀比较小，如何扩大前缀，增大寻找的范围？\r\n\r\n接下来 ，我们一一拆解这些问题。\r\n\r\n### 理顺思路：\r\n\r\n**1. 确定指定前缀下所有子节点数**\r\n现在的任务就是给定一个前缀，返回下面子节点总数。\r\n\r\n我们现在的思路就是用下一个前缀的起点减去当前前缀的起点，那么就是当前前缀下的所有子节点数总和啦。\r\n```js [-js]\r\n//prefix是前缀，n是上界\r\nvar getCount = (prefix, n) => {\r\n    let cur = prefix;\r\n    let next = prefix + 1;//下一个前缀\r\n    let count = 0;\r\n    //当前的前缀当然不能大于上界\r\n    while(cur <= n) {\r\n        count += next - cur;//下一个前缀的起点减去当前前缀的起点\r\n        cur *= 10; \r\n        next *= 10;\r\n        // 如果说刚刚prefix是1，next是2，那么现在分别变成10和20\r\n        // 1为前缀的子节点增加10个，十叉树增加一层, 变成了两层\r\n        \r\n        // 如果说现在prefix是10，next是20，那么现在分别变成100和200，\r\n        // 1为前缀的子节点增加100个，十叉树又增加了一层，变成了三层\r\n    }\r\n    return count;//把当前前缀下的子节点和返回去。\r\n}\r\n```\r\n当然，不知道大家发现一个问题没有，当 next 的值大于上界的时候，那以这个前缀为根节点的十叉树就不是满十叉树了啊，应该到上界那里，后面都不再有子节点。因此，$count += next - cur$ 还是有些问题的，我们来修正这个问题:\r\n```js [-js]\r\ncount += Math.min(n+1, next) - cur;\r\n```\r\n你可能会问:咦？怎么是 `n+1` ,而不是 $n$ 呢？不是说好了 $n$ 是上界吗？\r\n\r\n我举个例子，假若现在上界 $n$为 12，算出以 1 为前缀的子节点数，首先 1 本身是一个节点，接下来要算下面 10，11，12，一共有 4 个子节点。\r\n\r\n那么如果用 $Math.min(n, next) - cur$ 会怎么样？\r\n\r\n这时候算出来会少一个，12 - 10 加上根节点，最后只有 3 个。因此我们务必要写 `n+1`。\r\n\r\n现在，我们搞定了前缀的子节点数问题。\r\n\r\n**2. 第k个数在当前前缀下**\r\n现在无非就是往子树里面去看。\r\n\r\nprefix这样处理就可以了。\r\n```js [-js]\r\nprefix *= 10\r\n```\r\n**3.第k个数不在当前前缀下**\r\n说白了，当前的前缀小了嘛，我们扩大前缀。\r\n```js [-js]\r\nprefix ++;\r\n```\r\n\r\n### 框架搭建：\r\n整合一下刚刚的思路。\r\n```js [-js]\r\nlet findKthNumber = function(n, k) {\r\n  let p = 1;//作为一个指针，指向当前所在位置，当p==k时，也就是到了排位第k的数\r\n  let prefix = 1;//前缀\r\n  while(p < k) {\r\n    let count = getNumber(prefix, n);//获得当前前缀下所有子节点的和\r\n    if(p + count > k) { //第k个数在当前前缀下\r\n      prefix *= 10;\r\n      p++; //把指针指向了第一个子节点的位置，比如11乘10后变成110，指针从11指向了110\r\n    } else if(p + count <= k) { //第k个数不在当前前缀下\r\n      prefix ++;\r\n      p += count;//注意这里的操作，把指针指向了下一前缀的起点\r\n    }\r\n  }\r\n  return prefix;\r\n};\r\n```\r\n\r\n### 完整代码展示：\r\n```js [-js]\r\n/**\r\n * @param {number} n\r\n * @param {number} k\r\n * @return {number}\r\n */\r\nvar findKthNumber = function(n, k) {\r\n  let getCount = (prefix, n) => {\r\n    let count =  0;\r\n    for(let cur = prefix, next = prefix + 1; cur <= n; cur *= 10, next *= 10) \r\n      count += Math.min(next, n+1) - cur;\r\n    return count;\r\n  }\r\n  let p = 1;\r\n  let prefix = 1;\r\n  while(p < k) {\r\n    let count = getCount(prefix, n);\r\n    if(p + count > k) {\r\n      prefix *= 10;\r\n      p++;\r\n    } else if(p + count <= k) {\r\n      prefix ++;\r\n      p += count;\r\n    }\r\n  }\r\n  return prefix;\r\n};\r\n```\r\n成功 AC！\r\n\r\n\r\n",
+      "createdAt": "2019-09-16T15:58:17.890514+00:00",
+      "hitCount": 46452,
+      "identifier": "9vzVJk",
+      "isEditorsPick": true,
+      "isMostPopular": true,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "wu-xu-jie-zhu-shi-cha-shu-ye-neng-rong-yi-li-jie-b",
+        "title": "字典序的第K小数字"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "k-th-smallest-in-lexicographical-order"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 150,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 7,
+          "reactionType": "CONFUSED"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 5,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "ben-ti-shi-shang-zui-wan-zheng-ju-ti-de-shou-mo-sh",
+      "status": "PUBLISHED",
+      "summary": "解题思路：\n乍一看这一题貌似毫无头绪，什么是字典序？如何定位这个数？没错，刚接触这个题目的时候，我的脑筋里也是一团乱麻。\n但是我觉得作为一个拥有聪明才智的程序员来说，最重要的能力就是迅速抽象问题、拆解问题的能力。经过一段时间的思考，我的脑筋里还是没有答案。\n哈哈。\n言归正传，我们来分析一下这个问题。\n首先，什么是字典序",
+      "sunk": false,
+      "tags": [],
+      "thumbnail": "https://pic.leetcode-cn.com/2d29fc99e0e23eac3bd5a25997ffc111694e1024d24a62677decb89e15f6dfce-file_1568710778725",
+      "title": "[字节跳动最常考题之一]本题史上最完整具体的手摸手解答，时间效率超越100%用户",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 68,
+        "id": 27645,
+        "viewCount": 27446
+      },
+      "uuid": "9vzVJk",
+      "videosInfo": []
+    }
+  }
+}

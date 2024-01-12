@@ -1,0 +1,83 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "不造轮子",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/hibiki-o/avatar_1625363631.png",
+          "userSlug": "freeyourmind"
+        },
+        "username": "FreeYourMind"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "```python []\r\nclass Solution:\r\n    def checkIfPrerequisite(self, n: int, pres: List[List[int]], queries: List[List[int]]) -> List[bool]:\r\n        d = defaultdict(set)\r\n        for pc, c in pres: d[pc].add(c)\r\n        @cache\r\n        def check(pc, c): return True if c in d[pc] else any(check(nc, c) for nc in d[pc])\r\n        return [check(pc, c) for pc, c in queries]\r\n```\r\n",
+      "createdAt": "2021-11-08T01:07:40.376893+00:00",
+      "hitCount": 117,
+      "identifier": "8I9WqX",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "c-tuo-bu-pai-xu-er-wei-shu-zu-ji-lu-by-a-9gvs",
+        "title": "[C++] 拓扑排序 + 二维数组记录"
+      },
+      "position": 31,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "gou-zao-yi-ge-keypre_list-de-ha-xi-biao-1xns6",
+        "title": "构造一个key：[pre_list] 的哈希表，根据依赖关系传递扩展"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "course-schedule-iv"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "zui-duan-dai-ma-bu-jie-shi-by-freeyourmi-5pi7",
+      "status": "PREPUBLISH",
+      "summary": "[该用户太懒了，只写了 7 行代码]",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python3",
+          "nameTranslated": "",
+          "slug": "python3",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "最短代码不解释",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1089908,
+        "viewCount": 103
+      },
+      "uuid": "8I9WqX",
+      "videosInfo": []
+    }
+  }
+}

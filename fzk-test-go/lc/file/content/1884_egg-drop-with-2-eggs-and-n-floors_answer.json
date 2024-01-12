@@ -1,0 +1,76 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "卖冰糖葫芦的大叔",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/mai-bing-tang-hu-lu-de-da-shu/avatar_1618285244.png",
+          "userSlug": "mai-bing-tang-hu-lu-de-da-shu"
+        },
+        "username": "mai-bing-tang-hu-lu-de-da-shu"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "为了保证测试的稳定性，即无论极限在哪里，最差测试次数都是相同的，那么每次测试的跨度都应减少1层，例如：\r\n当楼层n = 100时，\r\n如果第一次测试为第k层:\r\n若直接蛋碎，之后只能逐层测试即需要测试k次（第一次为第k层，然后从第1层逐层测试，最坏情况一共为k次）；\r\n若蛋没有碎，为了保证最坏测试次数不增加，下次的跨度应该减少1，即跨度为k-1，测试第2k-1层，\r\n如此，若鸡蛋在该层破碎，测试最坏仍为k次（第一次为第k层，第二次为第2k-1层，之后逐层从第k+1层到2k-2测试，为k-2次，总次数为k）\r\n……\r\n同理每次测试跨度都应减一，当跨度为1时再减少已无意义，即应在跨度减少到1前能将n层测试完。\r\n所以可得到以下式子：\r\nn <= 1+2+……+k = k(k+1)/2\r\n注意：以上式子可以取等于号，可以自己思索一下为什么可以取等号\r\n所以现在问题变成了，求使得该式成立的最小的k值。\r\n该式可化为：\r\n2n+1/4 <= (k+1/2)^2 \r\n则k应等于：`ceil((2n+1/4)**0.5-1/2)`\r\n\r\n```python\r\nimport math\r\nclass Solution:\r\n    def twoEggDrop(self, n: int) -> int:\r\n        return math.ceil((2*n + 0.25)**0.5-0.5)\r\n```\r\n",
+      "createdAt": "2021-10-12T12:32:40.375025+00:00",
+      "hitCount": 549,
+      "identifier": "vcUi9t",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "zhong-wen-jing-dian-ji-dan-diao-luo-by-a-vj44",
+        "title": "【重温经典】鸡蛋掉落"
+      },
+      "position": 3,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "dong-tai-gui-hua-shu-xue-tui-dao-by-tang-1zz1",
+        "title": "动态规划O(n²) + 数学推导O(1)"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "egg-drop-with-2-eggs-and-n-floors"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "gong-shi-tui-dao-shi-jian-fu-za-du-o1-by-n6xq",
+      "status": "PREPUBLISH",
+      "summary": "为了保证测试的稳定性，即无论极限在哪里，最差测试次数都是相同的，那么每次测试的跨度都应减少1层，例如：\n当楼层n = 100时，\n如果第一次测试为第k层:\n若直接蛋碎，之后只能逐层测试即需要测试k次（第一次为第k层，然后从第1层逐层测试，最坏情况一共为k次）；\n若蛋没有碎，为了保证最坏测试次数不增加，下次的跨度应该减少",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "公式推导，时间复杂度O(1)",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 4,
+        "id": 1043989,
+        "viewCount": 397
+      },
+      "uuid": "vcUi9t",
+      "videosInfo": []
+    }
+  }
+}

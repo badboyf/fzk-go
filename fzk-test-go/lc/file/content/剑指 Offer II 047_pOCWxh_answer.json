@@ -1,0 +1,91 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "比较好找的名",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/default_avatar.png",
+          "userSlug": "bi-jiao-hao-zhao-de-ming"
+        },
+        "username": "bi-jiao-hao-zhao-de-ming"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "# 基本概念\r\n在分析这道题前，需要了解以下基本概念：\r\n- 二叉树基本概念\r\n    1. 非空二叉树只有一个根节点\r\n    2. 每一个结点最多有两棵子树，且分别称为该结点的左子树和右子树\r\n    3. 每一个子树的本身也是一棵二叉树\r\n- 二叉树遍历\r\n    1. 二叉树的遍历（traversing binary tree）是指从根结点出发，按照某种次序依次访问二叉树中所有的结点，使得每个结点被访问依次且仅被访问一次\r\n    2. 二叉树遍历方式主要有前序遍历(根、左、右)、中序遍历(左、根、右)、后续遍历(左、右、根)、层次遍历\r\n\r\n# 剪除条件\r\n- 这道题让我们剪除二叉树中所有节点值为0的子树，被剪除的子树应具备以下条件：\r\n1. 子树根节点值为0\r\n2. 左子树为空 / 左子树中所有节点值为0\r\n3. 右子树为空 / 右子树中所有节点值为0\r\n- 当从叶子节点往上逆推，只需考虑当前节点的情况，优化以上条件为：\r\n1. 节点值为0\r\n2. 节点左右子树为空\r\n\r\n# 题解：\r\n- 1.非递归实现后续遍历\r\n```\r\nclass Solution {\r\n    public TreeNode pruneTree(TreeNode root) {\r\n        Deque<TreeNode> stack = new LinkedList<>();\r\n        Deque<TreeNode> mark = new LinkedList<>(); //使用辅助栈\r\n        TreeNode node = root;\r\n        while(node != null || !stack.isEmpty()){\r\n            while(node != null){\r\n                stack.push(node);\r\n                node = node.left;\r\n            }\r\n            while(!mark.isEmpty() && mark.peek() == stack.peek()){\r\n                TreeNode cur = stack.pop();\r\n                if(mark.pop().val == 0 && cur.left == null \r\n                && cur.right == null){\r\n                    if(!stack.isEmpty()){\r\n                        TreeNode tmp = stack.peek();\r\n                        if(tmp.left == cur){\r\n                            tmp.left = null;\r\n                        }else{\r\n                            tmp.right = null;\r\n                        }\r\n                    } else{\r\n                        return null;\r\n                    }\r\n                }\r\n            }\r\n            if(!stack.isEmpty()){\r\n                node = stack.peek();\r\n                mark.push(node);\r\n                node = node.right;\r\n            }\r\n        }\r\n        return root;\r\n    }\r\n}\r\n```\r\n- 2.递归实现后续遍历\r\n```\r\nclass Solution {\r\n    public TreeNode pruneTree(TreeNode root) {\r\n        if( root == null) {\r\n            return root;\r\n        }\r\n        root.left = pruneTree(root.left);\r\n        root.right = pruneTree(root.right);\r\n        if (root.val == 0 && root.left == null && root.right == null){\r\n            root = null;\r\n        }\r\n        return root;\r\n    }\r\n}\r\n```\r\n",
+      "createdAt": "2021-10-23T12:05:41.633038+00:00",
+      "hitCount": 468,
+      "identifier": "h7y00R",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "c-di-gui-by-l-etter-xya9",
+        "title": "c 递归"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "pOCWxh"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 4,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "javashi-xian-hou-xu-bian-li-offerii047er-vfjm",
+      "status": "PREPUBLISH",
+      "summary": "基本概念\n在分析这道题前，需要了解以下基本概念：\n\n二叉树基本概念\n\n非空二叉树只有一个根节点\n每一个结点最多有两棵子树，且分别称为该结点的左子树和右子树\n每一个子树的本身也是一棵二叉树\n\n\n二叉树遍历\n\n二叉树的遍历（traversing binary tree）是指从根结点出发，按照某种次序依次访问二叉树中所有的结",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Stack",
+          "nameTranslated": "栈",
+          "slug": "stack",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Binary Tree",
+          "nameTranslated": "二叉树",
+          "slug": "binary-tree",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "java实现后序遍历(OfferⅡ047.二叉树剪枝)",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 1,
+        "id": 1063221,
+        "viewCount": 384
+      },
+      "uuid": "h7y00R",
+      "videosInfo": []
+    }
+  }
+}

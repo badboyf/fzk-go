@@ -1,0 +1,98 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "zerotrac 🌸",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/zerotrac2/avatar_1628749564.png",
+          "userSlug": "zerotrac2"
+        },
+        "username": "zerotrac2"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 前言\n\n读懂本篇题解需要已掌握如下知识点：\n\n- 位运算中的「枚举子集」，即给定一个整数 $x$，如何不重复地枚举 $x$ 二进制表示的子集 $\\{y\\}$。「子集」的定义为，$y$ 的二进制表示中每一个出现的 $1$，$x$ 中相同的位置也为 $1$，用位运算即为 $x ~\\&~ y = y$。\n\n- 「枚举子集」的时间复杂度分析，对于所有位数不超过 $n$ 的二进制数，数量为 $2^n$。如果枚举一个子集的时间复杂度记为 $O(1)$，那么枚举整数 $x$ 的所有子集的时间复杂度为 $O(2^n)$。然而如果我们枚举**每一个不超过 $n$ 的二进制数的所有子集**，那么时间复杂度实际上不是 $O(2^n \\cdot 2^n) = O(4^n)$，而是 $O(3^n)$，具体可以用二项式定理来证明。\n\n[@newhar](/u/newhar/) 有时间复杂度比本篇题解更低的方法：[老套路-状态压缩dp](https://leetcode-cn.com/problems/minimum-incompatibility/solution/lao-tao-lu-zhuang-tai-ya-suo-dp-by-newha-j58b/)。\n\n#### 方法一：状态压缩动态规划\n\n**思路与算法**\n\n设数组 $\\textit{nums}$ 的长度为 $n$，我们用一个长度为 $\\textit{mask}$ 的二进制表示数组中的每一个元素当前是否已经被选择过：$\\textit{mask}$ 的第 $i$ 位为 $1$ 表示 $\\textit{nums}[i]$ 已经被选择过，$0$ 表示 $\\textit{nums}[i]$ 未被选择过。\n\n这样我们就可以尝试使用状态压缩动态规划的方法来解决本题。记 $f[\\textit{mask}]$ 表示当选择的元素集合为 $\\textit{mask}$ 时**最小的**不兼容性的和。那么我们可以写出状态转移方程：\n\n$$\nf[\\textit{mask}] = \\min_{\\textit{sub} \\text{~is valid}} \\big\\{  f[\\textit{mask} \\oplus \\textit{sub}] + \\textit{value}[\\textit{sub}] \\big\\}\n$$\n\n这个状态方程是什么意思呢？我们尝试枚举 $\\textit{mask}$ 的一个子集 $\\textit{sub}$，它表示我们**最后一个选择的子集**，同时它必须满足一些条件。当我们选择了子集 $\\textit{sub}$ 后，我们计算它的不兼容性 $\\textit{value}[\\textit{sub}]$，并且将它从 $\\textit{mask}$ 中移除。这里 $\\oplus$ 表示异或运算，$\\textit{mask} \\oplus \\textit{sub}$ 就是将 $\\textit{sub}$ 从 $\\textit{mask}$ 中移除的操作。剩余的所有元素对应的最小不兼容性的和为 $f[\\textit{mask} \\oplus \\textit{sub}]$，因此将这两项相加，并在所有满足条件的 $\\textit{sub}$ 中选取相加的最小值，就可以得到 $\\textit{mask}$ 对应的最小不兼容性的和。\n\n那么 $\\textit{sub}$ 需要满足哪些要求呢？我们可以根据题目描述，将 $\\textit{sub}$ 的要求列举出来：\n\n- $\\textit{sub}$ 中必须恰好有 $\\dfrac{n}{k}$ 个 $1$，这样它才能成为一个子集；\n\n- $\\textit{sub}$ 中任意两个 $1$ 对应的数组 $\\textit{nums}$ 中的元素必须不能相同。\n\n根据这些要求，我们可以「预处理」出所有满足要求的 $\\textit{sub}$。如果 $\\textit{sub}$ 满足要求，那么 $\\textit{value}[\\textit{sub}]$ 就是 $\\textit{sub}$ 的不兼容性；如果 $\\textit{sub}$ 不满足要求，那么 $\\textit{value}$ 就是 $-1$。预处理的方法也很简单，我们遍历所有长度不超过 $n$ 的二进制数，使用语言自带的 API 判断其是否有 $\\frac{n}{k}$ 个 $1$，再使用数组或者哈希表进行计数，并判断是否其中元素两两不同即可。\n\n```C++ [sol0-C++]\nvector<int> value(1 << n, -1);\nfor (int sub = 0; sub < (1 << n); ++sub) {\n    // 判断 sub 是否有 n/k 个 1\n    if (__builtin_popcount(mask) == n / k) {\n        // 使用数组进行计数\n        for (int j = 0; j < n; ++j) {\n            if (sub & (1 << j)) {\n                ++freq[nums[j]];\n            }\n        }\n        // 任意一个数不能出现超过 1 次\n        bool flag = true;\n        for (int j = 1; j <= n; ++j) {\n            if (freq[j] > 1) {\n                flag = false;\n                break;\n            }\n        }\n        // 如果满足要求，那么计算 sub 的不兼容性\n        if (flag) {\n            int lb = INT_MAX, rb = INT_MIN;\n            for (int j = 1; j <= n; ++j) {\n                if (freq[j] > 0) {\n                    lb = min(lb, j);\n                    rb = max(rb, j);\n                }\n            }\n            valid[sub] = rb - lb;\n        }\n        // 由于我们使用数组进行计数，因此要将数组恢复原状\n        for (int j = 0; j < n; ++j) {\n            if (sub & (1 << j)) {\n                --freq[nums[j]];\n            }\n        }\n    }\n}\n```\n\n```Python [sol0-Python3]\nvalue = dict()\nfor sub in range(1 << n):\n    # 判断 sub 是否有 n/k 个 1\n    if bin(sub).count(\"1\") == n // k:\n        # 使用哈希表进行计数\n        freq = set()\n        flag = True\n        for j in range(n):\n            if sub & (1 << j):\n                # 任意一个数不能出现超过 1 次\n                if nums[j] in freq:\n                    flag = False\n                    break\n                freq.add(nums[j])\n        \n        # 如果满足要求，那么计算 sub 的不兼容性\n        if flag:\n            value[sub] = max(freq) - min(freq)\n```\n\n在预处理出所有 $\\textit{sub}$ 之后，我们就可以进行动态规划了。动态规划的边界条件为：\n\n$$\nf[0] = 0\n$$\n\n表示我们什么都不取，那么不兼容性为 $0$。其余的 $f$ 值才初始时都置为 $-1$，表示不满足要求。当我们遍历所有长度不超过 $n$ 的二进制数作为 $\\textit{mask}$ 时，我们首先可以通过语言自带的 API 判断 $\\textit{mask}$ 中 $1$ 的个数是否为 $\\frac{n}{k}$ 的倍数，这样可以大大减少常数。如果满足要求，那么我们就枚举子集，判断子集是否满足要求，并使用状态转移方程进行计算即可。\n\n最终的答案即为 $f[2^n-1]$。\n\n**注意：** 如果使用 Python 语言，需要加 $n=k$ 的特殊判断，$O(3^n)$ 对于 Python 来说还是有点高。\n\n**代码**\n\n```C++ [sol1-C++]\nclass Solution {\npublic:\n    int minimumIncompatibility(vector<int>& nums, int k) {\n        int n = nums.size();\n        vector<int> value(1 << n, -1);\n        vector<int> freq(n + 1);\n        for (int sub = 0; sub < (1 << n); ++sub) {\n            // 判断 sub 是否有 n/k 个 1\n            if (__builtin_popcount(sub) == n / k) {\n                // 使用数组进行计数\n                for (int j = 0; j < n; ++j) {\n                    if (sub & (1 << j)) {\n                        ++freq[nums[j]];\n                    }\n                }\n                // 任意一个数不能出现超过 1 次\n                bool flag = true;\n                for (int j = 1; j <= n; ++j) {\n                    if (freq[j] > 1) {\n                        flag = false;\n                        break;\n                    }\n                }\n                // 如果满足要求，那么计算 sub 的不兼容性\n                if (flag) {\n                    int lb = INT_MAX, rb = INT_MIN;\n                    for (int j = 1; j <= n; ++j) {\n                        if (freq[j] > 0) {\n                            lb = min(lb, j);\n                            rb = max(rb, j);\n                        }\n                    }\n                    value[sub] = rb - lb;\n                }\n                // 由于我们使用数组进行计数，因此要将数组恢复原状\n                for (int j = 0; j < n; ++j) {\n                    if (sub & (1 << j)) {\n                        --freq[nums[j]];\n                    }\n                }\n            }\n        }\n        \n        vector<int> f(1 << n, -1);\n        f[0] = 0;\n        for (int mask = 1; mask < (1 << n); ++mask) {\n            // 判断 mask 是否有 n/k 倍数个 1\n            if (__builtin_popcount(mask) % (n / k) == 0) {\n                // 枚举子集\n                for (int sub = mask; sub; sub = (sub - 1) & mask) {\n                    if (value[sub] != -1 && f[mask ^ sub] != -1) {\n                        if (f[mask] == -1) {\n                            f[mask] = f[mask ^ sub] + value[sub];\n                        }\n                        else {\n                            f[mask] = min(f[mask], f[mask ^ sub] + value[sub]);\n                        }\n                    }\n                }\n            }\n        }\n            \n        return f[(1 << n) - 1];\n    }\n};\n```\n\n```Python [sol1-Python3]\nclass Solution:\n    def minimumIncompatibility(self, nums: List[int], k: int) -> int:\n        n = len(nums)\n        # 特殊判断，如果元素数量等于组数\n        if n == k:\n            return 0\n        \n        value = dict()\n        for sub in range(1 << n):\n            # 判断 sub 是否有 n/k 个 1\n            if bin(sub).count(\"1\") == n // k:\n                # 使用哈希表进行计数\n                freq = set()\n                flag = True\n                for j in range(n):\n                    if sub & (1 << j):\n                        # 任意一个数不能出现超过 1 次\n                        if nums[j] in freq:\n                            flag = False\n                            break\n                        freq.add(nums[j])\n                \n                # 如果满足要求，那么计算 sub 的不兼容性\n                if flag:\n                    value[sub] = max(freq) - min(freq)\n        \n        f = dict()\n        f[0] = 0\n        for mask in range(1 << n):\n            # 判断 mask 是否有 n/k 倍数个 1\n            if bin(mask).count(\"1\") % (n // k) == 0:\n                # 枚举子集\n                sub = mask\n                while sub > 0:\n                    if sub in value and mask ^ sub in f:\n                        if mask not in f:\n                            f[mask] = f[mask ^ sub] + value[sub]\n                        else:\n                            f[mask] = min(f[mask], f[mask ^ sub] + value[sub])\n                    sub = (sub - 1) & mask\n            \n        return -1 if (1 << n) - 1 not in f else f[(1 << n) - 1]\n```\n\n**复杂度分析**\n\n- 时间复杂度：$O(3^n)$。\n\n- 空间复杂度：$O(2^n)$。\n\n#### 方法一点五：枚举子集优化\n\n**思路与算法**\n\n在枚举 $\\textit{mask}$ 的子集的过程中，我们可以枚举所有子集再依次判断每一个子集是否满足要求的。事实上，这一步是可以进行一个小优化的：如果 $\\textit{value}$ 中满足要求的子集个数小于 $\\textit{mask}$ 的子集（无论是否满足）个数，那么我们可以枚举 $\\textit{value}$，将 $\\textit{value}$ 设计为哈希表即可。\n\n由于 C++ 方法一已经很快了，所以下面仅给出 Python 的代码。\n\n**代码**\n\n```Python [sol15-Python3]\nclass Solution:\n    def minimumIncompatibility(self, nums: List[int], k: int) -> int:\n        n = len(nums)\n        \n        value = dict()\n        for sub in range(1 << n):\n            # 判断 sub 是否有 n/k 个 1\n            if bin(sub).count(\"1\") == n // k:\n                # 使用哈希表进行计数\n                freq = set()\n                flag = True\n                for j in range(n):\n                    if sub & (1 << j):\n                        # 任意一个数不能出现超过 1 次\n                        if nums[j] in freq:\n                            flag = False\n                            break\n                        freq.add(nums[j])\n                \n                # 如果满足要求，那么计算 sub 的不兼容性\n                if flag:\n                    value[sub] = max(freq) - min(freq)\n        \n        f = dict()\n        f[0] = 0\n        for mask in range(1 << n):\n            # 判断 mask 是否有 n/k 倍数个 1\n            if bin(mask).count(\"1\") % (n // k) == 0:\n                # 如果子集个数小于 value 中满足要求的子集个数，我们才枚举子集\n                if 2**bin(mask).count(\"1\") < len(value):\n                    sub = mask\n                    while sub > 0:\n                        if sub in value and mask ^ sub in f:\n                            if mask not in f:\n                                f[mask] = f[mask ^ sub] + value[sub]\n                            else:\n                                f[mask] = min(f[mask], f[mask ^ sub] + value[sub])\n                        sub = (sub - 1) & mask\n                else:\n                    for sub, v in value.items():\n                        if (mask & sub) == sub and mask ^ sub in f:\n                            if mask not in f:\n                                f[mask] = f[mask ^ sub] + v\n                            else:\n                                f[mask] = min(f[mask], f[mask ^ sub] + v)\n            \n        return -1 if (1 << n) - 1 not in f else f[(1 << n) - 1]\n```\n\n**复杂度分析**\n\n- 时间复杂度：$O(3^n)$。\n\n- 空间复杂度：$O(2^n)$。",
+      "createdAt": "2020-12-06T04:15:27.232623+00:00",
+      "hitCount": 5646,
+      "identifier": "R30MrS",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "lao-tao-lu-zhuang-tai-ya-suo-dp-by-newha-j58b",
+        "title": "老套路-状态压缩dp（记忆化搜索，8ms）"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "minimum-incompatibility"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 51,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 4,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "zui-xiao-bu-jian-rong-xing-by-zerotrac2-rwje",
+      "status": "PUBLISHED",
+      "summary": "前言\n读懂本篇题解需要已掌握如下知识点：\n\n\n位运算中的「枚举子集」，即给定一个整数 x，如何不重复地枚举 x 二进制表示的子集 \\{y\\}。「子集」的定义为，y 的二进制表示中每一个出现的 1，x 中相同的位置也为 1，用位运算即为 x ~\\&~ y = y。\n\n\n「枚举子集」的时间复杂度分析，对于所有位数不超过",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Bit Manipulation",
+          "nameTranslated": "位运算",
+          "slug": "bit-manipulation",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Dynamic Programming",
+          "nameTranslated": "动态规划",
+          "slug": "dynamic-programming",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "最小不兼容性",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 29,
+        "id": 510954,
+        "viewCount": 3655
+      },
+      "uuid": "R30MrS",
+      "videosInfo": []
+    }
+  }
+}

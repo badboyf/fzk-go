@@ -1,0 +1,72 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "laoce",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/laoce/avatar_1629726065.png",
+          "userSlug": "laoce"
+        },
+        "username": "laoce"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "思路： 首先先看X是不是只有一个1，然后看y是否只有一个1，符合条件结果+1\n/**\n * @param {number[][]} mat\n * @return {number}\n */\n`var numSpecial = function(mat) {\n    let res = 0;\n    for(let i=0; i<mat.length; i++) {\n        let isOne = haveOne(mat[i]);\n        if(isOne !== -1){\n            let flag = 0;\n            for(let j=0; j<mat.length; j++){\n                if(mat[j][isOne] === 1) {\n                    flag++;\n                }\n            }\n            if(flag === 1) {\n                res++\n            }\n        }\n    }\n    return res\n};\n\nvar haveOne = function(arr) {\n    let flag = 0;\n    let index = null;\n    for(let i=0; i<arr.length; i++) {\n        if(arr[i] === 1) {\n            index = i;\n            flag++;\n        }\n    }\n    if(flag === 1) {\n        return index;\n    }else {\n        return -1;\n    }\n}`\n",
+      "createdAt": "2021-10-06T13:05:23.592050+00:00",
+      "hitCount": 160,
+      "identifier": "BdKhNx",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "shuang-zhi-zhen-bian-li-bao-li-jie-fa-by-vfmu",
+        "title": "双指针遍历，暴力解法"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "special-positions-in-a-binary-matrix"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "js-bao-li-po-jie-jie-ti-by-laoce-y0c4",
+      "status": "PREPUBLISH",
+      "summary": "思路： 首先先看X是不是只有一个1，然后看y是否只有一个1，符合条件结果+1\n/**\n\n@param {number[][]} mat\n@return {number}\n*/\n`var numSpecial = function(mat) {\nlet res = 0;\nfor(let i=0; i<mat.length",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "JavaScript",
+          "nameTranslated": "",
+          "slug": "javascript",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "js 暴力破解解体",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1033809,
+        "viewCount": 146
+      },
+      "uuid": "BdKhNx",
+      "videosInfo": []
+    }
+  }
+}

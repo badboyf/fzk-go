@@ -1,0 +1,88 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "angela",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/angela-x/avatar_1632561041.png",
+          "userSlug": "angela-x"
+        },
+        "username": "angela-x"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n- 首先要想时间复杂度低的话，就要先排序\n- 排序之后，固定第一个元素之后，利用双指针法，向中间逼进\n- 细节点见代码注释\n\n### 代码\n\n```javascript\n/**\n * @param {number[]} nums\n * @return {number[][]}\n */\nvar threeSum = function(nums) {\n  if (nums == null || !nums.length || nums.length < 3) {\n    return [];\n  }\n  // 先排序\n  nums.sort((a, b) => a - b);\n  let result = [];\n  for (let i = 0; i < nums.length - 2; i++) {\n    //nums[k]>0，说明后面的元素肯定也大于0，最后结果肯定>0，故直接跳出\n    if (nums[i] > 0) {\n      break;\n    }\n    //如果当前元素和前面一个元素一样，忽略重复元素\n    if (i > 0 && nums[i] == nums[i - 1]) {\n      continue;\n    }\n    let start = i + 1;\n    let end = nums.length - 1;\n    while (start < end) {\n      let sum = nums[i] + nums[start] + nums[end];\n      //如果三数之和>0，说明最右边的值太大了\n      if (sum > 0) {\n        end--;\n        while (start < end && nums[end + 1] == nums[end]) {\n          end--;\n        }\n      } else if (sum < 0) {\n        start++;\n        while (start < end && nums[start - 1] == nums[start]) {\n          start++;\n        }\n      } else {\n        result.push([nums[i], nums[start], nums[end]]);\n        start++;\n        end--;\n        //同时左指针往右移动，右指针往左移动，\n        //如果移动过程中碰到重复元素，则继续移动\n        while (start < end && nums[start - 1] == nums[start]) {\n          start++;\n        }\n        while (start < end && nums[end + 1] == nums[end]) {\n          end--;\n        }\n      }\n    }\n  }\n  return result;\n};\n```",
+      "createdAt": "2021-10-17T07:50:40.391968+00:00",
+      "hitCount": 1671,
+      "identifier": "2abWMQ",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "jian-zhi-ii-007shu-zu-zhong-he-wei-0de-s-mo93",
+        "title": "剑指II 007数组中和为0的三个数"
+      },
+      "position": 4,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "shua-chuan-jian-zhi-offer-day05-shu-zu-i-e2af",
+        "title": "刷穿剑指offer-Day05-数组I-007.数组中和为0的三个数 006的进阶题目！"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "1fGaJU"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "AWESOME"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "li-yong-shuang-zhi-zhen-fa-xi-jie-dian-s-kswi",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n\n首先要想时间复杂度低的话，就要先排序\n排序之后，固定第一个元素之后，利用双指针法，向中间逼进\n细节点见代码注释\n\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Two Pointers",
+          "nameTranslated": "双指针",
+          "slug": "two-pointers",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "JavaScript",
+          "nameTranslated": "",
+          "slug": "javascript",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "利用双指针法，细节点是怎样高效跳过重复元素",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1051937,
+        "viewCount": 1267
+      },
+      "uuid": "2abWMQ",
+      "videosInfo": []
+    }
+  }
+}

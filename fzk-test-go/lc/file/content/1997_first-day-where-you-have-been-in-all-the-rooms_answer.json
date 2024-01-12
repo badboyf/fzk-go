@@ -1,0 +1,96 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "灵茶山艾府",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/endlesscheng/avatar_1589367048.png",
+          "userSlug": "endlesscheng"
+        },
+        "username": "endlesscheng"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "定义状态 $f[i]$ 表示从首次访问房间 $i$ 到访问房间 $i+1$ 之前所需要的天数。\r\n\r\n根据题意，首次访问房间 $i$ 时，下一天是一定要回到 $j=\\textit{nextVisit}[i]$ 房间的，下文简称为「回访」。如果从房间 $i$ 回访到房间 $j$，此时 $[j,i-1]$ 范围内的房间必然都处于访问过偶数次的状态，这意味着从 $j$ 到 $i$ 的过程中，我们需要回访 $[j,i-1]$ 范围内的每个房间。加上访问房间 $i$ 的 $2$ 天，于是有转移方程：\r\n\r\n$$\r\nf[i] = 2 + \\sum_{k=j}^{i-1} f[k]\r\n$$\r\n\r\n其中和式可以用前缀和优化，这样单次转移就是 $O(1)$ 的。\r\n\r\n代码实现时，可以略去数组 $f$，直接将其记录在前缀和 $\\textit{sum}$ 中。\r\n\r\n最后还需要加上访问第 $n-1$ 号房间的 $1$ 天开销，但由于天数是从 $0$ 开始的，答案需要减 $1$，所以最后答案为 $\\textit{sum}[n-1]+1-1=\\textit{sum}[n-1]$。\r\n\r\n```go\r\nfunc firstDayBeenInAllRooms(nextVisit []int) int {\r\n\tconst mod int = 1e9 + 7\r\n\tn := len(nextVisit)\r\n\tsum := make([]int, n)\r\n\tfor i, j := range nextVisit[:n-1] { // 不用考虑最后一天\r\n\t\tf := (2 + sum[i] - sum[j] + mod) % mod // +mod 是为了防止出现负数\r\n\t\tsum[i+1] = (sum[i] + f) % mod\r\n\t}\r\n\treturn sum[n-1]\r\n}\r\n```",
+      "createdAt": "2021-09-05T04:05:57.111173+00:00",
+      "hitCount": 3627,
+      "identifier": "mJhym3",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "javascript-dong-tai-gui-hua-by-zw-l-hl6l",
+        "title": "【JavaScript】动态规划"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "first-day-where-you-have-been-in-all-the-rooms"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 37,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 3,
+          "reactionType": "AWESOME"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "CONFUSED"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "qian-zhui-he-you-hua-dp-by-endlesscheng-j10b",
+      "status": "PUBLISHED",
+      "summary": "定义状态 f[i] 表示从首次访问房间 i 到访问房间 i+1 之前所需要的天数。\n根据题意，首次访问房间 i 时，下一天是一定要回到 j=\\textit{nextVisit}[i] 房间的，下文简称为「回访」。如果从房间 i 回访到房间 j，此时 [j,i-1] 范围内的房间必然都处于访问过偶数次的状态，这意味着从",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Dynamic Programming",
+          "nameTranslated": "动态规划",
+          "slug": "dynamic-programming",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Prefix Sum",
+          "nameTranslated": "前缀和",
+          "slug": "prefix-sum",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Go",
+          "nameTranslated": "",
+          "slug": "golang",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "前缀和优化 DP",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 4,
+        "id": 979221,
+        "viewCount": 2220
+      },
+      "uuid": "mJhym3",
+      "videosInfo": []
+    }
+  }
+}

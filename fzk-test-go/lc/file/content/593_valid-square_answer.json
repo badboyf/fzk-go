@@ -1,0 +1,79 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣 (LeetCode)",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/uploaded_files/2021/03/73c9f099-abbe-4d94-853f-f8abffd459cd/leetcode.png",
+          "userSlug": "leetcode"
+        },
+        "username": "LeetCode"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法一：枚举\n\n根据定义，一个四边形为正方形当且仅当它的四条边长度相等并且两条对角线的长度也相等。因此我们只需要枚举给定的 `4` 个点分别对应正方形的哪一个角，再计算长度并进行比较即可。`4` 个点对应了 `4! = 24` 种全排列，因此我们最多只需要枚举 `24` 次。\n\n```Java [sol1]\npublic class Solution {\n    public double dist(int[] p1, int[] p2) {\n        return (p2[1] - p1[1]) * (p2[1] - p1[1]) + (p2[0] - p1[0]) * (p2[0] - p1[0]);\n    }\n    public boolean check(int[] p1, int[] p2, int[] p3, int[] p4) {\n        return dist(p1,p2) > 0 && dist(p1, p2) == dist(p2, p3) && dist(p2, p3) == dist(p3, p4) && dist(p3, p4) == dist(p4, p1) && dist(p1, p3) == dist(p2, p4);\n    }\n    public boolean validSquare(int[] p1, int[] p2, int[] p3, int[] p4) {\n        int[][] p = {p1,p2,p3,p4};\n        return checkAllPermutations(p, 0);\n    }\n    boolean checkAllPermutations(int[][] p, int l) {\n        if (l == 4) {\n            return check(p[0], p[1], p[2], p[3]);\n        } else {\n            boolean res = false;\n            for (int i = l; i < 4; i++) {\n                swap(p, l, i);\n                res |= checkAllPermutations(p, l + 1);\n                swap(p, l, i);\n            }\n            return res;\n        }\n    }\n    public void swap(int[][] p, int x, int y) {\n        int[] temp = p[x];\n        p[x] = p[y];\n        p[y] = temp;\n    }\n}\n```\n\n**复杂度分析**\n\n* 时间复杂度：$O(1)$。\n\n* 空间复杂度：$O(1)$。\n\n#### 方法二：排序\n\n我们将这 `4` 个点按照 `x` 轴坐标第一关键字，`y` 轴坐标第二关键字进行升序排序。假设排完序之后的 `4` 个点依次为 `p0, p1, p2, p3`，那么我们可以发现正方形的四条边依次为 `p0p1`，`p1p3`，`p3p2` 和 `p2p0`，对角线为 `p0p3` 和 `p1p2`。下图给出了所有的 `3` 种排完序后的情形。\n\n![Valid_Square](https://pic.leetcode-cn.com/Figures/593_Valid_Square_1.PNG)\n\n```Java [sol2]\npublic class Solution {\n    public double dist(int[] p1, int[] p2) {\n        return (p2[1] - p1[1]) * (p2[1] - p1[1]) + (p2[0] - p1[0]) * (p2[0] - p1[0]);\n    }\n    public boolean validSquare(int[] p1, int[] p2, int[] p3, int[] p4) {\n        int[][] p={p1,p2,p3,p4};\n        Arrays.sort(p, (l1, l2) -> l2[0] == l1[0] ? l1[1] - l2[1] : l1[0] - l2[0]);\n        return dist(p[0], p[1]) != 0 && dist(p[0], p[1]) == dist(p[1], p[3]) && dist(p[1], p[3]) == dist(p[3], p[2]) && dist(p[3], p[2]) == dist(p[2], p[0])   && dist(p[0],p[3])==dist(p[1],p[2]);\n    }\n}\n```\n\n**复杂度分析**\n\n* 时间复杂度：$O(1)$。\n\n* 空间复杂度：$O(1)$。\n\n#### 方法三：考虑本质不同的情况\n\n在方法一中，我们枚举了所有的 `24` 种情形，我们把所有的情形写在下面的表中，可以发现一共只有 `3` 种本质不同的情形，这与方法二也是一致的。\n\n![Valid_Square](https://pic.leetcode-cn.com/Figures/593_Valid_Square_2.PNG)\n\n其中同一种颜色表示本质相同的情形，因此我们只要枚举 `3` 种情形即可。\n\n```Java [sol3]\npublic class Solution {\n    public double dist(int[] p1, int[] p2) {\n        return (p2[1] - p1[1]) * (p2[1] - p1[1]) + (p2[0] - p1[0]) * (p2[0] - p1[0]);\n    }\n    public boolean check(int[] p1, int[] p2, int[] p3, int[] p4) {\n        return dist(p1,p2) > 0 && dist(p1, p2) == dist(p2, p3) && dist(p2, p3) == dist(p3, p4) && dist(p3, p4) == dist(p4, p1) && dist(p1, p3) == dist(p2, p4);\n    }\n    public boolean validSquare(int[] p1, int[] p2, int[] p3, int[] p4) {\n        return check(p1, p2, p3, p4) || check(p1, p3, p2, p4) || check(p1, p2, p4, p3);\n    }\n}\n```\n\n**复杂度分析**\n\n* 时间复杂度：$O(1)$。\n\n* 空间复杂度：$O(1)$。",
+      "createdAt": "2019-10-29T06:10:17.961685+00:00",
+      "hitCount": 7102,
+      "identifier": "GG0Jf9",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "593-cchao-91de-shu-xue-jie-fa-by-ffretur-6bav",
+        "title": "593. c++超91的数学解法"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "valid-square"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 10,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "you-xiao-de-zheng-fang-xing-by-leetcode",
+      "status": "PUBLISHED",
+      "summary": "§ 方法一：枚举\n根据定义，一个四边形为正方形当且仅当它的四条边长度相等并且两条对角线的长度也相等。因此我们只需要枚举给定的 4 个点分别对应正方形的哪一个角，再计算长度并进行比较即可。4 个点对应了 4! = 24 种全排列，因此我们最多只需要枚举 24 次。\n复杂度分析\n\n\n时间复杂度：O(1)。\n\n\n空间复杂度：",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Math",
+          "nameTranslated": "数学",
+          "slug": "math",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/Figures/593_Valid_Square_1.PNG",
+      "title": "有效的正方形",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 10,
+        "id": 38809,
+        "viewCount": 5667
+      },
+      "uuid": "GG0Jf9",
+      "videosInfo": []
+    }
+  }
+}

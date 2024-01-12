@@ -1,0 +1,83 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "vanilla111",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/vanilla111/avatar_1566265236.png",
+          "userSlug": "vanilla111"
+        },
+        "username": "vanilla111"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 算法思路：\n\n本题是 [剑指 Offer II 089. 房屋偷盗](https://leetcode-cn.com/problems/Gu0c2T/) 的进阶版，虽然这么说，问题的本质却并没有发生什么变化。\n\n这题更像一个脑筋急转弯的题目，**我们只需要对`nums[0:n-2]`和`nums[1:n-1]`(闭区间)分别做一次上述题目同款的动态规划，返回较大值即可**。\n\n下面我们来证明为什么这么做是对的。首先我们定义方法`dynamic(nums, l, r)`，它返回nums[l, r)范围内能够偷窃的最大金额。例如`dynamic(nums, 0, n - 1)`就是返回允许偷第一家，但不允许偷最后一家的最大金额。那么此时**你可能会疑惑：第一家一定会被偷吗，或者说这个最大金额是不是一定包含第一家的？** 如果你理解了打家劫舍的解题过程，显然回答是**不一定**的，也就是说第一家可能被偷也可能没被偷。那么进一步**你可能会觉得：如果第一家没被偷，那我们是不是可以尝试偷一下最后一家，这样偷窃金额可能会更大。** 没错！我们确实可以作这样的尝试。综上，我们对`dynamic(nums, 0, n - 1)`可以作以下两个假设：\n\n- 假设第一家被偷了，由于我们不允许其偷最后一家，所以结果是符合题意的；\n- **假设第一家没被偷，意味着我们可以偷最后一家**，而这种情况就在`dynamic(nums, 1, n)`里。\n\n反过来，也可以用同样的思考过程去理解`dynamic(nums, 1, n)`。\n\n所以，`max(dynamic(nums, 0, n - 1), dynamic(nums, 1, n))`就是最终答案。\n\n\n``` java\nclass Solution {\n    public int rob(int[] nums) {\n        int n = nums.length;\n        if (n <= 3) return Arrays.stream(nums).max().getAsInt();\n        return Math.max(dynamic(nums, 0, n - 1), dynamic(nums, 1, n));\n    }\n    \n    public int dynamic(int[] nums, int l, int r) {\n        int n = nums.length;\n        int[] dp = new int[n + 1];\n        dp[l] = 0;\n        dp[l + 1] = nums[l];\n        for (int i = l + 2; i <= r; i++) {\n            dp[i] = Math.max(dp[i - 1], dp[i - 2] + nums[i - 1]);\n        }\n        return dp[r];\n    } \n}\n```\n",
+      "createdAt": "2021-09-13T03:18:52.633013+00:00",
+      "hitCount": 645,
+      "identifier": "gGjjc3",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "jian-zhi-offer-ii-090-huan-xing-fang-wu-0znjv",
+        "title": "剑指 Offer II 090. 环形房屋偷盗（动态规划，清晰图解）"
+      },
+      "position": 2,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "jian-zhi-offer-2-mian-shi-ti-90-shu-zhon-c9yi",
+        "title": "《剑指offer 2 面试题90》 书中算法C++实现"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "PzWKhm"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 3,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "java-nao-jin-ji-zhuan-wan-liang-ci-dong-3i4hp",
+      "status": "PREPUBLISH",
+      "summary": "算法思路：\n本题是 剑指 Offer II 089. 房屋偷盗 的进阶版，虽然这么说，问题的本质却并没有发生什么变化。\n这题更像一个脑筋急转弯的题目，我们只需要对nums[0:n-2]和nums[1:n-1](闭区间)分别做一次上述题目同款的动态规划，返回较大值即可。\n下面我们来证明为什么这么做是对的。首先我们定义方法",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Dynamic Programming",
+          "nameTranslated": "动态规划",
+          "slug": "dynamic-programming",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "Java 脑筋急转弯/两次动态规划/证明",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 994731,
+        "viewCount": 509
+      },
+      "uuid": "gGjjc3",
+      "videosInfo": []
+    }
+  }
+}

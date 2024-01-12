@@ -1,0 +1,82 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣 (LeetCode)",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/uploaded_files/2021/03/73c9f099-abbe-4d94-853f-f8abffd459cd/leetcode.png",
+          "userSlug": "leetcode"
+        },
+        "username": "LeetCode"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法一：使用子查询和 `LIMIT` 子句\n\n**算法**\n\n将不同的薪资按降序排序，然后使用 [`LIMIT`](https://dev.mysql.com/doc/refman/5.7/en/select.html) 子句获得第二高的薪资。\n\n```mysql [7gHRPQAW-MySQL]\nSELECT DISTINCT\n    Salary AS SecondHighestSalary\nFROM\n    Employee\nORDER BY Salary DESC\nLIMIT 1 OFFSET 1\n```\n\n\n然而，如果没有这样的第二最高工资，这个解决方案将被判断为 “错误答案”，因为本表可能只有一项记录。为了克服这个问题，我们可以将其作为临时表。\n\n```mysql [Z4dXjTB5-MySQL]\nSELECT\n    (SELECT DISTINCT\n            Salary\n        FROM\n            Employee\n        ORDER BY Salary DESC\n        LIMIT 1 OFFSET 1) AS SecondHighestSalary\n;\n```\n\n\n#### 方法二：使用 `IFNULL` 和 `LIMIT` 子句\n\n解决 “NULL” 问题的另一种方法是使用 “IFNULL” 函数，如下所示。\n\n```mysql [UF7BUDgS-MySQL]\nSELECT\n    IFNULL(\n      (SELECT DISTINCT Salary\n       FROM Employee\n       ORDER BY Salary DESC\n        LIMIT 1 OFFSET 1),\n    NULL) AS SecondHighestSalary\n```\n",
+      "createdAt": "2018-11-14T14:45:31.060099+00:00",
+      "hitCount": 269880,
+      "identifier": "JazUbB",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "tu-jie-sqlmian-shi-ti-ru-he-cha-zhao-di-ngao-de-sh",
+        "title": "图解SQL面试题：如何查找第N高的数据？"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "second-highest-salary"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 200,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 7,
+          "reactionType": "AWESOME"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 6,
+          "reactionType": "CONFUSED"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "di-er-gao-de-xin-shui-by-leetcode",
+      "status": "PUBLISHED",
+      "summary": "算法\n将不同的薪资按降序排序，然后使用 LIMIT 子句获得第二高的薪资。\n然而，如果没有这样的第二最高工资，这个解决方案将被判断为 “错误答案”，因为本表可能只有一项记录。为了克服这个问题，我们可以将其作为临时表。\n解决 “NULL” 问题的另一种方法是使用 “IFNULL” 函数，如下所示。",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "MySQL",
+          "nameTranslated": "",
+          "slug": "mysql",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "第二高的薪水",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 238,
+        "id": 3574,
+        "viewCount": 176660
+      },
+      "uuid": "JazUbB",
+      "videosInfo": []
+    }
+  }
+}

@@ -1,0 +1,84 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣 (LeetCode)",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/uploaded_files/2021/03/73c9f099-abbe-4d94-853f-f8abffd459cd/leetcode.png",
+          "userSlug": "leetcode"
+        },
+        "username": "LeetCode"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "##  解决方法：\n####  框架：\n- 从 `(0, 0)` 开始，对于每棵树，按照高度顺序，我们将计算我们到下一棵树（并移动到那里）的距离，并将该距离添加到答案中。 \n- 我们定义距离函数 `dist(forest, sr, sc, tr, tc)`，该函数计算从源 `(sr, sc)` 到目标 `(tr, tc)` 通过障碍物 `dist[i][j]==0` 的路径距离。（如果路径不可能，此距离函数将返回 `-1`）。\n- 接下来是代码和复杂性分析，这三种方法都很常见。之后，我们的方法中给出的算法将只关注提供 `dist` 函数。 \n\n```Python [ ]\nclass Solution(object):\n    def cutOffTree(self, forest):\n        trees = sorted((v, r, c) for r, row in enumerate(forest)\n                       for c, v in enumerate(row) if v > 1)\n        sr = sc = ans = 0\n        for _, tr, tc in trees:\n            d = dist(forest, sr, sc, tr, tc)\n            if d < 0: return -1\n            ans += d\n            sr, sc = tr, tc\n        return ans\n```\n\n```Java [ ]\nclass Solution {\n    int[] dr = {-1, 1, 0, 0};\n    int[] dc = {0, 0, -1, 1};\n\n    public int cutOffTree(List<List<Integer>> forest) {\n        List<int[]> trees = new ArrayList();\n        for (int r = 0; r < forest.size(); ++r) {\n            for (int c = 0; c < forest.get(0).size(); ++c) {\n                int v = forest.get(r).get(c);\n                if (v > 1) trees.add(new int[]{v, r, c});\n            }\n        }\n\n        Collections.sort(trees, (a, b) -> Integer.compare(a[0], b[0]));\n\n        int ans = 0, sr = 0, sc = 0;\n        for (int[] tree: trees) {\n            int d = dist(forest, sr, sc, tree[1], tree[2]);\n            if (d < 0) return -1;\n            ans += d;\n            sr = tree[1]; sc = tree[2];\n        }\n        return ans;\n    }\n}\n```\n\n**复杂度分析**\n这三种算法都具有相似的最坏情况复杂度.\n* 时间复杂度：$O((RC)^2)$，在给定的 `forest` 中有 $R$ 行和 $C$ 列。我们步行到 $RC$ 树，每一次步行都可以花费 $O(RC)$ 时间搜索树。 \n* 空间复杂度：$O(R*C)$，所用数据结构的最大大小。 \n\n\n####  方法一：宽度优先搜索(BFS)\n**算法：**\n- 我们执行宽度优先搜索，处理队列中的节点（网格位置）。`seen` 跟踪在某个时间点已经添加到队列中的节点，这些节点已被处理或在等待处理的队列中。 \n- 对于下一个要处理的每个节点，我们查看它的周围。如果他们在森林（网格）中，他们没有排队，而且他们不是障碍，我们将把那个相邻节点排队。 \n- 我们还对每个节点的行驶距离进行计数。如果我们正在处理的节点是我们的 “目标” `(tr, tc)`，我们将返回答案。 \n\n```Python [ ]\ndef bfs(forest, sr, sc, tr, tc):\n    R, C = len(forest), len(forest[0])\n    queue = collections.deque([(sr, sc, 0)])\n    seen = {(sr, sc)}\n    while queue:\n        r, c, d = queue.popleft()\n        if r == tr and c == tc:\n            return d\n        for nr, nc in ((r-1, c), (r+1, c), (r, c-1), (r, c+1)):\n            if (0 <= nr < R and 0 <= nc < C and\n                    (nr, nc) not in seen and forest[nr][nc]):\n                seen.add((nr, nc))\n                queue.append((nr, nc, d+1))\n    return -1\n```\n\n```Java [ ]\npublic int bfs(List<List<Integer>> forest, int sr, int sc, int tr, int tc) {\n    int R = forest.size(), C = forest.get(0).size();\n    Queue<int[]> queue = new LinkedList();\n    queue.add(new int[]{sr, sc, 0});\n    boolean[][] seen = new boolean[R][C];\n    seen[sr][sc] = true;\n    while (!queue.isEmpty()) {\n        int[] cur = queue.poll();\n        if (cur[0] == tr && cur[1] == tc) return cur[2];\n        for (int di = 0; di < 4; ++di) {\n            int r = cur[0] + dr[di];\n            int c = cur[1] + dc[di];\n            if (0 <= r && r < R && 0 <= c && c < C &&\n                    !seen[r][c] && forest.get(r).get(c) > 0) {\n                seen[r][c] = true;\n                queue.add(new int[]{r, c, cur[2]+1});\n            }\n        }\n    }\n    return -1;\n}\n```\n\n####  方法二：A*搜索 \n**算法：**\n- A*算法是另一种路径查找算法。对于位置 `(r, c)` 的每个节点，我们使 `node.f = node.g + node.h`，其中 `node.g` 是从 `(sr, sc)` 到 `(r, c)` 的实际距离， `node.h` 是从 `(r, c)` 到 `(tr, tc)` 的距离的启发式（猜测）。在这种情况下，我们的猜测将是 `node.h = abs(r-tr) + abs(c-tc)`。 \n- 我们保留一个优先队列来决定下一个搜索(扩展)的节点。我们可以证明，如果我们找到目标节点，我们一定走了尽可能短的距离  `node.g`。例如，通过考虑最后一次两条反向路径是相同的，在不失去一般性的情况下，我们可以假设两条路径的倒数第二个方格是不同的，然后在这种情况下，没有 `node.f = node.g + 1`，根据需要首先扩展显示实际行驶距离较小的路径。 \n- 对于熟悉 `Dijkstra` 算法的人来说，知道一个 A*搜索是 `Dijkstra` 的一个特例，且 `node.h` 总是 0。\n\n```Python [ ]\ndef astar(forest, sr, sc, tr, tc):\n    R, C = len(forest), len(forest[0])\n    heap = [(0, 0, sr, sc)]\n    cost = {(sr, sc): 0}\n    while heap:\n        f, g, r, c = heapq.heappop(heap)\n        if r == tr and c == tc: return g\n        for nr, nc in ((r-1,c), (r+1,c), (r,c-1), (r,c+1)):\n            if 0 <= nr < R and 0 <= nc < C and forest[nr][nc]:\n                ncost = g + 1 + abs(nr - tr) + abs(nc - tc)\n                if ncost < cost.get((nr, nc), 9999):\n                    cost[nr, nc] = ncost\n                    heapq.heappush(heap, (ncost, g+1, nr, nc))\n    return -1\n```\n\n```Java [ ]\npublic int cutOffTree(List<List<Integer>> forest, int sr, int sc, int tr, int tc) {\n    int R = forest.size(), C = forest.get(0).size();\n    PriorityQueue<int[]> heap = new PriorityQueue<int[]>(\n        (a, b) -> Integer.compare(a[0], b[0]));\n    heap.offer(new int[]{0, 0, sr, sc});\n\n    HashMap<Integer, Integer> cost = new HashMap();\n    cost.put(sr * C + sc, 0);\n\n    while (!heap.isEmpty()) {\n        int[] cur = heap.poll();\n        int g = cur[1], r = cur[2], c = cur[3];\n        if (r == tr && c == tc) return g;\n        for (int di = 0; di < 4; ++di) {\n            int nr = r + dr[di], nc = c + dc[di];\n            if (0 <= nr && nr < R && 0 <= nc && nc < C && forest.get(nr).get(nc) > 0) {\n                int ncost = g + 1 + Math.abs(nr-tr) + Math.abs(nc-tr);\n                if (ncost < cost.getOrDefault(nr * C + nc, 9999)) {\n                    cost.put(nr * C + nc, ncost);\n                    heap.offer(new int[]{ncost, g+1, nr, nc});\n                }\n            }\n        }\n    }\n    return -1;\n}\n```\n\n####  方法三：Hadlock 算法\n没有任何障碍物，从 `source = (sr, sc)` 到 `target = (tr, tc)` 的距离就是 `taxi(source, target) = abs(sr-tr) + abs(sc-tc)`。这表示必须行驶的最小距离。每当我们离开目标时，我们都会将这个最小值增加2，因为我们一步一个移动，再加上 taxicab 离我们新位置的距离增加了 1。 \n\n我们称 `detour` 为一次绕开目标的移动，可以证明，从源到目标的距离仅为 `taxi(source, target) + 2 * detours`，其中，从 `source` 到 `target` 的任何路径中，`detours` 的数量最小。 \n\n算法：\n- 对于一个 `source` 和 `target`，称一个方格的迂回数为从 `source` 到该方格的任何路径中可能出现的最小迂回数。（这里，迂回道是针对 `target` 定义的——距离目标的步数。） \n- 我们将按照 `detour` 编号的顺序执行优先级优先搜索。如果找到目标，则找到最低的 `detour` ，因此相应距离最低。同时使用 `processed` 跟踪节点，防止节点被访问两次。 \n- 由于每个相邻节点只能有相同的 `detour` 编号或更高的 `detour` 编号，因此一次最多只能考虑两个优先级。因此，我们可以使用 `deque`（双端队列）来执行此实现。我们将首先放置具有相同要展开的 `detour` 编号的节点，在完成所有具有当前编号的节点之后，将展开具有更高迂回道编号的节点。 \n\n```Python [ ]\ndef hadlocks(forest, sr, sc, tr, tc):\n    R, C = len(forest), len(forest[0])\n    processed = set()\n    deque = collections.deque([(0, sr, sc)])\n    while deque:\n        detours, r, c = deque.popleft()\n        if (r, c) not in processed:\n            processed.add((r, c))\n            if r == tr and c == tc:\n                return abs(sr-tr) + abs(sc-tc) + 2*detours\n            for nr, nc, closer in ((r-1, c, r > tr), (r+1, c, r < tr),\n                                   (r, c-1, c > tc), (r, c+1, c < tc)):\n                if 0 <= nr < R and 0 <= nc < C and forest[nr][nc]:\n                    if closer:\n                        deque.appendleft((detours, nr, nc))\n                    else:\n                        deque.append((detours+1, nr, nc))\n    return -1\n```\n\n```Java [ ]\npublic int hadlocks(List<List<Integer>> forest, int sr, int sc, int tr, int tc) {\n    int R = forest.size(), C = forest.get(0).size();\n    Set<Integer> processed = new HashSet();\n    Deque<int[]> deque = new ArrayDeque();\n    deque.offerFirst(new int[]{0, sr, sc});\n    while (!deque.isEmpty()) {\n        int[] cur = deque.pollFirst();\n        int detours = cur[0], r = cur[1], c = cur[2];\n        if (!processed.contains(r*C + c)) {\n            processed.add(r*C + c);\n            if (r == tr && c == tc) {\n                return Math.abs(sr-tr) + Math.abs(sc-tc) + 2 * detours;\n            }\n            for (int di = 0; di < 4; ++di) {\n                int nr = r + dr[di];\n                int nc = c + dc[di];\n                boolean closer;\n                if (di <= 1) closer = di == 0 ? r > tr : r < tr;\n                else closer = di == 2 ? c > tc : c < tc;\n                if (0 <= nr && nr < R && 0 <= nc && nc < C && forest.get(nr).get(nc) > 0) {\n                    if (closer) deque.offerFirst(new int[]{detours, nr, nc});\n                    else deque.offerLast(new int[]{detours+1, nr, nc});\n                }\n            }\n        }\n    }\n    return -1;\n}\n```",
+      "createdAt": "2019-08-13T06:44:47.040946+00:00",
+      "hitCount": 5473,
+      "identifier": "5fNSr2",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "bfs-by-euyvvl-63xp",
+        "title": "BFS"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "cut-off-trees-for-golf-event"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 13,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 3,
+          "reactionType": "CONFUSED"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "wei-gao-er-fu-bi-sai-kan-shu-by-leetcode",
+      "status": "PUBLISHED",
+      "summary": "解决方法：\n§ 框架：\n\n从 (0, 0) 开始，对于每棵树，按照高度顺序，我们将计算我们到下一棵树（并移动到那里）的距离，并将该距离添加到答案中。\n我们定义距离函数 dist(forest, sr, sc, tr, tc)，该函数计算从源 (sr, sc) 到目标 (tr, tc) 通过障碍物 dist[i][j]=",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "为高尔夫比赛砍树",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 5,
+        "id": 20206,
+        "viewCount": 3789
+      },
+      "uuid": "5fNSr2",
+      "videosInfo": []
+    }
+  }
+}

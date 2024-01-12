@@ -1,0 +1,79 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣 (LeetCode)",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/uploaded_files/2021/03/73c9f099-abbe-4d94-853f-f8abffd459cd/leetcode.png",
+          "userSlug": "leetcode"
+        },
+        "username": "LeetCode"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "##  解决方法：\n####  方法一：暴力法\n**算法：**\n- 如果一个字符中只有一个字符可以更改，即它们的汉明距离为 1。 \n- 在搜索新单词时，我们只检查长度相同的单词。 \n\n```Python  [ ]\nclass MagicDictionary(object):\n    def __init__(self):\n        self.buckets = collections.defaultdict(list)\n\n    def buildDict(self, words):\n        for word in words:\n            self.buckets[len(word)].append(word)\n\n    def search(self, word):\n        return any(sum(a!=b for a,b in zip(word, candidate)) == 1\n                   for candidate in self.buckets[len(word)])\n```\n\n```Java [ ]\nclass MagicDictionary {\n    Map<Integer, ArrayList<String>> buckets;\n    public MagicDictionary() {\n        buckets = new HashMap();\n    }\n\n    public void buildDict(String[] words) {\n        for (String word: words) {\n            buckets.computeIfAbsent(word.length(), x -> new ArrayList()).add(word);\n        }\n    }\n\n    public boolean search(String word) {\n        if (!buckets.containsKey(word.length())) return false;\n        for (String candidate: buckets.get(word.length())) {\n            int mismatch = 0;\n            for (int i = 0; i < word.length(); ++i) {\n                if (word.charAt(i) != candidate.charAt(i)) {\n                    if (++mismatch > 1) break;\n                }\n            }\n            if (mismatch == 1) return true;\n        }\n        return false;\n    }\n}\n```\n\n**复杂度分析**\n\n* 时间复杂度：$O(S)$ 构建和 $O(NK)$ 搜索，其中 $N$ 是魔法字典中的单词数，$S$ 是其中的字母总数，$K$ 是搜索单词的长度。 \n* 空间复杂度：$O(S)$。 \n\n\n####  方法二：广义邻居\n回想一下，在方法 1 中，如果一个单词中只有一个字符可以更改以使字符串相等，那么两个单词就是邻居。 \n\n让我们假设一个词 “apple” 具有广义邻居 *“pple”、“a*ple”、“ap*le”、“app*e” 和 *“appl”*。在搜索像 apply 这样的词是否有像 apple 这样的邻居时，我们只需要知道它们是否有一个广义邻居。 \n\n**算法：**\n继续上述思考，一个问题是 “apply” 不是自身的邻居，而是具有相同的广义邻居 “*pply”。为了解决这个问题，我们将计算生成 “*pply” 的源的数量。如果有 2 个或更多，则其中一个不会是 “apply”。如果只有一个，我们应该检查它不是 “apply”。无论是哪种情况，我们都可以确定有一些神奇的单词生成了 “*pply”，而不是 “apply”。 \n\n```Python [ ]\nclass MagicDictionary(object):\n    def _genneighbors(self, word):\n        for i in xrange(len(word)):\n            yield word[:i] + '*' + word[i+1:]\n\n    def buildDict(self, words):\n        self.words = set(words)\n        self.count = collections.Counter(nei for word in words\n                                        for nei in self._genneighbors(word))\n\n    def search(self, word):\n        return any(self.count[nei] > 1 or\n                   self.count[nei] == 1 and word not in self.words\n                   for nei in self._genneighbors(word))\n```\n\n```Java [ ]\npublic class MagicDictionary {\n    Set<String> words;\n    Map<String, Integer> count;\n\n    public MagicDictionary() {\n        words = new HashSet();\n        count = new HashMap();\n    }\n\n    private ArrayList<String> generalizedNeighbors(String word) {\n        ArrayList<String> ans = new ArrayList();\n        char[] ca = word.toCharArray();\n        for (int i = 0; i < word.length(); ++i) {\n            char letter = ca[i];\n            ca[i] = '*';\n            String magic = new String(ca);\n            ans.add(magic);\n            ca[i] = letter;\n        }\n        return ans;\n    }\n\n    public void buildDict(String[] words) {\n        for (String word: words) {\n            this.words.add(word);\n            for (String nei: generalizedNeighbors(word)) {\n                count.put(nei, count.getOrDefault(nei, 0) + 1);\n            }\n        }\n    }\n\n    public boolean search(String word) {\n        for (String nei: generalizedNeighbors(word)) {\n            int c = count.getOrDefault(nei, 0);\n            if (c > 1 || c == 1 && !words.contains(word)) return true;\n        }\n        return false;\n    }\n}\n```\n\n**复杂度分析**\n\n* 时间复杂度：$O(\\sum w_i^2)$ 生成和 $O(K^2)$ 搜索，其中 $w_i$ 是 `words[i]` 的长度，$K$ 是搜索单词的长度。 \n* 空间复杂度：$O(\\sum w_i^2)$，`count` 使用的空间。在生成邻居进行搜索时，我们还使用 $O(K^2)$ 空间。",
+      "createdAt": "2019-08-13T06:46:01.520907+00:00",
+      "hitCount": 6471,
+      "identifier": "vKptDJ",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "java-zi-dian-shu-di-gui-by-lyl-36-jo38",
+        "title": "JAVA 字典树 递归"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "implement-magic-dictionary"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 9,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "shi-xian-yi-ge-mo-fa-zi-dian-by-leetcode",
+      "status": "PUBLISHED",
+      "summary": "解决方法：\n§ 方法一：暴力法\n算法：\n\n如果一个字符中只有一个字符可以更改，即它们的汉明距离为 1。\n在搜索新单词时，我们只检查长度相同的单词。\n\n复杂度分析\n\n时间复杂度：O(S) 构建和 O(NK) 搜索，其中 N 是魔法字典中的单词数，S 是其中的字母总数，K 是搜索单词的长度。\n空间复杂度：O(S)。\n\n§ ",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "实现一个魔法字典",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 17,
+        "id": 20210,
+        "viewCount": 5003
+      },
+      "uuid": "vKptDJ",
+      "videosInfo": []
+    }
+  }
+}

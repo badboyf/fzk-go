@@ -1,0 +1,76 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "小静子",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/xiao-jing-zi-x/avatar_1594477150.png",
+          "userSlug": "xiao-jing-zi-x"
+        },
+        "username": "xiao-jing-zi-x"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "**代码**\r\n```\r\n/**\r\n * @param {string} number\r\n * @return {string}\r\n */\r\nvar reformatNumber = function(number) {\r\n  number=number.replace(/-|\\s/g,\"\").split('');\r\n  let arr=[]\r\n  while(number.length>4){\r\n    arr.push(number.splice(0,3).join(''))\r\n  }\r\n  if(number.length==4){\r\n    arr.push(number.splice(0,2).join(''))\r\n    arr.push(number.splice(0,2).join(''))\r\n  }else{\r\n    arr.push(number.join(''))\r\n  }\r\n  return arr.join('-')\r\n};\r\n```\r\n",
+      "createdAt": "2021-03-05T06:30:22.871381+00:00",
+      "hitCount": 522,
+      "identifier": "1eHY88",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "pan-duan-zui-hou-yi-ge-fen-kuai-de-jian-wbe2w",
+        "title": "判断最后一个分块的简单办法"
+      },
+      "position": 6,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "chao-guo-100-java-ru-he-xie-de-you-ya-by-8h80",
+        "title": "超过100% Java 如何写的优雅？"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "reformat-phone-number"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 3,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "zhong-xin-ge-shi-hua-dian-hua-hao-ma-by-3daab",
+      "status": "PREPUBLISH",
+      "summary": "代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "JavaScript",
+          "nameTranslated": "",
+          "slug": "javascript",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "重新格式化电话号码",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 636473,
+        "viewCount": 454
+      },
+      "uuid": "1eHY88",
+      "videosInfo": []
+    }
+  }
+}

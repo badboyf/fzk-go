@@ -1,0 +1,72 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "Reiner Braun",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/busy-johnsonbtt/avatar_1635424651.png",
+          "userSlug": "reiner-braud"
+        },
+        "username": "Reiner-Braud"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "```\r\nclass Solution {\r\n    public String[] findRelativeRanks(int[] score) {\r\n        String[] ans = new String[score.length];\r\n        int[] pair = new int[2]; //一个数组对，（序号，分数）\r\n        List<int[]> list = new ArrayList<>();\r\n        for (int i = 0; i < score.length; i++){\r\n            pair = new int[]{i, score[i]};\r\n            list.add(pair);\r\n        }\r\n        Collections.sort(list, new Comparator<int[]>(){\r\n            public int compare(int[] x, int[] y){\r\n                return y[1]-x[1];//按照分数从大到小排序\r\n            }\r\n        });\r\n        for (int i = 0; i < list.size(); i++){    \r\n            int[] s = list.get(i);   //s[0]是该分数在score中的索引号\r\n            if (i == 0) ans[s[0]] = \"Gold Medal\";\r\n            if (i == 1) ans[s[0]] = \"Silver Medal\";\r\n            if (i == 2) ans[s[0]] = \"Bronze Medal\";\r\n            if (i > 2) ans[s[0]] = i+1 +\"\";\r\n        }\r\n        return ans;\r\n\r\n\r\n    }\r\n}\r\n```\r\n",
+      "createdAt": "2021-11-24T10:41:47.962948+00:00",
+      "hitCount": 58,
+      "identifier": "vvD0fh",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "3fen-dai-ma-miao-dong-506-by-fengzil-9opl",
+        "title": "3份代码,秒懂--[506]"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "relative-ranks"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "yi-chong-hen-man-dan-shi-zhi-guan-de-fan-at1r",
+      "status": "PUBLISHED",
+      "summary": "[该用户太懒了，只写了 26 行代码]",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "一种很慢但是直观的方法（Java）",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1120162,
+        "viewCount": 49
+      },
+      "uuid": "vvD0fh",
+      "videosInfo": []
+    }
+  }
+}

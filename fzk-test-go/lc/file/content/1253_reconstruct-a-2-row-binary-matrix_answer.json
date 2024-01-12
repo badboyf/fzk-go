@@ -1,0 +1,86 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "ffreturn",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/ffreturn/avatar_1608859813.png",
+          "userSlug": "ffreturn"
+        },
+        "username": "ffreturn"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "![image.png](https://pic.leetcode-cn.com/1636195211-eeqSWD-image.png)\n\n\n### 解题思路\n贪心解法\n- 因为只有0或者1，那么每次对于每一列，\n   - 数字0，无需填充\n   - 数字1， 就是优先取数字大的一列来填充\n   - 数字2， 各填1\n- 一旦发现数字不足，则失败返回空 \n\n### 代码\n\n```cpp\n\nclass Solution {\npublic:\n    vector<vector<int>> reconstructMatrix(int upper, int lower, vector<int>& colsum) {\n        int n = colsum.size();\n        vector<vector<int>> res(2, vector<int>(n, 0));\n\n        for (int i = 0; i < n; ++i)\n        {\n            int c = colsum[i];\n            switch(c)\n            {\n                case 1:\n                    if (upper == 0 && lower == 0)\n                    {\n                        return {};\n                    }\n                    if (upper >= lower)\n                    {\n                        res[0][i] = 1;\n                        --upper;\n                    }\n                    else\n                    {\n                        res[1][i] = 1;\n                        --lower;\n                    }\n                    break;\n                case 2:\n                    if (upper == 0 && lower == 0)\n                    {\n                        return {};\n                    }\n                    --upper;\n                    --lower;\n                    res[0][i] = 1;\n                    res[1][i] = 1;\n                    break;\n                default:\n                    // 什么都不做\n                    break;\n            }\n        }\n\n        return (upper == 0 && lower == 0) ? res :vector<vector<int>>{} ;\n    }\n};\n```",
+      "createdAt": "2021-11-06T10:40:46.440811+00:00",
+      "hitCount": 27,
+      "identifier": "EZiBEi",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "tan-xin-fen-qing-kuang-by-sincejuly-t2-71gk",
+        "title": "贪心，分情况"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "reconstruct-a-2-row-binary-matrix"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "1253-cchao-94de-tan-xin-jie-fa-by-ffretu-d9h3",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n贪心解法\n\n因为只有0或者1，那么每次对于每一列，\n\n数字0，无需填充\n数字1， 就是优先取数字大的一列来填充\n数字2， 各填1\n\n\n一旦发现数字不足，则失败返回空\n\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Greedy",
+          "nameTranslated": "贪心",
+          "slug": "greedy",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "梦想",
+          "nameTranslated": "",
+          "slug": "meng-xiang",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1636195211-eeqSWD-image.png",
+      "title": "1253. c++超94的贪心解法",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1087564,
+        "viewCount": 27
+      },
+      "uuid": "EZiBEi",
+      "videosInfo": []
+    }
+  }
+}

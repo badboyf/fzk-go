@@ -1,0 +1,122 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣官方题解",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/leetcode-solution/avatar_1582018938.png",
+          "userSlug": "leetcode-solution"
+        },
+        "username": "LeetCode-Solution"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 📺 视频题解  \n![1160. 拼写单词 1.mp4](00067219-da0f-4f84-9d10-7a13053bf870)\n\n### 📖 文字题解\n\n#### 方法一：哈希表记数\n\n**思路和算法**\n\n显然，对于一个单词 `word`，只要其中的每个字母的数量都不大于 `chars` 中对应的字母的数量，那么就可以用 `chars` 中的字母拼写出 `word`。所以我们只需要用一个哈希表存储 `chars` 中每个字母的数量，再用一个哈希表存储 `word` 中每个字母的数量，最后将这两个哈希表的键值对逐一进行比较即可。\n\n```C++ [sol1-C++]\nclass Solution {\npublic:\n    int countCharacters(vector<string>& words, string chars) {\n        unordered_map<char, int> chars_cnt;\n        for (char c : chars) {\n            ++chars_cnt[c];\n        }\n        int ans = 0;\n        for (string word : words) {\n            unordered_map<char, int> word_cnt;\n            for (char c : word) {\n                ++word_cnt[c];\n            }\n            bool is_ans = true;\n            for (char c : word) {\n                if (chars_cnt[c] < word_cnt[c]) {\n                    is_ans = false;\n                    break;\n                }\n            }\n            if (is_ans) {\n                ans += word.size();\n            }\n        }\n        return ans;\n    }\n};\n```\n\n```Java [sol1-Java]\nclass Solution {\n    public int countCharacters(String[] words, String chars) {\n        Map<Character, Integer> charsCnt = new HashMap<Character, Integer>();\n        int length = chars.length();\n        for (int i = 0; i < length; ++i) {\n            char c = chars.charAt(i);\n            charsCnt.put(c, charsCnt.getOrDefault(c, 0) + 1);\n        }\n        int ans = 0;\n        for (String word : words) {\n            Map<Character, Integer> wordCnt = new HashMap<Character, Integer>();\n            int wordLength = word.length();\n            for (int i = 0; i < wordLength; ++i) {\n                char c = word.charAt(i);\n                wordCnt.put(c, wordCnt.getOrDefault(c, 0) + 1);\n            }\n            boolean isAns = true;\n            for (int i = 0; i < wordLength; ++i) {\n                char c = word.charAt(i);\n                if (charsCnt.getOrDefault(c, 0) < wordCnt.getOrDefault(c, 0)) {\n                    isAns = false;\n                    break;\n                }\n            }\n            if (isAns) {\n                ans += word.length();\n            }\n        }\n        return ans;\n    }\n}\n```\n\n```Python [sol1-Python3]\nclass Solution:\n    def countCharacters(self, words: List[str], chars: str) -> int:\n        chars_cnt = collections.Counter(chars)\n        ans = 0\n        for word in words:\n            word_cnt = collections.Counter(word)\n            for c in word_cnt:\n                if chars_cnt[c] < word_cnt[c]:\n                    break\n            else:\n                ans += len(word)\n        return ans\n```\n\n**复杂度分析**\n\n  - 时间复杂度：$O(n)$，其中 $n$ 为所有字符串的长度和。我们需要遍历每个字符串，包括 `chars` 以及数组 `words` 中的每个单词。\n\n  - 空间复杂度：$O(S)$，其中 $S$ 为字符集大小，在本题中 $S$ 的值为 $26$（所有字符串仅包含小写字母）。程序运行过程中，最多同时存在两个哈希表，使用的空间均不超过字符集大小 $S$，因此空间复杂度为 $O(S)$。",
+      "createdAt": "2020-03-16T07:28:42.913979+00:00",
+      "hitCount": 33053,
+      "identifier": "5KmgZR",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "tong-ji-python3-by-smoon1989",
+        "title": "统计 Python3"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "find-words-that-can-be-formed-by-characters"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 19,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 3,
+          "reactionType": "AWESOME"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "THUMBS_DOWN"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "CONFUSED"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "pin-xie-dan-ci-by-leetcode-solution",
+      "status": "PUBLISHED",
+      "summary": "📺 视频题解 📖 文字题解 方法一：哈希表记数 思路和算法 显然，对于一个单词 word，只要其中的每个字母的数量都不大于 chars 中对应的字母的数量，那么就可以用 chars 中的字母拼写出 word。所以我们只需要用一个哈希表存储 chars 中每个字母的数量，再用一个哈希表存储 word 中每个字母的数量，最",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Hash Table",
+          "nameTranslated": "哈希表",
+          "slug": "hash-table",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "String",
+          "nameTranslated": "字符串",
+          "slug": "string",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "拼写单词",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 105,
+        "id": 152888,
+        "viewCount": 24826
+      },
+      "uuid": "5KmgZR",
+      "videosInfo": [
+        {
+          "__typename": "VideoInfoNode",
+          "coverUrl": "https://video.leetcode-cn.com/image/cover/A497AE8FF2DE439D98A8539DEC50869F-6-2.png",
+          "duration": 726.8693,
+          "videoId": "7fbc1b24417d4da0a826346b51ec49de"
+        }
+      ]
+    }
+  }
+}

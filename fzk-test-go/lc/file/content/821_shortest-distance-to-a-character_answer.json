@@ -1,0 +1,91 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣 (LeetCode)",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/uploaded_files/2021/03/73c9f099-abbe-4d94-853f-f8abffd459cd/leetcode.png",
+          "userSlug": "leetcode"
+        },
+        "username": "LeetCode"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法 1：最小数组\n\n**想法**\n\n对于每个字符 `S[i]`，试图找出距离向左或者向右下一个字符 `C` 的距离。答案就是这两个值的较小值。\n\n**算法**\n\n从左向右遍历，记录上一个字符 `C` 出现的位置 `prev`，那么答案就是 `i - prev`。\n\n从右想做遍历，记录上一个字符 `C` 出现的位置 `prev`，那么答案就是 `prev - i`。\n\n这两个值取最小就是答案。\n\n```Java []\nclass Solution {\n    public int[] shortestToChar(String S, char C) {\n        int N = S.length();\n        int[] ans = new int[N];\n        int prev = Integer.MIN_VALUE / 2;\n\n        for (int i = 0; i < N; ++i) {\n            if (S.charAt(i) == C) prev = i;\n            ans[i] = i - prev;\n        }\n\n        prev = Integer.MAX_VALUE / 2;\n        for (int i = N-1; i >= 0; --i) {\n            if (S.charAt(i) == C) prev = i;\n            ans[i] = Math.min(ans[i], prev - i);\n        }\n\n        return ans;\n    }\n}\n```\n\n```Python []\nclass Solution(object):\n    def shortestToChar(self, S, C):\n        prev = float('-inf')\n        ans = []\n        for i, x in enumerate(S):\n            if x == C: prev = i\n            ans.append(i - prev)\n\n        prev = float('inf')\n        for i in xrange(len(S) - 1, -1, -1):\n            if S[i] == C: prev = i\n            ans[i] = min(ans[i], prev - i)\n\n        return ans\n```\n\n**复杂度分析**\n\n* 时间复杂度：$O(N)$，其中 $N$ 是 `S` 的长度，我们需要遍历字符串两次。\n* 空间复杂度：$O(N)$，`ans` 数组的大小。",
+      "createdAt": "2019-08-21T03:12:25.840199+00:00",
+      "hitCount": 13811,
+      "identifier": "ZbMy8I",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "821zi-fu-de-zui-duan-ju-chi-shi-yong-zhi-n7o9",
+        "title": "821.字符的最短距离 使用指针比较下标间的最短距离"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "shortest-distance-to-a-character"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 11,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "zi-fu-de-zui-duan-ju-chi-by-leetcode",
+      "status": "PUBLISHED",
+      "summary": "§ 方法 1：最小数组\n想法\n对于每个字符 S[i]，试图找出距离向左或者向右下一个字符 C 的距离。答案就是这两个值的较小值。\n算法\n从左向右遍历，记录上一个字符 C 出现的位置 prev，那么答案就是 i - prev。\n从右想做遍历，记录上一个字符 C 出现的位置 prev，那么答案就是 prev - i。\n这两",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Array",
+          "nameTranslated": "数组",
+          "slug": "array",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "字符的最短距离",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 34,
+        "id": 21939,
+        "viewCount": 10262
+      },
+      "uuid": "ZbMy8I",
+      "videosInfo": []
+    }
+  }
+}

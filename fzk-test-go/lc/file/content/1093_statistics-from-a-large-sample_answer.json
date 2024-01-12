@@ -1,0 +1,76 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "934786601",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/default_avatar.png",
+          "userSlug": "934786601"
+        },
+        "username": "934786601"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "```rust\r\nimpl Solution {\r\n    pub fn sample_stats(count: Vec<i32>) -> Vec<f64> {\r\n        let mut minval = 255;\r\n        let mut maxval = 0;\r\n        let mut average = 0.0;\r\n        let mut total_cnt = 0;\r\n        let (mut mode, mut mode_cnt) = (0, 0);\r\n        for (x, &cnt) in count.iter().enumerate() {\r\n            if cnt == 0 {continue}\r\n            let x = x as i32;\r\n            minval = minval.min(x);\r\n            maxval = maxval.max(x);\r\n            total_cnt += cnt;\r\n            if cnt > mode_cnt {\r\n                mode_cnt = cnt;\r\n                mode = x;\r\n            }\r\n        }\r\n        let (mut idx1, mut idx2) = if total_cnt & 1 == 1 {\r\n            (total_cnt >> 1, total_cnt >> 1)\r\n        } else {\r\n            ((total_cnt >> 1) - 1, total_cnt >> 1)\r\n        };\r\n        let (mut mid1, mut mid2) = (0, 0);\r\n        for (x, cnt) in count.into_iter().enumerate() {\r\n            if cnt == 0 {continue}\r\n            average += x as f64 * cnt as f64 / total_cnt as f64;\r\n            if idx1 >= 0 {\r\n                idx1 -= cnt;\r\n                if idx1 < 0 {mid1 = x}\r\n            }\r\n            if idx2 >= 0 {\r\n                idx2 -= cnt;\r\n                if idx2 < 0 {mid2 = x}\r\n            }\r\n        }\r\n        vec![minval as f64, maxval as f64, average,\r\n             (mid1 + mid2) as f64 / 2.0, mode as f64]\r\n    }\r\n}\r\n```\r\n",
+      "createdAt": "2021-11-24T12:27:56.457935+00:00",
+      "hitCount": 4,
+      "identifier": "c1qfrU",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "shua-bao-leetcode-mu-biao-yi-yi-shi-xian-l2bf",
+        "title": "【刷爆Leetcode】目标一一实现，简单易懂"
+      },
+      "position": 14,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "zhi-xing-yong-shi-2-ms-zai-suo-you-java-ti-jiao-zh",
+        "title": "/执行用时 :2 ms, 在所有 Java 提交中击败了84.72%的用户 //内存消耗 :38.7 MB, 在所有 Java 提交中击败了100.00%的用"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "statistics-from-a-large-sample"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "rust-liang-ci-bian-li-by-934786601-nh1o",
+      "status": "PUBLISHED",
+      "summary": "[该用户太懒了，只写了 40 行 Rust 代码]",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Rust",
+          "nameTranslated": "",
+          "slug": "rust",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "【rust】两次遍历",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1120330,
+        "viewCount": 4
+      },
+      "uuid": "c1qfrU",
+      "videosInfo": []
+    }
+  }
+}

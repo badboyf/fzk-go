@@ -1,0 +1,60 @@
+{
+  "data": {
+    "question": {
+      "__typename": "QuestionNode",
+      "book": null,
+      "boundTopicId": 1335,
+      "categoryTitle": "Shell",
+      "codeSnippets": [
+        {
+          "__typename": "CodeSnippetNode",
+          "code": "# Read from the file file.txt and output all valid phone numbers to stdout.",
+          "lang": "Bash",
+          "langSlug": "bash"
+        }
+      ],
+      "companyTagStats": null,
+      "content": "<p>Given a text file <code>file.txt</code> that contains a list of phone numbers (one per line), write a one-liner bash script to print all valid phone numbers.</p>\n\n<p>You may assume that a valid phone number must appear in one of the following two formats: (xxx) xxx-xxxx or xxx-xxx-xxxx. (x means a digit)</p>\n\n<p>You may also assume each line in the text file must not contain leading or trailing white spaces.</p>\n\n<p><strong>Example:</strong></p>\n\n<p>Assume that <code>file.txt</code> has the following content:</p>\n\n<pre>\n987-123-4567\n123 456 7890\n(123) 456-7890\n</pre>\n\n<p>Your script should output the following valid phone numbers:</p>\n\n<pre>\n987-123-4567\n(123) 456-7890\n</pre>\n",
+      "contributors": [],
+      "dailyRecordStatus": null,
+      "difficulty": "Easy",
+      "dislikes": 0,
+      "editorType": "CKEDITOR",
+      "enableRunCode": false,
+      "envInfo": "{\"bash\":[\"Bash\",\"<p>\\u7248\\u672c\\uff1a<code>Bash 4.3.30<\\/code><\\/p>\"]}",
+      "exampleTestcases": "0",
+      "hints": [],
+      "isDailyQuestion": false,
+      "isLiked": null,
+      "isPaidOnly": false,
+      "isSubscribed": false,
+      "judgeType": "large",
+      "judgerAvailable": true,
+      "langToValidPlayground": "{\"cpp\": false, \"java\": false, \"python\": false, \"python3\": false, \"mysql\": false, \"mssql\": false, \"oraclesql\": false, \"c\": false, \"csharp\": false, \"javascript\": false, \"ruby\": false, \"bash\": false, \"swift\": false, \"golang\": false, \"scala\": false, \"html\": false, \"pythonml\": false, \"kotlin\": false, \"rust\": false, \"php\": false, \"typescript\": false, \"racket\": false, \"erlang\": false, \"elixir\": false}",
+      "likes": 92,
+      "metaData": "{\n  \"shell\": true,\n  \"manual\": true\n}",
+      "mysqlSchemas": [],
+      "questionFrontendId": "193",
+      "questionId": "193",
+      "sampleTestCase": "0",
+      "similarQuestions": "[]",
+      "solution": null,
+      "stats": "{\"totalAccepted\": \"27.1K\", \"totalSubmission\": \"83.2K\", \"totalAcceptedRaw\": 27113, \"totalSubmissionRaw\": 83168, \"acRate\": \"32.6%\"}",
+      "status": null,
+      "style": "LEETCODE",
+      "title": "Valid Phone Numbers",
+      "titleSlug": "valid-phone-numbers",
+      "topicTags": [
+        {
+          "__typename": "TopicTagNode",
+          "name": "Shell",
+          "slug": "shell",
+          "translatedName": null
+        }
+      ],
+      "translatedContent": "<p>给定一个包含电话号码列表（一行一个电话号码）的文本文件 <code>file.txt</code>，写一个单行 bash 脚本输出所有有效的电话号码。</p>\n\n<p>你可以假设一个有效的电话号码必须满足以下两种格式： (xxx) xxx-xxxx 或 xxx-xxx-xxxx。（x 表示一个数字）</p>\n\n<p>你也可以假设每行前后没有多余的空格字符。</p>\n\n<p> </p>\n\n<p><strong>示例：</strong></p>\n\n<p>假设 <code>file.txt</code> 内容如下：</p>\n\n<pre>\n987-123-4567\n123 456 7890\n(123) 456-7890\n</pre>\n\n<p>你的脚本应当输出下列有效的电话号码：</p>\n\n<pre>\n987-123-4567\n(123) 456-7890\n</pre>\n",
+      "translatedTitle": "有效电话号码",
+      "ugcQuestionId": null
+    }
+  }
+}

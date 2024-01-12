@@ -1,0 +1,86 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣 (LeetCode)",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/uploaded_files/2021/03/73c9f099-abbe-4d94-853f-f8abffd459cd/leetcode.png",
+          "userSlug": "leetcode"
+        },
+        "username": "LeetCode"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法：缓存深度优先搜索法\n\n**思路**\n\n如果 `y` 比 `x` 富有，就认为在有向图中存在边 `x -> y` 。\n\n对每个 `x`（也就是每个人），我们都希望最安静的人就在 `x` 的子树中。\n\n**算法**\n\n构建上面所描述的图，并且 `dfs(person)` 是 `person` 的子树上最安静的人。注意，因为语句在逻辑上是一致的，所以图必须是有向无环图（即，DAG）—— 任意一条边都有方向，且不存在环路的图。\n\n现在 `dfs(person)` 既可以是 `person` 本身，也可以是 `min(dfs(child))` 。也就是说，子树中最安静的人可以是 `person` 本身，或者是 `person` 的子结点的某个子树中最安静的人。\n\n当执行图的 **后序遍历** 时，我们可以将 `dfs(person)` 的值缓存为 `answer[person]` 。这样，我们就不会重复工作。该技巧有助于将算法的时间复杂度从平方阶降低到线性阶。\n\n```java [solution-Java]\nclass Solution {\n    ArrayList<Integer>[] graph;\n    int[] answer;\n    int[] quiet;\n\n    public int[] loudAndRich(int[][] richer, int[] quiet) {\n        int N = quiet.length;\n        graph = new ArrayList[N];\n        answer = new int[N];\n        this.quiet = quiet;\n\n        for (int node = 0; node < N; ++node)\n            graph[node] = new ArrayList<Integer>();\n\n        for (int[] edge: richer)\n            graph[edge[1]].add(edge[0]);\n\n        Arrays.fill(answer, -1);\n\n        for (int node = 0; node < N; ++node)\n            dfs(node);\n        return answer;\n    }\n\n    public int dfs(int node) {\n        if (answer[node] == -1) {\n            answer[node] = node;\n            for (int child: graph[node]) {\n                int cand = dfs(child);\n                if (quiet[cand] < quiet[answer[node]])\n                    answer[node] = cand;\n            }\n        }\n        return answer[node];\n    }\n}\n```\n\n```python [solution-Python]\nclass Solution(object):\n    def loudAndRich(self, richer, quiet):\n        N = len(quiet)\n        graph = [[] for _ in xrange(N)]\n        for u, v in richer:\n            graph[v].append(u)\n\n        answer = [None] * N\n        def dfs(node):\n            #Want least quiet person in this subtree\n            if answer[node] is None:\n                answer[node] = node\n                for child in graph[node]:\n                    cand = dfs(child)\n                    if quiet[cand] < quiet[answer[node]]:\n                        answer[node] = cand\n            return answer[node]\n\n        return map(dfs, range(N))\n```\n\n\n**复杂度分析**\n\n* 时间复杂度：${O}(N^2)$ ，其中 $N$ 为总人数。遍历 `richer` 数组，在每个新遍历到的人都比前一个更富有的情况下，该数组至多可以包含 $1 + ... + N - 1 = N(N - 1) / 2$ 个元素。\n\n* 空间复杂度：${O}(N^2)$，用于维护一个有 $N^2$ 条边的图。",
+      "createdAt": "2018-06-24T01:11:07.344454+00:00",
+      "hitCount": 8542,
+      "identifier": "I4EZAU",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "tuo-bu-pai-xu-by-lhm5sbfnfp-s04m",
+        "title": "拓扑排序"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "loud-and-rich"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 7,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "xuan-nao-he-fu-you-by-leetcode",
+      "status": "PUBLISHED",
+      "summary": "方法：缓存深度优先搜索法 思路 如果 y 比 x 富有，就认为在有向图中存在边 x -> y 。 对每个 x（也就是每个人），我们都希望最安静的人就在 x 的子树中。 算法 构建上面所描述的图，并且 dfs(person) 是 person 的子树上最安静的人。注意，因为语句在逻辑上是一致的，所以图必须是有向无环图（即",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Depth-First Search",
+          "nameTranslated": "深度优先搜索",
+          "slug": "depth-first-search",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "喧闹和富有",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 10,
+        "id": 3524,
+        "viewCount": 3734
+      },
+      "uuid": "I4EZAU",
+      "videosInfo": []
+    }
+  }
+}

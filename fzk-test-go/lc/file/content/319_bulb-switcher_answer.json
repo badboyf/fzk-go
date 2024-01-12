@@ -1,0 +1,124 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣官方题解",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/leetcode-solution/avatar_1582018938.png",
+          "userSlug": "leetcode-solution"
+        },
+        "username": "LeetCode-Solution"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法一：数学\n\n**思路与算法**\n\n如果我们将所有的灯泡从左到右依次编号为 $1, 2, \\cdots, n$，那么可以发现：\n\n> 在第 $i$ 轮时，我们会将所有编号为 $i$ 的倍数的灯泡进行切换。\n\n因此，对于第 $k$ 个灯泡，它被切换的次数恰好就是 $k$ 的约数个数。如果 $k$ 有偶数个约数，那么最终第 $k$ 个灯泡的状态为暗；如果 $k$ 有奇数个约数，那么最终第 $k$ 个灯泡的状态为亮。\n\n对于 $k$ 而言，如果它有约数 $x$，那么一定有约数 $\\dfrac{k}{x}$。因此只要当 $x^2 \\neq k$ 时，约数都是「成对」出现的。这就说明，只有当 $k$ 是「完全平方数」时，它才会有奇数个约数，否则一定有偶数个约数。\n\n因此我们只需要找出 $1, 2, \\cdots, n$ 中的完全平方数的个数即可，答案即为 $\\lfloor \\sqrt{n} \\rfloor$，其中 $\\lfloor \\cdot \\rfloor$ 表示向下取整。\n\n**细节**\n\n由于 $\\sqrt{n}$ 涉及到浮点数运算，为了保证不出现精度问题，我们可以计算 $\\sqrt{n + \\dfrac{1}{2}}$，这样可以保证计算出来的结果向下取整在 $32$ 位整数范围内一定正确。\n\n**代码**\n\n```C++ [sol1-C++]\nclass Solution {\npublic:\n    int bulbSwitch(int n) {\n        return sqrt(n + 0.5);\n    }\n};\n```\n\n```Java [sol1-Java]\nclass Solution {\n    public int bulbSwitch(int n) {\n        return (int) Math.sqrt(n + 0.5);\n    }\n}\n```\n\n```C# [sol1-C#]\npublic class Solution {\n    public int BulbSwitch(int n) {\n        return (int) Math.Sqrt(n + 0.5);\n    }\n}\n```\n\n```Python [sol1-Python3]\nclass Solution:\n    def bulbSwitch(self, n: int) -> int:\n        return int(sqrt(n + 0.5))\n```\n\n```JavaScript [sol1-JavaScript]\nvar bulbSwitch = function(n) {\n    return Math.floor(Math.sqrt(n + 0.5));\n};\n```\n\n```go [sol1-Golang]\nfunc bulbSwitch(n int) int {\n    return int(math.Sqrt(float64(n) + 0.5))\n}\n```\n\n**复杂度分析**\n\n- 时间复杂度：$O(1)$。\n\n- 空间复杂度：$O(1)$。",
+      "createdAt": "2021-11-13T04:02:17.032737+00:00",
+      "hitCount": 25070,
+      "identifier": "89mP1d",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "gong-shui-san-xie-jing-dian-shu-lun-tui-upnnb",
+        "title": "【宫水三叶】经典数论推论题"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "bulb-switcher"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 53,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 5,
+          "reactionType": "CONFUSED"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "deng-pao-kai-guan-by-leetcode-solution-rrgp",
+      "status": "PREPUBLISH",
+      "summary": "方法一：数学 思路与算法 如果我们将所有的灯泡从左到右依次编号为 $1, 2, \\cdots, n$，那么可以发现： 在第 $i$ 轮时，我们会将所有编号为 $i$ 的倍数的灯泡进行切换。 因此，对于第 $k$ 个灯泡，它被切换的次数恰好就是 $k$ 的约数个数。如果 $k$ 有偶数个约数，那么最终第 $k$ 个灯泡的",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Math",
+          "nameTranslated": "数学",
+          "slug": "math",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C#",
+          "nameTranslated": "",
+          "slug": "csharp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Go",
+          "nameTranslated": "",
+          "slug": "golang",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "JavaScript",
+          "nameTranslated": "",
+          "slug": "javascript",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "灯泡开关",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 166,
+        "id": 1099002,
+        "viewCount": 19189
+      },
+      "uuid": "89mP1d",
+      "videosInfo": []
+    }
+  }
+}

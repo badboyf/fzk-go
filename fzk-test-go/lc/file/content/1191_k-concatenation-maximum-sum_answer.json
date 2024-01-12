@@ -1,0 +1,79 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "用DFS搜到<锅包又>",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/yzboostforest/avatar_1625113111.png",
+          "userSlug": "yzboostforest"
+        },
+        "username": "YZBoostForest"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n首先分两种情况讨论，（1）当数组本身的和小于0时，最大subarray只可能出现在单独的array中， 而不是连接的array链， 这时问题就跟53题一样了，即求array中的max subarray sum; (2) 当数组和大于等于0时，最大subarray和可以出现在array链中，这时的解法很可能根据K不同而天差地别，但不妨转换一下思路，题目让求最大值，这里可以想想怎么求最小和，即最大subarray左右两侧的数组和。\n\n### 代码\n\n```python\nclass Solution(object):\n    def kConcatenationMaxSum(self, arr, k):\n         if sum(arr)<0:\n            if k>=2:\n                arr = arr*2\n            temp = 0\n            maxx = -float('inf')\n            for x in arr:\n                temp = max(0, temp+x)\n                maxx = max(maxx, temp)\n            return max(0,maxx)%(10**9+7)\n\n         else:\n            temp1, temp2, minn1, minn2 = 0, 0, 0, 0\n            for i in range(len(arr)):\n                temp1+=arr[i]\n                temp2+=arr[len(arr)-1-i]\n                minn1 = min(temp1, minn1)\n                minn2 = min(temp2, minn2)\n\n            return max(0, sum(arr)*k-minn1-minn2)%(10**9+7)\n            \n```",
+      "createdAt": "2021-10-16T04:16:56.758074+00:00",
+      "hitCount": 151,
+      "identifier": "nHDEtv",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "tan-xin-kao-cha-fen-lei-tao-lun-by-zhouz-2ecu",
+        "title": "【贪心】【考察分类讨论】"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "k-concatenation-maximum-sum"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "ni-xiang-qiu-zui-xiao-zhi-python-by-yzbo-dy4n",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n首先分两种情况讨论，（1）当数组本身的和小于0时，最大subarray只可能出现在单独的array中， 而不是连接的array链， 这时问题就跟53题一样了，即求array中的max subarray sum; (2) 当数组和大于等于0时，最大subarray和可以出现在array链中，这时的解法很可能根据",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Array",
+          "nameTranslated": "数组",
+          "slug": "array",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "逆向求最小值 Python",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1050010,
+        "viewCount": 114
+      },
+      "uuid": "nHDEtv",
+      "videosInfo": []
+    }
+  }
+}

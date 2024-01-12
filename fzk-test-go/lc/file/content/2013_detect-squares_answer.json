@@ -1,0 +1,77 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "9磅15便士",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/9bang-15bian-shi/avatar_1594192436.png",
+          "userSlug": "9bang-15bian-shi"
+        },
+        "username": "9bang-15bian-shi"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n此处撰写解题思路\n    根据边找点\n    题目要求找正方形，而且边要与 x轴 或 y轴 平行，我们可以根据要求的点<x, y> 找点集中与其纵坐标相同的点<x1, y>（用map记录），这样就确定一条边，求出长度length。根据这条边可以确定与要求的横坐标相同的点<x, y + length> 与第四个点 <x1, y + length>是否存在（或者<x, y - length> 和 <x1, y - length>）。\n\n![S1EWL6DA)N\\[NIH8D4MJLRZQ.png](https://pic.leetcode-cn.com/1632025709-sXHQDe-S1EWL6DA\\)N%5BNIH8D4MJLRZQ.png)\n### 代码\n\n```cpp\nclass DetectSquares {\nprivate:\n    map<int, vector<int>> xCnt;\n    map<pair<int, int>, int> mp;\npublic:\n    DetectSquares() {}\n    \n    void add(vector<int> point) {\n        xCnt[point[1]].push_back(point[0]);\n        mp[{point[0], point[1]}]++;\n    }\n    \n    int count(vector<int> point) {\n        int ans = 0;\n\n        for (int x : xCnt[point[1]]) {\n            if (x == point[0]) continue;\n            int length = abs(point[0] - x);\n            ans += mp[{point[0], point[1] + length}] * mp[{x, point[1] + length}] + mp[{point[0], point[1] - length}] * mp[{x, point[1] - length}];\n        }\n\n        return ans;\n    }\n};\n\n/**\n * Your DetectSquares object will be instantiated and called as such:\n * DetectSquares* obj = new DetectSquares();\n * obj->add(point);\n * int param_2 = obj->count(point);\n */\n```",
+      "createdAt": "2021-09-19T04:37:27.225341+00:00",
+      "hitCount": 1102,
+      "identifier": "M6F8ta",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "mei-ju-suo-you-dui-jiao-xian-de-dian-pan-4zo3",
+        "title": "枚举所有对角线的点判断是否构成正方形即可"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "detect-squares"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 8,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "c-mapshuang-bai-by-9bang-15bian-shi-zqbj",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n此处撰写解题思路\n根据边找点\n题目要求找正方形，而且边要与 x轴 或 y轴 平行，我们可以根据要求的点<x, y> 找点集中与其纵坐标相同的点<x1, y>（用map记录），这样就确定一条边，求出长度length。根据这条边可以确定与要求的横坐标相同的点<x, y + length> 与第四个点 <x1, y",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1632025709-sXHQDe-S1EWL6DA)N%5BNIH8D4MJLRZQ.png",
+      "title": "c++ map双百",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 5,
+        "id": 1006088,
+        "viewCount": 784
+      },
+      "uuid": "M6F8ta",
+      "videosInfo": []
+    }
+  }
+}

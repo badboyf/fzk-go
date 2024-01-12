@@ -1,0 +1,76 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "Rookie",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/rookie-127/avatar_1632196635.png",
+          "userSlug": "rookiewantajob"
+        },
+        "username": "rookieWantAJob"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "\r\n选择跑道的依据是： 每次选择障碍最远的跑道，即从该点往后查找，选择其余两条中最远出现障碍的跑道。\r\n```\r\nclass Solution {\r\n    public int minSideJumps(int[] obstacles) {\r\n        //当前跳数\r\n        int jumpTimes =0;\r\n        //当前跑道编号\r\n        int currentRound = 2;\r\n        int i =0;\r\n        int n = obstacles.length;\r\n        while(i<n-1){\r\n            int precurrentRound = currentRound;\r\n            int j=i;\r\n            // 如果下一个位置有障碍，则必须进行侧跳\r\n            if(obstacles[i+1]==currentRound){\r\n                // 侧跳次数加一\r\n                jumpTimes++;\r\n                // 然后从该处位置开始寻找下一个跑道编号\r\n                while(j<=n-1){\r\n                    // 如果没有障碍 或者该障碍是原跑道 则不处理\r\n                    if(obstacles[j]==0 || obstacles[j]==currentRound) \r\n                    {   \r\n                        j++;\r\n                    }else if(obstacles[j]==3){\r\n                        // 如果障碍不在原跑道。且障碍在第三个跑道 那么判断原跑道是1 还是 2  如果是1 则选择跑道2，如果是2 则选择跑道1\r\n                        if(currentRound==1){\r\n                            currentRound=2;\r\n                            break;\r\n                        }else if(currentRound==2){\r\n                            currentRound=1;\r\n                            break;\r\n                        }\r\n                    }else if(obstacles[j]==2){\r\n                        if(currentRound==1){\r\n                            currentRound=3;\r\n                            break;\r\n                        }else{\r\n                            currentRound=1;\r\n                            break;\r\n                        }\r\n                    }else {\r\n                        if(currentRound==2){\r\n                            currentRound=3;\r\n                            break;\r\n                        }else{\r\n                            currentRound=2;\r\n                            break;\r\n                        }\r\n                    }\r\n                }\r\n                // 如果接下来其余两条跑道没有障碍 则随意选择一个跑道即可\r\n                if(currentRound==precurrentRound ){\r\n                    currentRound=(currentRound + 1) %3 +1;\r\n                }\r\n            } else j++;\r\n            // 由于在往后查找的过程当中已经确定好了下一个障碍的位置 以及跑道编号  j经过的地方都是可以直接跳过的，所以下一次直接从j开始进行判断\r\n            i=j;\r\n        }\r\n        return jumpTimes;\r\n    }\r\n}\r\n```\r\n",
+      "createdAt": "2021-10-02T09:02:15.348304+00:00",
+      "hitCount": 134,
+      "identifier": "n6Tw3v",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "dp-dong-tai-gui-hua-by-hu-li-hu-wai-dah5",
+        "title": "34ms 一维动态规划 注释详解"
+      },
+      "position": 4,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "tan-xin-jiu-hao-by-helloworld-62-1eum",
+        "title": "贪心就好"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "minimum-sideway-jumps"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "java-tan-xin-by-rookie-127-3xh5",
+      "status": "PREPUBLISH",
+      "summary": "选择跑道的依据是： 每次选择障碍最远的跑道，即从该点往后查找，选择其余两条中最远出现障碍的跑道。",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "Java 贪心",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1028085,
+        "viewCount": 113
+      },
+      "uuid": "n6Tw3v",
+      "videosInfo": []
+    }
+  }
+}

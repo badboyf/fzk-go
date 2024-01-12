@@ -1,0 +1,105 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "ichWin",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/chengyong-zhao-8/avatar_1621387015.png",
+          "userSlug": "ichwin"
+        },
+        "username": "ichwin"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n直觉：解决树问题先用递归\n\n解释：如果 `node` 是root 而且没有被删除，则加入答案\n\n时间复杂度：O（N）\n空间复杂度：O（H + N）H 为树的高度\n\n### 代码\n\n```Java []\n    Set<Integer> toDelSet;\n    List<TreeNode> res;\n    public List<TreeNode> delNodes(TreeNode root, int[] to_delete) {\n        toDelSet = new HashSet<>();\n        res = new ArrayList<>();\n        for (int i : to_delete) {\n            toDelSet.add(i);\n        }\n        dfs(root, true);\n        return res;\n    }\n\n    private TreeNode dfs(TreeNode node, boolean is_root) {\n        if (node == null) {\n            return null;\n        }\n\n        boolean deleted = toDelSet.contains(node.val);\n        if (is_root && !deleted) {\n            res.add(node);\n        }\n        node.left = dfs(node.left, deleted);\n        node.right = dfs(node.right, deleted);\n\n        return deleted ? null : node;\n    }\n```\n\n```C++ []\n    vector<TreeNode*> result;\n    set<int> to_delete_set;\n    vector<TreeNode*> delNodes(TreeNode* root, vector<int>& to_delete) {\n        for (int i : to_delete)\n            to_delete_set.insert(i);\n        helper(root, result, to_delete_set, true);\n        return result;\n    }\n\n    TreeNode* helper(TreeNode* node, vector<TreeNode*>& result, set<int>& to_delete_set, bool is_root) {\n        if (node == NULL) return NULL;\n        bool deleted = to_delete_set.find(node->val) != to_delete_set.end();\n        if (is_root && !deleted) result.push_back(node);\n        node->left = helper(node->left, result, to_delete_set, deleted);\n        node->right =  helper(node->right, result, to_delete_set, deleted);\n        return deleted ? NULL : node;\n    }\n```\n\n```Python []\n    def delNodes(self, root, to_delete):\n        to_delete_set = set(to_delete)\n        res = []\n\n        def helper(root, is_root):\n            if not root: return None\n            root_deleted = root.val in to_delete_set\n            if is_root and not root_deleted:\n                res.append(root)\n            root.left = helper(root.left, root_deleted)\n            root.right = helper(root.right, root_deleted)\n            return None if root_deleted else root\n        helper(root, True)\n        return res\n```",
+      "createdAt": "2021-11-07T03:29:49.457807+00:00",
+      "hitCount": 237,
+      "identifier": "CQme6b",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "c-xian-xu-bian-li-hou-xu-bian-li-liang-c-wdnd",
+        "title": "【C++】先序遍历 / 后序遍历 两种思路"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "delete-nodes-and-return-forest"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 0,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "java-python-c-di-gui-jie-fa-by-ichwin-n3yq",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n直觉：解决树问题先用递归\n解释：如果 node 是root 而且没有被删除，则加入答案\n时间复杂度：O（N）\n空间复杂度：O（H + N）H 为树的高度\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Recursion",
+          "nameTranslated": "递归",
+          "slug": "recursion",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python3",
+          "nameTranslated": "",
+          "slug": "python3",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "[Java, Python, C++] 递归解法",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 3,
+        "id": 1088324,
+        "viewCount": 173
+      },
+      "uuid": "CQme6b",
+      "videosInfo": []
+    }
+  }
+}

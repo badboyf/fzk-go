@@ -1,0 +1,90 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "追风少年",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/yim-6/avatar_1603780175.png",
+          "userSlug": "yim-6"
+        },
+        "username": "yim-6"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n1. 思路\n    - Python3中的除法是`向下取整`。示例：`3/-2=-1.5` 向下取整为`-2`，所以`3//-2=-2`\n    - 转换公式：`N,mod=-(N>>1),N%2`\n\n### 代码\n\n```python3\nclass Solution:\n    def baseNeg2(self, N: int) -> str:\n        res=\"\"\n        while N:\n            N,mod=-(N>>1),N%2\n            res=str(mod)+res\n        return res if res else \"0\"\n```",
+      "createdAt": "2021-02-27T07:27:52.211408+00:00",
+      "hitCount": 728,
+      "identifier": "jtFfmt",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "100100bao-li-jin-zhi-zhuan-huan-jian-dan-zhi-guan-",
+        "title": "100%+100%暴力进制转换，简单直观"
+      },
+      "position": 4,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "c-zheng-fu-kjin-zhi-zhuan-huan-tong-yong-ti-jie-by",
+        "title": "C++ 正负K进制转换通用题解"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "convert-to-base-2"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "python3-fu-er-jin-zhi-by-yim-6-gv6t",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n\n思路\n\nPython3中的除法是向下取整。示例：3/-2=-1.5 向下取整为-2，所以3//-2=-2\n转换公式：N,mod=-(N>>1),N%2\n\n\n\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Bit Manipulation",
+          "nameTranslated": "位运算",
+          "slug": "bit-manipulation",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python3",
+          "nameTranslated": "",
+          "slug": "python3",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "Python3 负二进制",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 624397,
+        "viewCount": 581
+      },
+      "uuid": "jtFfmt",
+      "videosInfo": []
+    }
+  }
+}

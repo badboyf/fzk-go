@@ -1,0 +1,93 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "程序员小熊",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/dine/avatar_1626888489.png",
+          "userSlug": "dine"
+        },
+        "username": "Dine"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "# 解题思路\n题目很饶，看了好几遍，终于知道意思了。题目相当于要**求满足所有扣友选题用到的最小的知识点类型种数**。\n\n弄懂了题意就好做了。\n\n可以采用 **哈希表** 统计**每道题出现的次数**，再将**哈希表里面的数字出现的次数进行快排排序（由大到小）**;\n\n然后对**快排后的哈希表遍历求和 sum**，当和 **sum 大于等于题目的数量**时，即 **sum ≥ questionsSize / 2**，返回数组的索引加 1 即可。\n\n# 举栗\n以 questions = [2,1,6,2] 为例子。\n\n1. 创建**哈希表，C 语言用数组模拟**；\n\n2. 将**哈希表（数组）的下标进行排序**，按照**下标对应的值的大小**由大到小排序；\n\n3. 对**排序好的哈希表（数组）进行遍历求和**，当 sum ≥ questionsSize / 2时，返回索引加 1。\n\n# 具体\n针对上面的例子，解释如下：\n\n排序后的哈希表是 hash[] = {2, 1, 6}，因为 2 出现两次，所以排第一个，1 和 6 都只出现一次，排第二三个。\n\n然后求数组 hash 求和 sum += hash[i]，由于当 i = 0 时， sum = 2 ≥ questionsSize / 2 == 2；\n\n所以直接返回 i + 1 = 1 即可。\n\n# Show me the Code\n```c\nint comp(const void *a, const void *b) {\n    return *(int *)b - *(int *)a;\n}\n\n\nint halfQuestions(int* questions, int questionsSize){\n    int sum = 0;\n    int hash[1001] = {0};\n    int len = questionsSize / 2;\n    for (int i = 0; i < questionsSize; ++i) {\n        hash[questions[i]]++;\n    }\n\n    qsort(hash, 1001, sizeof(int), comp);\n    for (int i = 0; i < 1001; ++i) {\n        sum += hash[i];\n        if (sum >= len) {\n            return i + 1;\n        }\n    }\n\n    return 0;\n}\n```\n\n# 更多精彩\n关注【**程序员小熊**】",
+      "createdAt": "2021-11-10T14:53:49.919988+00:00",
+      "hitCount": 101,
+      "identifier": "6bFvdV",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "wan-cheng-yi-ban-ti-mu-by-pinocchioooo-nly3",
+        "title": "完成一半题目"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "WqXACV"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": true,
+      "slug": "lcs-02-wan-cheng-yi-ban-ti-mu-by-dine-zkpg",
+      "status": "PUBLISHED",
+      "summary": "解题思路\n题目很饶，看了好几遍，终于知道意思了。题目相当于要求满足所有扣友选题用到的最小的知识点类型种数。\n弄懂了题意就好做了。\n可以采用 哈希表 统计每道题出现的次数，再将哈希表里面的数字出现的次数进行快排排序（由大到小）;\n然后对快排后的哈希表遍历求和 sum，当和 sum 大于等于题目的数量时，即 sum ≥ q",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Array",
+          "nameTranslated": "数组",
+          "slug": "array",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Hash Table",
+          "nameTranslated": "哈希表",
+          "slug": "hash-table",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C",
+          "nameTranslated": "",
+          "slug": "c",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "快速排序",
+          "nameTranslated": "",
+          "slug": "kuai-su-pai-xu",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "",
+      "title": "LCS 02. 完成一半题目",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1095302,
+        "viewCount": 88
+      },
+      "uuid": "6bFvdV",
+      "videosInfo": []
+    }
+  }
+}

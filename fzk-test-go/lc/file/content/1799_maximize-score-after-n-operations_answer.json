@@ -1,0 +1,77 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "mike-meng",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/mike-meng/avatar_1563325825.png",
+          "userSlug": "mike-meng"
+        },
+        "username": "mike-meng"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "1. 标准的模板题，状态压缩`dp`加上子空间遍历。\r\n2. 设`dp[state]`表示当前已经选择的元素的掩码为`state`时，所能获取到的最大分数。首先我们需要确定的是`state`中一定包含偶数个元素，我们设然`state`包含的元素个数为`x`，我们遍历`state`的状态子空间`prevstate`，当且仅当`prevstate`包含`x-2`个元素时，此时我们就可以得到`dp`的递推公式:\r\n$$\r\ndp[state] = max(dp[state],dp[prevstate] + \\frac{x}{2}*dp[prevstate\\bigoplus state])\r\n$$\r\n```c++\r\nclass Solution {\r\npublic:\r\n    int count(int n){\r\n        int ans = 0;\r\n        while(n > 0){\r\n            n = n&(n-1);\r\n            ans++;\r\n        }\r\n        return ans;\r\n    }\r\n    \r\n    int maxScore(vector<int>& nums) {\r\n        int n = nums.size();\r\n        vector<int> dp(1<<n,0);\r\n        for(int i = 0; i < n; ++i){\r\n            for(int j = i+1; j < n; ++j){\r\n                dp[(1<<i)|(1<<j)] = __gcd(nums[i],nums[j]);\r\n            }\r\n        }\r\n        \r\n        for(int i = 1; i < (1<<n); ++i){\r\n            if(count(i)%2) continue;\r\n            for(int j = i; j != 0; j = (j-1)&i){\r\n                if(count(i) - count(j) == 2){\r\n                    dp[i] = max(dp[i],dp[j] + (count(i)/2)*dp[i^j]);\r\n                }\r\n            }\r\n        }\r\n        \r\n        return dp[(1<<n)-1];\r\n    }\r\n};\r\n```",
+      "createdAt": "2021-03-21T00:36:15.462800+00:00",
+      "hitCount": 1829,
+      "identifier": "lkt5kN",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "javaji-yi-hua-sou-suo-yu-chu-li-gcd59ms-6zw66",
+        "title": "Java记忆化搜索+预处理gcd，59ms"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "maximize-score-after-n-operations"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 13,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "dong-tai-gui-hua-bao-li-by-mike-meng-h88s",
+      "status": "PREPUBLISH",
+      "summary": "标准的模板题，状态压缩dp加上子空间遍历。\n设dp[state]表示当前已经选择的元素的掩码为state时，所能获取到的最大分数。首先我们需要确定的是state中一定包含偶数个元素，我们设然state包含的元素个数为x，我们遍历state的状态子空间prevstate，当且仅当prevstate包含x-2个元素时，此",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "动态规划暴力",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 3,
+        "id": 670152,
+        "viewCount": 1235
+      },
+      "uuid": "lkt5kN",
+      "videosInfo": []
+    }
+  }
+}

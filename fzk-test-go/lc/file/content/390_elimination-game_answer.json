@@ -1,0 +1,79 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "ffreturn",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/ffreturn/avatar_1608859813.png",
+          "userSlug": "ffreturn"
+        },
+        "username": "ffreturn"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "![WX20210602-090238@2x.png](https://pic.leetcode-cn.com/1622595776-IVIxSD-WX20210602-090238@2x.png)\n\n\n### 解题思路\n总结规律\n1. 不论奇偶数，最后一个消除的就是从左往右的点，这个恰好也是我们起点\n2. 从左往右消除，起点肯定会改变\n3. 从右往左消除，偶数时候起点不改变，奇数时候会改变\n4. 而最后一个数字即最后起点就是结果\n剩下就是模拟直接去求解了\n\n### 代码\n\n```cpp\n\nclass Solution {\npublic:\n    int lastRemaining(int n) {\n        int start = 1;\n        // 步长,会不断加倍\n        int step = 1;\n        // 判断是从左往右还是从右往左\n        bool isLR = true;\n        while (n > 1)\n        {\n            // 从左往右 或者 从右往左奇数个 时候起点才会改变\n            if (isLR || (n &1) == 1)\n            {\n                start += step;\n            }\n            // 长度减半\n            n >>= 1;\n            step <<= 1;\n            isLR = !isLR;\n        }\n\n        return start;\n    }\n};\n```",
+      "createdAt": "2021-06-02T01:03:31.278073+00:00",
+      "hitCount": 1476,
+      "identifier": "TyOrY8",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "javadi-gui-xiang-xi-tui-dao-by-maplestor-k6k4",
+        "title": "Java递归，详细推导"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "elimination-game"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 9,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "390-cchao-100de-jian-dan-zhi-bai-de-mo-n-5bnh",
+      "status": "PUBLISHED",
+      "summary": "解题思路\n总结规律\n\n不论奇偶数，最后一个消除的就是从左往右的点，这个恰好也是我们起点\n从左往右消除，起点肯定会改变\n从右往左消除，偶数时候起点不改变，奇数时候会改变\n而最后一个数字即最后起点就是结果\n剩下就是模拟直接去求解了\n\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Simulation",
+          "nameTranslated": "模拟",
+          "slug": "simulation",
+          "tagType": "TOPIC"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1622595776-IVIxSD-WX20210602-090238@2x.png",
+      "title": "390. c++超100的简单易懂模拟解法",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 2,
+        "id": 808113,
+        "viewCount": 1113
+      },
+      "uuid": "TyOrY8",
+      "videosInfo": []
+    }
+  }
+}

@@ -1,0 +1,96 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣 (LeetCode)",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/uploaded_files/2021/03/73c9f099-abbe-4d94-853f-f8abffd459cd/leetcode.png",
+          "userSlug": "leetcode"
+        },
+        "username": "LeetCode"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法一： 动态规划\n\n**思路**\n\n`dp[i]` 为加 `i` 次油能走的最远距离，需要满足 `dp[i] >= target` 的最小 `i`。\n\n**算法**\n\n依次计算每个 `dp[i]`，对于 `dp[0]`，就只用初始的油量 `startFuel` 看能走多远。\n\n每多一个加油站 `station[i] = (location, capacity)`，如果之前可以通过加 `t` 次油到达这个加油站，现在就可以加 `t+1` 次油得到 `capcity` 的油量。\n\n举个例子，原本加一次油可以行驶的最远距离为 15，现在位置 10 有一个加油站，有 30 升油量储备，那么显然现在可以加两次油行驶 45 距离。 \n\n\n```java [solution1-Java]\nclass Solution {\n    public int minRefuelStops(int target, int startFuel, int[][] stations) {\n        int N = stations.length;\n        long[] dp = new long[N + 1];\n        dp[0] = startFuel;\n        for (int i = 0; i < N; ++i)\n            for (int t = i; t >= 0; --t)\n                if (dp[t] >= stations[i][0])\n                    dp[t+1] = Math.max(dp[t+1], dp[t] + (long) stations[i][1]);\n\n        for (int i = 0; i <= N; ++i)\n            if (dp[i] >= target) return i;\n        return -1;\n    }\n}\n```\n\n```python [solution1-Python]\nclass Solution(object):\n    def minRefuelStops(self, target, startFuel, stations):\n        dp = [startFuel] + [0] * len(stations)\n        for i, (location, capacity) in enumerate(stations):\n            for t in xrange(i, -1, -1):\n                if dp[t] >= location:\n                    dp[t+1] = max(dp[t+1], dp[t] + capacity)\n\n        for i, d in enumerate(dp):\n            if d >= target: return i\n        return -1\n```\n\n**复杂度分析**\n\n* 时间复杂度： $O(N^2)$，其中 $N$ 为加油站的个数。\n\n* 空间复杂度： $O(N)$，`dp` 数组占用的空间。\n\n#### 方法二：栈\n\n**思路**\n\n每驶过一个加油站，记住这个加油站有多少油。不需要立即决定要不要在这个加油站加油，如果后面有油量更多的加油站显然优先选择后面的加油。\n\n如果当前油量不够抵达下一个加油站，必须得从之前的加油站中找一个来加油，贪心选择最大油量储备的加油站就好了。\n\n**算法**\n\n定义 `pq`（优先队列）为一个保存了驶过加油站油量的最大堆，定义当前油量为 `tank`。\n\n如果当前油量为负数（意味着当前油量不够抵达当前位置），那就必须在驶过的加油站找一个油量储备最大来加油。\n\n如果在某个位置油量为负，且没有加油站可用了，那就不可能完成这个任务。\n\n```java [solution2-Java]\nclass Solution {\n    public int minRefuelStops(int target, int tank, int[][] stations) {\n        // pq is a maxheap of gas station capacities\n        PriorityQueue<Integer> pq = new PriorityQueue(Collections.reverseOrder());\n        int ans = 0, prev = 0;\n        for (int[] station: stations) {\n            int location = station[0];\n            int capacity = station[1];\n            tank -= location - prev;\n            while (!pq.isEmpty() && tank < 0) {  // must refuel in past\n                tank += pq.poll();\n                ans++;\n            }\n\n            if (tank < 0) return -1;\n            pq.offer(capacity);\n            prev = location;\n        }\n\n        // Repeat body for station = (target, inf)\n        {\n            tank -= target - prev;\n            while (!pq.isEmpty() && tank < 0) {\n                tank += pq.poll();\n                ans++;\n            }\n            if (tank < 0) return -1;\n        }\n\n        return ans;\n    }\n}\n```\n\n```python [solution2-Python]\nclass Solution(object):\n    def minRefuelStops(self, target, tank, stations):\n        pq = []  # A maxheap is simulated using negative values\n        stations.append((target, float('inf')))\n\n        ans = prev = 0\n        for location, capacity in stations:\n            tank -= location - prev\n            while pq and tank < 0:  # must refuel in past\n                tank += -heapq.heappop(pq)\n                ans += 1\n            if tank < 0: return -1\n            heapq.heappush(pq, -capacity)\n            prev = location\n\n        return ans\n```\n\n\n**复杂度分析**\n\n* 时间复杂度： $O(N \\log N)$，其中 $N$ 为加油站的个数。\n\n* 空间复杂度： $O(N)$， `pq` 数组占用的空间。",
+      "createdAt": "2019-08-06T06:07:12.784861+00:00",
+      "hitCount": 14910,
+      "identifier": "PJvEh9",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "871-you-xian-dui-lie-10xing-by-ichwin-654r",
+        "title": "871 优先队列 10行 O(NlogN)"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "minimum-number-of-refueling-stops"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 25,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 3,
+          "reactionType": "CONFUSED"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "zui-di-jia-you-ci-shu-by-leetcode",
+      "status": "PUBLISHED",
+      "summary": "§ 方法一： 动态规划\n思路\ndp[i] 为加 i 次油能走的最远距离，需要满足 dp[i] >= target 的最小 i。\n算法\n依次计算每个 dp[i]，对于 dp[0]，就只用初始的油量 startFuel 看能走多远。\n每多一个加油站 station[i] = (location, capacity)，如果之",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Dynamic Programming",
+          "nameTranslated": "动态规划",
+          "slug": "dynamic-programming",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "最低加油次数",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 16,
+        "id": 18766,
+        "viewCount": 9260
+      },
+      "uuid": "PJvEh9",
+      "videosInfo": []
+    }
+  }
+}

@@ -1,0 +1,86 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "草莓奶昔",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/cao-mei-nai-xi-i/avatar_1626248666.png",
+          "userSlug": "cao-mei-nai-xi-i"
+        },
+        "username": "cao-mei-nai-xi-i"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "![20211029170644.png](https://pic.leetcode-cn.com/1635498413-GFhaCo-20211029170644.png)\n### 解题思路\n1. order 数组记录 dfs 的访问顺序\n2. low 数组记录能访问到的**最小的 orderIndex**\n3. 前进时对 cur 的 low 取 min，回退时对 parent 的 low 取 min\n4. 回退的最后阶段，如果low[cur]>order[parent]，那么[parent,cur]是桥\n\n### 代码\n\n```typescript\nfunction criticalConnections(n: number, connections: number[][]): number[][] {\n  const res: [parent: number, cur: number][] = []\n\n  // 建图\n  const adjList = Array.from<unknown, number[]>({ length: n }, () => [])\n  connections.forEach(([cur, next]) => {\n    adjList[cur].push(next)\n    adjList[next].push(cur)\n  })\n\n  let orderIndex = 0\n  const visited = Array<boolean>(n).fill(false)\n  const order = Array<number>(n).fill(Infinity)\n  const low = Array<number>(n).fill(Infinity)\n\n  dfs(0, Infinity)\n  return res\n\n  function dfs(cur: number, parent: number) {\n    if (visited[cur]) return\n    visited[cur] = true\n\n    order[cur] = orderIndex\n    low[cur] = orderIndex\n    orderIndex++\n\n    for (const next of adjList[cur]) {\n      if (next === parent) continue\n      if (!visited[next]) {\n        dfs(next, cur)\n      } else {\n        low[cur] = Math.min(low[cur], low[next])\n      }\n    }\n\n    // 回退阶段\n    low[parent] = Math.min(low[parent], low[cur])\n    if (low[cur] > order[parent]) res.push([parent, cur])\n  }\n};\n```",
+      "createdAt": "2021-10-29T09:11:57.959717+00:00",
+      "hitCount": 327,
+      "identifier": "yfs3Ok",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "1192-czhong-gui-zhong-ju-de-di-gui-jie-f-bnbx",
+        "title": "1192. c++中规中矩的递归解法"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "critical-connections-in-a-network"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "xun-zhao-lian-tong-wu-xiang-tu-de-qiao-b-fluk",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n\norder 数组记录 dfs 的访问顺序\nlow 数组记录能访问到的最小的 orderIndex\n前进时对 cur 的 low 取 min，回退时对 parent 的 low 取 min\n回退的最后阶段，如果low[cur]>order[parent]，那么[parent,cur]是桥\n\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "桥",
+          "nameTranslated": "",
+          "slug": "qiao",
+          "tagType": "ADDITIONAL_TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "js",
+          "nameTranslated": "",
+          "slug": "js",
+          "tagType": "ADDITIONAL_TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "ts",
+          "nameTranslated": "",
+          "slug": "ts",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1635498413-GFhaCo-20211029170644.png",
+      "title": "寻找联通无向图的桥",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1073077,
+        "viewCount": 247
+      },
+      "uuid": "yfs3Ok",
+      "videosInfo": []
+    }
+  }
+}

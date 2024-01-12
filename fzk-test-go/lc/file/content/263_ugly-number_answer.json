@@ -1,0 +1,114 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣官方题解",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/leetcode-solution/avatar_1582018938.png",
+          "userSlug": "leetcode-solution"
+        },
+        "username": "LeetCode-Solution"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法一：数学\n\n根据丑数的定义，$0$ 和负整数一定不是丑数。\n\n当 $n>0$ 时，若 $n$ 是丑数，则 $n$ 可以写成 $n = 2^a \\times 3^b \\times 5^c$ 的形式，其中 $a,b,c$ 都是非负整数。特别地，当 $a,b,c$ 都是 $0$ 时，$n=1$。\n\n为判断 $n$ 是否满足上述形式，可以对 $n$ 反复除以 $2,3,5$，直到 $n$ 不再包含质因数 $2,3,5$。若剩下的数等于 $1$，则说明 $n$ 不包含其他质因数，是丑数；否则，说明 $n$ 包含其他质因数，不是丑数。\n\n```Java [sol1-Java]\nclass Solution {\n    public boolean isUgly(int n) {\n        if (n <= 0) {\n            return false;\n        }\n        int[] factors = {2, 3, 5};\n        for (int factor : factors) {\n            while (n % factor == 0) {\n                n /= factor;\n            }\n        }\n        return n == 1;\n    }\n}\n```\n\n```JavaScript [sol1-JavaScript]\nvar isUgly = function(n) {\n    if (n <= 0) {\n        return false;\n    }\n    const factors = [2, 3, 5];\n    for (const factor of factors) {\n        while (n % factor === 0) {\n            n /= factor;\n        }\n    }\n    return n == 1;\n};\n```\n\n```go [sol1-Golang]\nvar factors = []int{2, 3, 5}\n\nfunc isUgly(n int) bool {\n    if n <= 0 {\n        return false\n    }\n    for _, f := range factors {\n        for n%f == 0 {\n            n /= f\n        }\n    }\n    return n == 1\n}\n```\n\n```Python [sol1-Python3]\nclass Solution:\n    def isUgly(self, n: int) -> bool:\n        if n <= 0:\n            return False\n\n        factors = [2, 3, 5]\n        for factor in factors:\n            while n % factor == 0:\n                n //= factor\n        \n        return n == 1\n```\n\n```C++ [sol1-C++]\nclass Solution {\npublic:\n    bool isUgly(int n) {\n        if (n <= 0) {\n            return false;\n        }\n        vector<int> factors = {2, 3, 5};\n        for (int factor : factors) {\n            while (n % factor == 0) {\n                n /= factor;\n            }\n        }\n        return n == 1;\n    }\n};\n```\n\n```C [sol1-C]\nbool isUgly(int n) {\n    if (n <= 0) {\n        return false;\n    }\n    int factors[] = {2, 3, 5};\n    for (int i = 0; i < 3; i++) {\n        while (n % factors[i] == 0) {\n            n /= factors[i];\n        }\n    }\n    return n == 1;\n}\n```\n\n**复杂度分析**\n\n- 时间复杂度：$O(\\log n)$。时间复杂度取决于对 $n$ 除以 $2,3,5$ 的次数，由于每次至少将 $n$ 除以 $2$，因此除法运算的次数不会超过 $O(\\log n)$。\n\n- 空间复杂度：$O(1)$。",
+      "createdAt": "2021-04-09T15:19:12.522385+00:00",
+      "hitCount": 33720,
+      "identifier": "RFLQqG",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "gong-shui-san-xie-jian-dan-de-fen-qing-k-dlvg",
+        "title": "【宫水三叶】简单的分情况讨论题，以及为啥先除哪个都可以"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "ugly-number"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 29,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "chou-shu-by-leetcode-solution-fazd",
+      "status": "PUBLISHED",
+      "summary": "方法一：数学 根据丑数的定义，$0$ 和负整数一定不是丑数。 当 $n>0$ 时，若 $n$ 是丑数，则 $n$ 可以写成 $n = 2^a \\times 3^b \\times 5^c$ 的形式，其中 $a,b,c$ 都是非负整数。特别地，当 $a,b,c$ 都是 $0$ 时，$n=1$。 为判断 $n$ 是否满足上述",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Math",
+          "nameTranslated": "数学",
+          "slug": "math",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C",
+          "nameTranslated": "",
+          "slug": "c",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Go",
+          "nameTranslated": "",
+          "slug": "golang",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "JavaScript",
+          "nameTranslated": "",
+          "slug": "javascript",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "丑数",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 121,
+        "id": 712106,
+        "viewCount": 27570
+      },
+      "uuid": "RFLQqG",
+      "videosInfo": []
+    }
+  }
+}

@@ -1,0 +1,83 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "浑元形意太极门马保国",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/default_avatar.png",
+          "userSlug": "shi-zi-bo-tu-r"
+        },
+        "username": "shi-zi-bo-tu-r"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "双指针基础题，定义两个指针，分别在staple最左侧和drink最右侧，\n两数和大于x，则右指针左移\n两数和小于等于x，则左指针右移\n\n### 代码\n\n```python3\nclass Solution:\n    def breakfastNumber(self, staple: List[int], drinks: List[int], x: int) -> int:\n        staple.sort()\n        drinks.sort()\n        count = 0\n        left = 0\n        right = len(drinks)-1\n        while(left<len(staple) and right>=0):\n            if staple[left] + drinks[right] > x:\n                right -= 1\n            elif staple[left] + drinks[right] <= x:\n                count += right + 1\n                left += 1\n        return count%1000000007\n\n\n\n```",
+      "createdAt": "2021-10-29T11:56:45.423207+00:00",
+      "hitCount": 225,
+      "identifier": "YLF6Hg",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "shi-jian-fu-za-du-omn-by-zzh-28",
+        "title": "时间复杂度O(m+n)"
+      },
+      "position": 2,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "er-fen-mo-ban-by-euyvvl-hq8h",
+        "title": "二分模板"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "2vYnGI"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "python-shuang-zhi-zhen-onfu-za-du-by-shi-95wi",
+      "status": "PREPUBLISH",
+      "summary": "双指针基础题，定义两个指针，分别在staple最左侧和drink最右侧，\n两数和大于x，则右指针左移\n两数和小于等于x，则左指针右移\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python3",
+          "nameTranslated": "",
+          "slug": "python3",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "python 双指针O(n)复杂度",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 1,
+        "id": 1073267,
+        "viewCount": 171
+      },
+      "uuid": "YLF6Hg",
+      "videosInfo": []
+    }
+  }
+}

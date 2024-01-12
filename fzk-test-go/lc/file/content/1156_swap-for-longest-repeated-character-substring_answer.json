@@ -1,0 +1,84 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "yuvalcheung",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/default_avatar.png",
+          "userSlug": "yuvalcheung"
+        },
+        "username": "yuvalcheung"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n面试手撕题。\n\n唉，如题所示，面试的时候只做出来了一个大半成品，可惜时间不够快，当时决定不用暴力去做的，拿到题目第一反应是dp，但是因为设计替换，所以一维dp感觉不大行，2维dp在面试中肯定是a不出来的，所以决定用暴力。暴力思路：先统计字符'a'所在的区间，再统计其余25个字母所在的区间，然后转换为单区间内求合并区间大小的问题。如果两个区间间隔为1，则说明可以合并，得到答案。如果区间间隔大于1，则说明不能合并，则计算最大的区间间隔作为答案。。。\n\n整体时间复杂度o(26*n)，也就是o(n)。。。\n\n但是面试的时候审题花了比较多的时间，没决定用什么方法去做，因此得到面试官的一个评价：【代码能力还有待加强啊】\n\n面试完毕之后改了两三分钟，a了。执行用时超过19%。\n\n### 代码\n\n```python3\nclass Solution:\n    def fun(self, text, x):\n        dp = []\n        temp = []\n        for i in range(len(text)):\n            if text[i] == x:\n                if temp == []:\n                    temp.append(i)\n            else:\n                if len(temp) == 1:\n                    temp.append(i)\n                    dp.append(temp)\n                temp = []\n        if len(dp) == 0:\n            return 0\n        elif len(dp) == 1:\n            return dp[0][1] - dp[0][0]\n        elif len(dp) == 2:\n            a, b = dp[0], dp[1]\n            if a[1] + 1 == b[0]:\n                return a[1] - a[0] + b[1] - b[0]\n            else:\n                return max(a[1] - a[0], b[1] - b[0])+1\n        else:\n            res = dp[0][1] - dp[0][0] + 1\n            for i, j in zip(dp[0:-1], dp[1:]):\n                if i[1] + 1 == j[0]:\n                    res = max(i[1] - i[0] + j[1] - j[0] + 1, res)\n                else:\n                    res = max(j[1] - j[0] + 1, res)\n            return res\n    def maxRepOpt1(self, text: str) -> int:\n        ss = \"zxcvbnmlkjhgfdsapoiuytrewq\"\n        res = 0\n        text += ' '\n        for i in ss:\n            res = max(res, self.fun(text, i))\n        return res\n```",
+      "createdAt": "2021-09-29T07:21:29.087396+00:00",
+      "hitCount": 430,
+      "identifier": "RZHV6U",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "1156-cchao-90de-tan-xin-jie-fa-by-ffretu-z6pr",
+        "title": "1156. c++超90的贪心解法"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "swap-for-longest-repeated-character-substring"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 4,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "2021nian-9yue-29ri-hua-wei-nan-yan-suo-y-86ao",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n面试手撕题。\n唉，如题所示，面试的时候只做出来了一个大半成品，可惜时间不够快，当时决定不用暴力去做的，拿到题目第一反应是dp，但是因为设计替换，所以一维dp感觉不大行，2维dp在面试中肯定是a不出来的，所以决定用暴力。暴力思路：先统计字符'a'所在的区间，再统计其余25个字母所在的区间，然后转换为单区间内求合",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "华为",
+          "nameTranslated": "",
+          "slug": "huawei",
+          "tagType": "COMPANY"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "暴力",
+          "nameTranslated": "",
+          "slug": "bao-li",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "",
+      "title": "2021年9月29日，华为南研所运营商bg服务与软件研发管理部门下午14点场次2面手撕题。",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 4,
+        "id": 1023920,
+        "viewCount": 345
+      },
+      "uuid": "RZHV6U",
+      "videosInfo": []
+    }
+  }
+}

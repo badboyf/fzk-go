@@ -1,0 +1,79 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "🌸Raymond",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/Vi0QymNkXQ/avatar_1575701580.png",
+          "userSlug": "raymond_yp"
+        },
+        "username": "Raymond_YP"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "😁\r\n```C++ []\r\ntypedef pair<int, int> PII;\r\n\r\nclass Solution {\r\npublic:\r\n    int getNumberOfBacklogOrders(vector<vector<int>>& orders) {\r\n        priority_queue<PII> A, B;\r\n        int MOD = 1e9 + 7;\r\n        long long ans = 0;\r\n        \r\n        //buy >= sell 两个订单才能匹配\r\n        for(auto &i : orders){\r\n            if(i[2] == 0)   //buy 大根堆\r\n                A.push({i[0], i[1]});\r\n            else            //sell 小根堆，把price变为负数push就是小根堆\r\n                B.push({-i[0], i[1]});\r\n            // 更新总订单数量\r\n            ans += i[1];\r\n            //消除\r\n            while(!A.empty()){\r\n                // sell大于buy 无法匹配\r\n                if(B.empty() || -B.top().first > A.top().first)\r\n                    break;\r\n                PII x = A.top();\r\n                A.pop();\r\n                PII y = B.top();\r\n                B.pop();\r\n                // 匹配成功\r\n                int nu = min(x.second, y.second);\r\n                x.second -= nu;\r\n                y.second -= nu;\r\n                ans -= 2 * nu;\r\n                if(x.second)\r\n                    A.push(x);\r\n                else\r\n                    B.push(y);\r\n            }\r\n            // cout << \" \" << ans << endl;\r\n        }\r\n        return ans % MOD;\r\n    }\r\n};\r\n```",
+      "createdAt": "2021-03-21T04:29:54.751906+00:00",
+      "hitCount": 1385,
+      "identifier": "nC56K7",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "you-xian-dui-lie-da-xiao-ding-dui-by-vic-0b91",
+        "title": "优先队列，大小顶堆，思路清楚"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "number-of-orders-in-the-backlog"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 14,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "c-you-xian-dui-lie-by-raymond_yp-7p1k",
+      "status": "PUBLISHED",
+      "summary": "😁",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "优先队列",
+          "nameTranslated": "",
+          "slug": "you-xian-dui-lie",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "",
+      "title": "C++ 优先队列",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 8,
+        "id": 670650,
+        "viewCount": 1077
+      },
+      "uuid": "nC56K7",
+      "videosInfo": []
+    }
+  }
+}

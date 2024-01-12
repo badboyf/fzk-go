@@ -1,0 +1,76 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "hahaha",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/default_avatar.png",
+          "userSlug": "PoK4Pold9S"
+        },
+        "username": "PoK4Pold9S"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "```\nclass Solution {\n    public String replaceSpaces(String S, int length) {\n        int size = S.length();\n        char [] arr = new char[size];\n        int sIndex = length-1;\n        int charIndex = size-1;\n        while(sIndex>=0 && charIndex>=0){\n            char c = S.charAt(sIndex--);\n            if(c==' '){\n                arr[charIndex--]='0';\n                arr[charIndex--]='2';\n                arr[charIndex--]='%';\n            }\n            else{\n                arr[charIndex--] = c;\n            }\n        }\n        return new String(arr).substring(charIndex+1);\n}\n```\n",
+      "createdAt": "2021-11-06T07:19:42.764795+00:00",
+      "hitCount": 377,
+      "identifier": "32yn4c",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "bian-li-ti-huan-javascript-by-lzxjack-t08c",
+        "title": "【遍历替换】JavaScript"
+      },
+      "position": 2,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "javaliang-chong-shi-xian-fang-shi-by-sdw-cd8n",
+        "title": "Java两种实现方式"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "string-to-url-lcci"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "java-shu-zu-fang-shi-fei-ku-han-shu-by-p-4z83",
+      "status": "PREPUBLISH",
+      "summary": "[该用户太懒了，只写了 19 行代码]",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "Java 数组方式，非库函数",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1087203,
+        "viewCount": 300
+      },
+      "uuid": "32yn4c",
+      "videosInfo": []
+    }
+  }
+}

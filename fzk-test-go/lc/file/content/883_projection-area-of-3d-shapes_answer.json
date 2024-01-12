@@ -1,0 +1,79 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣 (LeetCode)",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/uploaded_files/2021/03/73c9f099-abbe-4d94-853f-f8abffd459cd/leetcode.png",
+          "userSlug": "leetcode"
+        },
+        "username": "LeetCode"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法：数学\n\n**思路和算法**\n\n从顶部看，由该形状生成的阴影将是网格中非零值的数目。\n\n从侧面看，由该形状生成的阴影将是网格中每一行的最大值。\n\n从前面看，由该形状生成的阴影将是网格中每一列的最大值。\n\n**示例**\n\n例如 `[[1,2],[3,4]]`：\n\n* 顶部的阴影将为 4，因为网格中有四个非零值;\n\n* 侧面的阴影为 `2 + 4`，因为第一行的最大值为 `2`，第二行的最大值为 `4`;\n\n* 前面的阴影是 `3 + 4`，因为第一列的最大值是 `3`，第二列的最大值是 `4`。\n\n```cpp [DoBY8EpQ-C++]\nclass Solution {\npublic:\n    int projectionArea(vector<vector<int>>& grid) {\n        int N = grid.size();\n        int ans = 0;\n\n        for (int i = 0; i < N;  ++i) {\n            int bestRow = 0;  // largest of grid[i][j]\n            int bestCol = 0;  // largest of grid[j][i]\n            for (int j = 0; j < N; ++j) {\n                if (grid[i][j] > 0) ans++;  // top shadow\n                bestRow = max(bestRow, grid[i][j]);\n                bestCol = max(bestCol, grid[j][i]);\n            }\n            ans += bestRow + bestCol;\n        }\n\n        return ans;\n    }\n};\n```\n```java [DoBY8EpQ-Java]\nclass Solution {\n    public int projectionArea(int[][] grid) {\n        int N = grid.length;\n        int ans = 0;\n\n        for (int i = 0; i < N;  ++i) {\n            int bestRow = 0;  // largest of grid[i][j]\n            int bestCol = 0;  // largest of grid[j][i]\n            for (int j = 0; j < N; ++j) {\n                if (grid[i][j] > 0) ans++;  // top shadow\n                bestRow = Math.max(bestRow, grid[i][j]);\n                bestCol = Math.max(bestCol, grid[j][i]);\n            }\n            ans += bestRow + bestCol;\n        }\n\n        return ans;\n    }\n}\n```\n```python [DoBY8EpQ-Python]\nclass Solution:\n    def projectionArea(self, grid):\n        N = len(grid)\n        ans = 0\n\n        for i in xrange(N):\n            best_row = 0  # max of grid[i][j]\n            best_col = 0  # max of grid[j][i]\n            for j in xrange(N):\n                if grid[i][j]: ans += 1  # top shadow\n                best_row = max(best_row, grid[i][j])\n                best_col = max(best_col, grid[j][i])\n\n            ans += best_row + best_col\n\n        return ans\n\n        \"\"\" Alternative solution:\n        ans = sum(map(max, grid))\n        ans += sum(map(max, zip(*grid)))\n        ans += sum(v > 0 for row in grid for v in row)\n        \"\"\"\n```\n\n\n**复杂度分析**\n\n* 时间复杂度：$O(N^2)$，其中 $N$ 是 `grid` 的长度。\n\n* 空间复杂度：$O(1)$.",
+      "createdAt": "2018-08-21T03:35:06.069972+00:00",
+      "hitCount": 6875,
+      "identifier": "EkfHM0",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "zai-ji-lu-yi-ti-by-benbi-b-y1p1",
+        "title": "再记录一题"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "projection-area-of-3d-shapes"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 6,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "san-wei-xing-ti-tou-ying-mian-ji-by-leetcode",
+      "status": "PUBLISHED",
+      "summary": "思路和算法\n从顶部看，由该形状生成的阴影将是网格中非零值的数目。\n从侧面看，由该形状生成的阴影将是网格中每一行的最大值。\n从前面看，由该形状生成的阴影将是网格中每一列的最大值。\n示例\n例如 [[1,2],[3,4]]：\n复杂度分析",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Math",
+          "nameTranslated": "数学",
+          "slug": "math",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "三维形体投影面积",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 24,
+        "id": 3543,
+        "viewCount": 3807
+      },
+      "uuid": "EkfHM0",
+      "videosInfo": []
+    }
+  }
+}

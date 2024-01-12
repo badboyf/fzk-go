@@ -1,0 +1,79 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "xi7ang",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/xi7ang/avatar_1615273317.png",
+          "userSlug": "xi7ang"
+        },
+        "username": "xi7ang"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "\r\n```java []\r\nclass Solution {\r\n    public int[] twoSum(int[] numbers, int target) {\r\n        int[] res = new int[2];\r\n        for(int i = 0; i<numbers.length; ++i) {\r\n            int difference = target - numbers[i];\r\n            // 排除差值（difference）在数组numbers中的下标在numbers[i]之前的情况\r\n            if(difference<numbers[i]) continue;\r\n            // 寻找一个数的二分查找\r\n            int left = i+1, right = numbers.length-1;\r\n            boolean flag = false;\r\n            while(left<=right) {\r\n                int mid = left + (right - left) / 2;\r\n                if(numbers[mid]==difference) {\r\n                    flag = true;\r\n                    res[0] = i;\r\n                    res[1] = mid;\r\n                    break;\r\n                } else if(numbers[mid]>difference) {\r\n                    right = mid - 1;\r\n                } else {\r\n                    left = mid + 1;\r\n                }\r\n            }\r\n            if(flag) break;\r\n        }\r\n        return res;\r\n    }\r\n}\r\n```\r\n\r\n",
+      "createdAt": "2021-11-24T05:57:38.734406+00:00",
+      "hitCount": 105,
+      "identifier": "LponAB",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "jian-dan-yi-dong-javac-pythonjs-liang-sh-et4y",
+        "title": "简单易懂 Java/C++ / Python/js/go - 两数之和，输入有序数组"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "kLl5u1"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "java-jian-dan-de-er-fen-cha-zhao-by-xi7a-on7x",
+      "status": "PUBLISHED",
+      "summary": "[该用户太懒了，只写了 28 行代码]",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "二分",
+          "nameTranslated": "",
+          "slug": "er-fen",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "",
+      "title": "Java 简单的二分查找",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1119606,
+        "viewCount": 92
+      },
+      "uuid": "LponAB",
+      "videosInfo": []
+    }
+  }
+}

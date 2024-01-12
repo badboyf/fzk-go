@@ -1,0 +1,93 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "EUY",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/euyvvl/avatar_1635000444.png",
+          "userSlug": "euyvvl"
+        },
+        "username": "EUYVVL"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n一道简单的数学题\n### 代码\n\n```cpp\nclass Solution {\npublic:\n    vector<int> numMovesStones(int a, int b, int c) {\n        if(b<a){\n            swap(a,b);\n        }\n        if(c<b){\n            swap(b,c);\n        }\n        if(b<a){\n            swap(a,b);\n        }\n        if(b-a==1&&c-b==1){\n            return {0,0};\n        }\n        if(b-a<=2||c-b<=2){\n            return {1,c-a-2};\n        }\n        return {2,c-a-2};\n    }\n};\n```",
+      "createdAt": "2021-10-13T06:47:39.861407+00:00",
+      "hitCount": 81,
+      "identifier": "5w8Tli",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "1033-cchao-100de-shu-xue-jie-fa-by-ffret-qsjy",
+        "title": "1033. c++超100的数学解法"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "moving-stones-until-consecutive"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "yi-dao-jian-dan-de-shu-xue-ti-by-euyvvl-bmzr",
+      "status": "PUBLISHED",
+      "summary": "解题思路\n一道简单的数学题\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Brainteaser",
+          "nameTranslated": "脑筋急转弯",
+          "slug": "brainteaser",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Array",
+          "nameTranslated": "数组",
+          "slug": "array",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Math",
+          "nameTranslated": "数学",
+          "slug": "math",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "一道简单的数学题",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1045110,
+        "viewCount": 70
+      },
+      "uuid": "5w8Tli",
+      "videosInfo": []
+    }
+  }
+}

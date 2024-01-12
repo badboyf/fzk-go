@@ -1,0 +1,79 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣 (LeetCode)",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/uploaded_files/2021/03/73c9f099-abbe-4d94-853f-f8abffd459cd/leetcode.png",
+          "userSlug": "leetcode"
+        },
+        "username": "LeetCode"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法 1：相邻标记\n\n**想法**\n\n对于每组垂直多米诺骨牌（`'.'`），我们有两个非垂直多米诺骨牌将他们分割开。因为在这个组外的多米诺骨牌不会有影响，我们可以分别分析每组的情况：一共有 9 种可能（由于边界多米诺可能是空）。实际上，如果我们用 `L` 和 `R` 的多米诺骨牌作为边界，最多只有 4 种情况。我们会根据情况的不同使用新字母来表示。\n\n**算法**\n\n继续我们的算法，我们分析以下形式：\n\n* 如果我们有 `\"A....B\"`，当 `A = B`，那么就变成 `\"AAAAAA\"`。\n* 如果我们有 `\"R....L\"`，那么结果会变成 `\"RRRLLL\"` 或者 `\"RRR.LLL\"` 如果点的个数是奇数。如果初始标记的坐标是 `i` 和 `j`，我们可以检查距离 `k-i` 和 `j-k` 来决定位置 `k` 的形态是 `'L'`，`'R'` 还是 `'.'`。\n* 如果我们有 `\"L....R\"`，就什么都不做，跳过。\n\n```Java []\nclass Solution {\n    public String pushDominoes(String dominoes) {\n        int N = dominoes.length();\n        int[] indexes = new int[N+2];\n        char[] symbols = new char[N+2];\n        int len = 1;\n        indexes[0] = -1;\n        symbols[0] = 'L';\n\n        for (int i = 0; i < N; ++i)\n            if (dominoes.charAt(i) != '.') {\n                indexes[len] = i;\n                symbols[len++] = dominoes.charAt(i);\n            }\n\n        indexes[len] = N;\n        symbols[len++] = 'R';\n\n        char[] ans = dominoes.toCharArray();\n        for (int index = 0; index < len - 1; ++index) {\n            int i = indexes[index], j = indexes[index+1];\n            char x = symbols[index], y = symbols[index+1];\n            char write;\n            if (x == y) {\n                for (int k = i+1; k < j; ++k)\n                    ans[k] = x;\n            } else if (x > y) { // RL\n                for (int k = i+1; k < j; ++k)\n                    ans[k] = k-i == j-k ? '.' : k-i < j-k ? 'R' : 'L';\n            }\n        }\n\n        return String.valueOf(ans);\n    }\n}\n```\n\n```Python []\nclass Solution(object):\n    def pushDominoes(self, dominoes):\n        symbols = [(i, x) for i, x in enumerate(dominoes) if x != '.']\n        symbols = [(-1, 'L')] + symbols + [(len(dominoes), 'R')]\n\n        ans = list(dominoes)\n        for (i, x), (j, y) in zip(symbols, symbols[1:]):\n            if x == y:\n                for k in xrange(i+1, j):\n                    ans[k] = x\n            elif x > y: #RL\n                for k in xrange(i+1, j):\n                    ans[k] = '.LR'[cmp(k-i, j-k)]\n\n        return \"\".join(ans)\n```\n\n\n**复杂度分析**\n\n* 时间和空间复杂度：$O(N)$，其中 $N$ 是 `dominoes` 的长度。\n\n#### 方法 2：计算受力\n\n**想法**\n\n我们可以对每个多米诺骨牌计算净受力。我们关心的受力取决于一个多米诺骨牌和最近的左侧 `'R'` 右侧 `'L'` 的距离：哪边近，就受哪边力更多。\n\n**算法**\n\n从左向右扫描，我们的力每轮迭代减少 1.重置为 `N` 当我们遇到一个 `'R'` 时，所以 `force[i]` 比 `force[j]` 大当且仅当 `dominoes[i]` 比 `dominoes[j]` 离最左边的 `'R'` 近。\n\n类似的，从右向左搜啊秒，可以找到向左侧的力，离 `L` 的远近。\n\n对于骨牌的结果 `answer[i]`，如果左右两侧力相等，答案是 `'.'`。否则，哪边力大答案就是哪边。\n\n**样例**\n\n下面是对字符串 `S = 'R.R...L'` 的模拟：我们从左向右暴力得到的结果为 `[7, 6, 7, 6, 5, 4, 0]`，从右向左扫描的结果为 `[0, 0, 0, -4, -5, -6, -7]`。合并之后，合力为 `[7, 6, 7, 2, 0, -2, -7]` 所以最近结果为 `RRRR.LL`。\n\n\n```Java []\nclass Solution {\n    public String pushDominoes(String S) {\n        char[] A = S.toCharArray();\n        int N = A.length;\n        int[] forces = new int[N];\n\n        // Populate forces going from left to right\n        int force = 0;\n        for (int i = 0; i < N; ++i) {\n            if (A[i] == 'R') force = N;\n            else if (A[i] == 'L') force = 0;\n            else force = Math.max(force - 1, 0);\n            forces[i] += force;\n        }\n\n        // Populate forces going from right to left\n        force = 0;\n        for (int i = N-1; i >= 0; --i) {\n            if (A[i] == 'L') force = N;\n            else if (A[i] == 'R') force = 0;\n            else force = Math.max(force - 1, 0);\n            forces[i] -= force;\n        }\n\n        StringBuilder ans = new StringBuilder();\n        for (int f: forces)\n            ans.append(f > 0 ? 'R' : f < 0 ? 'L' : '.');\n        return ans.toString();\n    }\n}\n```\n\n```Python []\nclass Solution(object):\n    def pushDominoes(self, dominoes):\n        N = len(dominoes)\n        force = [0] * N\n\n        # Populate forces going from left to right\n        f = 0\n        for i in xrange(N):\n            if dominoes[i] == 'R': f = N\n            elif dominoes[i] == 'L': f = 0\n            else: f = max(f-1, 0)\n            force[i] += f\n\n        # Populate forces going from right to left\n        f = 0\n        for i in xrange(N-1, -1, -1):\n            if dominoes[i] == 'L': f = N\n            elif dominoes[i] == 'R': f = 0\n            else: f = max(f-1, 0)\n            force[i] -= f\n\n        return \"\".join('.' if f==0 else 'R' if f > 0 else 'L'\n                       for f in force)\n```\n\n**复杂度分析**\n\n* 时间和空间复杂度：$O(N)$。",
+      "createdAt": "2019-08-27T04:38:00.026766+00:00",
+      "hitCount": 8313,
+      "identifier": "l60BzA",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "shi-yong-zhan-jie-gou-qing-song-jie-jue-zeo66",
+        "title": "使用栈结构轻松解决"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "push-dominoes"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 19,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "tui-duo-mi-nuo-by-leetcode",
+      "status": "PUBLISHED",
+      "summary": "§ 方法 1：相邻标记\n想法\n对于每组垂直多米诺骨牌（'.'），我们有两个非垂直多米诺骨牌将他们分割开。因为在这个组外的多米诺骨牌不会有影响，我们可以分别分析每组的情况：一共有 9 种可能（由于边界多米诺可能是空）。实际上，如果我们用 L 和 R 的多米诺骨牌作为边界，最多只有 4 种情况。我们会根据情况的不同使用新字",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "推多米诺",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 14,
+        "id": 23220,
+        "viewCount": 5995
+      },
+      "uuid": "l60BzA",
+      "videosInfo": []
+    }
+  }
+}

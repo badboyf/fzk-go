@@ -1,0 +1,79 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "Elegant Cohenplj",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/elegant-cohenplj/avatar_1635399295.png",
+          "userSlug": "elegant-cohenplj"
+        },
+        "username": "elegant-cohenplj"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "这是测试不过的用例\r\n![1635946094(1).png](https://pic.leetcode-cn.com/1635946171-vmRzqU-1635946094\\(1\\).png)\r\n\r\n下面这是我复制测试用例在他这里输入测试的结果\r\n\r\n![1635946068(1).png](https://pic.leetcode-cn.com/1635946213-xNtmum-1635946068\\(1\\).png)\r\n\r\n怎么同个平台输出结果就不一样了？？？？？\r\n\r\n下面是我的代码\r\n\r\n```java\r\nclass OrderedStream {\r\n\r\n    private Map<Integer, String> map;\r\n    private static int nums = 1;\r\n    public OrderedStream(int n) {\r\n        this.map = new HashMap<>();\r\n    }\r\n    \r\n    public List<String> insert(int idKey, String value) {\r\n        map.put(idKey, value);\r\n        List<String> str = new ArrayList<>();\r\n        while(map.get(nums) != null){\r\n            str.add(map.get(nums));\r\n            nums++;\r\n        }\r\n        return str;\r\n    }\r\n}\r\n\r\n/**\r\n * Your OrderedStream object will be instantiated and called as such:\r\n * OrderedStream obj = new OrderedStream(n);\r\n * List<String> param_1 = obj.insert(idKey,value);\r\n */\r\n```",
+      "createdAt": "2021-11-03T13:31:08.560430+00:00",
+      "hitCount": 85,
+      "identifier": "T5grGl",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "5-xing-dai-ma-shuang-bai-ti-jie-by-liu-y-4s3z",
+        "title": "5 行代码   双百题解"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "design-an-ordered-stream"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "zhe-dao-ti-you-mao-bing-by-elegant-cohen-jjsb",
+      "status": "PREPUBLISH",
+      "summary": "这是测试不过的用例\n\n下面这是我复制测试用例在他这里输入测试的结果\n怎么同个平台输出结果就不一样了？？？？？\n下面是我的代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "内部错误",
+          "nameTranslated": "",
+          "slug": "nei-bu-cuo-wu",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1635946171-vmRzqU-1635946094(1).png",
+      "title": "这道题有毛病",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 3,
+        "id": 1082549,
+        "viewCount": 75
+      },
+      "uuid": "T5grGl",
+      "videosInfo": []
+    }
+  }
+}

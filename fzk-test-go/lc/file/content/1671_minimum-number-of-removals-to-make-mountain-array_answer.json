@@ -1,0 +1,79 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "answerer",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/answerer/avatar_1604390247.png",
+          "userSlug": "answerer"
+        },
+        "username": "answerer"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "## 解题思路\n很明显，取定一个下标$i$，以该元素值为山顶，左右删除一定元素之后，得到从左边看是单调递增的序列，从右边看是单调递增的序列，如何使得删除个数最少？从反面看，就是本来单调递增的序列最长，也就转化为了$LIS$问题\n\n## 代码实现\n$O(nlogn)$的二分LIS\n```cpp\n\n#include <bits/stdc++.h>\n\nusing namespace std;\n\nusing PII = pair <int, int>;\nusing ll = long long;\nusing ull = unsigned long long;\n\n#define pb push_back\n#define ep emplace_back\n#define fi first\n#define se second\n#define mp make_pair\n#define all(x) x.begin(), x.end()\n#define endl \"\\n\"\n\ntemplate <typename T> void chkMax(T &x, T y) { if (y > x) x = y; }\ntemplate <typename T> void chkMin(T &x, T y) { if (y < x) x = y; }\n\n/**\n * code area\n */\n\nclass Solution {\npublic:\n    int minimumMountainRemovals(vector<int>& nums) {\n        vector <int> d1, d2;\n        int n = nums.size();\n        vector <int> f1(n), f2(n);\n        for(int i = 0; i < n; i++){\n            int & x = nums[i];\n            if(d1.empty() || d1.back() < x) {\n                d1.ep(x);\n                f1[i] = d1.size();\n            }\n            else{\n                auto it = lower_bound(all(d1), x);\n                *it = x;\n                f1[i] = it - d1.begin() + 1;\n            }\n        }\n        for(int i = n - 1; i>= 0; i--){\n            int & x = nums[i];\n            if(d2.empty() || d2.back() < x) {\n                d2.ep(x);\n                f2[i] = d2.size();\n            }\n            else{\n                auto it = lower_bound(all(d2), x);\n                *it = x;\n                f2[i] = it - d2.begin() + 1;\n            }\n        }\n        int ans = 0;\n        for(int i = 0; i < n; i++) if(f1[i] > 1 && f2[i] > 1)chkMax(ans, f1[i] + f2[i]);\n        return n - ans + 1;\n    }\n};\n```\n",
+      "createdAt": "2021-09-23T14:15:00.656201+00:00",
+      "hitCount": 172,
+      "identifier": "5tvqW6",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "jian-dan-dong-tai-gui-hua-by-monologue-s",
+        "title": "简单动态规划"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "minimum-number-of-removals-to-make-mountain-array"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "c-liang-ci-lis-by-answerer-9v21",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n很明显，取定一个下标i，以该元素值为山顶，左右删除一定元素之后，得到从左边看是单调递增的序列，从右边看是单调递增的序列，如何使得删除个数最少？从反面看，就是本来单调递增的序列最长，也就转化为了LIS问题\n代码实现\nO(nlogn)的二分LIS",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "lis",
+          "nameTranslated": "",
+          "slug": "lis",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "",
+      "title": "[C++] 两次LIS",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1013756,
+        "viewCount": 143
+      },
+      "uuid": "5tvqW6",
+      "videosInfo": []
+    }
+  }
+}

@@ -1,0 +1,76 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "骑猪骚男猪壮壮",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/ll0626/avatar_1631713561.png",
+          "userSlug": "ll0626"
+        },
+        "username": "ll0626"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n \n![image.png](https://pic.leetcode-cn.com/1632471356-OxdqCn-image.png)\n利用模板排序；取差值判断是否符合条件；\n如果最小值大于nums.size()则返回nums.size（）；\n### 代码\n\n```cpp\nclass Solution {\npublic:\n    int specialArray(vector<int>& nums) \n    {\n        int size_v = nums.size();\n        sort(nums.begin(), nums.end());\n        if (nums[0] >= size_v)return size_v;\n        for (int i = 0; i < size_v; i++)\n        {\n            int j = 0;\n            while (j < size_v)\n            {\n                if (nums[j] >= i  )\n                {\n                    if (size_v - j == i)\n                        return i;\n                    else\n                        break;\n                }\n                j++;\n            }\n          \n        }\n        return -1;\n\n    }\n};\n```",
+      "createdAt": "2021-09-24T08:17:39.443051+00:00",
+      "hitCount": 134,
+      "identifier": "MBAeyI",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "chao-guo-100-java-bu-pai-xu-bu-er-fen-ji-sa5w",
+        "title": "超过100% Java 不排序不二分 简单易懂"
+      },
+      "position": 2,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "bao-li-pai-xu-ji-shu-san-chong-fang-fa-by-lucifer1",
+        "title": "暴力/排序/计数，三种方法"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "special-array-with-x-elements-greater-than-or-equal-x"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "sui-bi-_te-shu-ju-zhen-te-zheng-zhi-by-l-sb79",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n\n利用模板排序；取差值判断是否符合条件；\n如果最小值大于nums.size()则返回nums.size（）；\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1632471356-OxdqCn-image.png",
+      "title": "随笔_特殊矩阵特征值",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1015048,
+        "viewCount": 122
+      },
+      "uuid": "MBAeyI",
+      "videosInfo": []
+    }
+  }
+}

@@ -1,0 +1,97 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "Hanxin",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/hanxin_hanxin/avatar_1628523481.png",
+          "userSlug": "hanxin_hanxin"
+        },
+        "username": "Hanxin_Hanxin"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "思路和心得：\r\n\r\n\r\n# （一）回溯\r\n\r\n```python3 []\r\nclass Solution:\r\n    def restoreIpAddresses(self, s: str) -> List[str]:\r\n        n = len(s)\r\n        if n < 4 or 12 < n:\r\n            return []\r\n\r\n        res = []\r\n        path = []\r\n\r\n        def backtrace(idx: int) -> None:\r\n            if len(path) == 4:\r\n                if idx == n:\r\n                    res.append('.'.join(path))\r\n                return\r\n            if idx == n:\r\n                return \r\n                \r\n            if s[idx] == '0':\r\n                path.append('0')\r\n                backtrace(idx + 1)\r\n                path.pop()\r\n            else:\r\n                for i in range(idx, n):\r\n                    cur_num = int(s[idx: i + 1])\r\n                    if 0 <= cur_num <= 255:\r\n                        path.append(str(cur_num))\r\n                        backtrace(i + 1)\r\n                        path.pop()\r\n                    else:\r\n                        break\r\n        \r\n        backtrace(0)\r\n        return res\r\n```\r\n\r\n```c++ []\r\nclass Solution \r\n{\r\npublic:\r\n    string s;\r\n    int n;\r\n    vector<string> res;\r\n    vector<int> path;\r\n\r\n    vector<string> restoreIpAddresses(string s) \r\n    {\r\n        this->s = s;\r\n        this->n = (int)s.size();\r\n\r\n        if (n < 4 || n > 12)\r\n            return res;\r\n        backtrace(0);\r\n        return res;\r\n    }\r\n\r\n    void backtrace(int idx)\r\n    {\r\n        if (path.size() == 4)\r\n        {\r\n            if (idx == n)\r\n            {\r\n                string tmp = \"\";\r\n                for (int x : path)\r\n                    tmp += to_string(x) + '.';\r\n                tmp.pop_back();\r\n                res.push_back(tmp);\r\n            }\r\n            return ;\r\n        }\r\n        if (idx == n)\r\n            return ;\r\n        \r\n        if (s[idx] == '0')\r\n        {\r\n            path.push_back(0);\r\n            backtrace(idx + 1);\r\n            path.pop_back();\r\n        }\r\n        else\r\n        {\r\n            for (int i = idx; i < n; i ++)\r\n            {\r\n                string tmp = s.substr(idx, i - idx + 1);\r\n                int cur_num = stoi(tmp);\r\n                if (0 <= cur_num && cur_num <= 255)\r\n                {\r\n                    path.push_back(cur_num);\r\n                    backtrace(i + 1);\r\n                    path.pop_back();\r\n                }\r\n                else\r\n                {\r\n                    break;\r\n                }\r\n            }\r\n        }\r\n    }\r\n};\r\n```\r\n\r\n```java []\r\nclass Solution \r\n{\r\n    String s;\r\n    int n;\r\n    List<String> res = new ArrayList<>();  \r\n    List<String> path = new ArrayList<>();\r\n\r\n    public List<String> restoreIpAddresses(String s) \r\n    {\r\n        this.s = s;\r\n        this.n = s.length();\r\n        if (n < 4 || n > 12)\r\n            return res;\r\n        backtrace(0);\r\n        return res;\r\n    }\r\n\r\n    public void backtrace(int idx)\r\n    {\r\n        if (path.size() == 4)\r\n        {\r\n            if (idx == n)\r\n            {\r\n                String cur = String.join(\".\", path);\r\n                res.add(cur);\r\n            }\r\n            return ;\r\n        }\r\n        if (idx == n)\r\n        {\r\n            return ;\r\n        }\r\n\r\n        if (s.charAt(idx) == '0')\r\n        {\r\n            path.add(\"0\");\r\n            backtrace(idx + 1);\r\n            path.remove(path.size() - 1);\r\n        }\r\n        else\r\n        {\r\n            for (int i = idx; i < n; i ++)\r\n            {\r\n                int cur_num = Integer.parseInt(s.substring(idx, i + 1));\r\n                if (0 <= cur_num && cur_num <= 255)\r\n                {\r\n                    path.add(s.substring(idx, i + 1));\r\n                    backtrace(i + 1);\r\n                    path.remove(path.size() - 1);\r\n                }\r\n                else\r\n                {\r\n                    break;\r\n                }\r\n            }\r\n        }\r\n    }\r\n}\r\n```\r\n\r\n",
+      "createdAt": "2021-08-21T05:56:48.927697+00:00",
+      "hitCount": 762,
+      "identifier": "s4tvKb",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "java-zhong-liang-ji-bao-li-jie-fa-fei-di-0kzx",
+        "title": "Java 重量级暴力解法，非递归，供参考"
+      },
+      "position": 3,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "java-ge-ban-fa-jian-dan-yi-dong-by-xue-x-g3hi",
+        "title": "Java 隔板法 简单易懂"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "0on3uN"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 3,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": false,
+      "slug": "cpython3java-1hui-su-by-hanxin_hanxin-bzhr",
+      "status": "PREPUBLISH",
+      "summary": "思路和心得：\n（一）回溯",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python3",
+          "nameTranslated": "",
+          "slug": "python3",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "c++/python3/java （1）回溯",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 949222,
+        "viewCount": 599
+      },
+      "uuid": "s4tvKb",
+      "videosInfo": []
+    }
+  }
+}

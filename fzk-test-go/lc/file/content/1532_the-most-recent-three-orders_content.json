@@ -1,0 +1,73 @@
+{
+  "data": {
+    "question": {
+      "__typename": "QuestionNode",
+      "book": null,
+      "boundTopicId": 352944,
+      "categoryTitle": "Database",
+      "codeSnippets": null,
+      "companyTagStats": null,
+      "content": null,
+      "contributors": [],
+      "dailyRecordStatus": null,
+      "difficulty": "Medium",
+      "dislikes": 0,
+      "editorType": "CKEDITOR",
+      "enableRunCode": true,
+      "envInfo": "{\"mysql\":[\"MySQL\",\"<p>\\u7248\\u672c\\uff1a<code>MySQL 8.0<\\/code><\\/p>\"],\"mssql\":[\"MS SQL Server\",\"<p>mssql server 2019.<\\/p>\"],\"oraclesql\":[\"Oracle\",\"<p>Oracle Sql 11.2.<\\/p>\"]}",
+      "exampleTestcases": "{\"headers\":{\"Customers\":[\"customer_id\",\"name\"],\"Orders\":[\"order_id\",\"order_date\",\"customer_id\",\"cost\"]},\"rows\":{\"Customers\":[[1,\"Winston\"],[2,\"Jonathan\"],[3,\"Annabelle\"],[4,\"Marwan\"],[5,\"Khaled\"]],\"Orders\":[[1,\"2020-07-31\",1,30],[2,\"2020-7-30\",2,40],[3,\"2020-07-31\",3,70],[4,\"2020-07-29\",4,100],[5,\"2020-06-10\",1,1010],[6,\"2020-08-01\",2,102],[7,\"2020-08-01\",3,111],[8,\"2020-08-03\",1,99],[9,\"2020-08-07\",2,32],[10,\"2020-07-15\",1,2]]}}",
+      "hints": [],
+      "isDailyQuestion": false,
+      "isLiked": null,
+      "isPaidOnly": true,
+      "isSubscribed": false,
+      "judgeType": "large",
+      "judgerAvailable": true,
+      "langToValidPlayground": null,
+      "likes": 10,
+      "metaData": "{\n  \"mysql\": [\n    \"Create table If Not Exists Customers (customer_id int, name varchar(10))\",\n    \"Create table If Not Exists Orders (order_id int, order_date date, customer_id int, cost int)\"\n  ],\n  \"mssql\": [\n    \"Create table Customers (customer_id int, name varchar(10))\",\n    \"Create table Orders (order_id int, order_date date, customer_id int, cost int)\"\n  ],\n  \"oraclesql\": [\n    \"Create table Customers (customer_id int, name varchar(10))\",\n    \"Create table Orders (order_id int, order_date date, customer_id int, cost int)\",\n    \"ALTER SESSION SET nls_date_format='YYYY-MM-DD'\"\n  ],\n  \"database\": true\n}",
+      "mysqlSchemas": [
+        "Create table If Not Exists Customers (customer_id int, name varchar(10))",
+        "Create table If Not Exists Orders (order_id int, order_date date, customer_id int, cost int)",
+        "Truncate table Customers",
+        "insert into Customers (customer_id, name) values ('1', 'Winston')",
+        "insert into Customers (customer_id, name) values ('2', 'Jonathan')",
+        "insert into Customers (customer_id, name) values ('3', 'Annabelle')",
+        "insert into Customers (customer_id, name) values ('4', 'Marwan')",
+        "insert into Customers (customer_id, name) values ('5', 'Khaled')",
+        "Truncate table Orders",
+        "insert into Orders (order_id, order_date, customer_id, cost) values ('1', '2020-07-31', '1', '30')",
+        "insert into Orders (order_id, order_date, customer_id, cost) values ('2', '2020-7-30', '2', '40')",
+        "insert into Orders (order_id, order_date, customer_id, cost) values ('3', '2020-07-31', '3', '70')",
+        "insert into Orders (order_id, order_date, customer_id, cost) values ('4', '2020-07-29', '4', '100')",
+        "insert into Orders (order_id, order_date, customer_id, cost) values ('5', '2020-06-10', '1', '1010')",
+        "insert into Orders (order_id, order_date, customer_id, cost) values ('6', '2020-08-01', '2', '102')",
+        "insert into Orders (order_id, order_date, customer_id, cost) values ('7', '2020-08-01', '3', '111')",
+        "insert into Orders (order_id, order_date, customer_id, cost) values ('8', '2020-08-03', '1', '99')",
+        "insert into Orders (order_id, order_date, customer_id, cost) values ('9', '2020-08-07', '2', '32')",
+        "insert into Orders (order_id, order_date, customer_id, cost) values ('10', '2020-07-15', '1', '2')"
+      ],
+      "questionFrontendId": "1532",
+      "questionId": "1671",
+      "sampleTestCase": "{\"headers\":{\"Customers\":[\"customer_id\",\"name\"],\"Orders\":[\"order_id\",\"order_date\",\"customer_id\",\"cost\"]},\"rows\":{\"Customers\":[[1,\"Winston\"],[2,\"Jonathan\"],[3,\"Annabelle\"],[4,\"Marwan\"],[5,\"Khaled\"]],\"Orders\":[[1,\"2020-07-31\",1,30],[2,\"2020-7-30\",2,40],[3,\"2020-07-31\",3,70],[4,\"2020-07-29\",4,100],[5,\"2020-06-10\",1,1010],[6,\"2020-08-01\",2,102],[7,\"2020-08-01\",3,111],[8,\"2020-08-03\",1,99],[9,\"2020-08-07\",2,32],[10,\"2020-07-15\",1,2]]}}",
+      "similarQuestions": "[]",
+      "solution": null,
+      "stats": "{\"totalAccepted\": \"2.9K\", \"totalSubmission\": \"4.7K\", \"totalAcceptedRaw\": 2931, \"totalSubmissionRaw\": 4709, \"acRate\": \"62.2%\"}",
+      "status": null,
+      "style": "LEETCODE",
+      "title": "The Most Recent Three Orders",
+      "titleSlug": "the-most-recent-three-orders",
+      "topicTags": [
+        {
+          "__typename": "TopicTagNode",
+          "name": "Database",
+          "slug": "database",
+          "translatedName": "数据库"
+        }
+      ],
+      "translatedContent": null,
+      "translatedTitle": "最近的三笔订单",
+      "ugcQuestionId": null
+    }
+  }
+}

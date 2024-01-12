@@ -1,0 +1,72 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "雪鹰领主",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/xue-ying-ling-zhu/avatar_1628654629.png",
+          "userSlug": "weiwo20010101"
+        },
+        "username": "weiwo20010101"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "mid左右偏移都是可以滴\r\n![image.png](https://pic.leetcode-cn.com/1633015158-ugqsAK-image.png)\r\n\r\n```java\r\nclass Solution {\r\n    public int findString(String[] words, String s) {\r\n    int len=words.length;\r\n    int l=0;\r\n    int r=len-1;\r\n    while(l<=r){\r\n        while(l<=r&&words[l].equals(\"\")) l++;\r\n        while(l<=r&&words[r].equals(\"\")) r--;\r\n       int mid=l+(r-l)/2;\r\n       while(mid<=r&&words[mid].equals(\"\")) mid++;\r\n//       while(mid>=l&&words[mid].equals(\"\")) mid--;\r\n       if(words[mid].compareTo(s)==0){\r\n           return mid;\r\n       }\r\n      if(words[mid].compareTo(s)>0){\r\n          r=mid-1;\r\n       }else{\r\n           l=mid+1;\r\n       }\r\n    }\r\n    return -1;\r\n    }\r\n}\r\n```\r\n",
+      "createdAt": "2021-09-30T15:18:37.903649+00:00",
+      "hitCount": 643,
+      "identifier": "ky7KbH",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "xiang-lai-bu-xi-huan-ba-dai-ma-xie-fu-za-hdsl",
+        "title": "向来不喜欢把代码写复杂-简单易理解"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "sparse-array-search-lcci"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 4,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "shi-jian-bai-fen-bai-er-fen-fa-fei-xian-vbqqy",
+      "status": "PREPUBLISH",
+      "summary": "mid左右偏移都是可以滴",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1633015158-ugqsAK-image.png",
+      "title": "时间百分百，二分法非线性 ",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1026145,
+        "viewCount": 487
+      },
+      "uuid": "ky7KbH",
+      "videosInfo": []
+    }
+  }
+}

@@ -1,0 +1,109 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "ylb",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/bingooo/avatar_1522649477.png",
+          "userSlug": "lcbin"
+        },
+        "username": "lcbin"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "我们注意到，时间点最多只有 `24 * 60` 个，因此，当 timePoints 长度超过 `24 * 60`，说明有重复的时间点，提前返回 0。\r\n\r\n接下来：\r\n\r\n首先，遍历时间列表，将其转换为“分钟制”列表 `mins`，比如，对于时间点 `13:14`，将其转换为 `13 * 60 + 14`。\r\n\r\n接着将“分钟制”列表**按升序排列**，然后将此列表的最小时间 `mins[0]` 加上 `24 * 60` 追加至列表尾部，**用于处理最大值、最小值的差值这种特殊情况**。\r\n\r\n最后遍历“分钟制”列表，找出相邻两个时间的最小值即可。\r\n\r\n```python [sol1-Python3]\r\nclass Solution:\r\n    def findMinDifference(self, timePoints: List[str]) -> int:\r\n        if len(timePoints) > 24 * 60:\r\n            return 0\r\n        mins = sorted(int(t[:2]) * 60 + int(t[3:]) for t in timePoints)\r\n        mins.append(mins[0] + 24 * 60)\r\n        res = mins[-1]\r\n        for i in range(1, len(mins)):\r\n            res = min(res, mins[i] - mins[i - 1])\r\n        return res\r\n```\r\n\r\n```java [sol1-Java]\r\nclass Solution {\r\n    public int findMinDifference(List<String> timePoints) {\r\n        if (timePoints.size() > 24 * 60) {\r\n            return 0;\r\n        }\r\n        List<Integer> mins = new ArrayList<>();\r\n        for (String t : timePoints) {\r\n            String[] time = t.split(\":\");\r\n            mins.add(Integer.parseInt(time[0]) * 60 + Integer.parseInt(time[1]));\r\n        }\r\n        Collections.sort(mins);\r\n        mins.add(mins.get(0) + 24 * 60);\r\n        int res = 24 * 60;\r\n        for (int i = 1; i < mins.size(); ++i) {\r\n            res = Math.min(res, mins.get(i) - mins.get(i - 1));\r\n        }\r\n        return res;\r\n    }\r\n}\r\n```\r\n\r\n```cpp [sol1-C++]\r\nclass Solution {\r\npublic:\r\n    int findMinDifference(vector<string>& timePoints) {\r\n        if (timePoints.size() > 24 * 60) return 0;\r\n        vector<int> mins;\r\n        for (auto t : timePoints)\r\n            mins.push_back(stoi(t.substr(0, 2)) * 60 + stoi(t.substr(3)));\r\n        sort(mins.begin(), mins.end());\r\n        mins.push_back(mins[0] + 24 * 60);\r\n        int res = 24 * 60;\r\n        for (int i = 1; i < mins.size(); ++i)\r\n            res = min(res, mins[i] - mins[i - 1]);\r\n        return res;\r\n    }\r\n};\r\n```\r\n\r\n```go [sol1-Golang]\r\nfunc findMinDifference(timePoints []string) int {\r\n\tif len(timePoints) > 24*60 {\r\n\t\treturn 0\r\n\t}\r\n\tvar mins []int\r\n\tfor _, t := range timePoints {\r\n\t\ttime := strings.Split(t, \":\")\r\n\t\th, _ := strconv.Atoi(time[0])\r\n\t\tm, _ := strconv.Atoi(time[1])\r\n\t\tmins = append(mins, h*60+m)\r\n\t}\r\n\tsort.Ints(mins)\r\n\tmins = append(mins, mins[0]+24*60)\r\n\tres := 24 * 60\r\n\tfor i := 1; i < len(mins); i++ {\r\n\t\tres = min(res, mins[i]-mins[i-1])\r\n\t}\r\n\treturn res\r\n}\r\n\r\nfunc min(a, b int) int {\r\n\tif a < b {\r\n\t\treturn a\r\n\t}\r\n\treturn b\r\n}\r\n```\r\n\r\n---\r\n\r\n😄 欢迎 Star 关注 Doocs 开源社区项目：https://github.com/doocs/leetcode",
+      "createdAt": "2021-08-20T09:46:29.411909+00:00",
+      "hitCount": 1302,
+      "identifier": "zVisyD",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "java-pai-xu-by-fei-xiao-r-xms4",
+        "title": "[java] 排序"
+      },
+      "position": 2,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "java-pai-xu-hou-hua-wei-fen-shu-zuo-chai-i4jl",
+        "title": "java 排序后化为分数做差即可"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "569nqc"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 7,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 3,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "python3-java-c-golang-si-chong-bian-chen-dvok",
+      "status": "PREPUBLISH",
+      "summary": "我们注意到，时间点最多只有 24 * 60 个，因此，当 timePoints 长度超过 24 * 60，说明有重复的时间点，提前返回 0。\n接下来：\n首先，遍历时间列表，将其转换为“分钟制”列表 mins，比如，对于时间点 13:14，将其转换为 13 * 60 + 14。\n接着将“分钟制”列表按升序排列，然后将此列",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Go",
+          "nameTranslated": "",
+          "slug": "golang",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python3",
+          "nameTranslated": "",
+          "slug": "python3",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "😄 Python3、Java、C++、Golang 四种编程语言，简单高效解法！",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 3,
+        "id": 947970,
+        "viewCount": 1016
+      },
+      "uuid": "zVisyD",
+      "videosInfo": []
+    }
+  }
+}

@@ -1,0 +1,91 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣 (LeetCode)",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/uploaded_files/2021/03/73c9f099-abbe-4d94-853f-f8abffd459cd/leetcode.png",
+          "userSlug": "leetcode"
+        },
+        "username": "LeetCode"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "####  方法一：贪心算法\n**求解模式：**\n贪心算法的思想是在每一步都选取最优的方案，从而得到全局最优解。\n\n典型的贪心算法拥有 $\\mathcal{O}(N \\log N)$ 的时间复杂度且包括两个步骤：\n- 解决如何排序输入数据。该步骤会消耗 $\\mathcal{O}(N \\log N)$ 的时间。并且可以直接通过排序或间接使用堆数据结构来完成，通常排序比堆使用要好，因为没有额外空间的使用。\n- 构造一个解决方案解析排序后的输入数据花费 $\\mathcal{O}(N)$。\n\n对于已经排序的输入数据，贪心算法只需要 $\\mathcal{O}(N)$ 的时间复杂度。\n\n首先让我们思考如何对输入数据排序。显而易见的是对起始点进行排序，因为简化了我们的解析步骤。\n\n![在这里插入图片描述](https://imgconvert.csdnimg.cn/aHR0cHM6Ly9waWMubGVldGNvZGUtY24uY29tL0ZpZ3VyZXMvMTI4OC9zb3J0LnBuZw?x-oss-process=image/format,png)\n- 如果 `end1 < end2`，则它们不会完全覆盖，但是有一部分重叠。\n\n![在这里插入图片描述](https://imgconvert.csdnimg.cn/aHR0cHM6Ly9waWMubGVldGNvZGUtY24uY29tL0ZpZ3VyZXMvMTI4OC9kb250X2NvdmVyMi5wbmc?x-oss-process=image/format,png)\n- 如果 `end1 >= end2`，则区间 2 覆盖区间 1。\n\n ![在这里插入图片描述](https://imgconvert.csdnimg.cn/aHR0cHM6Ly9waWMubGVldGNvZGUtY24uY29tL0ZpZ3VyZXMvMTI4OC9jb3Zlci5wbmc?x-oss-process=image/format,png)\n**边界条件：** 如何处理有相同起点的情况。\n \n 上面的算法将出现问题，因为它无法区分下面两种情况。\n![在这里插入图片描述](https://imgconvert.csdnimg.cn/aHR0cHM6Ly9waWMubGVldGNvZGUtY24uY29tL0ZpZ3VyZXMvMTI4OC9zaGFyZS5wbmc?x-oss-process=image/format,png)\n一个区间被另一个区间覆盖，如果我们只按照起点排序，则我们就不知道是哪个区间覆盖哪个区间，因此，我们还需要对终点进行排序。\n\n如果两个区间起点相同，则将终点较大的放在前面。\n\n这样，我们就能更好的实现解析。\n![在这里插入图片描述](https://imgconvert.csdnimg.cn/aHR0cHM6Ly9waWMubGVldGNvZGUtY24uY29tL0ZpZ3VyZXMvMTI4OC9jb21wbGV4LnBuZw?x-oss-process=image/format,png)\n\n**算法：**\n- 对起点进行升序排序，如果起点相同，则对终点进行降序排序。\n- 初始化没有被覆盖的区间数：`count=0`。\n- 迭代排序后的区间并且比较终点大小。\n\t- 如果当前区间不被前一个区间覆盖 `end > prev_end`，则增加 `count`，指定当前区间为下一步的前一个区间。\n\t- 否则，当前区间被前一个区间覆盖，不做任何事情。\n- 返回 `count`。\n\n<![在这里插入图片描述](https://imgconvert.csdnimg.cn/aHR0cHM6Ly9waWMubGVldGNvZGUtY24uY29tL0ZpZ3VyZXMvMTI4OC8xMjg4X3NsaWRlXzEucG5n?x-oss-process=image/format,png),![在这里插入图片描述](https://imgconvert.csdnimg.cn/aHR0cHM6Ly9waWMubGVldGNvZGUtY24uY29tL0ZpZ3VyZXMvMTI4OC8xMjg4X3NsaWRlXzIucG5n?x-oss-process=image/format,png),![在这里插入图片描述](https://imgconvert.csdnimg.cn/aHR0cHM6Ly9waWMubGVldGNvZGUtY24uY29tL0ZpZ3VyZXMvMTI4OC8xMjg4X3NsaWRlXzMucG5n?x-oss-process=image/format,png),![在这里插入图片描述](https://imgconvert.csdnimg.cn/aHR0cHM6Ly9waWMubGVldGNvZGUtY24uY29tL0ZpZ3VyZXMvMTI4OC8xMjg4X3NsaWRlXzQucG5n?x-oss-process=image/format,png),![在这里插入图片描述](https://imgconvert.csdnimg.cn/aHR0cHM6Ly9waWMubGVldGNvZGUtY24uY29tL0ZpZ3VyZXMvMTI4OC8xMjg4X3NsaWRlXzUucG5n?x-oss-process=image/format,png),![在这里插入图片描述](https://imgconvert.csdnimg.cn/aHR0cHM6Ly9waWMubGVldGNvZGUtY24uY29tL0ZpZ3VyZXMvMTI4OC8xMjg4X3NsaWRlXzYucG5n?x-oss-process=image/format,png)>\n\n```python [solution1-Python]\nclass Solution:\n    def removeCoveredIntervals(self, intervals: List[List[int]]) -> int:\n        # Sort by start point.\n        # If two intervals share the same start point\n        # put the longer one to be the first.\n        intervals.sort(key = lambda x: (x[0], -x[1]))\n        count = 0\n        \n        prev_end = 0\n        for _, end in intervals:\n            # if current interval is not covered\n            # by the previous one\n            if end > prev_end:\n                count += 1    \n                prev_end = end\n        \n        return count\n```\n\n```java [solution1-Java]\nclass Solution {\n  public int removeCoveredIntervals(int[][] intervals) {\n    Arrays.sort(intervals, new Comparator<int[]>() {\n      @Override\n      public int compare(int[] o1, int[] o2) {\n        // Sort by start point.\n        // If two intervals share the same start point,\n        // put the longer one to be the first.\n        return o1[0] == o2[0] ? o2[1] - o1[1]: o1[0] - o2[0];\n      }\n    });\n\n    int count = 0;\n    int end, prev_end = 0;\n    for (int[] curr : intervals) {\n      end = curr[1];\n      // if current interval is not covered\n      // by the previous one\n      if (prev_end < end) {\n        ++count;\n        prev_end = end;\n      }\n    }\n    return count;\n  }\n}\n```\n\n```c++ [solution1-C++]\nclass Solution {\n  public:\n  int removeCoveredIntervals(vector<vector<int>>& intervals) {\n    // If two intervals share the same start point,\n    // put the longer one to be the first.\n    sort(begin(intervals), end(intervals),\n      [](const vector<int> &o1, const vector<int> &o2) {\n      return o1[0] == o2[0] ? o2[1] < o1[1] : o1[0] < o2[0];\n    });\n\n    int count = 0;\n    int end, prev_end = 0;\n    for (auto curr : intervals) {\n      end = curr[1];\n      // if current interval is not covered\n      // by the previous one\n      if (prev_end < end) {\n        ++count;\n        prev_end = end;\n      }\n    }\n    return count;\n  }\n};\n```\n\n**复杂度分析**\n\n* 时间复杂度：$\\mathcal{O}(N \\log N)$，排序过程占主导地位。\n* 空间复杂度：$\\mathcal{O}(1)$。",
+      "createdAt": "2020-05-13T09:11:19.731238+00:00",
+      "hitCount": 8064,
+      "identifier": "Bnq3qL",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "shan-chu-bei-fu-gai-qu-jian-by-leetcode-solution",
+        "title": "删除被覆盖区间"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "remove-covered-intervals"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 16,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "shan-chu-bei-fu-gai-qu-jian-by-leetcode-2",
+      "status": "PUBLISHED",
+      "summary": "方法一：贪心算法 求解模式： 贪心算法的思想是在每一步都选取最优的方案，从而得到全局最优解。 典型的贪心算法拥有 $\\mathcal{O}(N \\log N)$ 的时间复杂度且包括两个步骤： - 解决如何排序输入数据。该步骤会消耗 $\\mathcal{O}(N \\log N)$ 的时间。并且可以直接通过排序或间接使用堆",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Greedy",
+          "nameTranslated": "贪心",
+          "slug": "greedy",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "删除被覆盖区间",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 6,
+        "id": 245187,
+        "viewCount": 5881
+      },
+      "uuid": "Bnq3qL",
+      "videosInfo": []
+    }
+  }
+}

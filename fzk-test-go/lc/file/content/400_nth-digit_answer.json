@@ -1,0 +1,72 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "瓦片",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/wa-pian-d/avatar_1630227172.png",
+          "userSlug": "wa-pian-d"
+        },
+        "username": "wa-pian-d"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n\n找到n是什么数上的第几位\n1. 把n上一位上所有数减去\n2. n / 位数 == 第几个数 \n3. n % 位数 == 第几位\n4. 特别的, 余0\n5. 将找到的位取出来\n\nby 瓦片\n\n**来都来了 , 不点赞不行走啊 ~** 🤣\n\n### 代码\n\n```java\nclass Solution {\n\tprivate static int[] table1 = new int[10];// table1[2] 表示2位数上一共多少个数(按位算)\n\tprivate static int[] table2 = new int[10];// table2[2] 表示2位数之前一共多少个数\n\n\tstatic {\n\t\tfor (int i = 1; i < 9; i++) {\n\t\t\ttable1[i] = ((int) Math.pow(10, i) - (int) Math.pow(10, i - 1)) * i;\n\t\t}\n\t\ttable2[9] = Integer.MAX_VALUE;\n\n\t\tfor (int i = 1; i < 9; i++) {\n\t\t\ttable2[i] += table2[i - 1] + table1[i];\n\t\t}\n\n\t}\n\n\tpublic int findNthDigit(int n) {\n\t\tint w = 0;// n是w+1位数, w是n的位数-1\n\t\tfor (; w < 9; w++) {\n\t\t\tif (n <= table2[w + 1]) {\n\t\t\t\tbreak;\n\t\t\t}\n\t\t}\n\t\tint left = n - table2[w];// n的前一位所有数字都减掉\n\t\tint num = left / (w + 1) + (int) Math.pow(10, w);// n是哪个数上的一位\n\t\tint mod = left % (w + 1); // n是num第几个\n\t\tif (mod == 0) {\n\t\t\tnum = num - 1;// 余0是上一个数的最后一位\n\t\t\treturn num - (num / 10) * 10; // 取出个位数\n\t\t} else {\n\t\t\tnum = num / (int) Math.pow(10, w + 1 - mod);// 将num的第mod个数变成个位数   如：num==`12345`，余mod==2, num变成`12`\n\t\t\treturn num - (num / 10) * 10;// 取出个位数\n\t\t}\n\t}\n}\n```",
+      "createdAt": "2021-10-13T15:45:50.950798+00:00",
+      "hitCount": 1335,
+      "identifier": "dK7Lfk",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "cpython3java-1mo-ni-by-hanxin_hanxin-7z9d",
+        "title": "c++/python3/java （1）模拟"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "nth-digit"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 4,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "wa-pian-400-di-n-wei-shu-zi-java-zhong-j-s48x",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n找到n是什么数上的第几位\n\n把n上一位上所有数减去\nn / 位数 == 第几个数\nn % 位数 == 第几位\n特别的, 余0\n将找到的位取出来\n\nby 瓦片\n来都来了 , 不点赞不行走啊 ~ 🤣\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "【瓦片】400. 第 N 位数字 - Java 中击败了 100.00% - 数数",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1045982,
+        "viewCount": 1023
+      },
+      "uuid": "dK7Lfk",
+      "videosInfo": []
+    }
+  }
+}

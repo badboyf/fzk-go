@@ -1,0 +1,76 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "寐",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/mei-56/avatar_1579317149.png",
+          "userSlug": "mei-56"
+        },
+        "username": "mei-56"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "\n\n### 代码\n\n```python3\nclass Solution:\n    def construct2DArray(self, original: List[int], m: int, n: int) -> List[List[int]]:\n        nl = len(original)\n\n        if nl != m * n: return []\n\n        res = [[0] * n for _ in range(m)]\n        idx = 0\n        for i in range(m):\n            for j in range(n):\n                res[i][j] = original[idx]\n                idx += 1\n        \n        return res\n```",
+      "createdAt": "2021-11-01T13:43:00.422629+00:00",
+      "hitCount": 90,
+      "identifier": "q7DT29",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "cpython3java-1mo-ni-by-hanxin_hanxin-85ne",
+        "title": "c++/python3/java （1）模拟"
+      },
+      "position": 2,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "an-xing-gou-zao-javascript-by-lzxjack-fd0e",
+        "title": "【按行构造】JavaScript"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "convert-1d-array-into-2d-array"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "bao-li-by-mei-56-k5wo",
+      "status": "PREPUBLISH",
+      "summary": "代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "暴力",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1078792,
+        "viewCount": 79
+      },
+      "uuid": "q7DT29",
+      "videosInfo": []
+    }
+  }
+}

@@ -1,0 +1,84 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "吴自华",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/lucifer1004/avatar_1623921450.png",
+          "userSlug": "lucifer1004"
+        },
+        "username": "lucifer1004"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "[本场周赛题解](https://cp-wiki.vercel.app/tutorial/leetcode/WC209/) | [我的LeetCode比赛题解](https://cp-wiki.vercel.app/tutorial/leetcode/)\n\n### 方法一：递归\n\n要注意到的是，因为必须首先将高位的$1$翻转为$0$，所以本题其实只存在一种合法的操作顺序，我们只要按照这一顺序进行操作即可。\n\n手算几个数，可以发现$F(2^n)=2^{n+1}-1$，因此我们可以将其作为一个捷径。\n\n我们需要考虑两种情况：\n\n1. 把当前数变为$0$。我们首先要找到最高位的$1$，找到之后，我们需要的翻转次数，就是将之后的位置变为$10\\dots0$，再将最高位翻转，然后将剩下的数变为$0$。因为剩下的数必然是$2$的幂次，就可以使用上面的捷径。\n2. 把当前数变为$10\\dots 0$。如果$1$对应的位置已经是$1$，我们只需要将后面的数变为$0$；否则，我们需要先把后面变为$10\\dots0$，将最高位翻转，再将剩下的数变为$0$。\n\n实现这两个函数，递归计算即可。\n\n```cpp\nclass Solution {\n    int f(int n) {\n        if (n <= 1)\n            return n;\n        int t = 32 - __builtin_clz(n) - 1;\n        return (1 << t) + g(n ^ (1 << t), t - 1);\n    }\n    \n    int g(int n, int t) {\n        if (t == 0)\n            return 1 - n;\n        if (n & (1 << t))\n            return f(n ^ (1 << t));\n        return (1 << t) + g(n, t - 1);\n    }\npublic:\n    int minimumOneBitOperations(int n) {\n        return f(n);\n    }\n};\n```\n\n### 方法二：格雷码\n\n如果进一步观察，可以发现，题目中给出的操作，实际上就是从Gray(n)变换为Gray(n-1)的操作。所以我们可以直接套用求逆格雷码的方法来进行求解。\n\n时间复杂度$O(\\log N)$。\n\n```cpp\nclass Solution {\npublic:\n    int minimumOneBitOperations(int n) {\n        int ans = 0;\n        while (n) {\n            ans ^= n;\n            n >>= 1;    \n        } \n        return ans;\n    }\n};\n```",
+      "createdAt": "2020-10-04T04:01:00.174249+00:00",
+      "hitCount": 4379,
+      "identifier": "IJYxUm",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "xiang-jie-ge-lei-ma-by-simpleson",
+        "title": "【python3】从零开始的格雷码详解"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "minimum-one-bit-operations-to-make-integers-zero"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 26,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "hua-shan-yi-tiao-dao-wo-men-di-gui-zhao-zou-by-luc",
+      "status": "PUBLISHED",
+      "summary": "本场周赛题解 | 我的LeetCode比赛题解\n方法一：递归\n要注意到的是，因为必须首先将高位的1翻转为0，所以本题其实只存在一种合法的操作顺序，我们只要按照这一顺序进行操作即可。\n手算几个数，可以发现F(2^n)=2^{n+1}-1，因此我们可以将其作为一个捷径。\n我们需要考虑两种情况：\n\n把当前数变为0。我们首先要",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "cpp",
+          "nameTranslated": "",
+          "slug": "additional_cpp",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "",
+      "title": "华山一条道，我们递归/格雷着走",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 24,
+        "id": 435645,
+        "viewCount": 2981
+      },
+      "uuid": "IJYxUm",
+      "videosInfo": []
+    }
+  }
+}

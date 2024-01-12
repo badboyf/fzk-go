@@ -1,0 +1,72 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "Qiumg",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/qiumg/avatar_1613625202.png",
+          "userSlug": "qiumg"
+        },
+        "username": "Qiumg"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n此处撰写解题思路\n\n### 代码\n\n```java\nclass Solution {\n    public int busyStudent(int[] startTime, int[] endTime, int queryTime) {\n            int res=0;\n            for(int i=0;i<startTime.length;i++){\n                if(queryTime >= startTime[i] && queryTime<=endTime[i]) res++;   \n            }\n            return res;\n    }\n}\n```",
+      "createdAt": "2021-03-21T09:31:15.092308+00:00",
+      "hitCount": 642,
+      "identifier": "Dm2gCy",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "zhe-shi-wo-lai-li-kou-zuo-de-zui-jian-dan-de-yi-da",
+        "title": "这是我来力扣做的最简单的一道题"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "number-of-students-doing-homework-at-a-given-time"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 7,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "java-bai-fen-bai-by-qiumg-93nn",
+      "status": "PUBLISHED",
+      "summary": "解题思路\n此处撰写解题思路\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "JAVA 百分百",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 671450,
+        "viewCount": 611
+      },
+      "uuid": "Dm2gCy",
+      "videosInfo": []
+    }
+  }
+}

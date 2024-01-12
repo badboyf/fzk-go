@@ -1,0 +1,76 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "Pinkie Pie",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/pinkie-pie-3/avatar_1602227670.png",
+          "userSlug": "pinkie-pie-3"
+        },
+        "username": "pinkie-pie-3"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "由题目中的表述“如果 i > 0 ，那么第 (i-1) 个子数组在 nums 中出现的位置在第 i 个子数组前面。”可知，只需遍历一次数组，将nums中的元素逐一与groups中的元素进行比较即可。\r\n\r\nJava语言实现及注释如下：\r\n```\r\nclass Solution {\r\n    public boolean canChoose(int[][] groups, int[] nums) {\r\n        int m = 0, n = 0;//用这两个变量作为下标操作groups数组。\r\n        for (int i = 0; i < nums.length; ++i) {\r\n            if (nums[i] == groups[m][n]) {\r\n                ++n;//每个字母匹配成功则开始下个字母的匹配，直至该行满。\r\n                if (n == groups[m].length) {\r\n                    ++m;//行满则列进一。\r\n                    if (m == groups.length) {\r\n                        return true;//列满则返回true，此题得解。\r\n                    }\r\n                    n = 0;//行满时令n复位为0，开始下一个子数组的匹配。\r\n                }\r\n            } else {\r\n                i -= n;\r\n                n = 0;\r\n            }//若不能匹配，则需要重新匹配该行，n复位为0，i同时回退n位。\r\n        }//注意到下轮循环时i又自增1，也即重新匹配该行时从原开端的下一位开始匹配。\r\n        return false;//循环结束后二维数组依然未能达成完全匹配则返回false。\r\n    }\r\n}\r\n```\r\n另：题目判例覆盖不够完全，未提供超过一位后不同的匹配子数组判例。使得元素未成功匹配时只回退一位也可AC，感谢评论区指正。\r\n",
+      "createdAt": "2021-02-20T16:37:12.682516+00:00",
+      "hitCount": 476,
+      "identifier": "t7jK4k",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "mo-ni-zhi-zhen-by-moao-lyhl",
+        "title": "【模拟指针】"
+      },
+      "position": 4,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "kmpjie-fa-by-chintsai-hwo-eftx",
+        "title": "KMP解法"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "form-array-by-concatenating-subarrays-of-another-array"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "zui-you-qing-kuang-xia-onshi-jian-o1kong-r49v",
+      "status": "PREPUBLISH",
+      "summary": "由题目中的表述“如果 i > 0 ，那么第 (i-1) 个子数组在 nums 中出现的位置在第 i 个子数组前面。”可知，只需遍历一次数组，将nums中的元素逐一与groups中的元素进行比较即可。\nJava语言实现及注释如下：\n另：题目判例覆盖不够完全，未提供超过一位后不同的匹配子数组判例。使得元素未成功匹配时只回退",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "时间复杂度O(m*n)，空间复杂度O(1)。",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 7,
+        "id": 612666,
+        "viewCount": 402
+      },
+      "uuid": "t7jK4k",
+      "videosInfo": []
+    }
+  }
+}

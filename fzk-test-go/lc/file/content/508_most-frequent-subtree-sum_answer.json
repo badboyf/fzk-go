@@ -1,0 +1,76 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "叶十三",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/default_avatar.png",
+          "userSlug": "xie-shi-san-k"
+        },
+        "username": "xie-shi-san-k"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n   首先明确定义子树元素之和定义为以该结点为根的二叉树上所有结点的元素之和（包括结点本身），因为首先需要知道每一个根节点的左子树之和+右子树之和，然后再求以该节点为根的二叉树的元素之和，所以考虑后序遍历。\n   使用hashmap存储树中以每个节点为根的子树元素和以及出现次数(<子树元素和, 次数>)，同时使用全局变量max记录出现次数最多的元素和，然后将map中出现次数和max一样的元素放入数组中即可。\n\n### 代码\n\n```java\nclass Solution {\n\n    // HashMap<子树元素和, 次数>\n    HashMap<Integer, Integer> res = new HashMap<>();\n    int max = 0;\n    public int[] findFrequentTreeSum(TreeNode root) {\n        posOrder(root);\n        Set<Integer> keys = res.keySet();\n        int n = 0;\n        for(Integer key : keys){\n            if(res.get(key) == max){\n                n++;\n            }\n        }\n        int[] ans = new int[n];\n        n = 0;\n        for(Integer key : keys){\n            if(res.get(key) == max){\n                ans[n++] = key;\n            }\n        }\n        \n        return ans;\n\n    }\n\n    // 后序遍历\n    public int posOrder(TreeNode root){\n        if(root == null) return 0;\n        int left = posOrder(root.left);\n        int right = posOrder(root.right);\n        int sum = root.val + left + right;\n        res.put(sum, res.getOrDefault(sum, 0) + 1);\n        max = Math.max(max, res.get(sum));\n        return sum;\n    }\n}\n```",
+      "createdAt": "2021-10-07T03:57:15.329025+00:00",
+      "hitCount": 362,
+      "identifier": "W7aLtj",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "jian-dan-zhi-jie-zi-dian-xiao-ji-qiao-bi-47yo",
+        "title": "简单直接，字典小技巧，遍历二叉树+Hash"
+      },
+      "position": 3,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "shuang-zhong-dfshashmap-by-wan-gong-jie-35wyr",
+        "title": "双重DFS+HashMap"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "most-frequent-subtree-sum"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "java-hou-xu-bian-li-hashmap-by-xie-shi-s-svv6",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n首先明确定义子树元素之和定义为以该结点为根的二叉树上所有结点的元素之和（包括结点本身），因为首先需要知道每一个根节点的左子树之和+右子树之和，然后再求以该节点为根的二叉树的元素之和，所以考虑后序遍历。\n使用hashmap存储树中以每个节点为根的子树元素和以及出现次数(<子树元素和, 次数>)，同时使用全局变量",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "java 后序遍历+HashMap",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1034542,
+        "viewCount": 268
+      },
+      "uuid": "W7aLtj",
+      "videosInfo": []
+    }
+  }
+}

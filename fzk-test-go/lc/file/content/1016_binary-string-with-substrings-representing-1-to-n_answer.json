@@ -1,0 +1,86 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "topGun",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/number-one-player/avatar_1629786084.png",
+          "userSlug": "number-one-player"
+        },
+        "username": "number-one-player"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 调包小能手\n\n![image.png](https://pic.leetcode-cn.com/1635852215-pWuIpP-image.png)\n\n### 代码\n\n```java\nclass Solution {\n    public boolean queryString(String s, int n) {\n        for (int i = 1; i <= n; i++) {\n            if (!s.contains(Integer.toBinaryString(i))) return false;\n        }\n        return true;\n    }\n}\n```",
+      "createdAt": "2021-11-02T11:24:33.459918+00:00",
+      "hitCount": 61,
+      "identifier": "8mZ6FZ",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "shi-yong-bitset-by-xiaowufeixia-yy5o",
+        "title": "使用BitSet"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "binary-string-with-substrings-representing-1-to-n"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "java-mo-ni-by-number-one-player-9uvv",
+      "status": "PREPUBLISH",
+      "summary": "调包小能手\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "String",
+          "nameTranslated": "字符串",
+          "slug": "string",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Simulation",
+          "nameTranslated": "模拟",
+          "slug": "simulation",
+          "tagType": "TOPIC"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1635852215-pWuIpP-image.png",
+      "title": "【Java】【模拟】",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1080521,
+        "viewCount": 52
+      },
+      "uuid": "8mZ6FZ",
+      "videosInfo": []
+    }
+  }
+}

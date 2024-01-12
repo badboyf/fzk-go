@@ -1,0 +1,98 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣 (LeetCode)",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/uploaded_files/2021/03/73c9f099-abbe-4d94-853f-f8abffd459cd/leetcode.png",
+          "userSlug": "leetcode"
+        },
+        "username": "LeetCode"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法一：数位动态规划\n\n**分析**\n\n我们称满足 `X <= N` 且仅包含 `D` 中出现的数字的 `X` 为合法的。我们的目标是找出所有合法的 `X` 的个数。\n\n设 `N` 是一个 `K` 位数，那么对于任意一个小于 `K`（假设有 `k` 位，即 `k < K`）的数，如果它仅包含 `D` 中出现的数字，那么它就是合法的，并且 `k` 位数中，合法的数一共有 $|D|^k$ 个。\n\n考虑完位数小于 `K` 的数，我们接下来考虑位数等于 `K` 的数，我们用 `N = 2345` 作为例子来考虑所有合法的 `K = 4` 位数。\n\n* 如果第 `1` 个数位比 `N` 中对应的第 `1` 个数位（即 `2`）小，那么剩下的 `3` 个数位我们可以使用 `D` 中的任何一个数字，因此有 $|D|^{k-1}$ 个合法的数。\n\n* 如果第 `1` 个数位和 `N` 中对应的第 `1` 个数位（即 `2`）相等，那么从第 `2` 个数位开始，它既可以比 `N` 中对应的第 `2` 个数位（即 `3`）小，也可以相等。此时相当于我们在考虑一个 `K - 1` 位数的问题。\n\n**算法**\n\n我们用 `dp[i]` 表示小于等于 `N` 中最后 `|N| - i` 位数的合法数的个数，例如当 `N = 2345` 时，`dp[0], dp[1], dp[2], dp[3]` 分别表示小于等于 `2345, 345, 45, 5` 的合法数的个数。我们从大到小计算 `dp[i]`，状态转移方程为：\n\n`dp[i] = (number of d in D with d < S[i]) * ((|D|) ** (|N| - i - 1))`\n\n即我们枚举第 `|N| - i` 位数，后面的 `|N| - i - 1` 位数可以在 `D` 中任选。如果 `N` 的第 `|N| - i` 位数在 `D` 中，上述的状态转移方程还需要加上一项 `dp[i + 1]`。\n\n最终的答案为 `dp[0]` 加上所有 `k < K` 位的合法的数。\n\n```Java [sol1]\nclass Solution {\n    public int atMostNGivenDigitSet(String[] D, int N) {\n        String S = String.valueOf(N);\n        int K = S.length();\n        int[] dp = new int[K+1];\n        dp[K] = 1;\n\n        for (int i = K-1; i >= 0; --i) {\n            // compute dp[i]\n            int Si = S.charAt(i) - '0';\n            for (String d: D) {\n                if (Integer.valueOf(d) < Si)\n                    dp[i] += Math.pow(D.length, K-i-1);\n                else if (Integer.valueOf(d) == Si)\n                    dp[i] += dp[i+1];\n            }\n        }\n\n        for (int i = 1; i < K; ++i)\n            dp[0] += Math.pow(D.length, i);\n        return dp[0];\n    }\n}\n```\n\n```Python [sol1]\nclass Solution:\n    def atMostNGivenDigitSet(self, D, N):\n        S = str(N)\n        K = len(S)\n        dp = [0] * K + [1]\n        # dp[i] = total number of valid integers if N was \"N[i:]\"\n\n        for i in xrange(K-1, -1, -1):\n            # Compute dp[i]\n\n            for d in D:\n                if d < S[i]:\n                    dp[i] += len(D) ** (K-i-1)\n                elif d == S[i]:\n                    dp[i] += dp[i+1]\n\n        return dp[0] + sum(len(D) ** i for i in xrange(1, K))\n```\n\n**复杂度分析**\n\n* 时间复杂度：$O(|N|)$，也可以写作 $O(\\log N)$，它们只相差一个常数，是等价的。\n\n* 空间复杂度：$O(|N|)$。\n\n#### 方法二：数学\n\n**分析**\n\n我们令 `B = |D|`，一个合法的数仅包含 `D` 中的数字，如果我们把 `D` 中数字从小到大映射为 `[1 .. B]`，那么将对我们的计数有很大的便利。例如，当 `D` 包含 `[1, 3, 5, 7]` 时，我们将它映射为 `[1, 2, 3, 4]`，那么合法的数也从 `1, 3, 5, 7, 11, 13, 15, 17, 31, ...` 映射为 `1, 2, 3, 4, 11, 12, 13, 14, 21, ...`。这样的好处是，对于任何一个映射好的数，我们可以用类似进制转换的方式，得到它是第一个合法的数，例如 `34` 就是第 `3 * B + 4 = 3 * 4 + 4 = 16` 个合法的数。\n\n有了这样的性质，我们可以先求出小于等于 `N` 的最大的合法的数，随后对它进行映射，如果它为第 `m` 个合法的数，就说明小于等于 `N` 的合法的数一共有 `m` 个。\n\n**算法**\n\n如果求出了小于等于 `N` 的最大的合法的数 `X`，后面的两步（映射，进制转换）的方法就都比较显然了，因此我们只重点说明求出 `X` 的方法。\n\n我们从 `X` 的最高位开始，每次参考 `N` 中对应的数字，写下一个数位，直到写完最低位的数字。在写某一个数位时，会遇到下面的若干种情况（假设 `D` 为 `[2, 4, 6, 8]`）：\n\n* 如果 `N` 中对应的数字在 `D` 中出现，那么在 `X` 的这一位写下与 `N` 相同的数字。例如当 `N` 为 `25123` 时，我们要参考最高位的数字 `2`，它在 `D` 中出现，因此我们也在 `X` 的最高位写下 `2`。\n\n* 如果 `N` 中对应的数字没有在 `D` 中出现，但它大于 `D` 中最小的数字，那么就在 `X` 这一位写下 `D` 中比该数字小的最大的数字。例如当 `N` 为 `5123` 时，我们要参考最高位的数字 `5`，它没有在 `D` 中出现，我们就在 `X` 的最高位写下 `D` 中比 `5` 小的最大的数字 `4`。\n\n* 如果 `N` 中对应的数字没有在 `D` 中出现，并且它小于 `D` 中最小的数字，那么我们需要把上一个写下的数字替换成 `D` 中一个更小的数字，如果 `D` 中没有更小的数字，那么就延续到再上一个写下的数字，只要某个数字可以替换成 `D` 中一个更小的数字，或者没有可以替换的数字。如果是前者，我们就从被替换的数字的下一位开始，将之后的所有数位都写下 `D` 中最大的数字；如果是后者，说明最大的合法的数 `X` 的位数比 `N` 小，那么我们写下一个 `|N| - 1` 位的，每一位都是 `D` 中最大的数字的数即可。下面给出了一个更加具体的例子：\n\n    当 `N` 为 `123` 时，我们发现最高位的 `1` 比 `D` 中最小的 `2` 还要小，因为它是最高位，所以说明最大的合法的数 `X` 应该只有 `2` 位，因此 `X` 为 `88`；当 `N` 为 `4123` 时，我们在最高位填了 `4` 之后，次高位的 `1` 小于 `2`，因此将最高位换成更小的数字 `2`，再在后面都写下 `8`，得到 `2888`；当 `N` 为 `22123` 时Z，我们在前两位填了 `22` 之后，第三位的 `1` 小于 `2`，并且前两位都无法换成更小的数字，因此 `X` 应该只有 `4` 位，即 `8888`。\n\n```Java [sol2]\nclass Solution {\n    public int atMostNGivenDigitSet(String[] D, int N) {\n        int B = D.length; // bijective-base B\n        char[] ca = String.valueOf(N).toCharArray();\n        int K = ca.length;\n        int[] A = new int[K];\n        int t = 0;\n\n        for (char c: ca) {\n            int c_index = 0;  // Largest such that c >= D[c_index - 1]\n            boolean match = false;\n            for (int i = 0; i < B; ++i) {\n                if (c >= D[i].charAt(0))\n                    c_index = i+1;\n                if (c == D[i].charAt(0))\n                    match = true;\n            }\n\n            A[t++] = c_index;\n            if (match) continue;\n\n            if (c_index == 0) { // subtract 1\n                for (int j = t-1; j > 0; --j) {\n                    if (A[j] > 0) break;\n                    A[j] += B;\n                    A[j-1]--;\n                }\n            }\n\n            while (t < K)\n                A[t++] = B;\n            break;\n        }\n\n        int ans = 0;\n        for (int x: A)\n            ans = ans * B + x;\n        return ans;\n    }\n}\n```\n\n```Python [sol2]\nclass Solution(object):\n    def atMostNGivenDigitSet(self, D, N):\n        B = len(D) # bijective-base B\n        S = str(N)\n        K = len(S)\n        A = []  #  The largest valid number in bijective-base-B.\n\n        for c in S:\n            if c in D:\n                A.append(D.index(c) + 1)\n            else:\n                i = bisect.bisect(D, c)\n                A.append(i)\n                # i = 1 + (largest index j with c >= D[j], or -1 if impossible)\n                if i == 0:\n                    # subtract 1\n                    for j in xrange(len(A) - 1, 0, -1):\n                        if A[j]: break\n                        A[j] += B\n                        A[j-1] -= 1\n\n                A.extend([B] * (K - len(A)))\n                break\n\n        ans = 0\n        for x in A:\n            ans = ans * B + x\n        return ans\n```\n\n**复杂度分析**\n\n* 时间复杂度：$O(|N|)$，也可以写作 $O(\\log N)$，它们只相差一个常数，是等价的。\n\n* 空间复杂度：$O(|N|)$。",
+      "createdAt": "2019-08-06T06:16:10.723671+00:00",
+      "hitCount": 5793,
+      "identifier": "2Qa3t1",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "902-zui-da-wei-nde-shu-xue-zu-he-shu-wei-gmod",
+        "title": "【902. 最大为N的数学组合】【数位DP】Java实现"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "numbers-at-most-n-given-digit-set"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 12,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "zui-da-wei-n-de-shu-zi-zu-he-by-leetcode",
+      "status": "PUBLISHED",
+      "summary": "§ 方法一：数位动态规划\n分析\n我们称满足 X <= N 且仅包含 D 中出现的数字的 X 为合法的。我们的目标是找出所有合法的 X 的个数。\n设 N 是一个 K 位数，那么对于任意一个小于 K（假设有 k 位，即 k < K）的数，如果它仅包含 D 中出现的数字，那么它就是合法的，并且 k 位数中，合法的数一共有 |",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Math",
+          "nameTranslated": "数学",
+          "slug": "math",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Dynamic Programming",
+          "nameTranslated": "动态规划",
+          "slug": "dynamic-programming",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "最大为 N 的数字组合",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 14,
+        "id": 18778,
+        "viewCount": 4049
+      },
+      "uuid": "2Qa3t1",
+      "videosInfo": []
+    }
+  }
+}

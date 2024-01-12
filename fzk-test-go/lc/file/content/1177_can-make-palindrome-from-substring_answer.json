@@ -1,0 +1,86 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "ffreturn",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/ffreturn/avatar_1608859813.png",
+          "userSlug": "ffreturn"
+        },
+        "username": "ffreturn"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "![image.png](https://pic.leetcode-cn.com/1635671631-sgDwRz-image.png)\n\n\n### 解题思路\n思路\n- 本题是可以随意修改字符的顺序，所以这里只需要计数就可以\n- 考虑到是特定的范围，如何去计算范围内的？ \n   - 类似前缀和的计算，预先计算好\n   - 后续只要计算左右范围的差值就是对应的数量\n- 考虑一个范围的个数情况\n   - 偶数： 必然对称，无需替换\n   - 奇数： \n       - 如果现在是奇数个数，那么无需替换\n       - 如果是偶数个数，那么必然还存在另外一个奇数，此时只需要替换一个即可\n- 总结就是\n   - 对于奇数个数，则只需要替换一个1，同时累加奇数的个数除以2就是要替换的个数，因为替换一个就可以和另外一个匹配\n   - 对于只有一个奇数，1/2=0无需替换\n   - 对于四个计数剩下，4/2=2，替换2个即可\n   - 判断是否可达，就是替换数量是否小于等于query[2](即最大允许替换的数量)\n\n### 代码\n\n```cpp\n\nclass Solution {\npublic:\n    vector<bool> canMakePaliQueries(string s, vector<vector<int>>& queries) {\n        int n = s.size();\n        // 预留0的位置\n        int cnt[n+1][26];\n        memset(cnt, 0, sizeof(cnt));\n\n        for (int i = 1; i <= n; ++i)\n        {\n            ++cnt[i][s[i-1]-'a'];\n            // 基于上一个结果来更新\n            for (int j = 0; j < 26; ++j)\n            {\n                cnt[i][j] += cnt[i-1][j];\n            }\n        }\n        // for (int j = 0; j < 26; ++j)\n        // {\n        //     cout << j << \" : \" << cnt[n][j] << endl;\n        // }\n\n        int nq = queries.size();\n        vector<bool> res(nq, false);\n        \n        for (int j = 0; j < nq; ++j)\n        {\n            // cout << \"query \" << j << endl;\n            vector<int>& query = queries[j];\n            int numOdd = 0;\n            // 统计所有字符的数量\n            for (int i = 0; i < 26; ++i)\n            {\n                // 统计奇数的个数, 前缀和计算预留0，所以终点需要额外+1\n                numOdd += (cnt[query[1]+1][i] - cnt[query[0]][i]) % 2;\n            }\n            res[j] = (numOdd/2) <= query[2];\n        }\n\n        return res;\n    }\n};\n```",
+      "createdAt": "2021-10-31T09:15:19.358135+00:00",
+      "hitCount": 102,
+      "identifier": "xm8kec",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "c-yi-ti-shuang-jie-qian-zhui-bao-li-wei-wjni4",
+        "title": "【C++】一题双解 | 前缀暴力 | 位运算加速"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "can-make-palindrome-from-substring"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "1177-cjian-dan-yi-dong-de-de-qian-zhui-h-9igt",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n思路\n\n本题是可以随意修改字符的顺序，所以这里只需要计数就可以\n考虑到是特定的范围，如何去计算范围内的？\n\n类似前缀和的计算，预先计算好\n后续只要计算左右范围的差值就是对应的数量\n\n\n考虑一个范围的个数情况\n\n偶数： 必然对称，无需替换\n奇数：\n\n如果现在是奇数个数，那么无需替换\n如果是偶数个数，那么必然还存",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Prefix Sum",
+          "nameTranslated": "前缀和",
+          "slug": "prefix-sum",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "梦想",
+          "nameTranslated": "",
+          "slug": "meng-xiang",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1635671631-sgDwRz-image.png",
+      "title": "1177. c++简单易懂的的前缀和解法",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1076431,
+        "viewCount": 77
+      },
+      "uuid": "xm8kec",
+      "videosInfo": []
+    }
+  }
+}

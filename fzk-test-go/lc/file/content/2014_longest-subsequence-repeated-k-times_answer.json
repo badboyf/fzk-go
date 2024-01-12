@@ -1,0 +1,77 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "Chen",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/fuchen2050/avatar_1628674157.png",
+          "userSlug": "fuchen2050"
+        },
+        "username": "fuchen2050"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "如果一个字母频率为freq，那么其可能参与组成的子串最多为**freq//k**个，因此我们只需要统计s中各个字母出现的频率，进行**倒序**排列便于后续能够直接筛选出首字母最大的子串，然后频率满足要求的字母组合起来成为新的串hot\r\n\r\n接着我们求出hot全部子串的全排列，然后依次判断是否属于s，第一个满足要求的即为所求\r\n\r\n```\r\nclass Solution:\r\n    def longestSubsequenceRepeatedK(self, s: str, k: int) -> str:\r\n        num = Counter(s)\r\n        hot = ''.join(ele * (num[ele] // k) for ele in sorted(num, reverse=True))\r\n        for i in range(len(hot), 0, -1):\r\n            for item in permutations(hot, i):\r\n                word = ''.join(item)\r\n                ss = iter(s)\r\n                if all(c in ss for c in word * k):\r\n                    return word\r\n        return ''\r\n```\r\n注意在判断是否属于s时，利用iter()函数生成迭代器是个非常巧妙的选择，比直接for循环判断要更加简洁高效\r\n",
+      "createdAt": "2021-09-19T08:08:17.188924+00:00",
+      "hitCount": 1994,
+      "identifier": "BshjSg",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "mei-ju-pai-lie-zi-xu-lie-pi-pei-by-endle-oi2h",
+        "title": "枚举排列+子序列匹配"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "longest-subsequence-repeated-k-times"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 18,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 3,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "zui-jian-ji-yi-dong-de-fang-fa-li-yong-z-hay1",
+      "status": "PREPUBLISH",
+      "summary": "如果一个字母频率为freq，那么其可能参与组成的子串最多为freq//k个，因此我们只需要统计s中各个字母出现的频率，进行倒序排列便于后续能够直接筛选出首字母最大的子串，然后频率满足要求的字母组合起来成为新的串hot\n接着我们求出hot全部子串的全排列，然后依次判断是否属于s，第一个满足要求的即为所求\n注意在判断是否属",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "最简洁易懂的方法：利用字母频率",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 15,
+        "id": 1006438,
+        "viewCount": 1374
+      },
+      "uuid": "BshjSg",
+      "videosInfo": []
+    }
+  }
+}

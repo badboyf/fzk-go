@@ -1,0 +1,91 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "江不知",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/jalan/avatar_1564138451.png",
+          "userSlug": "jalan"
+        },
+        "username": "jalan"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n\n对于一个形如 `x op y`（`op` 为运算符，`x` 和 `y` 为数） 的算式而言，**它的结果组合取决于 `x` 和 `y` 的结果组合数**，而 `x` 和 `y` 又可以写成形如 `x op y` 的算式。\n\n因此，该问题的子问题就是 `x op y` 中的 `x` 和 `y`：**以运算符分隔的左右两侧算式解**。\n\n然后我们来进行 **分治算法三步走**：\n\n1. 分解：按运算符分成左右两部分，分别求解\n2. 解决：实现一个递归函数，输入算式，返回算式解\n3. 合并：根据运算符合并左右两部分的解，得出最终解\n\n### 实现\n\n```Python []\nclass Solution:\n    def diffWaysToCompute(self, input: str) -> List[int]:\n        # 如果只有数字，直接返回\n        if input.isdigit():\n            return [int(input)]\n\n        res = []\n        for i, char in enumerate(input):\n            if char in ['+', '-', '*']:\n                # 1.分解：遇到运算符，计算左右两侧的结果集\n                # 2.解决：diffWaysToCompute 递归函数求出子问题的解\n                left = self.diffWaysToCompute(input[:i])\n                right = self.diffWaysToCompute(input[i+1:])\n                # 3.合并：根据运算符合并子问题的解\n                for l in left:\n                    for r in right:\n                        if char == '+':\n                            res.append(l + r)\n                        elif char == '-':\n                            res.append(l - r)\n                        else:\n                            res.append(l * r)\n\n        return res\n```\n\n```Go []\nimport (\n    \"fmt\"\n    \"strconv\"\n)\n\nfunc diffWaysToCompute(input string) []int {\n    // 如果是数字，直接返回\n    if isDigit(input) {\n        tmp, _ := strconv.Atoi(input)\n        return []int{tmp}\n    }\n    \n    // 空切片\n    var res []int \n    // 遍历字符串\n    for index, c := range input {\n        tmpC := string(c)\n        if tmpC == \"+\" || tmpC == \"-\" || tmpC == \"*\" {\n            // 如果是运算符，则计算左右两边的算式\n            left := diffWaysToCompute(input[:index])\n            right := diffWaysToCompute(input[index+1:])\n            \n            for _, leftNum := range left {\n                for _, rightNum := range right {\n                    var addNum int\n                    if tmpC == \"+\" {\n                        addNum = leftNum + rightNum\n                    } else if tmpC == \"-\" {\n                        addNum = leftNum - rightNum\n                    } else {\n                        addNum = leftNum * rightNum\n                    }\n                    res = append(res, addNum)\n                }\n            }\n        }\n    }\n\n    return res\n}\n\n// 判断是否为全数字\nfunc isDigit(input string) bool {\n    _, err := strconv.Atoi(input)\n    if err != nil {\n        return false\n    }\n    return true\n}\n```",
+      "createdAt": "2019-11-15T14:33:12.259444+00:00",
+      "hitCount": 22853,
+      "identifier": "xUFC21",
+      "isEditorsPick": true,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "xiang-xi-tong-su-de-si-lu-fen-xi-duo-jie-fa-by-5-5",
+        "title": "详细通俗的思路分析，多解法"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "different-ways-to-add-parentheses"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 96,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 7,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "pythongolang-fen-zhi-suan-fa-by-jalan",
+      "status": "PUBLISHED",
+      "summary": "解题思路\n对于一个形如 x op y（op 为运算符，x 和 y 为数） 的算式而言，它的结果组合取决于 x 和 y 的结果组合数，而 x 和 y 又可以写成形如 x op y 的算式。\n因此，该问题的子问题就是 x op y 中的 x 和 y：以运算符分隔的左右两侧算式解。\n然后我们来进行 分治算法三步走：\n\n分解：",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Divide and Conquer",
+          "nameTranslated": "分治",
+          "slug": "divide-and-conquer",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Go",
+          "nameTranslated": "",
+          "slug": "golang",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python3",
+          "nameTranslated": "",
+          "slug": "python3",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "Python/Golang 分治算法",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 28,
+        "id": 44108,
+        "viewCount": 16070
+      },
+      "uuid": "xUFC21",
+      "videosInfo": []
+    }
+  }
+}

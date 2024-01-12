@@ -1,0 +1,77 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "天岚",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/tian-lan-51/avatar_1630124335.png",
+          "userSlug": "skyshine94"
+        },
+        "username": "skyshine94"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\nReentrantLock可重入锁\n\n### 代码\n\n```java\nclass DiningPhilosophers {\n    //定义Lock\n    private ReentrantLock lock = new ReentrantLock();\n    //定义Condition数组\n    private Condition[] conditions = new Condition[5];\n    //定义叉子是否被占用的标记\n    private boolean[] forks = new boolean[5];\n\n    public DiningPhilosophers(){\n        //创建Condition对象\n        for (int i = 0; i < 5; i++) {\n            conditions[i] = lock.newCondition();\n        }\n    }\n\n    // call the run() method of any runnable to execute its code\n    public void wantsToEat(int philosopher,\n                           Runnable pickLeftFork,\n                           Runnable pickRightFork,\n                           Runnable eat,\n                           Runnable putLeftFork,\n                           Runnable putRightFork) throws InterruptedException {\n        lock.lock();\n        try{\n            //定义哲学家左右叉子编号\n            int leftFork = philosopher;\n            int rightFork = (philosopher + 1) % 5;\n\n            //左右两边任意一个叉子被占用，线程等待\n            while(forks[leftFork] || forks[rightFork]){\n                conditions[philosopher].await();\n            }\n\n            //占用叉子\n            forks[leftFork] = true;\n            forks[rightFork] = true;\n            \n            //吃面\n            pickLeftFork.run();\n            pickRightFork.run();\n            eat.run();\n\n            //放下左边叉子\n            putLeftFork.run();\n            forks[leftFork] = false;\n            //唤醒左边哲学家\n            conditions[leftFork].signal();\n            //放下右边叉子\n            putRightFork.run();\n            //唤醒右边哲学家\n            forks[rightFork] = false;\n            conditions[rightFork].signal();\n        }finally{\n            lock.unlock();\n        }\n        \n    }\n}\n```",
+      "createdAt": "2021-09-12T08:38:58.024704+00:00",
+      "hitCount": 886,
+      "identifier": "JjEPaR",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "1ge-semaphore-1ge-reentrantlockshu-zu-by-gfu",
+        "title": "3种思路(互斥量 或 volatile + CAS)"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "the-dining-philosophers"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 3,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "zhe-xue-jia-jin-can-by-skyshine94-7blq",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\nReentrantLock可重入锁\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "哲学家进餐",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 2,
+        "id": 993515,
+        "viewCount": 701
+      },
+      "uuid": "JjEPaR",
+      "videosInfo": []
+    }
+  }
+}

@@ -1,0 +1,72 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "逗比克星",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/wo-shi-xie-wu-rui-la-wang-chai/avatar_1618042786.png",
+          "userSlug": "master_xue"
+        },
+        "username": "master_xue"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "# **动态规划 + 哈希表**\r\n从左往右扫描数组内的每一个数字，该数字可能和前面的不同的数字组成不同的斐波那契数列，如在数组 [1,2,3,4,5,6,7,8] 中数字 6 可以组成 2, 5, 6 和 2, 4, 6 两个斐波那契数列。也就是说，解决该问题需要若干步，每一步都面临若干选择，最后需要返回斐波那契数列的长度最大值，所以该问题可以用动态规划解决。\r\n\r\n若当前扫描到数字 A[i]，那么 A[i] 前的数字 A[j] (j < i) 都可能与 A[i] 组成斐波那契数列，前提是存在 k < j 使得 A[i] = A[j] + A[k] 成立。这个以 A[i] 结尾前一个数字是 A[j] 的斐波那契数列，是在以 A[j] 结尾前一个数字是 A[k] 的斐波那契数列的基础上增加一个数字 A[i]，因此前者的长度是后者的长度加 1。\r\n\r\n可以发现 A[i] 与  A[j] 密切相关，因此可以定义状态转移方程为 f(i, j) 表示以 A[i] 结尾前一个数字是 A[j] 的斐波那契数列长度。如果存在一个数字 k，使得 A[i] = A[j] + A[k] （0 <= k < j < i) 成立，那么 f(i, j) = f(j, k) + 1。若不存在这样的 k 那么 f(i, j) = 2，因为此时虽然 A[i] 和 A[j] 两个数字还不能形成有效的斐波那契数列，但是可能在之后增加一个新的数字就会形成斐波那契数列。\r\n\r\n因为状态转移方程有两个参数，因此需要使用二维数组来保存，i 对应二维数组的行号，j 对应二维数组的列号。因为 j < i，所以只会使用二维数组的一半。如果数组的长度为 n，那么 i 的取值为 1 ~ n - 1，j 的取值为 1 ~ i。根据是否存在 k 使得 A[i] = A[j] + A[k] (0 <= k < j < i) 的情况，状态方程可以写成\r\n![image.png](https://pic.leetcode-cn.com/1631177652-eZwtdh-image.png)\r\n因为需要查询 A[k] = A[i] - A[j] 是否存在，并且需要得到下标 k，所以需要一个哈希表将数组内所有的数字和下标保存下来供查询。完整的代码如下，时间复杂为 O(n^2)，空间复杂为 O(n^2)。\r\n\r\n```\r\nclass Solution {\r\npublic:\r\n    int lenLongestFibSubseq(vector<int>& arr) {\r\n        vector<vector<int>> dp(arr.size(), vector<int>(arr.size()));\r\n        unordered_map<int, int> mp;\r\n        for (int i = 0; i < arr.size(); ++i) {\r\n            mp[arr[i]] = i;\r\n        }\r\n\r\n        int ret = 0;\r\n        for (int i = 1; i < arr.size(); ++i) {\r\n            for (int j = 0; j < i; ++j) {\r\n                int temp = arr[i] - arr[j];\r\n                // 存在 k 使得 A[i] = A[j] + A[k] (0 <= k < j < i)\r\n                if (mp.count(temp) && mp[temp] < j) {\r\n                    dp[i][j] = dp[j][mp[temp]] + 1;\r\n                }\r\n                // 不存在 k 使得 A[i] = A[j] + A[k] (0 <= k < j < i)\r\n                else {\r\n                    dp[i][j] = 2;\r\n                }\r\n                ret = max(ret, dp[i][j]);\r\n            }\r\n        }\r\n\r\n        return ret > 2 ? ret : 0;\r\n    }\r\n};\r\n```\r\n\r\n# **动态规划 + 二分查找**\r\n其实也可以不使用哈希表处理，因为原数组是递增的，可以使用二分查找确定在下标区间 0 ~ j - 1 内是否存在 k 使得 A[k] = A[i] - A[j] 成立。完整代码如下，时间复杂为 O(n^2 logn)，空间复杂为 O(n^2)。\r\n\r\n```\r\nclass Solution {\r\nprivate:\r\n    int search(vector<int>& nums, int right, int target) {\r\n        int left = 0;\r\n        while (left <= right) {\r\n            int mid = left + ((right - left) >> 1);\r\n            if (nums[mid] == target) {\r\n                return mid;\r\n            }\r\n            nums[mid] > target ? right = mid - 1 : left = mid + 1;\r\n        }\r\n        return -1;\r\n    }\r\n\r\npublic:\r\n    int lenLongestFibSubseq(vector<int>& arr) {\r\n        vector<vector<int>> dp(arr.size(), vector<int>(arr.size()));\r\n        int ret = 0;\r\n        for (int i = 1; i < arr.size(); ++i) {\r\n            for (int j = 0; j < i; ++j) {\r\n                int index = search(arr, j - 1, arr[i] - arr[j]);\r\n                dp[i][j] = (index != -1) ? dp[j][index] + 1 : 2;\r\n                ret = max(ret, dp[i][j]);\r\n            }\r\n        }\r\n\r\n        return ret > 2 ? ret : 0;\r\n    }\r\n};\r\n```\r\n",
+      "createdAt": "2021-09-06T15:18:27.522443+00:00",
+      "hitCount": 1266,
+      "identifier": "h82EQQ",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "cpython3java-1bao-li-pi-pei-wu-xu-ji-he-wmkoa",
+        "title": "c++/python3/java （1）暴力匹配--无序集合 （2）dp--无序字典套字典 （3）dp--无序字典+编码"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "Q91FMA"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 7,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "jian-zhi-offer-2-mian-shi-ti-93-shu-zhon-2ww4",
+      "status": "PREPUBLISH",
+      "summary": "动态规划 + 哈希表\n从左往右扫描数组内的每一个数字，该数字可能和前面的不同的数字组成不同的斐波那契数列，如在数组 [1,2,3,4,5,6,7,8] 中数字 6 可以组成 2, 5, 6 和 2, 4, 6 两个斐波那契数列。也就是说，解决该问题需要若干步，每一步都面临若干选择，最后需要返回斐波那契数列的长度最大值，",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1631177652-eZwtdh-image.png",
+      "title": "《剑指offer 2 面试题93》 书中算法C++实现",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 2,
+        "id": 982403,
+        "viewCount": 815
+      },
+      "uuid": "h82EQQ",
+      "videosInfo": []
+    }
+  }
+}

@@ -1,0 +1,129 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣官方题解",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/leetcode-solution/avatar_1582018938.png",
+          "userSlug": "leetcode-solution"
+        },
+        "username": "LeetCode-Solution"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法一：滑动窗口\n\n由于排列不会改变字符串中每个字符的个数，所以只有当两个字符串每个字符的个数均相等时，一个字符串才是另一个字符串的排列。\n\n根据这一性质，记 $s_1$ 的长度为 $n$，我们可以遍历 $s_2$ 中的每个长度为 $n$ 的子串，判断子串和 $s_1$ 中每个字符的个数是否相等，若相等则说明该子串是 $s_1$ 的一个排列。\n\n使用两个数组 $\\textit{cnt}_1$ 和 $\\textit{cnt}_2$，$\\textit{cnt}_1$ 统计 $s_1$ 中各个字符的个数，$\\textit{cnt}_2$ 统计当前遍历的子串中各个字符的个数。\n\n由于需要遍历的子串长度均为 $n$，我们可以使用一个固定长度为 $n$ 的**滑动窗口**来维护 $\\textit{cnt}_2$：滑动窗口每向右滑动一次，就多统计一次进入窗口的字符，少统计一次离开窗口的字符。然后，判断 $\\textit{cnt}_1$ 是否与 $\\textit{cnt}_2$ 相等，若相等则意味着 $s_1$ 的排列之一是 $s_2$ 的子串。\n\n```C++ [sol11-C++]\nclass Solution {\npublic:\n    bool checkInclusion(string s1, string s2) {\n        int n = s1.length(), m = s2.length();\n        if (n > m) {\n            return false;\n        }\n        vector<int> cnt1(26), cnt2(26);\n        for (int i = 0; i < n; ++i) {\n            ++cnt1[s1[i] - 'a'];\n            ++cnt2[s2[i] - 'a'];\n        }\n        if (cnt1 == cnt2) {\n            return true;\n        }\n        for (int i = n; i < m; ++i) {\n            ++cnt2[s2[i] - 'a'];\n            --cnt2[s2[i - n] - 'a'];\n            if (cnt1 == cnt2) {\n                return true;\n            }\n        }\n        return false;\n    }\n};\n```\n\n```Java [sol11-Java]\nclass Solution {\n    public boolean checkInclusion(String s1, String s2) {\n        int n = s1.length(), m = s2.length();\n        if (n > m) {\n            return false;\n        }\n        int[] cnt1 = new int[26];\n        int[] cnt2 = new int[26];\n        for (int i = 0; i < n; ++i) {\n            ++cnt1[s1.charAt(i) - 'a'];\n            ++cnt2[s2.charAt(i) - 'a'];\n        }\n        if (Arrays.equals(cnt1, cnt2)) {\n            return true;\n        }\n        for (int i = n; i < m; ++i) {\n            ++cnt2[s2.charAt(i) - 'a'];\n            --cnt2[s2.charAt(i - n) - 'a'];\n            if (Arrays.equals(cnt1, cnt2)) {\n                return true;\n            }\n        }\n        return false;\n    }\n}\n```\n\n```go [sol11-Golang]\nfunc checkInclusion(s1, s2 string) bool {\n    n, m := len(s1), len(s2)\n    if n > m {\n        return false\n    }\n    var cnt1, cnt2 [26]int\n    for i, ch := range s1 {\n        cnt1[ch-'a']++\n        cnt2[s2[i]-'a']++\n    }\n    if cnt1 == cnt2 {\n        return true\n    }\n    for i := n; i < m; i++ {\n        cnt2[s2[i]-'a']++\n        cnt2[s2[i-n]-'a']--\n        if cnt1 == cnt2 {\n            return true\n        }\n    }\n    return false\n}\n```\n\n```C [sol11-C]\nbool equals(int* cnt1, int* cnt2) {\n    for (int i = 0; i < 26; i++) {\n        if (cnt1[i] != cnt2[i]) {\n            return false;\n        }\n    }\n    return true;\n}\n\nbool checkInclusion(char* s1, char* s2) {\n    int n = strlen(s1), m = strlen(s2);\n    if (n > m) {\n        return false;\n    }\n    int cnt1[26], cnt2[26];\n    memset(cnt1, 0, sizeof(cnt1));\n    memset(cnt2, 0, sizeof(cnt2));\n    for (int i = 0; i < n; ++i) {\n        ++cnt1[s1[i] - 'a'];\n        ++cnt2[s2[i] - 'a'];\n    }\n    if (equals(cnt1, cnt2)) {\n        return true;\n    }\n    for (int i = n; i < m; ++i) {\n        ++cnt2[s2[i] - 'a'];\n        --cnt2[s2[i - n] - 'a'];\n        if (equals(cnt1, cnt2)) {\n            return true;\n        }\n    }\n    return false;\n}\n```\n\n```JavaScript [sol11-JavaScript]\nvar checkInclusion = function(s1, s2) {\n    const n = s1.length, m = s2.length;\n    if (n > m) {\n        return false;\n    }\n    const cnt1 = new Array(26).fill(0);\n    const cnt2 = new Array(26).fill(0);\n    for (let i = 0; i < n; ++i) {\n        ++cnt1[s1[i].charCodeAt() - 'a'.charCodeAt()];\n        ++cnt2[s2[i].charCodeAt() - 'a'.charCodeAt()];\n    }\n    if (cnt1.toString() === cnt2.toString()) {\n        return true;\n    }\n    for (let i = n; i < m; ++i) {\n        ++cnt2[s2[i].charCodeAt() - 'a'.charCodeAt()];\n        --cnt2[s2[i - n].charCodeAt() - 'a'.charCodeAt()];\n        if (cnt1.toString() === cnt2.toString()) {\n            return true;\n        }\n    }\n    return false;\n};\n```\n\n**优化**\n\n注意到每次窗口滑动时，只统计了一进一出两个字符，却比较了整个 $\\textit{cnt}_1$ 和 $\\textit{cnt}_2$ 数组。\n\n从这个角度出发，我们可以用一个变量 $\\textit{diff}$ 来记录 $\\textit{cnt}_1$ 与 $\\textit{cnt}_2$ 的不同值的个数，这样判断 $\\textit{cnt}_1$ 和 $\\textit{cnt}_2$ 是否相等就转换成了判断 $\\textit{diff}$ 是否为 $0$.\n\n每次窗口滑动，记一进一出两个字符为 $x$ 和 $y$.\n\n若 $x=y$ 则对 $\\textit{cnt}_2$ 无影响，可以直接跳过。\n\n若 $x\\ne y$，对于字符 $x$，在修改 $\\textit{cnt}_2$ 之前若有 $\\textit{cnt}_2[x]=\\textit{cnt}_1[x]$，则将 $\\textit{diff}$ 加一；在修改 $\\textit{cnt}_2$ 之后若有 $\\textit{cnt}_2[x]=\\textit{cnt}_1[x]$，则将 $\\textit{diff}$ 减一。字符 $y$ 同理。\n\n此外，为简化上述逻辑，我们可以只用一个数组 $\\textit{cnt}$，其中 $\\textit{cnt}[x]=\\textit{cnt}_2[x]-\\textit{cnt}_1[x]$，将 $\\textit{cnt}_1[x]$ 与 $\\textit{cnt}_2[x]$ 的比较替换成 $\\textit{cnt}[x]$ 与 $0$ 的比较。\n\n```C++ [sol12-C++]\nclass Solution {\npublic:\n    bool checkInclusion(string s1, string s2) {\n        int n = s1.length(), m = s2.length();\n        if (n > m) {\n            return false;\n        }\n        vector<int> cnt(26);\n        for (int i = 0; i < n; ++i) {\n            --cnt[s1[i] - 'a'];\n            ++cnt[s2[i] - 'a'];\n        }\n        int diff = 0;\n        for (int c: cnt) {\n            if (c != 0) {\n                ++diff;\n            }\n        }\n        if (diff == 0) {\n            return true;\n        }\n        for (int i = n; i < m; ++i) {\n            int x = s2[i] - 'a', y = s2[i - n] - 'a';\n            if (x == y) {\n                continue;\n            }\n            if (cnt[x] == 0) {\n                ++diff;\n            }\n            ++cnt[x];\n            if (cnt[x] == 0) {\n                --diff;\n            }\n            if (cnt[y] == 0) {\n                ++diff;\n            }\n            --cnt[y];\n            if (cnt[y] == 0) {\n                --diff;\n            }\n            if (diff == 0) {\n                return true;\n            }\n        }\n        return false;\n    }\n};\n```\n\n```Java [sol12-Java]\nclass Solution {\n    public boolean checkInclusion(String s1, String s2) {\n        int n = s1.length(), m = s2.length();\n        if (n > m) {\n            return false;\n        }\n        int[] cnt = new int[26];\n        for (int i = 0; i < n; ++i) {\n            --cnt[s1.charAt(i) - 'a'];\n            ++cnt[s2.charAt(i) - 'a'];\n        }\n        int diff = 0;\n        for (int c : cnt) {\n            if (c != 0) {\n                ++diff;\n            }\n        }\n        if (diff == 0) {\n            return true;\n        }\n        for (int i = n; i < m; ++i) {\n            int x = s2.charAt(i) - 'a', y = s2.charAt(i - n) - 'a';\n            if (x == y) {\n                continue;\n            }\n            if (cnt[x] == 0) {\n                ++diff;\n            }\n            ++cnt[x];\n            if (cnt[x] == 0) {\n                --diff;\n            }\n            if (cnt[y] == 0) {\n                ++diff;\n            }\n            --cnt[y];\n            if (cnt[y] == 0) {\n                --diff;\n            }\n            if (diff == 0) {\n                return true;\n            }\n        }\n        return false;\n    }\n}\n```\n\n```go [sol12-Golang]\nfunc checkInclusion(s1, s2 string) bool {\n    n, m := len(s1), len(s2)\n    if n > m {\n        return false\n    }\n    cnt := [26]int{}\n    for i, ch := range s1 {\n        cnt[ch-'a']--\n        cnt[s2[i]-'a']++\n    }\n    diff := 0\n    for _, c := range cnt[:] {\n        if c != 0 {\n            diff++\n        }\n    }\n    if diff == 0 {\n        return true\n    }\n    for i := n; i < m; i++ {\n        x, y := s2[i]-'a', s2[i-n]-'a'\n        if x == y {\n            continue\n        }\n        if cnt[x] == 0 {\n            diff++\n        }\n        cnt[x]++\n        if cnt[x] == 0 {\n            diff--\n        }\n        if cnt[y] == 0 {\n            diff++\n        }\n        cnt[y]--\n        if cnt[y] == 0 {\n            diff--\n        }\n        if diff == 0 {\n            return true\n        }\n    }\n    return false\n}\n```\n\n```C [sol12-C]\nbool checkInclusion(char* s1, char* s2) {\n    int n = strlen(s1), m = strlen(s2);\n    if (n > m) {\n        return false;\n    }\n    int cnt[26];\n    memset(cnt, 0, sizeof(cnt));\n    for (int i = 0; i < n; ++i) {\n        --cnt[s1[i] - 'a'];\n        ++cnt[s2[i] - 'a'];\n    }\n    int diff = 0;\n    for (int i = 0; i < 26; ++i) {\n        if (cnt[i] != 0) {\n            ++diff;\n        }\n    }\n    if (diff == 0) {\n        return true;\n    }\n    for (int i = n; i < m; ++i) {\n        int x = s2[i] - 'a', y = s2[i - n] - 'a';\n        if (x == y) {\n            continue;\n        }\n        if (cnt[x] == 0) {\n            ++diff;\n        }\n        ++cnt[x];\n        if (cnt[x] == 0) {\n            --diff;\n        }\n        if (cnt[y] == 0) {\n            ++diff;\n        }\n        --cnt[y];\n        if (cnt[y] == 0) {\n            --diff;\n        }\n        if (diff == 0) {\n            return true;\n        }\n    }\n    return false;\n}\n```\n\n```JavaScript [sol12-JavaScript]\nvar checkInclusion = function(s1, s2) {\n    const n = s1.length, m = s2.length;\n    if (n > m) {\n        return false;\n    }\n    const cnt = new Array(26).fill(0);\n    for (let i = 0; i < n; ++i) {\n        --cnt[s1[i].charCodeAt() - 'a'.charCodeAt()];\n        ++cnt[s2[i].charCodeAt() - 'a'.charCodeAt()];\n    }\n    let diff = 0;\n    for (const c of cnt) {\n        if (c !== 0) {\n            ++diff;\n        }\n    }\n    if (diff == 0) {\n        return true;\n    }\n    for (let i = n; i < m; ++i) {\n        const x = s2[i].charCodeAt() - 'a'.charCodeAt(), y = s2[i - n].charCodeAt() - 'a'.charCodeAt();\n        if (x == y) {\n            continue;\n        }\n        if (cnt[x] == 0) {\n            ++diff;\n        }\n        ++cnt[x];\n        if (cnt[x] == 0) {\n            --diff;\n        }\n        if (cnt[y] == 0) {\n            ++diff;\n        }\n        --cnt[y];\n        if (cnt[y] == 0) {\n            --diff;\n        }\n        if (diff == 0) {\n            return true;\n        }\n    }\n    return false;\n};\n```\n\n**复杂度分析**\n\n- 时间复杂度：$O(n+m+|\\Sigma|)$，其中 $n$ 是字符串 $s_1$ 的长度，$m$ 是字符串 $s_2$ 的长度，$\\Sigma$ 是字符集，这道题中的字符集是小写字母，$|\\Sigma|=26$。\n\n- 空间复杂度：$O(|\\Sigma|)$。\n\n#### 方法二：双指针\n\n回顾方法一的思路，我们在保证区间长度为 $n$ 的情况下，去考察是否存在一个区间使得 $\\textit{cnt}$ 的值全为 $0$。\n\n反过来，还可以在保证 $\\textit{cnt}$ 的值不为正的情况下，去考察是否存在一个区间，其长度恰好为 $n$。\n\n初始时，仅统计 $s_1$ 中的字符，则 $\\textit{cnt}$ 的值均不为正，且元素值之和为 $-n$。\n\n然后用两个指针 $\\textit{left}$ 和 $\\textit{right}$ 表示考察的区间 $[\\textit{left},\\textit{right}]$。$\\textit{right}$ 每向右移动一次，就统计一次进入区间的字符 $x$。为保证 $\\textit{cnt}$ 的值不为正，若此时 $\\textit{cnt}[x]>0$，则向右移动左指针，减少离开区间的字符的 $\\textit{cnt}$ 值直到 $\\textit{cnt}[x] \\le 0$。\n\n注意到 $[\\textit{left},\\textit{right}]$ 的长度每增加 $1$，$\\textit{cnt}$ 的元素值之和就增加 $1$。当 $[\\textit{left},\\textit{right}]$ 的长度恰好为 $n$ 时，就意味着 $\\textit{cnt}$ 的元素值之和为 $0$。由于 $\\textit{cnt}$ 的值不为正，元素值之和为 $0$ 就意味着所有元素均为 $0$，这样我们就找到了一个目标子串。\n\n```C++ [sol2-C++]\nclass Solution {\npublic:\n    bool checkInclusion(string s1, string s2) {\n        int n = s1.length(), m = s2.length();\n        if (n > m) {\n            return false;\n        }\n        vector<int> cnt(26);\n        for (int i = 0; i < n; ++i) {\n            --cnt[s1[i] - 'a'];\n        }\n        int left = 0;\n        for (int right = 0; right < m; ++right) {\n            int x = s2[right] - 'a';\n            ++cnt[x];\n            while (cnt[x] > 0) {\n                --cnt[s2[left] - 'a'];\n                ++left;\n            }\n            if (right - left + 1 == n) {\n                return true;\n            }\n        }\n        return false;\n    }\n};\n```\n\n```Java [sol2-Java]\nclass Solution {\n    public boolean checkInclusion(String s1, String s2) {\n        int n = s1.length(), m = s2.length();\n        if (n > m) {\n            return false;\n        }\n        int[] cnt = new int[26];\n        for (int i = 0; i < n; ++i) {\n            --cnt[s1.charAt(i) - 'a'];\n        }\n        int left = 0;\n        for (int right = 0; right < m; ++right) {\n            int x = s2.charAt(right) - 'a';\n            ++cnt[x];\n            while (cnt[x] > 0) {\n                --cnt[s2.charAt(left) - 'a'];\n                ++left;\n            }\n            if (right - left + 1 == n) {\n                return true;\n            }\n        }\n        return false;\n    }\n}\n```\n\n```go [sol2-Golang]\nfunc checkInclusion(s1, s2 string) bool {\n    n, m := len(s1), len(s2)\n    if n > m {\n        return false\n    }\n    cnt := [26]int{}\n    for _, ch := range s1 {\n        cnt[ch-'a']--\n    }\n    left := 0\n    for right, ch := range s2 {\n        x := ch - 'a'\n        cnt[x]++\n        for cnt[x] > 0 {\n            cnt[s2[left]-'a']--\n            left++\n        }\n        if right-left+1 == n {\n            return true\n        }\n    }\n    return false\n}\n```\n\n```C [sol2-C]\nbool checkInclusion(char* s1, char* s2) {\n    int n = strlen(s1), m = strlen(s2);\n    if (n > m) {\n        return false;\n    }\n    int cnt[26];\n    memset(cnt, 0, sizeof(cnt));\n    for (int i = 0; i < n; ++i) {\n        --cnt[s1[i] - 'a'];\n    }\n    int left = 0;\n    for (int right = 0; right < m; ++right) {\n        int x = s2[right] - 'a';\n        ++cnt[x];\n        while (cnt[x] > 0) {\n            --cnt[s2[left] - 'a'];\n            ++left;\n        }\n        if (right - left + 1 == n) {\n            return true;\n        }\n    }\n    return false;\n}\n```\n\n```JavaScript [sol2-JavaScript]\nvar checkInclusion = function(s1, s2) {\n    const n = s1.length, m = s2.length;\n    if (n > m) {\n        return false;\n    }\n    const cnt = new Array(26).fill(0);\n    for (let i = 0; i < n; ++i) {\n        --cnt[s1[i].charCodeAt() - 'a'.charCodeAt()];\n    }\n    let left = 0;\n    for (let right = 0; right < m; ++right) {\n        const x = s2[right].charCodeAt() - 'a'.charCodeAt();\n        ++cnt[x];\n        while (cnt[x] > 0) {\n            --cnt[s2[left].charCodeAt() - 'a'.charCodeAt()];\n            ++left;\n        }\n        if (right - left + 1 === n) {\n            return true;\n        }\n    }\n    return false;\n};\n```\n\n**复杂度分析**\n\n- 时间复杂度：$O(n+m+|\\Sigma|)$。\n  创建 $\\textit{cnt}$ 需要 $O(|\\Sigma|)$ 的时间。\n  遍历 $s_1$ 需要 $O(n)$ 的时间。\n  双指针遍历 $s_2$ 时，由于 $\\textit{left}$ 和 $\\textit{right}$ 都只会向右移动，故这一部分需要 $O(m)$ 的时间。\n\n- 空间复杂度：$O(|\\Sigma|)$。",
+      "createdAt": "2021-02-09T14:04:30.860169+00:00",
+      "hitCount": 71510,
+      "identifier": "VTFnQr",
+      "isEditorsPick": false,
+      "isMostPopular": true,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "zi-fu-chuan-de-pai-lie-by-leetcode-q6tp",
+        "title": "🎦 字符串的排列"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "permutation-in-string"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 110,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 5,
+          "reactionType": "AWESOME"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "CONFUSED"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "THUMBS_DOWN"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "zi-fu-chuan-de-pai-lie-by-leetcode-solut-7k7u",
+      "status": "PUBLISHED",
+      "summary": "方法一：滑动窗口 由于排列不会改变字符串中每个字符的个数，所以只有当两个字符串每个字符的个数均相等时，一个字符串才是另一个字符串的排列。 根据这一性质，记 $s_1$ 的长度为 $n$，我们可以遍历 $s_2$ 中的每个长度为 $n$ 的子串，判断子串和 $s_1$ 中每个字符的个数是否相等，若相等则说明该子串是 $s",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Two Pointers",
+          "nameTranslated": "双指针",
+          "slug": "two-pointers",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "String",
+          "nameTranslated": "字符串",
+          "slug": "string",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C",
+          "nameTranslated": "",
+          "slug": "c",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Go",
+          "nameTranslated": "",
+          "slug": "golang",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "JavaScript",
+          "nameTranslated": "",
+          "slug": "javascript",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "字符串的排列",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 110,
+        "id": 599202,
+        "viewCount": 43618
+      },
+      "uuid": "VTFnQr",
+      "videosInfo": []
+    }
+  }
+}

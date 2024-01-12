@@ -1,0 +1,86 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "ffreturn",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/ffreturn/avatar_1608859813.png",
+          "userSlug": "ffreturn"
+        },
+        "username": "ffreturn"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "![image.png](https://pic.leetcode-cn.com/1634044588-MvbmKo-image.png)\n\n### 解题思路\n动态规划\n\n- 定义\nd[i]表示以i为结尾的最长的长度\n\n- 初始化\n至少自己一个单词，初始化为1\n\n- 计算\n    - 预处理先按照字符串长度升序排列 \n    - 从短到长来计算, 对于当前单词去找序号比它小的 j 情况： 如果相等，则 max(d[i], d[j]+1)\n\n- 结果\nmax(d[i])\n\n### 代码\n\n```cpp\n\nclass Solution {\nprivate:\n    // 判断a是否是b的前身\n    bool isMatch(const string& a, const string& b)\n    {\n        if (a.size() != b.size()-1)\n        {\n            return false;\n        }\n\n        int i = 0;\n        for (int j = 0; j < b.size() && i < a.size(); ++j)\n        {\n            if (a[i] == b[j])\n            {\n                ++i;\n            }\n        }\n\n        return i == a.size();\n    }\n\npublic:\n    int longestStrChain(vector<string>& words) {\n        // 预处理，按照长度进行排序\n        sort(words.begin(), words.end(), [](const string& a, const string& b){\n            return a.size() < b.size();\n        });\n\n        int n = words.size();\n        int d[n];\n        for (int i = 0; i < n; ++i)\n        {\n            d[i] = 1;\n        }\n        // 保存最大值\n        int res = 1;\n        for (int i = 0; i < n; ++i)\n        {\n            for (int j = 0; j < i; ++j)\n            {\n                if (isMatch(words[j], words[i]))\n                {\n                    d[i] = max(d[i], d[j]+1);\n                }\n            }\n            res = max(res, d[i]);\n        }\n\n        return res;\n    }\n};\n```",
+      "createdAt": "2021-10-12T13:17:51.667133+00:00",
+      "hitCount": 659,
+      "identifier": "3Uhp0M",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "mapji-lu-zui-chang-lian-xu-zi-xu-lie-11x-32vs",
+        "title": "Map记录最长连续子序列 dp思想 11行"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "longest-string-chain"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 4,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "1048-cjian-dan-yi-dong-de-dong-tai-gui-h-x0ji",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n动态规划\n\n\n定义\nd[i]表示以i为结尾的最长的长度\n\n\n初始化\n至少自己一个单词，初始化为1\n\n\n计算\n\n预处理先按照字符串长度升序排列\n从短到长来计算, 对于当前单词去找序号比它小的 j 情况： 如果相等，则 max(d[i], d[j]+1)\n\n\n\n结果\nmax(d[i])\n\n\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "String",
+          "nameTranslated": "字符串",
+          "slug": "string",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Dynamic Programming",
+          "nameTranslated": "动态规划",
+          "slug": "dynamic-programming",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1634044588-MvbmKo-image.png",
+      "title": "1048. c++简单易懂的动态规划解法",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 1,
+        "id": 1044070,
+        "viewCount": 468
+      },
+      "uuid": "3Uhp0M",
+      "videosInfo": []
+    }
+  }
+}

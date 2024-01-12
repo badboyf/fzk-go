@@ -1,0 +1,79 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "稳健",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/zhi-xing-qie-wen-jian-69/avatar_1612197356.png",
+          "userSlug": "wen-jian-69"
+        },
+        "username": "wen-jian-69"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### DFS\r\n```java []\r\nclass Solution {\r\n    int m, n;\r\n    boolean[][] visit; //访问过\r\n    boolean[][] invalid; //无效的\r\n    int[][] dirs = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};\r\n    public int largestArea(String[] grid) {\r\n        m = grid.length; n = grid[0].length();\r\n        int maxArea = 0;\r\n        visit = new boolean[m][n];\r\n        invalid = new boolean[m][n];\r\n        for (int i = 0; i < m; i++) {\r\n            for (int j = 0; j < n; j++) {\r\n                if (!visit[i][j]) {\r\n                    int area = dfs(i, j, grid[i].charAt(j), grid);\r\n                    if (area != -1) maxArea = Math.max(maxArea, area);\r\n                }\r\n            }\r\n        }\r\n        return maxArea;\r\n    }\r\n    int dfs(int x, int y, char color, String[] grid) {\r\n        if (x < 0 || y < 0 || x >= m || y >= n || grid[x].charAt(y) == '0') return -1; //与走廊相邻\r\n        if (grid[x].charAt(y) != color) return 0; //非同主题公园\r\n        if (invalid[x][y]) return -1; //无效主题公园\r\n        if (visit[x][y]) return 0; //访问过\r\n        int ans = 1;\r\n        visit[x][y] = true;\r\n        for (int i = 0; i < 4; i++) {\r\n            int dx = x + dirs[i][0], dy = y + dirs[i][1];\r\n            int val = dfs(dx, dy, color, grid);\r\n            if (val == -1) {\r\n                invalid[x][y] = true;\r\n                return -1;\r\n            }\r\n            else ans += val;\r\n        }\r\n        return ans;\r\n    }\r\n}\r\n```\r\n```java []\r\nclass Solution {\r\n    int m, n;\r\n    boolean[][] visit;\r\n    int[][] dirs = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};\r\n    public int largestArea(String[] grid) {\r\n        m = grid.length; n = grid[0].length();\r\n        int maxArea = 0;\r\n        visit = new boolean[m][n];\r\n        for (int i = 0; i < m; i++) {\r\n            for (int j = 0; j < n; j++) {\r\n                if (!visit[i][j]) {\r\n                    int area = dfs(i, j, grid[i].charAt(j), grid);\r\n                    if (area != -1) maxArea = Math.max(maxArea, area);\r\n                }\r\n            }\r\n        }\r\n        return maxArea;\r\n    }\r\n    int dfs(int x, int y, char color, String[] grid) {\r\n        if (x < 0 || y < 0 || x >= m || y >= n || grid[x].charAt(y) == '0') return -1; //与走廊相邻\r\n        if (grid[x].charAt(y) != color || visit[x][y]) return 0;\r\n        int ans = 1;\r\n        visit[x][y] = true;\r\n        boolean flag = true;\r\n        for (int i = 0; i < 4; i++) {\r\n            int dx = x + dirs[i][0], dy = y + dirs[i][1];\r\n            int val = dfs(dx, dy, color, grid);\r\n            if (val == -1) flag = false;\r\n            else ans += val;\r\n        }\r\n        return flag ? ans : -1;\r\n    }\r\n}\r\n```\r\n### 并查集\r\n```java\r\nclass Solution {\r\n    public int largestArea(String[] grid) {\r\n        int m = grid.length, n = grid[0].length();\r\n        UnionFind uf = new UnionFind(m * n);\r\n        for (int x = 0; x < m; x++) {\r\n            for (int y = 0; y < n; y++) {\r\n                char c = grid[x].charAt(y);\r\n                if (c != '0') {\r\n                    int index = x * n + y;\r\n                    if (x - 1 >= 0 && grid[x - 1].charAt(y) == c) uf.merge(index, (x - 1) * n + y);\r\n                    if (y - 1 >= 0 && grid[x].charAt(y - 1) == c) uf.merge(index, x * n + y - 1);\r\n                }\r\n            }\r\n        }\r\n        int[][] dirs = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};\r\n        Set<Integer> invalid = new HashSet<>();\r\n        Set<Integer> roots = new HashSet<>();\r\n        for (int x = 0; x < m; x++) {\r\n            for (int y = 0; y < n; y++) {\r\n                if (grid[x].charAt(y) == '0') continue;\r\n                int index = x * n + y;\r\n                int root = uf.find(index);\r\n                if (invalid.contains(root)) continue;\r\n                roots.add(root);\r\n                for (int i = 0; i < 4; i++) {\r\n                    int dx = x + dirs[i][0], dy = y + dirs[i][1];\r\n                    if (dx < 0 || dx >= m || dy < 0 || dy >= n || grid[dx].charAt(dy) == '0') {\r\n                        invalid.add(root);\r\n                        break;\r\n                    }\r\n                }\r\n            }\r\n        }\r\n        int ans = 0;\r\n        for (int root : roots) {\r\n            if (!invalid.contains(root)) ans = Math.max(ans, uf.size[root]);\r\n        }\r\n        return ans;   \r\n    }\r\n    public class UnionFind {\r\n        int[] fa;\r\n        int[] rank;\r\n        int[] size;\r\n        public UnionFind(int n) {\r\n            fa = new int[n];\r\n            rank = new int[n];\r\n            size = new int[n];\r\n            for (int i = 0; i < n; ++i) {\r\n                fa[i] = i;\r\n                rank[i] = 1;\r\n                size[i] = 1;\r\n            }\r\n        }\r\n        public int find(int x) {\r\n            return fa[x] == x ? x : (fa[x] = find(fa[x]));\r\n        }\r\n        public void merge(int p, int q) {\r\n            int pRoot = find(p), qRoot = find(q);\r\n            if (pRoot != qRoot) {\r\n                if (rank[pRoot] > rank[qRoot]) {\r\n                    fa[qRoot] = pRoot;\r\n                    size[pRoot] += size[qRoot];\r\n                } else if (rank[pRoot] < rank[qRoot]) {\r\n                    fa[pRoot] = qRoot;\r\n                    size[qRoot] += size[pRoot];\r\n                } else {\r\n                    fa[pRoot] = qRoot;\r\n                    size[qRoot] += size[pRoot];\r\n                    rank[qRoot]++;\r\n                }\r\n            }\r\n        }\r\n    }\r\n}\r\n```\r\n",
+      "createdAt": "2021-11-15T06:42:06.472466+00:00",
+      "hitCount": 41,
+      "identifier": "znM0ul",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "bing-cha-ji-by-euyvvl-lle5",
+        "title": "并查集"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "YesdPw"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "lcs-03-zhu-ti-gong-yuan-dfs-javajian-dan-ybi1",
+      "status": "PUBLISHED",
+      "summary": "DFS\n并查集",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "DFS",
+          "nameTranslated": "",
+          "slug": "dfs",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "",
+      "title": "【LCS 03. 主题公园】【DFS】【并查集】Java简单实现",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1102923,
+        "viewCount": 26
+      },
+      "uuid": "znM0ul",
+      "videosInfo": []
+    }
+  }
+}

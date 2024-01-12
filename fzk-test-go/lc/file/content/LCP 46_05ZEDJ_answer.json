@@ -1,0 +1,86 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "Flash500",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/wang-xu/avatar_1531443842.png",
+          "userSlug": "flash500"
+        },
+        "username": "flash500"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n此处撰写解题思路\n\n### 代码\n\n```golang\nfunc volunteerDeployment(finalCnt []int, totalNum int64, edges [][]int, plans [][]int) []int {\n\tn := len(finalCnt) + 1\n\tg := make([][]int, n)\n\tfor _, e := range edges {\n\t\tu := e[0]\n\t\tv := e[1]\n\t\tg[u] = append(g[u], v)\n\t\tg[v] = append(g[v], u)\n\n\t}\n\tm := len(plans)\n\ttmp := make([][2]int, n)\n\ttmp[0] = [2]int{1, 0}\n\tfor i, f := range finalCnt {\n\t\ttmp[i+1][1] = f\n\t}\n\tfor i := m - 1; i >= 0; i-- {\n\t\tnum := plans[i][0]\n\t\tidx := plans[i][1]\n\t\tif num == 1 {\n\t\t\ttmp[idx][0] *= 2\n\t\t\ttmp[idx][1] *= 2\n\t\t} else if num == 2 {\n\t\t\tfor _, v := range g[idx] {\n\t\t\t\ttmp[v][0] -= tmp[idx][0]\n\t\t\t\ttmp[v][1] -= tmp[idx][1]\n\t\t\t}\n\t\t} else {\n\t\t\tfor _, v := range g[idx] {\n\t\t\t\ttmp[v][0] += tmp[idx][0]\n\t\t\t\ttmp[v][1] += tmp[idx][1]\n\t\t\t}\n\t\t}\n\t}\n\tvar sum0, sum1 int\n\tfor _, t := range tmp {\n\t\tsum0 += t[0]\n\t\tsum1 += t[1]\n\t}\n\tres := make([]int, n)\n\tx := int((totalNum - int64(sum1)) / int64(sum0))\n\tvar sum int\n\tfor i := 1; i < n; i++ {\n\t\tres[i] = tmp[i][0]*x + tmp[i][1]\n\t\tsum += res[i]\n\t}\n\tres[0] = int(totalNum - int64(sum))\n\treturn res\n}\n```",
+      "createdAt": "2021-11-21T07:56:43.013646+00:00",
+      "hitCount": 15,
+      "identifier": "l5my3s",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "mo-ni-jie-xian-xing-fang-cheng-by-hu-li-df1ki",
+        "title": "模拟解线性方程"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "05ZEDJ"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "lcp2021qiu-ji-tuan-dui-sai-t3golangdai-z-771d",
+      "status": "PUBLISHED",
+      "summary": "解题思路\n此处撰写解题思路\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Go",
+          "nameTranslated": "",
+          "slug": "golang",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Golang",
+          "nameTranslated": "",
+          "slug": "golang-2",
+          "tagType": "ADDITIONAL_TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "go",
+          "nameTranslated": "",
+          "slug": "go-3",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "",
+      "title": "LCP，2021，秋季，团队赛，T3，Golang，带着系数和常数解方程组",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1114006,
+        "viewCount": 14
+      },
+      "uuid": "l5my3s",
+      "videosInfo": []
+    }
+  }
+}

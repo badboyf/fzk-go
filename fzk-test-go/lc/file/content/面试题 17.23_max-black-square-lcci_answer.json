@@ -1,0 +1,72 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "oahrats",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/default_avatar.png",
+          "userSlug": "oahrats"
+        },
+        "username": "oahrats"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "![image.png](https://pic.leetcode-cn.com/1628950108-FtHGRG-image.png)\r\n\r\n```\r\nclass Solution {\r\n    private int M = 0;\r\n    private int N = 0;\r\n    public int[] findSquare(int[][] matrix) {\r\n        M=matrix.length;N=matrix[0].length;int maxSize=0,r=-1,c=-1;\r\n        LAB:for(int i=0;i<M;i++)for(int j=0;j<N;j++){\r\n            if(matrix[i][j]==1 || Math.min(M-i, N-j)<=maxSize) continue;\r\n            int max = getMax(i,j,matrix);\r\n            if(max>maxSize){r=i;c=j;maxSize=max;}\r\n        }\r\n        return maxSize==0?new int[0]:new int[]{r,c,maxSize};\r\n    }\r\n\r\n    private int getMax(int x, int y, int[][] matrix){\r\n        int ret = 1;\r\n        LAB:for(int len=1;len<Math.min(M-x, N-y);len++){\r\n            boolean flag = true;\r\n            for(int i=x,j=y,k=0;k<=len;k++){\r\n                if(matrix[i+k][j]!=0||matrix[i][j+k]!=0) break LAB;\r\n                if(matrix[i+len][j+k]!=0||matrix[i+k][j+len]!=0){flag = false;break;}\r\n            }\r\n            if(flag == true)ret = len+1;\r\n        }\r\n        return ret;\r\n    }\r\n}\r\n```\r\n",
+      "createdAt": "2021-08-14T14:08:31.411042+00:00",
+      "hitCount": 678,
+      "identifier": "GrgNR8",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "a-fei-suan-fa-mian-shi-ti-1723-zui-da-he-lap0",
+        "title": "【阿飞算法】面试题 17.23. 最大黑方阵"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "max-black-square-lcci"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "mian-shi-ti-1723-zui-da-hei-fang-zhen-by-qj84",
+      "status": "PUBLISHED",
+      "summary": "[该用户太懒了，只上传了一段奇怪的内容]",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1628950108-FtHGRG-image.png",
+      "title": "面试题 17.23. 最大黑方阵",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 935931,
+        "viewCount": 561
+      },
+      "uuid": "GrgNR8",
+      "videosInfo": []
+    }
+  }
+}

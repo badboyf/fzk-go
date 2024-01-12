@@ -1,0 +1,72 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "hahaha",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/default_avatar.png",
+          "userSlug": "PoK4Pold9S"
+        },
+        "username": "PoK4Pold9S"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "```\nclass Solution {\n    public TreeNode sortedArrayToBST(int[] nums) {\n        if(nums==null || nums.length==0) return null;\n        int rootIndex = nums.length/2;\n        TreeNode root = new TreeNode(nums[rootIndex]);\n        root.left=sortedArrayToBST(Arrays.copyOfRange(nums,0,rootIndex)) ;\n        root.right=sortedArrayToBST(Arrays.copyOfRange(nums,rootIndex+1,nums.length)) ;\n        return root;\n    }\n}\n```\n",
+      "createdAt": "2021-11-08T12:56:13.406207+00:00",
+      "hitCount": 178,
+      "identifier": "2IzmFi",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "java-gao-xiao-di-gui-jie-fa-by-vanilla11-f141",
+        "title": "Java 高效递归解法"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "minimum-height-tree-lcci"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "java-di-gui-by-pok4pold9s-cjk2",
+      "status": "PREPUBLISH",
+      "summary": "[该用户太懒了，只写了 10 行代码]",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "Java 递归",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1091314,
+        "viewCount": 143
+      },
+      "uuid": "2IzmFi",
+      "videosInfo": []
+    }
+  }
+}

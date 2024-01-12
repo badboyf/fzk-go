@@ -1,0 +1,88 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "灵茶山艾府",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/endlesscheng/avatar_1589367048.png",
+          "userSlug": "endlesscheng"
+        },
+        "username": "endlesscheng"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "```go\r\nfunc findOriginalArray(changed []int) (original []int) {\r\n\tsort.Ints(changed)\r\n\tcnt := map[int]int{}\r\n\tfor _, v := range changed {\r\n\t\tif cnt[v] == 0 { // v 不是双倍后的元素\r\n\t\t\tcnt[v*2]++ // 标记一个双倍元素\r\n\t\t\toriginal = append(original, v)\r\n\t\t} else {\r\n\t\t\tcnt[v]-- // 清除一个标记\r\n\t\t\tif cnt[v] == 0 {\r\n\t\t\t\tdelete(cnt, v)\r\n\t\t\t}\r\n\t\t}\r\n\t}\r\n\t// 只有当所有双倍标记都被清除掉时，才能说明 changed 是一个双倍数组\r\n\tif len(cnt) == 0 {\r\n\t\treturn\r\n\t}\r\n\treturn nil\r\n}\r\n```",
+      "createdAt": "2021-09-18T16:08:16.877384+00:00",
+      "hitCount": 1127,
+      "identifier": "ZSPYaf",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "pai-xu-dui-lie-by-zhu-146-a5bo",
+        "title": "排序+队列"
+      },
+      "position": 3,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "10086-by-akax-n-xjyb",
+        "title": "+10086"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "find-original-array-from-doubled-array"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 6,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "pai-xu-bian-li-by-endlesscheng-25ww",
+      "status": "PREPUBLISH",
+      "summary": "[该用户太懒了，只写了 20 行代码]",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Hash Table",
+          "nameTranslated": "哈希表",
+          "slug": "hash-table",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Go",
+          "nameTranslated": "",
+          "slug": "golang",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "排序+遍历",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 3,
+        "id": 1005384,
+        "viewCount": 871
+      },
+      "uuid": "ZSPYaf",
+      "videosInfo": []
+    }
+  }
+}

@@ -1,0 +1,79 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "Moutain-Ocean",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/13860971326/avatar_1635685102.png",
+          "userSlug": "mountain-ocean"
+        },
+        "username": "Mountain-Ocean"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "浏览了美版leetcode和中文版leetcode，因此整理了本人认为最直接简单的思路，配上详细的代码注释，希望有帮助。\r\n\r\n整体思路：**在上过某些课程的前提下**，选出满足**约束条件**的课程，在本学期上，约束条件为：\r\n- **课程之前没上过**\r\n- **课程的先修课已经全部都上完了**\r\n\r\n**注意**：这里有一个难点是，选出的课不一定要全上，因为这道题本质上是NP难的，任何贪心的思想都是错的。感兴趣的同学可以网上搜下这篇论文:J.D.Ullman, NP-complete scheduling problems. 关于这类问题是NPC的证明(美版leetcode找的)\r\n\r\n详细解释见代码注释\r\n\r\n```\r\nclass Solution {\r\npublic:\r\n    int minNumberOfSemesters(int n, vector<vector<int>>& relations, int k) {\r\n        vector<int> prerequisite(n, 0);\r\n        for (const auto& pair : relations) {\r\n            int pre = pair[0] - 1;\r\n            int after = pair[1] - 1;\r\n            // 举例：prerequisite[1] = 0110 表示1的先修课为2和3\r\n            prerequisite[after] |= 1<<pre;\r\n        }\r\n\r\n        int totalState = 1 << n;\r\n        vector<int> dp(totalState, 16);\r\n        // 0为不需要上任何课的状态，因此不需要学期\r\n        dp[0] = 0;\r\n\r\n        vector<int> cnt(totalState);\r\n        cnt[0] = 0;\r\n        // 小技巧，计算每个数字的二进制数中，1的个数\r\n        for (int i = 1; i < totalState; ++i) {\r\n            cnt[i] = cnt[i>>1] + (i&1);\r\n        }\r\n\r\n        // taken表示已经上过的课，假设taken = 0111，表示课程1 2 3已经上过了\r\n        for (int taken = 0; taken < totalState; ++taken) {\r\n            if (dp[taken] > n) continue;\r\n            int cur = 0;\r\n            // 在上过taken的基础上，还有哪些课可以上，要满足两个条件\r\n            // 1. ((taken & (1 << j)) == 0) 表示这个课在taken中没上过\r\n            // 2. ((prerequisite[j] & taken) == prerequisite[j]) 表示这个课的先修课已经上完了\r\n            for (int j = 0; j < n; ++j) {\r\n                if (((taken & (1 << j)) == 0) && ((prerequisite[j] & taken) == prerequisite[j])) {\r\n                    // 存这学期可以上的课，注意，可以上不代表一定要上，也不一定要上满，这题的本质是NPC问题，任何贪心的思想都是错的，这个操作用下面枚举子集的方法实现\r\n                    cur |= (1 << j);\r\n                }\r\n            }\r\n            // 枚举cur的子集，比如cur = 111，它的子mask集合就是{111, 110, 101 011, 100, 010, 001}\r\n            for (int subMask = cur; subMask != 0; subMask = subMask-1 & cur) {\r\n                if (cnt[subMask] <= k) {\r\n                    // 动态规划的思想，之前上完taken，这学期再上subMask，看看会不会更好\r\n                    dp[taken|subMask] = min(dp[taken|subMask], dp[taken] + 1);\r\n                }\r\n            }\r\n        }\r\n        \r\n        return dp[totalState - 1];\r\n    }\r\n};\r\n```\r\n",
+      "createdAt": "2021-11-02T02:15:55.924272+00:00",
+      "hitCount": 127,
+      "identifier": "dtC2IC",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "zhuang-tai-ya-suo-dong-tai-gui-hua-mei-ju-zi-ji-by",
+        "title": "状态压缩动态规划 + 枚举子集"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "parallel-courses-ii"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "cchao-qing-xi-de-si-lu-chao-xiang-xi-de-zqs3i",
+      "status": "PREPUBLISH",
+      "summary": "浏览了美版leetcode和中文版leetcode，因此整理了本人认为最直接简单的思路，配上详细的代码注释，希望有帮助。\n整体思路：在上过某些课程的前提下，选出满足约束条件的课程，在本学期上，约束条件为：\n\n课程之前没上过\n课程的先修课已经全部都上完了\n\n注意：这里有一个难点是，选出的课不一定要全上，因为这道题本质上是",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Bitmask",
+          "nameTranslated": "状态压缩",
+          "slug": "bitmask",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "C++：超清晰的思路 + 超详细的注释 + 相关论文  一看就懂!!!",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1079500,
+        "viewCount": 93
+      },
+      "uuid": "dtC2IC",
+      "videosInfo": []
+    }
+  }
+}

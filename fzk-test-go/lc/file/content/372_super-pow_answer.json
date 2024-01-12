@@ -1,0 +1,96 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "labuladong",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/wei-lai-bu-ke-qi/avatar_1558028005.png",
+          "userSlug": "labuladong"
+        },
+        "username": "labuladong"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "![](https://pic.leetcode-cn.com/d61fa3b46d5d69b64e10b5bdf43fdfe4aed8466da6534a8308d47b27633727a2-file_1583496208743){:width=500}\n{:align=center}\n\n\n今天来聊一道与数学运算有关的题目，LeetCode 372 题 Super Pow，让你进行巨大的幂运算，然后求余数。\n\n```cpp\nint superPow(int a, vector<int>& b);\n```\n\n**要求你的算法返回幂运算 `a^b` 的计算结果与 1337 取模（mod，也就是余数）后的结果**。就是你先得计算幂 `a^b`，但是这个 `b` 会非常大，所以 `b` 是用数组的形式表示的。\n\n这个算法其实就是广泛应用于离散数学的模幂算法，至于为什么要对 1337 求模我们不管，单就这道题可以有三个难点：\n\n**一是如何处理用数组表示的指数**，现在 `b` 是一个数组，也就是说 `b` 可以非常大，没办法直接转成整型，否则可能溢出。你怎么把这个数组作为指数，进行运算呢？\n\n**二是如何得到求模之后的结果**？按道理，起码应该先把幂运算结果算出来，然后做 `% 1337` 这个运算。但问题是，指数运算你懂得，真实结果肯定会大得吓人，也就是说，算出来真实结果也没办法表示，早都溢出报错了。\n\n**三是如何高效进行幂运算**，进行幂运算也是有算法技巧的，如果你不了解这个算法，后文会讲解。\n\n那么对于这几个问题，我们分开思考，逐个击破。\n\n**PS：我认真写了 100 多篇题解，手把手带你刷力扣，全部发布在 [LeetCode刷题套路](https://labuladong.gitbook.io/algo/)，持续更新**。建议收藏，**先按照我的文章顺序刷题**，掌握各种算法套路后投再入题海就如鱼得水了。\n\n### 如何处理数组指数\n\n**首先明确问题**：现在 `b` 是一个数组，不能表示成整型，而且数组的特点是随机访问，删除最后一个元素比较高效。\n\n不考虑求模的要求，以 `b = [1,5,6,4]` 来举例，结合指数运算的法则，我们可以发现这样的一个规律：\n\n$$\n\\begin{aligned}\n    &a^{[1,5,6,4]} \\\\\n    =& a^{4} \\times a^{[1,5,6,0]} \\\\\n    =& a^{4} \\times (a^{[1,5,6]})^{10}\n\\end{aligned}\n$$\n\n看到这，我们的老读者肯定已经敏感地意识到了，这就是递归的标志呀！因为问题的规模缩小了：\n\n```cpp\n    superPow(a, [1,5,6,4])\n=>  superPow(a, [1,5,6])\n```\n\n那么，发现了这个规律，我们可以先简单翻译出代码框架：\n\n```cpp\n// 计算 a 的 k 次方的结果\n// 后文我们会手动实现\nint mypow(int a, int k);\n\nint superPow(int a, vector<int>& b) {\n    // 递归的 base case\n    if (b.empty()) return 1;\n    // 取出最后一个数\n    int last = b.back();\n    b.pop_back();\n    // 将原问题化简，缩小规模递归求解\n    int part1 = mypow(a, last);\n    int part2 = mypow(superPow(a, b), 10);\n    // 合并出结果\n    return part1 * part2;\n}\n```\n\n到这里，应该都不难理解吧！我们已经解决了 `b` 是一个数组的问题，现在来看看如何处理 mod，避免结果太大而导致的整型溢出。\n\n### 如何处理 mod 运算\n\n**首先明确问题**：由于计算机的编码方式，形如 `(a * b) % base` 这样的运算，乘法的结果可能导致溢出，我们希望找到一种技巧，能够化简这种表达式，避免溢出同时得到结果。\n\n比如在二分查找中，我们求中点索引时用 `(l+r)/2` 转化成 `l+(r-l)/2`，避免溢出的同时得到正确的结果。\n\n那么，说一个关于模运算的技巧吧，毕竟模运算在算法中比较常见：\n\n**`(a * b) % k = (a % k)(b % k) % k`**\n\n证明很简单，假设：\n\n`a = Ak +B；b = Ck + D`\n\n其中 `A,B,C,D` 是任意常数，那么：\n\n`ab = ACk^2 + ADk + BCk +BD`\n\n`ab % k = BD % k`\n\n又因为：\n\n`a % k = B；b % k = D`\n\n所以：\n\n`(a % k)(b % k) % k = BD % k`\n\n综上，就可以得到我们化简求模的等式了。\n\n**换句话说，对乘法的结果求模，等价于先对每个因子都求模，然后对因子相乘的结果再求模**。\n\n那么扩展到这道题，求一个数的幂不就是对这个数连乘么？所以说只要简单扩展刚才的思路，即可给幂运算求模：\n\n```cpp\nint base = 1337;\n// 计算 a 的 k 次方然后与 base 求模的结果\nint mypow(int a, int k) {\n    // 对因子求模\n    a %= base;\n    int res = 1;\n    for (int _ = 0; _ < k; _++) {\n        // 这里有乘法，是潜在的溢出点\n        res *= a;\n        // 对乘法结果求模\n        res %= base;\n    }\n    return res;\n}\n\nint superPow(int a, vector<int>& b) {\n    if (b.empty()) return 1;\n    int last = b.back();\n    b.pop_back();\n    \n    int part1 = mypow(a, last);\n    int part2 = mypow(superPow(a, b), 10);\n    // 每次乘法都要求模\n    return (part1 * part2) % base;\n}\n```\n\n你看，**先对因子 `a` 求模，然后每次都对乘法结果 `res` 求模**，这样可以保证 `res *= a` 这句代码执行时两个因子都是小于 `base` 的，也就一定不会造成溢出，同时结果也是正确的。\n\n至此，这个问题就已经完全解决了，已经可以通过 LeetCode 的判题系统了。\n\n但是有的读者可能会问，这个求幂的算法就这么简单吗，直接一个 for 循环累乘就行了？复杂度会不会比较高，有没有更高效地算法呢？\n\n有更高效地算法的，但是单就这道题来说，已经足够了。\n\n因为你想想，调用 `mypow` 函数传入的 `k` 最多有多大？`k` 不过是 `b` 数组中的一个数，也就是在 0 到 9 之间，所以可以说这里每次调用 `mypow` 的时间复杂度就是 O(1)。整个算法的时间复杂度是 O(N)，N 为 `b` 的长度。\n\n但是既然说到幂运算了，不妨顺带说一下如何高效计算幂运算吧。\n\n### 如何高效求幂\n\n快速求幂的算法不止一个，就说一个我们应该掌握的基本思路吧。利用幂运算的性质，我们可以写出这样一个递归式：\n\n$$\na^{b} = \n\\begin{cases}\n    a \\times a^{b-1}, b\\ 为奇数 \\\\\n    (a^{b/2})^{2}, b\\ 为偶数 \\\\\n\\end{cases}\n$$\n\n这个思想肯定比直接用 for 循环求幂要高效，因为有机会直接把问题规模（`b` 的大小）直接减小一半，该算法的复杂度肯定是 log 级了。\n\n那么就可以修改之前的 `mypow` 函数，翻译这个递归公式，再加上求模的运算：\n\n```cpp\nint base = 1337;\n\nint mypow(int a, int k) {\n    if (k == 0) return 1;\n    a %= base;\n\n    if (k % 2 == 1) {\n        // k 是奇数\n        return (a * mypow(a, k - 1)) % base;\n    } else {\n        // k 是偶数\n        int sub = mypow(a, k / 2);\n        return (sub * sub) % base;\n    }\n}\n```\n\n虽然对于题目，这个优化没有啥特别明显的效率提升，但是这个求幂算法已经升级了，以后如果别人让你写幂算法，起码要写出这个算法。\n\n至此，Super Pow 就算完全解决了，包括了递归思想以及处理模运算、幂运算的技巧，可以说这个题目还是挺有意思的，你有什么有趣的题目，不妨留言分享一下。\n\n\n**＿＿＿＿＿＿＿＿＿＿＿＿＿**\n\n**点击 [我的头像](https://labuladong.gitbook.io/algo/) 看更多优质文章**。",
+      "createdAt": "2020-02-25T08:54:04.690550+00:00",
+      "hitCount": 14092,
+      "identifier": "bTNYmX",
+      "isEditorsPick": false,
+      "isMostPopular": true,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "shua-ti-fang-chi-ai-0372-chao-ji-ci-fang-ff5x",
+        "title": "[刷题防痴呆] 0372 - 超级次方"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "super-pow"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 128,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 9,
+          "reactionType": "AWESOME"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 6,
+          "reactionType": "CONFUSED"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "you-qian-ru-shen-kuai-su-mi-suan-fa-xiang-jie-by-l",
+      "status": "PUBLISHED",
+      "summary": "今天来聊一道与数学运算有关的题目，LeetCode 372 题 Super Pow，让你进行巨大的幂运算，然后求余数。\n要求你的算法返回幂运算 a^b 的计算结果与 1337 取模（mod，也就是余数）后的结果。就是你先得计算幂 a^b，但是这个 b 会非常大，所以 b 是用数组的形式表示的。\n这个算法其实就是广泛应用",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "学习笔记",
+          "nameTranslated": "",
+          "slug": "xue-xi-bi-ji",
+          "tagType": "ADDITIONAL_TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "cpp",
+          "nameTranslated": "",
+          "slug": "additional_cpp",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/d61fa3b46d5d69b64e10b5bdf43fdfe4aed8466da6534a8308d47b27633727a2-file_1583496208743",
+      "title": "由浅入深，快速幂算法详解",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 26,
+        "id": 109464,
+        "viewCount": 9718
+      },
+      "uuid": "bTNYmX",
+      "videosInfo": []
+    }
+  }
+}

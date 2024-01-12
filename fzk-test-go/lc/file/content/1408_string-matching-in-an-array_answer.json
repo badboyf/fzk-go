@@ -1,0 +1,72 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "发型不乱",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/fa-xing-bu-luan/avatar_1598359000.png",
+          "userSlug": "fa-xing-bu-luan"
+        },
+        "username": "fa-xing-bu-luan"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n1、先按字符串长度从小到大排序\n2、两层遍历，每个元素和身后的所有元素匹配\n\n### 执行结果\n![捕获.JPG](https://pic.leetcode-cn.com/1632825142-RHYPYL-%E6%8D%95%E8%8E%B7.JPG)\n\n### 代码\n\n```java\nclass Solution {\n    public List<String> stringMatching(String[] words) {\n\n        List<String> list = new ArrayList<>();\n\n        // 先按字符串长度从小到大排序\n        Arrays.sort(words, (s1, s2) -> {return s1.length() - s2.length();});\n\n        // 两层遍历，每个元素和身后的所有元素匹配\n        for (int i = 0; i < words.length; i++) {\n            for (int j = i + 1; j < words.length; j++) {\n                if (words[j].indexOf(words[i]) >= 0) {\n                    // 符合条件\n                    list.add(words[i]);\n                    break;\n                }\n            }\n        }\n        return list;\n    }\n}\n```",
+      "createdAt": "2021-09-28T10:34:36.560300+00:00",
+      "hitCount": 417,
+      "identifier": "8wk6Ge",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "yi-ge-jiao-wei-jian-dan-de-si-lu-by-lian-0czv",
+        "title": "一个较为简单的思路"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "string-matching-in-an-array"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "1408shu-zu-zhong-de-zi-fu-chuan-pi-pei-t-5uby",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n1、先按字符串长度从小到大排序\n2、两层遍历，每个元素和身后的所有元素匹配\n执行结果\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1632825142-RHYPYL-%E6%8D%95%E8%8E%B7.JPG",
+      "title": "【1408数组中的字符串匹配】题解：排序",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1022653,
+        "viewCount": 341
+      },
+      "uuid": "8wk6Ge",
+      "videosInfo": []
+    }
+  }
+}

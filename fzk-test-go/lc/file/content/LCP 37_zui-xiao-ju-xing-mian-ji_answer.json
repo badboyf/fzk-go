@@ -1,0 +1,95 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "混混当大哥",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/tomato_xiaobao/avatar_1628987190.png",
+          "userSlug": "tomato_xiaobao"
+        },
+        "username": "tomato_XiaoBao"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n数学推导用k，b表示交点的横纵坐标找规律，求解交点横纵坐标的最大最小值然后进行求解。\n\n### 代码\n\n```python3\nclass Solution:\n    def minRecSize(self, lines: List[List[int]]) -> float:\n        lines.sort()\n        count, i, top = [[0]*3 for i in range(10000)], 0, 0\n        count[0][0], count[0][1] = lines[0][0], 0\n        for i in range(1, len(lines)):\n            if lines[i][0] != lines[i-1][0]:\n                count[top][2] = i-1\n                top += 1\n                count[top][0] = lines[i][0]\n                count[top][1] = i\n        count[top][2] = len(lines) - 1\n        if top == 0:\n            return 0\n        max_x = (lines[count[0][2]][1] - lines[count[1][1]][1])/(count[1][0] - count[0][0])\n        min_x = (lines[count[0][1]][1] - lines[count[1][2]][1])/(count[1][0] - count[0][0])\n        for i in range(1, top):\n            max_x = max(max_x, (lines[count[i][2]][1] - lines[count[i+1][1]][1])/(count[i+1][0] - count[i][0]))\n            min_x = min(min_x, (lines[count[i][1]][1] - lines[count[i+1][2]][1])/(count[i+1][0] - count[i][0]))\n\n        \n        max_y = (lines[count[0][2]][1]* count[1][0] - lines[count[1][1]][1]* count[0][0])/(count[1][0] - count[0][0])\n        min_y = (lines[count[0][1]][1]* count[1][0] - lines[count[1][2]][1]* count[0][0])/(count[1][0] - count[0][0])\n        for i in range(1,top):\n            max_y = max(max_y, (lines[count[i][2]][1]* count[i+1][0] - lines[count[i+1][1]][1]* count[i][0])/(count[i+1][0] - count[i][0]))\n            min_y = min(min_y, (lines[count[i][1]][1]* count[i+1][0] - lines[count[i+1][2]][1]* count[i][0])/(count[i+1][0] - count[i][0]))\n\n        return (max_x - min_x) * (max_y - min_y)\n```",
+      "createdAt": "2021-09-11T03:50:49.571638+00:00",
+      "hitCount": 292,
+      "identifier": "KsFcZ3",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "zhao-gui-lu-tan-xin-yong-shi-ji-bai-9889-b2ky",
+        "title": "找规律（贪心），用时击败 98.89%"
+      },
+      "position": 10,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "lcp-37-zui-xiao-ju-xing-mian-ji-by-acvvi-6rsj",
+        "title": "LCP 37. 最小矩形面积"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "zui-xiao-ju-xing-mian-ji"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "AWESOME"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 0,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "shu-xue-tui-dao-pai-xu-by-tomato_xiaobao-hssc",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n数学推导用k，b表示交点的横纵坐标找规律，求解交点横纵坐标的最大最小值然后进行求解。\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Math",
+          "nameTranslated": "数学",
+          "slug": "math",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python3",
+          "nameTranslated": "",
+          "slug": "python3",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "数学推导+排序",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 991160,
+        "viewCount": 249
+      },
+      "uuid": "KsFcZ3",
+      "videosInfo": []
+    }
+  }
+}

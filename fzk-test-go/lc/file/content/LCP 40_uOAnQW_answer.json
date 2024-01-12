@@ -1,0 +1,86 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "梦璃夜·天星",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/meng-li-ye-tian-xing/avatar_1584335581.png",
+          "userSlug": "muriyatensei"
+        },
+        "username": "MuriyaTensei"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "# 方法一：快速选择\n![LeetCode LCP 40. 心算挑战.jpg](https://pic.leetcode-cn.com/1636785901-sYnlji-LeetCode%20LCP%2040.%20%E5%BF%83%E7%AE%97%E6%8C%91%E6%88%98.jpg)\n\n\n用快速选择选出前cnt个最大的元素，遍历求和并维护最小的奇/偶数\n\n如果和为奇数，遍历剩下的数，记录并返回 替换最小值后的总和 最大值\n\n否则直接返回和即可\n\n```c++\nclass Solution {\npublic:\n    int maxmiumScore(vector<int>& cards, int cnt) {\n        nth_element(begin(cards), begin(cards) + cnt, end(cards), greater());\n        int low[2] = {0x3f3f3f3f, 0x3f3f3f3f}, sum = 0, n = cards.size();\n        for (int i = 0; i < cnt; ++i) {\n            int x = cards[i];\n            low[x&1] = min(low[x&1], x);\n            sum += x;\n        }\n        if (sum & 1 ^ 1) return sum;\n        int ans = 0;\n        for (int i = cnt; i < n; ++i) {\n            int x = cards[i];\n            ans = max(ans, sum - low[x&1^1] + x);\n        }\n        return ans;\n    }\n};\n```\n\n### 复杂度分析\n**时间复杂度 平均 O(n)** 快速选择的平均时间复杂度是O(n)\n\n**空间复杂度 O(1)** 只使用了常数的空间",
+      "createdAt": "2021-11-13T06:37:09.101671+00:00",
+      "hitCount": 138,
+      "identifier": "ex2SMF",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "pang-men-zuo-dao-wei-liao-jie-ti-er-jie-fdy9u",
+        "title": "旁门左道为了解题而解题"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "uOAnQW"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "c-100-kuai-su-xuan-ze-yi-ci-bian-li-by-m-e68c",
+      "status": "PREPUBLISH",
+      "summary": "方法一：快速选择\n用快速选择选出前cnt个最大的元素，遍历求和并维护最小的奇/偶数\n如果和为奇数，遍历剩下的数，记录并返回 替换最小值后的总和 最大值\n否则直接返回和即可\n复杂度分析\n时间复杂度 平均 O(n) 快速选择的平均时间复杂度是O(n)\n空间复杂度 O(1) 只使用了常数的空间",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Quickselect",
+          "nameTranslated": "快速选择",
+          "slug": "quickselect",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "遍历",
+          "nameTranslated": "",
+          "slug": "bian-li",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1636785901-sYnlji-LeetCode%20LCP%2040.%20%E5%BF%83%E7%AE%97%E6%8C%91%E6%88%98.jpg",
+      "title": "【C++】O(n) 208ms 双百 快速选择 一次遍历",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 2,
+        "id": 1099216,
+        "viewCount": 97
+      },
+      "uuid": "ex2SMF",
+      "videosInfo": []
+    }
+  }
+}

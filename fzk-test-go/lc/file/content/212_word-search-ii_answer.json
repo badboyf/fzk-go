@@ -1,0 +1,135 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣官方题解",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/leetcode-solution/avatar_1582018938.png",
+          "userSlug": "leetcode-solution"
+        },
+        "username": "LeetCode-Solution"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法一：回溯 + 字典树\n\n**预备知识**\n\n前缀树（字典树）是一种树形数据结构，用于高效地存储和检索字符串数据集中的键。前缀树可以用 $O(|S|)$ 的时间复杂度完成如下操作，其中 $|S|$ 是插入字符串或查询前缀的长度：\n\n- 向前缀树中插入字符串 $\\textit{word}$；\n\n- 查询前缀串 $\\textit{prefix}$ 是否为已经插入到前缀树中的任意一个字符串 $\\textit{word}$ 的前缀；\n\n前缀树的实现可以参考「[208. 实现 Trie (前缀树) 的官方题解](https://leetcode-cn.com/problems/implement-trie-prefix-tree/solution/shi-xian-trie-qian-zhui-shu-by-leetcode-ti500/)」。\n\n**思路和算法**\n\n根据题意，我们需要逐个遍历二维网格中的每一个单元格；然后搜索从该单元格出发的所有路径，找到其中对应 $\\textit{words}$ 中的单词的路径。因为这是一个回溯的过程，所以我们有如下算法：\n\n- 遍历二维网格中的所有单元格。\n\n- 深度优先搜索所有从当前正在遍历的单元格出发的、由相邻且不重复的单元格组成的路径。因为题目要求同一个单元格内的字母在一个单词中不能被重复使用；所以我们在深度优先搜索的过程中，每经过一个单元格，都将该单元格的字母临时修改为特殊字符（例如 `#`），以避免再次经过该单元格。\n\n- 如果当前路径是 $\\textit{words}$ 中的单词，则将其添加到结果集中。如果当前路径是 $words$ 中任意一个单词的前缀，则继续搜索；反之，如果当前路径不是 $words$ 中任意一个单词的前缀，则剪枝。我们可以将 $\\textit{words}$ 中的所有字符串先添加到前缀树中，而后用 $O(|S|)$ 的时间复杂度查询当前路径是否为 $\\textit{words}$ 中任意一个单词的前缀。\n\n在具体实现中，我们需要注意如下情况：\n\n- 因为同一个单词可能在多个不同的路径中出现，所以我们需要使用哈希集合对结果集去重。\n\n- 在回溯的过程中，我们不需要每一步都判断完整的当前路径是否是 $words$ 中任意一个单词的前缀；而是可以记录下路径中每个单元格所对应的前缀树结点，每次只需要判断新增单元格的字母是否是上一个单元格对应前缀树结点的子结点即可。\n\n**代码**\n\n```Python [sol1-Python3]\nfrom collections import defaultdict\n\n\nclass Trie:\n    def __init__(self):\n        self.children = defaultdict(Trie)\n        self.word = \"\"\n\n    def insert(self, word):\n        cur = self\n        for c in word:\n            cur = cur.children[c]\n        cur.is_word = True\n        cur.word = word\n\n\nclass Solution:\n    def findWords(self, board: List[List[str]], words: List[str]) -> List[str]:\n        trie = Trie()\n        for word in words:\n            trie.insert(word)\n\n        def dfs(now, i1, j1):\n            if board[i1][j1] not in now.children:\n                return\n\n            ch = board[i1][j1]\n\n            now = now.children[ch]\n            if now.word != \"\":\n                ans.add(now.word)\n\n            board[i1][j1] = \"#\"\n            for i2, j2 in [(i1 + 1, j1), (i1 - 1, j1), (i1, j1 + 1), (i1, j1 - 1)]:\n                if 0 <= i2 < m and 0 <= j2 < n:\n                    dfs(now, i2, j2)\n            board[i1][j1] = ch\n\n        ans = set()\n        m, n = len(board), len(board[0])\n\n        for i in range(m):\n            for j in range(n):\n                dfs(trie, i, j)\n\n        return list(ans)\n```\n\n```Java [sol1-Java]\nclass Solution {\n    int[][] dirs = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};\n\n    public List<String> findWords(char[][] board, String[] words) {\n        Trie trie = new Trie();\n        for (String word : words) {\n            trie.insert(word);\n        }\n\n        Set<String> ans = new HashSet<String>();\n        for (int i = 0; i < board.length; ++i) {\n            for (int j = 0; j < board[0].length; ++j) {\n                dfs(board, trie, i, j, ans);\n            }\n        }\n\n        return new ArrayList<String>(ans);\n    }\n\n    public void dfs(char[][] board, Trie now, int i1, int j1, Set<String> ans) {\n        if (!now.children.containsKey(board[i1][j1])) {\n            return;\n        }\n        char ch = board[i1][j1];\n        now = now.children.get(ch);\n        if (!\"\".equals(now.word)) {\n            ans.add(now.word);\n        }\n\n        board[i1][j1] = '#';\n        for (int[] dir : dirs) {\n            int i2 = i1 + dir[0], j2 = j1 + dir[1];\n            if (i2 >= 0 && i2 < board.length && j2 >= 0 && j2 < board[0].length) {\n                dfs(board, now, i2, j2, ans);\n            }\n        }\n        board[i1][j1] = ch;\n    }\n}\n\nclass Trie {\n    String word;\n    Map<Character, Trie> children;\n    boolean isWord;\n\n    public Trie() {\n        this.word = \"\";\n        this.children = new HashMap<Character, Trie>();\n    }\n\n    public void insert(String word) {\n        Trie cur = this;\n        for (int i = 0; i < word.length(); ++i) {\n            char c = word.charAt(i);\n            if (!cur.children.containsKey(c)) {\n                cur.children.put(c, new Trie());\n            }\n            cur = cur.children.get(c);\n        }\n        cur.word = word;\n    }\n}\n```\n\n```C# [sol1-C#]\npublic class Solution {\n    int[][] dirs = new int[][] {\n        new int[]{1, 0},\n        new int[]{-1, 0},\n        new int[]{0, 1},\n        new int[]{0, -1}\n    };\n\n    public IList<string> FindWords(char[][] board, string[] words) {\n        Trie trie = new Trie();\n        foreach (string word in words) {\n            trie.Insert(word);\n        }\n\n        ISet<string> ans = new HashSet<string>();\n        for (int i = 0; i < board.Length; ++i) {\n            for (int j = 0; j < board[0].Length; ++j) {\n                DFS(board, trie, i, j, ans);\n            }\n        }\n\n        return new List<string>(ans);\n    }\n\n    void DFS(char[][] board, Trie now, int i1, int j1, ISet<string> ans) {\n        if (!now.children.ContainsKey(board[i1][j1])) {\n            return;\n        }\n        char ch = board[i1][j1];\n        now = now.children[ch];\n        if (!\"\".Equals(now.word)) {\n            ans.Add(now.word);\n        }\n\n        board[i1][j1] = '#';\n        foreach (int[] dir in dirs) {\n            int i2 = i1 + dir[0], j2 = j1 + dir[1];\n            if (i2 >= 0 && i2 < board.Length && j2 >= 0 && j2 < board[0].Length) {\n                DFS(board, now, i2, j2, ans);\n            }\n        }\n        board[i1][j1] = ch;\n    }\n}\n\nclass Trie {\n    public string word;\n    public Dictionary<char, Trie> children;\n    public bool isWord;\n\n    public Trie() {\n        this.word = \"\";\n        this.children = new Dictionary<char, Trie>();\n    }\n\n    public void Insert(string word) {\n        Trie cur = this;\n        foreach (char c in word) {\n            if (!cur.children.ContainsKey(c)) {\n                cur.children.Add(c, new Trie());\n            }\n            cur = cur.children[c];\n        }\n        cur.word = word;\n    }\n}\n```\n\n```go [sol1-Golang]\ntype Trie struct {\n    children [26]*Trie\n    word     string\n}\n\nfunc (t *Trie) Insert(word string) {\n    node := t\n    for _, ch := range word {\n        ch -= 'a'\n        if node.children[ch] == nil {\n            node.children[ch] = &Trie{}\n        }\n        node = node.children[ch]\n    }\n    node.word = word\n}\n\nvar dirs = []struct{ x, y int }{{-1, 0}, {1, 0}, {0, -1}, {0, 1}}\n\nfunc findWords(board [][]byte, words []string) []string {\n    t := &Trie{}\n    for _, word := range words {\n        t.Insert(word)\n    }\n\n    m, n := len(board), len(board[0])\n    seen := map[string]bool{}\n\n    var dfs func(node *Trie, x, y int)\n    dfs = func(node *Trie, x, y int) {\n        ch := board[x][y]\n        node = node.children[ch-'a']\n        if node == nil {\n            return\n        }\n\n        if node.word != \"\" {\n            seen[node.word] = true\n        }\n\n        board[x][y] = '#'\n        for _, d := range dirs {\n            nx, ny := x+d.x, y+d.y\n            if 0 <= nx && nx < m && 0 <= ny && ny < n && board[nx][ny] != '#' {\n                dfs(node, nx, ny)\n            }\n        }\n        board[x][y] = ch\n    }\n    for i, row := range board {\n        for j := range row {\n            dfs(t, i, j)\n        }\n    }\n\n    ans := make([]string, 0, len(seen))\n    for s := range seen {\n        ans = append(ans, s)\n    }\n    return ans\n}\n```\n\n```C++ [sol1-C++]\nstruct TrieNode {\n    string word;\n    unordered_map<char,TrieNode *> children;\n    TrieNode() {\n        this->word = \"\";\n    }   \n};\n\nvoid insertTrie(TrieNode * root,const string & word) {\n    TrieNode * node = root;\n    for (auto c : word){\n        if (!node->children.count(c)) {\n            node->children[c] = new TrieNode();\n        }\n        node = node->children[c];\n    }\n    node->word = word;\n}\n\nclass Solution {\npublic:\n    int dirs[4][2] = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};\n\n    bool dfs(vector<vector<char>>& board, int x, int y, TrieNode * root, set<string> & res) {\n        char ch = board[x][y];        \n        if (!root->children.count(ch)) {\n            return false;\n        }\n        root = root->children[ch];\n        if (root->word.size() > 0) {\n            res.insert(root->word);\n        }\n\n        board[x][y] = '#';\n        for (int i = 0; i < 4; ++i) {\n            int nx = x + dirs[i][0];\n            int ny = y + dirs[i][1];\n            if (nx >= 0 && nx < board.size() && ny >= 0 && ny < board[0].size()) {\n                if (board[nx][ny] != '#') {\n                    dfs(board, nx, ny, root,res);\n                }\n            }\n        }\n        board[x][y] = ch;\n\n        return true;      \n    }\n\n    vector<string> findWords(vector<vector<char>> & board, vector<string> & words) {\n        TrieNode * root = new TrieNode();\n        set<string> res;\n        vector<string> ans;\n\n        for (auto & word: words){\n            insertTrie(root,word);\n        }\n        for (int i = 0; i < board.size(); ++i) {\n            for (int j = 0; j < board[0].size(); ++j) {\n                dfs(board, i, j, root, res);\n            }\n        }        \n        for (auto & word: res) {\n            ans.emplace_back(word);\n        }\n        return ans;        \n    }\n};\n```\n\n**复杂度分析**\n\n- 时间复杂度：$O(m \\times n \\times 3^{l-1})$，其中 $m$ 是二维网格的高度，$n$ 是二维网格的宽度，$l$ 是最长单词的长度。我们需要遍历 $m \\times n$ 个单元格，每个单元格最多需要遍历 $4 \\times 3^{l-1}$ 条路径。\n\n- 空间复杂度：$O(k \\times l)$，其中 $k$ 是 $\\textit{words}$ 的长度，$l$ 是最长单词的长度。最坏情况下，我们需要 $O(k \\times l)$ 用于存储前缀树。\n\n#### 方法二：删除被匹配的单词\n\n**思路和算法**\n\n考虑以下情况。假设给定一个所有单元格都是 `a` 的二维字符网格和单词列表 `[\"a\", \"aa\", \"aaa\", \"aaaa\"]` 。当我们使用方法一来找出所有同时在二维网格和单词列表中出现的单词时，我们需要遍历每一个单元格的所有路径，会找到大量重复的单词。\n\n为了缓解这种情况，我们可以将匹配到的单词从前缀树中移除，来避免重复寻找相同的单词。因为这种方法可以保证每个单词只能被匹配一次；所以我们也不需要再对结果集去重了。\n\n**代码**\n\n```Python [sol2-Python3]\nfrom collections import defaultdict\n\n\nclass Trie:\n    def __init__(self):\n        self.children = defaultdict(Trie)\n        self.word = \"\"\n\n    def insert(self, word):\n        cur = self\n        for c in word:\n            cur = cur.children[c]\n        cur.is_word = True\n        cur.word = word\n\n\nclass Solution:\n    def findWords(self, board: List[List[str]], words: List[str]) -> List[str]:\n        trie = Trie()\n        for word in words:\n            trie.insert(word)\n\t\t\n        def dfs(now, i1, j1):\n            if board[i1][j1] not in now.children:\n                return\n\n            ch = board[i1][j1]\n\n            nxt = now.children[ch]\n            if nxt.word != \"\":\n                ans.append(nxt.word)\n                nxt.word = \"\"\n\n            if nxt.children:\n                board[i1][j1] = \"#\"\n                for i2, j2 in [(i1 + 1, j1), (i1 - 1, j1), (i1, j1 + 1), (i1, j1 - 1)]:\n                    if 0 <= i2 < m and 0 <= j2 < n:\n                        dfs(nxt, i2, j2)\n                board[i1][j1] = ch\n\n            if not nxt.children:\n                now.children.pop(ch)\n\n        ans = []\n        m, n = len(board), len(board[0])\n\n        for i in range(m):\n            for j in range(n):\n                dfs(trie, i, j)\n\n        return ans\n```\n\n```Java [sol2-Java]\nclass Solution {\n    int[][] dirs = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};\n\n    public List<String> findWords(char[][] board, String[] words) {\n        Trie trie = new Trie();\n        for (String word : words) {\n            trie.insert(word);\n        }\n\n        Set<String> ans = new HashSet<String>();\n        for (int i = 0; i < board.length; ++i) {\n            for (int j = 0; j < board[0].length; ++j) {\n                dfs(board, trie, i, j, ans);\n            }\n        }\n\n        return new ArrayList<String>(ans);\n    }\n\n    public void dfs(char[][] board, Trie now, int i1, int j1, Set<String> ans) {\n        if (!now.children.containsKey(board[i1][j1])) {\n            return;\n        }\n        char ch = board[i1][j1];\n        Trie nxt = now.children.get(ch);\n        if (!\"\".equals(nxt.word)) {\n            ans.add(nxt.word);\n            nxt.word = \"\";\n        }\n\n        if (!nxt.children.isEmpty()) {\n            board[i1][j1] = '#';\n            for (int[] dir : dirs) {\n                int i2 = i1 + dir[0], j2 = j1 + dir[1];\n                if (i2 >= 0 && i2 < board.length && j2 >= 0 && j2 < board[0].length) {\n                    dfs(board, nxt, i2, j2, ans);\n                }\n            }\n            board[i1][j1] = ch;\n        }\n\n        if (nxt.children.isEmpty()) {\n            now.children.remove(ch);\n        }\n    }\n}\n\nclass Trie {\n    String word;\n    Map<Character, Trie> children;\n    boolean isWord;\n\n    public Trie() {\n        this.word = \"\";\n        this.children = new HashMap<Character, Trie>();\n    }\n\n    public void insert(String word) {\n        Trie cur = this;\n        for (int i = 0; i < word.length(); ++i) {\n            char c = word.charAt(i);\n            if (!cur.children.containsKey(c)) {\n                cur.children.put(c, new Trie());\n            }\n            cur = cur.children.get(c);\n        }\n        cur.word = word;\n    }\n}\n```\n\n```C# [sol2-C#]\npublic class Solution {\n    int[][] dirs = new int[][] {\n        new int[]{1, 0},\n        new int[]{-1, 0},\n        new int[]{0, 1},\n        new int[]{0, -1}\n    };\n\n    public IList<string> FindWords(char[][] board, string[] words) {\n        Trie trie = new Trie();\n        foreach (string word in words) {\n            trie.Insert(word);\n        }\n\n        ISet<string> ans = new HashSet<string>();\n        for (int i = 0; i < board.Length; ++i) {\n            for (int j = 0; j < board[0].Length; ++j) {\n                DFS(board, trie, i, j, ans);\n            }\n        }\n\n        return new List<string>(ans);\n    }\n\n    void DFS(char[][] board, Trie now, int i1, int j1, ISet<string> ans) {\n        if (!now.children.ContainsKey(board[i1][j1])) {\n            return;\n        }\n        char ch = board[i1][j1];\n        Trie nxt = now.children[ch];\n        if (!\"\".Equals(nxt.word)) {\n            ans.Add(nxt.word);\n            nxt.word = \"\";\n        }\n\n        if (nxt.children.Count > 0) {\n            board[i1][j1] = '#';\n            int[][] dirs = new int[][] {\n                new int[]{1, 0},\n                new int[]{-1, 0},\n                new int[]{0, 1},\n                new int[]{0, -1}\n            };\n            foreach (int[] dir in dirs) {\n                int i2 = i1 + dir[0], j2 = j1 + dir[1];\n                if (i2 >= 0 && i2 < board.Length && j2 >= 0 && j2 < board[0].Length) {\n                    DFS(board, nxt, i2, j2, ans);\n                }\n            }\n            board[i1][j1] = ch;\n        }\n\n        if (nxt.children.Count == 0) {\n            now.children.Remove(ch);\n        }\n    }\n}\n\nclass Trie {\n    public string word;\n    public Dictionary<char, Trie> children;\n    public bool isWord;\n\n    public Trie() {\n        this.word = \"\";\n        this.children = new Dictionary<char, Trie>();\n    }\n\n    public void Insert(string word) {\n        Trie cur = this;\n        foreach (char c in word) {\n            if (!cur.children.ContainsKey(c)) {\n                cur.children.Add(c, new Trie());\n            }\n            cur = cur.children[c];\n        }\n        cur.word = word;\n    }\n}\n```\n\n```go [sol2-Golang]\ntype Trie struct {\n    children map[byte]*Trie\n    word     string\n}\n\nfunc (t *Trie) Insert(word string) {\n    node := t\n    for i := range word {\n        ch := word[i]\n        if node.children[ch] == nil {\n            node.children[ch] = &Trie{children: map[byte]*Trie{}}\n        }\n        node = node.children[ch]\n    }\n    node.word = word\n}\n\nvar dirs = []struct{ x, y int }{{-1, 0}, {1, 0}, {0, -1}, {0, 1}}\n\nfunc findWords(board [][]byte, words []string) (ans []string) {\n    t := &Trie{children: map[byte]*Trie{}}\n    for _, word := range words {\n        t.Insert(word)\n    }\n\n    m, n := len(board), len(board[0])\n\n    var dfs func(node *Trie, x, y int)\n    dfs = func(node *Trie, x, y int) {\n        ch := board[x][y]\n        nxt := node.children[ch]\n        if nxt == nil {\n            return\n        }\n\n        if nxt.word != \"\" {\n            ans = append(ans, nxt.word)\n            nxt.word = \"\"\n        }\n\n        if len(nxt.children) > 0 {\n            board[x][y] = '#'\n            for _, d := range dirs {\n                nx, ny := x+d.x, y+d.y\n                if 0 <= nx && nx < m && 0 <= ny && ny < n && board[nx][ny] != '#' {\n                    dfs(nxt, nx, ny)\n                }\n            }\n            board[x][y] = ch\n        }\n        \n        if len(nxt.children) == 0 {\n            delete(node.children, ch)\n        }\n    }\n    for i, row := range board {\n        for j := range row {\n            dfs(t, i, j)\n        }\n    }\n\n    return\n}\n```\n\n```C++ [sol2-C++]\nstruct TrieNode {\n    string word;\n    unordered_map<char, TrieNode *> children;\n    TrieNode() {\n        this->word = \"\";\n    }   \n};\n\nvoid insertTrie(TrieNode * root, const string & word) {\n    TrieNode * node = root;\n\n    for (auto c : word) {\n        if (!node->children.count(c)) {\n            node->children[c] = new TrieNode();\n        }\n        node = node->children[c];\n    }\n\n    node->word = word;\n}\n\nclass Solution {\npublic:\n    int dirs[4][2] = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};\n\n    bool dfs(vector<vector<char>>& board, int x, int y, TrieNode * root, set<string> & res) {\n        char ch = board[x][y];   \n     \n        if (root == nullptr || !root->children.count(ch)) {\n            return false;\n        }\n\n        TrieNode * nxt = root->children[ch];\n        if (nxt->word.size() > 0) {\n            res.insert(nxt->word);\n            nxt->word = \"\";\n        }\n        if (!nxt->children.empty()) {\n            board[x][y] = '#';\n            for (int i = 0; i < 4; ++i) {\n                int nx = x + dirs[i][0];\n                int ny = y + dirs[i][1];\n                if (nx >= 0 && nx < board.size() && ny >= 0 && ny < board[0].size()) {\n                    if (board[nx][ny] != '#') {\n                        dfs(board, nx, ny, nxt,res);\n                    }\n                }\n            }\n            board[x][y] = ch;\n        }\n        if (nxt->children.empty()) {\n            root->children.erase(ch);\n        }\n\n        return true;      \n    }\n\n    vector<string> findWords(vector<vector<char>> & board, vector<string> & words) {\n        TrieNode * root = new TrieNode();\n        set<string> res;\n        vector<string> ans;\n\n        for (auto & word: words) {\n            insertTrie(root,word);\n        }\n        for (int i = 0; i < board.size(); ++i) {\n            for(int j = 0; j < board[0].size(); ++j) {\n                dfs(board, i, j, root, res);\n            }\n        }        \n        for (auto & word: res) {\n            ans.emplace_back(word);\n        }\n        \n        return ans;        \n    }\n};\n```\n\n**复杂度分析**\n\n- 时间复杂度：$O(m \\times n \\times 3^{l-1})$，其中 $m$ 是二维网格的高度，$n$ 是二维网格的宽度，$l$ 是最长单词的长度。我们仍需要遍历 $m \\times n$ 个单元格，每个单元格在最坏情况下仍需要遍历 $4 \\times 3^{l-1}$ 条路径。\n\n- 空间复杂度：$O(k \\times l)$，其中 $k$ 是 $\\textit{words}$ 的长度，$l$ 是最长单词的长度。最坏情况下，我们需要 $O(k \\times l)$ 用于存储前缀树。",
+      "createdAt": "2021-09-15T16:03:11.727996+00:00",
+      "hitCount": 33855,
+      "identifier": "WCKDHN",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "212-dan-ci-sou-suo-ii-by-chen-wei-f-hnau",
+        "title": "212. 单词搜索 II（字典树）"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "word-search-ii"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 35,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "dan-ci-sou-suo-ii-by-leetcode-solution-7494",
+      "status": "PREPUBLISH",
+      "summary": "方法一：回溯 + 字典树 预备知识 前缀树（字典树）是一种树形数据结构，用于高效地存储和检索字符串数据集中的键。前缀树可以用 $O(|S|)$ 的时间复杂度完成如下操作，其中 $|S|$ 是插入字符串或查询前缀的长度： 向前缀树中插入字符串 $\\textit{word}$； 查询前缀串 $\\textit{prefix}",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Trie",
+          "nameTranslated": "字典树",
+          "slug": "trie",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Array",
+          "nameTranslated": "数组",
+          "slug": "array",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "String",
+          "nameTranslated": "字符串",
+          "slug": "string",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Backtracking",
+          "nameTranslated": "回溯",
+          "slug": "backtracking",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Matrix",
+          "nameTranslated": "矩阵",
+          "slug": "matrix",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C#",
+          "nameTranslated": "",
+          "slug": "csharp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Go",
+          "nameTranslated": "",
+          "slug": "golang",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "单词搜索 II",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 134,
+        "id": 1000172,
+        "viewCount": 20464
+      },
+      "uuid": "WCKDHN",
+      "videosInfo": []
+    }
+  }
+}

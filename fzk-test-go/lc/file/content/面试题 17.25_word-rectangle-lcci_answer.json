@@ -1,0 +1,91 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "宁宁",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/tian-ye/avatar_1569244887.png",
+          "userSlug": "tian-ye"
+        },
+        "username": "tian-ye"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "回溯算法通常有一个“套路”，经典问题有[全排列](https://leetcode-cn.com/problems/permutations/)和[八皇后](https://leetcode-cn.com/problems/eight-queens-lcci/)。用伪代码表示出来：\r\n```\r\nfunction backTrack(供选择的列表，路径){\r\n    if(终止条件){\r\n        退出;\r\n    }\r\n    做选择;  //从列表选择一项加入路径\r\n    backTrack(列表，路径);\r\n    撤销选择;\r\n}\r\n```\r\n这题的思路就是通过回溯来构成单词矩阵，构造字典树用来快速判断形成的单词是否在清单里。\r\n\r\n现在这么做已经没问题了，但提交上去会有超时，需要给回溯做一个剪枝来优化一下。代码：\r\n\r\n```\r\nclass Solution {\r\n    class Trie{\r\n        Trie[] childs;\r\n        boolean isLeaf;\r\n        public Trie(){\r\n            childs = new Trie[26];\r\n        }\r\n    }\r\n\r\n    Trie root;\r\n    Map<Integer, Set<String>> map;  //把清单根据单词长度集合起来\r\n    int maxArea;\r\n    int maxLength;\r\n    List<String> ans;   //别忘最后转换成数组输出\r\n    public String[] maxRectangle(String[] words) {       \r\n        root = new Trie();\r\n        //构造字典树\r\n        for(String str: words){\r\n            Trie node = root;\r\n            for(char c: str.toCharArray()){\r\n                if(node.childs[c-'a'] == null){\r\n                    node.childs[c-'a'] = new Trie();\r\n                }\r\n                node = node.childs[c-'a'];\r\n            }\r\n            node.isLeaf = true;\r\n        }\r\n\r\n        map = new HashMap<>();\r\n        ans = new ArrayList<>();\r\n        maxArea = 0;\r\n        maxLength = 0;\r\n        for(String w: words){\r\n            int len = w.length();\r\n            maxLength = Math.max(maxLength, len);\r\n            Set<String> set = map.getOrDefault(len, new HashSet<>());\r\n            set.add(w);\r\n            map.put(len, set);\r\n        }\r\n\r\n        List<String> path = new ArrayList<>();\r\n        for(int key: map.keySet()){\r\n            path.clear();\r\n            //回溯需要的参数是：相同长度单词的集合，存放路径的列表，当前单词的长度\r\n            dfs(map.get(key), path, key);\r\n        }\r\n\r\n        String[] ultimate = new String[ans.size()];\r\n        return ans.toArray(ultimate);\r\n    }\r\n\r\n    //回溯的“套路”\r\n    public void dfs(Set<String> dic, List<String> path, int wordLen){\r\n        //剪枝，dic里的情况不可能得到最优解，提前过滤掉不考虑\r\n        if(wordLen*maxLength <= maxArea)   return;\r\n\r\n        //终止条件：如果path矩阵的高度已经超过清单中最长单词长度，结束\r\n        if(path.size() > maxLength) return;\r\n\r\n        for(String str: dic){\r\n            //做选择\r\n            path.add(str);\r\n\r\n            boolean[] res = isValid(path);\r\n            if(res[0]){ //下面还可以再加\r\n                int area = path.size()*path.get(0).length();\r\n                if(res[1] && (area>maxArea)){   //每列都是单词的矩阵\r\n                    maxArea = area;\r\n                    //ans = path;   一定注意这里不能直接把path引用交给答案\r\n                    ans = new ArrayList<>(path);\r\n                }\r\n                //回溯\r\n                dfs(dic, path, wordLen);\r\n            }\r\n            //撤销选择\r\n            path.remove(path.size()-1);\r\n        }\r\n    }\r\n\r\n    /** 判断一个矩阵是否每一列形成的单词都在清单里\r\n    *   存在两种情况：1.有的列中的字母不在字典树中，即这一列不可能构成单词，整个矩阵不合要求\r\n    *   2.每列的所有字母都在字典树中但有的结尾不是leaf，也就是有的列目前还不是个单词\r\n    *   所以需要一个boolean数组res[]来存放结果：\r\n    *   res[0]表示是否有字母不在字典树中，true:都在，false:有不在的\r\n    *   res[1]表示是否所有的列都构成了清单里的单词\r\n    */\r\n    public boolean[] isValid(List<String> input){\r\n        boolean[] res = new boolean[2];\r\n        boolean allLeaf = true;\r\n        int m = input.size();\r\n        int n = input.get(0).length();\r\n        for(int j=0; j<n; j++){\r\n            //按列来看单词是否在字典树\r\n            Trie node = root;\r\n            for(int i=0; i<m; i++){\r\n                int c = input.get(i).charAt(j) - 'a';\r\n                if(node.childs[c] == null)  return new boolean[]{false, false};\r\n                node = node.childs[c];\r\n            }\r\n            if(!node.isLeaf)    allLeaf = false;\r\n        }\r\n        return new boolean[]{true, allLeaf};\r\n    }\r\n}\r\n```\r\n![1.png](https://pic.leetcode-cn.com/293fd9193322a08678dcd77a42699c3b081c83c731bbcd5994ad600733ec7eda-1.png)\r\n\r\n执行用时不算特别快，但这种做法没问题的，相对应该也比较容易理解了。\r\n如果对Trie字典树不了解，代码中Trie部分没看懂可以先快速浏览一下[面试题 17.13. 恢复空格](https://leetcode-cn.com/problems/re-space-lcci/solution/cong-bao-li-ru-shou-you-hua-yi-ji-triezi-dian-shu-/)的字典树解法。\r\n\r\n\r\n\r\n\r\n",
+      "createdAt": "2020-05-02T03:42:18.024683+00:00",
+      "hitCount": 2636,
+      "identifier": "dWtgfE",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "you-hua-liao-yi-wan-shang-bai-gei-liao-l-kefq",
+        "title": "极限优化 beat 100%"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "word-rectangle-lcci"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 15,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "jian-dan-dai-ma-shi-xian-zi-dian-shu-hui-su-jian-z",
+      "status": "PUBLISHED",
+      "summary": "回溯算法通常有一个“套路”，经典问题有全排列和八皇后。用伪代码表示出来：\n这题的思路就是通过回溯来构成单词矩阵，构造字典树用来快速判断形成的单词是否在清单里。\n现在这么做已经没问题了，但提交上去会有超时，需要给回溯做一个剪枝来优化一下。代码：\n执行用时不算特别快，但这种做法没问题的，相对应该也比较容易理解了。\n如果对T",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Trie",
+          "nameTranslated": "字典树",
+          "slug": "trie",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Backtracking",
+          "nameTranslated": "回溯",
+          "slug": "backtracking",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/293fd9193322a08678dcd77a42699c3b081c83c731bbcd5994ad600733ec7eda-1.png",
+      "title": "简单代码实现字典树+回溯，剪枝提速",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 7,
+        "id": 228754,
+        "viewCount": 1978
+      },
+      "uuid": "dWtgfE",
+      "videosInfo": []
+    }
+  }
+}

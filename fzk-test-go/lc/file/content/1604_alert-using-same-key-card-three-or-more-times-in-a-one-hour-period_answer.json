@@ -1,0 +1,93 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "EUY",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/euyvvl/avatar_1635000444.png",
+          "userSlug": "euyvvl"
+        },
+        "username": "EUYVVL"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n一道简单的字符串题.\n### 代码\n\n```cpp\nclass Solution {\npublic:\n    int change(string str){\n        return ((str[0]-'0')*10+(str[1]-'0'))*60+(str[3]-'0')*10+str[4]-'0';\n    }\n    vector<string> alertNames(vector<string>& keyName, vector<string>& keyTime) {\n        vector<pair<string,int>>vc;\n        for(int i=0;i<keyName.size();i++){\n            vc.push_back(make_pair(keyName[i],change(keyTime[i])));\n            // cout<<keyName[i]<<endl;\n            // cout<<change(keyTime[i])<<endl;\n        }\n        vector<string>res;\n        sort(vc.begin(),vc.end());\n        for(int i=2;i<keyTime.size();i++){\n            if(res.size()&&vc[i].first==res.back()){\n                continue;\n            }\n            if(vc[i].first==vc[i-2].first&&vc[i].second-vc[i-2].second<=60){\n                res.push_back(vc[i].first);\n            }\n        }\n        return res;\n    }\n};\n```",
+      "createdAt": "2021-08-31T11:51:18.228032+00:00",
+      "hitCount": 85,
+      "identifier": "e0JkCE",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "c-zhong-gui-zhong-ju-de-604msjie-fa-ha-xi-by-gary_",
+        "title": "C++ 中规中矩的604ms解法（哈希 时间O(nlogn)）"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "alert-using-same-key-card-three-or-more-times-in-a-one-hour-period"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "zi-fu-chuan-by-lwlvhy-sozu",
+      "status": "PUBLISHED",
+      "summary": "解题思路\n一道简单的字符串题.\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Array",
+          "nameTranslated": "数组",
+          "slug": "array",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Math",
+          "nameTranslated": "数学",
+          "slug": "math",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "String",
+          "nameTranslated": "字符串",
+          "slug": "string",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "字符串",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 969842,
+        "viewCount": 79
+      },
+      "uuid": "e0JkCE",
+      "videosInfo": []
+    }
+  }
+}

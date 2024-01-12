@@ -1,0 +1,76 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "阚凯",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/user2601f/avatar_1525678239.png",
+          "userSlug": "erke"
+        },
+        "username": "erke"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n字母转为数字，在循环求各位数字之和\n\n### 代码\n\n```typescript\nfunction getLucky(s: string, k: number): number {\n    let str:string = '';\n    for (let i:number = 0 ; i < s.length ; i++) {\n        str += s[i].charCodeAt(0) - 96;//字母转为数字\n    }\n    for (let i:number = 0 ; i < k ; i++) {\n        str = getSum(str);\n    }\n    return Number.parseInt(str);\n};\n\nfunction getSum(s: string) : string {//求各位数字之和\n    let sum:number = 0;\n    for (let i:number = 0 ; i < s.length ; i++) {\n        sum += Number.parseInt(s[i]);\n    }\n    return sum.toString();\n}\n```",
+      "createdAt": "2021-10-15T06:51:22.262142+00:00",
+      "hitCount": 128,
+      "identifier": "GOLc9P",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "cmo-ni-qiao-yong-sprintfzi-fu-chuan-zhua-8s5d",
+        "title": "c+模拟+巧用sprintf(字符串转化后的各位数字之和)"
+      },
+      "position": 2,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "zi-fu-chuan-zhuan-hua-hou-de-ge-wei-shu-4c4cd",
+        "title": "字符串转化后的各位数字之和 - 简单模拟"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "sum-of-digits-of-string-after-convert"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "zi-mu-zhuan-wei-shu-zi-zai-xun-huan-qiu-264xk",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n字母转为数字，在循环求各位数字之和\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "TypeScript",
+          "nameTranslated": "",
+          "slug": "typescript",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "字母转为数字，在循环求各位数字之和",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1048695,
+        "viewCount": 111
+      },
+      "uuid": "GOLc9P",
+      "videosInfo": []
+    }
+  }
+}

@@ -1,0 +1,72 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣 (LeetCode)",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/uploaded_files/2021/03/73c9f099-abbe-4d94-853f-f8abffd459cd/leetcode.png",
+          "userSlug": "leetcode"
+        },
+        "username": "LeetCode"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法：暴力法\n\n**思路**\n\n让我们创建出所有可能的字符串，然后逐一比较，输出字典序最小的那个。\n\n**算法**\n\n在我们深度优先搜索的过程中，我们不断调整 `sb`（或者 Python 代码中的 `A`），即根到这个节点的路径上的字符串内容。\n\n当我们到达一个叶子节点的时候，我们翻转路径的字符串内容来创建一个候选答案。如果候选答案比当前答案要优秀，那么我们更新答案。\n\n```java [deze3qTk-Java]\nclass Solution {\n    String ans = \"~\";\n    public String smallestFromLeaf(TreeNode root) {\n        dfs(root, new StringBuilder());\n        return ans;\n    }\n\n    public void dfs(TreeNode node, StringBuilder sb) {\n        if (node == null) return;\n        sb.append((char)('a' + node.val));\n\n        if (node.left == null && node.right == null) {\n            sb.reverse();\n            String S = sb.toString();\n            sb.reverse();\n\n            if (S.compareTo(ans) < 0)\n                ans = S;\n        }\n\n        dfs(node.left, sb);\n        dfs(node.right, sb);\n        sb.deleteCharAt(sb.length() - 1);\n    }\n}\n```\n```python [deze3qTk-Python]\nclass Solution(object):\n    def smallestFromLeaf(self, root):\n        self.ans = \"~\"\n\n        def dfs(node, A):\n            if node:\n                A.append(chr(node.val + ord('a')))\n                if not node.left and not node.right:\n                    self.ans = min(self.ans, \"\".join(reversed(A)))\n\n                dfs(node.left, A)\n                dfs(node.right, A)\n                A.pop()\n\n        dfs(root, [])\n        return self.ans\n```\n\n\n**复杂度分析**\n\n* 时间复杂度：我们用 $O(N)$ 遍历这棵树，然后调整字符串内容 `A` [Python] 或者 `sb`。然后，翻转与比较的时间复杂度为 $O(L)$，其中 $L$ 是到达叶节点时候得到字符串的长度。例如，对于完全平衡的树，$L = \\log N$ 且时间复杂度为 $O(N \\log N)$。\n\n* 空间复杂度：$O(N)$。\n\n\n\n",
+      "createdAt": "2019-02-03T14:30:38.793526+00:00",
+      "hitCount": 7761,
+      "identifier": "L5JLVG",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "yi-pian-wen-zhang-jie-jue-suo-you-er-cha-10sk",
+        "title": "一篇文章解决所有二叉树路径问题（问题分析+分类模板+题目剖析）"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "smallest-string-starting-from-leaf"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 12,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "cong-xie-jie-dian-kai-shi-de-zui-xiao-zi-fu-chuan-",
+      "status": "PUBLISHED",
+      "summary": "思路\n让我们创建出所有可能的字符串，然后逐一比较，输出字典序最小的那个。\n算法\n在我们深度优先搜索的过程中，我们不断调整 sb（或者 Python 代码中的 A），即根到这个节点的路径上的字符串内容。\n当我们到达一个叶子节点的时候，我们翻转路径的字符串内容来创建一个候选答案。如果候选答案比当前答案要优秀，那么我们更新答",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "从叶结点开始的最小字符串",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 32,
+        "id": 3603,
+        "viewCount": 5230
+      },
+      "uuid": "L5JLVG",
+      "videosInfo": []
+    }
+  }
+}

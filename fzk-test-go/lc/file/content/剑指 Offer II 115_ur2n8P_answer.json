@@ -1,0 +1,97 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "Flash500",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/wang-xu/avatar_1531443842.png",
+          "userSlug": "flash500"
+        },
+        "username": "flash500"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n此处撰写解题思路\n\n### 代码\n\n```golang\nfunc sequenceReconstruction(org []int, seqs [][]int) bool {\n\tn := len(org)\n\tgraph := make([][]bool, n+1)\n\tfor i := range graph {\n\t\tgraph[i] = make([]bool, n+1)\n\t}\n\tinDegrees := make([]int, n+1)\n\tfor i := range inDegrees {\n\t\tinDegrees[i] = -1\n\t}\n\tfor _, seq := range seqs {\n\t\tfor _, num := range seq {\n\t\t\tif num < 1 || num > n{\n\t\t\t\treturn false\n\t\t\t}\n\t\t\tif inDegrees[num] == -1 {\n\t\t\t\tinDegrees[num] = 0\n\t\t\t}\n\t\t}\n\t\tm := len(seq)\n\t\tfor i := 0; i < m-1; i++ {\n\t\t\tif graph[seq[i]][seq[i+1]] == false {\n\t\t\t\tgraph[seq[i]][seq[i+1]] = true\n\t\t\t\tinDegrees[seq[i+1]]++\n\t\t\t}\n\t\t}\n\t}\n\tvar queue []int\n\tvar index int\n\tfor i, d := range inDegrees[1:] {\n\t\tif d == 0 {\n\t\t\tif len(queue) == 0 && i+1 == org[index] {\n\t\t\t\tqueue = append(queue, i+1)\n\t\t\t\tindex++\n\t\t\t} else {\n\t\t\t\treturn false\n\t\t\t}\n\t\t}\n\t}\n\tfor len(queue) > 0 {\n\t\tu := queue[0]\n\t\tqueue = queue[1:]\n\t\tfor v, b := range graph[u] {\n\t\t\tif b == true {\n\t\t\t\tinDegrees[v]--\n\t\t\t\tif inDegrees[v] == 0 {\n\t\t\t\t\tif len(queue) == 0 && v == org[index] {\n\t\t\t\t\t\tqueue = append(queue, v)\n\t\t\t\t\t\tindex++\n\t\t\t\t\t} else {\n\t\t\t\t\t\treturn false\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t}\n\treturn index == n\n}\n\n```",
+      "createdAt": "2021-10-08T13:50:43.037543+00:00",
+      "hitCount": 224,
+      "identifier": "wKM5sm",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "tong-guan-jian-2-tuo-bu-pai-xu-by-muluo-27zcn",
+        "title": "【通关剑2】【拓扑排序】"
+      },
+      "position": 2,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "jian-zhi-offer-2-mian-shi-ti-115-shu-zho-y6kq",
+        "title": "《剑指offer 2 面试题115》 书中算法C++实现"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "ur2n8P"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "jian-zhi-offer-ii-115golangtu-by-flash50-nuoq",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n此处撰写解题思路\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Graph",
+          "nameTranslated": "图",
+          "slug": "graph",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Go",
+          "nameTranslated": "",
+          "slug": "golang",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Golang",
+          "nameTranslated": "",
+          "slug": "golang-2",
+          "tagType": "ADDITIONAL_TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "go",
+          "nameTranslated": "",
+          "slug": "go-3",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "",
+      "title": "剑指 Offer II 115，Golang，图",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1037035,
+        "viewCount": 197
+      },
+      "uuid": "wKM5sm",
+      "videosInfo": []
+    }
+  }
+}

@@ -1,0 +1,82 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "Ltion",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/newbie-19/avatar_1583051484.png",
+          "userSlug": "ltion"
+        },
+        "username": "Ltion"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "很容易想到二分，但是比赛的时候傻了，少加了个判断条件导致tle了一次。\r\n就是先确定左右边界，即最小和与最大和，然后二分得到mid，每次判断和小于mid的数组有多少个，如果大于等于k那么更新r，否则更新l。\r\n```\r\nclass Solution {\r\npublic:\r\n    vector<vector<int>>temp;\r\n    int m,n;\r\n    int kthSmallest(vector<vector<int>>& mat, int k) {\r\n        temp=mat;\r\n        m=mat.size(),n=mat[0].size();\r\n        int left=0,right=0;\r\n        for(int i=0;i<m;i++) left+=mat[i][0],right+=mat[i].back();\r\n        int init=left;\r\n        while(left<right){\r\n            int mid=(left+right)>>1;\r\n            int num=1;\r\n            dfs(mid,0,init,num,k);\r\n            if(num>=k) right=mid;\r\n            else left=mid+1;\r\n        }\r\n        return left;\r\n    }\r\n    void dfs(int mid,int index,int sum,int& num,int k){\r\n        if(sum>mid||index==m||num>k) return;\r\n        dfs(mid,index+1,sum,num,k);\r\n        for(int i=1;i<n;i++){\r\n            if(sum+temp[index][i]-temp[index][0]<=mid){\r\n                num++;\r\n                dfs(mid,index+1,sum+temp[index][i]-temp[index][0],num,k);\r\n            }else{\r\n                break;\r\n            }\r\n        }\r\n    }\r\n};\r\n```\r\n二分的时间复杂度是O(klogN),这个N是最大的和，最大为40*5000，每次查找mid最多只需要找k次。\r\n这是暴力的代码，也能过\r\n```\r\nclass Solution {\r\npublic:\r\n    int kthSmallest(vector<vector<int>>& mat, int k) {\r\n        int m=mat.size(),n=mat[0].size();\r\n        multiset<int>s(mat[0].begin(),mat[0].end());\r\n        for(int i=1;i<m;i++){\r\n            multiset<int>temp;\r\n            for(int x : s){\r\n                for(int y : mat[i]){\r\n                    temp.insert(x+y);\r\n                }\r\n            }\r\n            s.clear();\r\n            auto it=temp.begin();\r\n            for(int j=0;j<min(k,(int)temp.size());j++,it++){\r\n                s.insert(*it);\r\n            }\r\n        }\r\n        return *s.rbegin();\r\n    }\r\n};\r\n```\r\n![000.png](https://pic.leetcode-cn.com/a9a3f9a950a4a07f1f0a7d405e85ead692efdd9a0976eeba86290a732d91430b-000.png)\r\n这是暴力和二分的运行截图，暴力还是效率低很多\r\n\r\n",
+      "createdAt": "2020-05-03T04:15:05.567673+00:00",
+      "hitCount": 6078,
+      "identifier": "vtOUXG",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "bao-li-jie-fa-zui-xiao-dui-by-coldme-2",
+        "title": "暴力解法/最小堆/二分法 python"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "find-the-kth-smallest-sum-of-a-matrix-with-sorted-rows"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 35,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 3,
+          "reactionType": "AWESOME"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 0,
+          "reactionType": "CONFUSED"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "er-fen-by-newbie-19-3",
+      "status": "PUBLISHED",
+      "summary": "很容易想到二分，但是比赛的时候傻了，少加了个判断条件导致tle了一次。\n就是先确定左右边界，即最小和与最大和，然后二分得到mid，每次判断和小于mid的数组有多少个，如果大于等于k那么更新r，否则更新l。\n二分的时间复杂度是O(klogN),这个N是最大的和，最大为40*5000，每次查找mid最多只需要找k次。\n这是",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/a9a3f9a950a4a07f1f0a7d405e85ead692efdd9a0976eeba86290a732d91430b-000.png",
+      "title": "二分",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 49,
+        "id": 230247,
+        "viewCount": 4072
+      },
+      "uuid": "vtOUXG",
+      "videosInfo": []
+    }
+  }
+}

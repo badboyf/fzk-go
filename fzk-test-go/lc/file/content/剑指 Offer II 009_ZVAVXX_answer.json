@@ -1,0 +1,72 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "何廷",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/mchh-r/avatar_1635945584.png",
+          "userSlug": "htch"
+        },
+        "username": "htch"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "![image.png](https://pic.leetcode-cn.com/1636722070-pijDzq-image.png)\n### 解题思路\n使用滑动窗口\n![IMG_0353(20211112-210240).PNG](https://pic.leetcode-cn.com/1636722295-GqiFYA-IMG_0353\\(20211112-210240\\).PNG)\n\n\n### 代码\n\n```java\nclass Solution {\n    public int numSubarrayProductLessThanK(int[] nums, int k) {\n        if(k==0 ||k==1) return 0;\n        int left = 0;\n        int ret = 0;\n        int total = 1;\n        for (int right = 0; right < nums.length; right++) {\n            total *= nums[right];\n            while (left <= right && total >= k) {\n                total /= nums[left++];\n            }\n            if (left <= right) {\n                ret += right - left + 1;\n            }\n        }\n        return ret;\n    }\n}\n\n```\n**right - left + 1 的理解：**\n\n比如某次遍历符合题意的子数组为 ABCX，那么在该条件下符合条件的有X，CX，BCX，ABCX共四个（可以进行多个例子，发现个数符合right-left+1）\n我们可能会有疑问：AB，BC也算，为什么不算进去？\n记住一点我们是以最右边的X为必要条件，进行计算符合条件的子数组，否则会出现重复的！\n比如在X为右侧边界时（ABCX），我们把BC算进去了，可是我们在C为最右侧时（ABC），BC已经出现过，我们重复加了BC这个子数组两次！\n换言之，我们拆分子数组时，让num[right]存在，能避免重复计算。\n\n作者：yi-ke-shu-15\n链接：https://leetcode-cn.com/problems/ZVAVXX/solution/c-jie-shi-xia-yuan-shu-mei-you-jie-shi-d-26kx/\n来源：力扣（LeetCode）\n著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。",
+      "createdAt": "2021-11-12T13:06:21.109902+00:00",
+      "hitCount": 499,
+      "identifier": "pvWA0J",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "c-jie-shi-xia-yuan-shu-mei-you-jie-shi-d-26kx",
+        "title": "【C++】解释下原书没有解释的right-left+1（个人拙见）"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "ZVAVXX"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 3,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "java-hua-dong-chuang-kou-zhi-xing-su-du-t9n3w",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n使用滑动窗口\n\n代码\nright - left + 1 的理解：\n比如某次遍历符合题意的子数组为 ABCX，那么在该条件下符合条件的有X，CX，BCX，ABCX共四个（可以进行多个例子，发现个数符合right-left+1）\n我们可能会有疑问：AB，BC也算，为什么不算进去？\n记住一点我们是以最右边的X为必要",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1636722070-pijDzq-image.png",
+      "title": "Java 滑动窗口 执行速度最佳",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 1,
+        "id": 1098317,
+        "viewCount": 368
+      },
+      "uuid": "pvWA0J",
+      "videosInfo": []
+    }
+  }
+}

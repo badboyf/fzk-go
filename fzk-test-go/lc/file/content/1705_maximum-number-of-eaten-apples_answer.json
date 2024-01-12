@@ -1,0 +1,72 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "wuxingguo",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/default_avatar.png",
+          "userSlug": "wuxingguo"
+        },
+        "username": "wuxingguo"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "    public int eatenApples(int[] apples, int[] days) {\r\n        int eatNums = 0;\r\n        if (apples == null || apples.length == 0 || days == null || days.length == 0 || apples.length != days.length) {\r\n            throw new IllegalArgumentException(\"arr is invalid!\");\r\n        }\r\n        PriorityQueue<Element> priorityQueue = new PriorityQueue<>((Element o1, Element o2) -> o1.shelfLift - o2.shelfLift);\r\n        for (int i = 0; i < apples.length || !priorityQueue.isEmpty(); i++) {\r\n            //1、清理保质期已过的苹果\r\n            while (!priorityQueue.isEmpty()) {\r\n                Element first = priorityQueue.peek();\r\n                if (first.shelfLift <= i) {\r\n                    priorityQueue.poll();\r\n                } else {\r\n                    break;\r\n                }\r\n            }\r\n            //2、添加苹果\r\n            if (i < apples.length) {\r\n                priorityQueue.offer(new Element(apples[i], i + days[i]));\r\n            }\r\n            //3、吃苹果\r\n            while (!priorityQueue.isEmpty()) {\r\n                Element shortShelfLife = priorityQueue.poll();\r\n                if (shortShelfLife.apples > 0 && shortShelfLife.shelfLift > i) {\r\n                    eatNums++;\r\n                    shortShelfLife.apples -= 1;\r\n                    if (shortShelfLife.apples != 0) {\r\n                        priorityQueue.offer(shortShelfLife);\r\n                    }\r\n                    break;\r\n                }\r\n            }\r\n        }\r\n        return eatNums;\r\n    }\r\n\r\n    private class Element {\r\n        private int apples;\r\n        private int shelfLift;\r\n\r\n        public Element(int apples, int shelfLift) {\r\n            this.apples = apples;\r\n            this.shelfLift = shelfLift;\r\n        }\r\n    }",
+      "createdAt": "2021-11-15T15:07:59.240134+00:00",
+      "hitCount": 62,
+      "identifier": "ZqaOgC",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "you-xian-dui-lie-you-xian-chi-zui-zao-gu-3ti9",
+        "title": "优先队列：优先吃最早过期的"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "maximum-number-of-eaten-apples"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "you-xian-dui-lie-shi-xian-xing-neng-yi-b-bk86",
+      "status": "PUBLISHED",
+      "summary": "[该用户太懒了，只写了 45 行代码]",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "优先队列实现，性能一般",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1103946,
+        "viewCount": 48
+      },
+      "uuid": "ZqaOgC",
+      "videosInfo": []
+    }
+  }
+}

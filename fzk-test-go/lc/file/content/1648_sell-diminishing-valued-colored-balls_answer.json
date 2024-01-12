@@ -1,0 +1,72 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "廉鑫",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/lian-xin-5/avatar_1570527676.png",
+          "userSlug": "lianxin"
+        },
+        "username": "lianxin"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n\n二分那快有点绕..但是就也还好\n\n但是算和的时候  我从l - 1挨个算会WA  应该是有些case没想到\n\n对应的解决办法是  先算大于等于l的  这部分是一定会都要的  因为l - 1 才能恰好凑齐  所以大于等于l的都要加起来..\n然后剩下的 都是 l - 1 ,再乘以剩下的个数就好了\n\n### 代码\n\n```javascript\n/**\n * @param {number[]} inventory\n * @param {number} orders\n * @return {number}\n */\n// 看了很多题解 都不如这个  搞了半天就是个标准能力二分\n/*\norders = 12\ninvents  = [6, 10, 10]\n1 2 3 4 5 6                 use 1\n1 2 3 4 5 6 7 8 9 10        use 5\n1 2 3 4 5 6 7 8 9 10        use 6\n        |\nnums[costs >=5] = 14\nnums[costs >=6] = 11\n所以找到第五列，随便选择12 - 11 个5 补齐\n*/\nvar maxProfit = function(inventory, orders) {\n    inventory.sort((a, b) => (b - a));\n    // if (orders == 0) return 0;\n    let mod = BigInt(10 ** 9 + 7);\n\n    let l = -1;\n    let r = 10 ** 9 + 1;\n    function checker(num) {\n        let now = 0;\n        for (let i = 0; i < inventory.length; i++) {\n            if (inventory[i] >= num) {\n                now += inventory[i] - num + 1;\n            }\n        }\n        return now < orders;\n    }\n    // l最能凑齐orders  r最不能凑齐orders\n    // 找刚好凑不齐orders的那个最小l\n    while (l < r) {\n        let mid = (l + r) >> 1;\n        if (checker(mid)) {\n            r = mid;\n        } else {\n            l = mid + 1;\n        }\n    }\n    console.log(l);\n    // l 跑到最右边是准的, l - 1 刚好凑齐可信， 因为order > 0\n    // l 跑到最左边也没关系.. l - 1确实可能也凑不齐，order特别大的时候，无球可卖，\n    // 但是orders <= min(sum(inventory[i]), 10**9)  所以我想多了..   l - 1 一定是刚好凑齐的，不过就算order特别大应该也不影响\n\n    // 为什么这样不行呢.. 我吐了   \n    // 应该是因为某些case  要找那个大一点的..\n    // let ret = BigInt(0);\n    function total (n) {\n        return BigInt(n + 1) * BigInt(n) / BigInt(2);\n    }\n\n    // for (let i = 0; i < inventory.length; i++) {\n    //     if (inventory[i] >= l - 1) {\n    //         let num = inventory[i] - (l - 1) + 1;\n    //         num = Math.min(num, orders);\n    //         ret += total(inventory[i]) - total(inventory[i] - num);\n    //         ret %= mod;\n    //         orders -= num;\n    //     }\n    // }\n    // return ret % mod;\n\n    // 这段是我按照别人的思路改的..  证明我二分那快没问题\n    let res = 0n, sum_ba = 0;\n    for (let i = 0; i < inventory.length; i++) {\n        if (inventory[i] >= l) {\n            res += total(inventory[i]) - total(l - 1);\n            sum_ba += (inventory[i]  - l + 1);\n        } else {\n            break;\n        }\n    }\n    res += BigInt((orders - sum_ba) * (l - 1)) ;\n    return res % mod;\n};\n```",
+      "createdAt": "2021-11-18T09:12:12.781828+00:00",
+      "hitCount": 85,
+      "identifier": "qydBNC",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "hptu-jie-tan-xin-fang-an-tu-jie-by-hq_-2tvr",
+        "title": "【hq图解】贪心方案图解"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "sell-diminishing-valued-colored-balls"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "ma-de-wei-shi-yao-by-lianxin-s4kw",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n二分那快有点绕..但是就也还好\n但是算和的时候  我从l - 1挨个算会WA  应该是有些case没想到\n对应的解决办法是  先算大于等于l的  这部分是一定会都要的  因为l - 1 才能恰好凑齐  所以大于等于l的都要加起来..\n然后剩下的 都是 l - 1 ,再乘以剩下的个数就好了\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "JavaScript",
+          "nameTranslated": "",
+          "slug": "javascript",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "算和那一块  我觉得比二分难...",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1108841,
+        "viewCount": 56
+      },
+      "uuid": "qydBNC",
+      "videosInfo": []
+    }
+  }
+}

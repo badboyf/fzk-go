@@ -1,0 +1,82 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "shane",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/shane-34/avatar_1574341677.png",
+          "userSlug": "shane-34"
+        },
+        "username": "shane-34"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "```Java\nclass Solution {\n    public ListNode removeZeroSumSublists(ListNode head) {\n        ListNode dummy = new ListNode(0);\n        dummy.next = head;\n\n        Map<Integer, ListNode> map = new HashMap<>();\n\n        // 首次遍历建立 节点处链表和<->节点 哈希表\n        // 若同一和出现多次会覆盖，即记录该sum出现的最后一次节点\n        int sum = 0;\n        for (ListNode d = dummy; d != null; d = d.next) {\n            sum += d.val;\n            map.put(sum, d);\n        }\n\n        // 第二遍遍历 若当前节点处sum在下一处出现了则表明两结点之间所有节点和为0 直接删除区间所有节点\n        sum = 0;\n        for (ListNode d = dummy; d != null; d = d.next) {\n            sum += d.val;\n            d.next = map.get(sum).next;\n        }\n\n        return dummy.next;\n    }\n}\n```\n![image.png](https://pic.leetcode-cn.com/14b65bb30c8a6dc8ac20ddb63b3b59bbb63c942cf57201cb439137dc91ffd697-image.png)\n",
+      "createdAt": "2019-11-21T13:46:48.643340+00:00",
+      "hitCount": 9830,
+      "identifier": "bixBa0",
+      "isEditorsPick": false,
+      "isMostPopular": true,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "go-yi-bian-bian-li-fa-by-killerman-5lo0",
+        "title": "Go 一遍遍历法"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "remove-zero-sum-consecutive-nodes-from-linked-list"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 177,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 16,
+          "reactionType": "AWESOME"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "CONFUSED"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "java-hashmap-liang-ci-bian-li-ji-ke-by-shane-34",
+      "status": "PUBLISHED",
+      "summary": "",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/14b65bb30c8a6dc8ac20ddb63b3b59bbb63c942cf57201cb439137dc91ffd697-image.png",
+      "title": "Java HashMap 两次遍历即可",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 72,
+        "id": 46077,
+        "viewCount": 6653
+      },
+      "uuid": "bixBa0",
+      "videosInfo": []
+    }
+  }
+}

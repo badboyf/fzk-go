@@ -1,0 +1,133 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣官方题解",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/leetcode-solution/avatar_1582018938.png",
+          "userSlug": "leetcode-solution"
+        },
+        "username": "LeetCode-Solution"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 📺 视频题解  \n![...081. 不同字符的最小子序列 .mp4](80f8a567-14de-4568-81b6-d23a6d676eef)\n\n### 📖 文字题解\n#### 方法一：贪心 + 单调栈\n\n**思路与算法**\n\n首先考虑一个简单的问题：给定一个字符串 $s$，如何去掉其中的一个字符 $\\textit{ch}$，使得得到的字符串字典序最小呢？答案是：找出最小的满足 $s[i]>s[i+1]$ 的下标 $i$，并去除字符 $s[i]$。为了叙述方便，下文中称这样的字符为「关键字符」。\n\n在理解这一点之后，就可以着手本题了。一个直观的思路是：我们在字符串 $s$ 中找到「关键字符」，去除它，然后不断进行这样的循环。但是这种朴素的解法会创建大量的中间字符串，我们有必要寻找一种更优的方法。\n\n我们从前向后扫描原字符串。每扫描到一个位置，我们就尽可能地处理所有的「关键字符」。假定在扫描位置 $s[i-1]$ 之前的所有「关键字符」都已经被去除完毕，在扫描字符 $s[i]$ 时，新出现的「关键字符」只可能出现在 $s[i]$ 或者其后面的位置。\n\n于是，我们使用单调栈来维护去除「关键字符」后得到的字符串，单调栈满足栈底到栈顶的字符递增。如果栈顶字符大于当前字符 $s[i]$，说明栈顶字符为「关键字符」，故应当被去除。去除后，新的栈顶字符就与 $s[i]$ 相邻了，我们继续比较新的栈顶字符与 $s[i]$ 的大小。重复上述操作，直到栈为空或者栈顶字符不大于 $s[i]$。\n\n我们还遗漏了一个要求：原字符串 $s$ 中的每个字符都需要出现在新字符串中，且只能出现一次。为了让新字符串满足该要求，之前讨论的算法需要进行以下两点的更改。\n\n- 在考虑字符 $s[i]$ 时，如果它已经存在于栈中，则不能加入字符 $s[i]$。为此，需要记录每个字符是否出现在栈中。\n\n- 在弹出栈顶字符时，如果字符串在后面的位置上再也没有这一字符，则不能弹出栈顶字符。为此，需要记录每个字符的剩余数量，当这个值为 $0$ 时，就不能弹出栈顶字符了。\n\n**代码**\n\n```C++ [sol1-C++]\nclass Solution {\npublic:\n    string smallestSubsequence(string s) {\n        vector<int> vis(26), num(26);\n        for (char ch : s) {\n            num[ch - 'a']++;\n        }\n\n        string stk;\n        for (char ch : s) {\n            if (!vis[ch - 'a']) {\n                while (!stk.empty() && stk.back() > ch) {\n                    if (num[stk.back() - 'a'] > 0) {\n                        vis[stk.back() - 'a'] = 0;\n                        stk.pop_back();\n                    } else {\n                        break;\n                    }\n                }\n                vis[ch - 'a'] = 1;\n                stk.push_back(ch);\n            }\n            num[ch - 'a'] -= 1;\n        }\n        return stk;\n    }\n};\n```\n\n```Java [sol1-Java]\nclass Solution {\n    public String smallestSubsequence(String s) {\n        boolean[] vis = new boolean[26];\n        int[] num = new int[26];\n        for (int i = 0; i < s.length(); i++) {\n            num[s.charAt(i) - 'a']++;\n        }\n\n        StringBuffer sb = new StringBuffer();\n        for (int i = 0; i < s.length(); i++) {\n            char ch = s.charAt(i);\n            if (!vis[ch - 'a']) {\n                while (sb.length() > 0 && sb.charAt(sb.length() - 1) > ch) {\n                    if (num[sb.charAt(sb.length() - 1) - 'a'] > 0) {\n                        vis[sb.charAt(sb.length() - 1) - 'a'] = false;\n                        sb.deleteCharAt(sb.length() - 1);\n                    } else {\n                        break;\n                    }\n                }\n                vis[ch - 'a'] = true;\n                sb.append(ch);\n            }\n            num[ch - 'a'] -= 1;\n        }\n        return sb.toString();\n    }\n}\n```\n\n```JavaScript [sol1-JavaScript]\nvar smallestSubsequence = function(s) {\n    const vis = new Array(26).fill(0);\n    const num = _.countBy(s);\n    \n    const sb = new Array();\n    for (let i = 0; i < s.length; i++) {\n        const ch = s[i];\n        if (!vis[ch.charCodeAt() - 'a'.charCodeAt()]) {\n            while (sb.length > 0 && sb[sb.length - 1] > ch) {\n                if (num[sb[sb.length - 1]] > 0) {\n                    vis[sb[sb.length - 1].charCodeAt() - 'a'.charCodeAt()] = 0;\n                    sb.pop();\n                } else {\n                    break;\n                }\n            }\n            vis[ch.charCodeAt() - 'a'.charCodeAt()] = 1;\n            sb.push(ch);\n        }\n        num[ch]--;\n    }\n    return sb.join('');\n};\n```\n\n```Go [sol1-Golang]\nfunc smallestSubsequence(s string) string {\n    left := [26]int{}\n    for _, ch := range s {\n        left[ch-'a']++\n    }\n    stack := []byte{}\n    inStack := [26]bool{}\n    for i := range s {\n        ch := s[i]\n        if !inStack[ch-'a'] {\n            for len(stack) > 0 && ch < stack[len(stack)-1] {\n                last := stack[len(stack)-1] - 'a'\n                if left[last] == 0 {\n                    break\n                }\n                stack = stack[:len(stack)-1]\n                inStack[last] = false\n            }\n            stack = append(stack, ch)\n            inStack[ch-'a'] = true\n        }\n        left[ch-'a']--\n    }\n    return string(stack)\n}\n```\n\n```C [sol1-C]\nchar* smallestSubsequence(char* s) {\n    int vis[26], num[26];\n    memset(vis, 0, sizeof(vis));\n    memset(num, 0, sizeof(num));\n\n    int n = strlen(s);\n    for (int i = 0; i < n; i++) {\n        num[s[i] - 'a']++;\n    }\n\n    char* stk = malloc(sizeof(char) * 27);\n    int stkTop = 0;\n    for (int i = 0; i < n; i++) {\n        if (!vis[s[i] - 'a']) {\n            while (stkTop > 0 && stk[stkTop - 1] > s[i]) {\n                if (num[stk[stkTop - 1] - 'a'] > 0) {\n                    vis[stk[--stkTop] - 'a'] = 0;\n                } else {\n                    break;\n                }\n            }\n            vis[s[i] - 'a'] = 1;\n            stk[stkTop++] = s[i];\n        }\n        num[s[i] - 'a'] -= 1;\n    }\n    stk[stkTop] = '\\0';\n    return stk;\n}\n```\n\n**复杂度分析**\n\n- 时间复杂度：$O(N)$，其中 $N$ 为字符串长度。代码中虽然有双重循环，但是每个字符至多只会入栈、出栈各一次。\n\n- 空间复杂度：$O(|\\Sigma|)$，其中 $\\Sigma$ 为字符集合，本题中字符均为小写字母，所以 $|\\Sigma|=26$。由于栈中的字符不能重复，因此栈中最多只能有 $|\\Sigma|$ 个字符，另外需要维护两个数组，分别记录每个字符是否出现在栈中以及每个字符的剩余数量。",
+      "createdAt": "2020-12-19T16:13:21.632195+00:00",
+      "hitCount": 7950,
+      "identifier": "QZ7HWt",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "wei-rao-li-lun-tan-xin-dan-diao-zhan-bao-sdvq",
+        "title": "【微扰理论】贪心+单调栈保证字母序"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "smallest-subsequence-of-distinct-characters"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 8,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "bu-tong-zi-fu-de-zui-xiao-zi-xu-lie-by-l-5qyk",
+      "status": "PUBLISHED",
+      "summary": "📺 视频题解 📖 文字题解 方法一：贪心 + 单调栈 思路与算法 首先考虑一个简单的问题：给定一个字符串 $s$，如何去掉其中的一个字符 $\\textit{ch}$，使得得到的字符串字典序最小呢？答案是：找出最小的满足 $s[i]>s[i+1]$ 的下标 $i$，并去除字符 $s[i]$。为了叙述方便，下文中称这样的字",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Stack",
+          "nameTranslated": "栈",
+          "slug": "stack",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "String",
+          "nameTranslated": "字符串",
+          "slug": "string",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C",
+          "nameTranslated": "",
+          "slug": "c",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Go",
+          "nameTranslated": "",
+          "slug": "golang",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "JavaScript",
+          "nameTranslated": "",
+          "slug": "javascript",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Monotonic Stack",
+          "nameTranslated": "单调栈",
+          "slug": "monotonic-stack",
+          "tagType": "TOPIC"
+        }
+      ],
+      "thumbnail": "",
+      "title": "不同字符的最小子序列",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 6,
+        "id": 528066,
+        "viewCount": 5609
+      },
+      "uuid": "QZ7HWt",
+      "videosInfo": [
+        {
+          "__typename": "VideoInfoNode",
+          "coverUrl": "https://video.leetcode-cn.com/image/cover/7FA7139F7DD34DF8B0B3ADF9C6147B91-6-2.png",
+          "duration": 864.4053,
+          "videoId": "3e8e91a5402c4b2981cbd12c690a4020"
+        }
+      ]
+    }
+  }
+}

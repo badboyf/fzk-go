@@ -1,0 +1,602 @@
+[
+  {
+    "difficulty": "EASY",
+    "frontend_question_id": "1763",
+    "title_cn": "最长的美好子字符串",
+    "title_slug": "longest-nice-substring"
+  },
+  {
+    "difficulty": "MEDIUM",
+    "frontend_question_id": "1764",
+    "title_cn": "通过连接另一个数组的子数组得到一个数组",
+    "title_slug": "form-array-by-concatenating-subarrays-of-another-array"
+  },
+  {
+    "difficulty": "MEDIUM",
+    "frontend_question_id": "1765",
+    "title_cn": "地图中的最高点",
+    "title_slug": "map-of-highest-peak"
+  },
+  {
+    "difficulty": "HARD",
+    "frontend_question_id": "1766",
+    "title_cn": "互质树",
+    "title_slug": "tree-of-coprimes"
+  },
+  {
+    "difficulty": "EASY",
+    "frontend_question_id": "1768",
+    "title_cn": "交替合并字符串",
+    "title_slug": "merge-strings-alternately"
+  },
+  {
+    "difficulty": "MEDIUM",
+    "frontend_question_id": "1769",
+    "title_cn": "移动所有球到每个盒子所需的最小操作数",
+    "title_slug": "minimum-number-of-operations-to-move-all-balls-to-each-box"
+  },
+  {
+    "difficulty": "MEDIUM",
+    "frontend_question_id": "1770",
+    "title_cn": "执行乘法运算的最大分数",
+    "title_slug": "maximum-score-from-performing-multiplication-operations"
+  },
+  {
+    "difficulty": "HARD",
+    "frontend_question_id": "1771",
+    "title_cn": "由子序列构造的最长回文串的长度",
+    "title_slug": "maximize-palindrome-length-from-subsequences"
+  },
+  {
+    "difficulty": "MEDIUM",
+    "frontend_question_id": "1772",
+    "title_cn": "按受欢迎程度排列功能",
+    "title_slug": "sort-features-by-popularity"
+  },
+  {
+    "difficulty": "EASY",
+    "frontend_question_id": "1773",
+    "title_cn": "统计匹配检索规则的物品数量",
+    "title_slug": "count-items-matching-a-rule"
+  },
+  {
+    "difficulty": "MEDIUM",
+    "frontend_question_id": "1774",
+    "title_cn": "最接近目标价格的甜点成本",
+    "title_slug": "closest-dessert-cost"
+  },
+  {
+    "difficulty": "MEDIUM",
+    "frontend_question_id": "1775",
+    "title_cn": "通过最少操作次数使数组的和相等",
+    "title_slug": "equal-sum-arrays-with-minimum-number-of-operations"
+  },
+  {
+    "difficulty": "HARD",
+    "frontend_question_id": "1776",
+    "title_cn": "车队 II",
+    "title_slug": "car-fleet-ii"
+  },
+  {
+    "difficulty": "MEDIUM",
+    "frontend_question_id": "1778",
+    "title_cn": "未知网格中的最短路径",
+    "title_slug": "shortest-path-in-a-hidden-grid"
+  },
+  {
+    "difficulty": "EASY",
+    "frontend_question_id": "1779",
+    "title_cn": "找到最近的有相同 X 或 Y 坐标的点",
+    "title_slug": "find-nearest-point-that-has-the-same-x-or-y-coordinate"
+  },
+  {
+    "difficulty": "MEDIUM",
+    "frontend_question_id": "1780",
+    "title_cn": "判断一个数字是否可以表示成三的幂的和",
+    "title_slug": "check-if-number-is-a-sum-of-powers-of-three"
+  },
+  {
+    "difficulty": "MEDIUM",
+    "frontend_question_id": "1781",
+    "title_cn": "所有子字符串美丽值之和",
+    "title_slug": "sum-of-beauty-of-all-substrings"
+  },
+  {
+    "difficulty": "HARD",
+    "frontend_question_id": "1782",
+    "title_cn": "统计点对的数目",
+    "title_slug": "count-pairs-of-nodes"
+  },
+  {
+    "difficulty": "EASY",
+    "frontend_question_id": "1784",
+    "title_cn": "检查二进制字符串字段",
+    "title_slug": "check-if-binary-string-has-at-most-one-segment-of-ones"
+  },
+  {
+    "difficulty": "MEDIUM",
+    "frontend_question_id": "1785",
+    "title_cn": "构成特定和需要添加的最少元素",
+    "title_slug": "minimum-elements-to-add-to-form-a-given-sum"
+  },
+  {
+    "difficulty": "MEDIUM",
+    "frontend_question_id": "1786",
+    "title_cn": "从第一个节点出发到最后一个节点的受限路径数",
+    "title_slug": "number-of-restricted-paths-from-first-to-last-node"
+  },
+  {
+    "difficulty": "HARD",
+    "frontend_question_id": "1787",
+    "title_cn": "使所有区间的异或结果为零",
+    "title_slug": "make-the-xor-of-all-segments-equal-to-zero"
+  },
+  {
+    "difficulty": "HARD",
+    "frontend_question_id": "1788",
+    "title_cn": "最大化花园的美观度",
+    "title_slug": "maximize-the-beauty-of-the-garden"
+  },
+  {
+    "difficulty": "EASY",
+    "frontend_question_id": "1790",
+    "title_cn": "仅执行一次字符串交换能否使两个字符串相等",
+    "title_slug": "check-if-one-string-swap-can-make-strings-equal"
+  },
+  {
+    "difficulty": "EASY",
+    "frontend_question_id": "1791",
+    "title_cn": "找出星型图的中心节点",
+    "title_slug": "find-center-of-star-graph"
+  },
+  {
+    "difficulty": "MEDIUM",
+    "frontend_question_id": "1792",
+    "title_cn": "最大平均通过率",
+    "title_slug": "maximum-average-pass-ratio"
+  },
+  {
+    "difficulty": "HARD",
+    "frontend_question_id": "1793",
+    "title_cn": "好子数组的最大分数",
+    "title_slug": "maximum-score-of-a-good-subarray"
+  },
+  {
+    "difficulty": "MEDIUM",
+    "frontend_question_id": "1794",
+    "title_cn": "统计距离最小的子串对个数",
+    "title_slug": "count-pairs-of-equal-substrings-with-minimum-difference"
+  },
+  {
+    "difficulty": "EASY",
+    "frontend_question_id": "1796",
+    "title_cn": "字符串中第二大的数字",
+    "title_slug": "second-largest-digit-in-a-string"
+  },
+  {
+    "difficulty": "MEDIUM",
+    "frontend_question_id": "1797",
+    "title_cn": "设计一个验证系统",
+    "title_slug": "design-authentication-manager"
+  },
+  {
+    "difficulty": "MEDIUM",
+    "frontend_question_id": "1798",
+    "title_cn": "你能构造出连续值的最大数目",
+    "title_slug": "maximum-number-of-consecutive-values-you-can-make"
+  },
+  {
+    "difficulty": "HARD",
+    "frontend_question_id": "1799",
+    "title_cn": "N 次操作后的最大分数和",
+    "title_slug": "maximize-score-after-n-operations"
+  },
+  {
+    "difficulty": "EASY",
+    "frontend_question_id": "1800",
+    "title_cn": "最大升序子数组和",
+    "title_slug": "maximum-ascending-subarray-sum"
+  },
+  {
+    "difficulty": "MEDIUM",
+    "frontend_question_id": "1801",
+    "title_cn": "积压订单中的订单总数",
+    "title_slug": "number-of-orders-in-the-backlog"
+  },
+  {
+    "difficulty": "MEDIUM",
+    "frontend_question_id": "1802",
+    "title_cn": "有界数组中指定下标处的最大值",
+    "title_slug": "maximum-value-at-a-given-index-in-a-bounded-array"
+  },
+  {
+    "difficulty": "HARD",
+    "frontend_question_id": "1803",
+    "title_cn": "统计异或值在范围内的数对有多少",
+    "title_slug": "count-pairs-with-xor-in-a-range"
+  },
+  {
+    "difficulty": "MEDIUM",
+    "frontend_question_id": "1804",
+    "title_cn": "实现 Trie （前缀树） II",
+    "title_slug": "implement-trie-ii-prefix-tree"
+  },
+  {
+    "difficulty": "EASY",
+    "frontend_question_id": "1805",
+    "title_cn": "字符串中不同整数的数目",
+    "title_slug": "number-of-different-integers-in-a-string"
+  },
+  {
+    "difficulty": "MEDIUM",
+    "frontend_question_id": "1806",
+    "title_cn": "还原排列的最少操作步数",
+    "title_slug": "minimum-number-of-operations-to-reinitialize-a-permutation"
+  },
+  {
+    "difficulty": "MEDIUM",
+    "frontend_question_id": "1807",
+    "title_cn": "替换字符串中的括号内容",
+    "title_slug": "evaluate-the-bracket-pairs-of-a-string"
+  },
+  {
+    "difficulty": "HARD",
+    "frontend_question_id": "1808",
+    "title_cn": "好因子的最大数目",
+    "title_slug": "maximize-number-of-nice-divisors"
+  },
+  {
+    "difficulty": "MEDIUM",
+    "frontend_question_id": "1810",
+    "title_cn": "隐藏网格下的最小消耗路径",
+    "title_slug": "minimum-path-cost-in-a-hidden-grid"
+  },
+  {
+    "difficulty": "EASY",
+    "frontend_question_id": "1812",
+    "title_cn": "判断国际象棋棋盘中一个格子的颜色",
+    "title_slug": "determine-color-of-a-chessboard-square"
+  },
+  {
+    "difficulty": "MEDIUM",
+    "frontend_question_id": "1813",
+    "title_cn": "句子相似性 III",
+    "title_slug": "sentence-similarity-iii"
+  },
+  {
+    "difficulty": "MEDIUM",
+    "frontend_question_id": "1814",
+    "title_cn": "统计一个数组中好对子的数目",
+    "title_slug": "count-nice-pairs-in-an-array"
+  },
+  {
+    "difficulty": "HARD",
+    "frontend_question_id": "1815",
+    "title_cn": "得到新鲜甜甜圈的最多组数",
+    "title_slug": "maximum-number-of-groups-getting-fresh-donuts"
+  },
+  {
+    "difficulty": "EASY",
+    "frontend_question_id": "1816",
+    "title_cn": "截断句子",
+    "title_slug": "truncate-sentence"
+  },
+  {
+    "difficulty": "MEDIUM",
+    "frontend_question_id": "1817",
+    "title_cn": "查找用户活跃分钟数",
+    "title_slug": "finding-the-users-active-minutes"
+  },
+  {
+    "difficulty": "MEDIUM",
+    "frontend_question_id": "1818",
+    "title_cn": "绝对差值和",
+    "title_slug": "minimum-absolute-sum-difference"
+  },
+  {
+    "difficulty": "HARD",
+    "frontend_question_id": "1819",
+    "title_cn": "序列中不同最大公约数的数目",
+    "title_slug": "number-of-different-subsequences-gcds"
+  },
+  {
+    "difficulty": "MEDIUM",
+    "frontend_question_id": "1820",
+    "title_cn": "最多邀请的个数",
+    "title_slug": "maximum-number-of-accepted-invitations"
+  },
+  {
+    "difficulty": "EASY",
+    "frontend_question_id": "1822",
+    "title_cn": "数组元素积的符号",
+    "title_slug": "sign-of-the-product-of-an-array"
+  },
+  {
+    "difficulty": "MEDIUM",
+    "frontend_question_id": "1823",
+    "title_cn": "找出游戏的获胜者",
+    "title_slug": "find-the-winner-of-the-circular-game"
+  },
+  {
+    "difficulty": "MEDIUM",
+    "frontend_question_id": "1824",
+    "title_cn": "最少侧跳次数",
+    "title_slug": "minimum-sideway-jumps"
+  },
+  {
+    "difficulty": "HARD",
+    "frontend_question_id": "1825",
+    "title_cn": "求出 MK 平均值",
+    "title_slug": "finding-mk-average"
+  },
+  {
+    "difficulty": "EASY",
+    "frontend_question_id": "1826",
+    "title_cn": "有缺陷的传感器",
+    "title_slug": "faulty-sensor"
+  },
+  {
+    "difficulty": "EASY",
+    "frontend_question_id": "1827",
+    "title_cn": "最少操作使数组递增",
+    "title_slug": "minimum-operations-to-make-the-array-increasing"
+  },
+  {
+    "difficulty": "MEDIUM",
+    "frontend_question_id": "1828",
+    "title_cn": "统计一个圆中点的数目",
+    "title_slug": "queries-on-number-of-points-inside-a-circle"
+  },
+  {
+    "difficulty": "MEDIUM",
+    "frontend_question_id": "1829",
+    "title_cn": "每个查询的最大异或值",
+    "title_slug": "maximum-xor-for-each-query"
+  },
+  {
+    "difficulty": "HARD",
+    "frontend_question_id": "1830",
+    "title_cn": "使字符串有序的最少操作次数",
+    "title_slug": "minimum-number-of-operations-to-make-string-sorted"
+  },
+  {
+    "difficulty": "EASY",
+    "frontend_question_id": "1832",
+    "title_cn": "判断句子是否为全字母句",
+    "title_slug": "check-if-the-sentence-is-pangram"
+  },
+  {
+    "difficulty": "MEDIUM",
+    "frontend_question_id": "1833",
+    "title_cn": "雪糕的最大数量",
+    "title_slug": "maximum-ice-cream-bars"
+  },
+  {
+    "difficulty": "MEDIUM",
+    "frontend_question_id": "1834",
+    "title_cn": "单线程 CPU",
+    "title_slug": "single-threaded-cpu"
+  },
+  {
+    "difficulty": "HARD",
+    "frontend_question_id": "1835",
+    "title_cn": "所有数对按位与结果的异或和",
+    "title_slug": "find-xor-sum-of-all-pairs-bitwise-and"
+  },
+  {
+    "difficulty": "MEDIUM",
+    "frontend_question_id": "1836",
+    "title_cn": "从未排序的链表中移除重复元素",
+    "title_slug": "remove-duplicates-from-an-unsorted-linked-list"
+  },
+  {
+    "difficulty": "EASY",
+    "frontend_question_id": "1837",
+    "title_cn": "K 进制表示下的各位数字总和",
+    "title_slug": "sum-of-digits-in-base-k"
+  },
+  {
+    "difficulty": "MEDIUM",
+    "frontend_question_id": "1838",
+    "title_cn": "最高频元素的频数",
+    "title_slug": "frequency-of-the-most-frequent-element"
+  },
+  {
+    "difficulty": "MEDIUM",
+    "frontend_question_id": "1839",
+    "title_cn": "所有元音按顺序排布的最长子字符串",
+    "title_slug": "longest-substring-of-all-vowels-in-order"
+  },
+  {
+    "difficulty": "HARD",
+    "frontend_question_id": "1840",
+    "title_cn": "最高建筑高度",
+    "title_slug": "maximum-building-height"
+  },
+  {
+    "difficulty": "HARD",
+    "frontend_question_id": "1842",
+    "title_cn": "下个由相同数字构成的回文串",
+    "title_slug": "next-palindrome-using-same-digits"
+  },
+  {
+    "difficulty": "EASY",
+    "frontend_question_id": "1844",
+    "title_cn": "将所有数字用字符替换",
+    "title_slug": "replace-all-digits-with-characters"
+  },
+  {
+    "difficulty": "MEDIUM",
+    "frontend_question_id": "1845",
+    "title_cn": "座位预约管理系统",
+    "title_slug": "seat-reservation-manager"
+  },
+  {
+    "difficulty": "MEDIUM",
+    "frontend_question_id": "1846",
+    "title_cn": "减小和重新排列数组后的最大元素",
+    "title_slug": "maximum-element-after-decreasing-and-rearranging"
+  },
+  {
+    "difficulty": "HARD",
+    "frontend_question_id": "1847",
+    "title_cn": "最近的房间",
+    "title_slug": "closest-room"
+  },
+  {
+    "difficulty": "EASY",
+    "frontend_question_id": "1848",
+    "title_cn": "到目标元素的最小距离",
+    "title_slug": "minimum-distance-to-the-target-element"
+  },
+  {
+    "difficulty": "MEDIUM",
+    "frontend_question_id": "1849",
+    "title_cn": "将字符串拆分为递减的连续值",
+    "title_slug": "splitting-a-string-into-descending-consecutive-values"
+  },
+  {
+    "difficulty": "MEDIUM",
+    "frontend_question_id": "1850",
+    "title_cn": "邻位交换的最小次数",
+    "title_slug": "minimum-adjacent-swaps-to-reach-the-kth-smallest-number"
+  },
+  {
+    "difficulty": "HARD",
+    "frontend_question_id": "1851",
+    "title_cn": "包含每个查询的最小区间",
+    "title_slug": "minimum-interval-to-include-each-query"
+  },
+  {
+    "difficulty": "MEDIUM",
+    "frontend_question_id": "1852",
+    "title_cn": "每个子数组的数字种类数",
+    "title_slug": "distinct-numbers-in-each-subarray"
+  },
+  {
+    "difficulty": "EASY",
+    "frontend_question_id": "1854",
+    "title_cn": "人口最多的年份",
+    "title_slug": "maximum-population-year"
+  },
+  {
+    "difficulty": "MEDIUM",
+    "frontend_question_id": "1855",
+    "title_cn": "下标对中的最大距离",
+    "title_slug": "maximum-distance-between-a-pair-of-values"
+  },
+  {
+    "difficulty": "MEDIUM",
+    "frontend_question_id": "1856",
+    "title_cn": "子数组最小乘积的最大值",
+    "title_slug": "maximum-subarray-min-product"
+  },
+  {
+    "difficulty": "HARD",
+    "frontend_question_id": "1857",
+    "title_cn": "有向图中最大颜色值",
+    "title_slug": "largest-color-value-in-a-directed-graph"
+  },
+  {
+    "difficulty": "MEDIUM",
+    "frontend_question_id": "1858",
+    "title_cn": "包含所有前缀的最长单词",
+    "title_slug": "longest-word-with-all-prefixes"
+  },
+  {
+    "difficulty": "EASY",
+    "frontend_question_id": "1859",
+    "title_cn": "将句子排序",
+    "title_slug": "sorting-the-sentence"
+  },
+  {
+    "difficulty": "MEDIUM",
+    "frontend_question_id": "1860",
+    "title_cn": "增长的内存泄露",
+    "title_slug": "incremental-memory-leak"
+  },
+  {
+    "difficulty": "MEDIUM",
+    "frontend_question_id": "1861",
+    "title_cn": "旋转盒子",
+    "title_slug": "rotating-the-box"
+  },
+  {
+    "difficulty": "HARD",
+    "frontend_question_id": "1862",
+    "title_cn": "向下取整数对和",
+    "title_slug": "sum-of-floored-pairs"
+  },
+  {
+    "difficulty": "EASY",
+    "frontend_question_id": "1863",
+    "title_cn": "找出所有子集的异或总和再求和",
+    "title_slug": "sum-of-all-subset-xor-totals"
+  },
+  {
+    "difficulty": "MEDIUM",
+    "frontend_question_id": "1864",
+    "title_cn": "构成交替字符串需要的最小交换次数",
+    "title_slug": "minimum-number-of-swaps-to-make-the-binary-string-alternating"
+  },
+  {
+    "difficulty": "MEDIUM",
+    "frontend_question_id": "1865",
+    "title_cn": "找出和为指定值的下标对",
+    "title_slug": "finding-pairs-with-a-certain-sum"
+  },
+  {
+    "difficulty": "HARD",
+    "frontend_question_id": "1866",
+    "title_cn": "恰有 K 根木棍可以看到的排列数目",
+    "title_slug": "number-of-ways-to-rearrange-sticks-with-k-sticks-visible"
+  },
+  {
+    "difficulty": "MEDIUM",
+    "frontend_question_id": "1868",
+    "title_cn": "两个行程编码数组的积",
+    "title_slug": "product-of-two-run-length-encoded-arrays"
+  },
+  {
+    "difficulty": "EASY",
+    "frontend_question_id": "1869",
+    "title_cn": "哪种连续子字符串更长",
+    "title_slug": "longer-contiguous-segments-of-ones-than-zeros"
+  },
+  {
+    "difficulty": "MEDIUM",
+    "frontend_question_id": "1870",
+    "title_cn": "准时到达的列车最小时速",
+    "title_slug": "minimum-speed-to-arrive-on-time"
+  },
+  {
+    "difficulty": "MEDIUM",
+    "frontend_question_id": "1871",
+    "title_cn": "跳跃游戏 VII",
+    "title_slug": "jump-game-vii"
+  },
+  {
+    "difficulty": "HARD",
+    "frontend_question_id": "1872",
+    "title_cn": "石子游戏 VIII",
+    "title_slug": "stone-game-viii"
+  },
+  {
+    "difficulty": "MEDIUM",
+    "frontend_question_id": "1874",
+    "title_cn": "两个数组的最小乘积和",
+    "title_slug": "minimize-product-sum-of-two-arrays"
+  },
+  {
+    "difficulty": "EASY",
+    "frontend_question_id": "1876",
+    "title_cn": "长度为三且各字符不同的子字符串",
+    "title_slug": "substrings-of-size-three-with-distinct-characters"
+  },
+  {
+    "difficulty": "MEDIUM",
+    "frontend_question_id": "1877",
+    "title_cn": "数组中最大数对和的最小值",
+    "title_slug": "minimize-maximum-pair-sum-in-array"
+  }
+]

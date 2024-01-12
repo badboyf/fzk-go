@@ -1,0 +1,98 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣官方题解",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/leetcode-solution/avatar_1582018938.png",
+          "userSlug": "leetcode-solution"
+        },
+        "username": "LeetCode-Solution"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 写在前面\n\n记一开始有 $b$ 瓶酒，$e$ 个空瓶换一瓶酒。\n\n#### 方法一：模拟\n\n**思路与算法**\n\n首先我们一定可以喝到 $b$ 瓶酒，剩下 $b$ 个空瓶。接下来我们可以拿瓶子换酒，每次拿出 $e$ 个瓶子换一瓶酒，然后再喝完这瓶酒，得到一个空瓶。以此类推，我们可以统计得到答案。\n\n**代码**\n\n```cpp [sol1-C++]\nclass Solution {\npublic:\n    int numWaterBottles(int numBottles, int numExchange) {\n        int bottle = numBottles, ans = numBottles;\n        while (bottle >= numExchange) {\n            bottle -= numExchange;\n            ++ans;\n            ++bottle;\n        }\n        return ans;\n    }\n};\n```\n\n```Java [sol1-Java]\nclass Solution {\n    public int numWaterBottles(int numBottles, int numExchange) {\n        int bottle = numBottles, ans = numBottles;\n        while (bottle >= numExchange) {\n            bottle -= numExchange;\n            ++ans;\n            ++bottle;\n        }\n        return ans;\n    }\n}\n```\n\n```Python [sol1-Python3]\nclass Solution:\n    def numWaterBottles(self, numBottles: int, numExchange: int) -> int:\n        bottle, ans = numBottles, numBottles\n        while bottle >= numExchange:\n            bottle -= numExchange\n            ans += 1\n            bottle += 1\n        return ans\n```\n\n**复杂度分析**\n\n+ 时间复杂度：$O(b/e)$。因为 $e \\geq 2$，而循环迭代时，每次 $b$ 的变化为 $e - 1$，故这里的渐进上界为 $O(b/e)$。\n+ 空间复杂度：$O(1)$。 \n\n\n#### 方法二：数学\n\n**思路与算法**\n\n第一步，首先我们一定可以喝到 $b$ 瓶酒，剩下 $b$ 个空瓶。\n\n第二步，接下来我们来考虑空瓶换酒，换完再喝，喝完再换的过程——每次换到一瓶酒就意味着多一个空瓶，所以每次损失的瓶子的数量为 $e - 1$，我们要知道这个过程能得到多少瓶酒，即希望知道第一个打破下面这个条件的 $n$ 是多少：\n\n$$ b - n(e - 1) \\geq e $$\n\n即我们要找到最小的 $n$ 使得：\n\n$$ b - n(e - 1) < e $$\n\n我们得到 $n_{\\min} = \\lfloor \\frac{b - e}{e - 1} + 1\\rfloor$。\n\n当然我们要特别注意这里的前提条件是 $b \\geq e$，试想如果 $b < e$，没有足够的瓶子再换酒了，就不能进行第二步了。\n\n**代码**\n\n```cpp [sol2-C++]\nclass Solution {\npublic:\n    int numWaterBottles(int numBottles, int numExchange) {\n        return numBottles >= numExchange ? (numBottles - numExchange) / (numExchange - 1) + 1 + numBottles : numBottles;\n    }\n};\n```\n\n```Java [sol2-Java]\nclass Solution {\n    public int numWaterBottles(int numBottles, int numExchange) {\n        return numBottles >= numExchange ? (numBottles - numExchange) / (numExchange - 1) + 1 + numBottles : numBottles;\n    }\n}\n```\n\n```Python [sol2-Python3]\nclass Solution:\n    def numWaterBottles(self, numBottles: int, numExchange: int) -> int:\n        return (numBottles - numExchange) // (numExchange - 1) + 1 + numBottles if numBottles >= numExchange else numBottles\n```\n\n**复杂度分析**\n\n+ 时间复杂度：$O(1)$。\n+ 空间复杂度：$O(1)$。",
+      "createdAt": "2020-07-20T13:45:10.978125+00:00",
+      "hitCount": 10046,
+      "identifier": "3VbtU2",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "huan-jiu-wen-ti-by-jadore-4-myb0",
+        "title": "换酒问题"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "water-bottles"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 13,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "huan-jiu-wen-ti-by-leetcode-solution",
+      "status": "PUBLISHED",
+      "summary": "写在前面 记一开始有 $b$ 瓶酒，$e$ 个空瓶换一瓶酒。 方法一：模拟 思路与算法 首先我们一定可以喝到 $b$ 瓶酒，剩下 $b$ 个空瓶。接下来我们可以拿瓶子换酒，每次拿出 $e$ 个瓶子换一瓶酒，然后再喝完这瓶酒，得到一个空瓶。以此类推，我们可以统计得到答案。 代码 cpp [sol1-C++] class ",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Math",
+          "nameTranslated": "数学",
+          "slug": "math",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "换酒问题",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 21,
+        "id": 339339,
+        "viewCount": 8169
+      },
+      "uuid": "3VbtU2",
+      "videosInfo": []
+    }
+  }
+}

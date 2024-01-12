@@ -1,0 +1,100 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "EUY",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/euyvvl/avatar_1635000444.png",
+          "userSlug": "euyvvl"
+        },
+        "username": "EUYVVL"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n**使用C++里的动态数组vector进行模拟**\n1. 对于队列插入和删除的操作,使用vector里的insert()和erase()操作进行模拟即可;\n2. 唯一需要注意的就是中间下标的确定;\n### 代码\n\n```cpp\nclass FrontMiddleBackQueue {\npublic:\n    vector<int>res;\n    FrontMiddleBackQueue() {\n\n    }\n    \n    void pushFront(int val) {\n        res.insert(res.begin(),val);\n        return ;\n    }\n    \n    void pushMiddle(int val) {\n        int N=res.size();\n        int index=N/2;\n        res.insert(res.begin()+index,val);\n        return ;\n    }\n    \n    void pushBack(int val) {\n        res.emplace_back(val);\n        return ;\n    }\n    \n    int popFront() {\n        if(res.empty()){\n            return -1;\n        }\n        int val=res[0];\n        res.erase(res.begin());\n        return val;\n    }\n    \n    int popMiddle() {\n        if(res.empty()){\n            return -1;\n        }\n        int N=res.size();\n        int index=(N-1)/2;\n        int val=res[index];\n        res.erase(res.begin()+index);\n        return val;\n    }\n    \n    int popBack() {\n        if(res.empty()){\n            return -1;\n        }\n        int val=res.back();\n        res.pop_back();\n        return val;\n    }\n};\n\n/**\n * Your FrontMiddleBackQueue object will be instantiated and called as such:\n * FrontMiddleBackQueue* obj = new FrontMiddleBackQueue();\n * obj->pushFront(val);\n * obj->pushMiddle(val);\n * obj->pushBack(val);\n * int param_4 = obj->popFront();\n * int param_5 = obj->popMiddle();\n * int param_6 = obj->popBack();\n */\n```",
+      "createdAt": "2021-10-20T05:41:44.958714+00:00",
+      "hitCount": 64,
+      "identifier": "rUjnYm",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "she-ji-qian-zhong-hou-dui-lie-by-zerotrac2",
+        "title": "设计前中后队列"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "design-front-middle-back-queue"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "vector-by-euyvvl-yasb",
+      "status": "PUBLISHED",
+      "summary": "解题思路\n使用C++里的动态数组vector进行模拟\n\n对于队列插入和删除的操作,使用vector里的insert()和erase()操作进行模拟即可;\n唯一需要注意的就是中间下标的确定;\n\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Design",
+          "nameTranslated": "设计",
+          "slug": "design",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Array",
+          "nameTranslated": "数组",
+          "slug": "array",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Math",
+          "nameTranslated": "数学",
+          "slug": "math",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Simulation",
+          "nameTranslated": "模拟",
+          "slug": "simulation",
+          "tagType": "TOPIC"
+        }
+      ],
+      "thumbnail": "",
+      "title": "vector",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 1,
+        "id": 1057086,
+        "viewCount": 54
+      },
+      "uuid": "rUjnYm",
+      "videosInfo": []
+    }
+  }
+}

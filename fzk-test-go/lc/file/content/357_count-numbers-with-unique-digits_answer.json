@@ -1,0 +1,72 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "叶十三",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/default_avatar.png",
+          "userSlug": "xie-shi-san-k"
+        },
+        "username": "xie-shi-san-k"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n分析题意，计算各位数都不同得数字的个数，其中数字范围为0 ≤ x < 10^n，**分析可得其实n就是x最多是几位数**，比如n=3就说明0<= x <1000 即n最大只能取到999（三位数）。\n考虑使用回溯，根据题意可得就是求**全排列**，每次从包含0-9的数组中取数，因为需要各位数字都不同所以使用一个**visited**数组记录已经取过的数，取过的数不能再取。因为直接计算到n位数各位数字都不同的数字x的个数会超时，考虑**分别计算第一位、第二位...第n位各有多少个各位数字都不同的数字**然后全部加起来就是第n位的结果。\n\n### 代码\n\n```java\nclass Solution {\n    HashSet<String> set = new HashSet<>();\n    int[] visited;\n    public int countNumbersWithUniqueDigits(int n) {\n        if(n == 0) return 1;\n        int[] nums = new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9};\n        visited = new int[10];\n        int sum = 0;\n        // 计算每一位有多少各位数字都不同的数字\n        for(int i = 1; i <= n; i++){\n            StringBuilder sb = new StringBuilder();\n            dfs(i, sb, nums);\n            // 全部加起来\n            sum += set.size();\n            set = new HashSet<>();\n        }\n        // 最后加上单独的那个0\n        return sum + 1;\n    }\n    public void dfs(int n, StringBuilder sb, int[] nums){\n        // 如果当前位数已经达到了所需的位数 并且未加入过set 加入set\n        if(sb.length() == n && !set.contains(sb.toString())){\n            set.add(sb.toString());\n        }\n        for(int i = 0; i < nums.length; i++){\n            // 除了单独的0其余情况下0不能出现在首位\n            if(sb.length() == 0 && nums[i] == 0) continue;\n            // 剪枝-如果当前位数就已经是n位了则再添加就会超出n位直接break\n            if(sb.length() == n) break;\n            // 如果这个数字已经被添加过了 不能再次添加 \n            if(visited[nums[i]] == 1) continue;\n            // 回溯部分\n            visited[nums[i]] = 1;\n            sb.append(nums[i]);\n            dfs(n, sb, nums);\n            visited[nums[i]] = 0;\n            sb.deleteCharAt(sb.length() - 1);\n        }\n    }\n\n}\n```",
+      "createdAt": "2021-11-25T03:12:19.899575+00:00",
+      "hitCount": 39,
+      "identifier": "rsrdRM",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "dong-tai-gui-hua-shi-jian-onkong-jian-o1-oudl",
+        "title": "动态规划（七行代码，简单易懂），时间O(n)，空间O(1)"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "count-numbers-with-unique-digits"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "java-hui-su-by-xie-shi-san-k-k6oo",
+      "status": "PUBLISHED",
+      "summary": "解题思路\n分析题意，计算各位数都不同得数字的个数，其中数字范围为0 ≤ x < 10^n，分析可得其实n就是x最多是几位数，比如n=3就说明0<= x <1000 即n最大只能取到999（三位数）。\n考虑使用回溯，根据题意可得就是求全排列，每次从包含0-9的数组中取数，因为需要各位数字都不同所以使用一个visited数",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "java + 回溯",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1121167,
+        "viewCount": 33
+      },
+      "uuid": "rsrdRM",
+      "videosInfo": []
+    }
+  }
+}

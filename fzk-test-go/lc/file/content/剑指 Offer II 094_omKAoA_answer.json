@@ -1,0 +1,83 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "Veyron",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/da-jia-hao-158/avatar_1598412397.png",
+          "userSlug": "da-jia-hao-158"
+        },
+        "username": "da-jia-hao-158"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "主要思想：1.空间换时间，先构造二维数组，存所有j到i（0<=j<=i）范围判断是不是回文子串。 2.dp的一维数组只负责找最短的切割方法。 要是不这么干，第二步直接找最短切法，每次还要再判断j到i是不是回文子串，将产生n3的复杂度。\r\n```\r\nclass Solution {\r\npublic:\r\n    int minCut(string s) {\r\n        int len = s.size();\r\n        vector<vector<bool>> isPal(len, vector<bool>(len)); //存所有j到i之间，是否是回文。花费n2空间与时间。\r\n        for(int i=0; i<len; ++i){\r\n            for(int j=0; j<=i; ++j){//要纪录所有包含自己单个字母的情况，所以两头都是闭区间\r\n            //首尾相等是必要条件，再加一个要么二者间夹的字母小于2  或者 二者间的字段确定是回文，构成充分条件。\r\n                if(s[i] == s[j] && (i-j<=1 || isPal[j+1][i-1]))//这里查找isPal是能确定i-1时已经存储了结果\r\n                    isPal[j][i] = true;\r\n            }\r\n        }\r\n\r\n        vector<int> dp(len);\r\n        for(int i=0; i<len; ++i){\r\n            if(isPal[0][i])\r\n                dp[i] = 0;//先看最好不用分割的情况，不行，再两头遍历夹逼找所有情况。 O(n2)\r\n            else{\r\n                dp[i] = i;//刀刀切，最坏的情况\r\n                for(int j=1; j<=i; ++j){\r\n                    if(isPal[j][i])// 0不可能了，从1到i开始遍历所有可能缩短切割的可能\r\n                        dp[i] = min(dp[i], dp[j-1] +1);// 一旦找到最短配合，那就是之前的最短加上这一次的1\r\n                }\r\n            }\r\n        }\r\n        return dp[len-1];\r\n    }\r\n};\r\n```",
+      "createdAt": "2021-10-31T15:07:37.215109+00:00",
+      "hitCount": 323,
+      "identifier": "34Qm2M",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "go-dong-gui-er-wei-oryi-wei-by-flare-6aes5",
+        "title": "go 动规/二维or一维"
+      },
+      "position": 2,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "aiera-tu-jie-chai-fen-wei-liang-ge-dong-dtnqp",
+        "title": "【AIEra】【图解】拆分为两个动态规划问题"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "omKAoA"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 3,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "c-miao-dong-on2-jian-zhi-offer-ii-094-zu-yzkh",
+      "status": "PREPUBLISH",
+      "summary": "主要思想：1.空间换时间，先构造二维数组，存所有j到i（0<=j<=i）范围判断是不是回文子串。 2.dp的一维数组只负责找最短的切割方法。 要是不这么干，第二步直接找最短切法，每次还要再判断j到i是不是回文子串，将产生n3的复杂度。",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": " DP",
+          "nameTranslated": "",
+          "slug": "dp-2",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "",
+      "title": "C++ 秒懂 O(n2) （剑指 Offer II 094. 最少回文分割）",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 2,
+        "id": 1077015,
+        "viewCount": 214
+      },
+      "uuid": "34Qm2M",
+      "videosInfo": []
+    }
+  }
+}

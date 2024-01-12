@@ -1,0 +1,83 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "bug放过我吧",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/i2omantic-tharpdzu/avatar_1624178529.png",
+          "userSlug": "i2omantic-tharpdzu"
+        },
+        "username": "i2omantic-tharpdzu"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n此处撰写解题思路\n\n### 代码\n\n```cpp\nclass Solution {\npublic:\n    int findClosest(vector<string>& words, string word1, string word2) {\n        unordered_map<string,vector<int> >mp;\n        int result=INT_MAX;\n        for(int i=0;i<words.size();i++)\n        {\n            mp[words[i]].push_back(i);\n        }\n        for(int i=0;i<mp[word1].size();i++)\n        {\n            for(int j=0;j<mp[word2].size();j++)\n            {\n                result=min(result,abs(mp[word1][i]-mp[word2][j]));\n            }\n        }\n        return result;\n\n\n    }\n};\n```",
+      "createdAt": "2021-09-24T13:07:07.249204+00:00",
+      "hitCount": 242,
+      "identifier": "iOgro1",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "mian-shi-ti-1711-dan-ci-ju-chi-by-oahrat-he79",
+        "title": "面试题 17.11. 单词距离"
+      },
+      "position": 2,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "bao-li-cha-zhao-by-best-jin-xing-shi-k-rldb",
+        "title": "暴力查找"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "find-closest-lcci"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "ha-xi-biao-by-i2omantic-tharpdzu-cm01",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n此处撰写解题思路\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "C",
+          "nameTranslated": "",
+          "slug": "c",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "哈希表",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1015589,
+        "viewCount": 210
+      },
+      "uuid": "iOgro1",
+      "videosInfo": []
+    }
+  }
+}

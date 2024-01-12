@@ -1,0 +1,79 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "zzu",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/123-2621/avatar_1628486303.png",
+          "userSlug": "123-2621"
+        },
+        "username": "123-2621"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "**两次遍历**\r\n```\r\nclass Solution:\r\n    def subSort(self, array: List[int]) -> List[int]:\r\n        n = len(array)\r\n        maxx = float('-inf')\r\n        minn = float('inf')\r\n        l = -1\r\n        r = -1\r\n        #   正向遍历，确定右边界\r\n        for i in range(n):\r\n            #   小于当前最大值，则说明需要参与排序\r\n            if array[i] < maxx:\r\n                r = i\r\n            #   更新最大值\r\n            else:\r\n                maxx = array[i]\r\n        \r\n        #   反向遍历，确定左边界\r\n        for i in range(n - 1, -1, -1):\r\n            #   大于当前最小值，则说明需要参与排序\r\n            if array[i] > minn:\r\n                l = i\r\n            #   更新最小值\r\n            else:\r\n                minn = array[i]\r\n        \r\n        return [l, r]\r\n```\r\n\r\n**一次遍历**\r\n```\r\nclass Solution:\r\n    def subSort(self, array: List[int]) -> List[int]:\r\n        n = len(array)\r\n        maxx = float('-inf')\r\n        minn = float('inf')\r\n        l, r = -1, -1\r\n        for i in range(n):\r\n            if array[i] < maxx:  \r\n                r = i\r\n            else:\r\n                maxx = array[i]\r\n\r\n            if array[n - 1 - i] > minn:\r\n                l = n - 1 - i\r\n            else:\r\n                minn = array[n - 1 - i]\r\n\r\n        return [l, r]\r\n```",
+      "createdAt": "2021-11-18T14:52:11.393624+00:00",
+      "hitCount": 82,
+      "identifier": "JJ4KIe",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "shuang-zhi-zhen-by-jushuai_lfx-e3nr",
+        "title": "双指针"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "sub-sort-lcci"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "shuang-zhi-zhen-que-ding-pai-xu-de-bian-bh2fm",
+      "status": "PUBLISHED",
+      "summary": "两次遍历\n一次遍历",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python3",
+          "nameTranslated": "",
+          "slug": "python3",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "双指针，确定排序的边界",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1109476,
+        "viewCount": 69
+      },
+      "uuid": "JJ4KIe",
+      "videosInfo": []
+    }
+  }
+}

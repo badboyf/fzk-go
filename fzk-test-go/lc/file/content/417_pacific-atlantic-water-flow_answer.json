@@ -1,0 +1,79 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "jawhiow",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/jawhiow/avatar_1526029110.png",
+          "userSlug": "jawhiow"
+        },
+        "username": "jawhiow"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 分析：\n首先拿到这道题很明显能够判断出是一个二维平面回溯算法的题目，所以首先我们要准备一个移动坐标：\n\n```\n分别表示上右下左\nself.directs = [(-1, 0), (0, 1), (1, 0), (0, -1)]\n```\n\n一个判定是否在范围内的函数：\n\n```\ndef in_area(self, x, y):\n    return 0 <= x < self.m and 0 <= y < self.n\n```\n\n然后继续分析，这道题是要寻找一个坐标既能够到达太平洋也能到达大西洋，但是这个过程一般不是一次深度搜索就能够完成的，所以我们从各边界开始逆流进行搜索。然后用两个二维数组进行记录，相当于进行了 $4$ 次深度搜索，具体答案可以参考以下代码。\n\n\n#### 代码：\n```python [-Python]\nclass Solution:\n    def __init__(self):\n        self.result_all = None\n        # 分别表示上右下左\n        self.directs = [(-1, 0), (0, 1), (1, 0), (0, -1)]\n        self.m = 0\n        self.n = 0\n        # 表示能流到太平洋\n        self.po = None\n        # 表示能流到大西洋\n        self.ao = None\n        self.visited = None\n    \n    \n    def pacificAtlantic(self, matrix) :\n        # 初始化一些东西\n        self.result_all = []\n        self.m = len(matrix)\n        if self.m == 0:\n            return self.result_all\n        self.n = len(matrix[0])\n        self.ao = [[0] * self.n for _ in range(self.m)]\n        self.po = [[0] * self.n for _ in range(self.m)]\n        self.visited = [[0] * self.n for _  in range(self.m)]\n\n        # 本题顺着流不太好做，我们用逆流的方式来思考\n        # 从上面的太平洋逆流\n        for i in range(0, 1):\n            for j in range(self.n):\n                self.dfs(matrix, i, j, True)\n        # 从左边的太平洋逆流\n        self.visited = [[0] * self.n for _  in range(self.m)]\n        for i in range(self.m):\n            for j in range(0, 1):\n                self.dfs(matrix, i, j, True)\n        # 下面的大西洋\n        self.visited = [[0] * self.n for _  in range(self.m)]\n        for i in range(self.m - 1, self.m):\n            for j in range(self.n):\n                self.dfs(matrix, i, j, False)\n        # 右边的大西洋\n        self.visited = [[0] * self.n for _  in range(self.m)]\n        for i in range(self.m):\n            for j in range(self.n -1, self.n):\n                self.dfs(matrix, i, j, False)\n        \n        for i in range(self.m):\n            for j in range(self.n):\n                if self.po[i][j] == 1 and self.ao[i][j] == 1:\n                    self.result_all.append((i, j))\n        return self.result_all\n\n    def dfs(self, matrix, x, y, flag):\n        if self.visited[x][y] == 1:\n            return\n        self.visited[x][y] = 1\n        if flag:\n            # 表示是太平洋\n            self.po[x][y] = 1\n        else:\n            # 表示是大西洋\n            self.ao[x][y] = 1\n\n        for i in range(4):\n            newx = x + self.directs[i][0]\n            newy = y + self.directs[i][1]\n            if not self.in_area(newx, newy):\n                continue\n            if matrix[x][y] > matrix[newx][newy]:\n                continue\n            self.dfs(matrix, newx, newy, flag)\n        return\n    \n    def in_area(self, x, y):\n        return 0 <= x < self.m and 0 <= y < self.n\n\n```\n\n\n\n\n\n\n",
+      "createdAt": "2019-05-23T02:16:49.830521+00:00",
+      "hitCount": 25207,
+      "identifier": "fPVnuU",
+      "isEditorsPick": true,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "shui-wang-gao-chu-liu-by-xiaohu9527-xxsx",
+        "title": "水往高处流!"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "pacific-atlantic-water-flow"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 20,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "shen-du-sou-suo-dfs-by-jawhiow",
+      "status": "PUBLISHED",
+      "summary": "§ 分析：\n首先拿到这道题很明显能够判断出是一个二维平面回溯算法的题目，所以首先我们要准备一个移动坐标：\n一个判定是否在范围内的函数：\n然后继续分析，这道题是要寻找一个坐标既能够到达太平洋也能到达大西洋，但是这个过程一般不是一次深度搜索就能够完成的，所以我们从各边界开始逆流进行搜索。然后用两个二维数组进行记录，相当于进",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Depth-First Search",
+          "nameTranslated": "深度优先搜索",
+          "slug": "depth-first-search",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python3",
+          "nameTranslated": "",
+          "slug": "python3",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "深度搜索DFS",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 15,
+        "id": 5710,
+        "viewCount": 18609
+      },
+      "uuid": "fPVnuU",
+      "videosInfo": []
+    }
+  }
+}

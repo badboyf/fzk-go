@@ -1,0 +1,138 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣官方题解",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/leetcode-solution/avatar_1582018938.png",
+          "userSlug": "leetcode-solution"
+        },
+        "username": "LeetCode-Solution"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 📺 视频题解  \n![66.加一 仲耀晖.mp4](ba7febe1-adbb-46a6-be89-66add6332ad7)\n\n### 📖 文字题解\n#### 方法一：找出最长的后缀 $9$\n\n**思路**\n\n当我们对数组 $\\textit{digits}$ 加一时，我们只需要关注 $\\textit{digits}$ 的末尾出现了多少个 $9$ 即可。我们可以考虑如下的三种情况：\n\n- 如果 $\\textit{digits}$ 的末尾没有 $9$，例如 $[1, 2, 3]$，那么我们直接将末尾的数加一，得到 $[1, 2, 4]$ 并返回；\n\n- 如果 $\\textit{digits}$ 的末尾有若干个 $9$，例如 $[1, 2, 3, 9, 9]$，那么我们只需要找出从末尾开始的**第一个**不为 $9$ 的元素，即 $3$，将该元素加一，得到 $[1, 2, 4, 9, 9]$。随后将末尾的 $9$ 全部置零，得到 $[1, 2, 4, 0, 0]$ 并返回。\n\n- 如果 $\\textit{digits}$ 的所有元素都是 $9$，例如 $[9, 9, 9, 9, 9]$，那么答案为 $[1, 0, 0, 0, 0, 0]$。我们只需要构造一个长度比 $\\textit{digits}$ 多 $1$ 的新数组，将首元素置为 $1$，其余元素置为 $0$ 即可。\n\n**算法**\n\n们只需要对数组 $\\textit{digits}$ 进行一次逆序遍历，找出第一个不为 $9$ 的元素，将其加一并将后续所有元素置零即可。如果 $\\textit{digits}$ 中所有的元素均为 $9$，那么对应着「思路」部分的第三种情况，我们需要返回一个新的数组。\n\n**代码**\n\n```C++ [sol1-C++]\nclass Solution {\npublic:\n    vector<int> plusOne(vector<int>& digits) {\n        int n = digits.size();\n        for (int i = n - 1; i >= 0; --i) {\n            if (digits[i] != 9) {\n                ++digits[i];\n                for (int j = i + 1; j < n; ++j) {\n                    digits[j] = 0;\n                }\n                return digits;\n            }\n        }\n\n        // digits 中所有的元素均为 9\n        vector<int> ans(n + 1);\n        ans[0] = 1;\n        return ans;\n    }\n};\n```\n\n```Java [sol1-Java]\nclass Solution {\n    public int[] plusOne(int[] digits) {\n        int n = digits.length;\n        for (int i = n - 1; i >= 0; --i) {\n            if (digits[i] != 9) {\n                ++digits[i];\n                for (int j = i + 1; j < n; ++j) {\n                    digits[j] = 0;\n                }\n                return digits;\n            }\n        }\n\n        // digits 中所有的元素均为 9\n        int[] ans = new int[n + 1];\n        ans[0] = 1;\n        return ans;\n    }\n}\n```\n\n```C# [sol1-C#]\npublic class Solution {\n    public int[] PlusOne(int[] digits) {\n        int n = digits.Length;\n        for (int i = n - 1; i >= 0; --i) {\n            if (digits[i] != 9) {\n                ++digits[i];\n                for (int j = i + 1; j < n; ++j) {\n                    digits[j] = 0;\n                }\n                return digits;\n            }\n        }\n\n        // digits 中所有的元素均为 9\n        int[] ans = new int[n + 1];\n        ans[0] = 1;\n        return ans;\n    }\n}\n```\n\n```Python [sol1-Python3]\nclass Solution:\n    def plusOne(self, digits: List[int]) -> List[int]:\n        n = len(digits)\n        for i in range(n - 1, -1, -1):\n            if digits[i] != 9:\n                digits[i] += 1\n                for j in range(i + 1, n):\n                    digits[j] = 0\n                return digits\n\n        # digits 中所有的元素均为 9\n        return [1] + [0] * n\n```\n\n```go [sol1-Golang]\nfunc plusOne(digits []int) []int {\n    n := len(digits)\n    for i := n - 1; i >= 0; i-- {\n        if digits[i] != 9 {\n            digits[i]++\n            for j := i + 1; j < n; j++ {\n                digits[j] = 0\n            }\n            return digits\n        }\n    }\n    // digits 中所有的元素均为 9\n\n    digits = make([]int, n+1)\n    digits[0] = 1\n    return digits\n}\n```\n\n```JavaScript [sol1-JavaScript]\nvar plusOne = function(digits) {\n    const n = digits.length;\n    for (let i = n - 1; i >= 0; --i) {\n        if (digits[i] !== 9) {\n            ++digits[i];\n            for (let j = i + 1; j < n; ++j) {\n                digits[j] = 0;\n            }\n            return digits;\n        }\n    }\n\n    // digits 中所有的元素均为 9\n    const ans = new Array(n + 1).fill(0);\n    ans[0] = 1;\n    return ans;\n};\n```\n\n**复杂度分析**\n\n- 时间复杂度：$O(n)$，其中 $n$ 是数组 $\\textit{digits}$ 的长度。\n\n- 空间复杂度：$O(1)$。返回值不计入空间复杂度。",
+      "createdAt": "2021-10-20T06:33:52.769210+00:00",
+      "hitCount": 23499,
+      "identifier": "FVHcqN",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "java-shu-xue-jie-ti-by-yhhzw",
+        "title": "Java 数学解题"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "plus-one"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 33,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 3,
+          "reactionType": "AWESOME"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "CONFUSED"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "jia-yi-by-leetcode-solution-2hor",
+      "status": "PUBLISHED",
+      "summary": "📺 视频题解 📖 文字题解 方法一：找出最长的后缀 $9$ 思路 当我们对数组 $\\textit{digits}$ 加一时，我们只需要关注 $\\textit{digits}$ 的末尾出现了多少个 $9$ 即可。我们可以考虑如下的三种情况： 如果 $\\textit{digits}$ 的末尾没有 $9$，例如 $[1, 2",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Array",
+          "nameTranslated": "数组",
+          "slug": "array",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C#",
+          "nameTranslated": "",
+          "slug": "csharp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Go",
+          "nameTranslated": "",
+          "slug": "golang",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "JavaScript",
+          "nameTranslated": "",
+          "slug": "javascript",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Simulation",
+          "nameTranslated": "模拟",
+          "slug": "simulation",
+          "tagType": "TOPIC"
+        }
+      ],
+      "thumbnail": "",
+      "title": "加一",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 103,
+        "id": 1057162,
+        "viewCount": 17419
+      },
+      "uuid": "FVHcqN",
+      "videosInfo": [
+        {
+          "__typename": "VideoInfoNode",
+          "coverUrl": "https://video.leetcode-cn.com/image/cover/E74BCD7CCFE64F33A298372C6F0E8CE4-6-2.png",
+          "duration": 218.176,
+          "videoId": "b01335a6084141148d6653d7c42bb579"
+        }
+      ]
+    }
+  }
+}

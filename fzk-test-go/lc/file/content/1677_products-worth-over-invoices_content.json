@@ -1,0 +1,66 @@
+{
+  "data": {
+    "question": {
+      "__typename": "QuestionNode",
+      "book": null,
+      "boundTopicId": 510843,
+      "categoryTitle": "Database",
+      "codeSnippets": null,
+      "companyTagStats": null,
+      "content": null,
+      "contributors": [],
+      "dailyRecordStatus": null,
+      "difficulty": "Easy",
+      "dislikes": 0,
+      "editorType": "CKEDITOR",
+      "enableRunCode": true,
+      "envInfo": "{\"mysql\":[\"MySQL\",\"<p>\\u7248\\u672c\\uff1a<code>MySQL 8.0<\\/code><\\/p>\"],\"mssql\":[\"MS SQL Server\",\"<p>mssql server 2019.<\\/p>\"],\"oraclesql\":[\"Oracle\",\"<p>Oracle Sql 11.2.<\\/p>\"]}",
+      "exampleTestcases": "{\"headers\":{\"Product\":[\"product_id\",\"name\"],\"Invoice\":[\"invoice_id\",\"product_id\",\"rest\",\"paid\",\"canceled\",\"refunded\"]},\"rows\":{\"Product\":[[0,\"ham\"],[1,\"bacon\"]],\"Invoice\":[[23,0,2,0,5,0],[12,0,0,4,0,3],[1,1,1,1,0,1],[2,1,1,0,1,1],[3,1,0,1,1,1],[4,1,1,1,1,0]]}}",
+      "hints": [],
+      "isDailyQuestion": false,
+      "isLiked": null,
+      "isPaidOnly": true,
+      "isSubscribed": false,
+      "judgeType": "large",
+      "judgerAvailable": true,
+      "langToValidPlayground": null,
+      "likes": 3,
+      "metaData": "{\n  \"mysql\": [\n    \"Create table If Not Exists Product(product_id int, name varchar(15))\",\n    \"Create table If Not Exists Invoice(invoice_id int,product_id int,rest int, paid int, canceled int, refunded int)\"\n  ],\n  \"mssql\": [\n    \"Create table Product(product_id int, name varchar(15))\",\n    \"Create table Invoice(invoice_id int,product_id int,rest int, paid int, canceled int, refunded int)\"\n  ],\n  \"oraclesql\": [\n    \"Create table Product(product_id int, name varchar(15))\",\n    \"Create table Invoice(invoice_id int,product_id int,rest int, paid int, canceled int, refunded int)\"\n  ],\n  \"database\": true\n}",
+      "mysqlSchemas": [
+        "Create table If Not Exists Product(product_id int, name varchar(15))",
+        "Create table If Not Exists Invoice(invoice_id int,product_id int,rest int, paid int, canceled int, refunded int)",
+        "Truncate table Product",
+        "insert into Product (product_id, name) values ('0', 'ham')",
+        "insert into Product (product_id, name) values ('1', 'bacon')",
+        "Truncate table Invoice",
+        "insert into Invoice (invoice_id, product_id, rest, paid, canceled, refunded) values ('23', '0', '2', '0', '5', '0')",
+        "insert into Invoice (invoice_id, product_id, rest, paid, canceled, refunded) values ('12', '0', '0', '4', '0', '3')",
+        "insert into Invoice (invoice_id, product_id, rest, paid, canceled, refunded) values ('1', '1', '1', '1', '0', '1')",
+        "insert into Invoice (invoice_id, product_id, rest, paid, canceled, refunded) values ('2', '1', '1', '0', '1', '1')",
+        "insert into Invoice (invoice_id, product_id, rest, paid, canceled, refunded) values ('3', '1', '0', '1', '1', '1')",
+        "insert into Invoice (invoice_id, product_id, rest, paid, canceled, refunded) values ('4', '1', '1', '1', '1', '0')"
+      ],
+      "questionFrontendId": "1677",
+      "questionId": "1821",
+      "sampleTestCase": "{\"headers\":{\"Product\":[\"product_id\",\"name\"],\"Invoice\":[\"invoice_id\",\"product_id\",\"rest\",\"paid\",\"canceled\",\"refunded\"]},\"rows\":{\"Product\":[[0,\"ham\"],[1,\"bacon\"]],\"Invoice\":[[23,0,2,0,5,0],[12,0,0,4,0,3],[1,1,1,1,0,1],[2,1,1,0,1,1],[3,1,0,1,1,1],[4,1,1,1,1,0]]}}",
+      "similarQuestions": "[]",
+      "solution": null,
+      "stats": "{\"totalAccepted\": \"2.2K\", \"totalSubmission\": \"5.8K\", \"totalAcceptedRaw\": 2209, \"totalSubmissionRaw\": 5795, \"acRate\": \"38.1%\"}",
+      "status": null,
+      "style": "LEETCODE",
+      "title": "Product's Worth Over Invoices",
+      "titleSlug": "products-worth-over-invoices",
+      "topicTags": [
+        {
+          "__typename": "TopicTagNode",
+          "name": "Database",
+          "slug": "database",
+          "translatedName": "数据库"
+        }
+      ],
+      "translatedContent": null,
+      "translatedTitle": "发票中的产品金额",
+      "ugcQuestionId": null
+    }
+  }
+}

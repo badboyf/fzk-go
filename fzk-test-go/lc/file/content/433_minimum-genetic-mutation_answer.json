@@ -1,0 +1,88 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "爆头狂魔",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/bao-tou-kuang-mo/avatar_1632407653.png",
+          "userSlug": "bao-tou-kuang-mo"
+        },
+        "username": "bao-tou-kuang-mo"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "我觉得这题和127.单词接龙没什么区别，只要用BFS找到即可返回。\r\n```\r\nclass Solution {\r\npublic:\r\n    int minMutation(string start, string end, vector<string>& bank) {\r\n        unordered_set<string> s(bank.begin(),bank.end());//利用集合快速查询，本质还是哈希表\r\n        if(!s.count(end)) return -1;\r\n        unordered_set<string> mp{start};//记录当前节点是否出现过\r\n        queue<string> q({start});\r\n        int path{-1};//记录路径长度，由于是记录变换次数，所以-1开始\r\n        while(!q.empty()){\r\n            int len=q.size();//当前层得节点个数\r\n            path+=1;//路径长度加一\r\n            for(int i=0;i<len;++i){\r\n                string temp=q.front();\r\n                q.pop();\r\n                if(temp==end) return path;//由于是BFS，所以找到即为最小值\r\n                for(int j=0;j<temp.size();++j){\r\n                    char c=temp[j];\r\n                    for(int k=0;k<4;++k){\r\n                        if(k==0)temp[j]='A';\r\n                        else if(k==1)temp[j]='C';\r\n                        else if(k==2)temp[j]='G';\r\n                        else temp[j]='T';\r\n                        if(!mp.count(temp)&&s.count(temp)){//当前节点以前没出现过，且在基因库里面\r\n                            q.push(temp);\r\n                            mp.insert(temp);\r\n                        }\r\n                    }\r\n                    temp[j]=c;//改变得还原回来\r\n                }\r\n            }\r\n        }\r\n        return -1;\r\n    }\r\n};\r\n```\r\n",
+      "createdAt": "2021-11-08T15:50:29.855601+00:00",
+      "hitCount": 183,
+      "identifier": "6dowzN",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "python-yan-du-you-xian-sou-suo-by-mei-56-dikt",
+        "title": "python 广度优先搜索"
+      },
+      "position": 3,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "c-shuang-duan-bfs-100-by-chengziqian-8efk",
+        "title": "[C++] 双端BFS 100%"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "minimum-genetic-mutation"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 0,
+          "reactionType": "CONFUSED"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "bfssuan-fa-by-bao-tou-kuang-mo-lfmy",
+      "status": "PREPUBLISH",
+      "summary": "我觉得这题和127.单词接龙没什么区别，只要用BFS找到即可返回。",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Breadth-First Search",
+          "nameTranslated": "广度优先搜索",
+          "slug": "breadth-first-search",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "BFS算法",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1091677,
+        "viewCount": 137
+      },
+      "uuid": "6dowzN",
+      "videosInfo": []
+    }
+  }
+}

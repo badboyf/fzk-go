@@ -1,0 +1,77 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "树叶烦",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/weak-chicken/avatar_1592906771.png",
+          "userSlug": "weak-chicken"
+        },
+        "username": "weak-chicken"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "由于菜鸡没学过啥竞赛的知识点，也不知道这个题的算法有没有啥背景，就取名乱搞了。\r\n\r\n首先说下思路，由于题目本身要判断种数，我们可以分两步思考：\r\n\r\n+ 能不能构造出任意一颗满足的树；\r\n+ 这种构造是否唯一。\r\n\r\n对于任意一颗满足题目条件的树，如果我们定义 `c[x]` 为 `x` 节点的关系数（或者说 `x` 出现在 `pairs` 中的次数），有一个显然的结论可以看出来：就是对于任意俩个不同节点 `a`、`b`，如果 `a` 是 `b` 的祖先，那么一定有 `c[a] >= c[b]`，等号取到当且仅当从 `a` 到 `b` 的路径上的任意节点（含 `a` 不含 `b`）没有额外分支（即 `a` 到 `b` 的路径上的节点在树中都呈链表状）。\r\n\r\n根据这个结论，我们可以得出如果存在这样的 `a`、`b`，满足 `c[a] = c[b]` 且 `a` 是 `b` 的祖先，那么如果存在一个解，解就不止一种（`a` 到 `b` 的路径上的节点位置皆可重新排列），将 `ans` 设成 $2$（初始值设为 $1$）。\r\n\r\n同样根据这个结论，我们可以开始从上到下（从根到叶）地构造这样的一种解，如果构造失败，在将 `ans` 改为 $0$。构造思路如下：先将所有节点按照关系数 `c[x]` 从大到小排列，因为根据结论关系数大的数一定不会在关系数小的数的子树下，相等且有关系的话无所谓谁上谁下（即 `c[a] = c[b]` 的情况）。\r\n\r\n首先 `c[x]` 最多的一定可以为根且值为 `n - 1`，我们定义 `par[x]` 为目前已知的 `x` 的最近祖先，那么我们可以先将所有节点的 `par` 设成根节点，在更新过程中找到他们真正的父节点；当我们更新到 `u` 节点时我们先查看所有和 `u` 有关系的其它点，如果还未被放入树中我们希望更新它的 `par[v]` 的值为 `u`，但这时候就要判断是否可以这样做了。\r\n\r\n+ 首先，如果 `par[v]` 的值并非 `u` 的任意祖先（表示 `v` 在另一个不含 `u` 的分支中），那么显然无解否则会有环；\r\n+ 其次，如果 `par[v] != par[u]`（即 `par[v]` 的当前已知最近祖先不是 `u` 的父节点），说明存在 `par[u]` 不在`v` 的关系表中，否则在更新 `par[u]` 的时候一定会将 `par[v]` 的值更新为 `par[u]`，这说明同样无解。\r\n\r\n所以我们判断是否可以将 `par[v]` 更新为 `u` 的条件就是 `par[v] == par[u]`，可以理解为：本来 `v` 挂在 `par[u]` 下，现在把它移到 `u` 下。整个过程都可以理解为更新到一个节点时将本该出现在当前节点的子树下的节点移到这个节点下，不能移动则 `ans` 设为 $0$。\r\n\r\n总复杂度为 $O(n + m)$。\r\n\r\n然后就是上代码，这题偏思考，所以我口胡了半天思路，ps：其实理论上应该可以直接问种数 `mod（1e9+7)`，可能出题人想稍微降点难度吧。。。\r\n\r\n**参考代码**：\r\n\r\n```Python3\r\nclass Solution:\r\n    def checkWays(self, pairs: List[List[int]]) -> int:\r\n        ans=1\r\n        c=Counter()\r\n        g=defaultdict(list)\r\n        for u,v in pairs:\r\n            c[u]+=1\r\n            c[v]+=1\r\n            g[u].append(v)\r\n            g[v].append(u)\r\n        n=len(c)\r\n        res=sorted(c.keys(),key=lambda x: -c[x])#按照关系数排序\r\n        for u,v in pairs:\r\n            if c[u]==c[v]:\r\n                ans=2\r\n        par={}\r\n        if c[res[0]]!=n-1:#判断根的关系数是否满足条件\r\n            ans=0\r\n        else:\r\n            for i in res:\r\n                par[i]=res[0]#将所有节点先挂在根节点下\r\n            f=True\r\n            vis={res[0]}\r\n            for i in range(1,n):\r\n                for v in g[res[i]]:\r\n                    if v not in vis:\r\n                        if par[v]!=par[res[i]]:#判断是否能够更新\r\n                            ans=0\r\n                            f=False\r\n                            break\r\n                        par[v]=res[i]#将v挂到当前节点res[i]下\r\n                if not f:\r\n                    break\r\n                vis.add(res[i])\r\n        return ans\r\n```\r\n\r\n",
+      "createdAt": "2021-01-09T19:11:07.723609+00:00",
+      "hitCount": 1706,
+      "identifier": "XarOFC",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "xiang-xi-fen-xi-liang-chong-jian-shu-si-eomax",
+        "title": "详细分析+两种建树思路（自顶向下、自底向上）"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "number-of-ways-to-reconstruct-a-tree"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 23,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "onmde-luan-gao-zuo-fa-by-weak-chicken-y2mv",
+      "status": "PUBLISHED",
+      "summary": "由于菜鸡没学过啥竞赛的知识点，也不知道这个题的算法有没有啥背景，就取名乱搞了。\n首先说下思路，由于题目本身要判断种数，我们可以分两步思考：\n\n能不能构造出任意一颗满足的树；\n这种构造是否唯一。\n\n对于任意一颗满足题目条件的树，如果我们定义 c[x] 为 x 节点的关系数（或者说 x 出现在 pairs 中的次数），有一",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python3",
+          "nameTranslated": "",
+          "slug": "python3",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "o（n+m)的乱搞做法",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 10,
+        "id": 553822,
+        "viewCount": 1214
+      },
+      "uuid": "XarOFC",
+      "videosInfo": []
+    }
+  }
+}

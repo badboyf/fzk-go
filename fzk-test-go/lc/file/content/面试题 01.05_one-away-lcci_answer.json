@@ -1,0 +1,93 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "Krahets",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/jyd/avatar_1589712294.png",
+          "userSlug": "jyd"
+        },
+        "username": "jyd"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "## 解题思路\n\n根据题意，两字符串 `first` , `second` 能够通过一次（或者零次）编辑互相转换的「充要条件」为：\n\n1. 两字符串 `first` , `second` 的长度之差 $\\leq 1$ ；\n2. 当 `first` , `second` 长度相等时，两字符串**各对应位置只有一个字符不同**；\n3. 当 `first` , `second` 长度之差为 $1$ 时，「较短字符串」**仅需在某位置添加一个字符**，即可转化为「较长字符串」；\n\n因此，通过判断两字符串  `first` , `second` **是否满足以上全部条件**，即可判定两字符串是否能够通过一次编辑完成互相转换。\n\n![ccw-01-05.001.png](https://pic.leetcode-cn.com/1638104118-vxOhrV-ccw-01-05.001.png)\n\n## 复杂度分析\n\n**时间复杂度 $O(M + N)$ ：** 其中 $M$ , $N$ 为两字符串的长度；对于文中三种不同情况，都仅需要遍历两字符串即可，使用 $O(M + N)$ 线性时间；\n**空间复杂度 $O(1)$ ：** 几个变量仅使用常数大小的额外空间；\n\n## 示例图解\n\n如下图所示，为示例字符串 `first = \"paes\"` , `second = \"pales\"` 的算法执行过程。\n\n<![ccw-01-05.002.png](https://pic.leetcode-cn.com/1638104118-LrDoIV-ccw-01-05.002.png),![ccw-01-05.003.png](https://pic.leetcode-cn.com/1638104118-xxXELG-ccw-01-05.003.png),![ccw-01-05.004.png](https://pic.leetcode-cn.com/1638104118-JgUgJJ-ccw-01-05.004.png),![ccw-01-05.005.png](https://pic.leetcode-cn.com/1638104118-xkrSCy-ccw-01-05.005.png),![ccw-01-05.006.png](https://pic.leetcode-cn.com/1638104118-ESdEdu-ccw-01-05.006.png),![ccw-01-05.007.png](https://pic.leetcode-cn.com/1638104118-qdiCvs-ccw-01-05.007.png),![ccw-01-05.008.png](https://pic.leetcode-cn.com/1638104118-stGDZN-ccw-01-05.008.png),![ccw-01-05.009.png](https://pic.leetcode-cn.com/1638104118-ftaiWm-ccw-01-05.009.png),![ccw-01-05.010.png](https://pic.leetcode-cn.com/1638104118-KPlHAl-ccw-01-05.010.png),![ccw-01-05.011.png](https://pic.leetcode-cn.com/1638104118-AjMcmL-ccw-01-05.011.png),![ccw-01-05.012.png](https://pic.leetcode-cn.com/1638104118-AIwTYg-ccw-01-05.012.png),![ccw-01-05.013.png](https://pic.leetcode-cn.com/1638104118-lbuJYo-ccw-01-05.013.png)>\n\n## 代码\n\n```Python []\nclass Solution:\n    def oneEditAway(self, first: str, second: str) -> bool:\n        lf, ls = len(first), len(second)\n        if lf > ls:\n            return self.oneEditAway(second, first)\n        if ls - lf > 1:\n            return False\n        if lf == ls:\n            count = 0\n            for i in range(lf):\n                if first[i] != second[i]:\n                    count += 1\n            return count <= 1\n        i, ofs = 0, 0\n        while i < lf:\n            if first[i] != second[i + ofs]:\n                ofs += 1\n                if ofs > 1:\n                    return False\n            else:\n                i += 1\n        return True\n```\n\n```Java []\nclass Solution {\n    public boolean oneEditAway(String first, String second) {\n        int lf = first.length(), ls = second.length();\n        if (lf > ls)\n            return oneEditAway(second, first);\n        if (ls - lf > 1)\n            return false;\n        if (lf == ls) {\n            int count = 0;\n            for (int i = 0; i < lf; i++) {\n                if (first.charAt(i) != second.charAt(i))\n                    count += 1;\n            }\n            return count <= 1;\n        }\n        int i = 0, ofs = 0;\n        while (i < lf) {\n            if (first.charAt(i) != second.charAt(i + ofs)) {\n                if (++ofs > 1)\n                    return false;\n            } else {\n                i += 1;\n            }\n        }\n        return true;\n    }\n}\n```\n\n```C++ []\nclass Solution {\npublic:\n    bool oneEditAway(string first, string second) {\n        int lf = first.length(), ls = second.length();\n        if (lf > ls)\n            return oneEditAway(second, first);\n        if (ls - lf > 1)\n            return false;\n        if (lf == ls) {\n            int count = 0;\n            for (int i = 0; i < lf; i++) {\n                if (first[i] != second[i])\n                    count += 1;\n            }\n            return count <= 1;\n        }\n        int i = 0, ofs = 0;\n        while (i < lf) {\n            if (first[i] != second[i + ofs]) {\n                if (++ofs > 1)\n                    return false;\n            } else {\n                i += 1;\n            }\n        }\n        return true;\n    }\n};\n```\n\n#### 注释版代码\n\n```Python []\nclass Solution:\n    def oneEditAway(self, first: str, second: str) -> bool:\n        lf, ls = len(first), len(second)\n        # 为方便后续处理，先保证输入 first 长度 < second 长度\n        if lf > ls:\n            return self.oneEditAway(second, first)\n        # 「CASE1」若两字符串长度之差 > 1 ，则无法通过一次编辑互相转换\n        if ls - lf > 1:\n            return False\n        # 「CASE2」当两字符串长度相等\n        if lf == ls:\n            count = 0\n            # 遍历两字符串，统计“对应索引处字符不同”数量\n            for i in range(lf):\n                if first[i] != second[i]:\n                    count += 1\n            # 若“对应索引处字符不同”数量 <= 1 ，则能够通过一次编辑互相转换\n            return count <= 1\n        # 「CASE3」当两字符串长度之差为 1\n        i, ofs = 0, 0\n        # 遍历两字符串，统计“对应索引处字符不同”数量\n        while i < lf:\n            # 当遍历到不同字符时，执行偏移量 ofs += 1\n            if first[i] != second[i + ofs]:\n                ofs += 1\n                # 若偏移量 > 1 ,说明无法通过一次编辑互相转换\n                if ofs > 1:\n                    return False\n            else:\n                i += 1\n        # 遍历完成，代表能够通过一次编辑互相转换\n        return True\n```\n\n```Java []\nclass Solution {\n    public boolean oneEditAway(String first, String second) {\n        int lf = first.length(), ls = second.length();\n        // 为方便后续处理，先保证输入 first 长度 < second 长度\n        if (lf > ls)\n            return oneEditAway(second, first);\n        // 「CASE1」若两字符串长度之差 > 1 ，则无法通过一次编辑互相转换\n        if (ls - lf > 1)\n            return false;\n        // 「CASE2」当两字符串长度相等\n        if (lf == ls) {\n            int count = 0;\n            // 遍历两字符串，统计“对应索引处字符不同”数量\n            for (int i = 0; i < lf; i++) {\n                if (first.charAt(i) != second.charAt(i))\n                    count += 1;\n            }\n            // 若“对应索引处字符不同”数量 <= 1 ，则能够通过一次编辑互相转换\n            return count <= 1;\n        }\n        // 「CASE3」当两字符串长度之差为 1\n        int i = 0, ofs = 0;\n        // 遍历两字符串，统计“对应索引处字符不同”数量\n        while (i < lf) {\n            // 当遍历到不同字符时，执行偏移量 ofs += 1\n            if (first.charAt(i) != second.charAt(i + ofs)) {\n                // 若偏移量 > 1 ,说明无法通过一次编辑互相转换\n                if (++ofs > 1) // 注意 ++ofs > 1 是先执行 ofs 自增，再执行逻辑判断； ofs++ 的顺序反之\n                    return false;\n            } else {\n                i += 1;\n            }\n        }\n        // 遍历完成，代表能够通过一次编辑互相转换\n        return true;\n    }\n}\n```\n\n```C++ []\nclass Solution {\npublic:\n    bool oneEditAway(string first, string second) {\n        int lf = first.length(), ls = second.length();\n        // 为方便后续处理，先保证输入 first 长度 < second 长度\n        if (lf > ls)\n            return oneEditAway(second, first);\n        // 「CASE1」若两字符串长度之差 > 1 ，则无法通过一次编辑互相转换\n        if (ls - lf > 1)\n            return false;\n        // 「CASE2」当两字符串长度相等\n        if (lf == ls) {\n            int count = 0;\n            // 遍历两字符串，统计“对应索引处字符不同”数量\n            for (int i = 0; i < lf; i++) {\n                if (first[i] != second[i])\n                    count += 1;\n            }\n            // 若“对应索引处字符不同”数量 <= 1 ，则能够通过一次编辑互相转换\n            return count <= 1;\n        }\n        // 「CASE3」当两字符串长度之差为 1\n        int i = 0, ofs = 0;\n        // 遍历两字符串，统计“对应索引处字符不同”数量\n        while (i < lf) {\n            // 当遍历到不同字符时，执行偏移量 ofs += 1\n            if (first[i] != second[i + ofs]) {\n                // 若偏移量 > 1 ,说明无法通过一次编辑互相转换\n                if (++ofs > 1) // 注意 ++ofs > 1 是先执行 ofs 自增，再执行逻辑判断； ofs++ 的顺序反之\n                    return false;\n            } else {\n                i += 1;\n            }\n        }\n        // 遍历完成，代表能够通过一次编辑互相转换\n        return true;\n    }\n};\n```\n",
+      "createdAt": "2021-11-28T12:37:59.660853+00:00",
+      "hitCount": 42,
+      "identifier": "337ohQ",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "jian-dan-zuo-xia-zhu-zi-fu-bi-jiao-fa-fu-vof2",
+        "title": "简单做下，逐字符比较法，附加动态规划相关"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "one-away-lcci"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "mian-shi-ti-0105-yi-ci-bian-ji-qing-xi-t-xoy7",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n根据题意，两字符串 first , second 能够通过一次（或者零次）编辑互相转换的「充要条件」为：\n\n两字符串 first , second 的长度之差 \\leq 1 ；\n当 first , second 长度相等时，两字符串各对应位置只有一个字符不同；\n当 first , second 长度之差为 1",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "String",
+          "nameTranslated": "字符串",
+          "slug": "string",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python3",
+          "nameTranslated": "",
+          "slug": "python3",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1638104118-vxOhrV-ccw-01-05.001.png",
+      "title": "面试题 01.05. 一次编辑（清晰图解）",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1127341,
+        "viewCount": 30
+      },
+      "uuid": "337ohQ",
+      "videosInfo": []
+    }
+  }
+}

@@ -1,0 +1,79 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "颜胥",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/hu-zhe/avatar_1631660802.png",
+          "userSlug": "hu-zhe"
+        },
+        "username": "hu-zhe"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "我爱二分\r\n```\r\nclass Solution {\r\npublic:\r\n    vector<vector<int>> findSolution(CustomFunction& customfunction, int z) {\r\n        vector<vector<int>> res;\r\n        for(int i=1;i<=1000;++i)\r\n        {\r\n            int left=1;\r\n            int right=1000;\r\n            while(left<=right)\r\n            {\r\n                int mid=(left+right)/2;\r\n                if(customfunction.f(i,mid)<z)\r\n                {\r\n                    left=mid+1;\r\n                }else if(customfunction.f(i,mid)>z){\r\n                    right=mid-1;\r\n                }else \r\n                {\r\n                    res.push_back({i,mid});\r\n                    break;\r\n                }\r\n            }\r\n        }\r\n        return res;\r\n    }\r\n};\r\n```\r\n",
+      "createdAt": "2021-11-10T11:20:04.507445+00:00",
+      "hitCount": 38,
+      "identifier": "e3Utnm",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "1237-cjian-dan-yi-dong-de-bao-li-er-fen-oajqi",
+        "title": "1237. c++简单易懂的暴力二分法"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "find-positive-integer-solution-for-a-given-equation"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "er-fen-mo-ban-ti-by-hu-zhe-y94q",
+      "status": "PREPUBLISH",
+      "summary": "我爱二分",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "二分",
+          "nameTranslated": "",
+          "slug": "er-fen",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "",
+      "title": "二分模板题",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1094890,
+        "viewCount": 28
+      },
+      "uuid": "e3Utnm",
+      "videosInfo": []
+    }
+  }
+}

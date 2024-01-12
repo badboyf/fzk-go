@@ -1,0 +1,83 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "Comrades",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/f821878167/avatar_1598157086.png",
+          "userSlug": "taicailea"
+        },
+        "username": "taicailea"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 思路\n\n这是一道好题，关键在于是否看到“删除连续子数组”。由于我们删除必须连续，因此当有多段递减的子数组时，我们只需要考虑最靠左的递减子数组和最靠右的递减子数组。\n\n1. 我们找到最左端开始递减的位置 $i$，有 $arr[i-1] > arr[i]$\n2. 然后找到最右端开始递增的位置 $j$，有 $arr[k] <= arr[k+1], k >= j$\n3. $arr[i:j]$ 这一段数组必须删除，而要满足题目条件，我们需要考察 $arr[:i] + arr[j:]$ 左右两段数组拼在一起是否非递减\n4. 只需遍历左边数组的每一个位置，找到右边数组相应的非递减的端点，我们就可以得到答案\n### 细节\n1. 我们可以直接把右边数组作为答案，因此左边和中间的数组长度和即为删除的长度\n2. 遍历左边数组的每一个位置时，为了快速找到右边对应的端点，我们可以采用二分查找\n\n![Picture1.png](https://pic.leetcode-cn.com/1633487823-TFUsgk-Picture1.png)\n\n\n### 代码\n```c++ []\nclass Solution {\npublic:\n    int findLengthOfShortestSubarray(vector<int>& arr) {\n        // 找到最左边开始递减的位置 i 有 arr[i-1] > arr[i]\n        // 找到最右边的非递减的开始位置 j 有 arr[k] <= arr[k+1], any k >= j\n        int left = 1, right = arr.size()-1, n = arr.size();\n        while (left < n && arr[left-1] <= arr[left]) ++left;\n        while (right-1 >= 0 && arr[right-1] <= arr[right]) --right;\n        if (left > right) return 0; // 已经有序\n        // 中间的子数组 arr[left:right] 肯定是要删除的，因为只能删除一个连续的子数组\n        int ans = right;\n        for (int i = 0; i < left; ++i) {\n            int e = arr[i];\n            int j = lower_bound(arr.begin()+right, arr.end(), e) - arr.begin();\n            ans = min(ans, j-i-1);\n        }\n        return ans;\n    }\n};\n```",
+      "createdAt": "2021-10-06T02:38:00.931098+00:00",
+      "hitCount": 405,
+      "identifier": "3foymu",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "ting-you-qu-de-yi-dao-ti-by-sincejuly-t2-83vo",
+        "title": "挺有趣的一道题。。。"
+      },
+      "position": 3,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "java-jian-dan-on-by-avlgood2018",
+        "title": "JAVA 简单O(n)"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "shortest-subarray-to-be-removed-to-make-array-sorted"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "shan-chu-lian-xu-zi-shu-zu-by-taicailea-tp0t",
+      "status": "PREPUBLISH",
+      "summary": "思路\n这是一道好题，关键在于是否看到“删除连续子数组”。由于我们删除必须连续，因此当有多段递减的子数组时，我们只需要考虑最靠左的递减子数组和最靠右的递减子数组。\n\n我们找到最左端开始递减的位置 i，有 arr[i-1] > arr[i]\n然后找到最右端开始递增的位置 j，有 arr[k] <= arr[k+1], k",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "二分",
+          "nameTranslated": "",
+          "slug": "er-fen",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1633487823-TFUsgk-Picture1.png",
+      "title": "删除”连续“子数组",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1032852,
+        "viewCount": 286
+      },
+      "uuid": "3foymu",
+      "videosInfo": []
+    }
+  }
+}

@@ -1,0 +1,91 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "吴自华",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/lucifer1004/avatar_1623921450.png",
+          "userSlug": "lucifer1004"
+        },
+        "username": "lucifer1004"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "[本场周赛题解](https://cp-wiki.vercel.app/tutorial/leetcode/WC209/) | [我的LeetCode比赛题解](https://cp-wiki.vercel.app/tutorial/leetcode/)\n\n首先排除与人的位置重合的点，只考虑剩下的点。\n\n计算每个点到人的位置的极角，然后按极角排序。因为可以循环，所以把整个数组加上$360^\\circ$再接到后面。\n\n接下来双指针找出覆盖最多点的区间即可。\n\n最后返回答案时，把与人的位置重合的点加上。\n\n总时间复杂度$O(N\\log N)$。\n\n更新：角度计算用`atan2`更加方便，不需要判断象限。\n\n```cpp\nconst double eps = 1e-8;\n\nclass Solution {\npublic:\n    int visiblePoints(vector<vector<int>>& points, int angle, vector<int>& location) {\n        int x = location[0], y = location[1];\n        int same = 0;\n        vector<double> v;\n        for (auto p : points) {\n            int px = p[0], py = p[1];\n            if (px == x && py == y)\n                same++;\n            else\n                v.emplace_back(atan2(py - y, px - x) * 180 / M_PI);\n        }\n        sort(v.begin(), v.end());\n        int m = v.size();\n        for (int i = 0; i < m; ++i)\n            v.emplace_back(v[i] + 360);\n        int r = 0, hi = 0;\n        for (int l = 0; l < m; ++l) {\n            while (r + 1 < v.size() && v[r + 1] - v[l] <= (double)angle + eps)\n                r++;\n            hi = max(hi, r - l + 1);\n        }\n        return hi + same;\n    }\n};\n```",
+      "createdAt": "2020-10-04T04:05:00.848306+00:00",
+      "hitCount": 3055,
+      "identifier": "aErO3t",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "atan2jiu-wan-shi-liao-by-time-limit",
+        "title": "atan2就完事了"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "maximum-number-of-visible-points"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 29,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 0,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "ji-jiao-xu-shuang-zhi-zhen-by-lucifer1004",
+      "status": "PUBLISHED",
+      "summary": "本场周赛题解 | 我的LeetCode比赛题解\n首先排除与人的位置重合的点，只考虑剩下的点。\n计算每个点到人的位置的极角，然后按极角排序。因为可以循环，所以把整个数组加上360^\\circ再接到后面。\n接下来双指针找出覆盖最多点的区间即可。\n最后返回答案时，把与人的位置重合的点加上。\n总时间复杂度O(N\\log N)。",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Two Pointers",
+          "nameTranslated": "双指针",
+          "slug": "two-pointers",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "cpp",
+          "nameTranslated": "",
+          "slug": "additional_cpp",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "",
+      "title": "极角序+双指针",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 11,
+        "id": 435657,
+        "viewCount": 2165
+      },
+      "uuid": "aErO3t",
+      "videosInfo": []
+    }
+  }
+}

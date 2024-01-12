@@ -1,0 +1,83 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "5cm/s",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/xincept/avatar_1616151418.png",
+          "userSlug": "megurine"
+        },
+        "username": "megurine"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "## 解法\r\n题目可以分解为两部分\r\n### 1. 动态规划\r\n状态转移公式比较容易想到\r\n$$\r\n\\left\\{\\begin{array}{l}\r\nf[0][0][0][0] = 0\r\n\\\\\r\nf[e][s][w][n] = min(f[e-de][s-ds][w-dw][n-dn]) + 1\r\n\\end{array}\\right.\r\n\r\n$$\r\n其中 $de,ds,dw,dn$ 分别表示四个方向本次驶出的车的数量\r\n$$\r\nde,ds,dw,dn \\in[0,1],de+ds+dw+dn > 0\r\n$$\r\n且只有当这些车可以同时驶出的时候，才可以进行状态迁移\r\n$de,ds,dw,dn$ 一共15种组合，可以通过枚举 $[1,15]$ + 位运算来遍历\r\n\r\n### 2. 方案验证\r\n每个方向的车都有4种可能（对向，左拐，右拐，不驶出），4个方向一共 $4^{4}=64$ 种组合，可以先预处理出所有有效的方案\r\n\r\n可以分四种情况排除无效的组合：\r\n\r\n1. 必须至少有一个方向有车驶出\r\n2. 不能有车驶入同一方向\r\n3. 任意一方向有车直行驶出时：\r\n 3.1 左侧不能有直行车或左拐车\r\n 3.2 右侧不能有直行车\r\n 3.3 对向不能有左拐车\r\n4. 任意一方向有车左拐时：\r\n 4.1 右侧不能有直行车或左拐车\r\n 4.2 左侧不能有左行车\r\n 4.3 对向不能有直行车\r\n\r\n> $3, 4$ 没有检测的部分，在 $2$中已经处理过\r\n> 之所以 $3, 4$ 没有指定具体方向，是因为可以通过旋转对 4 种方向作等价处理\r\n\r\n## 实现\r\n```Python\r\nable = set()\r\ndef test(a, b, c, d, A, B, C, D): # eswn\r\n    if a == C and (b == D or d == A or d == B or c == D):\r\n        return False\r\n    if a == B and (b == C or b == D or d == A or c == A):\r\n        return False\r\n    return True\r\n\r\nfor e in ' WNS':\r\n    for s in ' EWN':\r\n        for w in ' ESN':\r\n            for n in ' ESW':\r\n                eswn = e + s + w + n\r\n                t = eswn.replace(' ', '')\r\n                if not t:\r\n                    continue\r\n                if len(set(t)) != len(t):\r\n                    continue\r\n                if not test(e, s, w, n, *'ESWN'):\r\n                    continue\r\n                if not test(s, w, n, e, *'SWNE'):\r\n                    continue\r\n                if not test(w, n, e, s, *'WNES'):\r\n                    continue\r\n                if not test(n, e, s, w, *'NESW'):\r\n                    continue\r\n                able.add(eswn)  \r\n\r\nclass Solution:\r\n    def trafficCommand(self, directions: List[str]) -> int:\r\n        [e, s, w, n] = list(map(len, directions))\r\n        [ce, cs, cw, cn] = directions\r\n        f = [[[[100]*(n+1) for _ in range(w+1)] for _ in range(s+1)] for _ in range(e+1)]\r\n        ddd = {}\r\n        f[0][0][0][0] = 0\r\n        for e1 in range(e+1):\r\n            for s1 in range(s+1):\r\n                for w1 in range(w+1):\r\n                    for n1 in range(n+1):\r\n                        if e1 + s1 + w1 + n1 == 0:\r\n                            continue\r\n                        x = 100\r\n                        for mask in range(1, 16):\r\n                            v = ce[e1-1] if mask & 1 and e1 else ' '\r\n                            v += cs[s1-1] if mask & 2 and s1 else ' '\r\n                            v += cw[w1-1] if mask & 4 and w1 else ' '\r\n                            v += cn[n1-1] if mask & 8 and n1 else ' '\r\n                            if v in able:\r\n                                x = min(x, f[e1-(v[0]!=' ')][s1-(v[1]!=' ')][w1-(v[2]!=' ')][n1-(v[3]!=' ')] + 1)\r\n                        f[e1][s1][w1][n1] = x\r\n\r\n        return f[e][s][w][n]\r\n```",
+      "createdAt": "2021-11-05T14:12:30.852665+00:00",
+      "hitCount": 120,
+      "identifier": "mZwfGr",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "bu-xu-yao-dong-nao-zi-de-pan-ding-fang-f-gut7",
+        "title": "不需要动脑子的判定方法"
+      },
+      "position": 2,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "si-wei-dp-by-verygoodlee-9dz9",
+        "title": "四维DP"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "Y1VbOX"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "ha-xi-biao-dong-tai-gui-hua-by-megurine-mn3p",
+      "status": "PREPUBLISH",
+      "summary": "解法\n题目可以分解为两部分\n1. 动态规划\n状态转移公式比较容易想到\n\\left\\{\\begin{array}{l}\nf[0][0][0][0] = 0\n\\\\\nf[e][s][w][n] = min(f[e-de][s-ds][w-dw][n-dn]) + 1\n\\end{array}\\right.\n\n\n其中 de,ds",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Dynamic Programming",
+          "nameTranslated": "动态规划",
+          "slug": "dynamic-programming",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python3",
+          "nameTranslated": "",
+          "slug": "python3",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "哈希表 + 动态规划",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 8,
+        "id": 1086306,
+        "viewCount": 85
+      },
+      "uuid": "mZwfGr",
+      "videosInfo": []
+    }
+  }
+}

@@ -1,0 +1,87 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣官方题解",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/leetcode-solution/avatar_1582018938.png",
+          "userSlug": "leetcode-solution"
+        },
+        "username": "LeetCode-Solution"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法一：遍历\n\n「所有 $1$ 都至少相隔 $k$ 个元素」等价于「任意两个相邻的 $1$ 都至少相隔 $k$ 个元素」，因此我们只需要从左到右遍历数组，并记录上一个 $1$ 出现的位置。\n\n在遍历的过程中，如果我们找到了一个新的 $1$，就需要判断其与上一个 $1$ 之间是否至少相隔 $k$ 个元素。如果不满足要求，那么直接返回 `False` 作为答案，否则继续进行遍历。\n\n在遍历完成之后即可返回 `True` 作为答案。\n\n```C++ [sol1-C++]\nclass Solution {\npublic:\n    bool kLengthApart(vector<int>& nums, int k) {\n        int n = nums.size();\n        int prev = -1;\n        for (int i = 0; i < n; ++i) {\n            if (nums[i] == 1) {\n                if (prev != -1 && i - prev - 1 < k) {\n                    return false;\n                }\n                prev = i;\n            }\n        }\n        return true;\n    }\n};\n```\n\n```Python [sol1-Python3]\nclass Solution:\n    def kLengthApart(self, nums: List[int], k: int) -> bool:\n        n = len(nums)\n        prev = -1\n        for i in range(n):\n            if nums[i] == 1:\n                if prev != -1 and i - prev - 1 < k:\n                    return False\n                prev = i\n        return True\n```\n\n```Java [sol1-Java]\nclass Solution {\n    public boolean kLengthApart(int[] nums, int k) {\n        int n = nums.length;\n        int prev = -1;\n        for (int i = 0; i < n; ++i) {\n            if (nums[i] == 1) {\n                if (prev != -1 && i - prev - 1 < k) {\n                    return false;\n                }\n                prev = i;\n            }\n        }\n        return true;\n    }\n}\n```\n\n**复杂度分析**\n\n- 时间复杂度：$O(N)$，其中 $N$ 是数组 $\\textit{nums}$ 的长度。\n\n- 空间复杂度：$O(1)$。",
+      "createdAt": "2020-12-08T15:33:45.207561+00:00",
+      "hitCount": 1600,
+      "identifier": "OiahfC",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "cyi-tang-xun-huan-by-rayarsonlee-5a13",
+        "title": "C++一趟循环"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "check-if-all-1s-are-at-least-length-k-places-away"
+      },
+      "reactionType": null,
+      "reactionsV2": [],
+      "rewardEnabled": null,
+      "slug": "shi-fou-suo-you-1-du-zhi-shao-xiang-ge-k-bxwl",
+      "status": "PUBLISHED",
+      "summary": "方法一：遍历 「所有 $1$ 都至少相隔 $k$ 个元素」等价于「任意两个相邻的 $1$ 都至少相隔 $k$ 个元素」，因此我们只需要从左到右遍历数组，并记录上一个 $1$ 出现的位置。 在遍历的过程中，如果我们找到了一个新的 $1$，就需要判断其与上一个 $1$ 之间是否至少相隔 $k$ 个元素。如果不满足要求，那么",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Array",
+          "nameTranslated": "数组",
+          "slug": "array",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "是否所有 1 都至少相隔 k 个元素",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 6,
+        "id": 514370,
+        "viewCount": 1394
+      },
+      "uuid": "OiahfC",
+      "videosInfo": []
+    }
+  }
+}

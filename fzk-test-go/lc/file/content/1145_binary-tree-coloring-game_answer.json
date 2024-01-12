@@ -1,0 +1,76 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "Creep in",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/yuangongzhen/avatar_1636433103.png",
+          "userSlug": "yuangongzhen"
+        },
+        "username": "yuangongzhen"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n统计3个方向的节点数量，只要有一个方向节点数量超过总节点数量的一半则能获胜\n\n### 代码\n\n```c\n/**\n * Definition for a binary tree node.\n * struct TreeNode {\n *     int val;\n *     struct TreeNode *left;\n *     struct TreeNode *right;\n * };\n */\nvoid getNodeNumbs(struct TreeNode* root,int *count){\n    if(root==NULL)return;\n    (*count)++;\n    getNodeNumbs(root->left,count);\n    getNodeNumbs(root->right,count);\n}\nvoid getXNode(struct TreeNode* root,int x,struct TreeNode** cur,int *count){\n    if(root==NULL)return;\n    if(root->val==x){\n        *cur=root;\n        return;\n    }\n    (*count)++;\n    getXNode(root->left,x,cur,count);\n    getXNode(root->right,x,cur,count);\n}\nbool btreeGameWinningMove(struct TreeNode* root, int n, int x){\n    int xCount=0,yCount=0,zCount=0;\n    struct TreeNode* cur;\n    int half=n/2;\n    getXNode(root,x,&cur,&zCount);\n    getNodeNumbs(cur->right,&xCount);\n    getNodeNumbs(cur->left,&yCount);\n    if(xCount>half||yCount>half||zCount>half)return true;\n    return false;\n}\n```",
+      "createdAt": "2021-10-28T12:21:32.672713+00:00",
+      "hitCount": 153,
+      "identifier": "Z2PnPr",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "fen-cheng-san-ge-bu-fen-yzhi-neng-qu-qi-f7o3c",
+        "title": "【分成三个部分，y只能取其中一个部分】"
+      },
+      "position": 2,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "dfs-xiang-jian-jie-ti-si-lu-by-pan-zheng-pg6l",
+        "title": "DFS 详见解题思路"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "binary-tree-coloring-game"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "cdi-gui-qiu-jie-by-yuangongzhen-d2zo",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n统计3个方向的节点数量，只要有一个方向节点数量超过总节点数量的一半则能获胜\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "C",
+          "nameTranslated": "",
+          "slug": "c",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "C递归求解",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1071760,
+        "viewCount": 104
+      },
+      "uuid": "Z2PnPr",
+      "videosInfo": []
+    }
+  }
+}

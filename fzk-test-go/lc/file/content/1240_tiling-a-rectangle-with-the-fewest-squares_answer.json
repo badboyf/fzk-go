@@ -1,0 +1,79 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "alienjiren",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/alienjiren/avatar_1592922316.png",
+          "userSlug": "alienjiren"
+        },
+        "username": "alienjiren"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "思路来自英文区那边比较易懂的方法\r\n来源：\r\nhttps://leetcode.com/problems/tiling-a-rectangle-with-the-fewest-squares/discuss/853323/Python-DP-solution-Easy-to-understand-(No-skyline-and-no-cheat)-64-ms\r\n作者：https://leetcode.com/redSand/\r\n\r\n基础部分分3种情况\r\n1.x = y: 那么只需要一个正方形 return 1\r\n2.x = 1: 长为1，那么需要y个正方形填充这一块， return y\r\n3.y = 1: 宽为1，那么需要x个正方形填充这一块， return x\r\n\r\n递归部分主要有三种情况：\r\n1.分成左右两个长方形，然后递归\r\n![5a0f1a78-3323-4976-872b-4aae3e8a5894_1600486709.5464668.png](https://pic.leetcode-cn.com/1626924827-QfuAZG-5a0f1a78-3323-4976-872b-4aae3e8a5894_1600486709.5464668.png)\r\n\r\n2.分成上下两个长方形，然后递归\r\n![39e669f3-59d2-4ce1-beba-086f43cf7ab1_1600486923.2227962.png](https://pic.leetcode-cn.com/1626924926-wmrqHh-39e669f3-59d2-4ce1-beba-086f43cf7ab1_1600486923.2227962.png)\r\n\r\n3.比较特殊的一种是中间有个正方形，其余4部分为长方形，分别递归\r\n![82f40eca-e5d6-4d3a-863b-8ef0a748756a_1600487944.6141543.png](https://pic.leetcode-cn.com/1626924996-aMUhBG-82f40eca-e5d6-4d3a-863b-8ef0a748756a_1600487944.6141543.png)\r\n\r\n另外，这种分类方法只适合1 <= n <= 13，1 <= m <= 13的情况（也就是题目的限制），因为当数据量更大，分类方法不只是这三种，造成了错误的可能。比如n = 53,m = 45答案应该是9，但是我们的算法返回的是10.\r\n\r\n这个问题的general case好像是np hard,数学文献参考：\r\nhttps://leetcode.com/problems/tiling-a-rectangle-with-the-fewest-squares/discuss/414804/A-Review%3A-Why-This-Problem-Is-a-Tip-of-the-Iceberg\r\n\r\n对于m,n大于13的情况，大家可以用这个链接验证：http://int-e.eu/~bf3/squares/view.html#36,27\r\n\r\n以下代码作者：https://leetcode.com/redSand/\r\n\r\n```\r\nfrom functools import lru_cache\r\n\r\nclass Solution:\r\n    def tilingRectangle(self, n: int, m: int) -> int:\r\n        @lru_cache(maxsize=None)\r\n        def dfs(x, y):\r\n            #3种base case\r\n            if x == y:\r\n                return 1\r\n            if x == 1:\r\n                return y\r\n            if y == 1:\r\n                return x\r\n            \r\n            # 最多的划分当然是分成1x1的方格，需要x*y个\r\n            result = x * y\r\n            \r\n            # 情况1\r\n            for i in range(1, (x // 2) + 1):\r\n                result = min(result, dfs(i, y) + dfs(x - i, y))\r\n            \r\n            # 情况2\r\n            for k in range(1, (y // 2) + 1):\r\n                result = min(result, dfs(x, k) + dfs(x, y - k))\r\n            \r\n            # 情况3：中间的小方格的上限大小为长宽较小值-1，其他4个部分的长宽按照图3给出的值计算\r\n            for centre_sq_size in range(1, min(x, y)):\r\n                for i in range(1, x - centre_sq_size):\r\n                    for k in range(1, y - centre_sq_size):\r\n                        partition1 = dfs(i + centre_sq_size, k)\r\n                        partition2 = dfs(x - i - centre_sq_size, k + centre_sq_size)\r\n                        partition3 = dfs(i, y - k)\r\n                        partition4 = dfs(x - i, y - k - centre_sq_size)\r\n                        partition5 = 1 # The central square just needs one block\r\n                        #结果为5个部分相加\r\n                        result = min(result, partition1 + partition2 + partition3 + partition4 + partition5)\r\n            \r\n            return result\r\n        \r\n        return dfs(n, m)\r\n```\r\n\r\n\r\n",
+      "createdAt": "2021-07-22T03:34:00.626247+00:00",
+      "hitCount": 649,
+      "identifier": "VfDEd2",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "c-dfshui-su-by-qiank-p3ed",
+        "title": "C++ dfs回溯"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "tiling-a-rectangle-with-the-fewest-squares"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 4,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "ji-yi-hua-sou-suo-python-by-alienjiren-m947",
+      "status": "PUBLISHED",
+      "summary": "思路来自英文区那边比较易懂的方法\n来源：\nhttps://leetcode.com/problems/tiling-a-rectangle-with-the-fewest-squares/discuss/853323/Python-DP-solution-Easy-to-understand-(No-skyline-a",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python3",
+          "nameTranslated": "",
+          "slug": "python3",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1626924827-QfuAZG-5a0f1a78-3323-4976-872b-4aae3e8a5894_1600486709.5464668.png",
+      "title": "极简记忆化搜索python，看不懂你打我",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 889724,
+        "viewCount": 493
+      },
+      "uuid": "VfDEd2",
+      "videosInfo": []
+    }
+  }
+}

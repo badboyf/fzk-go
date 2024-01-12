@@ -1,0 +1,86 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣 (LeetCode)",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/uploaded_files/2021/03/73c9f099-abbe-4d94-853f-f8abffd459cd/leetcode.png",
+          "userSlug": "leetcode"
+        },
+        "username": "LeetCode"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法 1：Hash Set\n\n**想法**\n\n如果一张卡片正反两面有相同值 `x`，那么一定不能使用 `x` 这个数字。否则，就有两个不同的取值，如果选择数字 `x`，那么可以让 `x` 朝向下方。\n\n**算法**\n\n记住所有在一张卡上出现两次的值 `same`，然后每个不在 `same` 中的值 `x` 都是一个可能的答案。如果没有可能答案，结果就是 0。\n\n```Java []\nclass Solution {\n    public int flipgame(int[] fronts, int[] backs) {\n        Set<Integer> same = new HashSet();\n        for (int i = 0; i < fronts.length; ++i)\n            if (fronts[i] == backs[i])\n                same.add(fronts[i]);\n\n        int ans = 9999;\n        for (int x: fronts)\n            if (!same.contains(x))\n                ans = Math.min(ans, x);\n\n        for (int x: backs)\n            if (!same.contains(x))\n                ans = Math.min(ans, x);\n\n        return ans % 9999;\n    }\n}\n```\n\n```Python []\nclass Solution(object):\n    def flipgame(self, fronts, backs):\n        same = {x for i, x in enumerate(fronts) if x == backs[i]}\n        ans = 9999\n        for x in itertools.chain(fronts, backs):\n            if x not in same:\n                ans = min(ans, x)\n\n        return ans % 9999\n```\n\n**复杂度分析**\n\n* 时间复杂度：$O(N)$，其中 $N$ 是 `fronts`（`backs`）的长度，我们需要遍历这个数组。\n* 空间复杂度：$O(N)$。",
+      "createdAt": "2019-08-21T03:24:42.317516+00:00",
+      "hitCount": 2411,
+      "identifier": "QKonmg",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "bian-li-shu-zu-by-euyvvl-mdvx",
+        "title": "遍历数组"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "card-flipping-game"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 3,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "fan-zhuan-qia-pian-you-xi-by-leetcode",
+      "status": "PUBLISHED",
+      "summary": "§ 方法 1：Hash Set\n想法\n如果一张卡片正反两面有相同值 x，那么一定不能使用 x 这个数字。否则，就有两个不同的取值，如果选择数字 x，那么可以让 x 朝向下方。\n算法\n记住所有在一张卡上出现两次的值 same，然后每个不在 same 中的值 x 都是一个可能的答案。如果没有可能答案，结果就是 0。\n复杂度",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Hash Table",
+          "nameTranslated": "哈希表",
+          "slug": "hash-table",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "翻转卡片游戏",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 2,
+        "id": 21944,
+        "viewCount": 1928
+      },
+      "uuid": "QKonmg",
+      "videosInfo": []
+    }
+  }
+}

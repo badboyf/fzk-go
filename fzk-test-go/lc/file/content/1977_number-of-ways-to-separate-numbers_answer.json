@@ -1,0 +1,98 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣官方题解",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/leetcode-solution/avatar_1582018938.png",
+          "userSlug": "leetcode-solution"
+        },
+        "username": "LeetCode-Solution"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 前言\n\n本题思维难度较大，需要一些动态规划的预处理和优化技巧，并且细节很多。\n\n#### 方法一：动态规划\n\n**思路与算法**\n\n我们用 $f[i][j]$ 表示对于字符串 $\\textit{num}$ 的第 $0, 1, \\cdots, j$ 个字符进行划分，并且最后一个数使用了第 $i, i+1, \\cdots j$ 个字符的方案数。为了叙述方便，我们用 $\\textit{num}(i, j)$ 表示该数。\n\n那么如何进行状态转移呢？我们可以基于如下的一个事实：\n\n> 对于数 $a$ 和 $b$，如果 $a$ 的位数严格大于 $b$ 的位数，那么 $a$ 一定严格大于 $b$。\n\n由于 $f[i][j]$ 中的最后一个数的位数为 $j-i+1$，那么上一个数的位数小于等于 $j-i$ 即可进行转移。上一个数的结尾在位置 $i - 1$，那么其开始下标需要大于等于：\n\n$$\n(i - 1) - (j - i) + 1 = 2i - j\n$$\n\n对应的状态即为：\n\n$$\nf[2i - j][i - 1], f[2i - j + 1, i - 1], \\cdots, f[i - 1][i - 1]\n$$\n\n此外，我们还需要比较 $\\textit{num}(2i - j - 1, i - 1)$ 和 $\\textit{num}(i, j)$ 的值的大小关系，此时这两个数的位数都是 $j-i+1$。如果前者小于等于后者，那么 $f[i][j]$ 还可以从 $f[2i-j-1][i-1]$ 转移而来。因此，状态转移方程为：\n\n$$\nf[i][j] = \\left\\{\n\\begin{aligned}\n& \\sum_{k=2i-j}^{i-1} f[k][i-1], & \\textit{num}(2i-j-1,i-1) > \\textit{num}(i, j) \\\\\n& \\sum_{k=2i-j-1}^{i-1} f[k][i-1], & \\textit{num}(2i-j-1,i-1) \\leq \\textit{num}(i, j)\n\\end{aligned}\n\\right.\n$$\n\n需要注意的是：为了防止状态转移方程显得过于复杂，我们在状态转移方程中：\n\n- 没有考虑 $2i-j$ 和 $2i-j-1$ 是否超出边界。但在实际的代码编写中，需要保证求和式中 $k$ 的最小值不能小于 $0$；\n\n- 没有考虑 $\\textit{num}(i, j)$ 是否包含前导零。如果 $\\textit{num}[i] = 0$，那么 $f[i][j] = 0$。特别地，如果 $\\textit{num}[0] = 0$，那么不会有任何满足要求的划分方案，直接返回 $0$ 作为答案，无需进行动态规划。\n\n动态规划的边界条件为 $f[0][..] = 1$，其余的状态的初始值均为 $0$。最终的答案即为所有 $f[..][n - 1]$ 的和，其中 $n$ 是字符串 $\\textit{num}$ 的长度。\n\n**前缀和优化**\n\n即使我们不考虑如何快速地比较 $\\textit{num}(2i-j-1,i-1)$ 和 $\\textit{num}(i, j)$ 的大小关系，上述动态规划的时间复杂度也为 $O(n^3)$：即我们需要 $O(n^2)$ 的时间枚举 $i$ 和 $j$，还需要 $O(n)$ 的时间枚举 $k$ 计算对应项的和。\n\n然而我们可以发现，这些和是「连续」的，因此我们可以使用前缀和进行优化。设 $\\textit{pre}[i][j]$ 表示：\n\n$$\n\\textit{pre}[i][j] = \\sum_{k=0}^{i} f[i][j]\n$$\n\n那么状态转移方程可以改写为：\n\n$$\nf[i][j] = \\left\\{\n\\begin{aligned}\n& \\textit{pre}[i-1][i-1] - \\textit{pre}[2i-j-1][i-1], & \\textit{num}(2i-j-1,i-1) > \\textit{num}(i, j) \\\\\n& \\textit{pre}[i-1][i-1] - \\textit{pre}[2i-j-2][i-1], & \\textit{num}(2i-j-1,i-1) \\leq \\textit{num}(i, j)\n\\end{aligned}\n\\right.\n$$\n\n只要在计算 $f$ 的过程中维护 $\\textit{pre}$，就可以将动态规划的时间复杂度优化至 $O(n^2)$。\n\n此外，我们也可以无需显式地使用前缀和数组：如果我们按照先枚举 $i$ 再枚举 $j$ 的顺序计算 $f[i][j]$，那么有：\n\n$$\nf[i][j] = \\sum_{k=2i-j}^{i-1} f[k][i-1]\n$$\n\n这里我们不考虑 $\\textit{num}(2i-j-1,i-1)$ 和 $\\textit{num}(i, j)$ 的大小关系，即使前者小于等于后者，多出的 $f[2i-j-1][i-1]$ 这一项也可以 $O(1)$ 的时间累加进 $f[i][j]$，无需刻意前缀和进行优化。\n\n当 $j \\to j+1$ 时：\n\n$$\nf[i][j+1] = \\sum_{k=2i-j-1}^{i-1} f[k][i-1]\n$$\n\n可以发现，$f[i][j+1]$ 只比 $f[i][j]$ 多出了 $f[2i-j-1][i-1]$ 这一项，因此在求得 $f[i][j]$ 的前提下，我们需要 $O(1)$ 的时间即可得到 $f[i][j+1]$。\n\n**快速比较两个数的大小关系**\n\n此时，我们只剩最后一步，也就是快速比较 $\\textit{num}(2i-j-1,i-1)$ 和 $\\textit{num}(i, j)$ 的大小关系了。这一步可以使用预处理巧妙地解决。\n\n记 $\\textit{lcp}[i][j]$ 表示在字符串 $\\textit{nums}$ 中，以 $i$ 开始的后缀与以 $j$ 开始的后缀的「最长公共前缀」的长度。直观上看，它表示：\n\n- $\\textit{num}(i, i + \\textit{lcp}[i][j] - 1) = \\textit{num}(j, j + \\textit{lcp}[i][j] - 1)$；\n\n- $\\textit{num}[i + \\textit{lcp}[i][j]] \\neq \\textit{num}[j + \\textit{lcp}[i][j]]$ 或者其中某一下标超出边界。\n\n$\\textit{lcp}[i][j]$ 可以很方便地使用动态规划求出，即：\n\n$$\n\\textit{lcp}[i][j] = \\begin{cases}\n\\textit{lcp}[i+1][j+1] + 1, & \\quad \\textit{num}[i] = \\textit{num}[j] \\\\\n0, & \\quad \\textit{num}[i] \\neq \\textit{num}[j]\n\\end{cases}\n$$\n\n当我们求出了 $\\textit{lcp}$ 后，就可以方便地比较 $\\textit{num}$ 中两个子串的大小关系了。对于 $\\textit{num}(2i-j-1,i-1)$ 和 $\\textit{num}(i, j)$：\n\n- 如果 $\\textit{lcp}[2i-j-1][i] \\geq j-i+1$，那么 $\\textit{num}(2i-j-1,i-1)$ 一定等于 $\\textit{num}(i, j)$；\n\n- 如果 $\\textit{lcp}[2i-j-1][i] < j-i+1$，那么 $\\textit{num}(2i-j-1,i-1)$ 和 $\\textit{num}(i, j)$ 的大小关系，等同于 $\\textit{num}[2i-j-1+\\textit{lcp}[2i-j-1][i]]$ 与 $\\textit{num}[i+\\textit{lcp}[2i-j-1][i]]$ 的大小关系。\n\n这样做的原因在于，两个长度相等的数的「数值」大小关系是等同于它们「字典序」的大小关系的。因此我们找出这两个数的最长公共前缀，再比较最长公共前缀的下一个字符的大小关系即可。\n\n至此，我们就将动态规划的时间复杂度完全优化至 $O(n^2)$，也就可以通过本题了。\n\n**注解**\n\n$\\textit{lcp}$ 来源于 $\\text{\\textbf{L}ongest \\textbf{C}ommon \\textbf{P}refix}$，即最长公共前缀。如果读者研究过算法竞赛，学习过「后缀数组」，那么上述的 $\\textit{lcp}$ 是可以通过后缀数组 + $\\text{ST}$ 表在 $O(n \\log n)$ 的时间内预处理得到的。但这已经远远超出了面试和笔试的难度，因此这里不再深入解释。\n\n**代码**\n\n```C++ [sol1-C++]\nclass Solution {\nprivate:\n    static constexpr int mod = 1000000007;\n\npublic:\n    int numberOfCombinations(string num) {\n        if (num[0] == '0') {\n            return 0;\n        }\n\n        int n = num.size();\n\n        // 预处理 lcp\n        vector<vector<int>> lcp(n, vector<int>(n));\n        for (int i = n - 1; i >= 0; --i) {\n            lcp[i][n - 1] = (num[i] == num[n - 1]);\n            for (int j = i + 1; j < n - 1; ++j) {\n                lcp[i][j] = (num[i] == num[j] ? lcp[i + 1][j + 1] + 1 : 0);\n            }\n        }\n\n        // 辅助函数，计算 x = (x + y) % mod\n        auto update = [&](int& x, int y) {\n            x += y;\n            if (x >= mod) {\n                x -= mod;\n            }\n        };\n\n        // 动态规划\n        vector<vector<int>> f(n, vector<int>(n));\n        // 边界 f[0][..] = 1\n        for (int i = 0; i < n; ++i) {\n            f[0][i] = 1;\n        }\n        for (int i = 1; i < n; ++i) {\n            // 有前导零，无需转移\n            if (num[i] == '0') {\n                continue;\n            }\n            // 前缀和\n            int presum = 0;\n            for (int j = i; j < n; ++j) {\n                int length = j - i + 1;\n                f[i][j] = presum;\n                if (i - length >= 0) {\n                    // 使用 lcp 比较 num(2i-j-1,i-1) 与 num(i,j) 的大小关系\n                    if (lcp[i - length][i] >= length || num[i - length + lcp[i - length][i]] < num[i + lcp[i - length][i]]) {\n                        update(f[i][j], f[i - length][i - 1]);\n                    }\n                    // 更新前缀和\n                    update(presum, f[i - length][i - 1]);\n                }\n            }\n        }\n\n        // 最终答案即为所有 f[..][n-1] 的和\n        int ans = 0;\n        for (int i = 0; i < n; ++i) {\n            update(ans, f[i][n - 1]);\n        }\n        return ans;\n    }\n};\n```\n\n```Python [sol1-Python3]\nclass Solution:\n    def numberOfCombinations(self, num: str) -> int:\n        mod = 10**9 + 7\n\n        if num[0] == \"0\":\n            return 0\n\n        n = len(num)\n\n        # 预处理 lcp\n        lcp = [[0] * n for _ in range(n)]\n        for i in range(n - 1, -1, -1):\n            lcp[i][n - 1] = int(num[i] == num[n - 1])\n            for j in range(i + 1, n - 1):\n                lcp[i][j] = (lcp[i + 1][j + 1] + 1 if num[i] == num[j] else 0)\n\n        # 动态规划\n        f = [[0] * n for _ in range(n)]\n        # 边界 f[0][..] = 1\n        for i in range(n):\n            f[0][i] = 1\n        \n        for i in range(1, n):\n            # 有前导零，无需转移\n            if num[i] == \"0\":\n                continue\n            \n            # 前缀和\n            presum = 0\n            for j in range(i, n):\n                length = j - i + 1\n                f[i][j] = presum % mod\n                if i - length >= 0:\n                    # 使用 lcp 比较 num(2i-j-1,i-1) 与 num(i,j) 的大小关系\n                    if lcp[i - length][i] >= length or num[i - length + lcp[i - length][i]] < num[i + lcp[i - length][i]]:\n                        f[i][j] = (f[i][j] + f[i - length][i - 1]) % mod\n                    # 更新前缀和\n                    presum += f[i - length][i - 1]\n\n        # 最终答案即为所有 f[..][n-1] 的和\n        ans = sum(f[i][n - 1] for i in range(n)) % mod\n        return ans\n```\n\n**复杂度分析**\n\n- 时间复杂度：$O(n^2)$，其中 $n$ 是字符串 $\\textit{num}$ 的长度。\n\n- 空间复杂度：$O(n^2)$，即为数组 $f$ 和 $\\textit{lcp}$ 需要使用的空间。",
+      "createdAt": "2021-08-22T09:15:15.943105+00:00",
+      "hitCount": 1954,
+      "identifier": "DXSDi8",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "liang-ci-dong-tai-gui-hua-qian-zhui-he-b-r29b",
+        "title": "两次动态规划+前缀和"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "number-of-ways-to-separate-numbers"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 7,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "CONFUSED"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "hua-fen-shu-zi-de-fang-an-shu-by-leetcod-env6",
+      "status": "PREPUBLISH",
+      "summary": "前言 本题思维难度较大，需要一些动态规划的预处理和优化技巧，并且细节很多。 方法一：动态规划 思路与算法 我们用 $f[i][j]$ 表示对于字符串 $\\textit{num}$ 的第 $0, 1, \\cdots, j$ 个字符进行划分，并且最后一个数使用了第 $i, i+1, \\cdots j$ 个字符的方案数。为了",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Dynamic Programming",
+          "nameTranslated": "动态规划",
+          "slug": "dynamic-programming",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Prefix Sum",
+          "nameTranslated": "前缀和",
+          "slug": "prefix-sum",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "划分数字的方案数",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 5,
+        "id": 951911,
+        "viewCount": 1198
+      },
+      "uuid": "DXSDi8",
+      "videosInfo": []
+    }
+  }
+}

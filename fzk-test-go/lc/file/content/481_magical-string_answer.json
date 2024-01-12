@@ -1,0 +1,133 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "极客学长Bravo",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/yanglr/avatar_1627565453.png",
+          "userSlug": "yanglr"
+        },
+        "username": "yanglr"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "\r\n> 欢迎大家关注我的LeetCode代码仓库：[https://github.com/yanglr/leetcode-ac](https://github.com/yanglr/leetcode-ac), \r\n>\r\n> 所有代码(含有各种主流语言及Shell、SQL等)已上传到此仓库。\r\n>\r\n> 目前已完成的**450道**题都有完整版C++代码。\r\n\r\n### 几乎所有题目都会追求一题多解和最优解法，真诚求star！\r\n\r\n![image.png](https://pic.leetcode-cn.com/1633757997-CmItuK-image.png)\r\n\r\n\r\n## 解题思路\r\n\r\n**题意**: 输入n，统计神奇字符串的前n个字符中1的个数。\r\n\r\n\r\n~~**错觉**~~~: 神奇字符串总是能在偶数位置(index为奇数)处使得在它及它之前范围的字符串中1和2的数量相等。\r\n\r\n\r\n其中神奇字符串的定义:\r\na.神奇字符串 s 仅由 '1' 和 '2' 组成;\r\nb.神奇字符串遵守如下规则：神奇字符串 s 的神奇之处在于，串联字符串中 '1' 和 '2' 的连续出现次数可以生成该字符串。\r\n\r\n比如:\r\ns 的前几个元素是 s = \"1221121221221121122……\" 。如果将 s 中连续的若干 1 和 2 进行分组，可以得到 \"1 22 11 2 1 22 1 22 11 2 11 22 ......\" 。每组中 1 或者 2 的出现次数分别是 \"1 2 2 1 1 2 1 2 2 1 2 2 ......\" 。上面的出现次数正是 s 自身。\r\n\r\n<br>\r\n\r\n**神奇字符串:**\r\n\r\n\r\n```plain\r\n122 112 122 122 112 112 221 212 212...\r\n```\r\n\r\n前20列是题目给的~\r\n\r\n\r\n\r\n### 规律:\r\n\r\n字符串str与其子串p, 字符串str可以根据字符串p来进行扩展(**扩展的规则**是: 新加入的部分是由当前字符串str的末尾数字反转而来(即 1 => 2, 2 => 1))，该数字的重复次数从字符串p中取得。\r\n\r\n一开始较短和较长字符串都置为\"122\", i 指向字符串p的末尾。\r\n\r\n字符串p可以看成是字符串str的压缩形式(只存了未来新加入的数字应该出现的次数)。\r\n\r\n字符串p: 每次从字符串str中index = i 的地方复制一个数字插入到字符串p的末尾。这个数字就是后面字符串str中新加入的数字应该出现的次数，且这个新加入的数字 = 当前字符串str的末尾数字反转而来(即 1 => 2, 2 => 1) 。\r\n\r\n**草图如下:**\r\n\r\n<br/>\r\n\r\n![image.png](https://pic.leetcode-cn.com/1633757208-iwBUxt-image.png)\r\n\r\n\r\n**注**: 上图中**每两行**(第1行是字符串str, 第2行是字符串p, p是str的子串)是字符串str的1次扩展, 第2次和第3次扩展合并在一个地方画了, 其他次的扩展都另起两行表示了。\r\n\r\n***\r\n\r\n### 算法步骤:\r\n\r\n- 构造两个长度在增长的字符串, 使用两个指针分别指向这两个字符串末尾, i 指向较短的字符串末尾\r\n- 接下来在字符串str末尾加字符来扩展它\r\n\r\n- 一开始较短和较长字符串都置为\"122\", i 指向较短的字符串末尾\r\n- 对字符串str 进行扩展，直到 str.size() >= n 位置。\r\n\r\n\r\n\r\n## 已AC的C++ 代码\r\n\r\n```C++\r\nclass Solution {\r\npublic:\r\n    int magicalString(int n) {\r\n        if (n <= 3) return 1;                  \r\n        // 构造两个长度在增长的字符串, 使用两个指针分别指向这两个字符串末尾, i指向较短的字符串末尾\r\n        string str = \"122\"; // 接下来在字符串str末尾加数字来扩展它\r\n        int i = 2; // 一开始较短和较长字符串都置为\"122\", i指向较短的字符串末尾\r\n        while (str.size() < n)\r\n        {\r\n            char lastCh = str.back();\r\n            if (str[i] == '1') // 新插入到末尾的字符(digit)需出现1次\r\n            {\r\n                if (lastCh == '1') str.append(\"2\");\r\n                else str.append(\"1\");                \r\n            }\r\n            else {             // 新插入到末尾的字符(digit)需出现2次\r\n                if (lastCh == '1') str.append(\"22\");\r\n                else str.append(\"11\");\r\n            }            \r\n            i++;\r\n        }        \r\n        int count1 = count(str.begin(), str.begin() + n, '1'); /* 使用str.begin() + n, 而不是str.end()的原因是: 此时str.size()可能 > n */\r\n        return count1;\r\n    }\r\n};\r\n```\r\n\r\n### 运行结果:\r\n\r\n![image.png](https://pic.leetcode-cn.com/1633757241-DAcPRC-image.png)\r\n\r\n执行用时：4 ms, 在所有 C++ 提交中击败了 **91.67% **的用户\r\n内存消耗：7.5 MB, 在所有 C++ 提交中击败了64.22%的用户\r\n\r\n<br>\r\n\r\n或 \r\n\r\n### 末尾手写计数器\r\n\r\n\r\n```cpp\r\nclass Solution {\r\npublic:\r\n    int magicalString(int n) {\r\n        if (n <= 3) return 1;       \r\n        // 构造两个长度在增长的字符串, 使用两个指针分别指向这两个字符串末尾, i指向较短的字符串末尾\r\n        string str = \"122\"; // 接下来在字符串str末尾加字符来扩展它\r\n        int i = 2; // 一开始较短和较长字符串都置为\"122\", i指向较短的字符串末尾\r\n        while (str.size() < n)\r\n        {\r\n            char lastCh = str.back();\r\n            if (str[i] == '1')\r\n            {\r\n                if (lastCh == '1') str.append(\"2\");\r\n                else str.append(\"1\");                \r\n            }\r\n            else {                \r\n                if (lastCh == '1') str.append(\"22\");\r\n                else str.append(\"11\");\r\n            }            \r\n            i++;\r\n        }        \r\n        int count1 = 0;\r\n        for (int i = 0; i < n; i++)\r\n            if (str[i] == '1') count1++;\r\n        return count1;\r\n    }\r\n};\r\n```\r\n\r\n\r\n<br/>\r\n\r\n\r\n大家好，我是**极客学长**，点击[我的头像](https://github.com/yanglr/leetcode-ac)，查看力扣详细刷题攻略，你会发现相见恨晚！\r\n\r\n\r\n**如果感觉题解对你有帮助，不要吝啬给一个👍吧！**\r\n\r\n<br/>\r\n\r\n\r\n好了，**AC一时爽，一直AC一直爽**！\r\n\r\n<br/>\r\n\r\n本人公众号 [大白技术控](https://mp.weixin.qq.com/s/d8RvIYtPOeGM2UOoP0xGkg), 2万读者。\r\n\r\n知乎 [Bravo Yeung](https://www.zhihu.com/people/legege007), 4.5万读者。\r\n\r\nB站 [极客学长呀](https://space.bilibili.com/1443957), 后续会用视频的形式来带大家刷LeetCode题，欢迎点个关注，敬请期待~\r\n\r\n<br/>\r\n\r\n更多清晰易懂的代码 (C++/Java/C#/Python/Go) 的 LeetCode 题解，会在我的 github 仓库 [https://github.com/yanglr/leetcode-ac](https://github.com/yanglr/leetcode-ac)中持续更新, 欢迎小伙伴们 star/fork，如果有不错的解法也欢迎提PR。\r\n\r\n\r\n\r\n**ps:** 仓库的代码中可以直接拿来本地调试喔，框架已搭好，根据自己的需求调整 test case即可~\r\n",
+      "createdAt": "2021-10-09T05:29:45.062175+00:00",
+      "hitCount": 401,
+      "identifier": "rEBqEl",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "mo-ni-fa-sheng-cheng-shen-qi-zi-fu-chuan-pn0x",
+        "title": "模拟法生成神奇字符串"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "magical-string"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 4,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 3,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "geekplayers-leetcode-ac-qing-xi-yi-dong-2pdyf",
+      "status": "PREPUBLISH",
+      "summary": "欢迎大家关注我的LeetCode代码仓库：https://github.com/yanglr/leetcode-ac,\n所有代码(含有各种主流语言及Shell、SQL等)已上传到此仓库。\n目前已完成的450道题都有完整版C++代码。\n\n几乎所有题目都会追求一题多解和最优解法，真诚求star！\n解题思路\n题意: 输入n",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "校招",
+          "nameTranslated": "",
+          "slug": "xiao-zhao",
+          "tagType": "ADDITIONAL_TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "题解",
+          "nameTranslated": "",
+          "slug": "ti-jie",
+          "tagType": "ADDITIONAL_TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "每日一题",
+          "nameTranslated": "",
+          "slug": "mei-ri-yi-ti",
+          "tagType": "ADDITIONAL_TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "大厂面试",
+          "nameTranslated": "",
+          "slug": "da-han-mian-shi",
+          "tagType": "ADDITIONAL_TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Simulation",
+          "nameTranslated": "模拟",
+          "slug": "simulation",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "每日打卡",
+          "nameTranslated": "",
+          "slug": "mei-ri-da-qia",
+          "tagType": "ADDITIONAL_TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "秋招",
+          "nameTranslated": "",
+          "slug": "qiu-zhao",
+          "tagType": "ADDITIONAL_TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "配图",
+          "nameTranslated": "",
+          "slug": "pei-tu",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1633757997-CmItuK-image.png",
+      "title": "清晰易懂的解法(含详细配图, 击败91%), 有详细注释【极客学长】",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 5,
+        "id": 1037835,
+        "viewCount": 292
+      },
+      "uuid": "rEBqEl",
+      "videosInfo": []
+    }
+  }
+}

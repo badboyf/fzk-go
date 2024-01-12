@@ -1,0 +1,79 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "飞鸟",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/7aughing-nashgue/avatar_1605015234.png",
+          "userSlug": "lzxjack"
+        },
+        "username": "lzxjack"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n\n- `n = A ^ B`，可以得到`A`和`B`有哪几位是不同的，即`n`二进制`1`的个数，就是`A`和`B`有几位不同的数量\n- `n = n & (n - 1)`可以去掉`n`二进制的最右边的一个`1`，可以用来统计`1`的数量\n- 那么`1`的数量就是答案\n\n### 代码\n```javascript\nconst convertInteger = (A, B) => {\n    let n = A ^ B;\n    let count = 0;\n    while (n) {\n        n = n & (n - 1);\n        count++;\n    }\n    return count;\n};\n```",
+      "createdAt": "2021-11-01T01:03:57.162344+00:00",
+      "hitCount": 157,
+      "identifier": "3e18zp",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "yi-huo-cao-zuo-tong-ji-1de-ge-shu-by-erk-hhv3",
+        "title": "异或操作统计1的个数"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "convert-integer-lcci"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "yi-huo-hou-qiu-er-jin-zhi-1de-ge-shu-jav-ylve",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n\nn = A ^ B，可以得到A和B有哪几位是不同的，即n二进制1的个数，就是A和B有几位不同的数量\nn = n & (n - 1)可以去掉n二进制的最右边的一个1，可以用来统计1的数量\n那么1的数量就是答案\n\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Bit Manipulation",
+          "nameTranslated": "位运算",
+          "slug": "bit-manipulation",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "JavaScript",
+          "nameTranslated": "",
+          "slug": "javascript",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "【异或后求二进制1的个数】JavaScript",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1077245,
+        "viewCount": 131
+      },
+      "uuid": "3e18zp",
+      "videosInfo": []
+    }
+  }
+}

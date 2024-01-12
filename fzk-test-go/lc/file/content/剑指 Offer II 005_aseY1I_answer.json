@@ -1,0 +1,88 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "花落&月缺",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/hua-luo-yue-que/avatar_1606123111.png",
+          "userSlug": "hualuoyueque"
+        },
+        "username": "huaLuoYueQue"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "- 对于验证两个单词长度的最大乘积，首先需要每两个单词都比较一遍，这个就没办法避免了……\r\n\r\n- 考虑加快判断两个字符串是否包含相同的字符：\r\n\r\n  - 首先，需要一个单词中的每一个字符都保存起来\r\n  - 之后，比较依次比较两个单词中每一个字符，确定或者都没出现过，或者只有一个单词中出现过\r\n  - 考虑二进制值 **与** 的特性， `0 & 0 = 0`, `0 & 1 = 1 & 0 = 0`, `1 & 1 =1` ，刚好符合要求\r\n  - 用一个数字二进制表示中的每一位记录一个字母是否出现，例如，字符串 `ac` 可以用 `00000000 00000000 00000000 00000101 = 3` 表示\r\n  - 将每一个字符串中字母是否出现均用一个数字表示表示出来，当比较两个字符串是否存在相同字母时，使用 `num1 & num2 == 0 ` 就可以轻易判断出来了(๑╹◡╹)ﾉ\"\"\"\r\n\r\n---\r\n**实现代码：**\r\n\r\n```java\r\npublic class Offer005 {\r\n    public int maxProduct(String[] words) {\r\n        int[] wordCode = this.initWordCode(words);\r\n        int result = 0;\r\n        for (int i = 0, end = words.length; i < end; i++) {\r\n            for (int j = i + 1; j < end; j++) {\r\n                if ((wordCode[i] & wordCode[j]) == 0) {\r\n                    result = Math.max(result, words[i].length() * words[j].length());\r\n                }\r\n            }\r\n        }\r\n        return result;\r\n    }\r\n\r\n    private int[] initWordCode(String[] words) {\r\n        int[] wordCode = new int[words.length];\r\n        for (int i = 0, end = words.length; i < end; i++) {\r\n            for (char letter : words[i].toCharArray()) {\r\n                wordCode[i] |= (1 << (letter - 'a'));\r\n            }\r\n        }\r\n        return wordCode;\r\n    }\r\n}\r\n```\r\n\r\n---\r\n![Cover3.jpg](https://pic.leetcode-cn.com/1634455663-OeCPbo-Cover3.jpg)",
+      "createdAt": "2021-10-17T07:28:31.826013+00:00",
+      "hitCount": 1638,
+      "identifier": "scoJwi",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "wei-yun-suan-qiao-jie-by-sloancheng-c8cs",
+        "title": "位运算巧解"
+      },
+      "position": 2,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "jian-dan-yi-dong-javac-pythonjs-zui-da-d-ffga",
+        "title": " 简单易懂Java/C++ /Python/js/go -  最大单词长度乘积"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "aseY1I"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 8,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "hua-luo-yue-que-bei-li-yong-che-di-de-er-loai",
+      "status": "PREPUBLISH",
+      "summary": "对于验证两个单词长度的最大乘积，首先需要每两个单词都比较一遍，这个就没办法避免了……\n\n\n考虑加快判断两个字符串是否包含相同的字符：\n\n首先，需要一个单词中的每一个字符都保存起来\n之后，比较依次比较两个单词中每一个字符，确定或者都没出现过，或者只有一个单词中出现过\n考虑二进制值 与 的特性， 0 & 0 = 0,",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "二进制",
+          "nameTranslated": "",
+          "slug": "er-jin-zhi",
+          "tagType": "ADDITIONAL_TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "java",
+          "nameTranslated": "",
+          "slug": "java-11",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1634455663-OeCPbo-Cover3.jpg",
+      "title": "【花落&月缺】被利用彻底的二进制特性ヾ(=･ω･=)o",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 6,
+        "id": 1051903,
+        "viewCount": 1205
+      },
+      "uuid": "scoJwi",
+      "videosInfo": []
+    }
+  }
+}

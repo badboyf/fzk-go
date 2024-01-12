@@ -1,0 +1,77 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "songhouhou",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/songhouhou-hEIEmRPxu8/avatar_1565758229.png",
+          "userSlug": "songhouhou"
+        },
+        "username": "songhouhou"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "1. 使用`depth`变量表示括号的深度，使用`max`变量记录`depth`的最大值。\r\n2. 遍历字符串中的字符\r\n- 遇到`(`，`depth`加1，更新最大值\r\n- 遇到`)`，`depth`减1\r\n3. 返回`max`。\r\n```\r\npublic int maxDepth(String s) {\r\n    //括号的深度\r\n    int depth = 0;\r\n    //最大深度\r\n    int max = 0;\r\n    for (char c : s.toCharArray()) {\r\n        if (c == '(') {\r\n            //深度加1\r\n            depth++;\r\n            //更新最大值\r\n            max = Math.max(depth, max);\r\n        } else if (c == ')') {\r\n            //深度减1\r\n            depth--;\r\n        }\r\n    }\r\n    return max;\r\n}\r\n```",
+      "createdAt": "2021-04-21T14:21:28.037154+00:00",
+      "hitCount": 2068,
+      "identifier": "bcE7Cq",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "java-yun-yong-zhan-si-xiang-ni-ke-yi-yon-e52u",
+        "title": "JAVA 运用栈思想,你可以用Deque嘿嘿"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "maximum-nesting-depth-of-the-parentheses"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 38,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": true,
+      "slug": "java-bu-shi-yong-zhan-zhi-xing-yong-shi-bos4y",
+      "status": "PUBLISHED",
+      "summary": "使用depth变量表示括号的深度，使用max变量记录depth的最大值。\n遍历字符串中的字符\n\n\n遇到(，depth加1，更新最大值\n遇到)，depth减1\n\n\n返回max。",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "Java 不使用栈 执行用时： 0 ms , 在所有 Java 提交中击败了 100.00% 的用户",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 3,
+        "id": 736337,
+        "viewCount": 1208
+      },
+      "uuid": "bcE7Cq",
+      "videosInfo": []
+    }
+  }
+}

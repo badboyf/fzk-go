@@ -1,0 +1,76 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "飞鸟",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/7aughing-nashgue/avatar_1605015234.png",
+          "userSlug": "lzxjack"
+        },
+        "username": "lzxjack"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n\n- 将`N、M`转化为二进制数组，并反转\n- 要替换的总长度为`len`\n- 若`arrM`的长度小于替换的总长度`len`，在`arrM`后面补零\n- 在`arrN`的`i`位置，删除`len`个元素，再在同位置添加`arrM`的元素\n- \n\n### 代码\n\n```javascript\nconst insertBits = (N, M, i, j) => {\n    // 将N、M转化为二进制数组，并反转\n    const arrN = N.toString(2).split('').reverse();\n    const arrM = M.toString(2).split('').reverse();\n    // 要替换的总长度\n    const len = j - i + 1;\n    // 若arrM的长度小于替换的总长度，在arrM后面补零\n    const lenM = arrM.length;\n    for (let i = lenM; i < len; i++) {\n        arrM[i] = '0';\n    }\n    // 在arrN的i位置，删除len个元素，再在同位置添加arrM的元素\n    arrN.splice(i, len, ...arrM);\n    // 将arrN反转回来，转化为字符串，再转化为十进制\n    return parseInt(arrN.reverse().join(''), 2);\n};\n```",
+      "createdAt": "2021-11-01T01:47:38.696063+00:00",
+      "hitCount": 149,
+      "identifier": "VsXIEw",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "liang-ge-shu-zu-zhuan-wei-er-jin-zhi-shu-lede",
+        "title": "两个数组转为二进制数后转为数组反转，然后把M的长度补全，最后循环替换，把结果转回字符串再转为十进制数"
+      },
+      "position": 3,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "wei-yun-suan-by-123-2621-y7ds",
+        "title": "位运算"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "insert-into-bits-lcci"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "zhuan-hua-wei-shu-zu-ti-huan-jiu-jian-da-rls0",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n\n将N、M转化为二进制数组，并反转\n要替换的总长度为len\n若arrM的长度小于替换的总长度len，在arrM后面补零\n在arrN的i位置，删除len个元素，再在同位置添加arrM的元素\n\n\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "JavaScript",
+          "nameTranslated": "",
+          "slug": "javascript",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "【转化为数组，替换就简单了】JavaScript",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1077350,
+        "viewCount": 126
+      },
+      "uuid": "VsXIEw",
+      "videosInfo": []
+    }
+  }
+}

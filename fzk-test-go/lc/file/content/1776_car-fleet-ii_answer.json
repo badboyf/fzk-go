@@ -1,0 +1,77 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "a_c_w_oldyan",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/oldyan/avatar_1592962021.png",
+          "userSlug": "oldyan"
+        },
+        "username": "oldyan"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "```\r\nclass Solution {\r\npublic:\r\n    //这道题必须想清楚一点，那就是如果ans[i]有正值，那么一定是cars[i]和某个cars[j]（j>i且speed[j]<speed[i]）发生碰撞\r\n    //相撞之后，所谓的融合，其实可以理解为cars[i]消失了，cars[j]状态不变\r\n    //所以我们只关注一辆车右边，不关注其左边，它的左边对它没有任何影响。可以考虑从右往左遍历\r\n    vector<double> getCollisionTimes(vector<vector<int>>& cars) {\r\n        vector<double>ans(cars.size());\r\n        //设立一个单调栈，栈底最慢，栈顶最快\r\n        stack<int>S;\r\n        for(int i=cars.size()-1;i>=0;i--){\r\n            while(S.size()){\r\n                //如果栈顶比我快，我追不上它，可以考虑等它消失之后我去撞它前面的，所以将它pop\r\n                if(cars[S.top()][1]>=cars[i][1])S.pop();\r\n                //如果栈顶比我慢，我就决定去碰它了\r\n                else{\r\n                    //如果它不会消失，那我肯定能碰它，break\r\n                    if(ans[S.top()]<0)break;\r\n                    //如果它会消失，我需要计算一下在它消失之前能否追上它\r\n                    double d=ans[S.top()]*(cars[i][1]-cars[S.top()][1]);\r\n                    //能追上，那我肯定碰它，break\r\n                    if(d>cars[S.top()][0]-cars[i][0])break;\r\n                    //追不上，那算了，追它前面的车\r\n                    else S.pop();\r\n                }\r\n            }\r\n            if(S.empty())ans[i]=-1;\r\n            else{\r\n                //相对距离除以相对速度\r\n                double t=double(cars[S.top()][0]-cars[i][0])/double(cars[i][1]-cars[S.top()][1]);\r\n                ans[i]=t;\r\n            }\r\n            S.push(i);\r\n        }\r\n        return ans;\r\n    }\r\n};\r\n```\r\n",
+      "createdAt": "2021-02-28T04:05:38.985257+00:00",
+      "hitCount": 2767,
+      "identifier": "0LWZ8d",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "che-dui-ii-si-lu-tui-dao-zhan-de-ying-yo-jqym",
+        "title": "【车队II】思路推导（栈的应用）"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "car-fleet-ii"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 48,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 6,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "cdan-diao-zhan-by-oldyan-ij4k",
+      "status": "PREPUBLISH",
+      "summary": "[该用户太懒了，只写了 36 行代码]",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "C++单调栈",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 13,
+        "id": 625639,
+        "viewCount": 1877
+      },
+      "uuid": "0LWZ8d",
+      "videosInfo": []
+    }
+  }
+}

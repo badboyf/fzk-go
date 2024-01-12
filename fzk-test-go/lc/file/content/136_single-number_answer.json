@@ -1,0 +1,129 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣官方题解",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/leetcode-solution/avatar_1582018938.png",
+          "userSlug": "leetcode-solution"
+        },
+        "username": "LeetCode-Solution"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 📺 视频题解  \n![136. 只出现一次的数字.mp4](47a527e0-e01f-4ece-a158-140764b7c319)\n\n### 📖 文字题解\n#### 方法一：位运算\n\n如果不考虑时间复杂度和空间复杂度的限制，这道题有很多种解法，可能的解法有如下几种。\n\n- 使用集合存储数字。遍历数组中的每个数字，如果集合中没有该数字，则将该数字加入集合，如果集合中已经有该数字，则将该数字从集合中删除，最后剩下的数字就是只出现一次的数字。\n\n- 使用哈希表存储每个数字和该数字出现的次数。遍历数组即可得到每个数字出现的次数，并更新哈希表，最后遍历哈希表，得到只出现一次的数字。\n\n- 使用集合存储数组中出现的所有数字，并计算数组中的元素之和。由于集合保证元素无重复，因此计算集合中的所有元素之和的两倍，即为每个元素出现两次的情况下的元素之和。由于数组中只有一个元素出现一次，其余元素都出现两次，因此用集合中的元素之和的两倍减去数组中的元素之和，剩下的数就是数组中只出现一次的数字。\n\n上述三种解法都需要额外使用 $O(n)$ 的空间，其中 $n$ 是数组长度。\n\n如何才能做到线性时间复杂度和常数空间复杂度呢？\n\n答案是使用位运算。对于这道题，可使用异或运算 $\\oplus$。异或运算有以下三个性质。\n\n1. 任何数和 $0$ 做异或运算，结果仍然是原来的数，即 $a \\oplus 0=a$。\n2. 任何数和其自身做异或运算，结果是 $0$，即 $a \\oplus a=0$。\n3. 异或运算满足交换律和结合律，即 $a \\oplus b \\oplus a=b \\oplus a \\oplus a=b \\oplus (a \\oplus a)=b \\oplus0=b$。\n\n<![fig1](https://assets.leetcode-cn.com/solution-static/136/1.PNG),![fig2](https://assets.leetcode-cn.com/solution-static/136/2.PNG),![fig3](https://assets.leetcode-cn.com/solution-static/136/3.PNG)>\n\n假设数组中有 $2m+1$ 个数，其中有 $m$ 个数各出现两次，一个数出现一次。令 $a_{1}$、$a_{2}$、$\\ldots$、$a_{m}$ 为出现两次的 $m$ 个数，$a_{m+1}$ 为出现一次的数。根据性质 3，数组中的全部元素的异或运算结果总是可以写成如下形式：\n\n$$\n(a_{1} \\oplus a_{1}) \\oplus (a_{2} \\oplus a_{2}) \\oplus \\cdots \\oplus (a_{m} \\oplus a_{m}) \\oplus a_{m+1}\n$$\n\n根据性质 2 和性质 1，上式可化简和计算得到如下结果：\n\n$$\n0 \\oplus 0 \\oplus \\cdots \\oplus 0 \\oplus a_{m+1}=a_{m+1}\n$$\n\n因此，数组中的全部元素的异或运算结果即为数组中只出现一次的数字。\n\n```Java [sol1-Java]\nclass Solution {\n    public int singleNumber(int[] nums) {\n        int single = 0;\n        for (int num : nums) {\n            single ^= num;\n        }\n        return single;\n    }\n}\n```\n\n```cpp [sol1-C++]\nclass Solution {\npublic:\n    int singleNumber(vector<int>& nums) {\n        int ret = 0;\n        for (auto e: nums) ret ^= e;\n        return ret;\n    }\n};\n```\n\n```python [sol1-Python3]\nclass Solution:\n    def singleNumber(self, nums: List[int]) -> int:\n        return reduce(lambda x, y: x ^ y, nums)\n```\n\n```csharp [sol1-C#]\npublic class Solution {\n    public int SingleNumber(int[] nums) {\n        int ret = 0;\n        foreach (int e in nums) ret ^= e;\n        return ret;\n    }\n}\n```\n\n```golang [sol1-Golang]\nfunc singleNumber(nums []int) int {\n    single := 0\n    for _, num := range nums {\n        single ^= num\n    }\n    return single\n}\n```\n\n**复杂度分析**\n\n* 时间复杂度：$O(n)$，其中 $n$ 是数组长度。只需要对数组遍历一次。\n\n* 空间复杂度：$O(1)$。",
+      "createdAt": "2020-05-11T08:55:21.127753+00:00",
+      "hitCount": 196532,
+      "identifier": "MK5Ye9",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "xue-suan-fa-jie-guo-xiang-dui-yu-guo-cheng-bu-na-y",
+        "title": "学算法，结果相对于过程不那么重要"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "single-number"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 301,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 38,
+          "reactionType": "AWESOME"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 8,
+          "reactionType": "CONFUSED"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "THUMBS_DOWN"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "zhi-chu-xian-yi-ci-de-shu-zi-by-leetcode-solution",
+      "status": "PUBLISHED",
+      "summary": "📺 视频题解 📖 文字题解 方法一：位运算 如果不考虑时间复杂度和空间复杂度的限制，这道题有很多种解法，可能的解法有如下几种。 使用集合存储数字。遍历数组中的每个数字，如果集合中没有该数字，则将该数字加入集合，如果集合中已经有该数字，则将该数字从集合中删除，最后剩下的数字就是只出现一次的数字。 使用哈希表存储每个数字和",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Bit Manipulation",
+          "nameTranslated": "位运算",
+          "slug": "bit-manipulation",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C#",
+          "nameTranslated": "",
+          "slug": "csharp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Go",
+          "nameTranslated": "",
+          "slug": "golang",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "只出现一次的数字",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 406,
+        "id": 242211,
+        "viewCount": 152023
+      },
+      "uuid": "MK5Ye9",
+      "videosInfo": [
+        {
+          "__typename": "VideoInfoNode",
+          "coverUrl": "https://video.leetcode-cn.com/image/cover/B7ECE64F62594810BD8558C7A818986D-6-2.png",
+          "duration": 397.1,
+          "videoId": "f44d34f6ec1041fd92b2dbb5679d63e4"
+        }
+      ]
+    }
+  }
+}

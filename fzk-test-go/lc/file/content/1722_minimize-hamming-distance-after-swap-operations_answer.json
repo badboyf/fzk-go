@@ -1,0 +1,91 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "再也不会",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/zai-ye-bu-hui/avatar_1634994773.png",
+          "userSlug": "zai-ye-bu-hui"
+        },
+        "username": "zai-ye-bu-hui"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n\n详见注释吧\n\n### 代码\n\n```cpp\nclass Solution {\npublic:\n    vector<int> p; \n    int find(int x){   //返回祖宗结点+状态压缩\n        if(p[x] != x) p[x] = find(p[x]);\n        return p[x];\n    }\n    int minimumHammingDistance(vector<int>& source,vector<int>& target,vector<vector<int>>& aas){\n        int n = source.size();\n        p.resize(n);\n        for(int i=0; i<n; i++) //初始化\n        p[i] = i;\n        //无论父节点一不一样，都压缩一下（注意这里没有按元素值来找父节点，而是按下标）\n        for(auto& as : aas) \n        p[find(as[0])]=find(as[1]);  \n\n        unordered_map<int,unordered_multiset<int>> ha;  \n        for(int i=0; i<n; i++)  //存每个联通块内都包含哪些元素\n        ha[find(i)].insert(source[i]);  //和上面互通，也要按下标来找父节点，再插入数\n        int res = 0;\n        for(int i=0; i<n; i++){\n            auto& m = ha[find(i)];\n            //如果通过下标找到的连通块中,有target[i]这个元素,那么将其删掉,反之res++\n            auto t =m.find(target[i]); \n            if(t != m.end())\n                m.erase(t);//不能使用 m.erase(x),不然会删掉所有的x,应该先定位到其具体位置,再删除\n            else res++;\n        }\n        return res;\n    }\n};\n\n```",
+      "createdAt": "2021-07-29T03:50:20.132817+00:00",
+      "hitCount": 286,
+      "identifier": "pVMStq",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "python3-bing-cha-ji-ha-xi-biao-by-yim-6-4a03",
+        "title": "Python3 并查集+哈希表"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "minimize-hamming-distance-after-swap-operations"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 5,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "zai-ye-bu-hui-bing-cha-ji-ha-xi-cun-shu-exp3b",
+      "status": "PUBLISHED",
+      "summary": "解题思路\n详见注释吧\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Union Find",
+          "nameTranslated": "并查集",
+          "slug": "union-find",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Hash Table",
+          "nameTranslated": "哈希表",
+          "slug": "hash-table",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "「再也不会」并查集+哈希存数",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 902650,
+        "viewCount": 218
+      },
+      "uuid": "pVMStq",
+      "videosInfo": []
+    }
+  }
+}

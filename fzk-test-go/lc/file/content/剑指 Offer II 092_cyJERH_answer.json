@@ -1,0 +1,95 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "SloanCheng",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/sloancheng/avatar_1637562932.png",
+          "userSlug": "sloancheng"
+        },
+        "username": "SloanCheng"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "由题意由字符‘0’和‘1’构成的字符串，字符之间可以相互转换，求原字符串得到一个单调递增字符串的最小转换次数。\n\n这是典型的求解问题有多个步骤，每个步骤又有若干个选择的问题，若是要求过程步骤中所有得到的结果，则应想到用回溯法思想解决该问题，但这是要求问题的最优解，我们应该想到运用动态规划算法。如果能找到状态转移方程和最小子问题的解，动态规划问题就可迎刃而解。\n时间上因为肯定需要遍历一次字符串，时间复杂度肯定是O(n)无法再优化，但空间复杂度却可以优化。下面用三种方法逐步进行优化并在法一分析最小子问题的解以及状态方程是如何转移的：\n\n# 法一 空间复杂度O(n)：\n因为字符可以有两个状态0或1，我们可以用两个数组zero[i]和one[i]保存当前下标是i的字符是‘0’和‘1’的最小转换次数。分析遍历字符串时字符的两种情况：\n\n***一.若当前字符i下标的字符是‘0’:***\n  zero[i]不需要转换，zero[i] = zero[i-1].\n  one[i]需要将‘0’转换为‘1’,有两种情况：1.若前一位是‘0’转换的‘1’,则one[i] = one[i-1] + 1;\n                                  2.若前一位本身就是'1',则one[i] = zero[i-1] + 1;\n                                 即one[i]为两数组保存的前一位的最小值+1，one[i] = Math.min(one[i-1], zero[i-1]) + 1.\n\n***二.若当前下标i的字符为‘1’:***\nzero[i]需要把'1'转换成'0',当前位的最小转换次数应该比前一位转换次数多一次，即zero[i] = zero[i-1] + 1.\none[i]不需要转换,\u0008\u0008但也有两种情况：1.若前一位是‘0’，则one[i] = zero[i-1];\n                             2.若前一位是‘1’，则one[i] = one[i-1];\n                             即one[i]为两数组保存的前一位的最小值，one[i] = Math.min(one[i-1], zero[i-1]).\n\n\n而它们的最小子问题的解即初始状态下标i=0的字符是‘0’则zero[0] = 0, one[0] = 1, i=0的字符是‘1’则zero[0] = 1, one[0] = 0, 遍历完字符串后两数组最后一位对应的数字即为各自转换过程得到的满足单调递增的最小转换次数.代码如下：\n```\nclass Solution {\n    public int minFlipsMonoIncr(String s) {\n        int n = s.length();\n        int[] zero = new int[n];\n        int[] one = new int[n];\n        zero[0] = s.charAt(0) == '0' ? 0 : 1;\n        one[0] =s.charAt(0) == '0' ? 1 : 0;\n        for(int i = 1; i < n; ++i){\n            if(s.charAt(i) == '0'){\n                zero[i] = zero[i-1];\n                one[i] = Math.min(one[i-1], zero[i-1]) + 1;\n            }else if(s.charAt(i) == '1'){\n                zero[i] = zero[i-1] + 1;\n                one[i] = Math.min(one[i-1], zero[i-1]);\n            }\n        }\n        return Math.min(one[n-1], zero[n-1]);\n    }\n}\n```\n\n# 法二 空间复杂度O(1):\n\n分析完状态转移方程后可以发现，当前位的最小转换次数仅依赖于前一位的最小转换次数，所以不必用一个完整数组的空间来保存所有对应下标的最小转换次数，仅用两个空间即可，dp[0][i]表示zero[i], dp[1][i]表示one[i], 这样仅用两个数组单位就可得到最优解，大大降低了空间复杂度。最后注意字符串长度是奇数还是偶数决定dp数组第二维对应的哪一个下标保存字符串末位的最小转换次数。对应代码如下：\n```\nclass Solution {\n    public int minFlipsMonoIncr(String s) {\n        int n = s.length();\n        int[][] dp = new int[2][2];\n        dp[0][0] = s.charAt(0) == '0' ? 0 : 1;\n        dp[1][0] = s.charAt(0) == '1' ? 0 : 1;\n        for(int i = 1; i < n; ++i){\n            dp[0][i % 2] = s.charAt(i) == '0' ? dp[0][(i-1) % 2] : dp[0][(i-1) % 2]+1; \n            dp[1][i % 2] = s.charAt(i) == '1' ? Math.min(dp[1][(i-1) % 2], dp[0][(i-1) % 2]) : Math.min(dp[1][(i-1) % 2], dp[0][(i-1) % 2])+1;\n        }\n        int last = (n-1)%2;\n        return Math.min(dp[0][last], dp[1][last]);\n    }\n}\n```\n\n# 法三 空间复杂度O(1):\n\n在法二的基础上并理解了状态转移方程和最小子问题的解以后，我们还可以再优化仅用两个变量就可保存前一位的最小转换次数，代码如下：\n```\nclass Solution {\n    public int minFlipsMonoIncr(String s) {\n        int n = s.length();\n        int one = 0, zero = 0;\n        for(char c : s.toCharArray()){\n            if(c == '0') one = Math.min(zero, one) + 1;\n            else if(c == '1'){\n                one = Math.min(zero, one);\n                zero++;\n            }\n        }\n        return Math.min(one, zero);\n    }\n}\n```\n\n这样一步步分析并优化大大降低了动态规划算法的复杂度。\n\n\n",
+      "createdAt": "2021-10-11T17:07:44.283865+00:00",
+      "hitCount": 740,
+      "identifier": "9NKebh",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "jian-zhi-offer-ii-092-fan-zhuan-zi-fu-qi-3tbh",
+        "title": "【剑指offer II 092. 翻转字符】【前缀和】Java实现"
+      },
+      "position": 2,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "c-leetcode-926-yuan-ti-by-mountain-ocean-h69l",
+        "title": "C++ : leetcode 926 原题"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "cyJERH"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 20,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "dong-tai-gui-hua-jiang-wei-yi-bu-bu-you-ojinj",
+      "status": "PREPUBLISH",
+      "summary": "由题意由字符‘0’和‘1’构成的字符串，字符之间可以相互转换，求原字符串得到一个单调递增字符串的最小转换次数。\n这是典型的求解问题有多个步骤，每个步骤又有若干个选择的问题，若是要求过程步骤中所有得到的结果，则应想到用回溯法思想解决该问题，但这是要求问题的最优解，我们应该想到运用动态规划算法。如果能找到状态转移方程和最小",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Array",
+          "nameTranslated": "数组",
+          "slug": "array",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Dynamic Programming",
+          "nameTranslated": "动态规划",
+          "slug": "dynamic-programming",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "动态规划降维 一步步优化空间复杂度Java解法",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 18,
+        "id": 1042696,
+        "viewCount": 508
+      },
+      "uuid": "9NKebh",
+      "videosInfo": []
+    }
+  }
+}

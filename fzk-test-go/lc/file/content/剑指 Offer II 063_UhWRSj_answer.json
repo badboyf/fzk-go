@@ -1,0 +1,79 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "smartliubo",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/smartliubo-u/avatar_1616721864.png",
+          "userSlug": "smartliubo-u"
+        },
+        "username": "smartliubo-u"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "```\r\n    public string ReplaceWords(IList<string> dictionary, string sentence) {\r\n        Trie trie = new Trie();\r\n        // 初始化前缀和字典树\r\n        foreach(var word in dictionary)\t\r\n            trie.Insert(word);\r\n\r\n        // 结果字符\r\n        StringBuilder ans = new StringBuilder();\r\n        foreach(var word in sentence.Split(' ',StringSplitOptions.RemoveEmptyEntries))\r\n        {\r\n            if(ans.Length > 0) ans.Append(\" \");\r\n            // 查询当前单词与前缀和字典树的匹配字符串结果\r\n            string prefix = trie.Search(word);\r\n            // 添加匹配结果\r\n            ans.Append(prefix);\t\t\r\n        }\r\n        return ans.ToString();\r\n    }\r\n\r\n\r\n    // 自定义字典树实现\r\n    public class Trie {\r\n        private Trie[] childs;\r\n        private string word; // 字典树中的字符串单词\r\n        public Trie() {\r\n            childs = new Trie[26];\r\n        }\r\n\r\n        public void Insert(string word){\r\n            Trie node = this;\r\n            foreach(char c in word){\r\n                if(node.childs[c-'a'] == null)\r\n                    node.childs[c-'a'] = new Trie();\r\n                node = node.childs[c-'a'];\r\n            }\r\n            node.word = word;\r\n        }\r\n        // 查询目标字符串在前缀字典树中是否存在\r\n        public string Search(string word){\r\n            Trie node = this;\r\n            foreach(char c in word){\r\n                // 单词在前缀树中不存在或者成功匹配前缀字符\r\n                if(node.childs[c-'a'] == null || node.word != null)\r\n                    break;\r\n                node = node.childs[c-'a'];\r\n            }\r\n            // 返回匹配结果\r\n            return node.word != null ? node.word : word;\r\n        }\r\n    }\r\n```\r\n",
+      "createdAt": "2021-11-26T06:14:21.543069+00:00",
+      "hitCount": 9,
+      "identifier": "euC7Rq",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "cpp-trie-by-the-boondock-saints-kd5l",
+        "title": "CPP Trie"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "UhWRSj"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "cji-yu-zi-dian-shu-jie-fa-by-smartliubo-671as",
+      "status": "PUBLISHED",
+      "summary": "[该用户太懒了，只写了 50 行代码]",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Trie",
+          "nameTranslated": "字典树",
+          "slug": "trie",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C#",
+          "nameTranslated": "",
+          "slug": "csharp",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "c#基于字典树解法",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1123362,
+        "viewCount": 10
+      },
+      "uuid": "euC7Rq",
+      "videosInfo": []
+    }
+  }
+}

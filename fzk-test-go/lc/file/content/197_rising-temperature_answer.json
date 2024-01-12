@@ -1,0 +1,82 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣 (LeetCode)",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/uploaded_files/2021/03/73c9f099-abbe-4d94-853f-f8abffd459cd/leetcode.png",
+          "userSlug": "leetcode"
+        },
+        "username": "LeetCode"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法：使用 `JOIN` 和 `DATEDIFF()` 子句\n\n**算法**\n\nMySQL 使用 [DATEDIFF](https://dev.mysql.com/doc/refman/5.7/en/date-and-time-functions.html#function_datediff) 来比较两个日期类型的值。\n\n因此，我们可以通过将 **weather** 与自身相结合，并使用 `DATEDIFF()` 函数。\n\n```MySQL []\nSELECT\n    weather.id AS 'Id'\nFROM\n    weather\n        JOIN\n    weather w ON DATEDIFF(weather.date, w.date) = 1\n        AND weather.Temperature > w.Temperature\n;\n```",
+      "createdAt": "2018-10-24T20:32:47.375747+00:00",
+      "hitCount": 80218,
+      "identifier": "ZCGb0n",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "tu-jie-sqlmian-shi-ti-ru-he-bi-jiao-ri-qi-shu-ju-b",
+        "title": "图解SQL面试题：如何比较日期数据？"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "rising-temperature"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 41,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 3,
+          "reactionType": "AWESOME"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "CONFUSED"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "shang-sheng-de-wen-du-by-leetcode",
+      "status": "PUBLISHED",
+      "summary": "算法\nMySQL 使用 DATEDIFF 来比较两个日期类型的值。\n因此，我们可以通过将 weather 与自身相结合，并使用 DATEDIFF() 函数。",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "MySQL",
+          "nameTranslated": "",
+          "slug": "mysql",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "上升的温度",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 122,
+        "id": 3568,
+        "viewCount": 58265
+      },
+      "uuid": "ZCGb0n",
+      "videosInfo": []
+    }
+  }
+}

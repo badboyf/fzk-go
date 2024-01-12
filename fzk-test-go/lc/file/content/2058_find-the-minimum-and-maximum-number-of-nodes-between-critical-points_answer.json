@@ -1,0 +1,86 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣官方题解",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/leetcode-solution/avatar_1582018938.png",
+          "userSlug": "leetcode-solution"
+        },
+        "username": "LeetCode-Solution"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法一：维护上一个和第一个临界点的位置\n\n**思路与算法**\n\n我们可以对链表进行一次遍历。\n\n当我们遍历到节点 $\\textit{cur}$ 时，可以记 $\\textit{cur}$ 的值、$\\textit{cur}$ 后一个节点的值、$\\textit{cur}$ 后两个节点的值，分别为 $x, y, z$。如果 $y$ 严格大于 $x$ 和 $z$，或者 $y$ 严格小于 $x$ 和 $z$，那么 $\\textit{cur}$ 的后一个节点就是临界点。\n\n由于我们需要得到任意两个临界点之间的最小距离和最大距离，而我们可以发现：\n\n- 最小距离一定出现在两个相邻的临界点之间；\n\n- 最大距离一定出现在第一个和最后一个临界点之间。\n\n因此，在遍历的过程中，我们可以维护上一个临界点的位置以及第一个临界点的位置。这样一来，每当我们找到一个临界点，就可以更新最小距离和最大距离。\n\n**代码**\n\n```C++ [sol1-C++]\nclass Solution {\npublic:\n    vector<int> nodesBetweenCriticalPoints(ListNode* head) {\n        int minDist = -1, maxDist = -1;\n        int first = -1, last = -1, pos = 0;\n        ListNode* cur = head;\n        while (cur->next->next) {\n            // 获取连续的三个节点的值\n            int x = cur->val;\n            int y = cur->next->val;\n            int z = cur->next->next->val;\n            // 如果 y 是临界点\n            if (y > max(x, z) || y < min(x, z)) {\n                if (last != -1) {\n                    // 用相邻临界点的距离更新最小值\n                    minDist = (minDist == -1 ? pos - last : min(minDist, pos - last));\n                    // 用到第一个临界点的距离更新最大值\n                    maxDist = max(maxDist, pos - first);\n                }\n                if (first == -1) {\n                    first = pos;\n                }\n                // 更新上一个临界点\n                last = pos;\n            }\n            cur = cur->next;\n            ++pos;\n        }\n        return {minDist, maxDist};\n    }\n};\n```\n\n```Python [sol1-Python3]\nclass Solution:\n    def nodesBetweenCriticalPoints(self, head: Optional[ListNode]) -> List[int]:\n        minDist = maxDist = -1\n        first = last = -1\n        pos = 0\n\n        cur = head\n        while cur.next.next:\n            # 获取连续的三个节点的值\n            x, y, z = cur.val, cur.next.val, cur.next.next.val\n            # 如果 y 是临界点\n            if y > max(x, z) or y < min(x, z):\n                if last != -1:\n                    # 用相邻临界点的距离更新最小值\n                    minDist = (pos - last if minDist == -1 else min(minDist, pos - last))\n                    # 用到第一个临界点的距离更新最大值\n                    maxDist = max(maxDist, pos - first)\n                if first == -1:\n                    first = pos\n                # 更新上一个临界点\n                last = pos\n            cur = cur.next\n            pos += 1\n        \n        return [minDist, maxDist]\n```\n\n**复杂度分析**\n\n- 时间复杂度：$O(n)$，其中 $n$ 是给定的链表的长度。\n\n- 空间复杂度：$O(1)$。",
+      "createdAt": "2021-10-31T16:17:44.931518+00:00",
+      "hitCount": 718,
+      "identifier": "VXkTpf",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "cyu-yan-zhuan-wei-shu-zu-ji-suan-lin-jie-suuq",
+        "title": "C语言，转为数组计算临界点"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "find-the-minimum-and-maximum-number-of-nodes-between-critical-points"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "zhao-chu-lin-jie-dian-zhi-jian-de-zui-xi-b08v",
+      "status": "PREPUBLISH",
+      "summary": "方法一：维护上一个和第一个临界点的位置 思路与算法 我们可以对链表进行一次遍历。 当我们遍历到节点 $\\textit{cur}$ 时，可以记 $\\textit{cur}$ 的值、$\\textit{cur}$ 后一个节点的值、$\\textit{cur}$ 后两个节点的值，分别为 $x, y, z$。如果 $y$ 严格大于",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Linked List",
+          "nameTranslated": "链表",
+          "slug": "linked-list",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "找出临界点之间的最小和最大距离",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 3,
+        "id": 1077097,
+        "viewCount": 569
+      },
+      "uuid": "VXkTpf",
+      "videosInfo": []
+    }
+  }
+}

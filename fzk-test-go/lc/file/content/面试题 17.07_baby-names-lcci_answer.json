@@ -1,0 +1,72 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "oahrats",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/default_avatar.png",
+          "userSlug": "oahrats"
+        },
+        "username": "oahrats"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "![image.png](https://pic.leetcode-cn.com/1629158592-ZqUqwl-image.png)\r\n\r\n```\r\nclass Solution {\r\n    \r\n    private int N = 0;\r\n    private int []fa = null;\r\n    private String []nms = null;\r\n    private int []count = null;\r\n\r\n    private int find(int x){return fa[x] == x ? x :(fa[x] = find(fa[x]));}\r\n\r\n    private void merge(int x1, int y1){\r\n        int x = find(x1); int y = find(y1);\r\n        if(x==y) return;\r\n        if(y<N && nms[x].compareTo(nms[y])>0){fa[x]=y;count[y]+=count[x];count[x]=0;}         \r\n        else{fa[y]=x;count[x]+=count[y];count[y]=0;} \r\n    }\r\n\r\n    private void add(String name, int idx, HashMap<String, Integer> map){\r\n        fa[idx] = idx;nms[idx] = name;count[idx] = 0;map.put(nms[idx], idx);\r\n    }\r\n\r\n    public String[] trulyMostPopular(String[] names, String[] synonyms) {\r\n        N = names.length;int M = N+2*synonyms.length+1;\r\n        fa = new int[M];nms = new String[M];count = new int[M];\r\n        HashMap<String, Integer> map = new HashMap<String, Integer>();\r\n        for(int i=0;i<N;i++){\r\n            fa[i] = i;\r\n            int idxL = names[i].lastIndexOf('(');\r\n            nms[i] = names[i].substring(0, idxL);\r\n            count[i] = Integer.parseInt(names[i].substring(idxL+1, names[i].length()-1));\r\n            map.put(nms[i], i);\r\n        }\r\n        for(int i=0, cnt = N;i<synonyms.length;i++){\r\n            String []par = synonyms[i].substring(1, synonyms[i].length()-1).split(\",\");\r\n            String n1 = par[0].trim();String n2 = par[1].trim();\r\n            if(map.containsKey(n1) && map.containsKey(n2))merge(map.get(n1), map.get(n2));\r\n            else{\r\n                if(map.containsKey(n1) && !map.containsKey(n2)){add(n2, cnt, map);merge(cnt, map.get(n1));}\r\n                else if(!map.containsKey(n1) && map.containsKey(n2)){add(n1, cnt, map);merge(cnt, map.get(n2));}\r\n                else{add(n1, cnt, map);cnt++;add(n2, cnt, map);merge(cnt, cnt-1);}\r\n                cnt++;\r\n            }\r\n        }\r\n        List<String> list = new ArrayList<String>();\r\n        for(int i=0;i<N;i++)if(fa[i] ==i)list.add(nms[i]+\"(\"+count[i]+\")\");\r\n        return list.toArray(new String[0]);\r\n    }\r\n}\r\n```\r\n",
+      "createdAt": "2021-08-17T00:03:16.040377+00:00",
+      "hitCount": 880,
+      "identifier": "sa5Xln",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "bing-cha-ji-si-lu-yong-hashmapzuo-95ms-by-accounto",
+        "title": "并查集思路，用hashmap做，95ms"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "baby-names-lcci"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "mian-shi-ti-1707-ming-zi-by-oahrats-hgxa",
+      "status": "PUBLISHED",
+      "summary": "[该用户太懒了，只上传了一段奇怪的内容]",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1629158592-ZqUqwl-image.png",
+      "title": "面试题 17.07. ***名字(并查集)(击败96.95%)",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 940164,
+        "viewCount": 729
+      },
+      "uuid": "sa5Xln",
+      "videosInfo": []
+    }
+  }
+}

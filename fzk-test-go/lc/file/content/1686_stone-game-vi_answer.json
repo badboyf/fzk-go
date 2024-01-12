@@ -1,0 +1,88 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "骑猪骚男猪壮壮",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/ll0626/avatar_1631713561.png",
+          "userSlug": "ll0626"
+        },
+        "username": "ll0626"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n 这个效率探底了！！！\n![image.png](https://pic.leetcode-cn.com/1634439621-nJvxbx-image.png)\n利用大顶堆，重载<，将Alice和bob的总和存入堆中，每次弹出堆顶元素并且累积，最后比较双方的累计值；\n### 代码\n\n```cpp\nstatic bool operator<(vector<int>a1, vector<int> a2)\n{\n    return a1[0]<a2[0];\n}\nclass Solution {\npublic:\n    int stoneGameVI(vector<int>& aliceValues, vector<int>& bobValues) \n    {\n         \n        priority_queue<vector<int>, vector<vector<int>> > dd;\n        int k = aliceValues.size();\n        for (int i = 0; i < k; i++)\n        {\n            int assum = aliceValues[i] + bobValues[i];\n            //cout<<assum<<endl;\n            vector<int>temp{ assum,i };\n            dd.push(temp);\n        }\n        int av=0, bv=0;\n        for (int i = 0; i < k; i++)\n        {\n            if (i % 2 == 0)//alice;\n            {\n                int temp = dd.top()[1];\n                av += aliceValues[temp];\n                dd.pop();\n                //cout<<av;\n            }\n            else//bob;\n            {\n                int temp = dd.top()[1];\n                //cout<<bobValues[temp];\n                bv += bobValues[temp];\n                dd.pop();\n                 \n            }\n        }\n        if (av > bv)return 1;\n        else\n            return av < bv ? -1 : 0;\n\n    }\n     \n};\n```",
+      "createdAt": "2021-10-17T03:02:28.268133+00:00",
+      "hitCount": 190,
+      "identifier": "epZIu9",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "python-tan-xin-by-qubenhao-0vr4",
+        "title": "[Python] 贪心"
+      },
+      "position": 2,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "c-tan-xin-zheng-ming-by-spacex-1-xi8y",
+        "title": "C++ 贪心 && 证明"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "stone-game-vi"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "THUMBS_DOWN"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "sui-bi-_da-ding-dui-lian-xi-by-ll0626-iaqf",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n这个效率探底了！！！\n\n利用大顶堆，重载<，将Alice和bob的总和存入堆中，每次弹出堆顶元素并且累积，最后比较双方的累计值；\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Heap (Priority Queue)",
+          "nameTranslated": "堆（优先队列）",
+          "slug": "heap-priority-queue",
+          "tagType": "TOPIC"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1634439621-nJvxbx-image.png",
+      "title": "随笔_大顶堆练习",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1051352,
+        "viewCount": 154
+      },
+      "uuid": "epZIu9",
+      "videosInfo": []
+    }
+  }
+}

@@ -1,0 +1,76 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "骑猪骚男猪壮壮",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/ll0626/avatar_1631713561.png",
+          "userSlug": "ll0626"
+        },
+        "username": "ll0626"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n 简单题重拳出击！\n利用string的find函数找字符串 如果没有匹配则会返回npos（string空间）；\n \n![image.png](https://pic.leetcode-cn.com/1634392708-YhnaNK-image.png)\n![image.png](https://pic.leetcode-cn.com/1634392574-SHHyXQ-image.png)\n\n\n### 代码\n\n```cpp\nclass Solution {\npublic:\n    int maxRepeating(string sequence, string word) \n    {\n        int ans = 0;\n        string s = word;\n        for (int i = 1; i <= (sequence.size() / s.size()); i++)\n        {\n            if (sequence.find(word) != string::npos)\n            {\n                ans++;\n                word += s;               \n            }\n            else\n            {break;}\n        }\n        return ans;\n    }\n};\n```",
+      "createdAt": "2021-10-16T14:00:15.313507+00:00",
+      "hitCount": 235,
+      "identifier": "QpYA4J",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "1688ti-9249-4667-by-bobby996-nly6",
+        "title": "1688题  92.49%  46.67%"
+      },
+      "position": 2,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "-by-number-one-player-sxf1",
+        "title": "【？】"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "maximum-repeating-substring"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "sui-bi-_stringfind-by-ll0626-fni4",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n简单题重拳出击！\n利用string的find函数找字符串 如果没有匹配则会返回npos（string空间）；\n\n\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1634392708-YhnaNK-image.png",
+      "title": "随笔_string.find()",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 1,
+        "id": 1050724,
+        "viewCount": 206
+      },
+      "uuid": "QpYA4J",
+      "videosInfo": []
+    }
+  }
+}

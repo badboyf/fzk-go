@@ -1,0 +1,84 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "Rookie",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/rookie-127/avatar_1632196635.png",
+          "userSlug": "rookiewantajob"
+        },
+        "username": "rookieWantAJob"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "\n```java\n/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     int val;\n *     TreeNode left;\n *     TreeNode right;\n *     TreeNode(int x) { val = x; }\n * }\n */\nclass Solution {\n    TreeNode res= null;\n    TreeNode pre= null;\n    public TreeNode inorderSuccessor(TreeNode root, TreeNode p) {\n        findNext(root,p);\n        return res;\n    }\n    public void findNext(TreeNode root,TreeNode p){\n        if(root!=null){\n            // 先在左子树进行搜索\n            findNext(root.left,p);\n            // 判断前一个节点是否等于p 如果\n            if(pre == p) {\n                res = root;\n            }\n            pre = root;\n            findNext(root.right,p);\n        }\n    }\n}\n```",
+      "createdAt": "2021-11-04T11:16:26.376647+00:00",
+      "hitCount": 202,
+      "identifier": "1kOdOA",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "100liang-chong-qing-kuang-zhi-xu-yao-yi-ghpai",
+        "title": "100%，两种情况，只需要一个变量（图片很详细）"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "successor-lcci"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 0,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "java-di-gui-quan-ju-qian-ji-jie-dian-by-r6hil",
+      "status": "PREPUBLISH",
+      "summary": "[该用户太懒了，只写了 29 行 Java 代码]",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "java",
+          "nameTranslated": "",
+          "slug": "java-11",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "",
+      "title": "java 递归   全局前继节点",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1084218,
+        "viewCount": 155
+      },
+      "uuid": "1kOdOA",
+      "videosInfo": []
+    }
+  }
+}

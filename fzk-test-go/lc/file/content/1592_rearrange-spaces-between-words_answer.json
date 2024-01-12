@@ -1,0 +1,76 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "稳健",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/zhi-xing-qie-wen-jian-69/avatar_1612197356.png",
+          "userSlug": "wen-jian-69"
+        },
+        "username": "wen-jian-69"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "```java\r\nclass Solution {\r\n    public String reorderSpaces(String text) {\r\n        int cnt = 0, n = text.length();\r\n        List<String> words = new ArrayList<>();\r\n        for (int i = 0; i < n;) { //分别统计单词与空格的个数，同时存储每个单词\r\n            while (i < n && text.charAt(i) == ' ') {\r\n                i++;\r\n                cnt++;\r\n            }\r\n            if (i != n) {\r\n                StringBuilder word = new StringBuilder();\r\n                while (i < n && text.charAt(i) != ' ') {\r\n                    word.append(text.charAt(i++));\r\n                }\r\n                words.add(word.toString());\r\n            }\r\n        }\r\n        int average = words.size() == 1 ? 0 : cnt / (words.size() - 1); //计算空格平均数\r\n        int surplus = words.size() == 1 ? cnt : cnt % (words.size() - 1); //计算空格多出的数量\r\n        StringBuilder ans = new StringBuilder(words.get(0)); //以第一个单词来初始化\r\n        for (int i = 1; i < words.size(); i++) { //以空格+单词的形式拼接\r\n            for (int j = 0; j < average; j++) {\r\n                ans.append(' ');\r\n            }\r\n            ans.append(words.get(i));\r\n        }\r\n        while (surplus-- != 0) ans.append(' '); //拼接多出的空格\r\n        return ans.toString();\r\n    }\r\n}\r\n```\r\n",
+      "createdAt": "2021-09-09T01:22:18.450004+00:00",
+      "hitCount": 186,
+      "identifier": "kOWxZb",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "yi-ge-mo-ban-shua-bian-suo-you-zi-fu-chu-s8ma",
+        "title": "一个模板刷遍所有字符串句子题目！（归纳总结+分类模板+题目分析）"
+      },
+      "position": 2,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "java-kong-ge-ji-shu-cun-chu-dan-ci-xiang-szqe",
+        "title": "Java 空格计数，存储单词，详细注释"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "rearrange-spaces-between-words"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "1592-zhong-xin-pai-lie-dan-ci-jian-de-ko-189c",
+      "status": "PREPUBLISH",
+      "summary": "[该用户太懒了，只写了 30 行 Java 代码]",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "【1592. 重新排列单词间的空格】Java简单实现",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 987007,
+        "viewCount": 163
+      },
+      "uuid": "kOWxZb",
+      "videosInfo": []
+    }
+  }
+}

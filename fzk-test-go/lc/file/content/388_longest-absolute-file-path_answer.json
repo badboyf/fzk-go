@@ -1,0 +1,86 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "小太子仔",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/xiao-xiu-8/avatar_1609429732.png",
+          "userSlug": "xiao-xiu-8"
+        },
+        "username": "xiao-xiu-8"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n![image.png](https://pic.leetcode-cn.com/1635583694-csDUpn-image.png)\n\n\n### 代码\n\n```cpp\nclass Solution {\nprivate:\n    int size;\n    int ans=0;\n    string temp;\n    bool getstr(string &s,int &place)\n    {\n        temp=\"\";\n        bool judge=false;\n        while(place<size&&s[place]!='\\n')\n        {\n            if(s[place]=='.')\n            {\n                judge=true;\n            }\n            temp.push_back(s[place++]);\n        }\n        return judge;\n    }\n    void find(string &s,int &place,string now,int level)\n    {\n        while(place<size)\n        {\n            int t=s[place]=='\\n'?place+1:place,count=0;\n            while(t<size&&s[t]=='\\t')\n            {\n                ++count;\n                ++t;\n            }\n            if(count==level)\n            {\n                place=t;\n                if(getstr(s,place))\n                {\n                    int a=now.size()+temp.size();\n                    ans=max(ans,a);\n                }\n                else \n                {\n                    find(s,place,now+temp+\"/\",level+1);\n                }\n            }\n            else \n            {\n                break;\n            }\n        }\n    }\npublic:\n    int lengthLongestPath(string input) {\n        size=input.size();\n        int place=0;\n        string now;\n        find(input,place,now,0);\n        return ans;\n    }\n};\n```",
+      "createdAt": "2021-10-30T08:48:18.029083+00:00",
+      "hitCount": 285,
+      "identifier": "x6MkFZ",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "zhan-by-wanglongjiang-07bf",
+        "title": "栈"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "longest-absolute-file-path"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "wen-jian-de-zui-chang-jue-dui-lu-jing-by-i45y",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Backtracking",
+          "nameTranslated": "回溯",
+          "slug": "backtracking",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "迭代",
+          "nameTranslated": "",
+          "slug": "die-dai",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1635583694-csDUpn-image.png",
+      "title": "文件的最长绝对路径",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1074522,
+        "viewCount": 230
+      },
+      "uuid": "x6MkFZ",
+      "videosInfo": []
+    }
+  }
+}

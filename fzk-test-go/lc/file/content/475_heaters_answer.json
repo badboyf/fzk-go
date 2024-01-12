@@ -1,0 +1,114 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "华山不是华生",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/mountain_hua/avatar_1623068024.png",
+          "userSlug": "mountain_hua"
+        },
+        "username": "mountain_hua"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n1   先对房屋和加热器从小到大进行排序\n2   另房屋索引为 i, 加热器索引为 j, 双指针的主要逻辑是当下一个加热器 heater[j + 1] 距离当前房屋较近时，即取下一个加热器\n### 代码\n```c []\nint cmp(const void *a, const void *b) {return *(int *)a - *(int *)b;}\nint findRadius(int* houses, int housesSize, int* heaters, int heatersSize){\n    qsort(houses, housesSize, sizeof(houses[0]), cmp);\n    qsort(heaters, heatersSize, sizeof(heaters[0]), cmp);\n    int ans = 0, i = 0, j = 0;\n    while (i < housesSize) {\n        int pre = ans;\n        ans = fmax(ans, abs(houses[i] - heaters[j]));\n        while (j < heatersSize - 1 && abs(houses[i] - heaters[j]) >= abs(houses[i] - heaters[j + 1])) {\n            ++j;\n            ans = fmax(pre, abs(houses[i] - heaters[j]));\n        }\n        ++i;\n    }\n    return ans;\n}\n```\n```c++ []\nclass Solution {\npublic:\n    int findRadius(vector<int>& houses, vector<int>& heaters) {\n        sort(houses.begin(), houses.end());\n        sort(heaters.begin(), heaters.end());\n        int ans = 0, i = 0, j = 0;\n        while (i < houses.size()) {\n            int pre = ans;\n            ans = max(ans, abs(houses[i] - heaters[j]));\n            // while内的逻辑是当下一个加热器 heater[j + 1] 距离当前房屋较近时，即取下一个加热器\n            while (j < heaters.size() - 1 && abs(houses[i] - heaters[j]) >= abs(houses[i] - heaters[j + 1])) {\n                ++j;\n                ans = max(pre, abs(houses[i] - heaters[j]));\n            }\n            ++i;\n        }\n        return ans;\n    }\n};\n```\n```python []\nclass Solution:\n    def findRadius(self, houses: List[int], heaters: List[int]) -> int:\n        houses.sort()\n        heaters.sort()\n        ans, i, j, m, n = 0, 0, 0, len(houses), len(heaters)\n        while i < m:\n            pre = ans\n            ans = max(ans, abs(houses[i] - heaters[j]))\n            while j < n - 1 and (abs(houses[i] - heaters[j]) >= abs(houses[i] - heaters[j + 1])):\n                j += 1\n                ans = max(pre, abs(houses[i] - heaters[j]))\n            i += 1\n        return ans\n\n```\n```go []\nfunc findRadius(houses []int, heaters []int) int {\n    sort.Ints(houses)\n    sort.Ints(heaters)\n    ans, i, j, m, n := 0, 0, 0, len(houses), len(heaters)\n    for (i < m) {\n        pre := ans\n        ans = max(ans, abs(houses[i] - heaters[j]))\n        for (j < n - 1 && abs(houses[i] - heaters[j]) >= abs(houses[i] - heaters[j + 1])) {\n            j += 1\n            ans = max(pre, abs(houses[i] - heaters[j]))\n        }\n        i += 1\n    }\n    return ans\n}\nfunc max(a, b int) int {\n    if (a < b) {\n        return b\n    } else {\n        return a\n    }\n}\nfunc abs(a int) int {\n    if (a >= 0) {\n        return a\n    }\n    return -a\n}\n```\n```rust []\nimpl Solution {\n    pub fn find_radius(mut houses: Vec<i32>, mut heaters: Vec<i32>) -> i32 {\n        houses.sort_unstable();\n        heaters.sort_unstable();\n        let (mut ans, mut i, mut j, m, n) = (0, 0, 0, houses.len(), heaters.len());       \n        while i < m {\n            let mut pre = ans;\n            ans = ans.max((houses[i] - heaters[j]).abs());\n            while (j < n - 1 && (houses[i] - heaters[j]).abs() >= (houses[i] - heaters[j + 1]).abs()) {\n                j += 1;\n                ans = pre.max((houses[i] - heaters[j]).abs());\n            }\n            i += 1;\n        }\n        return ans;\n    }\n}\n```\n",
+      "createdAt": "2021-10-15T15:39:40.240716+00:00",
+      "hitCount": 1105,
+      "identifier": "PclLEx",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "tan-xin-pai-xu-shuang-zhi-zhen-by-seven-fmfrm",
+        "title": "贪心：排序+双指针"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "heaters"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 4,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "pai-xu-shuang-zhi-zhen-duo-chong-yu-yan-3udnu",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n1   先对房屋和加热器从小到大进行排序\n2   另房屋索引为 i, 加热器索引为 j, 双指针的主要逻辑是当下一个加热器 heater[j + 1] 距离当前房屋较近时，即取下一个加热器\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Two Pointers",
+          "nameTranslated": "双指针",
+          "slug": "two-pointers",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C",
+          "nameTranslated": "",
+          "slug": "c",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Go",
+          "nameTranslated": "",
+          "slug": "golang",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python3",
+          "nameTranslated": "",
+          "slug": "python3",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Rust",
+          "nameTranslated": "",
+          "slug": "rust",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "排序+双指针，多种语言实现【475. 供暖器】",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1049623,
+        "viewCount": 759
+      },
+      "uuid": "PclLEx",
+      "videosInfo": []
+    }
+  }
+}

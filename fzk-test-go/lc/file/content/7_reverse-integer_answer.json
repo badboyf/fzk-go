@@ -1,0 +1,143 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣官方题解",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/leetcode-solution/avatar_1582018938.png",
+          "userSlug": "leetcode-solution"
+        },
+        "username": "LeetCode-Solution"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 📺 视频题解  \n![7.整数反转-沈老师.mp4](0fadb447-b738-43c5-92f3-c8fcbb3f3418)\n\n### 📖 文字题解\n#### 方法一：数学\n\n**思路**\n\n记 $\\textit{rev}$ 为翻转后的数字，为完成翻转，我们可以重复「弹出」$x$ 的末尾数字，将其「推入」$\\textit{rev}$ 的末尾，直至 $x$ 为 $0$。\n\n要在没有辅助栈或数组的帮助下「弹出」和「推入」数字，我们可以使用如下数学方法：\n\n```cpp\n// 弹出 x 的末尾数字 digit\ndigit = x % 10\nx /= 10\n\n// 将数字 digit 推入 rev 末尾\nrev = rev * 10 + digit\n```\n\n题目需要判断反转后的数字是否超过 $32$ 位有符号整数的范围 $[-2^{31},2^{31}-1]$，例如 $x=2123456789$ 反转后的 $\\textit{rev}=9876543212>2^{31}-1=2147483647$，超过了 $32$ 位有符号整数的范围。\n\n因此我们需要在「推入」数字之前，判断是否满足 \n\n$$-2^{31}\\le\\textit{rev}\\cdot10+\\textit{digit}\\le2^{31}-1$$\n\n若该不等式不成立则返回 $0$。\n\n但是题目要求不允许使用 $64$ 位整数，即运算过程中的数字必须在 $32$ 位有符号整数的范围内，因此我们不能直接按照上述式子计算，需要另寻他路。\n\n考虑 $x>0$ 的情况，记 $\\textit{INT\\_MAX}=2^{31}-1=2147483647$，由于\n\n$$\n\\begin{aligned}\n\\textit{INT\\_MAX}&=\\lfloor\\dfrac{\\textit{INT\\_MAX}}{10}\\rfloor\\cdot10+(\\textit{INT\\_MAX}\\bmod10)\\\\\n&=\\lfloor\\dfrac{\\textit{INT\\_MAX}}{10}\\rfloor\\cdot10+7\n\\end{aligned}\n$$\n\n则不等式\n\n$$\\textit{rev}\\cdot10+\\textit{digit}\\le\\textit{INT\\_MAX}$$\n\n等价于\n\n$$\\textit{rev}\\cdot10+\\textit{digit}\\le\\lfloor\\dfrac{\\textit{INT\\_MAX}}{10}\\rfloor\\cdot10+7$$\n\n移项得\n\n$$(\\textit{rev}-\\lfloor\\dfrac{\\textit{INT\\_MAX}}{10}\\rfloor)\\cdot10\\le7-\\textit{digit}$$\n\n讨论该不等式成立的条件：\n\n若 $\\textit{rev}>\\lfloor\\cfrac{\\textit{INT\\_MAX}}{10}\\rfloor$，由于 $\\textit{digit}\\ge0$，不等式不成立。\n若 $\\textit{rev}=\\lfloor\\cfrac{\\textit{INT\\_MAX}}{10}\\rfloor$，当且仅当 $\\textit{digit}\\le7$ 时，不等式成立。\n若 $\\textit{rev}<\\lfloor\\cfrac{\\textit{INT\\_MAX}}{10}\\rfloor$，由于 $\\textit{digit}\\le9$，不等式成立。\n\n注意到当 $\\textit{rev}=\\lfloor\\cfrac{\\textit{INT\\_MAX}}{10}\\rfloor$ 时若还能推入数字，则说明 $x$ 的位数与 $\\textit{INT\\_MAX}$ 的位数相同，且要推入的数字 $\\textit{digit}$ 为 $x$ 的最高位。由于 $x$ 不超过 $\\textit{INT\\_MAX}$，因此 $\\textit{digit}$ 不会超过 $\\textit{INT\\_MAX}$ 的最高位，即 $\\textit{digit}\\le2$。所以实际上当 $\\textit{rev}=\\lfloor\\cfrac{\\textit{INT\\_MAX}}{10}\\rfloor$ 时不等式必定成立。\n\n因此判定条件可简化为：**当且仅当 $\\textit{rev}\\le\\lfloor\\cfrac{\\textit{INT\\_MAX}}{10}\\rfloor$ 时，不等式成立**。\n\n$x<0$ 的情况类似，留给读者自证，此处不再赘述。\n\n综上所述，判断不等式\n\n$$-2^{31}\\le\\textit{rev}\\cdot10+\\textit{digit}\\le2^{31}-1$$\n\n是否成立，可改为判断不等式\n\n$$\\lceil\\cfrac{-2^{31}}{10}\\rceil\\le\\textit{rev}\\le\\lfloor\\dfrac{2^{31}-1}{10}\\rfloor$$\n\n是否成立，若不成立则返回 $0$。\n\n**代码**\n\n```C++ [sol1-C++]\nclass Solution {\npublic:\n    int reverse(int x) {\n        int rev = 0;\n        while (x != 0) {\n            if (rev < INT_MIN / 10 || rev > INT_MAX / 10) {\n                return 0;\n            }\n            int digit = x % 10;\n            x /= 10;\n            rev = rev * 10 + digit;\n        }\n        return rev;\n    }\n};\n```\n\n```Java [sol1-Java]\nclass Solution {\n    public int reverse(int x) {\n        int rev = 0;\n        while (x != 0) {\n            if (rev < Integer.MIN_VALUE / 10 || rev > Integer.MAX_VALUE / 10) {\n                return 0;\n            }\n            int digit = x % 10;\n            x /= 10;\n            rev = rev * 10 + digit;\n        }\n        return rev;\n    }\n}\n```\n\n```C# [sol1-C#]\npublic class Solution {\n    public int Reverse(int x) {\n        int rev = 0;\n        while (x != 0) {\n            if (rev < int.MinValue / 10 || rev > int.MaxValue / 10) {\n                return 0;\n            }\n            int digit = x % 10;\n            x /= 10;\n            rev = rev * 10 + digit;\n        }\n        return rev;\n    }\n}\n```\n\n```go [sol1-Golang]\nfunc reverse(x int) (rev int) {\n    for x != 0 {\n        if rev < math.MinInt32/10 || rev > math.MaxInt32/10 {\n            return 0\n        }\n        digit := x % 10\n        x /= 10\n        rev = rev*10 + digit\n    }\n    return\n}\n```\n\n```Python [sol1-Python3]\nclass Solution:\n    def reverse(self, x: int) -> int:\n        INT_MIN, INT_MAX = -2**31, 2**31 - 1\n\n        rev = 0\n        while x != 0:\n            # INT_MIN 也是一个负数，不能写成 rev < INT_MIN // 10\n            if rev < INT_MIN // 10 + 1 or rev > INT_MAX // 10:\n                return 0\n            digit = x % 10\n            # Python3 的取模运算在 x 为负数时也会返回 [0, 9) 以内的结果，因此这里需要进行特殊判断\n            if x < 0 and digit > 0:\n                digit -= 10\n\n            # 同理，Python3 的整数除法在 x 为负数时会向下（更小的负数）取整，因此不能写成 x //= 10\n            x = (x - digit) // 10\n            rev = rev * 10 + digit\n        \n        return rev\n```\n\n```C [sol1-C]\nint reverse(int x) {\n    int rev = 0;\n    while (x != 0) {\n        if (rev < INT_MIN / 10 || rev > INT_MAX / 10) {\n            return 0;\n        }\n        int digit = x % 10;\n        x /= 10;\n        rev = rev * 10 + digit;\n    }\n    return rev;\n}\n```\n\n```JavaScript [sol1-JavaScript]\nvar reverse = function(x) {\n    let rev = 0;\n    while (x !== 0) {\n        const digit = x % 10;\n        x = ~~(x / 10);\n        rev = rev * 10 + digit;\n        if (rev < Math.pow(-2, 31) || rev > Math.pow(2, 31) - 1) {\n            return 0;\n        }\n    }\n    return rev;\n};\n```\n\n**复杂度分析**\n\n- 时间复杂度：$O(\\log |x|)$。翻转的次数即 $x$ 十进制的位数。\n\n- 空间复杂度：$O(1)$。",
+      "createdAt": "2021-05-02T09:32:27.984162+00:00",
+      "hitCount": 203267,
+      "identifier": "hml7Wf",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "tu-jie-7-zheng-shu-fan-zhuan-by-wang_ni_ma",
+        "title": "图解 7. 整数反转"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "reverse-integer"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 211,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 14,
+          "reactionType": "AWESOME"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 3,
+          "reactionType": "CONFUSED"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 0,
+          "reactionType": "THUMBS_DOWN"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "zheng-shu-fan-zhuan-by-leetcode-solution-bccn",
+      "status": "PREPUBLISH",
+      "summary": "📺 视频题解\n📖 文字题解\n 方法一：数学\n思路\n记 \\textit{rev} 为翻转后的数字，为完成翻转，我们可以重复「弹出」x 的末尾数字，将其「推入」\\textit{rev} 的末尾，直至 x 为 0。\n要在没有辅助栈或数组的帮助下「弹出」和「推入」数字，我们可以使用如下数学方法：\n题目需要判断反转后的数字是否超",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Math",
+          "nameTranslated": "数学",
+          "slug": "math",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C",
+          "nameTranslated": "",
+          "slug": "c",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C#",
+          "nameTranslated": "",
+          "slug": "csharp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Go",
+          "nameTranslated": "",
+          "slug": "golang",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "JavaScript",
+          "nameTranslated": "",
+          "slug": "javascript",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "整数反转",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 228,
+        "id": 755611,
+        "viewCount": 131420
+      },
+      "uuid": "hml7Wf",
+      "videosInfo": [
+        {
+          "__typename": "VideoInfoNode",
+          "coverUrl": "https://video.leetcode-cn.com/image/cover/FDDD50E6D4734F769C32E3F6FDD878FA-6-2.png",
+          "duration": 191.4027,
+          "videoId": "4a203959a4184f1f911a7044c9250ec7"
+        }
+      ]
+    }
+  }
+}

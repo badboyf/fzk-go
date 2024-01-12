@@ -1,0 +1,79 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "何廷",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/mchh-r/avatar_1635945584.png",
+          "userSlug": "htch"
+        },
+        "username": "htch"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "# 1、非HashMap\r\n![1637546746.jpg](https://pic.leetcode-cn.com/1637546889-fBasde-1637546746.jpg)\r\n\r\n```java\r\nclass Solution {\r\n    public boolean isAlienSorted(String[] words, String order) {\r\n        for (int i = 0; i < words.length - 1; i++) {\r\n            if (compare(words[i], words[i + 1], order)) continue;\r\n            else return false;\r\n        }\r\n        return true;\r\n    }\r\n\r\n    private boolean compare(String f, String l, String order) {\r\n        if (f.equals(l)) return true;\r\n        int small = Math.min(f.length(), l.length());\r\n        for (int i = 0; i < small; i++) {\r\n            if (f.charAt(i) == l.charAt(i)) continue;\r\n            else {\r\n                for (int k = 0; k < order.length(); k++) {\r\n                    if (order.charAt(k) == f.charAt(i) || order.charAt(k) == l.charAt(i))\r\n                        return order.charAt(k) == f.charAt(i) ? true : false;\r\n                }\r\n            }\r\n        }\r\n        if (f.length() < l.length()) return true;\r\n        return false;\r\n    }\r\n}\r\n```\r\n\r\n# 2、HashMap\r\n![1637546780(1).jpg](https://pic.leetcode-cn.com/1637546912-TnYluy-1637546780\\(1\\).jpg)\r\n\r\n```java\r\nclass Solution {\r\n    public boolean isAlienSorted(String[] words, String order) {\r\n        HashMap<Character, Integer> map = new HashMap<>();\r\n        for (int i = 0; i < order.length(); i++) {\r\n            map.put(order.charAt(i), i);\r\n        }\r\n        for (int i = 0; i < words.length - 1; i++) {\r\n            String w1 = words[i];\r\n            int w1_len = w1.length();\r\n            String w2 = words[i + 1];\r\n            int w2_len = w2.length();\r\n            for (int j = 0; j < Math.max(w1_len, w2_len); j++) {\r\n                int idx_w1 = j >= w1_len ? -1 : map.get(w1.charAt(j));\r\n                int idx_w2 = j >= w2_len ? -1 : map.get(w2.charAt(j));\r\n                if (idx_w1 > idx_w2) return false;\r\n                if (idx_w1 < idx_w2) break;\r\n            }\r\n        }\r\n        return true;\r\n    }\r\n}\r\n```\r\n\r\n",
+      "createdAt": "2021-11-22T02:09:43.810563+00:00",
+      "hitCount": 78,
+      "identifier": "NcPlrG",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "shua-chuan-jian-zhi-offer-day16-ha-xi-bi-mtik",
+        "title": " 刷穿剑指offer-Day16-哈希表III-034.外星语言是否排序 阅读理解题的哈希表+字符串的比较！"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "lwyVBB"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "java-liang-chong-fang-fa-jie-jue-hashmap-98r3",
+      "status": "PUBLISHED",
+      "summary": "1、非HashMap\n2、HashMap",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "hashmap",
+          "nameTranslated": "",
+          "slug": "hashmap",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1637546889-fBasde-1637546746.jpg",
+      "title": "Java 两种方法解决【HashMap、非HashMap】",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1115145,
+        "viewCount": 64
+      },
+      "uuid": "NcPlrG",
+      "videosInfo": []
+    }
+  }
+}

@@ -1,0 +1,94 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣 (LeetCode)",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/uploaded_files/2021/03/73c9f099-abbe-4d94-853f-f8abffd459cd/leetcode.png",
+          "userSlug": "leetcode"
+        },
+        "username": "LeetCode"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "####  序列化一个二叉树表示：\n- 对树的结构编码\n- 对树节点的值编码\n- 利用分隔符分隔字符串中的值\n\n![在这里插入图片描述](https://pic.leetcode-cn.com/338dd8fbe5e9b81f3a874fb75e389c9beb6ac2f6ad318d2d832592d880d3155f-file_1576477181656){:width=500}\n{:align=center}\n\n\n####  方法一：后序遍历优化树结构的空间\n**算法：**\n\n二叉搜索树能只够通过前序序列或后序序列构造，是因为以下两个因素：\n- [二叉树可以通过前序序列或后序序列和中序序列构造](https://leetcode.com/articles/construct-binary-tree-from-postorder-and-inorder-t/)。\n- [二叉搜索树的中序序列是递增排序的序列，`inorder = sorted(preorder)`](https://leetcode.com/articles/delete-node-in-a-bst/)。\n\n说明我们只需要直到了前序序列或后序序列相当于我们也知道了中序序列，可以通过排序获得。\n\n序列化可以很容易的实现，但是对于反序列化我们选择后续遍历会更好。\n![在这里插入图片描述](https://pic.leetcode-cn.com/09d70ebfbf5f7f3c81ff83c2fbb08fc730040b4e6b3758ac2e7fb041e5279454-file_1576477181691){:width=500}\n{:align=center}\n\n```python [solution1-Python]\nclass Codec:\n    def serialize(self, root):\n        \"\"\"\n        Encodes a tree to a single string.\n        \"\"\"\n        def postorder(root):\n            return postorder(root.left) + postorder(root.right) + [root.val] if root else []\n        return ' '.join(map(str, postorder(root)))\n\n    def deserialize(self, data):\n        \"\"\"\n        Decodes your encoded data to tree.\n        \"\"\"\n        def helper(lower = float('-inf'), upper = float('inf')):\n            if not data or data[-1] < lower or data[-1] > upper:\n                return None\n            \n            val = data.pop()\n            root = TreeNode(val)\n            root.right = helper(val, upper)\n            root.left = helper(lower, val)\n            return root\n        \n        data = [int(x) for x in data.split(' ') if x]\n        return helper()\n```\n\n```java [solution1-Java]public class Codec {\n    public StringBuilder postorder(TreeNode root, StringBuilder sb) {\n        if (root == null)\n            return sb;\n        postorder(root.left, sb);\n        postorder(root.right, sb);\n        sb.append(root.val);\n        sb.append(' ');\n        return sb;\n    }\n\n    // Encodes a tree to a single string.\n    public String serialize(TreeNode root) {\n        StringBuilder sb = postorder(root, new StringBuilder());\n        if (sb.length() > 0)\n            sb.deleteCharAt(sb.length() - 1);\n        return sb.toString();\n    }\n\n    public TreeNode helper(Integer lower, Integer upper, ArrayDeque<Integer> nums) {\n        if (nums.isEmpty())\n            return null;\n        int val = nums.getLast();\n        if (val < lower || val > upper)\n            return null;\n\n        nums.removeLast();\n        TreeNode root = new TreeNode(val);\n        root.right = helper(val, upper, nums);\n        root.left = helper(lower, val, nums);\n        return root;\n    }\n\n    // Decodes your encoded data to tree.\n    public TreeNode deserialize(String data) {\n        if (data.isEmpty())\n            return null;\n        ArrayDeque<Integer> nums = new ArrayDeque<Integer>();\n        for (String s : data.split(\"\\\\s+\"))\n            nums.add(Integer.valueOf(s));\n        return helper(Integer.MIN_VALUE, Integer.MAX_VALUE, nums);\n    }\n}\n```\n\n**复杂度分析**\n\n* 时间复杂度：序列化和反序列都使用了 $\\mathcal{O}(N)$ 的时间。\n* 空间复杂度：$\\mathcal{O}(N)$，我们存储了整个树。编码序列：需要 $(N - 1)$ 个分隔符和 $N$ 个节点的值。树的结构和顺序不占用空间。\n\n\n####  方法二：将节点值转换为四个字节的字符串优化空间\n**算法：**\n- 方法一在若节点值较小时消耗的空间较小，若节点值较大则会消耗较大的空间。\n- 举个例子，树 `[2,null,3,null,4]` 被编码为 `\"4 3 2\"`，使用了 `5` 个字节存放节点值和分隔符。节点值和分隔符各需要一个字节。这种情况下消耗的空间较小。\n- 若树是 `[12345,null,12346,null,12347]`，则它被编码为 `\"12347 12346 12345\"`，消耗了 `17` 字节的空间存放 `3` 个整数和 `2` 个分隔符。仅仅存放节点的值就消耗了 `15` 字节。然而存放一个整数只需要 `4` 个字节就够了，所以 `12` 个字节就足够存放 `3` 个整数。所以我们可以优化节点值所使用的空间。\n- 将节点值转换为四个字节字符串。\n- \n![在这里插入图片描述](https://pic.leetcode-cn.com/735384b0c44b667085f13776a53e396c5ceb9853370ce34b4eff81d80041cac9-file_1576477181679){:width=500}\n{:align=center}\n\n```python [solution2-Python]\nclass Codec:\n    def postorder(self, root):\n        return self.postorder(root.left) + self.postorder(root.right) + [root.val] if root else []\n        \n    def int_to_str(self, x):\n        \"\"\"\n        Encodes integer to bytes string.\n        \"\"\"\n        bytes = [chr(x >> (i * 8) & 0xff) for i in range(4)]\n        bytes.reverse()\n        bytes_str = ''.join(bytes)\n        return bytes_str\n        \n    def serialize(self, root):\n        \"\"\"\n        Encodes a tree to a single string.\n        \"\"\"\n        lst = self.postorder(root)\n        lst = [self.int_to_str(x) for x in lst]\n        return 'ç'.join(map(str, lst))\n    \n    def str_to_int(self, bytes_str):\n        \"\"\"\n        Decodes bytes string to integer.\n        \"\"\"\n        result = 0\n        for ch in bytes_str:\n            result = result * 256 + ord(ch)\n        return result\n        \n    def deserialize(self, data):\n        \"\"\"\n        Decodes your encoded data to tree.\n        \"\"\"\n        def helper(lower = float('-inf'), upper = float('inf')):\n            if not data or data[-1] < lower or data[-1] > upper:\n                return None\n            \n            val = data.pop()\n            root = TreeNode(val)\n            root.right = helper(val, upper)\n            root.left = helper(lower, val)\n            return root\n        \n        data = [self.str_to_int(x) for x in data.split('ç') if x]\n        return helper() \n```\n\n**复杂度分析**\n\n* 时间复杂度：序列化和反序列化都使用了 $\\mathcal{O}(N)$ 的时间。\n* 空间复杂度：$\\mathcal{O}(N)$，我们存储了整个树。编码序列：分隔符需要 $2(N - 1)$ 字节和 节点值需要 $4 N$ 字节。树的结构和顺序不占用空间。\n\n####  方法三：不使用分隔符\n**算法：**\n- 方法二可以在不使用分隔符的情况下完成工作。\n- 因为所有节点的值为 `4` 个字节，因此我们可以把编码序列 `4` 个字节当作一个块，将每个块转换为整数，因此可以不使用分隔符。\n\n![在这里插入图片描述](https://pic.leetcode-cn.com/9754c2528dd43e5fc669103c42148e5b14ca3a5c5ef3f39cc0eb468e8cde18c6.png){:width=500}\n{:align=center}\n\n```python [solution3-Python]\nclass Codec:\n    def postorder(self, root):\n        return self.postorder(root.left) + self.postorder(root.right) + [root.val] if root else []\n        \n    def int_to_str(self, x):\n        \"\"\"\n        Encodes integer to bytes string\n        \"\"\"\n        bytes = [chr(x >> (i * 8) & 0xff) for i in range(4)]\n        bytes.reverse()\n        bytes_str = ''.join(bytes)\n        return bytes_str\n        \n    def serialize(self, root):\n        \"\"\"\n        Encodes a tree to a single string.\n        \"\"\"\n        lst = [self.int_to_str(x) for x in self.postorder(root)]\n        return ''.join(map(str, lst))\n    \n    def str_to_int(self, bytes_str):\n        \"\"\"\n        Decodes bytes string to integer.\n        \"\"\"\n        result = 0\n        for ch in bytes_str:\n            result = result * 256 + ord(ch)\n        return result\n        \n    def deserialize(self, data):\n        \"\"\"\n        Decodes your encoded data to tree.\n        \"\"\"\n        def helper(lower = float('-inf'), upper = float('inf')):\n            if not data or data[-1] < lower or data[-1] > upper:\n                return None\n            \n            val = data.pop()\n            root = TreeNode(val)\n            root.right = helper(val, upper)\n            root.left = helper(lower, val)\n            return root\n        \n        n = len(data)\n        # split data string into chunks of 4 bytes\n        # and convert each chunk to int\n        data = [self.str_to_int(data[4 * i : 4 * i + 4]) for i in range(n // 4)]\n        return helper() \n```\n\n```java [solution3-Java]\npublic class Codec {\n  // Encodes a tree to a list.\n  public void postorder(TreeNode root, StringBuilder sb) {\n    if (root == null) return;\n    postorder(root.left, sb);\n    postorder(root.right, sb);\n    sb.append(intToString(root.val));\n  }\n\n  // Encodes integer to bytes string\n  public String intToString(int x) {\n    char[] bytes = new char[4];\n    for(int i = 3; i > -1; --i) {\n      bytes[3 - i] = (char) (x >> (i * 8) & 0xff);\n    }\n    return new String(bytes);\n  }\n\n  // Encodes a tree to a single string.\n  public String serialize(TreeNode root) {\n    StringBuilder sb = new StringBuilder();\n    postorder(root, sb);\n    return sb.toString();\n  }\n\n  // Decodes list to tree.\n  public TreeNode helper(Integer lower, Integer upper, ArrayDeque<Integer> nums) {\n    if (nums.isEmpty()) return null;\n    int val = nums.getLast();\n    if (val < lower || val > upper) return null;\n\n    nums.removeLast();\n    TreeNode root = new TreeNode(val);\n    root.right = helper(val, upper, nums);\n    root.left = helper(lower, val, nums);\n    return root;\n  }\n\n  // Decodes bytes string to integer\n  public int stringToInt(String bytesStr) {\n    int result = 0;\n    for(char b : bytesStr.toCharArray()) {\n      result = (result << 8) + (int)b;\n    }\n    return result;\n  }\n\n  // Decodes your encoded data to tree.\n  public TreeNode deserialize(String data) {\n    ArrayDeque<Integer> nums = new ArrayDeque<Integer>();\n    int n = data.length();\n    for(int i = 0; i < (int)(n / 4); ++i) {\n      nums.add(stringToInt(data.substring(4 * i, 4 * i + 4)));\n    }\n\n    return helper(Integer.MIN_VALUE, Integer.MAX_VALUE, nums);\n  }\n}\n```\n\n**复杂度分析**\n\n* 时间复杂度：序列化和反序列化都使用了 $\\mathcal{O}(N)$ 的时间。\n* 空间复杂度：$\\mathcal{O}(N)$，存储了整个树。编码序列：没有分隔符，没有使用额外的空间，仅仅使用了每 $4 N$ 字节存放节点值。",
+      "createdAt": "2019-12-16T06:16:05.090017+00:00",
+      "hitCount": 17052,
+      "identifier": "DZr3Sc",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "bfsjie-jue-he-dfsjie-jue-by-sdwwld-mgxp",
+        "title": "BFS解决和DFS解决"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "serialize-and-deserialize-bst"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 21,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "CONFUSED"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 0,
+          "reactionType": "THUMBS_DOWN"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 0,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "xu-lie-hua-he-fan-xu-lie-hua-er-cha-sou-suo-shu-2",
+      "status": "PUBLISHED",
+      "summary": "序列化一个二叉树表示：\n\n对树的结构编码\n对树节点的值编码\n利用分隔符分隔字符串中的值\n\n 方法一：后序遍历优化树结构的空间\n算法：\n二叉搜索树能只够通过前序序列或后序序列构造，是因为以下两个因素：\n\n二叉树可以通过前序序列或后序序列和中序序列构造。\n二叉搜索树的中序序列是递增排序的序列，inorder = sort",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/338dd8fbe5e9b81f3a874fb75e389c9beb6ac2f6ad318d2d832592d880d3155f-file_1576477181656",
+      "title": "序列化和反序列化二叉搜索树",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 35,
+        "id": 56164,
+        "viewCount": 12121
+      },
+      "uuid": "DZr3Sc",
+      "videosInfo": []
+    }
+  }
+}

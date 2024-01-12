@@ -1,0 +1,93 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "寐",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/mei-56/avatar_1579317149.png",
+          "userSlug": "mei-56"
+        },
+        "username": "mei-56"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n\n1. 遍历land\n2. 遍历到 1 之后记录左上角顶点\n3. 找到并记录右下角顶点\n4. 把左上角到右下角范围内的所有 1 赋值为 0 防止重复\n5. 完成遍历返回结果\n\n\n\n### 代码\n\n```java\nclass Solution {\n    public int[][] findFarmland(int[][] land) {\n        ArrayList<int[]> res = new ArrayList<>();\n        int m = land.length, n = land[0].length;\n        for (int i = 0; i < m; ++i){\n            for(int j = 0; j < n; ++j){\n                if (land[i][j] == 1){\n                    int[] tmp = new int[]{i, j, 0, 0};\n                    int x = i, y = j;\n                    while (x < m && land[x][j] == 1) x++;\n                    while (y < n && land[i][y] == 1) y++;\n                    tmp[2] = x - 1;\n                    tmp[3] = y - 1;\n                    res.add(tmp);\n                    for (int k = i; k < x; k++){\n                        for(int l = j; l < y; l++){\n                            land[k][l] = 0;\n                        }\n                    }\n                }\n            }\n        }\n        return res.toArray(new int[0][0]);\n    }\n}\n```",
+      "createdAt": "2021-11-06T05:18:52.333110+00:00",
+      "hitCount": 46,
+      "identifier": "WtLMV7",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "jian-dan-de-xun-huan-bian-li-shuang-100-1dejd",
+        "title": "简单的循环遍历，双100"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "find-all-groups-of-farmland"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "java-bao-li-by-mei-56-peah",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n\n遍历land\n遍历到 1 之后记录左上角顶点\n找到并记录右下角顶点\n把左上角到右下角范围内的所有 1 赋值为 0 防止重复\n完成遍历返回结果\n\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Array",
+          "nameTranslated": "数组",
+          "slug": "array",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Matrix",
+          "nameTranslated": "矩阵",
+          "slug": "matrix",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "暴力法",
+          "nameTranslated": "",
+          "slug": "bao-li-fa",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "",
+      "title": "java 暴力",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1087015,
+        "viewCount": 38
+      },
+      "uuid": "WtLMV7",
+      "videosInfo": []
+    }
+  }
+}

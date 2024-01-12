@@ -1,0 +1,96 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣 (LeetCode)",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/uploaded_files/2021/03/73c9f099-abbe-4d94-853f-f8abffd459cd/leetcode.png",
+          "userSlug": "leetcode"
+        },
+        "username": "LeetCode"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "####  方法一：动态规划（使用三维数组）\n**算法：**\n定义 `dp[x][i][j]` 为子串 `S[i...j]` 拥有不同回文子字符串的答案，且 `S[i] == S[j] == 'a'+x`。由于字符串只包含四个字符 `a, b, c, d`，因此 `0 <= x < 4`。dp 的公式如下：\n- 如果 `S[i] != 'a'+x`，则 `dp[x][i][j] = dp[x][i+1][j]`\n- 如果 `S[j] != 'a'+x`，则 `dp[x][i][j] = dp[x][i][j-1]`\n- 如果 `S[i] == S[j] == 'a'+x`，则 `dp[x][i][j] = 2 + dp[0][i+1][j-1] + dp[1][i+1][j-1] + dp[2][i+1][j-1] + dp[3][i+1][j-1]`。当第一个和最后一个字符相同时，我们需要计算子串 `S[i+1][j-1]` 中所有不同的回文（a、b、c、d 中的每一个）加上第一个和最后一个字符的两个回文。\n设 `n` 为字符串 `S` 的长度，则最终的答案为 `dp[0][0][n-1] + dp[1][0][n-1] + dp[2][0][n-1] + dp[3][0][n-1]\nmod 1000000007`\n\n\n```Java [ ]\nclass Solution {\npublic:\n  int countPalindromicSubsequences(string S) {\n    int n = S.size();\n    int mod = 1000000007;\n    auto dp_ptr = new vector<vector<vector<int>>>(4, vector<vector<int>>(n, vector<int>(n)));\n    auto& dp = *dp_ptr;\n\n    for (int i = n-1; i >= 0; --i) {\n      for (int j = i; j < n; ++j) {\n        for (int k = 0; k < 4; ++k) {\n          char c = 'a' + k;\n          if (j == i) {\n            if (S[i] == c) dp[k][i][j] = 1;\n            else dp[k][i][j] = 0;\n          } else { // j > i\n            if (S[i] != c) dp[k][i][j] = dp[k][i+1][j];\n            else if (S[j] != c) dp[k][i][j] = dp[k][i][j-1];\n            else { // S[i] == S[j] == c\n              if (j == i+1) dp[k][i][j] = 2; // \"aa\" : {\"a\", \"aa\"}\n              else { // length is > 2\n                dp[k][i][j] = 2;\n                for (int m = 0; m < 4; ++m) { // count each one within subwindows [i+1][j-1]\n                  dp[k][i][j] += dp[m][i+1][j-1];\n                  dp[k][i][j] %= mod;\n                }\n              }\n            }\n          }\n        }\n      }\n    }\n\n    int ans = 0;\n    for (int k = 0; k < 4; ++k) {\n      ans += dp[k][0][n-1];\n      ans %= mod;\n    }\n\n    return ans;\n  }\n};\n```\n\n```Java [ ] \nclass Solution {\n  public int countPalindromicSubsequences(String S) {\n    int n = S.length();\n    int mod = 1000000007;\n    int[][][] dp = new int[4][n][n];\n\n    for (int i = n-1; i >= 0; --i) {\n      for (int j = i; j < n; ++j) {\n        for (int k = 0; k < 4; ++k) {\n          char c = (char) ('a' + k);\n          if (j == i) {\n            if (S.charAt(i) == c) dp[k][i][j] = 1;\n            else dp[k][i][j] = 0;\n          } else { // j > i\n            if (S.charAt(i) != c) dp[k][i][j] = dp[k][i+1][j];\n            else if (S.charAt(j) != c) dp[k][i][j] = dp[k][i][j-1];\n            else { // S[i] == S[j] == c\n              if (j == i+1) dp[k][i][j] = 2; // \"aa\" : {\"a\", \"aa\"}\n              else { // length is > 2\n                dp[k][i][j] = 2;\n                for (int m = 0; m < 4; ++m) { // count each one within subwindows [i+1][j-1]\n                  dp[k][i][j] += dp[m][i+1][j-1];\n                  dp[k][i][j] %= mod;\n                }\n              }\n            }\n          }\n        }\n      }\n    }\n\n    int ans = 0;\n    for (int k = 0; k < 4; ++k) {\n      ans += dp[k][0][n-1];\n      ans %= mod;\n    }\n\n    return ans;\n  }\n}\n```\n\n```Python [ ]\nclass Solution:\n  def countPalindromicSubsequences(self, S):\n    n = len(S)\n    mod = 1000000007\n    dp = [[[0 for _ in range(n)] for _ in range(n)] for _ in range(4)]\n\n    for i in range(n-1, -1, -1):\n      for j in range(i, n):\n        for k in range(4):\n          c = chr(ord('a') + k)\n          if j == i:\n            if S[i] == c: dp[k][i][j] = 1\n            else: dp[k][i][j] = 0\n          else: # j > i\n            if S[i] != c: dp[k][i][j] = dp[k][i+1][j]\n            elif S[j] != c: dp[k][i][j] = dp[k][i][j-1]\n            else: # S[i] == S[j] == c\n              if j == i+1: dp[k][i][j] = 2 # \"aa\" : {\"a\", \"aa\"}\n              else: # length is > 2\n                dp[k][i][j] = 2\n                for m in range(4): # count each one within subwindows [i+1][j-1]\n                  dp[k][i][j] += dp[m][i+1][j-1]\n                  dp[k][i][j] %= mod\n\n    ans = 0\n    for k in range(4):\n      ans += dp[k][0][n-1]\n      ans %= mod\n\n    return ans\n```\n\n**示例演练**\n- 这是一个很难解决的问题且彻底理解它的解决办法也很有挑战性。理解上述方法的最好方法是演示一些简单的例子来帮助理解。\n- 让我们先看看填写 dp 表时使用的策略，然后通过一个具体的示例来了解它是如何工作的。\n\n![在这里插入图片描述](https://img-blog.csdnimg.cn/20191101223712782.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl8zOTEzOTUwNQ==,size_16,color_FFFFFF,t_70)\n![在这里插入图片描述](https://img-blog.csdnimg.cn/20191101223738281.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl8zOTEzOTUwNQ==,size_16,color_FFFFFF,t_70)\n![在这里插入图片描述](https://img-blog.csdnimg.cn/20191101223748279.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl8zOTEzOTUwNQ==,size_16,color_FFFFFF,t_70)\n![在这里插入图片描述](https://img-blog.csdnimg.cn/20191101223757260.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl8zOTEzOTUwNQ==,size_16,color_FFFFFF,t_70)\n![在这里插入图片描述](https://img-blog.csdnimg.cn/20191101223806677.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl8zOTEzOTUwNQ==,size_16,color_FFFFFF,t_70)\n![在这里插入图片描述](https://img-blog.csdnimg.cn/20191101223817974.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl8zOTEzOTUwNQ==,size_16,color_FFFFFF,t_70)\n![在这里插入图片描述](https://img-blog.csdnimg.cn/20191101223827759.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl8zOTEzOTUwNQ==,size_16,color_FFFFFF,t_70)\n\n**复杂度分析**\n\n* 时间复杂度：$O(N^2)$ 其中 $N$ 是字符串 $S$ 的长度。填写 dp 表需要平方的时间\n* 空间复杂度： $O(N^2)$ 其中 $N$ 是字符串 $S$ 的长度，相当于使用了常数个数的二维空间。\n\n注意，我们上述分析中忽略了的常数因子 $4$。\n\n**总结**\n回过头来看，这个问题表明动态规划非常适合用来解决重叠的子问题。通过练习更多类似的问题，我们可以建立这种直觉。\n\n####  方法二：动态规划（使用二维数组）\n几乎每一个回文字符串都将采用这四种形式之一：`a_a`、`b_b`、`c_c` 或 `d_d`，其中 `_` 表示零个或多个字符的回文字符串。（其他回文字符串只有 `a`、`b`、`c`、`d` 和空字符串）\n\n让我们试着数一数 `a_a` 形式的回文（其他形式是类似的）。我们应该取第一个和最后一个 `a`，然后计算所有可以在其间形成的回文字符串。\n\n**算法：**\n- 定义 `dp(i, j)` 是字符串 `T = S[i], S[i+1], ..., S[j]` 中的回文字符串个数（包括回文 `''`）。要在 `T` 中计算 `a_a` 形式的回文数，我们需要知道该字符串中 `'a'` 第一次和最后一次出现的位置。定义 `next[i][0]` 将是 `S[i:]` 中 `'a'` 的下一次出现的位置，`next[i][1]` 将是 `S[i:]` 中 `'b'` 下一次出现的位置，依此类推。\n- 此外，我们还需要知道 `T` 中唯一字母的数目，才能计算出单个字母的回文数。我们可以用 `next` 得到的信息来推断它：如果 `next[i][0]` 在区间 `[i，j]` 中，那么 `'a'` 出现在 `T` 中，以此类推。\n- 由于许多状态 `dp(i, j)` 不需要计算，最直接的方法是自顶向下变化的动态规划。\n\n```Python [ ]\nclass Solution(object):\n    def countPalindromicSubsequences(self, S):\n        N = len(S)\n        A = [ord(c) - ord('a') for c in S]\n        prv = [None] * N\n        nxt = [None] * N\n\n        last = [None] * 4\n        for i in xrange(N):\n            last[A[i]] = i\n            prv[i] = tuple(last)\n\n        last = [None] * 4\n        for i in xrange(N-1, -1, -1):\n            last[A[i]] = i\n            nxt[i] = tuple(last)\n\n        MOD = 10**9 + 7\n        memo = [[None] * N for _ in xrange(N)]\n        def dp(i, j):\n            if memo[i][j] is not None:\n                return memo[i][j]\n            ans = 1\n            if i <= j:\n                for x in xrange(4):\n                    i0 = nxt[i][x]\n                    j0 = prv[j][x]\n                    if i <= i0 <= j:\n                        ans += 1\n                    if None < i0 < j0:\n                        ans += dp(i0+1, j0-1)\n            ans %= MOD\n            memo[i][j] = ans\n            return ans\n\n        return dp(0, N-1) - 1\n```\n\n```Java [ ]\nclass Solution {\n    int[][] memo, prv, nxt;\n    byte[] A;\n    int MOD = 1_000_000_007;\n\n    public int countPalindromicSubsequences(String S) {\n        int N = S.length();\n        prv = new int[N][4];\n        nxt = new int[N][4];\n        memo = new int[N][N];\n        for (int[] row: prv) Arrays.fill(row, -1);\n        for (int[] row: nxt) Arrays.fill(row, -1);\n\n        A = new byte[N];\n        int ix = 0;\n        for (char c: S.toCharArray()) {\n            A[ix++] = (byte) (c - 'a');\n        }\n\n        int[] last = new int[4];\n        Arrays.fill(last, -1);\n        for (int i = 0; i < N; ++i) {\n            last[A[i]] = i;\n            for (int k = 0; k < 4; ++k)\n                prv[i][k] = last[k];\n        }\n\n        Arrays.fill(last, -1);\n        for (int i = N-1; i >= 0; --i) {\n            last[A[i]] = i;\n            for (int k = 0; k < 4; ++k)\n                nxt[i][k] = last[k];\n        }\n\n        return dp(0, N-1) - 1;\n    }\n\n    public int dp(int i, int j) {\n        if (memo[i][j] > 0) return memo[i][j];\n        int ans = 1;\n        if (i <= j) {\n            for (int k = 0; k < 4; ++k) {\n                int i0 = nxt[i][k];\n                int j0 = prv[j][k];\n                if (i <= i0 && i0 <= j) ans++;\n                if (-1 < i0 && i0 < j0) ans += dp(i0 + 1, j0 - 1);\n                if (ans >= MOD) ans -= MOD;\n            }\n        }\n        memo[i][j] = ans;\n        return ans;\n    }\n}\n```\n\n**复杂度分析**\n\n* 时间复杂度：$O(N^2)$ 其中 $N$ 是字符串 $S$ 的长度。我们对 `prv` 和 `nxt` 的计算是在 $O(N)$ 时间内完成的，其中 `dp` 有最多 $N^2$ 的状态，对每个状态的计算需要 $O(1)$ 的时间\n* 空间复杂度：$O(N^2)$，`memo` 使用的空间。",
+      "createdAt": "2019-11-01T07:35:10.324883+00:00",
+      "hitCount": 13532,
+      "identifier": "Rutx7d",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "zong-he-ji-da-ti-jie-de-li-jie-by-jincun-9glh",
+        "title": "综合几大题解的理解"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "count-different-palindromic-subsequences"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 12,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 4,
+          "reactionType": "AWESOME"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 0,
+          "reactionType": "CONFUSED"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "tong-ji-bu-tong-hui-wen-zi-zi-fu-chuan-by-leetcode",
+      "status": "PUBLISHED",
+      "summary": "§ 方法一：动态规划（使用三维数组）\n算法：\n定义 dp[x][i][j] 为子串 S[i...j] 拥有不同回文子字符串的答案，且 S[i] == S[j] == 'a'+x。由于字符串只包含四个字符 a, b, c, d，因此 0 <= x < 4。dp 的公式如下：\n\n如果 S[i] != 'a'+x，则 dp[",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Dynamic Programming",
+          "nameTranslated": "动态规划",
+          "slug": "dynamic-programming",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/61f5b9672a0ceaa188bb0412e08b1bfc51168ae21e6949a49357dad20b9824ba.png",
+      "title": "统计不同回文子字符串",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 42,
+        "id": 39813,
+        "viewCount": 9019
+      },
+      "uuid": "Rutx7d",
+      "videosInfo": []
+    }
+  }
+}

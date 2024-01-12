@@ -1,0 +1,93 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣 (LeetCode)",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/uploaded_files/2021/03/73c9f099-abbe-4d94-853f-f8abffd459cd/leetcode.png",
+          "userSlug": "leetcode"
+        },
+        "username": "LeetCode"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法一： 并查集\n\n**思路**\n\n设 $W = \\max(A[i])$，$R = \\sqrt{W}$。对于数组 $A$ 中的每个数，最多只有一个非本身的质因数 $p$ 满足 $p \\geq R$。\n\n这就意味着最多只有 $R + A\\text{.length}$ 个不同的质因数： 为本身的质因数最多有 $A\\text{.length}$ 个，非本身的质因数一定比 $R$ 小，最多有 $R$ 个。 \n\n**算法**\n\n提取数组 $A$ 中每个数的质因数，对每个质因数建立索引。接着，用并查集把 $A$ 中的质因数合并起来。最后计算每个集合的大小。\n\n```java [solution1-Java]\nclass Solution {\n    public int largestComponentSize(int[] A) {\n        int N = A.length;\n\n        // factored[i] = a list of unique prime factors of A[i]\n        ArrayList<Integer>[] factored = new ArrayList[N];\n        for (int i = 0; i < N; ++i) {\n            factored[i] = new ArrayList<Integer>();\n            int d = 2, x = A[i];\n            while (d * d <= x) {\n                if (x % d == 0) {\n                    while (x % d == 0)\n                        x /= d;\n                    factored[i].add(d);\n                }\n\n                d++;\n            }\n\n            if (x > 1 || factored[i].isEmpty())\n                factored[i].add(x);\n        }\n\n        // primesL : a list of all primes that occur in factored\n        Set<Integer> primes = new HashSet();\n        for (List<Integer> facs: factored)\n            for (int x: facs)\n                primes.add(x);\n\n        int[] primesL = new int[primes.size()];\n        int t = 0;\n        for (int x: primes)\n            primesL[t++] = x;\n\n        // primeToIndex.get(v) == i  iff  primes[i] = v\n        Map<Integer, Integer> primeToIndex = new HashMap();\n        for (int i = 0; i < primesL.length; ++i)\n            primeToIndex.put(primesL[i], i);\n\n        DSU dsu = new DSU(primesL.length);\n        for (List<Integer> facs: factored)\n            for (int x: facs)\n                dsu.union(primeToIndex.get(facs.get(0)), primeToIndex.get(x));\n\n        int[] count = new int[primesL.length];\n        for (List<Integer> facs: factored)\n            count[dsu.find(primeToIndex.get(facs.get(0)))]++;\n\n        int ans = 0;\n        for (int x: count)\n            if (x > ans)\n                ans = x;\n        return ans;\n    }\n}\n\nclass DSU {\n    int[] parent;\n    public DSU(int N) {\n        parent = new int[N];\n        for (int i = 0; i < N; ++i)\n            parent[i] = i;\n    }\n    public int find(int x) {\n        if (parent[x] != x) parent[x] = find(parent[x]);\n        return parent[x];\n    }\n    public void union(int x, int y) {\n        parent[find(x)] = find(y);\n    }\n}\n```\n\n```python [solution1-Python]\nclass DSU:\n    def __init__(self, N):\n        self.p = range(N)\n\n    def find(self, x):\n        if self.p[x] != x:\n            self.p[x] = self.find(self.p[x])\n        return self.p[x]\n\n    def union(self, x, y):\n        xr = self.find(x)\n        yr = self.find(y)\n        self.p[xr] = yr\n\nclass Solution(object):\n    def largestComponentSize(self, A):\n        B = []\n        for x in A:\n            facs = []\n            d = 2\n            while d * d <= x:\n                if x % d == 0:\n                    while x % d == 0:\n                        x /= d\n                    facs.append(d)\n                d += 1\n\n            if x > 1 or not facs:\n                facs.append(x)\n            B.append(facs)\n\n        primes = list({p for facs in B for p in facs})\n        prime_to_index = {p: i for i, p in enumerate(primes)}\n\n        dsu = DSU(len(primes))\n        for facs in B:\n            for x in facs:\n                dsu.union(prime_to_index[facs[0]], prime_to_index[x])\n\n        count = collections.Counter(dsu.find(prime_to_index[facs[0]]) for facs in B)\n        return max(count.values())\n```\n\n**复杂度分析**\n\n* 时间复杂度： $O(N\\sqrt{W})$，其中 $N$ 是 `A` 的长度，$W = \\max(A[i])$。\n\n* 空间复杂度： $O(N)$。",
+      "createdAt": "2019-07-22T09:04:40.312185+00:00",
+      "hitCount": 5256,
+      "identifier": "mDdudC",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "cai-shi-shai-bing-cha-ji-by-nreyong-ymfe",
+        "title": "C++埃氏筛+并查集"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "largest-component-size-by-common-factor"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 4,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "an-gong-yin-shu-ji-suan-zui-da-zu-jian-da-xiao-by-",
+      "status": "PUBLISHED",
+      "summary": "方法一： 并查集\n思路\n设 $W = \\max(A[i])$，$R = \\sqrt{W}$。对于数组 $A$ 中的每个数，最多只有一个非本身的质因数 $p$ 满足 $p \\geq R$。\n这就意味着最多只有 $R + A\\text{.length}$ 个不同的质因数： 为本身的质因数最多有 $A\\text{.lengt",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Union Find",
+          "nameTranslated": "并查集",
+          "slug": "union-find",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Math",
+          "nameTranslated": "数学",
+          "slug": "math",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "按公因数计算最大组件大小",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 5,
+        "id": 15990,
+        "viewCount": 3446
+      },
+      "uuid": "mDdudC",
+      "videosInfo": []
+    }
+  }
+}

@@ -1,0 +1,121 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣官方题解",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/leetcode-solution/avatar_1582018938.png",
+          "userSlug": "leetcode-solution"
+        },
+        "username": "LeetCode-Solution"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法一：原地修改\n\n**思路和算法**\n\n因为有 $\\textit{runningSum}[i] = \\sum_{i=0}^{i} \\textit{nums}[i]$。\n\n可以推导出：\n\n$$\n\\textit{runningSum}[i] =\n\\begin{cases}\n    \\textit{nums}[0], &i = 0 \\\\\n    \\textit{runningSum}[i-1] + \\textit{nums}[i], &i > 0\n\\end{cases}\n$$\n\n这样我们可以从下标 $1$ 开始遍历 $\\textit{nums}$ 数组，每次让 $\\textit{nums}[i]$ 变为 $\\textit{nums}[i-1] + \\textit{nums}[i]$ 即可（因为此时的 $\\textit{nums}[i-1]$ 即为 $\\textit{runningSum}[i-1]$）。\n\n**代码**\n\n```C++ [sol1-C++]\nclass Solution {\npublic:\n    vector<int> runningSum(vector<int>& nums) {\n        int n = nums.size();\n        for (int i = 1; i < n; i++) {\n            nums[i] += nums[i - 1];\n        }\n        return nums;\n    }\n};\n```\n\n```Java [sol1-Java]\nclass Solution {\n    public int[] runningSum(int[] nums) {\n        int n = nums.length;\n        for (int i = 1; i < n; i++) {\n            nums[i] += nums[i - 1];\n        }\n        return nums;\n    }\n}\n```\n\n```C# [sol1-C#]\npublic class Solution {\n    public int[] RunningSum(int[] nums) {\n        int n = nums.Length;\n        for (int i = 1; i < n; i++) {\n            nums[i] += nums[i - 1];\n        }\n        return nums;\n    }\n}\n```\n\n```C [sol1-C]\nint* runningSum(int* nums, int numsSize, int* returnSize) {\n    *returnSize = numsSize;\n    for (int i = 1; i < numsSize; i++) {\n        nums[i] += nums[i - 1];\n    }\n    return nums;\n}\n```\n\n```Python [sol1-Python3]\nclass Solution:\n    def runningSum(self, nums: List[int]) -> List[int]:\n        n = len(nums)\n        for i in range(1, n):\n            nums[i] += nums[i - 1]\n        return nums\n```\n\n```JavaScript [sol1-JavaScript]\nvar runningSum = function(nums) {\n    const n = nums.length;\n    for (let i = 1; i < n; i++) {\n        nums[i] += nums[i - 1];\n    }\n    return nums;\n};\n```\n\n```go [sol1-Golang]\nfunc runningSum(nums []int) []int {\n    n := len(nums)\n    for i := 1; i < n; i++ {\n        nums[i] += nums[i-1]\n    }\n    return nums\n}\n```\n\n**复杂度分析**\n\n- 时间复杂度：$O(n)$，其中 $n$ 是给定数组长度。\n\n- 空间复杂度：$O(1)$。我们只需要常数的空间保存若干变量。",
+      "createdAt": "2021-08-27T15:24:42.137325+00:00",
+      "hitCount": 10847,
+      "identifier": "nybQ30",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "gong-shui-san-xie-yi-wei-qian-zhui-he-mo-g8hn",
+        "title": "【宫水三叶】一维前缀和模拟题（附前缀和目录）"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "running-sum-of-1d-array"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 10,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "yi-wei-shu-zu-de-dong-tai-he-by-leetcode-flkm",
+      "status": "PUBLISHED",
+      "summary": "方法一：原地修改 思路和算法 因为有 $\\textit{runningSum}[i] = \\sum_{i=0}^{i} \\textit{nums}[i]$。 可以推导出： \\textit{runningSum}[i] = \\begin{cases}     \\textit{nums}[0], &i = 0 \\     ",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Array",
+          "nameTranslated": "数组",
+          "slug": "array",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C",
+          "nameTranslated": "",
+          "slug": "c",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C#",
+          "nameTranslated": "",
+          "slug": "csharp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Go",
+          "nameTranslated": "",
+          "slug": "golang",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "JavaScript",
+          "nameTranslated": "",
+          "slug": "javascript",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "一维数组的动态和",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 94,
+        "id": 962723,
+        "viewCount": 9600
+      },
+      "uuid": "nybQ30",
+      "videosInfo": []
+    }
+  }
+}

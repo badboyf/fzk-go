@@ -1,0 +1,81 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "CHerrY",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/hxz1998/avatar_1598535854.png",
+          "userSlug": "hxz1998"
+        },
+        "username": "hxz1998"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n设置两个记录，然后挨个遍历检查就好了。\n\n### 代码\n\n```java\nclass Solution {\n    public int secondHighest(String s) {\n        // 顾名思义，first 是用来记录第一个的，second 是用来记录第二个的\n        int first = -1, second = -1;\n        for (char c : s.toCharArray()) {\n            // 如果 c 是一个数字，那么就进行检查处理\n            if (Character.isDigit(c)) {\n                // 首先字符转换成数字\n                int num = c - '0';\n                // 如果 first 还没有赋值呢，那么就直接赋值\n                if (first == -1) first = num;\n                // first 已经带值，而且 num 比 first 还大，那么就更新它们\n                else if (num > first) {\n                    second = first;\n                    first = num;\n                } else if (num < first && num > second)\n                    // 如果介于两者中间，那么就只更新第二个值\n                    second = num;\n            }\n        }\n        return second;\n    }\n}\n```",
+      "createdAt": "2021-03-21T00:27:50.847808+00:00",
+      "hitCount": 1035,
+      "identifier": "mtZCjv",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "si-xiang-zhi-guan-su-du-shao-man-by-the-s0r1w",
+        "title": "思想直观，速度稍慢"
+      },
+      "position": 4,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "1796-zi-fu-chuan-zhong-di-er-da-de-shu-z-ajjh",
+        "title": "1796. 字符串中第二大的数字##简单代码，简单思路##"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "second-largest-digit-in-a-string"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 5,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "java-zhu-xing-zhu-shi-dan-ci-bian-li-zi-stny0",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n设置两个记录，然后挨个遍历检查就好了。\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "Java 逐行注释，单次遍历字符序列（100%，100%）",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 670146,
+        "viewCount": 856
+      },
+      "uuid": "mtZCjv",
+      "videosInfo": []
+    }
+  }
+}

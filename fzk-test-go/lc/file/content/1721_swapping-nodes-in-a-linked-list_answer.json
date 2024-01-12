@@ -1,0 +1,76 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "Adoring CurranAFx",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/default_avatar.png",
+          "userSlug": "qufuta"
+        },
+        "username": "qufuta"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n1、首先将各个元素一次入栈，要将顺序的那个记录下来。\n2、然后再依次出栈，记录下倒数的那个元素。\n3、然后进行值交换。\n\n这里有个问题就是会消耗很大的存储空间，可以用快慢指针，定位到中点，从中点开始存储链表节点，这样可以省下一般空间。\n\n### 代码\n\n```c\n/**\n * Definition for singly-linked list.\n * struct ListNode {\n *     int val;\n *     struct ListNode *next;\n * };\n */\n#define PUSH(__N)                       (stack.v [++stack.top] = (__N))\n#define POP()                           (--stack.top)\n#define TOP(__N)                        ((__N) = stack.v [stack.top])\n#define EMPTY ()                        (-1 == stack.top)\n\nstruct ListNode* swapNodes(struct ListNode* head, int k){\n\n    if ((head == NULL) || (head->next == NULL)) {\n        return head;\n    }\n\n    struct ListNode* curr = head;\n    struct ListNode* tmp = NULL;\n    struct ListNode* back = NULL;\n\n    int val;\n    int count = 1;\n\n\n    struct {\n        int top;\n        struct ListNode* v [100000];\n    } stack = {-1};\n\n    while (curr != NULL) {\n        if (count == k) {\n            tmp = curr;\n\n        }\n        PUSH (curr);\n        curr = curr->next;\n        count ++;\n    }\n\n    count = k ;\n\n    while (count) {\n        TOP (back);\n        POP ();\n        count --;\n\n    }\n\n    if (tmp == back) {\n        return head;\n    } else {\n        val = tmp->val;\n        tmp->val = back->val;\n        back->val = val;\n\n        return head;\n    }\n\n\n\n\n\n}\n```",
+      "createdAt": "2021-08-24T09:08:33.909329+00:00",
+      "hitCount": 644,
+      "identifier": "FK8VW3",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "javashuang-zhi-zhen-ding-wei-fa-by-uive-vxl0",
+        "title": "java双指针定位法"
+      },
+      "position": 2,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "java-zhi-jiao-huan-he-jie-dian-jiao-huan-dmbm",
+        "title": "Java 值交换和节点交换两种方法"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "swapping-nodes-in-a-linked-list"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "huan-shi-yong-zhan-lai-po-jie-by-qufuta-53pb",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n1、首先将各个元素一次入栈，要将顺序的那个记录下来。\n2、然后再依次出栈，记录下倒数的那个元素。\n3、然后进行值交换。\n这里有个问题就是会消耗很大的存储空间，可以用快慢指针，定位到中点，从中点开始存储链表节点，这样可以省下一般空间。\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "C",
+          "nameTranslated": "",
+          "slug": "c",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "还是用栈来破解",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 956207,
+        "viewCount": 560
+      },
+      "uuid": "FK8VW3",
+      "videosInfo": []
+    }
+  }
+}

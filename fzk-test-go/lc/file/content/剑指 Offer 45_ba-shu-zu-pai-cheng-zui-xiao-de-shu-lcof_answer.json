@@ -1,0 +1,108 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "Krahets",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/jyd/avatar_1589712294.png",
+          "userSlug": "jyd"
+        },
+        "username": "jyd"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 解题思路：\r\n\r\n此题求拼接起来的最小数字，本质上是一个排序问题。设数组 $nums$ 中任意两数字的字符串为 $x$ 和 $y$ ，则规定 **排序判断规则** 为：\r\n\r\n- 若拼接字符串 $x + y > y + x$ ，则 $x$ “大于” $y$ ；\r\n- 反之，若 $x + y < y + x$ ，则 $x$ “小于” $y$ ；\r\n\r\n> $x$ “小于” $y$  代表：排序完成后，数组中 $x$ 应在 $y$ 左边；“大于” 则反之。\r\n\r\n根据以上规则，套用任何排序方法对 $nums$ 执行排序即可。\r\n\r\n![Picture1.png](https://pic.leetcode-cn.com/95e81dbccc44f26292d88c509afd68204a86b37d342f83d109fa7aa0cd4a6049-Picture1.png){:width=450}\r\n\r\n##### 算法流程：\r\n\r\n1. **初始化：** 字符串列表 $strs$ ，保存各数字的字符串格式；\r\n2. **列表排序：** 应用以上 “排序判断规则” ，对 $strs$ 执行排序；\r\n3. **返回值：** 拼接 $strs$ 中的所有字符串，并返回。\r\n\r\n**复杂度分析：**\r\n\r\n- **时间复杂度 $O(N \\log N)$ ：** $N$ 为最终返回值的字符数量（ $strs$ 列表的长度 $\\leq N$ ）；使用快排或内置函数的平均时间复杂度为 $O(N \\log N)$ ，最差为 $O(N^2)$ 。\r\n- **空间复杂度 $O(N)$ ：** 字符串列表 $strs$ 占用线性大小的额外空间。\r\n\r\n<![Picture2.png](https://pic.leetcode-cn.com/069f69477b88178c40054505fb178352ca84d74031238167f47b97cb93a99d86-Picture2.png),![Picture3.png](https://pic.leetcode-cn.com/18ef32b109f995e67051632b0c78947eb3660687b803ab6c968efa0887e44958-Picture3.png),![Picture4.png](https://pic.leetcode-cn.com/14e3e6b5a28486fc4b0e7c614d75eb239aafca71b4ac5a6907d7e4154b27784a-Picture4.png)>\r\n\r\n#### 代码：\r\n\r\n本文列举 **快速排序** 和 **内置函数** 两种排序方法，其他排序方法也可实现。\r\n\r\n##### 快速排序：\r\n\r\n需修改快速排序函数中的排序判断规则。字符串大小（字典序）对比的实现方法：\r\n\r\n- Python/C++ 中可直接用 `<` , `>`；\r\n- Java 中使用函数 `A.compareTo(B)`；\r\n\r\n```Python []\r\nclass Solution:\r\n    def minNumber(self, nums: List[int]) -> str:\r\n        def quick_sort(l , r):\r\n            if l >= r: return\r\n            i, j = l, r\r\n            while i < j:\r\n                while strs[j] + strs[l] >= strs[l] + strs[j] and i < j: j -= 1\r\n                while strs[i] + strs[l] <= strs[l] + strs[i] and i < j: i += 1\r\n                strs[i], strs[j] = strs[j], strs[i]\r\n            strs[i], strs[l] = strs[l], strs[i]\r\n            quick_sort(l, i - 1)\r\n            quick_sort(i + 1, r)\r\n        \r\n        strs = [str(num) for num in nums]\r\n        quick_sort(0, len(strs) - 1)\r\n        return ''.join(strs)\r\n```\r\n\r\n```Java []\r\nclass Solution {\r\n    public String minNumber(int[] nums) {\r\n        String[] strs = new String[nums.length];\r\n        for(int i = 0; i < nums.length; i++)\r\n            strs[i] = String.valueOf(nums[i]);\r\n        quickSort(strs, 0, strs.length - 1);\r\n        StringBuilder res = new StringBuilder();\r\n        for(String s : strs)\r\n            res.append(s);\r\n        return res.toString();\r\n    }\r\n    void quickSort(String[] strs, int l, int r) {\r\n        if(l >= r) return;\r\n        int i = l, j = r;\r\n        String tmp = strs[i];\r\n        while(i < j) {\r\n            while((strs[j] + strs[l]).compareTo(strs[l] + strs[j]) >= 0 && i < j) j--;\r\n            while((strs[i] + strs[l]).compareTo(strs[l] + strs[i]) <= 0 && i < j) i++;\r\n            tmp = strs[i];\r\n            strs[i] = strs[j];\r\n            strs[j] = tmp;\r\n        }\r\n        strs[i] = strs[l];\r\n        strs[l] = tmp;\r\n        quickSort(strs, l, i - 1);\r\n        quickSort(strs, i + 1, r);\r\n    }\r\n}\r\n```\r\n\r\n```C++ []\r\nclass Solution {\r\npublic:\r\n    string minNumber(vector<int>& nums) {\r\n        vector<string> strs;\r\n        for(int i = 0; i < nums.size(); i++)\r\n            strs.push_back(to_string(nums[i]));\r\n        quickSort(strs, 0, strs.size() - 1);\r\n        string res;\r\n        for(string s : strs)\r\n            res.append(s);\r\n        return res;\r\n    }\r\nprivate:\r\n    void quickSort(vector<string>& strs, int l, int r) {\r\n        if(l >= r) return;\r\n        int i = l, j = r;\r\n        while(i < j) {\r\n            while(strs[j] + strs[l] >= strs[l] + strs[j] && i < j) j--;\r\n            while(strs[i] + strs[l] <= strs[l] + strs[i] && i < j) i++;\r\n            swap(strs[i], strs[j]);\r\n        }\r\n        swap(strs[i], strs[l]);\r\n        quickSort(strs, l, i - 1);\r\n        quickSort(strs, i + 1, r);\r\n    }\r\n};\r\n```\r\n\r\n##### 内置函数：\r\n\r\n需定义排序规则：\r\n\r\n- Python 定义在函数 `sort_rule(x, y)` 中；\r\n- Java 定义为 `(x, y) -> (x + y).compareTo(y + x)` ；\r\n- C++ 定义为 `(string& x, string& y){ return x + y < y + x; }` ；\r\n\r\n```Python []\r\nclass Solution:\r\n    def minNumber(self, nums: List[int]) -> str:\r\n        def sort_rule(x, y):\r\n            a, b = x + y, y + x\r\n            if a > b: return 1\r\n            elif a < b: return -1\r\n            else: return 0\r\n        \r\n        strs = [str(num) for num in nums]\r\n        strs.sort(key = functools.cmp_to_key(sort_rule))\r\n        return ''.join(strs)\r\n```\r\n\r\n```Java []\r\nclass Solution {\r\n    public String minNumber(int[] nums) {\r\n        String[] strs = new String[nums.length];\r\n        for(int i = 0; i < nums.length; i++)\r\n            strs[i] = String.valueOf(nums[i]);\r\n        Arrays.sort(strs, (x, y) -> (x + y).compareTo(y + x));\r\n        StringBuilder res = new StringBuilder();\r\n        for(String s : strs)\r\n            res.append(s);\r\n        return res.toString();\r\n    }\r\n}\r\n```\r\n\r\n```C++ []\r\nclass Solution {\r\npublic:\r\n    string minNumber(vector<int>& nums) {\r\n        vector<string> strs;\r\n        string res;\r\n        for(int i = 0; i < nums.size(); i++)\r\n            strs.push_back(to_string(nums[i]));\r\n        sort(strs.begin(), strs.end(), [](string& x, string& y){ return x + y < y + x; });\r\n        for(int i = 0; i < strs.size(); i++)\r\n            res.append(strs[i]);\r\n        return res;\r\n    }\r\n};\r\n```",
+      "createdAt": "2020-04-06T18:41:36.331754+00:00",
+      "hitCount": 147416,
+      "identifier": "uRB3gs",
+      "isEditorsPick": true,
+      "isMostPopular": true,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "kuai-pai-di-gui-by-tnnlfy-75v3",
+        "title": "快排 递归"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "ba-shu-zu-pai-cheng-zui-xiao-de-shu-lcof"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 367,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 33,
+          "reactionType": "AWESOME"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 12,
+          "reactionType": "CONFUSED"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 0,
+          "reactionType": "THUMBS_DOWN"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "mian-shi-ti-45-ba-shu-zu-pai-cheng-zui-xiao-de-s-4",
+      "status": "PREPUBLISH",
+      "summary": "解题思路：\n此题求拼接起来的最小数字，本质上是一个排序问题。设数组 nums 中任意两数字的字符串为 x 和 y ，则规定 排序判断规则 为：\n\n若拼接字符串 x + y > y + x ，则 x “大于” y ；\n反之，若 x + y < y + x ，则 x “小于” y ；\n\n\nx “小于” y  代表：排序完",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "String",
+          "nameTranslated": "字符串",
+          "slug": "string",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python3",
+          "nameTranslated": "",
+          "slug": "python3",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/95e81dbccc44f26292d88c509afd68204a86b37d342f83d109fa7aa0cd4a6049-Picture1.png",
+      "title": "剑指 Offer 45. 把数组排成最小的数（自定义排序，清晰图解）",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 335,
+        "id": 190476,
+        "viewCount": 94167
+      },
+      "uuid": "uRB3gs",
+      "videosInfo": []
+    }
+  }
+}

@@ -1,0 +1,77 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣 (LeetCode)",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/uploaded_files/2021/03/73c9f099-abbe-4d94-853f-f8abffd459cd/leetcode.png",
+          "userSlug": "leetcode"
+        },
+        "username": "LeetCode"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法：使用 `UPDATE` 和 `CASE...WHEN`\n\n**算法**\n \n要想动态地将值设置成列，我们可以在使用 [`CASE...WHEN...`](https://dev.mysql.com/doc/refman/5.7/en/case.html) 流程控制语句的同时使用 [`UPDATE`](https://dev.mysql.com/doc/refman/5.7/en/update.html) 语句。\n\n```MySQL []\nUPDATE salary\nSET\n    sex = CASE sex\n        WHEN 'm' THEN 'f'\n        ELSE 'm'\n    END;\n```",
+      "createdAt": "2018-10-24T20:32:43.422304+00:00",
+      "hitCount": 55066,
+      "identifier": "kCVd9e",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "zi-mu-he-asciihu-zhuan-by-rachy",
+        "title": "字母和ASCII互转"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "swap-salary"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 41,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "jiao-huan-gong-zi-by-leetcode",
+      "status": "PUBLISHED",
+      "summary": "算法\n要想动态地将值设置成列，我们可以在使用 CASE...WHEN... 流程控制语句的同时使用 UPDATE 语句。",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "MySQL",
+          "nameTranslated": "",
+          "slug": "mysql",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "交换工资",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 59,
+        "id": 3565,
+        "viewCount": 42233
+      },
+      "uuid": "kCVd9e",
+      "videosInfo": []
+    }
+  }
+}

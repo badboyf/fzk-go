@@ -1,0 +1,93 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "ffreturn",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/ffreturn/avatar_1608859813.png",
+          "userSlug": "ffreturn"
+        },
+        "username": "ffreturn"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "![image.png](https://pic.leetcode-cn.com/1635865935-kRBice-image.png)\n\n\n### 解题思路\n从k触发\n- 因为这里Q很多，但是K只有一个，所以我们考虑从k触发\n- 而方向就是8个方向，不断去计算，一旦出现Q或者超过边界，则结束该方向\n\n### 代码\n\n```cpp\n\nclass Solution {\npublic:\n    vector<vector<int>> queensAttacktheKing(vector<vector<int>>& queens, vector<int>& king) {\n        vector<vector<int>> res;\n\n        // 记录q的位置\n        int size = 8;\n        bool isQueue[size][size];\n        memset(isQueue, 0, sizeof(isQueue));\n        for (vector<int>& q : queens)\n        {\n            isQueue[q[0]][q[1]] = true;\n        }\n\n        // 记录8个方向\n        int dires[9] = {1, 0, 1, 1, -1, 0, -1, -1, 1};\n        // k为起点\n        int x = king[0];\n        int y = king[1];\n        for (int i = 0; i < 8; ++i)\n        {\n            int nx = x + dires[i];\n            int ny = y + dires[i+1];\n            // cout << nx << \" \" << ny << endl;\n            while (nx >= 0 && nx < size && ny >= 0 && ny < size)\n            {\n                if (isQueue[nx][ny])\n                {\n                    res.push_back({nx, ny});\n                    break;\n                }\n                nx += dires[i];\n                ny += dires[i+1];\n            }\n        }\n\n        return res;\n    }\n};\n```",
+      "createdAt": "2021-11-02T15:13:03.146745+00:00",
+      "hitCount": 64,
+      "identifier": "x7ujF0",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "1222-ke-yi-gong-ji-guo-wang-de-huang-hou-6syu",
+        "title": "1222. 可以攻击国王的皇后"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "queens-that-can-attack-the-king"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "1222-cji-hu-shuang-bai-de-fan-xiang-jie-3767f",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n从k触发\n\n因为这里Q很多，但是K只有一个，所以我们考虑从k触发\n而方向就是8个方向，不断去计算，一旦出现Q或者超过边界，则结束该方向\n\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "推想",
+          "nameTranslated": "",
+          "slug": "infervision",
+          "tagType": "COMPANY"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "梦想",
+          "nameTranslated": "",
+          "slug": "meng-xiang",
+          "tagType": "ADDITIONAL_TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "广度优先",
+          "nameTranslated": "",
+          "slug": "yan-du-you-xian",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1635865935-kRBice-image.png",
+      "title": "1222. c++几乎双百的反向解法",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1080964,
+        "viewCount": 54
+      },
+      "uuid": "x7ujF0",
+      "videosInfo": []
+    }
+  }
+}

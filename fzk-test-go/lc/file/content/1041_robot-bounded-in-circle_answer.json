@@ -1,0 +1,72 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "offer快到碗里来~",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/zhouzihong/avatar_1626862997.png",
+          "userSlug": "zhouzihong"
+        },
+        "username": "zhouzihong"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "![image.png](https://pic.leetcode-cn.com/1632471309-noFIJC-image.png)\r\n\r\n抽象图一二ij\r\n```\r\nclass Solution {\r\npublic:\r\n    int xx[4]={-1,0,1,0},yy[4]={0,1,0,-1};\r\n    bool isRobotBounded(string instructions) {\r\n        int x=0,y=0;\r\n        int i=0;\r\n        for(char c:instructions){\r\n            if(c=='G'){\r\n                x=xx[i]+x,y=yy[i]+y;\r\n            }else if(c=='L')i=(i+1)%4;\r\n            else if(c=='R')i=(i+4-1)%4;\r\n        }\r\n        if(i==0&&!(x==0&&y==0))return false;\r\n        return true;\r\n    }\r\n};\r\n```\r\n",
+      "createdAt": "2021-09-24T08:15:30.175288+00:00",
+      "hitCount": 409,
+      "identifier": "9hx1rY",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "1041-kun-yu-huan-zhong-de-ji-qi-ren-by-s-3ffa",
+        "title": "1041. 困于环中的机器人"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "robot-bounded-in-circle"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "jian-dan-mo-ni-yi-ci-ming-ling-by-zhouzi-16dk",
+      "status": "PREPUBLISH",
+      "summary": "抽象图一二ij",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1632471309-noFIJC-image.png",
+      "title": "【简单模拟一次命令】",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1015046,
+        "viewCount": 321
+      },
+      "uuid": "9hx1rY",
+      "videosInfo": []
+    }
+  }
+}

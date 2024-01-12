@@ -1,0 +1,91 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣 (LeetCode)",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/uploaded_files/2021/03/73c9f099-abbe-4d94-853f-f8abffd459cd/leetcode.png",
+          "userSlug": "leetcode"
+        },
+        "username": "LeetCode"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法一：二分查找【通过】\n\n**思路和算法**\n\n令 `zeta(x)` 为 `x!` 末尾零的个数。如果 `x!` 可以分解为素数的乘积，如 $(2^a * 5^b * \\cdots )$ 的形式，那么 `x!` 末尾零的个数为 `min(a, b) = b`。\n\n`zeta(x)` 就是 `x` 除以 5 的次数之和，即 `zeta(x)` 等于 $\\lfloor \\frac{x}{5^1} \\rfloor + \\lfloor \\frac{x}{5^2} \\rfloor + \\lfloor \\frac{x}{5^3} \\rfloor + \\lfloor \\frac{x}{5^4} \\rfloor + \\cdots$`。 \n\n可以看出，`zeta(x)` 是一个单调递增函数，因此可以使用二分查找求解。\n\n使用二分查找找出满足 `zeta(x) = K` 的最大 `x` 和最小 `x`。由于一定存在 `zeta(5a-1) < zeta(5a) = zeta(5a+1) = zeta(5a+2) = zeta(5a+3) = zeta(5a+4) < zeta(5a+5)`，即如果存在某个 `x` 使得 `zeta(x) = K`，那么一定存在连续 `5` 个数的阶乘末尾零的个数都为 `K`；如果不存在这样的 `x`，那么阶乘末尾零的个数为 `K` 的数字只有 `0` 个。\n\n```java [solution1-Java]\nclass Solution {\n    public int preimageSizeFZF(long K) {\n        long lo = K, hi = 10*K + 1;\n        while (lo < hi) {\n            long mi = lo + (hi - lo) / 2;\n            long zmi = zeta(mi);\n            if (zmi == K) return 5;\n            else if (zmi < K) lo = mi + 1;\n            else hi = mi;\n        }\n        return 0;\n    }\n\n    public long zeta(long x) {\n        if (x == 0) return 0;\n        return x/5 + zeta(x/5);\n    }\n}\n```\n\n```python [solution1-Python]\nclass Solution(object):\n    def preimageSizeFZF(self, K):\n        def zeta(x):\n            return x/5 + zeta(x/5) if x > 0 else 0\n\n        lo, hi = K, 10*K + 1\n        while lo < hi:\n            mi = (lo + hi) / 2\n            zmi = zeta(mi)\n            if zmi == K: return 5\n            elif zmi < K: lo = mi + 1\n            else: hi = mi\n\n        return 0\n```\n\n**复杂度分析**\n\n* 时间复杂度：$O(\\log^2 K)$，二分查找的复杂度为  $O(\\log K)$，其中每一步计算 `zeta` 的复杂度也为 $O(\\log K)$。\n\n* 空间复杂度：$O(\\log K)$，`zeta` 递归调用栈的大小。",
+      "createdAt": "2019-11-25T07:18:29.288133+00:00",
+      "hitCount": 5834,
+      "identifier": "AGyue9",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "cjavapython-jin-xu-1-xing-by-airmelt-gbt0",
+        "title": "C++/Java/Python 仅需 1 行"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "preimage-size-of-factorial-zeroes-function"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 11,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "jie-cheng-han-shu-hou-kge-ling-by-leetcode",
+      "status": "PUBLISHED",
+      "summary": " 方法一：二分查找【通过】\n思路和算法\n令 zeta(x) 为 x! 末尾零的个数。如果 x! 可以分解为素数的乘积，如 (2^a * 5^b * \\cdots ) 的形式，那么 x! 末尾零的个数为 min(a, b) = b。\nzeta(x) 就是 x 除以 5 的次数之和，即 zeta(x) 等于 \\lfloor",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Binary Search",
+          "nameTranslated": "二分查找",
+          "slug": "binary-search",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "阶乘函数后K个零",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 22,
+        "id": 47126,
+        "viewCount": 3876
+      },
+      "uuid": "AGyue9",
+      "videosInfo": []
+    }
+  }
+}

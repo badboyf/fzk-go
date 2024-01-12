@@ -1,0 +1,91 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣 (LeetCode)",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/uploaded_files/2021/03/73c9f099-abbe-4d94-853f-f8abffd459cd/leetcode.png",
+          "userSlug": "leetcode"
+        },
+        "username": "LeetCode"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "\n#### 方法 1：字符串\n\n**想法**\n\n我们直观地解决这个问题，问题的难点在于实现。\n\n**算法**\n\n对于句子中的每个 `word`，如果是元音字母，就不变；如果是辅音字母，就旋转这个单词（在 Python 中是 `word[1:] + word[:1]`，在 Java 中是 `word.substring(1) + word.substring(0, 1)`。\n\n然后，我们加入 `\"ma\"` 和期望数量的 `\"a\"` 以及一个空格。\n\n\n```Java []\nclass Solution {\n    public String toGoatLatin(String S) {\n        Set<Character> vowel = new HashSet();\n        for (char c: new char[]{'a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'})\n            vowel.add(c);\n\n        int t = 1;\n        StringBuilder ans = new StringBuilder();\n        for (String word: S.split(\" \")) {\n            char first = word.charAt(0);\n            if (vowel.contains(first)) {\n                ans.append(word);\n            } else {\n                ans.append(word.substring(1));\n                ans.append(word.substring(0, 1));\n            }\n            ans.append(\"ma\");\n            for (int i = 0; i < t; i++)\n                ans.append(\"a\");\n            t++;\n            ans.append(\" \");\n        }\n\n        ans.deleteCharAt(ans.length() - 1);\n        return ans.toString();\n    }\n}\n```\n\n```Python []\nclass Solution(object):\n    def toGoatLatin(self, S):\n\n        def convert(word):\n            if word[0] not in 'aeiouAEIOU':\n                word = word[1:] + word[:1]\n            return word + 'ma'\n\n        return \" \".join(convert(word) + 'a' * i\n                        for i, word in enumerate(S.split(), 1))\n```\n\n**复杂度分析**\n\n* 时间复杂度：$O(N^2)$，其中 $N$ 是 `S` 的长度。这包含旋转单词的复杂度以及添加额外 `\"a\"` 字符。\n* 空间复杂度：$O(N^2)$，空间需要考虑加入的额外字符 `\"a\"`。",
+      "createdAt": "2019-08-21T15:15:06.218585+00:00",
+      "hitCount": 5442,
+      "identifier": "WFScG3",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "824-shan-yang-la-ding-wen-by-tian-bu-la-jfvmx",
+        "title": "824. 山羊拉丁文"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "goat-latin"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 6,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "shan-yang-la-ding-wen-by-leetcode",
+      "status": "PUBLISHED",
+      "summary": "§ 方法 1：字符串\n想法\n我们直观地解决这个问题，问题的难点在于实现。\n算法\n对于句子中的每个 word，如果是元音字母，就不变；如果是辅音字母，就旋转这个单词（在 Python 中是 word[1:] + word[:1]，在 Java 中是 word.substring(1) + word.substring(0",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "String",
+          "nameTranslated": "字符串",
+          "slug": "string",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "山羊拉丁文",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 15,
+        "id": 22109,
+        "viewCount": 4666
+      },
+      "uuid": "WFScG3",
+      "videosInfo": []
+    }
+  }
+}

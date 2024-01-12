@@ -1,0 +1,86 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "ffreturn",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/ffreturn/avatar_1608859813.png",
+          "userSlug": "ffreturn"
+        },
+        "username": "ffreturn"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "![image.png](https://pic.leetcode-cn.com/1633400359-cFFulC-image.png)\n\n\n### 解题思路\n广度优先的解法\n- 用队列去保存下一个结点，四个方向的数组\n- 用visisted的集合去保存已经遍历过的，避免循环\n- 用blocked的集合去保存被block的，快速查找\n\n坑\n- 务必要求双向可达才是对的\n\n优化\n- 对于找到结果的，直接返回\n- 使用双向的方式，即从source到target，且能从target到source\n- 最大步数的优化：\n    - 对于最大阻塞200行的情况，极端情况在斜对角线做block，那么最大面积就是 0+1+2+3+...+199 = 199*100 = 19900\n\n### 代码\n\n```cpp\n\nclass Solution {\nprivate:\n    int dires[5] = {1, 0, -1, 0, 1};\n    unordered_set<long> block;\n    long maxSize = 1000000;\n    int maxSteps = 19900;\n\n    bool isOk(vector<int>& source, vector<int>& target)\n    {\n        unordered_set<long> visited;\n        visited.insert((long)source[0]*maxSize + (long)source[1]);\n        queue<pair<int, int>> q;\n        q.emplace(source[0], source[1]);\n\n        while (!q.empty())\n        {\n            int x = q.front().first;\n            int y = q.front().second;\n            q.pop();\n            for (int i = 0; i < 4; ++i)\n            {\n                long nx = x + dires[i];\n                long ny = y + dires[i+1];\n                if (nx >= 0 && nx < maxSize && ny >= 0 && ny < maxSize)\n                {\n                    long curr = nx * maxSize + ny;\n                    // 忽略已经遍历或者block的位置\n                    if (visited.find(curr) == visited.end() && block.find(curr) == block.end())\n                    {\n                        // 找到终点，则返回true\n                        if (nx == target[0] && ny == target[1])\n                        {\n                            return true;\n                        }\n\n                        q.emplace(nx, ny);\n                        visited.insert(curr);\n                    }\n                }\n            }\n\n            // 超过最大可能阻塞的步数，则必然能达到\n            if (visited.size() > maxSteps)\n            {\n                return true;\n            }\n        }\n\n        return false;\n    }\n\npublic:\n    bool isEscapePossible(vector<vector<int>>& blocked, vector<int>& source, vector<int>& target) {\n        for (vector<int>& a : blocked)\n        {\n            block.insert((long)a[0]* maxSize + (long)a[1]);\n        }\n\n        return isOk(source, target) && isOk(target, source);\n    }\n};\n```",
+      "createdAt": "2021-10-05T02:20:01.592475+00:00",
+      "hitCount": 375,
+      "identifier": "bMk6wO",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "ji-lu-si-kao-guo-cheng-cai-guo-de-keng-j-opmt",
+        "title": "【记录思考过程、踩过的坑、解决方法】【双向bfs】"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "escape-a-large-maze"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "1036-cjian-dan-yi-dong-de-yan-du-you-xia-qosb",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n广度优先的解法\n\n用队列去保存下一个结点，四个方向的数组\n用visisted的集合去保存已经遍历过的，避免循环\n用blocked的集合去保存被block的，快速查找\n\n坑\n\n务必要求双向可达才是对的\n\n优化\n\n对于找到结果的，直接返回\n使用双向的方式，即从source到target，且能从target到sou",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "梦想",
+          "nameTranslated": "",
+          "slug": "meng-xiang",
+          "tagType": "ADDITIONAL_TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "BFS",
+          "nameTranslated": "",
+          "slug": "bfs",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1633400359-cFFulC-image.png",
+      "title": "1036. c++简单易懂的广度优先解法",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1031518,
+        "viewCount": 263
+      },
+      "uuid": "bMk6wO",
+      "videosInfo": []
+    }
+  }
+}

@@ -1,0 +1,81 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "halen",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/hardcore-hert2h4p/avatar_1629971420.png",
+          "userSlug": "hardcore-hert2h4p"
+        },
+        "username": "hardcore-hert2h4p"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\r\njs实现\r\n\r\n### 代码\r\n\r\n```javascript\r\n/**\r\n * @param {number} stackSize\r\n */\r\nvar TripleInOne = function (stackSize) {\r\n    // 保存总的大小\r\n    this.totalLen = stackSize;\r\n    // 保存对应的栈\r\n    this.data = [\r\n        {\r\n            // 每个栈都拥有数据和长度\r\n            len: 0,\r\n            values: new Array(stackSize),\r\n        },\r\n        {\r\n            len: 0,\r\n            values: new Array(stackSize),\r\n        },\r\n        {\r\n            len: 0,\r\n            values: new Array(stackSize),\r\n        },\r\n    ];\r\n};\r\n\r\n/**\r\n * @param {number} stackNum\r\n * @param {number} value\r\n * @return {void}\r\n */\r\nTripleInOne.prototype.push = function (stackNum, value) {\r\n    // 如果当前栈的长度小于总的长度，那么就入栈，否则不做处理\r\n    if (this.totalLen > this.data[stackNum].len) {\r\n        this.data[stackNum].values[this.data[stackNum].len++] = value;\r\n    }\r\n};\r\n\r\n/**\r\n * @param {number} stackNum\r\n * @return {number}\r\n */\r\nTripleInOne.prototype.pop = function (stackNum) {\r\n    if (this.isEmpty(stackNum)) {\r\n        return -1;\r\n    } else {\r\n        return this.data[stackNum].values[--this.data[stackNum].len];\r\n    }\r\n};\r\n\r\n/**\r\n * @param {number} stackNum\r\n * @return {number}\r\n */\r\nTripleInOne.prototype.peek = function (stackNum) {\r\n    if (this.isEmpty(stackNum)) {\r\n        return -1;\r\n    } else {\r\n        // 栈顶的元素需要进行 -1 操作\r\n        return this.data[stackNum].values[this.data[stackNum].len - 1];\r\n    }\r\n};\r\n\r\n/**\r\n * @param {number} stackNum\r\n * @return {boolean}\r\n */\r\nTripleInOne.prototype.isEmpty = function (stackNum) {\r\n    // 直接跟0进行比较\r\n    return this.data[stackNum].len === 0;\r\n};\r\n\r\n```",
+      "createdAt": "2021-08-22T11:48:31.316361+00:00",
+      "hitCount": 425,
+      "identifier": "lLaOlD",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "zhen-yi-ge-shu-zu-by-mu-dan-4-j847",
+        "title": "真·一个数组"
+      },
+      "position": 58,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "java-by-si-shui-liu-nian-5b-rlbv",
+        "title": "Java"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "three-in-one-lcci"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "AWESOME"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 0,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "jsshi-xian-by-hardcore-hert2h4p-a2em",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\njs实现\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "JavaScript",
+          "nameTranslated": "",
+          "slug": "javascript",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "js实现",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 952234,
+        "viewCount": 358
+      },
+      "uuid": "lLaOlD",
+      "videosInfo": []
+    }
+  }
+}

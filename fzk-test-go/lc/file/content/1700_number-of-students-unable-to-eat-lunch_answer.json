@@ -1,0 +1,76 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "大魔王",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/da-mo-wang-uc/avatar_1631583848.png",
+          "userSlug": "da-mo-wang-uc"
+        },
+        "username": "da-mo-wang-uc"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n把学生放在一个队列中，与sandwiches数组的值对比，相等则说明该学生吃上了早餐，不相等则把学生放到后面，把队列循环一遍，找不到就返回队列的长度\n\n### 代码\n\n```cpp\nclass Solution {\npublic:\n    int countStudents(vector<int>& students, vector<int>& sandwiches) {\n     queue<int>q1;\n     for(int i=0;i<students.size();i++)\n     {\n         q1.push(students[i]);\n     }\n     for(int i=0;i<sandwiches.size();i++)\n     {\n         int temp=q1.size();\n         while(!q1.empty()&&sandwiches[i]!=q1.front())\n         {\n             if(temp==0)return q1.size();\n             temp--;\n             q1.push(q1.front());\n             q1.pop();\n         }\n         q1.pop();\n     }\n     return q1.size();\n    }\n};\n```",
+      "createdAt": "2021-10-05T02:13:15.829092+00:00",
+      "hitCount": 415,
+      "identifier": "6RDHJB",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "1700-number-of-students-unable-to-eat-lu-h4qv",
+        "title": "1700. Number of Students Unable to Eat Lunch"
+      },
+      "position": 2,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "chao-guo-100-java-zhi-li-yu-you-ya-de-ji-6nq6",
+        "title": "超过100% Java 致力于优雅的解法"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "number-of-students-unable-to-eat-lunch"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "wu-fa-chi-wu-can-de-xue-sheng-shu-liang-91nyk",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n把学生放在一个队列中，与sandwiches数组的值对比，相等则说明该学生吃上了早餐，不相等则把学生放到后面，把队列循环一遍，找不到就返回队列的长度\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "无法吃午餐的学生数量（C++队列实现）",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1031513,
+        "viewCount": 322
+      },
+      "uuid": "6RDHJB",
+      "videosInfo": []
+    }
+  }
+}

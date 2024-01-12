@@ -1,0 +1,69 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "跳跳龙骑士",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/flychenkai/avatar_1622794034.png",
+          "userSlug": "flychenkai"
+        },
+        "username": "FlyChenKai"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路：\n* 1.`K>0`，则执行 `2`,否则执行 `4`\n\n* 2.取数组 `A` 中的最小值，并取反\n\n* 3.`K--` 执行 `1`\n\n* 4.对数组 `A` 求和\n\n**注意点**\n\n\n第 $2$ 步取最小值取得是新数组的最小值。\n### 具体解法：\n我这里参考了前几名的答案,通过使用 `number` 数组，将各数字出现次数存入其中，可不排序就快速找到最小值。\n```java [-Java]\nclass Solution {\n     public int largestSumAfterKNegations(int[] A, int K) {\n        int[] number = new int[201];//-100 <= A[i] <= 100,这个范围的大小是201\n        for (int t : A) {\n            number[t + 100]++;//将[-100,100]映射到[0,200]上\n        }\n        int i = 0;\n        while (K > 0) {\n            while (number[i] == 0)//找到A[]中最小的数字\n                i++;\n            number[i]--;//此数字个数-1\n            number[200 - i]++;//其相反数个数+1\n            if (i > 100) {//若原最小数索引>100,则新的最小数索引应为200-i.(索引即number[]数组的下标)\n                i = 200 - i;\n            }\n            K--;\n        }\n        int sum = 0;\n        for (int j = i; j <number.length ; j++) {//遍历number[]求和\n            sum += (j-100)*number[j];//j-100是数字大小,number[j]是该数字出现次数.\n        }\n        return sum;\n    }\n}\n```",
+      "createdAt": "2019-05-23T11:59:32.470380+00:00",
+      "hitCount": 10511,
+      "identifier": "AyPfQU",
+      "isEditorsPick": true,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "cjie-fa-by-lemuria-t-xc20",
+        "title": "C++贪心解法"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "maximize-sum-of-array-after-k-negations"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 39,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 3,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "java-chao-yue-9966xiang-xi-jie-xi-by-flychenkai",
+      "status": "PUBLISHED",
+      "summary": "解题思路：\n\n\n1.K>0，则执行 2,否则执行 4\n\n\n2.取数组 A 中的最小值，并取反\n\n\n3.K-- 执行 1\n\n\n4.对数组 A 求和\n\n\n注意点\n第 $2$ 步取最小值取得是新数组的最小值。\n具体解法：\n我这里参考了前几名的答案,通过使用 number 数组，将各数字出现次数存入其中，可不排序就快速找到最小",
+      "sunk": false,
+      "tags": [],
+      "thumbnail": "",
+      "title": "Java-超越99.66%.详细解析",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 31,
+        "id": 5815,
+        "viewCount": 8430
+      },
+      "uuid": "AyPfQU",
+      "videosInfo": []
+    }
+  }
+}

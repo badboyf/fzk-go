@@ -1,0 +1,97 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "tandztc",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/tandztc/avatar_1616999339.png",
+          "userSlug": "tandztc"
+        },
+        "username": "tandztc"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "# 转化为BFS\n1. 考虑nums1和nums2已经有序，显然nums1[0]于nums2[0]组成的数对和是最小的\n2. 后面简写为(0,0)，表示nums1取下标为0的元素，nums2取下标为0的元素组成数对\n3. 第2小的数对，应该从(1,0)和(0,1)中选择，也就是上一个最小数对(0,0),**要么nums1的下标加1，要么nums2的下标加1**\n4. 这类似于BFS：当访问到某个节点时，把它可达的节点入队列，作为后续的选择\n5. 具体地，当(u,v)为第x小的数对时，第x+1小的数对可能是(u+1,v)和(u,v+1)，**但不限于这两者**\n\n# 使用优先队列得到最小数对\n1. 上述bfs方法计算出的候选最小数对加入队列，**队列中存在的数对都有可能是**第x+1小的数对。\n2. 若直接遍历队列中的所有数对选出最小，固然可行，但时间复杂度有点高，为O(队列长度)\n3. 很容易想到，若bfs加入的队列是一个优先队列（最小堆），那么队首直接就是最小数对了\n4. 加入优先队列的时间复杂度为O(log队列长度），弹出队首元素的时间复杂度也是O(log队列长度)\n\n# 为什么有重复&去重方法\n1. 重新观察具体的最小数对，前面分析过，第1小的是(0.0)，第2小的可能是(0,1),(1,0)\n2. 假设第2小的是(0,1)，那么(0,2),(1,1)会加入优先对列中，此时优先队列中有(1,0),(0,2),(1,1)，暂时没问题\n3. 假设第3小的是(1,0)，那么(2,0),(1,1)会加入优先对列中，此时优先队列中有(0,2),(1,1),(2,0),(1,1)，出现重复数对\n4. 可以使用HashSet去重，**将字符串\"u_v\"作为key，访问过的key加入set中，若set中已存在key，则不加入优先队列**\n5. 上面的例子，第2步会在set中加入\"1_1\"，此时(1,1)能进入优先队列\n6. 第3步也会尝试在set中加入\"1_1\"，但加入失败，此时(1,1)不进入优先队列\n\n# 复杂度分析\n1. 优先队列有**k次poll**，最多**2\\*k次offer**，队列最大长度**不超过k**，**HashSet大小不超过2\\*k**\n2. 综上，时间复杂度O(k*logk)，空间复杂度O(k)\n```Java []\nclass Solution {\n    public List<List<Integer>> kSmallestPairs(int[] nums1, int[] nums2, int k) {\n        PriorityQueue<int[]> pq = new PriorityQueue<int[]>((a,b)->nums1[a[0]]+nums2[a[1]]-nums1[b[0]]-nums2[b[1]]);\n        HashSet<String> set = new HashSet<String>();\n        pq.offer(new int[]{0,0});\n        List<List<Integer>> ans = new ArrayList<>();\n        while(k-->0&&pq.size()>0)\n        {\n            int[] pair = pq.poll();\n            ans.add(Arrays.asList(nums1[pair[0]],nums2[pair[1]]));\n            if(pair[0]+1<nums1.length)\n            {\n                String key = String.valueOf(pair[0]+1)+\"_\"+String.valueOf(pair[1]);\n                if(set.add(key))\n                {\n                    pq.offer(new int[]{pair[0]+1,pair[1]});\n                }\n            }\n            if(pair[1]+1<nums2.length)\n            {\n                String key = String.valueOf(pair[0])+\"_\"+String.valueOf(pair[1]+1);\n                if(set.add(key))\n                {\n                    pq.offer(new int[]{pair[0],pair[1]+1});\n                }\n            }\n        }\n        return ans;\n    }\n}\n```\n",
+      "createdAt": "2021-09-09T12:53:15.552582+00:00",
+      "hitCount": 860,
+      "identifier": "ya78I8",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "jian-zhi-offer-2-mian-shi-ti-61-shu-zhon-d9q5",
+        "title": "《剑指offer 2 面试题61》 书中算法C++实现"
+      },
+      "position": 2,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "aiera-tu-jie-zui-da-dui-by-tang-bo-o-hkjl",
+        "title": "【AIEra】【图解】最大堆"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "qn8gGX"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 7,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "yi-bu-bu-si-kao-chu-bfs-you-xian-dui-lie-smel",
+      "status": "PREPUBLISH",
+      "summary": "转化为BFS\n\n考虑nums1和nums2已经有序，显然nums1[0]于nums2[0]组成的数对和是最小的\n后面简写为(0,0)，表示nums1取下标为0的元素，nums2取下标为0的元素组成数对\n第2小的数对，应该从(1,0)和(0,1)中选择，也就是上一个最小数对(0,0),要么nums1的下标加1，要么num",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Hash Table",
+          "nameTranslated": "哈希表",
+          "slug": "hash-table",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "优先队列",
+          "nameTranslated": "",
+          "slug": "you-xian-dui-lie",
+          "tagType": "ADDITIONAL_TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "BFS",
+          "nameTranslated": "",
+          "slug": "bfs",
+          "tagType": "ADDITIONAL_TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": " Java",
+          "nameTranslated": "",
+          "slug": "java-2",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "",
+      "title": "一步步思考出BFS、优先队列、去重",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 2,
+        "id": 988291,
+        "viewCount": 643
+      },
+      "uuid": "ya78I8",
+      "videosInfo": []
+    }
+  }
+}

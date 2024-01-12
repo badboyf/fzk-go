@@ -1,0 +1,76 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "offer快到碗里来~",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/zhouzihong/avatar_1626862997.png",
+          "userSlug": "zhouzihong"
+        },
+        "username": "zhouzihong"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "![image.png](https://pic.leetcode-cn.com/1632494989-JcBprJ-image.png)\r\n\r\n抽象图一二ij\r\n```\r\nclass Solution {\r\npublic:\r\n    vector<int> rearrangeBarcodes(vector<int>& barcodes) {\r\n        unordered_map<int,int>num2cnt;\r\n        int n=barcodes.size();\r\n        for(int i=0;i<n;i++){\r\n            num2cnt[barcodes[i]]++;\r\n        }\r\n        priority_queue<pair<int,int>>maxHeap;\r\n        for(auto mPair:num2cnt)maxHeap.push({mPair.second,mPair.first});\r\n        vector<int>ans;\r\n        while(maxHeap.empty()==false){\r\n            auto [firstCnt,firstNum]=maxHeap.top();maxHeap.pop();\r\n            if(ans.empty()||ans.back()!=firstNum){\r\n                ans.push_back(firstNum);\r\n                firstCnt--;\r\n                if(firstCnt==0)continue;\r\n                maxHeap.push({firstCnt,firstNum});\r\n            }else {\r\n                auto [secondCnt,secondNum]=maxHeap.top();maxHeap.pop();\r\n                maxHeap.push({firstCnt,firstNum});\r\n                ans.push_back(secondNum);\r\n                secondCnt--;\r\n                if(secondCnt==0)continue;\r\n                maxHeap.push({secondCnt,secondNum});\r\n            }\r\n            \r\n        }\r\n        return ans;\r\n    }\r\n};\r\n```\r\n",
+      "createdAt": "2021-09-24T14:50:25.756741+00:00",
+      "hitCount": 211,
+      "identifier": "Deig7U",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "dui-by-the-boondock-saints-bxf2",
+        "title": "堆"
+      },
+      "position": 2,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "1054-ju-chi-xiang-deng-de-tiao-xing-ma-z-qy0w",
+        "title": "1054. 距离相等的条形码，直接排序 + 最大堆"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "distant-barcodes"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "tan-xin-qu-zui-duo-huo-di-er-duo-zui-da-b4tiu",
+      "status": "PREPUBLISH",
+      "summary": "抽象图一二ij",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1632494989-JcBprJ-image.png",
+      "title": "【贪心】【取最多或第二多】【最大堆】",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1015760,
+        "viewCount": 167
+      },
+      "uuid": "Deig7U",
+      "videosInfo": []
+    }
+  }
+}

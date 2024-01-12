@@ -1,0 +1,72 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "稳健",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/zhi-xing-qie-wen-jian-69/avatar_1612197356.png",
+          "userSlug": "wen-jian-69"
+        },
+        "username": "wen-jian-69"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "```java\r\nclass Solution {\r\n    public char slowestKey(int[] releaseTimes, String keysPressed) {\r\n        char ans = keysPressed.charAt(0);\r\n        int maxTime = releaseTimes[0] - 0;\r\n        for (int i = 1; i < releaseTimes.length; i++) {\r\n            int time = releaseTimes[i] - releaseTimes[i - 1];\r\n            if (time > maxTime || time == maxTime && keysPressed.charAt(i) > ans) {\r\n                ans = keysPressed.charAt(i);\r\n                maxTime = time;\r\n            }\r\n        }\r\n        return ans;\r\n    }\r\n}\r\n```\r\n",
+      "createdAt": "2021-09-07T01:03:26.497094+00:00",
+      "hitCount": 251,
+      "identifier": "tRDh3W",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "python3mo-ni-by-airesearcherjhm",
+        "title": "Python3模拟，一次遍历，不使用额外空间"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "slowest-key"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "1629-an-jian-chi-xu-shi-jian-zui-chang-d-y4y9",
+      "status": "PUBLISHED",
+      "summary": "[该用户太懒了，只写了 14 行 Java 代码]",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "【1629. 按键持续时间最长的键】Java实现",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 982786,
+        "viewCount": 228
+      },
+      "uuid": "tRDh3W",
+      "videosInfo": []
+    }
+  }
+}

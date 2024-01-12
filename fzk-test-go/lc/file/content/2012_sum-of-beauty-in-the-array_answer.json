@@ -1,0 +1,72 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "Agvensome",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/agvensome/avatar_1613037853.png",
+          "userSlug": "agvensome"
+        },
+        "username": "agvensome"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "好像接雨水的挡板问题，美丽值就是左边最大值比自己小，右边最小值比自己大\n```cpp\nclass Solution {\npublic:\n    int sumOfBeauties(vector<int>& nums) {\n        int n = nums.size();\n        vector<int> l_max(n, INT_MIN);   l_max[0] = nums[0];        // 某元素左边最大元素\n        vector<int> r_min(n, INT_MAX);   r_min[n-2] = nums[n-1];    // 某元素右边最小元素\n        for (int i = 1; i < n; ++i) {\n            l_max[i] = max( l_max[i-1], nums[i-1] );\n        }\n        for (int i = n-2; i >= 0; --i) {\n            r_min[i] = min( r_min[i+1], nums[i+1] );\n        }\n        int ans = 0;\n        for (int i = 1; i < n-1; ++i) {\n            if (nums[i] > l_max[i] && nums[i] < r_min[i])   ans += 2;\n            else if (nums[i] > nums[i-1] && nums[i] < nums[i+1])  ++ans;\n        }\n        return ans;\n    }\n};\n```",
+      "createdAt": "2021-09-19T04:24:55.993291+00:00",
+      "hitCount": 938,
+      "identifier": "JILkLQ",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "qian-zhui-zui-da-zhi-hou-zhui-zui-xiao-z-h9qz",
+        "title": "前缀最大值+后缀最小值"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "sum-of-beauty-in-the-array"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 10,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "bian-li-shu-zu-san-ci-by-agvensome-9yf6",
+      "status": "PREPUBLISH",
+      "summary": "好像接雨水的挡板问题，美丽值就是左边最大值比自己小，右边最小值比自己大\n```cpp\nclass Solution {\npublic:\n    int sumOfBeauties(vector<int",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "遍历数组三次",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 4,
+        "id": 1006058,
+        "viewCount": 742
+      },
+      "uuid": "JILkLQ",
+      "videosInfo": []
+    }
+  }
+}

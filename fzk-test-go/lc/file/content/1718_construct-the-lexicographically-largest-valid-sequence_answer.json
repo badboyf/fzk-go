@@ -1,0 +1,93 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "EUY",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/euyvvl/avatar_1635000444.png",
+          "userSlug": "euyvvl"
+        },
+        "username": "EUYVVL"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n**经典的回溯**\n### 代码\n\n```cpp\n//第一种:单纯回溯---->>>TLE\n// class Solution {\n// public:\n//     int n;\n//     vector<int>res;\n//     bool check(vector<int>& vc1,vector<int>& vc2){\n//         int N=vc1.size();\n//         for(int i=0;i<N;i++){\n//             if(vc1[i]==vc2[i]){\n//                 continue;\n//             }\n//             if(vc1[i]<vc2[i]){\n//                 return true;\n//             }\n//             else{\n//                 return false;\n//             }\n//         }\n//         return false;\n//     }\n//     void backtracing(int index,vector<int>&temp){\n//         if(index>n){\n//             if(res.empty()){\n//                 res=temp;\n//                 return ;\n//             }\n//             if(check(res,temp)){\n//                 res=temp;\n//             }\n//             return ;\n//         }\n//         for(int i=0;i<temp.size();i++){\n//             if(temp[i]!=-1){\n//                 continue;\n//             }\n//             if(index==1){\n//                 temp[i]=1;\n//                 backtracing(index+1,temp);\n//                 temp[i]=-1;\n//                 continue;\n//             }\n//             if(i-index>=0&&temp[i-index]==-1){\n//                 temp[i]=index;\n//                 temp[i-index]=index;\n//                 backtracing(index+1,temp);\n//                 temp[i]=-1;\n//                 temp[i-index]=-1;\n//             }\n//             if(i+index<temp.size()&&temp[i+index]==-1){\n//                 temp[i]=index;\n//                 temp[i+index]=index;\n//                 backtracing(index+1,temp);\n//                 temp[i]=-1;\n//                 temp[i+index]=-1;\n//             }\n//         }\n//     }\n//     vector<int> constructDistancedSequence(int n) {\n//           this->n=n;\n//           vector<int>temp(2*n-1,-1);\n//           backtracing(1,temp);  \n//           return res;   \n//     }\n// };\n//第二种:回溯+贪心----->>>AC;\nclass Solution{\npublic:\n    vector<int>vis;\n    vector<int>temp;\n    vector<int>res;\n    bool backtracing(int index,int n){\n        if(index==2*n-1){\n            res=max(res,temp);\n            return true;\n        }\n        if(temp[index]!=-1){\n            return backtracing(index+1,n);\n        }\n        for(int i=n;i>=1;i--){\n            if(vis[i]){\n                continue;\n            }  \n            if(i==1){\n                vis[i]=true;\n                temp[index]=1;\n                if(backtracing(index+1,n)){\n                    return true;\n                }\n                vis[i]=false;\n                temp[index]=-1;\n                return false;\n            }\n            else{\n                if(index+i>=2*n-1){\n                    continue;\n                }   \n                if(temp[i+index]!=-1){\n                    continue;\n                }\n                vis[i]=true;\n                temp[index]=i;\n                temp[i+index]=i;\n                if(backtracing(index+1,n)){\n                    return true;\n                }\n                vis[i]=false;\n                temp[index]=-1;\n                temp[i+index]=-1;\n            } \n        }\n        return false;\n    }\n     vector<int> constructDistancedSequence(int n){\n         temp.resize(2*n-1,-1);\n         vis.resize(n+1,false);\n         backtracing(0,n);\n         return res;\n     }\n};\n```",
+      "createdAt": "2021-11-01T10:28:15.046345+00:00",
+      "hitCount": 59,
+      "identifier": "cabaqq",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "construct-the-lexicographically-largest-0u1er",
+        "title": "【构建字典序最大的可行序列】贪心 + 回溯"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "construct-the-lexicographically-largest-valid-sequence"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "hui-su-by-euyvvl-b5cn",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n经典的回溯\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Array",
+          "nameTranslated": "数组",
+          "slug": "array",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Math",
+          "nameTranslated": "数学",
+          "slug": "math",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Backtracking",
+          "nameTranslated": "回溯",
+          "slug": "backtracking",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "回溯",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1078415,
+        "viewCount": 48
+      },
+      "uuid": "cabaqq",
+      "videosInfo": []
+    }
+  }
+}

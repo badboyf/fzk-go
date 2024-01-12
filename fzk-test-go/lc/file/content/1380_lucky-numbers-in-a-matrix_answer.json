@@ -1,0 +1,103 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣官方题解",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/leetcode-solution/avatar_1582018938.png",
+          "userSlug": "leetcode-solution"
+        },
+        "username": "LeetCode-Solution"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法一：模拟\n\n预处理出两个数组 `rMin` 和 `cMax`，其中 `rMin[i]` 表示第 $i$ 行中最小的元素，`cMax[j]` 表示第 $j$ 列中最大的元素。接着遍历矩阵 `matrix`，判断每个 `matrix[i][j]` 是否是这一行最小的并且是这一列最大的，具体方法是直接与 `rMin[i]` 和 `cMax[j]` 比较，如果都相等，就加入到答案的序列中。\n\n**思考：`rMin` 和 `cMax` 是否可以存放「行最小值」和「列最大值」的索引？** 答案是可以。但是如果原题中没有说明「矩阵中的数字 **各不相同**」就不能这么干，因为假设第 $r$ 行的「行最小值」出现两次，索引为 $c_1$ 和 $c_2$，却只保存了一个索引 $c_1$，$c_2$ 位置的这个数满足它是「列最大值」，这个时候就会判断出错。\n\n```C++ [sol1-C++]\nclass Solution {\npublic:\n    vector<int> luckyNumbers(vector<vector<int>>& matrix) {\n        int r = matrix.size(), c = matrix[0].size();\n        vector<int> rMin(r, INT_MAX);\n        vector<int> cMax(c, 0);\n        for (int i = 0; i < r; ++i) {\n            for (int j = 0; j < c; ++j) {\n                rMin[i] = min(rMin[i], matrix[i][j]);\n                cMax[j] = max(cMax[j], matrix[i][j]);\n            }\n        }\n\n        vector<int> ans;\n        for (int i = 0; i < r; ++i) {\n            for (int j = 0; j < c; ++j) {\n                if (matrix[i][j] == rMin[i] && matrix[i][j] == cMax[j]) {\n                    ans.push_back(matrix[i][j]);\n                }\n            }\n        }\n        return ans;\n    }\n};\n```\n\n```Java [sol1-Java]\nclass Solution {\n    public List<Integer> luckyNumbers (int[][] matrix) {\n        int r = matrix.length, c = matrix[0].length;\n        int[] rMin = new int[r];\n        Arrays.fill(rMin, Integer.MAX_VALUE);\n        int[] cMax = new int[c];\n        for (int i = 0; i < r; ++i) {\n            for (int j = 0; j < c; ++j) {\n                rMin[i] = Math.min(rMin[i], matrix[i][j]);\n                cMax[j] = Math.max(cMax[j], matrix[i][j]);\n            }\n        }\n\n        List<Integer> ans = new ArrayList<Integer>();\n        for (int i = 0; i < r; ++i) {\n            for (int j = 0; j < c; ++j) {\n                if (matrix[i][j] == rMin[i] && matrix[i][j] == cMax[j]) {\n                    ans.add(matrix[i][j]);\n                }\n            }\n        }\n        return ans;\n    }\n}\n```\n\n```Python [sol1-Python3]\nclass Solution:\n    def luckyNumbers(self, matrix: List[List[int]]) -> List[int]:\n        r, c = len(matrix), len(matrix[0])\n        rMin, cMax = [10**9] * r, [0] * c\n        for i in range(r):\n            for j in range(c):\n                rMin[i] = min(rMin[i], matrix[i][j])\n                cMax[j] = max(cMax[j], matrix[i][j])\n        \n        ans = list()\n        for i in range(r):\n            for j in range(c):\n                if matrix[i][j] == rMin[i] and matrix[i][j] == cMax[j]:\n                    ans.append(matrix[i][j])\n        return ans\n\n```\n\n**复杂度分析**\n\n- 时间复杂度：预处理的时间代价是 $O(mn)$，统计答案的时间代价也是 $O(mn)$，故渐进时间复杂度为 $O(mn)$。\n\n- 空间复杂度：这里用到了两个辅助数组 `rMin` 和 `cMax`，长度分别为 $m$ 和 $n$，故渐进空间复杂度为 $O(m + n)$。",
+      "createdAt": "2020-05-11T05:09:04.461565+00:00",
+      "hitCount": 6366,
+      "identifier": "BgLDlD",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "1380-czhong-gui-zhong-ju-de-mo-ni-jie-fa-47zh",
+        "title": "1380. c++中规中矩的模拟解法"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "lucky-numbers-in-a-matrix"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 3,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "THUMBS_DOWN"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 0,
+          "reactionType": "CONFUSED"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "ju-zhen-zhong-de-xing-yun-shu-by-leetcode-solution",
+      "status": "PUBLISHED",
+      "summary": "方法一：模拟 预处理出两个数组 rMin 和 cMax，其中 rMin[i] 表示第 $i$ 行中最小的元素，cMax[j] 表示第 $j$ 列中最大的元素。接着遍历矩阵 matrix，判断每个 matrix[i][j] 是否是这一行最小的并且是这一列最大的，具体方法是直接与 rMin[i] 和 cMax[j] 比较，",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Array",
+          "nameTranslated": "数组",
+          "slug": "array",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "矩阵中的幸运数",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 16,
+        "id": 241888,
+        "viewCount": 5063
+      },
+      "uuid": "BgLDlD",
+      "videosInfo": []
+    }
+  }
+}

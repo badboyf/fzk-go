@@ -1,0 +1,86 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "WindMajor",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/wangmeng3965/avatar_1526463734.png",
+          "userSlug": "windmajor"
+        },
+        "username": "windmajor"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n\n第一步肯定是计数啦，统计字符和数字的个数，如果二者的差的绝对值大于1，那么直接return \"\";\n\n第二步定义2个指针i和j，分别用来存字符和数字；如果字符的数量大于数字的数量，i=0,j=1; 如果字符的数量小于数字的数量，i=1;j=0;\n\n第三步遍历原字符串，把字符存入ans[i]，把数字存入ans[j]，然后 i 和 j 分别 +=2，最后就得到了结果。\n\n### 代码\n\n```java\nclass Solution {\n    public String reformat(String s) {\n        int charAmount = 0, numAmount = 0;\n        for (char c : s.toCharArray()) {\n            if (c >= '0' && c <= '9') {\n                numAmount += 1;\n            } else {\n                charAmount += 1;\n            }\n        }\n\n        if (Math.abs(charAmount - numAmount) > 1) {\n            return \"\";\n        }\n\n        char[] ans = new char[s.length()];\n        int i = charAmount >= numAmount ? 0 : 1;\n        int j = i == 0 ? 1 : 0;\n        for (char c : s.toCharArray()) {\n            if (c >= '0' && c <= '9') {\n                ans[j] = c;\n                j += 2;\n            } else {\n                ans[i] = c;\n                i += 2;\n            }\n        }\n        return new String(ans);\n    }\n}\n```\n\n![image.png](https://pic.leetcode-cn.com/1620544990-ruXMOV-image.png)\n",
+      "createdAt": "2021-05-09T07:29:42.850238+00:00",
+      "hitCount": 776,
+      "identifier": "lb5uhb",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "java-shuang-100zuo-fa-jian-dan-yi-dong-nei-fu-jie-",
+        "title": "java 双100做法 简单易懂（内附解析）"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "reformat-the-string"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 6,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "chao-guo-100-java-qi-ou-zhi-zhen-qi-tou-pryhc",
+      "status": "PUBLISHED",
+      "summary": "解题思路\n第一步肯定是计数啦，统计字符和数字的个数，如果二者的差的绝对值大于1，那么直接return \"\";\n第二步定义2个指针i和j，分别用来存字符和数字；如果字符的数量大于数字的数量，i=0,j=1; 如果字符的数量小于数字的数量，i=1;j=0;\n第三步遍历原字符串，把字符存入ans[i]，把数字存入ans[j]",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Array",
+          "nameTranslated": "数组",
+          "slug": "array",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "String",
+          "nameTranslated": "字符串",
+          "slug": "string",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1620544990-ruXMOV-image.png",
+      "title": "超过100% Java 奇偶指针齐头并进 简单有趣",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 766244,
+        "viewCount": 618
+      },
+      "uuid": "lb5uhb",
+      "videosInfo": []
+    }
+  }
+}

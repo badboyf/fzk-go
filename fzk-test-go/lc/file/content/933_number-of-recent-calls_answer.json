@@ -1,0 +1,96 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣 (LeetCode)",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/uploaded_files/2021/03/73c9f099-abbe-4d94-853f-f8abffd459cd/leetcode.png",
+          "userSlug": "leetcode"
+        },
+        "username": "LeetCode"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法一：队列\n\n我们只会考虑最近 3000 毫秒到现在的 `ping` 数，因此我们可以使用队列存储这些 `ping` 的记录。当收到一个时间 `t` 的 `ping` 时，我们将它加入队列，并且将所有在时间 `t - 3000` 之前的 `ping` 移出队列。\n\n```Java [sol1]\nclass RecentCounter {\n    Queue<Integer> q;\n    public RecentCounter() {\n        q = new LinkedList();\n    }\n\n    public int ping(int t) {\n        q.add(t);\n        while (q.peek() < t - 3000)\n            q.poll();\n        return q.size();\n    }\n}\n```\n\n```Python [sol1]\nclass RecentCounter(object):\n    def __init__(self):\n        self.q = collections.deque()\n\n    def ping(self, t):\n        self.q.append(t)\n        while self.q[0] < t-3000:\n            self.q.popleft()\n        return len(self.q)\n```\n\n**复杂度分析**\n\n* 时间复杂度：$O(Q)$，其中 $Q$ 是 `ping` 的次数。\n\n* 空间复杂度：$O(W)$，其中 $W = 3000$ 是队列中最多存储的 `ping` 的记录数目。",
+      "createdAt": "2019-08-06T05:46:24.798022+00:00",
+      "hitCount": 22737,
+      "identifier": "NLnH5Y",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "933-zui-jin-de-qing-qiu-ci-shu-by-chen-w-gc2s",
+        "title": "933. 最近的请求次数"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "number-of-recent-calls"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 16,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 3,
+          "reactionType": "AWESOME"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "CONFUSED"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "zui-jin-de-qing-qiu-ci-shu-by-leetcode",
+      "status": "PUBLISHED",
+      "summary": "§ 方法一：队列\n我们只会考虑最近 3000 毫秒到现在的 ping 数，因此我们可以使用队列存储这些 ping 的记录。当收到一个时间 t 的 ping 时，我们将它加入队列，并且将所有在时间 t - 3000 之前的 ping 移出队列。\n复杂度分析\n\n\n时间复杂度：O(Q)，其中 Q 是 ping 的次数。\n\n\n",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Queue",
+          "nameTranslated": "队列",
+          "slug": "queue",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "最近的请求次数",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 32,
+        "id": 18746,
+        "viewCount": 18077
+      },
+      "uuid": "NLnH5Y",
+      "videosInfo": []
+    }
+  }
+}

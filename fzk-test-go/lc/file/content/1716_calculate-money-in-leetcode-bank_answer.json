@@ -1,0 +1,93 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "清风Python",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/qingfengpython/avatar_1620226448.png",
+          "userSlug": "qingfengpython"
+        },
+        "username": "qingfengpython"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "## [1716.计算力扣银行的钱](https://leetcode-cn.com/problems/calculate-money-in-leetcode-bank/solution/1716ji-suan-li-kou-yin-xing-de-qian-tui-thr3e/)\r\n> https://leetcode-cn.com/problems/calculate-money-in-leetcode-bank/solution/1716ji-suan-li-kou-yin-xing-de-qian-tui-thr3e/\r\n> \r\n> 难度：简单\r\n\r\n### 题目\r\nHercy 想要为购买第一辆车存钱。他 **每天** 都往力扣银行里存钱。\r\n\r\n最开始，他在周一的时候存入 1 块钱。从周二到周日，他每天都比前一天多存入 1 块钱。在接下来每一个周一，他都会比 前一个周一 多存入 1 块钱。\r\n\r\n给你 n ，请你返回在第 n 天结束的时候他在力扣银行总共存了多少块钱。\r\n\r\n提示：\r\n- 1 <= n <= 1000\r\n\r\n\r\n### 示例\r\n\r\n```\r\n示例 1：\r\n输入：n = 4\r\n输出：10\r\n解释：第 4 天后，总额为 1 + 2 + 3 + 4 = 10 。\r\n\r\n示例 2：\r\n输入：n = 10\r\n输出：37\r\n解释：第 10 天后，总额为 (1 + 2 + 3 + 4 + 5 + 6 + 7) + (2 + 3 + 4) = 37 。注意到第二个星期一，Hercy 存入 2 块钱。\r\n\r\n示例 3：\r\n输入：n = 20\r\n输出：96\r\n解释：第 20 天后，总额为 (1 + 2 + 3 + 4 + 5 + 6 + 7) + (2 + 3 + 4 + 5 + 6 + 7 + 8) + (3 + 4 + 5 + 6 + 7 + 8) = 96 。\r\n```\r\n\r\n### 分析\r\n这道题的关键就在于，每周一，会比上一个周一多存1块钱。\r\n那么，由此可得：\r\n第一周存了 1 + 2 + 3 + 4 + 5 + 6 + 7 = 28\r\n第二周存了 2 + 3 + 4 + 5 + 6 + 7 + 8 = 28 + 7\r\n第二周存了 3 + 4 + 5 + 6 + 7 + 8 + 9 = 28 + 7 + 7\r\n由此推得：\r\n1. 周数 week = N // 7 = 28 + (28 + 7) + ... + (28 + 7 * (week - 1)) = week * 28 + \r\n2. 剩余天数 day = N % 7 = (week + 1  + week + day ) * day // 2\r\n\r\n### 解题\r\n\r\n**套用公式:**\r\n```python\r\nclass Solution:\r\n    def totalMoney(self, n):\r\n        total = 0\r\n        week, day = divmod(n, 7)\r\n        # total += 28 * week + (week - 1) * week * 7 // 2 \r\n        total += week * (week + 7) * 7 // 2 # 合并后\r\n        total += (week + 1  + week + day ) * day // 2\r\n        return total\r\n```\r\n\r\n**合并同类项，最终一行代码**\r\n```python\r\nclass Solution:\r\n    def totalMoney(self, n):\r\n        return (n // 7 * (n // 7 + 7) * 7 + (n // 7 * 2 + (n % 7) + 1) * (n % 7)) // 2\r\n```\r\n\r\n欢迎关注我的公众号: **清风Python**，带你每日学习Python算法刷题的同时，了解更多python小知识。\r\n\r\n有喜欢力扣刷题的小伙伴可以加我微信（King_Uranus）互相鼓励，共同进步，一起玩转超级码力！\r\n\r\n我的个人博客：[https://qingfengpython.cn](https://qingfengpython.cn)\r\n\r\n力扣解题合集：[https://github.com/BreezePython/AlgorithmMarkdown](https://github.com/BreezePython/AlgorithmMarkdown)",
+      "createdAt": "2021-10-11T16:29:47.441823+00:00",
+      "hitCount": 435,
+      "identifier": "XbCOgi",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "c-shuang-bai-jian-dan-yi-dong-by-zackcai-70d6",
+        "title": "C++ 双百 简单易懂"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "calculate-money-in-leetcode-bank"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 3,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": false,
+      "slug": "1716ji-suan-li-kou-yin-xing-de-qian-tui-thr3e",
+      "status": "PREPUBLISH",
+      "summary": "1716.计算力扣银行的钱\n\nhttps://leetcode-cn.com/problems/calculate-money-in-leetcode-bank/solution/1716ji-suan-li-kou-yin-xing-de-qian-tui-thr3e/\n难度：简单\n\n题目\nHercy 想要为购买第一",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Math",
+          "nameTranslated": "数学",
+          "slug": "math",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python3",
+          "nameTranslated": "",
+          "slug": "python3",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "递推",
+          "nameTranslated": "",
+          "slug": "di-tui",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "",
+      "title": "1716.计算力扣银行的钱 推导公式套用+ 优化一行代码！",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1042679,
+        "viewCount": 176
+      },
+      "uuid": "XbCOgi",
+      "videosInfo": []
+    }
+  }
+}

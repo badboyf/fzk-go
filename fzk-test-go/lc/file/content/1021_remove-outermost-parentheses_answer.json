@@ -1,0 +1,82 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "huaouo",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/huaouo/avatar_1591953180.png",
+          "userSlug": "huaouo"
+        },
+        "username": "huaouo"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "```\r\nclass Solution {\r\n    public String removeOuterParentheses(String S) {\r\n        StringBuilder sb = new StringBuilder();\r\n        int level = 0;\r\n        for (char c : S.toCharArray()) {\r\n            if (c == ')') --level;\r\n            if (level >= 1) sb.append(c);\r\n            if (c == '(') ++level;\r\n        }\r\n        return sb.toString();\r\n    }\r\n}\r\n```",
+      "createdAt": "2019-11-17T11:50:58.158798+00:00",
+      "hitCount": 12937,
+      "identifier": "rbMcKV",
+      "isEditorsPick": false,
+      "isMostPopular": true,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "ji-shu-fa-shan-chu-zui-wai-ceng-de-gua-h-55id",
+        "title": "【计数法】删除最外层的括号"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "remove-outermost-parentheses"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 155,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 14,
+          "reactionType": "AWESOME"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 3,
+          "reactionType": "CONFUSED"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "jian-ji-de-java-shi-xian-by-huaouo",
+      "status": "PUBLISHED",
+      "summary": "",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "简洁的 Java 实现",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 74,
+        "id": 44615,
+        "viewCount": 9969
+      },
+      "uuid": "rbMcKV",
+      "videosInfo": []
+    }
+  }
+}

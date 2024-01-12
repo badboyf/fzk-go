@@ -1,0 +1,100 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "梦璃夜·天星",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/meng-li-ye-tian-xing/avatar_1584335581.png",
+          "userSlug": "muriyatensei"
+        },
+        "username": "MuriyaTensei"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "# 方法一：前缀和 + 双指针 + 哈希表\n![LeetCode 1695.删除子数组的最大的分 几乎双百.jpg](https://pic.leetcode-cn.com/1636197047-UIHfAr-LeetCode%201695.%E5%88%A0%E9%99%A4%E5%AD%90%E6%95%B0%E7%BB%84%E7%9A%84%E6%9C%80%E5%A4%A7%E7%9A%84%E5%88%86%20%E5%87%A0%E4%B9%8E%E5%8F%8C%E7%99%BE.jpg)\n\n使用了原地前缀和，数组作为哈希表\n\n哈希表储存遍历过程中数字最后一次出现的位置\n\n\n```c++\nclass Solution {\npublic:\n    int maximumUniqueSubarray(vector<int>& nums) {\n        partial_sum(begin(nums), end(nums), begin(nums));\n        nums.insert(begin(nums), 0);\n        int h[10001] = {0}, ans = 0, left = 0;\n        for(int i = 0; i < nums.size() - 1; ++i){\n            ans = max(ans, nums[i + 1] - nums[left = max(left, h[nums[i + 1] - nums[i]])]);\n            h[nums[i + 1] - nums[i]] = i + 1;\n        }\n        return ans;\n    }\n};\n```\n\n# 方法二：双指针（滑动窗口） + 哈希表\n使用了bitset代替unordered_set作为哈希表\n\n每次遇到相同数字后，就向右移动左侧指针，直至相同数字消失\n```c++\nclass Solution {\npublic:\n    int maximumUniqueSubarray(vector<int>& nums) {\n        int ans = 0, l = 0, sum = 0;\n        bitset<10001> h;\n        for(int x: nums){\n            while(h[x]){\n                h.reset(nums[l]);\n                sum -= nums[l++];\n            }\n            h.set(x);\n            ans = max(ans, sum += x);\n        }\n        return ans;\n    }\n};\n```",
+      "createdAt": "2021-11-06T11:10:22.183862+00:00",
+      "hitCount": 87,
+      "identifier": "Gve626",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "hua-dong-chuang-kou-shu-zu-ha-xi-by-the-684t3",
+        "title": "滑动窗口+数组（哈希）"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "maximum-erasure-value"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "c-qian-zhui-he-ha-xi-biao-by-muriyatense-g629",
+      "status": "PREPUBLISH",
+      "summary": "方法一：前缀和 + 双指针 + 哈希表\n使用了原地前缀和，数组作为哈希表\n哈希表储存遍历过程中数字最后一次出现的位置\n方法二：双指针（滑动窗口） + 哈希表\n使用了bitset代替unordered_set作为哈希表\n每次遇到相同数字后，就向右移动左侧指针，直至相同数字消失",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Hash Table",
+          "nameTranslated": "哈希表",
+          "slug": "hash-table",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Two Pointers",
+          "nameTranslated": "双指针",
+          "slug": "two-pointers",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Prefix Sum",
+          "nameTranslated": "前缀和",
+          "slug": "prefix-sum",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Sliding Window",
+          "nameTranslated": "滑动窗口",
+          "slug": "sliding-window",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1636197047-UIHfAr-LeetCode%201695.%E5%88%A0%E9%99%A4%E5%AD%90%E6%95%B0%E7%BB%84%E7%9A%84%E6%9C%80%E5%A4%A7%E7%9A%84%E5%88%86%20%E5%87%A0%E4%B9%8E%E5%8F%8C%E7%99%BE.jpg",
+      "title": "【C++】前缀和 + 哈希表 / 双指针（滑动窗口） + 哈希表",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1087612,
+        "viewCount": 68
+      },
+      "uuid": "Gve626",
+      "videosInfo": []
+    }
+  }
+}

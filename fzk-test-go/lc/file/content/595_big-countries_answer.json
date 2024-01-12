@@ -1,0 +1,72 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣 (LeetCode)",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/uploaded_files/2021/03/73c9f099-abbe-4d94-853f-f8abffd459cd/leetcode.png",
+          "userSlug": "leetcode"
+        },
+        "username": "LeetCode"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法一：使用 `WHERE` 子句和 `OR`【通过】\n\n**思路**\n\n使用 `WHERE` 子句过滤所有记录，获得满足条件的国家。\n\n**算法**\n\n根据定义，大国家至少满足以下两个条件中的一个：\n1. 面积超过 300 万平方公里。\n2. 人口超过 2500 万。\n\n使用下面语句获得满足条件 1 的大国家。\n\n```mysql [snippet1-MySQL]\nSELECT name, population, area FROM world WHERE area > 3000000\n```\n\n使用下面语句获得满足条件 2 的大国家。\n\n```mysql [snippet2-MySQL]\nSELECT name, population, area FROM world WHERE population > 25000000\n```\n\n使用 `OR` 将两个子查询合并在一起。\n\n**MySQL**\n\n```mysql [solution1-MySQL]\nSELECT\n    name, population, area\nFROM\n    world\nWHERE\n    area > 3000000 OR population > 25000000\n;\n```\n\n\n#### 方法二：使用 `WHERE` 子句和 `UNION`【通过】\n\n**算法**\n\n该方法思路与 *方法一* 一样，但是使用 `UNION` 连接子查询。\n\n**MySQL**\n\n```mysql [solution2-MySQL]\nSELECT\n    name, population, area\nFROM\n    world\nWHERE\n    area > 3000000\n\nUNION\n\nSELECT\n    name, population, area\nFROM\n    world\nWHERE\n    population > 25000000\n;\n```\n\n>注：*方法二* 比 *方法一* 运行速度更快，但是它们没有太大差别。",
+      "createdAt": "2019-12-05T08:25:06.801441+00:00",
+      "hitCount": 24782,
+      "identifier": "dePpYq",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "shu-ju-ku-595-by-lym_jlu-30bk",
+        "title": "数据库595"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "big-countries"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 15,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "da-de-guo-jia-by-leetcode",
+      "status": "PUBLISHED",
+      "summary": " 方法一：使用 WHERE 子句和 OR【通过】\n思路\n使用 WHERE 子句过滤所有记录，获得满足条件的国家。\n算法\n根据定义，大国家至少满足以下两个条件中的一个：\n\n面积超过 300 万平方公里。\n人口超过 2500 万。\n\n使用下面语句获得满足条件 1 的大国家。\n使用下面语句获得满足条件 2 的大国家。\n使用 ",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "MySQL",
+          "nameTranslated": "",
+          "slug": "mysql",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "大的国家",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 25,
+        "id": 50426,
+        "viewCount": 23384
+      },
+      "uuid": "dePpYq",
+      "videosInfo": []
+    }
+  }
+}

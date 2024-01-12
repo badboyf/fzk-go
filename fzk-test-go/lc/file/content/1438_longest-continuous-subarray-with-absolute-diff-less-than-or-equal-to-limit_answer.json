@@ -1,0 +1,131 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣官方题解",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/leetcode-solution/avatar_1582018938.png",
+          "userSlug": "leetcode-solution"
+        },
+        "username": "LeetCode-Solution"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法一：滑动窗口 + 有序集合\n\n**思路和解法**\n\n我们可以枚举每一个位置作为右端点，找到其对应的最靠左的左端点，满足区间中最大值与最小值的差不超过 $\\textit{limit}$。\n\n注意到随着右端点向右移动，左端点也将向右移动，于是我们可以使用滑动窗口解决本题。\n\n为了方便统计当前窗口内的最大值与最小值，我们可以使用平衡树：\n\n- 语言自带的红黑树，例如 $\\texttt{C++}$ 中的 $\\texttt{std::multiset}$，$\\texttt{Java}$ 中的 $\\texttt{TreeMap}$；\n\n- 第三方的平衡树库，例如 $\\texttt{Python}$ 中的 $\\texttt{sortedcontainers}$（事实上，这个库的底层实现并不是平衡树，但各种操作的时间复杂度仍然很优秀）；\n\n- 手写 $\\texttt{Treap}$ 一类的平衡树，例如下面的 $\\texttt{Golang}$ 代码。\n\n来维护窗口内元素构成的有序集合。\n\n**代码**\n\n对于 $\\texttt{Python}$ 语言，力扣平台支持 $\\texttt{sortedcontainers}$，但其没有默认被导入（import）。读者可以参考 [Python Sorted Containers](http://www.grantjenks.com/docs/sortedcontainers/index.html) 了解该第三方库的使用方法。\n\n```C++ [sol1-C++]\nclass Solution {\npublic:\n    int longestSubarray(vector<int>& nums, int limit) {\n        multiset<int> s;\n        int n = nums.size();\n        int left = 0, right = 0;\n        int ret = 0;\n        while (right < n) {\n            s.insert(nums[right]);\n            while (*s.rbegin() - *s.begin() > limit) {\n                s.erase(s.find(nums[left++]));\n            }\n            ret = max(ret, right - left + 1);\n            right++;\n        }\n        return ret;\n    }\n};\n```\n\n```Java [sol1-Java]\nclass Solution {\n    public int longestSubarray(int[] nums, int limit) {\n        TreeMap<Integer, Integer> map = new TreeMap<Integer, Integer>();\n        int n = nums.length;\n        int left = 0, right = 0;\n        int ret = 0;\n        while (right < n) {\n            map.put(nums[right], map.getOrDefault(nums[right], 0) + 1);\n            while (map.lastKey() - map.firstKey() > limit) {\n                map.put(nums[left], map.get(nums[left]) - 1);\n                if (map.get(nums[left]) == 0) {\n                    map.remove(nums[left]);\n                }\n                left++;\n            }\n            ret = Math.max(ret, right - left + 1);\n            right++;\n        }\n        return ret;\n    }\n}\n```\n\n```Python [sol1-Python3]\nclass Solution:\n    def longestSubarray(self, nums: List[int], limit: int) -> int:\n        s = SortedList()\n        n = len(nums)\n        left = right = ret = 0\n\n        while right < n:\n            s.add(nums[right])\n            while s[-1] - s[0] > limit:\n                s.remove(nums[left])\n                left += 1\n            ret = max(ret, right - left + 1)\n            right += 1\n        \n        return ret\n```\n\n```go [sol1-Golang]\nimport \"math/rand\"\n\ntype node struct {\n    ch       [2]*node\n    priority int\n    key      int\n    cnt      int\n}\n\nfunc (o *node) cmp(b int) int {\n    switch {\n    case b < o.key:\n        return 0\n    case b > o.key:\n        return 1\n    default:\n        return -1\n    }\n}\n\nfunc (o *node) rotate(d int) *node {\n    x := o.ch[d^1]\n    o.ch[d^1] = x.ch[d]\n    x.ch[d] = o\n    return x\n}\n\ntype treap struct {\n    root *node\n}\n\nfunc (t *treap) ins(o *node, key int) *node {\n    if o == nil {\n        return &node{priority: rand.Int(), key: key, cnt: 1}\n    }\n    if d := o.cmp(key); d >= 0 {\n        o.ch[d] = t.ins(o.ch[d], key)\n        if o.ch[d].priority > o.priority {\n            o = o.rotate(d ^ 1)\n        }\n    } else {\n        o.cnt++\n    }\n    return o\n}\n\nfunc (t *treap) del(o *node, key int) *node {\n    if o == nil {\n        return nil\n    }\n    if d := o.cmp(key); d >= 0 {\n        o.ch[d] = t.del(o.ch[d], key)\n    } else {\n        if o.cnt > 1 {\n            o.cnt--\n        } else {\n            if o.ch[1] == nil {\n                return o.ch[0]\n            }\n            if o.ch[0] == nil {\n                return o.ch[1]\n            }\n            d = 0\n            if o.ch[0].priority > o.ch[1].priority {\n                d = 1\n            }\n            o = o.rotate(d)\n            o.ch[d] = t.del(o.ch[d], key)\n        }\n    }\n    return o\n}\n\nfunc (t *treap) insert(key int) {\n    t.root = t.ins(t.root, key)\n}\n\nfunc (t *treap) delete(key int) {\n    t.root = t.del(t.root, key)\n}\n\nfunc (t *treap) min() (min *node) {\n    for o := t.root; o != nil; o = o.ch[0] {\n        min = o\n    }\n    return\n}\n\nfunc (t *treap) max() (max *node) {\n    for o := t.root; o != nil; o = o.ch[1] {\n        max = o\n    }\n    return\n}\n\nfunc longestSubarray(nums []int, limit int) (ans int) {\n    t := &treap{}\n    left := 0\n    for right, v := range nums {\n        t.insert(v)\n        for t.max().key-t.min().key > limit {\n            t.delete(nums[left])\n            left++\n        }\n        ans = max(ans, right-left+1)\n    }\n    return\n}\n\nfunc max(a, b int) int {\n    if a > b {\n        return a\n    }\n    return b\n}\n```\n\n**复杂度分析**\n\n- 时间复杂度：$O(n \\log n)$，其中 $n$ 是数组长度。向有序集合中添加或删除元素都是 $O(\\log n)$ 的时间复杂度。每个元素最多被添加与删除一次。\n\n- 空间复杂度：$O(n)$，其中 $n$ 是数组长度。最坏情况下有序集合将和原数组等大。\n\n#### 方法二：滑动窗口 + 单调队列\n\n**思路和解法**\n\n在方法一中，我们仅需要统计当前窗口内的最大值与最小值，因此我们也可以分别使用两个单调队列解决本题。\n\n在实际代码中，我们使用一个单调递增的队列 $\\textit{queMin}$ 维护最小值，一个单调递减的队列 $\\textit{queMax}$ 维护最大值。这样我们只需要计算两个队列的队首的差值，即可知道当前窗口是否满足条件。\n\n**代码**\n\n```C++ [sol2-C++]\nclass Solution {\npublic:\n    int longestSubarray(vector<int>& nums, int limit) {\n        deque<int> queMax, queMin;\n        int n = nums.size();\n        int left = 0, right = 0;\n        int ret = 0;\n        while (right < n) {\n            while (!queMax.empty() && queMax.back() < nums[right]) {\n                queMax.pop_back();\n            }\n            while (!queMin.empty() && queMin.back() > nums[right]) {\n                queMin.pop_back();\n            }\n            queMax.push_back(nums[right]);\n            queMin.push_back(nums[right]);\n            while (!queMax.empty() && !queMin.empty() && queMax.front() - queMin.front() > limit) {\n                if (nums[left] == queMin.front()) {\n                    queMin.pop_front();\n                }\n                if (nums[left] == queMax.front()) {\n                    queMax.pop_front();\n                }\n                left++;\n            }\n            ret = max(ret, right - left + 1);\n            right++;\n        }\n        return ret;\n    }\n};\n```\n\n```Java [sol2-Java]\nclass Solution {\n    public int longestSubarray(int[] nums, int limit) {\n        Deque<Integer> queMax = new LinkedList<Integer>();\n        Deque<Integer> queMin = new LinkedList<Integer>();\n        int n = nums.length;\n        int left = 0, right = 0;\n        int ret = 0;\n        while (right < n) {\n            while (!queMax.isEmpty() && queMax.peekLast() < nums[right]) {\n                queMax.pollLast();\n            }\n            while (!queMin.isEmpty() && queMin.peekLast() > nums[right]) {\n                queMin.pollLast();\n            }\n            queMax.offerLast(nums[right]);\n            queMin.offerLast(nums[right]);\n            while (!queMax.isEmpty() && !queMin.isEmpty() && queMax.peekFirst() - queMin.peekFirst() > limit) {\n                if (nums[left] == queMin.peekFirst()) {\n                    queMin.pollFirst();\n                }\n                if (nums[left] == queMax.peekFirst()) {\n                    queMax.pollFirst();\n                }\n                left++;\n            }\n            ret = Math.max(ret, right - left + 1);\n            right++;\n        }\n        return ret;\n    }\n}\n```\n\n```JavaScript [sol2-JavaScript]\nvar longestSubarray = function(nums, limit) {\n    const queMax = [];\n    const queMin = [];\n    const n = nums.length;\n    let left = 0, right = 0;\n    let ret = 0;\n    while (right < n) {\n        while (queMax.length && queMax[queMax.length - 1] < nums[right]) {\n            queMax.pop();\n        }\n        while (queMin.length && queMin[queMin.length - 1] > nums[right]) {\n            queMin.pop();\n        }\n        queMax.push(nums[right]);\n        queMin.push(nums[right]);\n        while (queMax.length && queMin.length && queMax[0] - queMin[0] > limit) {\n            if (nums[left] === queMin[0]) {\n                queMin.shift();\n            }\n            if (nums[left] === queMax[0]) {\n                queMax.shift();\n            }\n            left++;\n        }\n        ret = Math.max(ret, right - left + 1);\n        right++;\n    }\n    return ret;\n};\n```\n\n```Python [sol2-Python3]\nclass Solution:\n    def longestSubarray(self, nums: List[int], limit: int) -> int:\n        n = len(nums)\n        queMax, queMin = deque(), deque()\n        left = right = ret = 0\n\n        while right < n:\n            while queMax and queMax[-1] < nums[right]:\n                queMax.pop()\n            while queMin and queMin[-1] > nums[right]:\n                queMin.pop()\n            \n            queMax.append(nums[right])\n            queMin.append(nums[right])\n\n            while queMax and queMin and queMax[0] - queMin[0] > limit:\n                if nums[left] == queMin[0]:\n                    queMin.popleft()\n                if nums[left] == queMax[0]:\n                    queMax.popleft()\n                left += 1\n            \n            ret = max(ret, right - left + 1)\n            right += 1\n        \n        return ret\n```\n\n```go [sol2-Golang]\nfunc longestSubarray(nums []int, limit int) (ans int) {\n    var minQ, maxQ []int\n    left := 0\n    for right, v := range nums {\n        for len(minQ) > 0 && minQ[len(minQ)-1] > v {\n            minQ = minQ[:len(minQ)-1]\n        }\n        minQ = append(minQ, v)\n        for len(maxQ) > 0 && maxQ[len(maxQ)-1] < v {\n            maxQ = maxQ[:len(maxQ)-1]\n        }\n        maxQ = append(maxQ, v)\n        for len(minQ) > 0 && len(maxQ) > 0 && maxQ[0]-minQ[0] > limit {\n            if nums[left] == minQ[0] {\n                minQ = minQ[1:]\n            }\n            if nums[left] == maxQ[0] {\n                maxQ = maxQ[1:]\n            }\n            left++\n        }\n        ans = max(ans, right-left+1)\n    }\n    return\n}\n\nfunc max(a, b int) int {\n    if a > b {\n        return a\n    }\n    return b\n}\n```\n\n```C [sol2-C]\nint longestSubarray(int* nums, int numsSize, int limit) {\n    int queMax[numsSize], queMin[numsSize];\n    int leftMax = 0, rightMax = 0;\n    int leftMin = 0, rightMin = 0;\n    int left = 0, right = 0;\n    int ret = 0;\n    while (right < numsSize) {\n        while (leftMax < rightMax && queMax[rightMax - 1] < nums[right]) {\n            rightMax--;\n        }\n        while (leftMin < rightMin && queMin[rightMin - 1] > nums[right]) {\n            rightMin--;\n        }\n        queMax[rightMax++] = nums[right];\n        queMin[rightMin++] = nums[right];\n        while (leftMax < rightMax && leftMin < rightMin && queMax[leftMax] - queMin[leftMin] > limit) {\n            if (nums[left] == queMin[leftMin]) {\n                leftMin++;\n            }\n            if (nums[left] == queMax[leftMax]) {\n                leftMax++;\n            }\n            left++;\n        }\n        ret = fmax(ret, right - left + 1);\n        right++;\n    }\n    return ret;\n}\n```\n\n**复杂度分析**\n\n- 时间复杂度：$O(n)$，其中 $n$ 是数组长度。我们最多遍历该数组两次，两个单调队列入队出队次数也均为 $O(n)$。\n\n- 空间复杂度：$O(n)$，其中 $n$ 是数组长度。最坏情况下单调队列将和原数组等大。",
+      "createdAt": "2021-02-20T16:56:49.869721+00:00",
+      "hitCount": 34325,
+      "identifier": "887geJ",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "longest-continuous-subarray-by-ikaruga",
+        "title": "【绝对差不超过限制的最长连续子数组】滑动窗口 + map / multiset"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "longest-continuous-subarray-with-absolute-diff-less-than-or-equal-to-limit"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 67,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 3,
+          "reactionType": "AWESOME"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "CONFUSED"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "jue-dui-chai-bu-chao-guo-xian-zhi-de-zui-5bki",
+      "status": "PREPUBLISH",
+      "summary": "方法一：滑动窗口 + 有序集合 思路和解法 我们可以枚举每一个位置作为右端点，找到其对应的最靠左的左端点，满足区间中最大值与最小值的差不超过 $\\textit{limit}$。 注意到随着右端点向右移动，左端点也将向右移动，于是我们可以使用滑动窗口解决本题。 为了方便统计当前窗口内的最大值与最小值，我们可以使用平衡树：",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Queue",
+          "nameTranslated": "队列",
+          "slug": "queue",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C",
+          "nameTranslated": "",
+          "slug": "c",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Go",
+          "nameTranslated": "",
+          "slug": "golang",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "JavaScript",
+          "nameTranslated": "",
+          "slug": "javascript",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Monotonic Queue",
+          "nameTranslated": "单调队列",
+          "slug": "monotonic-queue",
+          "tagType": "TOPIC"
+        }
+      ],
+      "thumbnail": "",
+      "title": "绝对差不超过限制的最长连续子数组",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 88,
+        "id": 612688,
+        "viewCount": 21295
+      },
+      "uuid": "887geJ",
+      "videosInfo": []
+    }
+  }
+}

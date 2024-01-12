@@ -1,0 +1,93 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "秋雨❤美雪",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/da-luo-bo-ji/avatar_1627439679.png",
+          "userSlug": "qiu-yu-mei-xue"
+        },
+        "username": "qiu-yu-mei-xue"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n![图片.png](https://pic.leetcode-cn.com/1637983303-xIWfDM-%E5%9B%BE%E7%89%87.png)\n\n用哈希表记录乘积相等的对数，如果乘积相等有 n 对的话，那么选两组即是 Cn2 = n * (n - 1) / 2 ,而每两组有 8 种答案，所以最终结果在乘以 8 。\n\n### 代码\n\n```cpp\nclass Solution {\npublic:\n    int tupleSameProduct(vector<int>& nums) {\n        int n=nums.size();\n        unordered_map<int,int> mp;\n        for(int i=0;i<n;i++){\n            for(int j=i+1;j<n;j++){\n                mp[nums[i]*nums[j]]++;\n            }\n        }\n        int ans=0;\n        for(auto& [_,cnt]:mp){\n            if(cnt>1){\n                ans+=cnt*(cnt-1)*4;\n            }\n        }\n        return ans;\n    }\n};\n```",
+      "createdAt": "2021-11-27T03:25:07.540534+00:00",
+      "hitCount": 6,
+      "identifier": "ahRmUq",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "ha-xi-biao-by-euyvvl-rcsm",
+        "title": "哈希表"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "tuple-with-same-product"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "c-ha-xi-biao-by-qiu-yu-mei-xue-v2wn",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n用哈希表记录乘积相等的对数，如果乘积相等有 n 对的话，那么选两组即是 Cn2 = n * (n - 1) / 2 ,而每两组有 8 种答案，所以最终结果在乘以 8 。\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Hash Table",
+          "nameTranslated": "哈希表",
+          "slug": "hash-table",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Math",
+          "nameTranslated": "数学",
+          "slug": "math",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Counting",
+          "nameTranslated": "计数",
+          "slug": "counting",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1637983303-xIWfDM-%E5%9B%BE%E7%89%87.png",
+      "title": "【c++】哈希表",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1124670,
+        "viewCount": 3
+      },
+      "uuid": "ahRmUq",
+      "videosInfo": []
+    }
+  }
+}

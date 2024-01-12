@@ -1,0 +1,112 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣官方题解",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/leetcode-solution/avatar_1582018938.png",
+          "userSlug": "leetcode-solution"
+        },
+        "username": "LeetCode-Solution"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法一：滑动窗口\n\n设数组 $\\textit{arr}$ 的长度为 $n$，窗口 $[\\textit{left},\\textit{right}](0 \\le \\textit{left} \\le \\textit{right} \\le n-1)$ 为当前的窗口，窗口内构成了一个「湍流子数组」。随后，我们要考虑下一个窗口的位置。\n\n根据「湍流子数组」的定义，当 $0<\\textit{right}<n-1$ 时：\n\n- 如果 $\\textit{arr}[\\textit{right}-1] < \\textit{arr}[\\textit{right}]$ 且 $\\textit{arr}[\\textit{right}] > \\textit{arr}[\\textit{right}+1]$，则 $[\\textit{left},\\textit{right}+1]$ 也构成「湍流子数组」，因此需要将 $\\textit{right}$ 右移一个单位；\n\n- 如果 $\\textit{arr}[\\textit{right}-1] > \\textit{arr}[\\textit{right}]$ 且 $\\textit{arr}[\\textit{right}] < \\textit{arr}[\\textit{right}+1]$，同理，也需要将 $\\textit{right}$ 右移一个单位；\n\n- 否则，$[\\textit{right}-1,\\textit{right}+1]$ 无法构成「湍流子数组」，当 $\\textit{left}<\\textit{right}$ 时，$[\\textit{left},\\textit{right}+1]$ 也无法构成「湍流子数组」，因此需要将 $\\textit{left}$ 移到 $\\textit{right}$，即令 $\\textit{left}=\\textit{right}$。\n\n此外，我们还需要特殊考虑窗口长度为 $1$ (即 $\\textit{left}$ 和 $\\textit{right}$ 相等的情况)：只要 $\\textit{arr}[\\textit{right}] \\ne \\textit{arr}[\\textit{right}+1]$，就可以将 $\\textit{right}$ 右移一个单位；否则，$\\textit{left}$ 和 $\\textit{right}$ 都要同时右移。\n\n```C++ [sol1-C++]\nclass Solution {\npublic:\n    int maxTurbulenceSize(vector<int>& arr) {\n        int n = arr.size();\n        int ret = 1;\n        int left = 0, right = 0;\n\n        while (right < n - 1) {\n            if (left == right) {\n                if (arr[left] == arr[left + 1]) {\n                    left++;\n                }\n                right++;\n            } else {\n                if (arr[right - 1] < arr[right] && arr[right] > arr[right + 1]) {\n                    right++;\n                } else if (arr[right - 1] > arr[right] && arr[right] < arr[right + 1]) {\n                    right++;\n                } else {\n                    left = right;\n                }\n            }\n            ret = max(ret, right - left + 1);\n        }\n        return ret;\n    }\n};\n```\n\n```Java [sol1-Java]\nclass Solution {\n    public int maxTurbulenceSize(int[] arr) {\n        int n = arr.length;\n        int ret = 1;\n        int left = 0, right = 0;\n\n        while (right < n - 1) {\n            if (left == right) {\n                if (arr[left] == arr[left + 1]) {\n                    left++;\n                }\n                right++;\n            } else {\n                if (arr[right - 1] < arr[right] && arr[right] > arr[right + 1]) {\n                    right++;\n                } else if (arr[right - 1] > arr[right] && arr[right] < arr[right + 1]) {\n                    right++;\n                } else {\n                    left = right;\n                }\n            }\n            ret = Math.max(ret, right - left + 1);\n        }\n        return ret;\n    }\n}\n```\n\n```JavaScript [sol1-JavaScript]\nvar maxTurbulenceSize = function(arr) {\n    const n = arr.length;\n    let ret = 1;\n    let left = 0, right = 0;\n\n    while (right < n - 1) {\n        if (left == right) {\n            if (arr[left] == arr[left + 1]) {\n                left++;\n            }\n            right++;\n        } else {\n            if (arr[right - 1] < arr[right] && arr[right] > arr[right + 1]) {\n                right++;\n            } else if (arr[right - 1] > arr[right] && arr[right] < arr[right + 1]) {\n                right++;\n            } else {\n                left = right;\n            }\n        }\n        ret = Math.max(ret, right - left + 1);\n    }\n    return ret;\n};\n```\n\n```go [sol1-Golang]\nfunc maxTurbulenceSize(arr []int) int {\n    n := len(arr)\n    ans := 1\n    left, right := 0, 0\n    for right < n-1 {\n        if left == right {\n            if arr[left] == arr[left+1] {\n                left++\n            }\n            right++\n        } else {\n            if arr[right-1] < arr[right] && arr[right] > arr[right+1] {\n                right++\n            } else if arr[right-1] > arr[right] && arr[right] < arr[right+1] {\n                right++\n            } else {\n                left = right\n            }\n        }\n        ans = max(ans, right-left+1)\n    }\n    return ans\n}\n\nfunc max(a, b int) int {\n    if a > b {\n        return a\n    }\n    return b\n}\n```\n\n```C [sol1-C]\nint maxTurbulenceSize(int* arr, int arrSize) {\n    int ret = 1;\n    int left = 0, right = 0;\n\n    while (right < arrSize - 1) {\n        if (left == right) {\n            if (arr[left] == arr[left + 1]) {\n                left++;\n            }\n            right++;\n        } else {\n            if (arr[right - 1] < arr[right] && arr[right] > arr[right + 1]) {\n                right++;\n            } else if (arr[right - 1] > arr[right] && arr[right] < arr[right + 1]) {\n                right++;\n            } else {\n                left = right;\n            }\n        }\n        ret = fmax(ret, right - left + 1);\n    }\n    return ret;\n}\n```\n\n**复杂度分析**\n\n- 时间复杂度：$O(n)$，其中 $n$ 为数组的长度。窗口的左右端点最多各移动 $n$ 次。\n\n- 空间复杂度：$O(1)$。只需要维护常数额外空间。\n\n#### 方法二：动态规划\n\n也可以使用动态规划的方法计算最长湍流子数组的长度。\n\n记 $\\textit{dp}[i][0]$ 为以 $\\textit{arr}[i]$ 结尾，且 $\\textit{arr}[i-1] > \\textit{arr}[i]$ 的「湍流子数组」的最大长度；$\\textit{dp}[i][1]$ 为以 $\\textit{arr}[i]$ 结尾，且 $\\textit{arr}[i-1] < \\textit{arr}[i]$ 的「湍流子数组」的最大长度。\n\n显然，以下标 $0$ 结尾的「湍流子数组」的最大长度为 $1$，因此边界情况为 $\\textit{dp}[0][0]=\\textit{dp}[0][1]=1$。\n\n当 $i>0$ 时，考虑 $\\textit{arr}[i-1]$ 和 $\\textit{arr}[i]$ 之间的大小关系：\n\n- 如果 $\\textit{arr}[i-1]>\\textit{arr}[i]$，则如果以下标 $i-1$ 结尾的子数组是「湍流子数组」，应满足 $i-1=0$，或者当 $i-1>0$ 时 $\\textit{arr}[i-2] < \\textit{arr}[i-1]$，因此 $\\textit{dp}[i][0]=\\textit{dp}[i-1][1]+1$，$\\textit{dp}[i][1]=1$；\n\n- 如果 $\\textit{arr}[i-1]<\\textit{arr}[i]$，则如果以下标 $i-1$ 结尾的子数组是「湍流子数组」，应满足 $i-1=0$，或者当 $i-1>0$ 时 $\\textit{arr}[i-2] > \\textit{arr}[i-1]$，因此 $\\textit{dp}[i][0]=1$，$\\textit{dp}[i][1]=\\textit{dp}[i-1][0]+1$；\n\n- 如果 $\\textit{arr}[i-1]=\\textit{arr}[i]$，则 $\\textit{arr}[i-1]$ 和 $\\textit{arr}[i]$ 不能同时出现在同一个湍流子数组中，因此 $\\textit{dp}[i][0]=\\textit{dp}[i][1]=1$。\n\n最终，$\\textit{dp}$ 数组的最大值即为所求的答案。\n\n```C++ [sol21-C++]\nclass Solution {\npublic:\n    int maxTurbulenceSize(vector<int>& arr) {\n        int n = arr.size();\n        vector<vector<int>> dp(n, vector<int>(2, 1));\n        dp[0][0] = dp[0][1] = 1;\n        for (int i = 1; i < n; i++) {\n            if (arr[i - 1] > arr[i]) {\n                dp[i][0] = dp[i - 1][1] + 1;\n            } else if (arr[i - 1] < arr[i]) {\n                dp[i][1] = dp[i - 1][0] + 1;\n            }\n        }\n\n        int ret = 1;\n        for (int i = 0; i < n; i++) {\n            ret = max(ret, dp[i][0]);\n            ret = max(ret, dp[i][1]);\n        }\n        return ret;\n    }\n};\n```\n\n```Java [sol21-Java]\nclass Solution {\n    public int maxTurbulenceSize(int[] arr) {\n        int n = arr.length;\n        int[][] dp = new int[n][2];\n        dp[0][0] = dp[0][1] = 1;\n        for (int i = 1; i < n; i++) {\n            dp[i][0] = dp[i][1] = 1;\n            if (arr[i - 1] > arr[i]) {\n                dp[i][0] = dp[i - 1][1] + 1;\n            } else if (arr[i - 1] < arr[i]) {\n                dp[i][1] = dp[i - 1][0] + 1;\n            }\n        }\n\n        int ret = 1;\n        for (int i = 0; i < n; i++) {\n            ret = Math.max(ret, dp[i][0]);\n            ret = Math.max(ret, dp[i][1]);\n        }\n        return ret;\n    }\n}\n```\n\n```JavaScript [sol21-JavaScript]\nvar maxTurbulenceSize = function(arr) {\n    const n = arr.length;\n    const dp = new Array(n).fill(0).map(() => new Array(2).fill(0));\n    dp[0][0] = dp[0][1] = 1;\n    for (let i = 1; i < n; i++) {\n        dp[i][0] = dp[i][1] = 1;\n        if (arr[i - 1] > arr[i]) {\n            dp[i][0] = dp[i - 1][1] + 1;\n        } else if (arr[i - 1] < arr[i]) {\n            dp[i][1] = dp[i - 1][0] + 1;\n        }\n    }\n\n    let ret = 1;\n    for (let i = 0; i < n; i++) {\n        ret = Math.max(ret, dp[i][0]);\n        ret = Math.max(ret, dp[i][1]);\n    }\n    return ret;\n};\n```\n\n```go [sol21-Golang]\nfunc maxTurbulenceSize(arr []int) int {\n    n := len(arr)\n    dp := make([][2]int, n)\n    dp[0] = [2]int{1, 1}\n    for i := 1; i < n; i++ {\n        dp[i] = [2]int{1, 1}\n        if arr[i-1] > arr[i] {\n            dp[i][0] = dp[i-1][1] + 1\n        } else if arr[i-1] < arr[i] {\n            dp[i][1] = dp[i-1][0] + 1\n        }\n    }\n\n    ans := 1\n    for i := 0; i < n; i++ {\n        ans = max(ans, dp[i][0])\n        ans = max(ans, dp[i][1])\n    }\n    return ans\n}\n\nfunc max(a, b int) int {\n    if a > b {\n        return a\n    }\n    return b\n}\n```\n\n```C [sol21-C]\nint maxTurbulenceSize(int* arr, int arrSize) {\n    int dp[arrSize][2];\n    for (int i = 0; i < arrSize; i++) {\n        dp[i][0] = dp[i][1] = 1;\n    }\n    dp[0][0] = dp[0][1] = 1;\n    for (int i = 1; i < arrSize; i++) {\n        if (arr[i - 1] > arr[i]) {\n            dp[i][0] = dp[i - 1][1] + 1;\n        } else if (arr[i - 1] < arr[i]) {\n            dp[i][1] = dp[i - 1][0] + 1;\n        }\n    }\n\n    int ret = 1;\n    for (int i = 0; i < arrSize; i++) {\n        ret = fmax(ret, dp[i][0]);\n        ret = fmax(ret, dp[i][1]);\n    }\n    return ret;\n}\n```\n\n上述实现的空间复杂度是 $O(n)$。注意到当 $i>0$ 时，下标 $i$ 处的 $\\textit{dp}$ 值只和下标 $i-1$ 处的 $\\textit{dp}$ 值有关，因此可以用两个变量 $\\textit{dp}_0$ 和 $\\textit{dp}_1$ 代替 $\\textit{dp}[i][0]$ 和 $\\textit{dp}[i][1]$，将空间复杂度降到 $O(1)$。\n\n```C++ [sol22-C++]\nclass Solution {\npublic:\n    int maxTurbulenceSize(vector<int>& arr) {\n        int ret = 1;\n        int n = arr.size();\n        int dp0 = 1, dp1 = 1;\n        for (int i = 1; i < n; i++) {\n            if (arr[i - 1] > arr[i]) {\n                dp0 = dp1 + 1;\n                dp1 = 1;\n            } else if (arr[i - 1] < arr[i]) {\n                dp1 = dp0 + 1;\n                dp0 = 1;\n            } else {\n                dp0 = 1;\n                dp1 = 1;\n            }\n            ret = max(ret, dp0);\n            ret = max(ret, dp1);\n        }\n        return ret;\n    }\n};\n```\n\n```Java [sol22-Java]\nclass Solution {\n    public int maxTurbulenceSize(int[] arr) {\n        int ret = 1;\n        int n = arr.length;\n        int dp0 = 1, dp1 = 1;\n        for (int i = 1; i < n; i++) {\n            if (arr[i - 1] > arr[i]) {\n                dp0 = dp1 + 1;\n                dp1 = 1;\n            } else if (arr[i - 1] < arr[i]) {\n                dp1 = dp0 + 1;\n                dp0 = 1;\n            } else {\n                dp0 = 1;\n                dp1 = 1;\n            }\n            ret = Math.max(ret, dp0);\n            ret = Math.max(ret, dp1);\n        }\n        return ret;\n    }\n}\n```\n\n```JavaScript [sol22-JavaScript]\nvar maxTurbulenceSize = function(arr) {\n    let ret = 1;\n    const n = arr.length;\n    let dp0 = 1, dp1 = 1;\n    for (let i = 1; i < n; i++) {\n        if (arr[i - 1] > arr[i]) {\n            dp0 = dp1 + 1;\n            dp1 = 1;\n        } else if (arr[i - 1] < arr[i]) {\n            dp1 = dp0 + 1;\n            dp0 = 1;\n        } else {\n            dp0 = 1;\n            dp1 = 1;\n        }\n        ret = Math.max(ret, dp0);\n        ret = Math.max(ret, dp1);\n    }\n    return ret;\n};\n```\n\n```go [sol22-Golang]\nfunc maxTurbulenceSize(arr []int) int {\n    ans := 1\n    n := len(arr)\n    dp0, dp1 := 1, 1\n    for i := 1; i < n; i++ {\n        if arr[i-1] > arr[i] {\n            dp0, dp1 = dp1+1, 1\n        } else if arr[i-1] < arr[i] {\n            dp0, dp1 = 1, dp0+1\n        } else {\n            dp0, dp1 = 1, 1\n        }\n        ans = max(ans, max(dp0, dp1))\n    }\n    return ans\n}\n\nfunc max(a, b int) int {\n    if a > b {\n        return a\n    }\n    return b\n}\n```\n\n```C [sol22-C]\nint maxTurbulenceSize(int* arr, int arrSize) {\n    int ret = 1;\n    int dp0 = 1, dp1 = 1;\n    for (int i = 1; i < arrSize; i++) {\n        if (arr[i - 1] > arr[i]) {\n            dp0 = dp1 + 1;\n            dp1 = 1;\n        } else if (arr[i - 1] < arr[i]) {\n            dp1 = dp0 + 1;\n            dp0 = 1;\n        } else {\n            dp0 = 1;\n            dp1 = 1;\n        }\n        ret = fmax(ret, dp0);\n        ret = fmax(ret, dp1);\n    }\n    return ret;\n}\n```\n\n**复杂度分析**\n\n- 时间复杂度：$O(n)$，其中 $n$ 为数组的长度。需要遍历数组 $\\textit{arr}$ 一次，计算 $\\textit{dp}$ 的值。\n\n- 空间复杂度：$O(1)$。使用空间优化的做法，只需要维护常数额外空间。",
+      "createdAt": "2021-02-07T14:00:27.558274+00:00",
+      "hitCount": 24627,
+      "identifier": "Vtq9C9",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "zui-chang-tuan-liu-zi-shu-zu-by-leetcode-zqoq",
+        "title": "🎦 最长湍流子数组"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "longest-turbulent-subarray"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 40,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "zui-chang-tuan-liu-zi-shu-zu-by-leetcode-t4d8",
+      "status": "PREPUBLISH",
+      "summary": "方法一：滑动窗口 设数组 $\\textit{arr}$ 的长度为 $n$，窗口 $\\textit{left},\\textit{right}$ 为当前的窗口，窗口内构成了一个「湍流子数组」。随后，我们要考虑下一个窗口的位置。 根据「湍流子数组」的定义，当 $0<\\textit{right}<n-1$ 时： 如果 $\\te",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Dynamic Programming",
+          "nameTranslated": "动态规划",
+          "slug": "dynamic-programming",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C",
+          "nameTranslated": "",
+          "slug": "c",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Go",
+          "nameTranslated": "",
+          "slug": "golang",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "JavaScript",
+          "nameTranslated": "",
+          "slug": "javascript",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "最长湍流子数组",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 121,
+        "id": 596355,
+        "viewCount": 16950
+      },
+      "uuid": "Vtq9C9",
+      "videosInfo": []
+    }
+  }
+}

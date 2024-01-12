@@ -1,0 +1,116 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "灵茶山艾府",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/endlesscheng/avatar_1589367048.png",
+          "userSlug": "endlesscheng"
+        },
+        "username": "endlesscheng"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "简单说一下为什么可以用 BFS。由于 $\\textit{time}$ 和 $\\textit{change}$ 是固定的，经过多少条边就知道花费了多少时间。因此这题本质上可以看成边权均为 $1$ 的图，我们要求的就是 $1$ 到 $n$ 的严格次短路的长度，知道长度就知道花费的时间。\r\n\r\n下面的代码是直接用 BFS 求次短时间。\r\n\r\n```go\r\nfunc secondMinimum(n int, edges [][]int, time, change int) int {\r\n\tg := make([][]int, n)\r\n\tfor _, e := range edges { // 建图\r\n\t\tv, w := e[0]-1, e[1]-1\r\n\t\tg[v] = append(g[v], w)\r\n\t\tg[w] = append(g[w], v)\r\n\t}\r\n\r\n\t// 传入当前时间 d，返回到达下一个节点的时间\r\n\tnext := func(d int) int {\r\n\t\tif times := d / change; times%2 == 1 { // 如果红绿灯切换次数为奇数，则现在是红灯\r\n\t\t\treturn (times+1)*change + time // 等绿灯再出发\r\n\t\t}\r\n\t\treturn d + time // 绿灯，直接出发\r\n\t}\r\n\r\n\tdis := make([][2]int, n) // 距离数组同时存 [最短路, 次短路]\r\n\tfor i := 1; i < n; i++ {\r\n\t\tdis[i] = [2]int{1e9, 1e9}\r\n\t}\r\n\ttype pair struct{ v, d int }\r\n\tq := []pair{{}}\r\n\tfor len(q) > 0 { // BFS 求最短路和次短路\r\n\t\tp := q[0] // 取队首\r\n\t\tq = q[1:]\r\n\t\tfor _, w := range g[p.v] {\r\n\t\t\td := next(p.d) // 到达节点 w 的时间\r\n\t\t\tif d < dis[w][0] { // d 比最短路小，就更新最短路\r\n\t\t\t\tdis[w][0] = d\r\n\t\t\t\tq = append(q, pair{w, d})\r\n\t\t\t} else if dis[w][0] < d && d < dis[w][1] { // d 比最短路大又比次短路小，就更新次短路\r\n\t\t\t\tdis[w][1] = d\r\n\t\t\t\tq = append(q, pair{w, d})\r\n\t\t\t}\r\n\t\t}\r\n\t}\r\n\tif dis[n-1][1] < 1e9 { // 存在次短路\r\n\t\treturn dis[n-1][1]\r\n\t}\r\n\treturn next(next(dis[n-1][0])) // 不存在次短路，就在最短路的基础上额外往返一次\r\n}\r\n```",
+      "createdAt": "2021-10-17T04:06:10.097623+00:00",
+      "hitCount": 2684,
+      "identifier": "eA2IND",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "javabfsshuang-bai-suan-fa-tong-su-yi-don-yqgt",
+        "title": "JAVA，BFS，双百算法通俗易懂"
+      },
+      "position": 2,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "wei-rao-li-lun-bfsji-lu-dao-di-er-duan-d-z67m",
+        "title": "【微扰理论】bfs记录到第二短的路径再break"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "second-minimum-time-to-reach-destination"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 21,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "bfs-qiu-ci-duan-lu-fu-xiang-xi-zhu-shi-b-igf7",
+      "status": "PREPUBLISH",
+      "summary": "简单说一下为什么可以用 BFS。由于 \\textit{time} 和 \\textit{change} 是固定的，经过多少条边就知道花费了多少时间。因此这题本质上可以看成边权均为 1 的图，我们要求的就是 1 到 n 的严格次短路的长度，知道长度就知道花费的时间。\n下面的代码是直接用 BFS 求次短时间。",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Breadth-First Search",
+          "nameTranslated": "广度优先搜索",
+          "slug": "breadth-first-search",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Graph",
+          "nameTranslated": "图",
+          "slug": "graph",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Shortest Path",
+          "nameTranslated": "最短路",
+          "slug": "shortest-path",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Go",
+          "nameTranslated": "",
+          "slug": "golang",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "BFS",
+          "nameTranslated": "",
+          "slug": "bfs",
+          "tagType": "ADDITIONAL_TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "最短路径算法",
+          "nameTranslated": "",
+          "slug": "zui-duan-lu-jing-suan-fa",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "",
+      "title": "BFS 求次短路，附详细注释",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 7,
+        "id": 1051494,
+        "viewCount": 1782
+      },
+      "uuid": "eA2IND",
+      "videosInfo": []
+    }
+  }
+}

@@ -1,0 +1,86 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "励志学好英语",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/mei-ri-li-kou/avatar_1627865657.png",
+          "userSlug": "mei-ri-li-kou"
+        },
+        "username": "mei-ri-li-kou"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n看注释即可\n\n### 代码\n\n```cpp\nclass Solution {\npublic:\n    int exchangeBits(int num) {\n        int t=0b01010101010101010101010101010101;\n        /*\n        int m=num;\n        num&=t;//保留奇数位\n        num<<=1;//此时奇数位上的数据已经全部转到偶数位上了\n        m&=(t<<1);//保留偶数位\n        num+=(m>>1);//奇数位和偶数位合并\n        return num;\n        */\n        //代码简化\n        return ((num&t)<<1)+((num&(t<<1))>>1);\n    }\n};\n```",
+      "createdAt": "2021-11-05T04:18:42.747770+00:00",
+      "hitCount": 317,
+      "identifier": "MoAKx4",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "wei-yun-suan-javascript-by-lzxjack-797a",
+        "title": "【位运算】JavaScript"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "exchange-lcci"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 5,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "wei-yun-suan-jian-dan-yi-dong-by-mei-ri-lanly",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n看注释即可\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Bit Manipulation",
+          "nameTranslated": "位运算",
+          "slug": "bit-manipulation",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C",
+          "nameTranslated": "",
+          "slug": "c",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "位运算，简单易懂",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 1,
+        "id": 1085330,
+        "viewCount": 264
+      },
+      "uuid": "MoAKx4",
+      "videosInfo": []
+    }
+  }
+}

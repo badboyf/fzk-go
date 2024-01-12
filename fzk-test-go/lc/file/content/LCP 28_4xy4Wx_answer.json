@@ -1,0 +1,83 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "浑元形意太极门马保国",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/default_avatar.png",
+          "userSlug": "shi-zi-bo-tu-r"
+        },
+        "username": "shi-zi-bo-tu-r"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "双指针常规题目\n\n### 代码\n\n```python3\nclass Solution:\n    def purchasePlans(self, nums: List[int], target: int) -> int:\n        nums.sort()\n        count = 0\n        left = 0\n        right = len(nums)-1\n        while(left<right):\n            if nums[left] + nums[right] > target:\n                right -= 1\n            elif nums[left] + nums[right] <= target:\n                left += 1\n                count += right - left + 1\n        return count%1000000007\n```",
+      "createdAt": "2021-10-29T13:53:51.920875+00:00",
+      "hitCount": 143,
+      "identifier": "mdrnIr",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "java-shuang-zhi-zhen-fa-zhu-xing-zhu-shi-pja9",
+        "title": "Java 双指针法，逐行注释（100%，100%）"
+      },
+      "position": 2,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "shuang-zhi-zhen-cai-gou-fang-an-by-demig-1jrv",
+        "title": "【双指针】采购方案"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "4xy4Wx"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "python-shuang-zhi-zhen-by-shi-zi-bo-tu-r-nrt4",
+      "status": "PREPUBLISH",
+      "summary": "双指针常规题目\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python3",
+          "nameTranslated": "",
+          "slug": "python3",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "python 双指针",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1073459,
+        "viewCount": 112
+      },
+      "uuid": "mdrnIr",
+      "videosInfo": []
+    }
+  }
+}

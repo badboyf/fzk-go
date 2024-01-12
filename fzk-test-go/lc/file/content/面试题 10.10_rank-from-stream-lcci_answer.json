@@ -1,0 +1,86 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "稳健",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/zhi-xing-qie-wen-jian-69/avatar_1612197356.png",
+          "userSlug": "wen-jian-69"
+        },
+        "username": "wen-jian-69"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 二分+插入排序\r\n```java\r\nclass StreamRank {\r\n\r\n    List<Integer> nums;\r\n\r\n    public StreamRank() {\r\n        nums = new ArrayList<>();\r\n    }\r\n    \r\n    public void track(int x) {\r\n        int index = getRankOfNumber(x); //插入的位置刚好就是第一个大于x的下标\r\n        nums.add(index, x);\r\n    }\r\n    \r\n    public int getRankOfNumber(int x) { //小于等于x的值的个数，等效找第一个大于x的下标\r\n        int n = nums.size();\r\n        if (n == 0) return 0;\r\n        //找第一个大于x的下标\r\n        int l = 0, r = n - 1;\r\n        while (l <= r) {\r\n            int mid = l + r >> 1;\r\n            if (nums.get(mid) <= x) l = mid + 1;\r\n            else if (nums.get(mid) > x) r = mid - 1;\r\n        }\r\n        return l;\r\n    }\r\n}\r\n```\r\n### 树状数组\r\n```java\r\nclass StreamRank {\r\n    int[] tree;\r\n    int n = 50001;\r\n    int lowbit(int x) {\r\n        return x & -x;\r\n    }\r\n    int query(int x) {\r\n        int ans = 0;\r\n        for (int i = x; i > 0; i -= lowbit(i)) ans += tree[i];\r\n        return ans;\r\n    }\r\n\r\n    void add(int x, int u) {\r\n        for (int i = x; i <= n; i += lowbit(i)) tree[i] += u;\r\n    }\r\n\r\n    public StreamRank() {\r\n        tree = new int[n + 1];\r\n    }\r\n    \r\n    public void track(int x) {\r\n        add(x + 1, 1);\r\n    }\r\n    \r\n    public int getRankOfNumber(int x) {\r\n        return query(x + 1);\r\n    }\r\n}\r\n```\r\n\r\n",
+      "createdAt": "2021-11-27T10:23:05.962829+00:00",
+      "hitCount": 5,
+      "identifier": "vSRuSG",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "java-shu-zhuang-shu-zu-by-lyl-36-k6a0",
+        "title": "JAVA 树状数组"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "rank-from-stream-lcci"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "mian-shi-ti-1010-shu-zi-liu-de-zhi-er-fe-0r3b",
+      "status": "PREPUBLISH",
+      "summary": "二分+插入排序\n树状数组",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "二分",
+          "nameTranslated": "",
+          "slug": "er-fen",
+          "tagType": "ADDITIONAL_TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "插入排序",
+          "nameTranslated": "",
+          "slug": "cha-ru-pai-xu",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "",
+      "title": "【面试题 10.10 数字流的秩】【二分 + 插入排序】【树状数组】Java简单实现",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1125223,
+        "viewCount": 4
+      },
+      "uuid": "vSRuSG",
+      "videosInfo": []
+    }
+  }
+}

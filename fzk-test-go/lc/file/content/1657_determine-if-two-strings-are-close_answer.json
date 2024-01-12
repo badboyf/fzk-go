@@ -1,0 +1,86 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "Provencih",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/provencih/avatar_1625672796.png",
+          "userSlug": "provencih"
+        },
+        "username": "Provencih"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n把题目要求翻译成人话就是，\n如果两个字符串：\n\n- 包含的字符种类完全一样；\n- 把各个字符的重复次数放在一个数组里，数组在排序后完全一样；\n\n那么这两个字符串接近。\n\n所以：\n- 如果两个字符串长度不一样，那么直接返回`false`；\n- 遍历两个字符串，用两个长度 $26$ 的数组存放次数；\n- 同时遍历这两个数组，如果在某下标 $i$ 处出现一个是 $0$ 一个不是 $0$（即异或结果是 $1$）的情况，那么直接返回`false`；\n- 排序后如果数组不相同，也返回`false`；\n- 否则返回`true`。\n\n### 代码\n\n```C++ []\nclass Solution {\npublic:\n    bool closeStrings(string word1, string word2) \n    {\n        int m = word1.size();\n        int n = word2.size();\n        if (m != n)\n            return false;\n        vector<int> repeat1(26, 0), repeat2(26, 0);\n        for (int i = 0; i < m; ++i)\n        {\n            ++repeat1[word1[i] - 'a'];\n            ++repeat2[word2[i] - 'a'];\n        }\n        for (int i = 0; i < 26; ++i)\n            if ((repeat1[i] == 0) ^ (repeat2[i] == 0))\n                return false;\n        sort(repeat1.begin(), repeat1.end());\n        sort(repeat2.begin(), repeat2.end());\n        for (int i = 0; i < 26; ++i)\n            if (repeat1[i] != repeat2[i])\n                return false;\n        return true;\n    }\n};\n```\n### 时空复杂度\n- 时间复杂度 ：$O(n)$，$n$ 是字符串的长度。虽然我们使用了排序，但是待排数组是个长度为 $26$ 的定长数组，对它进行遍历和排序的时间代价都是常数级的。\n- 空间复杂度：$O(1)$，算法只使用了常数级的空间。虽然我们使用了排序，但是由于数组长度永远不变，其空间代价依然是常数级的。",
+      "createdAt": "2020-11-15T05:39:21.661672+00:00",
+      "hitCount": 1888,
+      "identifier": "dZYWJ4",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "1657-determine-if-two-strings-are-close-3w3qw",
+        "title": "1657. Determine if Two Strings Are Close"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "determine-if-two-strings-are-close"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 13,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "tong-ji-zi-fu-de-chu-xian-ci-shu-jiu-hao-liao-by-p",
+      "status": "PUBLISHED",
+      "summary": "解题思路\n把题目要求翻译成人话就是，\n如果两个字符串：\n\n包含的字符种类完全一样；\n把各个字符的重复次数放在一个数组里，数组在排序后完全一样；\n\n那么这两个字符串接近。\n所以：\n\n如果两个字符串长度不一样，那么直接返回false；\n遍历两个字符串，用两个长度 26 的数组存放次数；\n同时遍历这两个数组，如果在某下标 i",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Hash Table",
+          "nameTranslated": "哈希表",
+          "slug": "hash-table",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "String",
+          "nameTranslated": "字符串",
+          "slug": "string",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "统计字符出现的种类和次数就好了",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 2,
+        "id": 485374,
+        "viewCount": 1537
+      },
+      "uuid": "dZYWJ4",
+      "videosInfo": []
+    }
+  }
+}

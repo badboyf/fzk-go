@@ -1,0 +1,79 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "zzu",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/123-2621/avatar_1628486303.png",
+          "userSlug": "123-2621"
+        },
+        "username": "123-2621"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "**假设array1 中 a 与 array2 中 b 交换**\r\ns1 = sum(array1)\r\ns2 = sum(array2)\r\n*交换后*\r\ns1 - a + b = s2 - b + a\r\n即 s1 - s2 = 2(a - b)\r\n**所以问题转换为在 array1, array2 中是否存在 a, b 使得 s1 - s2 = 2(a - b)**\r\n```\r\nclass Solution:\r\n    def findSwapValues(self, array1: List[int], array2: List[int]) -> List[int]:\r\n        s1 = sum(array1)\r\n        s2 = sum(array2)\r\n        target = s1 - s2 \r\n        if target % 2 != 0:\r\n            return []\r\n        target /= 2\r\n        dic1 = set(array1)\r\n        dic2 = set(array2)\r\n        for a in dic1:\r\n            if a - target in dic2:\r\n                return [a, int(a - target)]\r\n        return []\r\n```\r\n",
+      "createdAt": "2021-11-19T06:06:58.595435+00:00",
+      "hitCount": 54,
+      "identifier": "zW0lz8",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "java-shu-xue-fang-fa-zhu-xing-zhu-shi-94-eksk",
+        "title": "Java 数学方法，逐行注释（94.69%，7.87%）"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "sum-swap-lcci"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "shu-xue-tui-dao-zhao-dao-man-zu-de-tiao-fbe0k",
+      "status": "PUBLISHED",
+      "summary": "假设array1 中 a 与 array2 中 b 交换\ns1 = sum(array1)\ns2 = sum(array2)\n交换后\ns1 - a + b = s2 - b + a\n即 s1 - s2 = 2(a - b)\n所以问题转换为在 array1, array2 中是否存在 a, b 使得 s1 - s2 =",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python3",
+          "nameTranslated": "",
+          "slug": "python3",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "数学推导，找到满足的条件",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1110396,
+        "viewCount": 46
+      },
+      "uuid": "zW0lz8",
+      "videosInfo": []
+    }
+  }
+}

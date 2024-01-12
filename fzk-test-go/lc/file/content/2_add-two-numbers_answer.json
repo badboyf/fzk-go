@@ -1,0 +1,136 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣官方题解",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/leetcode-solution/avatar_1582018938.png",
+          "userSlug": "leetcode-solution"
+        },
+        "username": "LeetCode-Solution"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 📺 视频题解  \n![...2 Fixed - 仲耀晖(1).m4v](b46c6256-9646-42cc-8b46-351a0426a22c)\n\n### 📖 文字题解\n#### 方法一：模拟\n\n**思路与算法**\n\n由于输入的两个链表都是**逆序**存储数字的位数的，因此两个链表中同一位置的数字可以直接相加。\n\n我们同时遍历两个链表，逐位计算它们的和，并与当前位置的进位值相加。具体而言，如果当前两个链表处相应位置的数字为 $n1,n2$，进位值为 $\\textit{carry}$，则它们的和为 $n1+n2+\\textit{carry}$；其中，答案链表处相应位置的数字为 $(n1+n2+\\textit{carry}) \\bmod 10$，而新的进位值为 $\\lfloor\\frac{n1+n2+\\textit{carry}}{10}\\rfloor$。\n\n如果两个链表的长度不同，则可以认为长度短的链表的后面有若干个 $0$ 。\n\n此外，如果链表遍历结束后，有 $\\textit{carry} > 0$，还需要在答案链表的后面附加一个节点，节点的值为 $\\textit{carry}$。\n\n**代码**\n\n```C++ [sol1-C++]\nclass Solution {\npublic:\n    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {\n        ListNode *head = nullptr, *tail = nullptr;\n        int carry = 0;\n        while (l1 || l2) {\n            int n1 = l1 ? l1->val: 0;\n            int n2 = l2 ? l2->val: 0;\n            int sum = n1 + n2 + carry;\n            if (!head) {\n                head = tail = new ListNode(sum % 10);\n            } else {\n                tail->next = new ListNode(sum % 10);\n                tail = tail->next;\n            }\n            carry = sum / 10;\n            if (l1) {\n                l1 = l1->next;\n            }\n            if (l2) {\n                l2 = l2->next;\n            }\n        }\n        if (carry > 0) {\n            tail->next = new ListNode(carry);\n        }\n        return head;\n    }\n};\n```\n\n```Java [sol1-Java]\nclass Solution {\n    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {\n        ListNode head = null, tail = null;\n        int carry = 0;\n        while (l1 != null || l2 != null) {\n            int n1 = l1 != null ? l1.val : 0;\n            int n2 = l2 != null ? l2.val : 0;\n            int sum = n1 + n2 + carry;\n            if (head == null) {\n                head = tail = new ListNode(sum % 10);\n            } else {\n                tail.next = new ListNode(sum % 10);\n                tail = tail.next;\n            }\n            carry = sum / 10;\n            if (l1 != null) {\n                l1 = l1.next;\n            }\n            if (l2 != null) {\n                l2 = l2.next;\n            }\n        }\n        if (carry > 0) {\n            tail.next = new ListNode(carry);\n        }\n        return head;\n    }\n}\n```\n\n```JavaScript [sol1-JavaScript]\nvar addTwoNumbers = function(l1, l2) {\n    let head = null, tail = null;\n    let carry = 0;\n    while (l1 || l2) {\n        const n1 = l1 ? l1.val : 0;\n        const n2 = l2 ? l2.val : 0;\n        const sum = n1 + n2 + carry;\n        if (!head) {\n            head = tail = new ListNode(sum % 10);\n        } else {\n            tail.next = new ListNode(sum % 10);\n            tail = tail.next;\n        }\n        carry = Math.floor(sum / 10);\n        if (l1) {\n            l1 = l1.next;\n        }\n        if (l2) {\n            l2 = l2.next;\n        }\n    }\n    if (carry > 0) {\n        tail.next = new ListNode(carry);\n    }\n    return head;\n};\n```\n\n```Golang [sol1-Golang]\nfunc addTwoNumbers(l1, l2 *ListNode) (head *ListNode) {\n    var tail *ListNode\n    carry := 0\n    for l1 != nil || l2 != nil {\n        n1, n2 := 0, 0\n        if l1 != nil {\n            n1 = l1.Val\n            l1 = l1.Next\n        }\n        if l2 != nil {\n            n2 = l2.Val\n            l2 = l2.Next\n        }\n        sum := n1 + n2 + carry\n        sum, carry = sum%10, sum/10\n        if head == nil {\n            head = &ListNode{Val: sum}\n            tail = head\n        } else {\n            tail.Next = &ListNode{Val: sum}\n            tail = tail.Next\n        }\n    }\n    if carry > 0 {\n        tail.Next = &ListNode{Val: carry}\n    }\n    return\n}\n```\n\n```C [sol1-C]\nstruct ListNode* addTwoNumbers(struct ListNode* l1, struct ListNode* l2) {\n    struct ListNode *head = NULL, *tail = NULL;\n    int carry = 0;\n    while (l1 || l2) {\n        int n1 = l1 ? l1->val : 0;\n        int n2 = l2 ? l2->val : 0;\n        int sum = n1 + n2 + carry;\n        if (!head) {\n            head = tail = malloc(sizeof(struct ListNode));\n            tail->val = sum % 10;\n            tail->next = NULL;\n        } else {\n            tail->next = malloc(sizeof(struct ListNode));\n            tail->next->val = sum % 10;\n            tail = tail->next;\n            tail->next = NULL;\n        }\n        carry = sum / 10;\n        if (l1) {\n            l1 = l1->next;\n        }\n        if (l2) {\n            l2 = l2->next;\n        }\n    }\n    if (carry > 0) {\n        tail->next = malloc(sizeof(struct ListNode));\n        tail->next->val = carry;\n        tail->next->next = NULL;\n    }\n    return head;\n}\n```\n\n**复杂度分析**\n\n- 时间复杂度：$O(\\max(m,n))$，其中 $m$ 和 $n$ 分别为两个链表的长度。我们要遍历两个链表的全部位置，而处理每个位置只需要 $O(1)$ 的时间。\n\n- 空间复杂度：$O(1)$。注意返回值不计入空间复杂度。",
+      "createdAt": "2020-10-03T13:29:19.505698+00:00",
+      "hitCount": 512050,
+      "identifier": "fJgsxH",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "hua-jie-suan-fa-2-liang-shu-xiang-jia-by-guanpengc",
+        "title": "画解算法：2. 两数相加"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "add-two-numbers"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 460,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 32,
+          "reactionType": "AWESOME"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 29,
+          "reactionType": "CONFUSED"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 6,
+          "reactionType": "THUMBS_DOWN"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "liang-shu-xiang-jia-by-leetcode-solution",
+      "status": "PUBLISHED",
+      "summary": "📺 视频题解\n📖 文字题解\n 方法一：模拟\n思路与算法\n由于输入的两个链表都是逆序存储数字的位数的，因此两个链表中同一位置的数字可以直接相加。\n我们同时遍历两个链表，逐位计算它们的和，并与当前位置的进位值相加。具体而言，如果当前两个链表处相应位置的数字为 n1,n2，进位值为 \\textit{carry}，则它们的",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Linked List",
+          "nameTranslated": "链表",
+          "slug": "linked-list",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Math",
+          "nameTranslated": "数学",
+          "slug": "math",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C",
+          "nameTranslated": "",
+          "slug": "c",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Go",
+          "nameTranslated": "",
+          "slug": "golang",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "JavaScript",
+          "nameTranslated": "",
+          "slug": "javascript",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "两数相加",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 472,
+        "id": 435246,
+        "viewCount": 327291
+      },
+      "uuid": "fJgsxH",
+      "videosInfo": [
+        {
+          "__typename": "VideoInfoNode",
+          "coverUrl": "https://video.leetcode-cn.com/image/cover/049821620279485F80323898C0FA9574-6-2.png",
+          "duration": 215.4453,
+          "videoId": "85fed0c4aff541179bed98b84fee5f2c"
+        }
+      ]
+    }
+  }
+}

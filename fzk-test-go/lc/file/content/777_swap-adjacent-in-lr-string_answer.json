@@ -1,0 +1,91 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣 (LeetCode)",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/uploaded_files/2021/03/73c9f099-abbe-4d94-853f-f8abffd459cd/leetcode.png",
+          "userSlug": "leetcode"
+        },
+        "username": "LeetCode"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法一： 性质分析【通过】\n\n**思路**\n\n将 `'L'`，`'R'` 分别理解为一个队伍中面向左和面向右的人，`'X'` 理解为队伍中的空挡。可以问自己一个问题，一次移动操作之后有什么是保持不变的？ 这是状态转换问题中一个很常见的思路。\n\n**算法**\n\n这道题的 *转换不变性* 在于字符串中的 `'L'` 和 `'R'` 是不会互相穿插的，也就是队伍中的人在移动过程中是不能穿过人的。这意味着开始和结束的字符串如果只看 `'L'` 和 `'R'` 的话是一模一样的。\n\n除此之外，第 `n` 个 `'L'` 不可能移动到初始位置的右边，第 `n` 个 `'R'` 不可能移动到初始位置的左边，我们把这个特性称为 “*可到达性*“。设 $(i_1, i_2, \\cdots )$，$(i^{'}_1, i^{'}_2, \\cdots )$ 为每个字符 `'L'` 在原始字符串和目标字符串的位置，$(j_1, j_2, \\cdots )$，$(j^{'}_1, j^{'}_2, \\cdots )$ 为每个字符 `'R'` 在原始字符串和目标字符串的位置，如果 $i_k \\geq i^{'}_k$ 和 $j_k \\leq j^{'}_k$ 都能满足，这个字符串就是 ”*可到达的*“。\n\n根据 *转换不变性* 和 *可到达性*，在算法中可以分别检查这两个性质是否满足。如果都满足，则返回 `True`，否则返回 `False`。\n\n```java [solution1-Java]\nclass Solution {\n    public boolean canTransform(String start, String end) {\n        if (!start.replace(\"X\", \"\").equals(end.replace(\"X\", \"\")))\n            return false;\n\n        int t = 0;\n        for (int i = 0; i < start.length(); ++i)\n            if (start.charAt(i) == 'L') {\n                while (end.charAt(t) != 'L') t++;\n                if (i < t++) return false;\n            }\n\n        t = 0;\n        for (int i = 0; i < start.length(); ++i)\n            if (start.charAt(i) == 'R') {\n                while (end.charAt(t) != 'R') t++;\n                if (i > t++) return false;\n            }\n\n        return true;\n    }\n}\n```\n\n```python [solution1-Python]\nclass Solution(object):\n    def canTransform(self, start, end):\n        if start.replace('X','') != end.replace('X', ''):\n            return False\n\n        for (symbol, op) in (('L', operator.ge), ('R', operator.le)):\n            B = (i for i, c in enumerate(end) if c == symbol)\n            for i, c in enumerate(start):\n                if c == symbol and not op(i, next(B)):\n                    return False\n\n        return True\n```\n\n**复杂度分析**\n\n* 时间复杂度：$O(N)$，其中 $N$ 为 `start` 和 `end` 的长度。\n\n* 空间复杂度：$O(N)$。\n\n#### 方法二： 双指针 【通过】\n\n**思路和算法**\n\n由方法一可知，如果可以到达目标字符串，那么一定满足 *转换不变性* 和 *可到达性*。\n\n可以用双指针来解决这个问题，对于 `i`， `j` 两个指针，分别让他们指向 `start` 和 `end`，且保证 `start[i] != 'X'`，`end[j] != 'X'`。接下来开始移动指针，如果 `start[i] != end[j]`，则不满足 *转换不变性*，如果 `start[i] == 'L'` 且 `i < j`，则不满足 *可到达性*。\n\n```java [solution2-Java]\nclass Solution {\n    public boolean canTransform(String start, String end) {\n        int N = start.length();\n        char[] S = start.toCharArray(), T = end.toCharArray();\n        int i = -1, j = -1;\n        while (++i < N && ++j < N) {\n            while (i < N && S[i] == 'X') i++;\n            while (j < N && T[j] == 'X') j++;\n            /* At this point, i == N or S[i] != 'X',\n               and j == N or T[j] != 'X'.  i and j\n               are the indices representing the next\n               occurrences of non-X characters in S and T.\n            */\n\n            // If only one of i < N and j < N, then it isn't solid-\n            // there's more people in one of the strings.\n            if ((i < N) ^ (j < N)) return false;\n\n            if (i < N && j < N) {\n                // If the person isn't the same, it isn't solid.\n                // Or, if the person moved backwards, it isn't accessible.\n                if (S[i] != T[j] || (S[i] == 'L' && i < j) ||\n                        (S[i] == 'R' && i > j) )\n                    return false;\n            }\n        }\n        return true;\n    }\n}\n```\n\n```python [solution2-Python]\nclass Solution(object):\n    def canTransform(self, start, end):\n        # For (i, x) and (j, y) in enumerate(start), enumerate(end)\n        # where x != 'X' and y != 'X',\n        # and where if one exhausts early, it's elements are (None, None),...\n        for (i, x), (j, y) in itertools.izip_longest(\n                ((i, x) for i, x in enumerate(start) if x != 'X'),\n                ((j, y) for j, y in enumerate(end) if y != 'X'),\n                fillvalue = (None, None)):\n\n            # If not solid or accessible, return False\n            if x != y or (x == 'L' and i < j) or (x == 'R' and i > j):\n                return False\n\n        return True\n```\n\n**复杂度分析**\n\n* 空间复杂度：$O(N)$，其中 $N$ 为 `start` 和 `end` 的长度。\n\n* 空间复杂度：$O(1)$。",
+      "createdAt": "2019-11-12T07:29:27.360641+00:00",
+      "hitCount": 7524,
+      "identifier": "0QcLaq",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "jian-cha-lian-xian-shi-fou-xiang-jiao-by-k6xj",
+        "title": "检查连线是否相交"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "swap-adjacent-in-lr-string"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 11,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "zai-lrzi-fu-chuan-zhong-jiao-huan-xiang-lin-zi-fu-",
+      "status": "PUBLISHED",
+      "summary": "方法一： 性质分析【通过】 思路 将 'L'，'R' 分别理解为一个队伍中面向左和面向右的人，'X' 理解为队伍中的空挡。可以问自己一个问题，一次移动操作之后有什么是保持不变的？ 这是状态转换问题中一个很常见的思路。 算法 这道题的 转换不变性 在于字符串中的 'L' 和 'R' 是不会互相穿插的，也就是队伍中的人在移",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Two Pointers",
+          "nameTranslated": "双指针",
+          "slug": "two-pointers",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "在LR字符串中交换相邻字符",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 20,
+        "id": 42946,
+        "viewCount": 5000
+      },
+      "uuid": "0QcLaq",
+      "videosInfo": []
+    }
+  }
+}

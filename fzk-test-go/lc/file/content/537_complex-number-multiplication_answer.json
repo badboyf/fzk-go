@@ -1,0 +1,72 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣 (LeetCode)",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/uploaded_files/2021/03/73c9f099-abbe-4d94-853f-f8abffd459cd/leetcode.png",
+          "userSlug": "leetcode"
+        },
+        "username": "LeetCode"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "\n#### 方法：简单解法\n\n**算法**\n\n两个复数的乘法可以依下述方法完成：\n\n$$\n(a+ib) \\times (x+iy)=ax+i^2by+i(bx+ay)=ax-by+i(bx+ay)\n$$\n\n我们简单地根据 '+' 和 'i' 符号分割给定的复杂字符串的实部和虚部。我们把 $a$ 和 $b$ 两个字符串的实部分别存储为 $x[0]$ 和 $y[0]$，虚部分别用 $x[1]$ 和 $y[1]$ 存储。\n\n然后，将提取的部分转换为整数后，根据需要将实部和虚部相乘。然后，我们再次以所需的格式形成返回字符串，并返回结果。\n\n```java [hei4RdZk-Java]\npublic class Solution {\n\n    public String complexNumberMultiply(String a, String b) {\n        String x[] = a.split(\"\\\\+|i\");\n        String y[] = b.split(\"\\\\+|i\");\n        int a_real = Integer.parseInt(x[0]);\n        int a_img = Integer.parseInt(x[1]);\n        int b_real = Integer.parseInt(y[0]);\n        int b_img = Integer.parseInt(y[1]);\n        return (a_real * b_real - a_img * b_img) + \"+\" + (a_real * b_img + a_img * b_real) + \"i\";\n\n    }\n}\n```\n\n\n**复杂度分析**\n\n* 时间复杂度：$O(1)$，分割需要常量时间，因为字符串的长度非常小 $(<20)$。\n* 空间复杂度：$O(1)$，使用常量的额外空间。",
+      "createdAt": "2018-11-14T14:45:26.882160+00:00",
+      "hitCount": 7487,
+      "identifier": "JhhINI",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "go-san-xing-jie-jue-by-endlesscheng-jfzf",
+        "title": "Go 三行解决"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "complex-number-multiplication"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 7,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "fu-shu-cheng-fa-by-leetcode",
+      "status": "PUBLISHED",
+      "summary": "算法\n两个复数的乘法可以依下述方法完成：\n(a+ib) \\times (x+iy)=ax+i^2by+i(bx+ay)=ax-by+i(bx+ay)\n\n我们简单地根据 '+' 和 'i' 符号分割给定的复杂字符串的实部和虚部。我们把 a 和 b 两个字符串的实部分别存储为 x[0] 和 y[0]，虚部分别用 x[1] ",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Math",
+          "nameTranslated": "数学",
+          "slug": "math",
+          "tagType": "TOPIC"
+        }
+      ],
+      "thumbnail": "",
+      "title": "复数乘法",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 5,
+        "id": 3572,
+        "viewCount": 4705
+      },
+      "uuid": "JhhINI",
+      "videosInfo": []
+    }
+  }
+}

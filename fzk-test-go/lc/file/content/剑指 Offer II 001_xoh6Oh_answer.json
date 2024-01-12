@@ -1,0 +1,72 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "黄执林",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/huang-zhi-lin-x/avatar_1636852863.png",
+          "userSlug": "huang-zhi-lin-x"
+        },
+        "username": "huang-zhi-lin-x"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n其实吧，这个解法没什么新颖的地方，就是按照数字位来计算当前位是否满足 `>= divisor`，\n如果大于除数 (`Divisor`)，我们可以用 加法(`Addition`) | 减法(`Subtraction`) 对当前位进行 `Subtract`, 同时计算其被减的次数，说到这里其实除法的逻辑就是 被除数(`Dividend`) 中包含几个除数而已。我也尝试过改变除数的值，将其放大，然后减少其被操作的次数，从而降低时间复杂度。但是会失去精度。\n举个例子：`10 / 2 = 5`； 将除数放大为 `1 << 2` ，这样一来被操作的次数为 `2`, 余数(`Remainder`)为 `2`，那么问题来了怎么将 `2` 还原为 `5`，怎么得出余数与其次数的关系从而推导出还原的法则。\n如果朋友有建议，欢迎留言，谢谢\n言归正传：假设 `12345 / 2`；从被除数的最高位向右移动，第一位 `1` 不满足大于 `2`，因此 `1` 要拿出来去拼接下一位，然后用两位合并的数去与除数比较，如果 `>=`，就去 `Subtract`，接下来以此类推即可。\n\n### 代码\n\n```java\nclass Solution {\n    public int divide(int a, int b) {\n        long na = a, nb = b;\n        na = Math.abs(na);\n        nb = Math.abs(nb);\n        char[] chars = String.valueOf(na).toCharArray();\n        long c;\n        StringBuffer build = new StringBuffer();\n        StringBuilder res = new StringBuilder(0);\n        for (int i = 0; i < chars.length; i++) {\n            c = Long.valueOf(build.append(chars[i] - '0').toString());\n            if(c >= nb) {\n                res.append(sub(c, nb, build));\n            } else if (i != 0) {\n                res.append(0);\n            }\n        }\n        long ans = Long.valueOf(0 + res.toString());\n        if((a < 0 && b > 0) || (a > 0 && b < 0)) {\n            ans = -ans;\n        }\n        if(ans > Integer.MAX_VALUE) {\n            ans -= 1;\n        }\n        return (int)ans;\n    }\n\n    private int sub(long sum, long base, StringBuffer build){\n        long summarise = sum;\n        int cnt = 0;\n        while (summarise >= base) {\n            summarise -= base;\n            cnt++;\n        }\n        build.replace(0, build.length(),\"\");\n        build.append(summarise);\n        return cnt;\n    }\n}\n```",
+      "createdAt": "2021-11-27T10:57:20.779995+00:00",
+      "hitCount": 78,
+      "identifier": "rDqgt4",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "jian-dan-yi-dong-javac-pythonjs-zheng-sh-e8r6",
+        "title": "简单易懂Java/C++ /Python/js/go - 整数除法(剑指)"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "xoh6Oh"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "zheng-shu-chu-fa-bao-li-jie-fa-by-huang-p1poh",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n其实吧，这个解法没什么新颖的地方，就是按照数字位来计算当前位是否满足 >= divisor，\n如果大于除数 (Divisor)，我们可以用 加法(Addition) | 减法(Subtraction) 对当前位进行 Subtract, 同时计算其被减的次数，说到这里其实除法的逻辑就是 被除数(Dividend",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "整数除法 | 笔算法",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1125258,
+        "viewCount": 61
+      },
+      "uuid": "rDqgt4",
+      "videosInfo": []
+    }
+  }
+}

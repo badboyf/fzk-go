@@ -1,0 +1,77 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "墨逸尘",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/mo-yi-chen/avatar_1625628137.png",
+          "userSlug": "mo-yi-chen"
+        },
+        "username": "mo-yi-chen"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "\r\n![81F89CDA6EB3015C4F340F39921F2213.jpg](https://pic.leetcode-cn.com/1633311855-IsGGTD-81F89CDA6EB3015C4F340F39921F2213.jpg)\r\n\r\n # 就按照题目描述来写\n\r\n![image.png](https://pic.leetcode-cn.com/1633312145-KyKgyB-image.png)\r\n\r\n1.  i != j\r\n2.  nums [ i ]  + nums [ j ] = target ( 必须满足条件一 )\r\n\r\n ### 然后我就想两个for循环暴力过去，代码如下：\r\n\r\n```\r\nclass Solution:\r\n    def numOfPairs(self, nums: List[str], target: str) -> int:\r\n        n = len ( nums )\r\n        res = 0\r\n        for i in range ( n ) :\r\n            for j in range ( n ) :\r\n                if i != j :\r\n                    if nums [ i ] + nums [ j ] == target :\r\n                        res += 1\r\n        return res\r\n```\r\n\r\n ### 跑起来的结果是我没有想到的(可以算是混过去了？)\r\n\r\n![E67202E06353BA5C4F41450A0F80D85A.jpg](https://pic.leetcode-cn.com/1633311565-MOiWDm-E67202E06353BA5C4F41450A0F80D85A.jpg)\r\n\r\n #### 题解要是有哪些地方不对的，各位大佬可以提出来；若是有不同解法，也欢迎提出来\r\n\r\n![image.png](https://pic.leetcode-cn.com/1633318519-kIQLcU-image.png)\r\n\r\n\r\n ##### 题外话 ：我要被自己蠢哭了，呜呜呜，Markdown语法好难\n",
+      "createdAt": "2021-10-04T03:42:45.509000+00:00",
+      "hitCount": 420,
+      "identifier": "tpd065",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "bao-li-xun-zhao-javascript-by-lzxjack-snp9",
+        "title": "【暴力寻找】JavaScript"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "number-of-pairs-of-strings-with-concatenation-equal-to-target"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 7,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "5872lian-jie-deng-yu-mu-biao-zi-fu-chuan-mawv",
+      "status": "PREPUBLISH",
+      "summary": "就按照题目描述来写\n\ni != j\nnums [ i ]  + nums [ j ] = target ( 必须满足条件一 )\n\n然后我就想两个for循环暴力过去，代码如下：\n跑起来的结果是我没有想到的(可以算是混过去了？)\n 题解要是有哪些地方不对的，各位大佬可以提出来；若是有不同解法，也欢迎提出来\n 题外话 ：我要",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python3",
+          "nameTranslated": "",
+          "slug": "python3",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1633311565-MOiWDm-E67202E06353BA5C4F41450A0F80D85A.jpg",
+      "title": "2023.连接等于目标字符串的字符串对  ( python3 )",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 11,
+        "id": 1030381,
+        "viewCount": 338
+      },
+      "uuid": "tpd065",
+      "videosInfo": []
+    }
+  }
+}

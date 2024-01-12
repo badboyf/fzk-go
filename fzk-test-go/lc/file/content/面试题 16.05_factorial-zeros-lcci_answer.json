@@ -1,0 +1,77 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "CHerrY",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/hxz1998/avatar_1598535854.png",
+          "userSlug": "hxz1998"
+        },
+        "username": "hxz1998"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n> 来自 *程序员面试金典* 书上的方法.\n\n统计有多少个 `0`, 实际上是统计 `2` 和 `5` 一起出现多少对, 不过因为 `2` 出现的次数一定大于 `5` 出现的次数, 因此我们只需要检查 `5` 出现的次数就好了.\n那么在统计过程中, 我们只需要统计 `5, 10, 15, 25, ... 5^n` 这样 `5` 的整数倍项就好了.\n最后累加起来, 就是多少个 0.\n\n### 代码\n\n```java\nclass Solution {\n    public int trailingZeroes(int n) {\n        int cnt = 0;\n        for (long num = 5; n / num > 0; num *= 5) {\n            cnt += n / num;\n        }\n        return cnt;\n    }\n}\n```",
+      "createdAt": "2021-07-18T13:20:22.508504+00:00",
+      "hitCount": 1039,
+      "identifier": "FDEO6u",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "zhai-zi-ping-lun-qu-suan-tou-wang-bazuo-zhe-de-dai",
+        "title": "摘自评论区@suan-tou-wang-ba作者的代码，这里仅做记录使用"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "factorial-zeros-lcci"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 5,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": false,
+      "slug": "java-shu-shang-de-fang-fa-xu-yao-zhu-yi-974in",
+      "status": "PUBLISHED",
+      "summary": "解题思路\n\n来自 程序员面试金典 书上的方法.\n\n统计有多少个 0, 实际上是统计 2 和 5 一起出现多少对, 不过因为 2 出现的次数一定大于 5 出现的次数, 因此我们只需要检查 5 出现的次数就好了.\n那么在统计过程中, 我们只需要统计 5, 10, 15, 25, ... 5^n 这样 5 的整数倍项就好了.",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "Java 书上的方法, 需要注意数据溢出的情况(0ms, 35.5MB)",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 2,
+        "id": 883134,
+        "viewCount": 829
+      },
+      "uuid": "FDEO6u",
+      "videosInfo": []
+    }
+  }
+}

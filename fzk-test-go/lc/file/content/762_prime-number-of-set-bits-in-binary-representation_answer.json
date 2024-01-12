@@ -1,0 +1,84 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣 (LeetCode)",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/uploaded_files/2021/03/73c9f099-abbe-4d94-853f-f8abffd459cd/leetcode.png",
+          "userSlug": "leetcode"
+        },
+        "username": "LeetCode"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "####  方法一：\n**算法：**\n\n从 `L` 到 `R`，我们首先计算该数字转换为二进制有多少个 1。如果数量是 `2, 3, 5, 7, 11, 13, 17, 19`，则我们增加计数。最高是 19 的原因是 $R \\leq 10^6 < 2^{20}$。\n\n```python [solution1-Python]\nclass Solution(object):\n    def countPrimeSetBits(self, L, R):\n        primes = {2, 3, 5, 7, 11, 13, 17, 19}\n        return sum(bin(x).count('1') in primes\n                   for x in xrange(L, R+1))\n```\n\n```java [solution1-Java]\nclass Solution {\n    public int countPrimeSetBits(int L, int R) {\n        int ans = 0;\n        for (int x = L; x <= R; ++x)\n            if (isSmallPrime(Integer.bitCount(x)))\n                ans++;\n        return ans;\n    }\n    public boolean isSmallPrime(int x) {\n        return (x == 2 || x == 3 || x == 5 || x == 7 ||\n                x == 11 || x == 13 || x == 17 || x == 19);\n    }\n}\n```\n\n**复杂度分析**\n\n* 时间复杂度：$O(D)$，其中 $D = R-L$，指的是所需判断数字的个数。\n* 空间复杂度：$O(1)$。",
+      "createdAt": "2020-02-24T03:09:54.598771+00:00",
+      "hitCount": 5663,
+      "identifier": "Exa2BR",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "762-er-jin-zhi-biao-shi-zhong-zhi-shu-ge-v87c",
+        "title": "762. 二进制表示中质数个计算置位"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "prime-number-of-set-bits-in-binary-representation"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 4,
+          "reactionType": "AWESOME"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 4,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "er-jin-zhi-biao-shi-zhong-zhi-shu-ge-ji-suan-zhi-2",
+      "status": "PUBLISHED",
+      "summary": "方法一： 算法： 从 L 到 R，我们首先计算该数字转换为二进制有多少个 1。如果数量是 2, 3, 5, 7, 11, 13, 17, 19，则我们增加计数。最高是 19 的原因是 $R \\leq 10^6 < 2^{20}$。 python [solution1-Python] class Solution(obj",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "二进制表示中质数个计算置位",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 15,
+        "id": 107833,
+        "viewCount": 4791
+      },
+      "uuid": "Exa2BR",
+      "videosInfo": []
+    }
+  }
+}

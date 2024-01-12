@@ -1,0 +1,107 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "xiaowufeixia",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/default_avatar.png",
+          "userSlug": "xiaowufeixia"
+        },
+        "username": "xiaowufeixia"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n根据数据范围, 数轴的上限应该在6000(从2000前进两步退一步), 保险起见开到8000。(存疑)\n\nBFS的思路非常直接, layer记录当前跳数。注意visited应该保存的状态是(当前位置,当前向后跳的次数)。\n\nDFS同理, 返回的是当前状态下的最小值。\n\n### 代码\n\n#### BFS\n\n```java\nclass Solution {\n    // LC1654\n    public int minimumJumps(int[] forbidden, int a, int b, int x) {\n        // 它可以 往前 跳恰好 a个位置（即往右跳）。\n        // 它可以 往后跳恰好 b个位置（即往左跳）。\n        // 它不能 连续 往后跳 2 次。\n        // 它不能跳到任何forbidden数组中的位置。\n        // 跳蚤可以往前跳 超过 它的家的位置，但是它 不能跳到负整数 的位置。\n\n        final int LIMIT = 8000;\n        boolean[][] visited = new boolean[8001][2];\n        Set<Integer> forbid = new HashSet<>(forbidden.length);\n        for (int i : forbidden) forbid.add(i);\n        Deque<int[]> q = new LinkedList<>(); // [ 当前位置, 向后跳次数 ]\n        q.offer(new int[]{0, 0});\n        int layer = -1;\n        while (!q.isEmpty()) {\n            int qs = q.size();\n            layer++;\n            for (int i = 0; i < qs; i++) {\n                int[] p = q.poll();\n                int cur = p[0], backwardCount = p[1];\n                if (cur == x) return layer;\n                if (visited[cur][backwardCount]) continue;\n                visited[cur][backwardCount] = true;\n\n                if (cur + a <= LIMIT && !forbid.contains(cur + a)) {\n                    q.offer(new int[]{cur + a, 0});\n                }\n                if (cur - b >= 0 && backwardCount < 1 && !forbid.contains(cur - b)) {\n                    q.offer(new int[]{cur - b, backwardCount + 1});\n                }\n            }\n        }\n        return -1;\n\n    }\n}\n```\n\n#### DFS\n\n```java\nclass Solution {\n    // LC1654\n    final int LIMIT = 8000;\n    Long[][] memo = new Long[LIMIT+1][2];\n    boolean[][] visited = new boolean[LIMIT+1][2];\n\n    public int minimumJumps(int[] forbidden, int a, int b, int x) {\n        // 它可以 往前 跳恰好 a个位置（即往右跳）。\n        // 它可以 往后跳恰好 b个位置（即往左跳）。\n        // 它不能 连续 往后跳 2 次。\n        // 它不能跳到任何forbidden数组中的位置。\n        // 跳蚤可以往前跳 超过 它的家的位置，但是它 不能跳到负整数 的位置。\n        Set<Integer> forbid = new HashSet<>(forbidden.length);\n        for (int i : forbidden) forbid.add(i);\n        long result = helper(0, x, forbid, a, b, 0);\n        if (result == Integer.MAX_VALUE) return -1;\n        return (int) result;\n    }\n\n    private long helper(int cur, int target, Set<Integer> forbid, int forwardStep, int backwardStep, int backwardCount) {\n        if (memo[cur][backwardCount] != null) return memo[cur][backwardCount];\n        if (cur == target) return 0;\n        // if (visited[cur][backwardCount]) return Integer.MAX_VALUE; // 防止成环\n        visited[cur][backwardCount] = true;\n        long result = Integer.MAX_VALUE;\n        if (cur + forwardStep <= LIMIT && !forbid.contains(cur + forwardStep) && !visited[cur+forwardStep][0]) {\n            result = Math.min(result, 1 + helper(cur + forwardStep, target, forbid, forwardStep, backwardStep, 0));\n        }\n        if (cur - backwardStep >= 0 && backwardCount < 1 && !forbid.contains(cur - backwardStep) && !visited[cur- backwardStep][backwardCount+1]) {\n            result = Math.min(result, 1 + helper(cur - backwardStep, target, forbid, forwardStep, backwardStep, backwardCount + 1));\n        }\n        // visited[cur][backwardCount] = false;\n        return memo[cur][backwardCount] = result;\n    }\n}\n```",
+      "createdAt": "2021-11-04T07:33:58.075430+00:00",
+      "hitCount": 258,
+      "identifier": "1Or6La",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "cbfs-by-mountain-ocean-8dpo",
+        "title": "C++：BFS"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "minimum-jumps-to-reach-home"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "yan-du-you-xian-sou-suo-ji-yi-hua-shen-s-265w",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n根据数据范围, 数轴的上限应该在6000(从2000前进两步退一步), 保险起见开到8000。(存疑)\nBFS的思路非常直接, layer记录当前跳数。注意visited应该保存的状态是(当前位置,当前向后跳的次数)。\nDFS同理, 返回的是当前状态下的最小值。\n代码\n BFS\n DFS",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Depth-First Search",
+          "nameTranslated": "深度优先搜索",
+          "slug": "depth-first-search",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Breadth-First Search",
+          "nameTranslated": "广度优先搜索",
+          "slug": "breadth-first-search",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Memoization",
+          "nameTranslated": "记忆化搜索",
+          "slug": "memoization",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "BFS",
+          "nameTranslated": "",
+          "slug": "bfs",
+          "tagType": "ADDITIONAL_TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "DFS",
+          "nameTranslated": "",
+          "slug": "dfs",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "",
+      "title": "广度优先搜索 / 记忆化深搜 ",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1083772,
+        "viewCount": 168
+      },
+      "uuid": "1Or6La",
+      "videosInfo": []
+    }
+  }
+}

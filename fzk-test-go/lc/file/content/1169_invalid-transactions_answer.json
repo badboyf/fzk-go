@@ -1,0 +1,72 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "offer快到碗里来~",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/zhouzihong/avatar_1626862997.png",
+          "userSlug": "zhouzihong"
+        },
+        "username": "zhouzihong"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "![image.png](https://pic.leetcode-cn.com/1632897251-XRsfra-image.png)\r\n抽象图一二ij\r\n```\r\n\r\n\r\nclass Solution {\r\npublic:\r\n    vector<string> invalidTransactions(vector<string>& transactions) {\r\n        unordered_map<string,vector<int>>name2idxs;\r\n        vector<string>ans;\r\n        int n=transactions.size();\r\n        vector<int>vis(n);\r\n        for(int i=0;i<n;i++){\r\n            vector<string>tmp=split(transactions[i],\",\");\r\n            string name=tmp[0],city=tmp[3];\r\n            int time=stoi(tmp[1]),money=stoi(tmp[2]);\r\n            auto&idxs=name2idxs[name];\r\n            for(int idx:idxs){\r\n                vector<string>preTmp=split(transactions[idx],\",\");\r\n                int preTime=stoi(preTmp[1]);\r\n                string preCity=preTmp[3];\r\n                if(preCity!=city&&abs(time-preTime)<=60){\r\n                    if(vis[i]==0){\r\n                        ans.push_back(transactions[i]);\r\n                        vis[i]=1;\r\n                    }\r\n                    if(vis[idx]==0){\r\n                        vis[idx]=1;\r\n                        ans.push_back(transactions[idx]);\r\n                    }\r\n                }\r\n            }\r\n            if(money>1000&&vis[i]==0){  \r\n                vis[i]=1;\r\n                ans.push_back(transactions[i]);\r\n            }\r\n            name2idxs[name].push_back(i);\r\n        }\r\n        return ans;\r\n    }\r\n    vector<string>split(string&s,string c){\r\n        vector<string>ans;\r\n        int i=0,j;\r\n        while((j=s.find(c,i))!=-1){\r\n            ans.push_back(s.substr(i,j-i));\r\n            i=j+c.size();\r\n        }\r\n        if(i<s.size()){\r\n            ans.push_back(s.substr(i));\r\n        }\r\n        return ans;\r\n    }\r\n};\r\n```\r\nmap存储Node而不是idx，省去从idx转化为node\r\n```\r\nclass Solution {\r\npublic:\r\n    struct Node{\r\n        string city;\r\n        int time;\r\n        int idx;\r\n        Node(string _city,int _time,int _idx):city(_city),time(_time),idx(_idx){}\r\n    };\r\n    vector<string> invalidTransactions(vector<string>& transactions) {\r\n        unordered_map<string,vector<Node>>name2nodes;\r\n        vector<string>ans;\r\n        int n=transactions.size();\r\n        vector<int>vis(n);\r\n        for(int i=0;i<n;i++){\r\n            vector<string>tmp=split(transactions[i],\",\");\r\n            string name=tmp[0],city=tmp[3];\r\n            int time=stoi(tmp[1]),money=stoi(tmp[2]);\r\n            auto&preNodes=name2nodes[name];\r\n            for(auto &preNode:preNodes){\r\n                if(preNode.city!=city&&abs(preNode.time-time)<=60){\r\n                    if(vis[i]==0){\r\n                        ans.push_back(transactions[i]);\r\n                        vis[i]=1;\r\n                    }\r\n                    if(vis[preNode.idx]==0){\r\n                        ans.push_back(transactions[preNode.idx]);\r\n                        vis[preNode.idx]=1;\r\n                    }\r\n                }\r\n            }\r\n            if(money>1000&&vis[i]==0){\r\n                ans.push_back(transactions[i]);\r\n                vis[i]=1;\r\n            }\r\n            name2nodes[name].push_back(Node(city,time,i));\r\n        }\r\n        return ans;\r\n    }\r\n    vector<string>split(string&s,string c){\r\n        vector<string>ans;\r\n        int i=0,j;\r\n        while((j=s.find(c,i))!=-1){\r\n            ans.push_back(s.substr(i,j-i));\r\n            i=j+c.size();\r\n        }\r\n        if(i<s.size()){\r\n            ans.push_back(s.substr(i));\r\n        }\r\n        return ans;\r\n    }\r\n};\r\n```\r\n",
+      "createdAt": "2021-09-29T06:34:44.942422+00:00",
+      "hitCount": 186,
+      "identifier": "5Kslxv",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "javayi-li-jie-po-su-jie-fa-by-jieniyimia-cy0l",
+        "title": "JAVA 哈希表-易理解-解朴素解法"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "invalid-transactions"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "bu-tong-de-cun-chu-fang-shi-dai-lai-bu-t-iq1z",
+      "status": "PUBLISHED",
+      "summary": "抽象图一二ij\nmap存储Node而不是idx，省去从idx转化为node",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1632897251-XRsfra-image.png",
+      "title": "【不同的存储方式带来不同效率】",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1023847,
+        "viewCount": 156
+      },
+      "uuid": "5Kslxv",
+      "videosInfo": []
+    }
+  }
+}

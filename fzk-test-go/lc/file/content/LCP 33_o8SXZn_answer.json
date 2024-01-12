@@ -1,0 +1,72 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "稳健",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/zhi-xing-qie-wen-jian-69/avatar_1612197356.png",
+          "userSlug": "wen-jian-69"
+        },
+        "username": "wen-jian-69"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "- `总次数 = 倒水次数 + 水桶总升级次数`\r\n- 由倒水次数可以推出水桶的总升级次数,就可求出总次数，因此可以枚举倒水次数\r\n- `单个水桶的升级次数 = 该水桶容量 / 倒水次数 - 该水桶初始蓄水量`\r\n- 两处判断`if (pour >= ans)` `if (upgrade >= ans)`加上可以避免很多不必要的遍历\r\n```\r\nclass Solution {\r\n    public int storeWater(int[] bucket, int[] vat) {\r\n        int maxVat = 0;\r\n        for (int v : vat) maxVat = Math.max(v, maxVat);\r\n        if (maxVat == 0) return 0; //最大容量为0，代表不需蓄水，直接返回0\r\n        int ans = 10001;\r\n        for (int pour = 1; pour <= 10000; pour++) { //枚举倒水次数1-10000\r\n            if (pour >= ans) break; \r\n            int upgrade = 0;\r\n            for (int i = 0; i < vat.length; i++) { //枚举每个水桶，计算总升级次数\r\n                int cur = (int)Math.ceil((double)vat[i] / pour - bucket[i]); //容量/倒水次数-初始蓄水量=升级次数\r\n                upgrade += cur > 0 ? cur : 0;\r\n                if (upgrade >= ans) break;\r\n            }\r\n            ans = Math.min(ans, upgrade + pour); //倒水次数 + 总升级次数 = 总次数\r\n        }\r\n        return ans;\r\n    }\r\n}\r\n```\r\n",
+      "createdAt": "2021-09-07T12:07:02.691918+00:00",
+      "hitCount": 1345,
+      "identifier": "1a1DUk",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "lcp-33-xu-shui-by-zerotrac2-fyj5",
+        "title": "LCP 33. 蓄水"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "o8SXZn"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 7,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "lcp-33-xu-shui-javashi-xian-by-wen-jian-mnlgk",
+      "status": "PREPUBLISH",
+      "summary": "总次数 = 倒水次数 + 水桶总升级次数\n由倒水次数可以推出水桶的总升级次数,就可求出总次数，因此可以枚举倒水次数\n单个水桶的升级次数 = 该水桶容量 / 倒水次数 - 该水桶初始蓄水量\n两处判断if (pour >= ans) if (upgrade >= ans)加上可以避免很多不必要的遍历",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "【LCP 33. 蓄水】Java实现",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 984268,
+        "viewCount": 976
+      },
+      "uuid": "1a1DUk",
+      "videosInfo": []
+    }
+  }
+}

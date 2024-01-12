@@ -1,0 +1,76 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "Qiumg",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/qiumg/avatar_1613625202.png",
+          "userSlug": "qiumg"
+        },
+        "username": "Qiumg"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n此处撰写解题思路\n\n### 代码\n\n```java\nclass SubrectangleQueries {\n    int[][] a;\n    public SubrectangleQueries(int[][] rectangle) {\n            a=new int[rectangle.length][rectangle[0].length];\n            for(int i=0;i<a.length;i++){\n                 a[i]=rectangle[i].clone();\n            }\n    }\n    \n    public void updateSubrectangle(int row1, int col1, int row2, int col2, int newValue) {\n        for(int i=row1;i<=row2;i++){\n            for(int j=col1;j<=col2;j++){\n                a[i][j]=newValue;\n            }\n        }\n    }\n    \n    public int getValue(int row, int col) {\n        return a[row][col];\n    }\n}\n\n/**\n * Your SubrectangleQueries object will be instantiated and called as such:\n * SubrectangleQueries obj = new SubrectangleQueries(rectangle);\n * obj.updateSubrectangle(row1,col1,row2,col2,newValue);\n * int param_2 = obj.getValue(row,col);\n */\n```",
+      "createdAt": "2021-03-23T03:44:47.448532+00:00",
+      "hitCount": 746,
+      "identifier": "CsrVQr",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "1476-cjian-dan-yi-dong-de-li-shi-ji-lu-c-1ij8",
+        "title": "1476. c++简单易懂的历史记录查询解法"
+      },
+      "position": 3,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "bu-bao-li-geng-xin-ju-zhen-yuan-su-de-jie-fa-by-li",
+        "title": "不暴力更新矩阵元素的解法"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "subrectangle-queries"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 10,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "java-yun-yong-clone-ji-bai-96-by-qiumg-olyk",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n此处撰写解题思路\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "JAVA 运用Clone() 击败96%",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 5,
+        "id": 674906,
+        "viewCount": 624
+      },
+      "uuid": "CsrVQr",
+      "videosInfo": []
+    }
+  }
+}

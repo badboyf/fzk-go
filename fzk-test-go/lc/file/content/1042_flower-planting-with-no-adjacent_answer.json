@@ -1,0 +1,93 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "ffreturn",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/ffreturn/avatar_1608859813.png",
+          "userSlug": "ffreturn"
+        },
+        "username": "ffreturn"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "![image.png](https://pic.leetcode-cn.com/1633751741-zapmEP-image.png)\n\n\n### 解题思路\n图+递归解法\n- 基于paths构建一个图\n- 基于每个没有被填充花的去递归构建\n- 递归\n   - 排除邻居已经用的花，选择没用的花\n   - 按照图去个邻居填充颜色\n\n### 代码\n\n```cpp\n\nclass Solution {\nprivate:\n    void dfs(int curr, vector<int>& res, vector<vector<int>>& graph)\n    {\n        // 预留一个避免后续减操作\n        bool used[5];\n        memset(used, 0, sizeof(used));\n        for (int next : graph[curr])\n        {\n            if (res[next] != 0)\n            {\n                used[res[next]] = true;\n            }\n        }\n\n        for (int i = 1; i < 5; ++i)\n        {\n            if (!used[i])\n            {\n                res[curr] = i;\n                break;\n            }\n        }\n\n        for (int next : graph[curr])\n        {\n            if (res[next] == 0)\n            {\n                dfs(next, res, graph);\n            }\n        }\n    }\n\npublic:\n    vector<int> gardenNoAdj(int n, vector<vector<int>>& paths) {\n        // 构建图\n        vector<vector<int>> graph(n, vector<int>());\n        for (vector<int>& path : paths)\n        {\n            graph[path[0]-1].push_back(path[1]-1);\n            graph[path[1]-1].push_back(path[0]-1);\n        }\n\n        // 返回的结果\n        vector<int> res(n, 0);\n        for (int i = 0; i < n; ++i)\n        {\n            if (res[i] == 0)\n            {\n                dfs(i, res, graph);\n            }\n        }\n\n        return res;\n    }\n};\n```",
+      "createdAt": "2021-10-09T04:07:24.364207+00:00",
+      "hitCount": 334,
+      "identifier": "hmjBB2",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "4chong-hua-3lin-jie-wan-quan-ke-yi-dan-c-lq1x",
+        "title": "【4种花3邻接】【完全可以线性遍历】"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "flower-planting-with-no-adjacent"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "1042-cji-hu-shuang-bai-de-di-gui-jie-fa-hspkz",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n图+递归解法\n\n基于paths构建一个图\n基于每个没有被填充花的去递归构建\n递归\n\n排除邻居已经用的花，选择没用的花\n按照图去个邻居填充颜色\n\n\n\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Graph",
+          "nameTranslated": "图",
+          "slug": "graph",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Recursion",
+          "nameTranslated": "递归",
+          "slug": "recursion",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "梦想",
+          "nameTranslated": "",
+          "slug": "meng-xiang",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1633751741-zapmEP-image.png",
+      "title": "1042. c++几乎双百的递归解法",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1037757,
+        "viewCount": 266
+      },
+      "uuid": "hmjBB2",
+      "videosInfo": []
+    }
+  }
+}

@@ -1,0 +1,93 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "稳健",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/zhi-xing-qie-wen-jian-69/avatar_1612197356.png",
+          "userSlug": "wen-jian-69"
+        },
+        "username": "wen-jian-69"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 排序 + 顺序遍历\r\n```java\r\nclass Solution {\r\n    public int findPairs(int[] nums, int k) {\r\n        int n = nums.length, ans = 0;\r\n        Arrays.sort(nums);\r\n        for (int i = 0; i < n; i++) { //找nums[i]对应的nums[j]\r\n            if (i - 1 >= 0 && nums[i] == nums[i - 1]) continue;  //找过的nums[i]不需重复找\r\n            for (int j = i + 1; j < n; j++) {\r\n                int diff = nums[j] - nums[i];\r\n                if (diff == k) {\r\n                    ans++;\r\n                    break;\r\n                } else if (diff > k) {\r\n                    break;\r\n                }\r\n            }\r\n        }\r\n        return ans;\r\n    }\r\n}\r\n```\r\n### 排序 + 二分\r\n```java\r\nclass Solution {\r\n    public int findPairs(int[] nums, int k) {\r\n        int n = nums.length, ans = 0;\r\n        Arrays.sort(nums); \r\n        for (int i = 0; i < n; i++) { //找nums[i]对应的nums[j]\r\n            if (i - 1 >= 0 && nums[i] == nums[i - 1]) continue; //找过的nums[i]不需重复找\r\n            int target = nums[i] + k;\r\n            ans += binarySearch(nums, i + 1, n - 1, target);\r\n        }\r\n        return ans;\r\n    }\r\n    public int binarySearch(int[] nums, int l, int r, int target) {\r\n        while (l <= r) {\r\n            int mid = l + r >> 1;\r\n            if (nums[mid] > target) r = mid - 1;\r\n            else if (nums[mid] < target) l = mid + 1;\r\n            else return 1;\r\n        }\r\n        return 0;\r\n    }\r\n}\r\n```\r\n\r\n",
+      "createdAt": "2021-11-24T08:41:51.352811+00:00",
+      "hitCount": 25,
+      "identifier": "4Syo13",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "java-hashmap-by-feilue-jg3z",
+        "title": "Java HashMap"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "k-diff-pairs-in-an-array"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "532-shu-zu-zhong-de-k-diffshu-dui-pai-xu-2ega",
+      "status": "PUBLISHED",
+      "summary": "排序 + 顺序遍历\n排序 + 二分",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Sorting",
+          "nameTranslated": "排序",
+          "slug": "sorting",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "二分搜索",
+          "nameTranslated": "",
+          "slug": "er-fen-sou-suo",
+          "tagType": "ADDITIONAL_TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "二分",
+          "nameTranslated": "",
+          "slug": "er-fen",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "",
+      "title": "【532. 数组中的k-diff数对】【排序】【二分】简单排序+二分",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1119970,
+        "viewCount": 20
+      },
+      "uuid": "4Syo13",
+      "videosInfo": []
+    }
+  }
+}

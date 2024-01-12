@@ -1,0 +1,79 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "用DFS搜到<锅包又>",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/yzboostforest/avatar_1625113111.png",
+          "userSlug": "yzboostforest"
+        },
+        "username": "YZBoostForest"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n此处撰写解题思路\n\n### 代码\n\n```python3\nclass Solution:\n    def nearestValidPoint(self, x: int, y: int, points: List[List[int]]) -> int:\n        heap = []\n        for i in range(len(points)):\n            a, b = points[i]\n            if x==a or b==y:\n                heapq.heappush(heap, (abs(x-a)+abs(b-y), i))\n\n        return heapq.heappop(heap)[1] if heap else -1\n```",
+      "createdAt": "2021-11-26T16:29:30.688435+00:00",
+      "hitCount": 3,
+      "identifier": "mtvOn4",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "c-python3-bian-li-zuo-hao-tong-ji-he-gen-gx87",
+        "title": "c++/python3 遍历，做好统计和更新"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "find-nearest-point-that-has-the-same-x-or-y-coordinate"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "heapying-yong-ti-by-yzboostforest-dsvi",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n此处撰写解题思路\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Heap",
+          "nameTranslated": "堆",
+          "slug": "heap",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "heap应用题",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1124351,
+        "viewCount": 3
+      },
+      "uuid": "mtvOn4",
+      "videosInfo": []
+    }
+  }
+}

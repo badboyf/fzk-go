@@ -1,0 +1,83 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "vanilla111",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/vanilla111/avatar_1566265236.png",
+          "userSlug": "vanilla111"
+        },
+        "username": "vanilla111"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "二进制枚举（更多的时候我们叫其为`状态压缩`）是在一些题目中常见的技巧，例如本体中，`nums.length <= 10`，所以我们可以**用10个bit来表示每个下标的元素取或者不取**，而Java中的int有32位，所以足够我们来进行状态枚举了。\n\n``` java\nclass Solution {\n    public static List<List<Integer>> subsets(int[] nums) {\n        List<List<Integer>> res = new ArrayList<>();\n        // i 就是枚举的状态，取值范围[0, 2^nums.length)\n        for (int i = 0; i < Math.pow(2, nums.length); i++) {\n            List<Integer> subRes = new ArrayList<>();\n            for (int j = 0; j < nums.length; j++) {\n                if ((i & (1 << j)) > 0) {\n                    subRes.add(nums[j]);\n                }\n            }\n            res.add(subRes);\n        }\n        return res;\n    }\n}\n```\n",
+      "createdAt": "2021-09-10T02:10:56.744899+00:00",
+      "hitCount": 1020,
+      "identifier": "Hx4SWC",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "jian-dan-de-jie-fa-ji-yu-wu-zhong-fu-bu-e8ah7",
+        "title": "简单的解法，基于无重复，不dfs，不回溯，不位运算。"
+      },
+      "position": 2,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "mi-ji-bie-yang-de-hui-su-by-hut-ksy-7r0c",
+        "title": "幂集----别样的回溯"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "TVdhkn"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 9,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "java-er-jin-zhi-mei-ju-zhuang-tai-ya-suo-9xxz",
+      "status": "PREPUBLISH",
+      "summary": "二进制枚举（更多的时候我们叫其为状态压缩）是在一些题目中常见的技巧，例如本体中，nums.length <= 10，所以我们可以用10个bit来表示每个下标的元素取或者不取，而Java中的int有32位，所以足够我们来进行状态枚举了。",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "二进制",
+          "nameTranslated": "",
+          "slug": "er-jin-zhi",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "",
+      "title": "Java 二进制枚举/状态压缩",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 989059,
+        "viewCount": 848
+      },
+      "uuid": "Hx4SWC",
+      "videosInfo": []
+    }
+  }
+}

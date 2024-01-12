@@ -1,0 +1,76 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "KevinBreet",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/guo-zi-hao/avatar_1581470081.png",
+          "userSlug": "guo-zi-hao"
+        },
+        "username": "guo-zi-hao"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "这道题的结题方法基本都一样，用栈，遇数字压入，遇运算符弹出两数字运算后结果压入。\r\n这里我用Integer.parseInt(str)的try-catch异常处理，依据题目而言是符合的。\r\n\r\n代码如下:\r\n```\r\n    public int evalRPN(String[] tokens) {\r\n        Stack<Integer> sta = new Stack<>();\r\n        for(String token:tokens)\r\n        {\r\n            try{\r\n                sta.push(Integer.parseInt(token));\r\n            }catch(NumberFormatException e)\r\n            {\r\n                //符号\r\n                int lat = sta.pop();\r\n                int pre = sta.pop();\r\n                if(token.equals(\"+\")) sta.push(pre+lat);\r\n                else if(token.equals(\"-\")) sta.push(pre-lat);\r\n                else if(token.equals(\"*\")) sta.push(pre*lat);\r\n                else sta.push(pre/lat);\r\n            }\r\n        }\r\n        return sta.peek();\r\n    }\r\n```\r\n",
+      "createdAt": "2021-11-18T09:57:01.358528+00:00",
+      "hitCount": 87,
+      "identifier": "cJSmLP",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "shua-chuan-jian-zhi-offer-day10-zi-fu-ch-c9f1",
+        "title": "刷穿剑指offer-Day17-栈I-036.后缀表达式 栈与lambda表达式的极简操作！"
+      },
+      "position": 2,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "python3zhan-zhu-yi-fu-shu-zheng-chu-de-k-fb6r",
+        "title": "python3+栈+注意负数整除的坑"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "8Zf90G"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "java-zhan-mo-ni-yun-suan-guo-cheng-shao-82lni",
+      "status": "PREPUBLISH",
+      "summary": "这道题的结题方法基本都一样，用栈，遇数字压入，遇运算符弹出两数字运算后结果压入。\n这里我用Integer.parseInt(str)的try-catch异常处理，依据题目而言是符合的。\n代码如下:",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "java 栈模拟运算过程 少一次判断符号 ",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1108926,
+        "viewCount": 77
+      },
+      "uuid": "cJSmLP",
+      "videosInfo": []
+    }
+  }
+}

@@ -1,0 +1,77 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "lucky845",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/lucky845/avatar_1633313566.png",
+          "userSlug": "lucky845"
+        },
+        "username": "lucky845"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "```\r\nclass Solution {\r\n    public int maxNumberOfBalloons(String text) {\r\n        // balloon\r\n        int[] arr = new int[5];\r\n        for(char c : text.toCharArray()){\r\n            if(c == 'b') arr[0]++;\r\n            if(c == 'a') arr[1]++;\r\n            if(c == 'l') arr[2]++;\r\n            if(c == 'o') arr[3]++;\r\n            if(c == 'n') arr[4]++;\r\n        }\r\n        arr[2] >>= 1;\r\n        arr[3] >>= 1;\r\n//        Arrays.sort(arr);\r\n//        return arr[0];\r\n\r\n        return Arrays.stream(arr).min().getAsInt();\r\n    }\r\n}\r\n```\r\n",
+      "createdAt": "2021-10-13T14:17:54.576129+00:00",
+      "hitCount": 165,
+      "identifier": "cxxe0q",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "javasript-qiu-zui-xiao-chu-xian-de-ci-sh-zl17",
+        "title": "javasript 求最小出现的次数，重复数需要除2取整"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "maximum-number-of-balloons"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 4,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "1189qi-qiu-de-zui-da-shu-liang-by-lucky8-hgwt",
+      "status": "PREPUBLISH",
+      "summary": "[该用户太懒了，只写了 19 行代码]",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "1189.“气球”的最大数量",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1045854,
+        "viewCount": 143
+      },
+      "uuid": "cxxe0q",
+      "videosInfo": []
+    }
+  }
+}

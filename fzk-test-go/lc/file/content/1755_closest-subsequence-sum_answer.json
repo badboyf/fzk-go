@@ -1,0 +1,105 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "温柔一刀123",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/wen-rou-yi-dao-123/avatar_1602559228.png",
+          "userSlug": "wen-rou-yi-dao-123"
+        },
+        "username": "wen-rou-yi-dao-123"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n  \n1、显然要枚举所有子集，但是n=40，复杂度2^n太高了。  \n  \n2、但是我们注意到，2^20≈10^6是一个可以接受的复杂度，这就提示我们要把原数组拆分为两半。\n  \n3、拆分以后，答案分为4种情况：  \n  \nA、空集，这意味着取任何一个数都会离goal越来越远。例如nums=[5,6,7]，goal=1。  \n  \nB、答案在前一半之中，我们将前一半数组的所有子集的和排序，然后二分查找离goal最近的。（仅处理该情况并不需要排序，但是第4种情况一定需要排序）  \n  \nC、和场景B一样，只是处理原数组的后一半数据。  \n  \nD、答案在前后子集各取一部分合并，这种情况就需要用到双指针。令两部分子集的和分别是sums1、sums2，将它们排序，left指向sums1开头，right指向sums2末尾，依次比较sums1[left]+sums2[right]和goal的大小关系，如果比goal大则right减1，如果比goal小则left加1，直到任何一个指针超出数组的范围。这个过程中维护abs(sums1[left]+sums2[right]-goal)的最小值即可。  \n  \n4、最后，关于枚举所有子集的和，可以使用状态压缩的DP完成。对于n个数的数组nums，显然它的所有子集有1 << n个，这些子集刚好和集合[0,1,2...(1 << n) - 1]一一对应。所以我们可以用这些整数来表示这个集合，如果该整数的二进制位中某一位i为1，就表示该子集选中了nums[i]，如果为0就表示没有选中它。对于某个集合i，假设它任意一个为1的位置是j，那么sums[i]=sums[i ^ j] + nums[j]。也就是说，对于集合i，在加入nums[j]以前，它的和是sums[i ^ j]，i ^ j刚好将i的第j位置为0，表示没有选择nums[j]，所以第j个数加进来之后就是sums[i ^ j] + nums[j]。这样我们从小到大遍历所有的i即可求出所有sums，该顺序保证了求到sums[i]时，sums[i ^ j]一定是已经计算过的，因为i ^ j一定小于i。\n\n### 复杂度分析  \n\n时间复杂度：记数组长度的一半是n，则遍历子集是2 * 2^n，每个子集找任意一个1的位置需要n，所以遍历的时间复杂度是2 * 2^n * n。子集和的个数是2 * 2^n，排序需要2 * 2^n * log(2^n) = 2 * 2^n * n。双指针只需要遍历一次所有子集和，复杂度是2^n。\n  \n空间复杂度：需要记录所有的子集和，空间复杂度是2 * 2^n。\n\n### 代码\n\n```cpp\nclass Solution {\npublic:\n    int minAbsDifference(vector<int>& nums, int goal) {\n        int size = nums.size(), half = size / 2, minDiff = abs(goal);  // 子集为空\n        vector<int> sums1(1 << half, 0), sums2(1 << (size - half), 0);\n\n        getSums(nums, 0, sums1);  // 子集在前半部分\n        sort(sums1.begin(), sums1.end());\n        auto iter = lower_bound(sums1.begin(), sums1.end(), goal);\n        if (iter != sums1.end()) {\n            minDiff = min(minDiff, *iter - goal);\n        }\n        if (iter != sums1.begin()) {\n            minDiff = min(minDiff, goal - *(--iter));\n        }\n\n        getSums(nums, half, sums2);  // 子集在后半部分\n        sort(sums2.begin(), sums2.end());\n        iter = lower_bound(sums2.begin(), sums2.end(), goal);\n        if (iter != sums2.end()) {\n            minDiff = min(minDiff, *iter - goal);\n        }\n        if (iter != sums2.begin()) {\n            minDiff = min(minDiff, goal - *(--iter));\n        }\n\n        return min(minDiff, getMinDiff(sums1, sums2, goal));  // 子集在前后子集各取一部分合并\n    }\n\n    void getSums(vector<int>& nums, int start, vector<int>& sums) {\n        int i, j, bit, size = sums.size();\n\n        for (i = 1; i < size; ++i) {\n            for (j = 0, bit = 1; bit < size; ++j, bit <<= 1) {\n                if ((i & bit) != 0) {\n                    sums[i] = sums[i ^ bit] + nums[j + start];\n                    break;\n                }\n            }\n        }\n    }\n\n    int getMinDiff(vector<int>& nums1, vector<int>& nums2, int goal) {\n        int left = 0, right = nums2.size() - 1, size = nums1.size(), minDiff = INT_MAX;\n\n        while (left < size && right >= 0) {\n            int sum = nums1[left] + nums2[right];\n            minDiff = min(minDiff, abs(sum - goal));\n\n            if (sum == goal) {\n                break;\n            }\n            else if (sum > goal) {\n                --right;\n            }\n            else {\n                ++left;\n            }\n        }\n\n        return minDiff;\n    }\n};\n```",
+      "createdAt": "2021-10-15T11:10:29.461960+00:00",
+      "hitCount": 492,
+      "identifier": "FWa4vF",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "zhuang-tai-er-fen-by-lianxin-7dfp",
+        "title": "状压二分"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "closest-subsequence-sum"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 5,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "THUMBS_DOWN"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "shu-zu-chai-fen-zhuang-tai-ya-suo-dp-shu-538p",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n1、显然要枚举所有子集，但是n=40，复杂度2^n太高了。\n2、但是我们注意到，2^20≈10^6是一个可以接受的复杂度，这就提示我们要把原数组拆分为两半。\n3、拆分以后，答案分为4种情况：\nA、空集，这意味着取任何一个数都会离goal越来越远。例如nums=[5,6,7]，goal=1。\nB、答案在前一半之",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Two Pointers",
+          "nameTranslated": "双指针",
+          "slug": "two-pointers",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Binary Search",
+          "nameTranslated": "二分查找",
+          "slug": "binary-search",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Dynamic Programming",
+          "nameTranslated": "动态规划",
+          "slug": "dynamic-programming",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Bitmask",
+          "nameTranslated": "状态压缩",
+          "slug": "bitmask",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "数组拆分 + 状态压缩DP + 双指针",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 1,
+        "id": 1049224,
+        "viewCount": 359
+      },
+      "uuid": "FWa4vF",
+      "videosInfo": []
+    }
+  }
+}

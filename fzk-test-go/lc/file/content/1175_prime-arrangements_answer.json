@@ -1,0 +1,79 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "Meng",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/YPGD0t1UZK/avatar_1616913230.png",
+          "userSlug": "YPGD0t1UZK"
+        },
+        "username": "YPGD0t1UZK"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n此处撰写解题思路\n\n### 代码\n\n```python\nclass Solution(object):\n    def numPrimeArrangements(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: int\n        \"\"\"\n        num = []\n        total = 1\n        for i in range(2,n+1):\n            for j in range(2,n//2+1):\n                if i % j == 0 and i / j != 1:\n                    break\n                else:\n                    continue\n            else:\n                num.append(i)\n        num = len(num)\n        num1 = n - num\n        for i in range(1,num+1):\n            total *= i\n        for i in range(1,num1+1):\n            total *= i\n        return total % (10**9 + 7)\n```",
+      "createdAt": "2021-11-11T16:51:43.488797+00:00",
+      "hitCount": 64,
+      "identifier": "hs6Osz",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "yi-dao-jian-dan-ti-by-euyvvl-fmor",
+        "title": "一道简单题"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "prime-arrangements"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "zhao-chu-zhi-shu-qiu-pai-lie-shu-by-ypgd-zwex",
+      "status": "PUBLISHED",
+      "summary": "解题思路\n此处撰写解题思路\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python3",
+          "nameTranslated": "",
+          "slug": "python3",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "找出质数，求排列数",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1097083,
+        "viewCount": 52
+      },
+      "uuid": "hs6Osz",
+      "videosInfo": []
+    }
+  }
+}

@@ -1,0 +1,86 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "xiaowufeixia",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/default_avatar.png",
+          "userSlug": "xiaowufeixia"
+        },
+        "username": "xiaowufeixia"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n定义深搜函数 helper(fromRow, fromCol, cuts), 分别表示现在可以切的披萨的左上角的坐标(fromRow, fromCol), 以及之前切了多少刀(cuts)。此即为状态元组。返回这种状态下的切分方法数。\n\n分打横、打竖切两种情况:\n* 每次从fromRow开始打横切, 校验切出来的部分苹果个数是否超过1, 如果超过, 继续校验剩下的苹果数是否大于等于剩下的人数, 如果是, 继续深搜\n* 打竖亦然\n\n边界条件为:\n* 如果苹果数量少于人数 返回0\n* 如果此时只剩下一个人, 但剩下的苹果数量超过1, 则这种切法为有效切法, 返回1\n* 如果不满足前述边界条件, 且fromRow fromCol 越界, 此时返回0\n\n然后开辟空间记忆化即可。求每次切分出来的苹果数量可以用二维前缀和加速。\n\nhelper(0,0,0)即为所求结果。\n\n时间复杂度为 O(m * n * (m+n) * k )\n空间复杂度为 O(m * n * k)\n\n\n### 代码\n\n```java\nclass Solution {\n    // LC1444\n    final long mod = 1000000007l;\n    Integer[][][] memo = new Integer[51][51][11];\n\n    public int ways(String[] pizza, int k) {\n        char[][] mtx = new char[pizza.length][];\n        for (int i = 0; i < mtx.length; i++) mtx[i] = pizza[i].toCharArray();\n        int m = mtx.length, n = mtx[0].length;\n        int[][] prefix = new int[m + 1][n + 1];\n        for (int i = 0; i < m; i++) {\n            for (int j = 0; j < n; j++) {\n                prefix[i + 1][j + 1] = (mtx[i][j] == 'A' ? 1 : 0) + prefix[i + 1][j] + prefix[i][j + 1] - prefix[i][j];\n            }\n        }\n        return helper(0, 0, 0, k, prefix[m][n], prefix);\n    }\n\n    private int helper(int fromRow, int fromCol, int cuts, int peopleLeft, int applesRemain, int[][] prefix) {\n        if (applesRemain < peopleLeft) return 0;\n        int m = prefix.length - 1, n = prefix[0].length - 1;\n        if (peopleLeft == 1 && applesRemain >= 1) {\n            return 1;\n        }\n        if (fromRow >= m || fromCol >= n) return 0; // 越界了\n        if (memo[fromRow][fromCol][cuts] != null) return memo[fromRow][fromCol][cuts];\n        long result = 0;\n        // 从上面切打横切\n        for (int i = fromRow; i < m; i++) {\n            // 先校验有没有苹果\n            int appleCount = prefix[i + 1][n] - prefix[i + 1][fromCol] - prefix[fromRow][n] + prefix[fromRow][fromCol];\n            if (appleCount < 1) continue;\n\n            // 然后校验切完之后苹果够不够分\n            if (applesRemain - appleCount < peopleLeft - 1) break;\n\n            // 都没问题才进入下一步\n            result += helper(i + 1, fromCol, cuts + 1, peopleLeft - 1, applesRemain - appleCount, prefix);\n        }\n        for (int j = fromCol; j < n; j++) {\n            int appleCount = prefix[m][j + 1] - prefix[fromRow][j + 1] - prefix[m][fromCol] + prefix[fromRow][fromCol];\n            if (appleCount < 1) continue;\n            if (applesRemain - appleCount < peopleLeft - 1) break;\n            result += helper(fromRow, j + 1, cuts + 1, peopleLeft - 1, applesRemain - appleCount, prefix);\n        }\n        return memo[fromRow][fromCol][cuts] = (int) (result % mod);\n    }\n}\n```",
+      "createdAt": "2021-11-15T03:45:04.186714+00:00",
+      "hitCount": 21,
+      "identifier": "Go4ttV",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "dong-tai-gui-hua-c-by-smilyt_",
+        "title": "动态规划 c++ 看我啊"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "number-of-ways-of-cutting-a-pizza"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "er-wei-qian-zhui-he-ji-yi-hua-sou-suo-by-ap99",
+      "status": "PUBLISHED",
+      "summary": "解题思路\n定义深搜函数 helper(fromRow, fromCol, cuts), 分别表示现在可以切的披萨的左上角的坐标(fromRow, fromCol), 以及之前切了多少刀(cuts)。此即为状态元组。返回这种状态下的切分方法数。\n分打横、打竖切两种情况:\n\n每次从fromRow开始打横切, 校验切出来的部",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Memoization",
+          "nameTranslated": "记忆化搜索",
+          "slug": "memoization",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Prefix Sum",
+          "nameTranslated": "前缀和",
+          "slug": "prefix-sum",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "二维前缀和 + 记忆化搜索",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1102678,
+        "viewCount": 16
+      },
+      "uuid": "Go4ttV",
+      "videosInfo": []
+    }
+  }
+}

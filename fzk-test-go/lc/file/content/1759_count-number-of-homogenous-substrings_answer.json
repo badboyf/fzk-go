@@ -1,0 +1,93 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "EUY",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/euyvvl/avatar_1635000444.png",
+          "userSlug": "euyvvl"
+        },
+        "username": "EUYVVL"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n**一道比较简单的数学题**\n1. 在字符串末尾加上'!'来处理结尾连续的字符子串;\n2. 注意处理数据已溢出;\n### 代码\n\n```cpp\nclass Solution {\npublic:\n    static constexpr int mod=1e9+7;\n    int countHomogenous(string s) {\n        s.push_back('!');\n        int N=s.size();\n        int start=0;\n        long long res=0;\n        for(int i=0;i<N;i++){\n            if(s[i]!=s[start]){\n                int cnt=i-start;\n                res+=(cnt+1)*1ll*cnt*1ll/2;\n                res%=mod;\n                start=i;\n            }\n        }\n        return res%mod;\n    }\n};\n```",
+      "createdAt": "2021-10-13T06:58:23.519738+00:00",
+      "hitCount": 75,
+      "identifier": "iZnPvv",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "biao-zhun-hua-dong-chuang-kou-jie-fa-by-109jl",
+        "title": "标准滑动窗口解法"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "count-number-of-homogenous-substrings"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "yi-dao-bi-jiao-jian-dan-de-shu-xue-ti-by-63ah",
+      "status": "PUBLISHED",
+      "summary": "解题思路\n一道比较简单的数学题\n\n在字符串末尾加上'!'来处理结尾连续的字符子串;\n注意处理数据已溢出;\n\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Math",
+          "nameTranslated": "数学",
+          "slug": "math",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "String",
+          "nameTranslated": "字符串",
+          "slug": "string",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Counting",
+          "nameTranslated": "计数",
+          "slug": "counting",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "一道比较简单的数学题",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1045129,
+        "viewCount": 66
+      },
+      "uuid": "iZnPvv",
+      "videosInfo": []
+    }
+  }
+}

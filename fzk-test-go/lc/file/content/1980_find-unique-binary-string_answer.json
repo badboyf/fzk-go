@@ -1,0 +1,86 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣官方题解",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/leetcode-solution/avatar_1582018938.png",
+          "userSlug": "leetcode-solution"
+        },
+        "username": "LeetCode-Solution"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法一：转化为整数\n\n**思路与算法**\n\n我们可以将长度为 $n$ 的二进制字符串看作 $[0, 2^n - 1]$ 闭区间内正整数的二进制表示，这样就建立起了字符串和整数之间的**一一映射**。\n\n我们可以将 $\\textit{nums}$ 中所有字符串转化为对应的整数放在哈希集合中。由于该哈希集合中有 $n$ 个元素，因此根据鸽巢原理，在 $[0, n]$ **闭区间**的 $n + 1$ 个整数中一定存在一个整数，它不在该哈希集合中。换言之，该整数对应的字符串一定没有在 $\\textit{nums}$ 中出现。\n\n因此，在预处理哈希集合后，我们只需要遍历 $[0, n]$ 闭区间中的整数，当找到第一个不在哈希集合中的整数时，我们将它转化为对应的二进制字符串返回即可。\n\n\n**代码**\n\n```C++ [sol1-C++]\nclass Solution {\npublic:\n    string findDifferentBinaryString(vector<string>& nums) {\n        int n = nums.size();\n        // 预处理对应整数的哈希集合\n        unordered_set<int> vals;\n        for (const string& num : nums){\n            vals.insert(stoi(num, nullptr, 2));\n        }\n        // 寻找第一个不在哈希集合中的整数\n        int val = 0;\n        while (vals.count(val)){\n            ++val;\n        }\n        // 将整数转化为二进制字符串返回\n        return bitset<16>(val).to_string().substr(16 - n, 16);\n    }\n};\n```\n\n\n```Python [sol1-Python3]\nclass Solution:\n    def findDifferentBinaryString(self, nums: List[str]) -> str:\n        n = len(nums)\n        # 预处理对应整数的哈希集合\n        vals = {int(num, 2) for num in nums}\n        # 寻找第一个不在哈希集合中的整数\n        val = 0\n        while val in vals:\n            val += 1\n        # 将整数转化为二进制字符串返回\n        res = \"{:b}\".format(val)\n        return '0' * (n - len(res)) + res\n```\n\n\n**复杂度分析**\n\n- 时间复杂度：$O(n^2)$，其中 $n$ 为 $\\textit{nums}$ 的长度。预处理哈希集合的时间复杂度为 $O(n^2)$，寻找第一个不在哈希表中的整数与生成答案字符串的时间复杂度为 $O(n)$。\n\n- 空间复杂度：$O(n)$，即为哈希集合的空间复杂度。",
+      "createdAt": "2021-08-22T09:40:00.804144+00:00",
+      "hitCount": 1747,
+      "identifier": "8fYWml",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "kang-tuo-dui-jiao-xian-by-seedjyh-wr2s",
+        "title": "康托对角线"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "find-unique-binary-string"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "zhao-chu-bu-tong-de-er-jin-zhi-zi-fu-chu-0t10",
+      "status": "PREPUBLISH",
+      "summary": "方法一：转化为整数 思路与算法 我们可以将长度为 $n$ 的二进制字符串看作 $[0, 2^n - 1]$ 闭区间内正整数的二进制表示，这样就建立起了字符串和整数之间的一一映射。 我们可以将 $\\textit{nums}$ 中所有字符串转化为对应的整数放在哈希集合中。由于该哈希集合中有 $n$ 个元素，因此根据鸽巢原理",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "String",
+          "nameTranslated": "字符串",
+          "slug": "string",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "找出不同的二进制字符串",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 6,
+        "id": 951996,
+        "viewCount": 1338
+      },
+      "uuid": "8fYWml",
+      "videosInfo": []
+    }
+  }
+}

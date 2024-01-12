@@ -1,0 +1,77 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣 (LeetCode)",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/uploaded_files/2021/03/73c9f099-abbe-4d94-853f-f8abffd459cd/leetcode.png",
+          "userSlug": "leetcode"
+        },
+        "username": "LeetCode"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法：使用 `DELETE` 和 `WHERE` 子句\n\n**算法**\n\n我们可以使用以下代码，将此表与它自身在*电子邮箱*列中连接起来。\n\n```mysql [NxFCySp5-MySQL]\nSELECT p1.*\nFROM Person p1,\n    Person p2\nWHERE\n    p1.Email = p2.Email\n;\n```\n\n\n然后我们需要找到其他记录中具有相同电子邮件地址的更大 ID。所以我们可以像这样给 `WHERE` 子句添加一个新的条件。\n\n```mysql [ipkbLsZR-MySQL]\nSELECT p1.*\nFROM Person p1,\n    Person p2\nWHERE\n    p1.Email = p2.Email AND p1.Id > p2.Id\n;\n```\n\n\n因为我们已经得到了要删除的记录，所以我们最终可以将该语句更改为 `DELETE`。\n\n```mysql [ec2Spa6g-MySQL]\nDELETE p1 FROM Person p1,\n    Person p2\nWHERE\n    p1.Email = p2.Email AND p1.Id > p2.Id\n```\n",
+      "createdAt": "2018-11-14T14:45:22.420598+00:00",
+      "hitCount": 109987,
+      "identifier": "JrpKaQ",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "dui-guan-fang-ti-jie-zhong-delete-he-de-jie-shi-by",
+        "title": "对「官方」题解中 \"delete\" 和 \">\" 的解释，推荐！"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "delete-duplicate-emails"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 70,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "CONFUSED"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "shan-chu-zhong-fu-de-dian-zi-you-xiang-by-leetcode",
+      "status": "PUBLISHED",
+      "summary": "算法\n我们可以使用以下代码，将此表与它自身在电子邮箱列中连接起来。\n然后我们需要找到其他记录中具有相同电子邮件地址的更大 ID。所以我们可以像这样给 WHERE 子句添加一个新的条件。\n因为我们已经得到了要删除的记录，所以我们最终可以将该语句更改为 DELETE。",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "MySQL",
+          "nameTranslated": "",
+          "slug": "mysql",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "删除重复的电子邮箱",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 123,
+        "id": 3570,
+        "viewCount": 75349
+      },
+      "uuid": "JrpKaQ",
+      "videosInfo": []
+    }
+  }
+}

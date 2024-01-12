@@ -1,0 +1,111 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "墨鳌",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/liu-yi-ming-s/avatar_1603356384.png",
+          "userSlug": "moao"
+        },
+        "username": "moao"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n- 看代码\n\n### 代码\n\n```cpp\nclass Solution {\npublic:\n    int kthToLast(ListNode* head, int k) {\n        ListNode*fast=head,*slow=head;\n        while(k--)fast=fast->next;\n        while(fast){\n            fast=fast->next;\n            slow=slow->next;\n        }\n        return slow->val;\n    }\n};\n```",
+      "createdAt": "2021-08-19T05:57:49.030912+00:00",
+      "hitCount": 1024,
+      "identifier": "D2scsN",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "tu-jie-shuang-zhi-zhen-you-zou-javachao-guo-100de-",
+        "title": "图解双指针游走 JAVA超过100%的提交 求赞求关注~"
+      },
+      "position": 3,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "tu-jie-shuang-zhi-zhen-you-zou-cchao-guo-100de-ti-",
+        "title": "一文搞定常见的链表问题 (欢迎交流"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "kth-node-from-end-of-list-lcci"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 3,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": true,
+      "slug": "mo-ao-shuang-zhi-zhen-kuai-man-zhi-zhen-6bpn2",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n\n看代码\n\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Two Pointers",
+          "nameTranslated": "双指针",
+          "slug": "two-pointers",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "力扣 LeetCode",
+          "nameTranslated": "",
+          "slug": "leetcode",
+          "tagType": "COMPANY"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "指针",
+          "nameTranslated": "",
+          "slug": "zhi-zhen",
+          "tagType": "ADDITIONAL_TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "快慢指针",
+          "nameTranslated": "",
+          "slug": "kuai-man-zhi-zhen",
+          "tagType": "ADDITIONAL_TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C/C++",
+          "nameTranslated": "",
+          "slug": "cc-2",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "",
+      "title": "【墨鳌】【双指针】【快慢指针】",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 945277,
+        "viewCount": 898
+      },
+      "uuid": "D2scsN",
+      "videosInfo": []
+    }
+  }
+}

@@ -1,0 +1,96 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣 (LeetCode)",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/uploaded_files/2021/03/73c9f099-abbe-4d94-853f-f8abffd459cd/leetcode.png",
+          "userSlug": "leetcode"
+        },
+        "username": "LeetCode"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 想法\n\n如果 `x` 是当前数组中绝对值最小的元素，那么它一定会配对 `2*x`，因为不存在 `x/2` 可以和它配对。\n\n#### 算法\n\n直接改写最后的结果数组。\n\n按照绝对值大小检查整个数组。当检查到元素 `x` 并且没有被使用时，它一定要配对 `2*x`。我们将尝试记录 `x，2x`。如果没有元素 `2x` 则返回答案 `false`。如果所有元素都被访问，答案是 `true`。\n\n为了记录哪些元素还没有被访问，可以用 `count` 来记录。\n\n```java []\nclass Solution {\n    public boolean canReorderDoubled(int[] A) {\n        // count[x] = the number of occurrences of x in A\n        Map<Integer, Integer> count = new HashMap();\n        for (int x: A)\n            count.put(x, count.getOrDefault(x, 0) + 1);\n\n        // B = A as Integer[], sorted by absolute value\n        Integer[] B = new Integer[A.length];\n        for (int i = 0; i < A.length; ++i)\n            B[i] = A[i];\n        Arrays.sort(B, Comparator.comparingInt(Math::abs));\n\n        for (int x: B) {\n            // If this can't be consumed, skip\n            if (count.get(x) == 0) continue;\n            // If this doesn't have a doubled partner, the answer is false\n            if (count.getOrDefault(2*x, 0) <= 0) return false;\n\n            // Write x, 2*x\n            count.put(x, count.get(x) - 1);\n            count.put(2*x, count.get(2*x) - 1);\n        }\n\n        // If we have written everything, the answer is true\n        return true;\n    }\n}\n```\n\n```python []\nclass Solution(object):\n    def canReorderDoubled(self, A):\n        count = collections.Counter(A)\n        for x in sorted(A, key = abs):\n            if count[x] == 0: continue\n            if count[2*x] == 0: return False\n            count[x] -= 1\n            count[2*x] -= 1\n\n        return True\n```\n\n#### 算法复杂度\n\n* 时间复杂度：$O(N \\log{N})$，其中 $N$ 是数组 `A` 的长度。\n* 空间复杂度：$O(N)$。\n",
+      "createdAt": "2019-07-11T12:56:05.543575+00:00",
+      "hitCount": 7231,
+      "identifier": "Mo5yjq",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "zi-ding-yi-sort-ha-xi-biao-ji-shu-by-zho-edbb",
+        "title": "【自定义sort】【哈希表计数】"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "array-of-doubled-pairs"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 11,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "THUMBS_DOWN"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "er-bei-shu-dui-shu-zu-by-leetcode",
+      "status": "PUBLISHED",
+      "summary": "§ 想法\n如果 x 是当前数组中绝对值最小的元素，那么它一定会配对 2*x，因为不存在 x/2 可以和它配对。\n§ 算法\n直接改写最后的结果数组。\n按照绝对值大小检查整个数组。当检查到元素 x 并且没有被使用时，它一定要配对 2*x。我们将尝试记录 x，2x。如果没有元素 2x 则返回答案 false。如果所有元素都被",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Greedy",
+          "nameTranslated": "贪心",
+          "slug": "greedy",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "二倍数对数组",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 16,
+        "id": 13816,
+        "viewCount": 5288
+      },
+      "uuid": "Mo5yjq",
+      "videosInfo": []
+    }
+  }
+}

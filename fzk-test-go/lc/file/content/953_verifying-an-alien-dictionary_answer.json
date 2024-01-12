@@ -1,0 +1,91 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣 (LeetCode)",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/uploaded_files/2021/03/73c9f099-abbe-4d94-853f-f8abffd459cd/leetcode.png",
+          "userSlug": "leetcode"
+        },
+        "username": "LeetCode"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法一： 检查相邻单词\n\n**思路**\n\n只有每对相邻单词都是有序的，那么整个 `words` 才是有序的。因为有序性是可以传递的，例如，`a <= b` 和 `b <= c` 可以推出 `a <= c`。\n\n**算法**\n\n检查相邻单词 `a` 和 `b` 是否满足 `a <= b`。\n\n为了检查相邻单词 `a`，`b` 是否满足 `a <= b`，只需要检查它们第一个不同的字母就可以了。例如，对于`\"applying\"` 和 `\"apples\"`，第一个不同的字母是 `y` 和 `e`。之后只需要比较这两个字母在 `order` 中的下标就可以了。 \n\n还需要考虑两个单词长度不等的情况。例如，当比较 `\"app\"` 和 `\"apply\"` 的时候，前三个字母都是相等的，但 `\"app\"` 比 `\"apply\"` 更短，所以满足 `a <= b`。\n\n```java [solution1-Java]\nclass Solution {\n    public boolean isAlienSorted(String[] words, String order) {\n        int[] index = new int[26];\n        for (int i = 0; i < order.length(); ++i)\n            index[order.charAt(i) - 'a'] = i;\n\n        search: for (int i = 0; i < words.length - 1; ++i) {\n            String word1 = words[i];\n            String word2 = words[i+1];\n\n            // Find the first difference word1[k] != word2[k].\n            for (int k = 0; k < Math.min(word1.length(), word2.length()); ++k) {\n                if (word1.charAt(k) != word2.charAt(k)) {\n                    // If they compare badly, it's not sorted.\n                    if (index[word1.charAt(k) - 'a'] > index[word2.charAt(k) - 'a'])\n                        return false;\n                    continue search;\n                }\n            }\n\n            // If we didn't find a first difference, the\n            // words are like (\"app\", \"apple\").\n            if (word1.length() > word2.length())\n                return false;\n        }\n\n        return true;\n    }\n}\n```\n\n```python [solution1-Python]\nclass Solution(object):\n    def isAlienSorted(self, words, order):\n        order_index = {c: i for i, c in enumerate(order)}\n\n        for i in xrange(len(words) - 1):\n            word1 = words[i]\n            word2 = words[i+1]\n\n            # Find the first difference word1[k] != word2[k].\n            for k in xrange(min(len(word1), len(word2))):\n                # If they compare badly, it's not sorted.\n                if word1[k] != word2[k]:\n                    if order_index[word1[k]] > order_index[word2[k]]:\n                        return False\n                    break\n            else:\n                # If we didn't find a first difference, the\n                # words are like (\"app\", \"apple\").\n                if len(word1) > len(word2):\n                    return False\n\n        return True\n```\n\n\n**复杂度分析**\n\n* 时间复杂度： $O(C)$，其中 $C$ 是 `words` 中单词总长度和。\n\n* 空间复杂度： $O(1)$。",
+      "createdAt": "2019-07-22T09:04:45.701283+00:00",
+      "hitCount": 10735,
+      "identifier": "w5dBPn",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "953-yan-zheng-wai-xing-yu-ci-dian-ha-xi-4b032",
+        "title": "953. 验证外星语词典（哈希表）"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "verifying-an-alien-dictionary"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 11,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "yan-zheng-wai-xing-yu-ci-dian-by-leetcode",
+      "status": "PUBLISHED",
+      "summary": "方法一： 检查相邻单词\n思路\n只有每对相邻单词都是有序的，那么整个 words 才是有序的。因为有序性是可以传递的，例如，a <= b 和 b <= c 可以推出 a <= c。\n算法\n检查相邻单词 a 和 b 是否满足 a <= b。\n为了检查相邻单词 a，b 是否满足 a <= b，只需要检查它们第一个不同的字母就",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Hash Table",
+          "nameTranslated": "哈希表",
+          "slug": "hash-table",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "验证外星语词典",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 29,
+        "id": 15991,
+        "viewCount": 8125
+      },
+      "uuid": "w5dBPn",
+      "videosInfo": []
+    }
+  }
+}

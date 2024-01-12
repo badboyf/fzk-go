@@ -1,0 +1,90 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "huichuan",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/huichuan/avatar_1593482650.png",
+          "userSlug": "huichuan"
+        },
+        "username": "huichuan"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n单调栈\n### 代码\n\n```python3\nclass Solution:\n    def finalPrices(self, prices: List[int]) -> List[int]:\n        stack = []\n        res = list(prices)\n        for i in range(0, len(prices)):\n            while stack and prices[stack[-1]] >= prices[i]:\n                res[stack[-1]] = prices[stack[-1]] - prices[i]\n                stack.pop(-1)\n            stack.append(i)\n        return res\n\n```",
+      "createdAt": "2021-10-12T10:41:28.001729+00:00",
+      "hitCount": 369,
+      "identifier": "fK4J5j",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "1475shang-pin-zhe-kou-hou-de-zui-zhong-j-h8xm",
+        "title": "1475.商品折扣后的最终价格 标准单调栈解题"
+      },
+      "position": 3,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "cjian-ji-dai-ma-dan-diao-di-zeng-zhan-by-8zlr",
+        "title": "C++简洁代码，单调递增栈"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "final-prices-with-a-special-discount-in-a-shop"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "dan-diao-zhan-by-huichuan-aso6",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n单调栈\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python3",
+          "nameTranslated": "",
+          "slug": "python3",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Monotonic Stack",
+          "nameTranslated": "单调栈",
+          "slug": "monotonic-stack",
+          "tagType": "TOPIC"
+        }
+      ],
+      "thumbnail": "",
+      "title": "单调栈",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1043825,
+        "viewCount": 310
+      },
+      "uuid": "fK4J5j",
+      "videosInfo": []
+    }
+  }
+}

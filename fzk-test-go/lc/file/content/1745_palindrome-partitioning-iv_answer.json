@@ -1,0 +1,72 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "何逊",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/heltion/avatar_1587213058.png",
+          "userSlug": "heltion"
+        },
+        "username": "Heltion"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "平方时间复杂度做法很简单,只需要预处理所有子串是否为回文串,然后枚举中间的串判断.\r\n线性时间复杂度需要知道一个结论:\r\n如果存在回文串$p$和$q$使得$S=pq$,那么以下至少一个成立:\r\n1.$x$是$S$的最长回文真前缀,$S=xa$,$a$是回文串.\r\n2.$y$是$S$的最长回文真后缀,$S=by$,$b$是回文串.\r\n那么可以枚举每个回文前缀,然后根据预处理$O(1)$找到后缀的最长回文真前缀/后缀,再$O(1)$判断后缀的后缀/前缀是否为回文串即可.\r\n时间复杂度/空间复杂度均为线性.\r\n参考资料\r\n[结论的证明](https://www.luogu.com.cn/blog/user25308/proof-cf1081h)\r\n[最长双回文串题解](https://www.cnblogs.com/five20/p/9090876.html)\r\n代码:\r\n```C++\r\nclass Solution {\r\npublic:\r\n    bool checkPartitioning(string s) {\r\n        string t = \"#\";\r\n        for(char c : s){\r\n            t += c;\r\n            t += '#';\r\n        }\r\n        int n = t.size(), r = 0, m = 0;\r\n        vector<int> man(n), R(n);\r\n        for(int i = 0; i < n; i += 1){\r\n            man[i] = i < r ? min(man[m * 2 - i], man[m] + m - i) : 1;\r\n            while(i >= man[i] and i + man[i] < n and t[i + man[i]] == t[i - man[i]]) man[i] += 1;\r\n            if(i + man[i] > r){\r\n                m = i;\r\n                r = i + man[i];\r\n            }\r\n            R[i - man[i] + 1] = max(R[i - man[i] + 1], man[i] - 1);\r\n        }\r\n        for(int i = 2; i < n; i += 2) R[i] = max(R[i], R[i - 2] - 2);\r\n        auto check = [&](int l, int r){\r\n            int m = (l + r) / 2;\r\n            return m + man[m] > r;\r\n        };\r\n        stack<int> suf;\r\n        for(int i = n - 2; i >= 1; i -= 2) if(check(i, n - 2)) suf.push(i);\r\n        for(int i = 1; i < n; i += 2) if(check(1, i)){\r\n            while(not suf.empty() and suf.top() <= i + 2) suf.pop();\r\n            if(not suf.empty() and check(i + 2, suf.top() - 2)) return true;\r\n            int j = i + R[i + 1] * 2;\r\n            if(j < n - 1 and check(j + 2, n - 2)) return true;\r\n        }\r\n        return false;\r\n    }\r\n};\r\n```",
+      "createdAt": "2021-01-31T04:20:14.203899+00:00",
+      "hitCount": 2294,
+      "identifier": "Fl4uDq",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "dong-tai-gui-hua-jian-cha-hui-wen-zi-chu-y6og",
+        "title": "动态规划 检查回文子串 O(n^2)"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "palindrome-partitioning-iv"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 27,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "manacherxian-xing-shi-jian-fu-za-du-by-h-sj24",
+      "status": "PUBLISHED",
+      "summary": "平方时间复杂度做法很简单,只需要预处理所有子串是否为回文串,然后枚举中间的串判断.\n线性时间复杂度需要知道一个结论:\n如果存在回文串p和q使得S=pq,那么以下至少一个成立:\n1.x是S的最长回文真前缀,S=xa,a是回文串.\n2.y是S的最长回文真后缀,S=by,b是回文串.\n那么可以枚举每个回文前缀,然后根据预处理",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "Manacher线性时间复杂度",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 15,
+        "id": 584373,
+        "viewCount": 1839
+      },
+      "uuid": "Fl4uDq",
+      "videosInfo": []
+    }
+  }
+}

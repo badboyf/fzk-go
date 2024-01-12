@@ -1,0 +1,86 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣 (LeetCode)",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/uploaded_files/2021/03/73c9f099-abbe-4d94-853f-f8abffd459cd/leetcode.png",
+          "userSlug": "leetcode"
+        },
+        "username": "LeetCode"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法一：哈希集合\n\n我们将数组 `word` 中的每个单词转换为摩尔斯码，并加入哈希集合（HashSet）中，最终的答案即为哈希集合中元素的个数。\n\n```Java [sol1]\nclass Solution {\n    public int uniqueMorseRepresentations(String[] words) {\n        String[] MORSE = new String[]{\".-\",\"-...\",\"-.-.\",\"-..\",\".\",\"..-.\",\"--.\",\n                         \"....\",\"..\",\".---\",\"-.-\",\".-..\",\"--\",\"-.\",\n                         \"---\",\".--.\",\"--.-\",\".-.\",\"...\",\"-\",\"..-\",\n                         \"...-\",\".--\",\"-..-\",\"-.--\",\"--..\"};\n\n        Set<String> seen = new HashSet();\n        for (String word: words) {\n            StringBuilder code = new StringBuilder();\n            for (char c: word.toCharArray())\n                code.append(MORSE[c - 'a']);\n            seen.add(code.toString());\n        }\n\n        return seen.size();\n    }\n}\n```\n\n```Python [sol1]\nclass Solution(object):\n    def uniqueMorseRepresentations(self, words):\n        MORSE = [\".-\",\"-...\",\"-.-.\",\"-..\",\".\",\"..-.\",\"--.\",\n                 \"....\",\"..\",\".---\",\"-.-\",\".-..\",\"--\",\"-.\",\n                 \"---\",\".--.\",\"--.-\",\".-.\",\"...\",\"-\",\"..-\",\n                 \"...-\",\".--\",\"-..-\",\"-.--\",\"--..\"]\n\n        seen = {\"\".join(MORSE[ord(c) - ord('a')] for c in word)\n                for word in words}\n\n        return len(seen)\n```\n\n**复杂度分析**\n\n* 时间复杂度：$O(S)$，其中 $S$ 是数组 `words` 中所有单词的长度之和。\n\n* 空间复杂度：$O(S)$。",
+      "createdAt": "2019-10-29T06:19:41.551730+00:00",
+      "hitCount": 11960,
+      "identifier": "XBnDDE",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "804-wei-yi-mo-er-si-mi-ma-ci-by-zrj2002-kh2j",
+        "title": "804. 唯一摩尔斯密码词"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "unique-morse-code-words"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 17,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "wei-yi-mo-er-si-mi-ma-ci-by-leetcode",
+      "status": "PUBLISHED",
+      "summary": "§ 方法一：哈希集合\n我们将数组 word 中的每个单词转换为摩尔斯码，并加入哈希集合（HashSet）中，最终的答案即为哈希集合中元素的个数。\n复杂度分析\n\n\n时间复杂度：O(S)，其中 S 是数组 words 中所有单词的长度之和。\n\n\n空间复杂度：O(S)。\n\n",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Hash Table",
+          "nameTranslated": "哈希表",
+          "slug": "hash-table",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "唯一摩尔斯密码词",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 23,
+        "id": 38839,
+        "viewCount": 10041
+      },
+      "uuid": "XBnDDE",
+      "videosInfo": []
+    }
+  }
+}

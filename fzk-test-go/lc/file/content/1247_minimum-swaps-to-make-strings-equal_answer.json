@@ -1,0 +1,79 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "Feilulue 🍒",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/feilue/avatar_1629977122.png",
+          "userSlug": "feilue"
+        },
+        "username": "feilue"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "\r\n- 当 $s1$ = \"$xx$\"，$s2$ = \"$yy$\" 时，只需交换一次，就可以使两个字符串相等\r\n- 当 $s1$ = \"$xy$\"，$s2$ = \"$yx$\" 时，需要交换两次才可以使两个字符串相等\r\n\r\n遍历比较两个字符串，如果 $s1[i]$ = $s2[i]$ 则不用交换\r\n\r\n$xy$ 表示 $s1[i]$ = $x$，$s2[i]$ = $y$ 的次数\r\n$yx$ 表示 $s1[i]$ = $y$，$s2[i]$ = $x$ 的次数\r\n\r\n因为需要每两组字符才可以进行交换，如果 $xy + yx$ 为奇数，必定有一组字符不能交换，返回 $-1$\r\n\r\n优先交换所有的 \"$xx$\" \"$yy$\" 和 \"$yy$\" \"$xx$\"，因为只需一次交换\r\n\r\n若还剩一组 \"$xy$\" \"$yx$\" 则再加 $2$ 即可\r\n\r\n\r\n\r\n\r\n```Java []\r\nclass Solution {\r\n    public int minimumSwap(String s1, String s2) {\r\n        int xy = 0, yx = 0;\r\n        char[] c1 = s1.toCharArray();\r\n        char[] c2 = s2.toCharArray();\r\n        for(int i = 0; i < c1.length; i++){\r\n            if(c1[i] == c2[i]) continue;\r\n            if(c1[i] == 'x') xy++;\r\n            else yx++;\r\n        }\r\n\r\n        if(((xy + yx) & 1) != 0) return -1;\r\n        return xy / 2 + yx / 2 + (xy % 2 * 2);\r\n    }\r\n}\r\n```\r\n",
+      "createdAt": "2021-11-08T16:36:18.895848+00:00",
+      "hitCount": 214,
+      "identifier": "ZevFYb",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "cpython-tan-xin-suan-fa-by-bandari-6-ecch",
+        "title": "C++/Python 贪心算法"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "minimum-swaps-to-make-strings-equal"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 3,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "java-tan-xin-by-feilue-94jp",
+      "status": "PREPUBLISH",
+      "summary": "当 s1 = \"xx\"，s2 = \"yy\" 时，只需交换一次，就可以使两个字符串相等\n当 s1 = \"xy\"，s2 = \"yx\" 时，需要交换两次才可以使两个字符串相等\n\n遍历比较两个字符串，如果 s1[i] = s2[i] 则不用交换\nxy 表示 s1[i] = x，s2[i] = y 的次数\nyx 表示 s1[i",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Greedy",
+          "nameTranslated": "贪心",
+          "slug": "greedy",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "Java 贪心",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 2,
+        "id": 1091723,
+        "viewCount": 164
+      },
+      "uuid": "ZevFYb",
+      "videosInfo": []
+    }
+  }
+}

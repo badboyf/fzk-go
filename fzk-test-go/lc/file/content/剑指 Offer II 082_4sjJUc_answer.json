@@ -1,0 +1,79 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "vanilla111",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/vanilla111/avatar_1566265236.png",
+          "userSlug": "vanilla111"
+        },
+        "username": "vanilla111"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "我们定义`dfs(idx, target)`为：\n\n> 选中candidate[idx]，同时与从下标为[idx + 1, candidate.length)中选取元素一起构成和为target的所有不重复组合的集合。\n\n本题难点有二：\n\n### 一、避免重复答案\n\n为了避免重复的答案，首先我们要做的就是给数组排序，如果说我**在同一级递归中，遇到两个相同的数**，我们应该只dfs靠前的那一个一次。原因的话，我们可以这样理解，如果现在遇到下标位`idx`，`idx + 1`的两个数是相同的，那么对于集合`dfs(idx, target)` 和 `dfs(idx + 1, target)`，后者就是前者的一个子集，所以**我们在同一级递归中，对于相同的数，只应该dfs一次，并且是下标最小的那一个**。\n\n### 二、剪枝\n\n剪枝就是基于很直接的思想，例如：**前面已经给数组排序了，如果递归的过程中当前值比target大，那么说明后面的值不可能再找出一组元素和为target，所以此时就可以立即结束递归返回。**\n\n```java\nclass Solution {\n    public List<List<Integer>> combinationSum2(int[] candidates, int target) {\n        int n = candidates.length;\n        List<List<Integer>> ans = new ArrayList<>();\n        Arrays.sort(candidates);\n        dfs(candidates, n, 0, target, new ArrayList<>(), ans);\n        return  ans;\n    }\n\n    public void dfs(int[] candidate, int n, int idx, int target, List<Integer> list, List<List<Integer>> ans) {\n        if (target == 0) {\n            ans.add(new ArrayList<>(list));\n            return ;\n        }\n        for (int i = idx; i < n; i++) {\n            if (candidate[i] > target) { // 剪枝\n                break;\n            }\n            if (i > idx && candidate[i] == candidate[i - 1]) { // 剪枝、避免重复\n                // 因为前面那个同样的数已经经历过dfs，再拿同样的数dfs就会得到重复的答案\n                continue;\n            }\n            list.add(candidate[i]);\n            dfs(candidate, n, i + 1, target - candidate[i], list, ans);\n            list.remove(list.size() - 1);\n        }\n    }\n}\n```\n",
+      "createdAt": "2021-09-11T14:51:13.713388+00:00",
+      "hitCount": 1134,
+      "identifier": "RW2BaW",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "cong-startxia-biao-han-yi-li-jie-wei-shi-2kau",
+        "title": "从start下标含义理解为什么这样剪枝/去重"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "4sjJUc"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 8,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "java-hui-su-jian-zhi-jiao-ni-ru-he-bi-mi-nx9y",
+      "status": "PREPUBLISH",
+      "summary": "我们定义dfs(idx, target)为：\n\n选中candidate[idx]，同时与从下标为[idx + 1, candidate.length)中选取元素一起构成和为target的所有不重复组合的集合。\n\n本题难点有二：\n一、避免重复答案\n为了避免重复的答案，首先我们要做的就是给数组排序，如果说我在同一级递归中，",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Backtracking",
+          "nameTranslated": "回溯",
+          "slug": "backtracking",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "Java 回溯/剪枝，教你如何避免重复答案",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 1,
+        "id": 992230,
+        "viewCount": 807
+      },
+      "uuid": "RW2BaW",
+      "videosInfo": []
+    }
+  }
+}

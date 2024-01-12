@@ -1,0 +1,93 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣 (LeetCode)",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/uploaded_files/2021/03/73c9f099-abbe-4d94-853f-f8abffd459cd/leetcode.png",
+          "userSlug": "leetcode"
+        },
+        "username": "LeetCode"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法一：穷举法\n\n将字符串 `A` 旋转 `s` 次后，得到的字符串为 `A[s], A[s + 1], A[s + 2], ...`，因此我们只要枚举 `s`，并检查是否有 `A[s] == B[0], A[s + 1] == B[1], A[s + 2] == B[2], ...` 即可。\n\n```Java [sol1]\nclass Solution {\n    public boolean rotateString(String A, String B) {\n        if (A.length() != B.length())\n            return false;\n        if (A.length() == 0)\n            return true;\n\n        search:\n            for (int s = 0; s < A.length(); ++s) {\n                for (int i = 0; i < A.length(); ++i) {\n                    if (A.charAt((s+i) % A.length()) != B.charAt(i))\n                        continue search;\n                }\n                return true;\n            }\n        return false;\n    }\n}\n```\n\n```Python [sol1]\nclass Solution(object):\n    def rotateString(self, A, B):\n        if len(A) != len(B):\n            return False\n        if len(A) == 0:\n            return True\n\n        for s in xrange(len(A)):\n            if all(A[(s+i) % len(A)] == B[i] for i in xrange(len(A))):\n                return True\n        return False\n```\n\n**复杂度分析**\n\n* 时间复杂度：$O(N^2)$，其中 $N$ 是字符串 `A` 的长度。\n\n* 空间复杂度：$O(1)$。\n\n#### 方法二：判断子串\n\n由于 `A + A` 包含了所有可以通过旋转操作从 `A` 得到的字符串，因此我们只需要判断 `B` 是否为 `A + A` 的子串即可。\n\n```Java [sol2]\nclass Solution {\n    public boolean rotateString(String A, String B) {\n        return A.length() == B.length() && (A + A).contains(B);\n    }\n}\n```\n\n```Python [sol2]\nclass Solution(object):\n    def rotateString(self, A, B):\n        return len(A) == len(B) and B in A+A\n```\n\n**复杂度分析**\n\n* 时间复杂度：$O(N^2)$，其中 $N$ 是字符串 `A` 的长度。\n\n* 空间复杂度：$O(N)$，即 `A + A` 需要的空间。\n\n#### 方法三：Rabin-Karp 字符串哈希\n\n我们可以优化方法二中判断 `B` 是否为 `A + A` 的子串时使用的算法，例如使用 Rabin-Karp 字符串哈希算法。设 `A2 = A + A`，我们求出子串 `A2[0:N], A2[1:N + 1], A2[2:N + 2], ...` 的哈希值，如果与 `B` 的哈希值相同，那么这两个字符串很有可能相同。\n\n我们通过 `hash(S) = (S[0] * P**0 + S[1] * P**1 + S[2] * P**2 + ...) % MOD` 计算字符串 `S` 的哈希值，其中 `S[i]` 是 `S` 中第 `i` 个字母的 `ASCII` 编码值，`X**Y` 表示指数运算。对于两个字符串 `S` 和 `T`，如果它们的哈希值相同，即 `hash(S) == hash(T)`，那么 `S` 和 `T` 很有可能相同。\n\n当我们计算出 `A` 的哈希值 `hash(A)`（即为序列 `A[0], A[1], ..., A[N - 1]` 的哈希值），下一步是计算 `A` 经过一次旋转操作，序列 `A[1], A[2], ..., A[N - 1], A[0]` 的哈希值，这可以通过将 `hash(A)` 减去 `A[0]`，除以 `P`，再加上 `A[0] * P**(N - 1)` 得到。其中除以 `P` 的操作是在对 `MOD` 取模的意义下的，等价于乘以 `P` 的乘法逆元。如果 `MOD` 为质数，`P` 的乘法逆元 `Pinv` 为 `P**(MOD - 2)` 对 `MOD` 取模的结果。这可以根据费马小定理推导出。\n\n```Java [sol3]\nimport java.math.BigInteger;\nclass Solution {\n    public boolean rotateString(String A, String B) {\n        if (A.equals(B)) return true;\n\n        int MOD = 1_000_000_007;\n        int P = 113;\n        int Pinv = BigInteger.valueOf(P).modInverse(BigInteger.valueOf(MOD)).intValue();\n\n        long hb = 0, power = 1;\n        for (char x: B.toCharArray()) {\n            hb = (hb + power * x) % MOD;\n            power = power * P % MOD;\n        }\n\n        long ha = 0; power = 1;\n        char[] ca = A.toCharArray();\n        for (char x: ca) {\n            ha = (ha + power * x) % MOD;\n            power = power * P % MOD;\n        }\n\n        for (int i = 0; i < ca.length; ++i) {\n            char x = ca[i];\n            ha += power * x - x;\n            ha %= MOD;\n            ha *= Pinv;\n            ha %= MOD;\n            if (ha == hb && (A.substring(i+1) + A.substring(0, i+1)).equals(B))\n                return true;\n\n        }\n        return false;\n    }\n}\n```\n\n```Python [sol3]\nclass Solution(object):\n    def rotateString(self, A, B):\n        MOD = 10**9 + 7\n        P = 113\n        Pinv = pow(P, MOD-2, MOD)\n\n        hb = 0\n        power = 1\n        for x in B:\n            code = ord(x) - 96\n            hb = (hb + power * code) % MOD\n            power = power * P % MOD\n\n        ha = 0\n        power = 1\n        for x in A:\n            code = ord(x) - 96\n            ha = (ha + power * code) % MOD\n            power = power * P % MOD\n\n        if ha == hb and A == B: return True\n        for i, x in enumerate(A):\n            code = ord(x) - 96\n            ha += power * code\n            ha -= code\n            ha *= Pinv\n            ha %= MOD\n            if ha == hb and A[i+1:] + A[:i+1] == B:\n                return True\n        return False\n```\n\n**复杂度分析**\n\n* 时间复杂度：$O(N)$，其中 $N$ 是字符串 `A` 的长度。\n\n* 空间复杂度：$O(N)$。\n\n#### 方法四：KMP 算法\n\n判断一个串是否为另一个串的子串的最优时间复杂度的算法是 KMP 算法。和方法二相同，我们只需要用 KMP 算法判断 `B` 是否为 `A + A` 的子串即可。KMP 算法较难理解，这里给出了力扣第 28 题 [实现 strstr()](https://leetcode-cn.com/problems/implement-strstr/) 讨论区中一个高赞 [KMP 算法详解](https://leetcode-cn.com/problems/implement-strstr/solution/kmp-suan-fa-xiang-jie-by-labuladong/)，以及著名博主 Matrix67 的 [KMP 算法详解](http://www.matri***/blog/archives/115)。\n\n```Java [sol4]\nclass Solution {\n    public boolean rotateString(String A, String B) {\n        int N = A.length();\n        if (N != B.length()) return false;\n        if (N == 0) return true;\n\n        //Compute shift table\n        int[] shifts = new int[N+1];\n        Arrays.fill(shifts, 1);\n        int left = -1;\n        for (int right = 0; right < N; ++right) {\n            while (left >= 0 && (B.charAt(left) != B.charAt(right)))\n                left -= shifts[left];\n            shifts[right + 1] = right - left++;\n        }\n\n        //Find match of B in A+A\n        int matchLen = 0;\n        for (char c: (A+A).toCharArray()) {\n            while (matchLen >= 0 && B.charAt(matchLen) != c)\n                matchLen -= shifts[matchLen];\n            if (++matchLen == N) return true;\n        }\n\n        return false;\n    }\n}\n```\n\n```Python [sol4]\nclass Solution:\n    def rotateString(self, A, B):\n        N = len(A)\n        if N != len(B): return False\n        if N == 0: return True\n\n        #Compute shift table\n        shifts = [1] * (N+1)\n        left = -1\n        for right in xrange(N):\n            while left >= 0 and B[left] != B[right]:\n                left -= shifts[left]\n            shifts[right + 1] = right - left\n            left += 1\n\n        #Find match of B in A+A\n        match_len = 0\n        for char in A+A:\n            while match_len >= 0 and B[match_len] != char:\n                match_len -= shifts[match_len]\n\n            match_len += 1\n            if match_len == N:\n                return True\n\n        return False\n```\n\n**复杂度分析**\n\n* 时间复杂度：$O(N)$，其中 $N$ 是字符串 `A` 的长度。\n\n* 空间复杂度：$O(N)$。",
+      "createdAt": "2019-10-29T06:17:15.236327+00:00",
+      "hitCount": 12012,
+      "identifier": "SQGCtS",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "796-xuan-zhuan-zi-fu-chuan-by-chen-wei-f-vghn",
+        "title": "796. 旋转字符串"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "rotate-string"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 13,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "xuan-zhuan-zi-fu-chuan-by-leetcode",
+      "status": "PUBLISHED",
+      "summary": "§ 方法一：穷举法\n将字符串 A 旋转 s 次后，得到的字符串为 A[s], A[s + 1], A[s + 2], ...，因此我们只要枚举 s，并检查是否有 A[s] == B[0], A[s + 1] == B[1], A[s + 2] == B[2], ... 即可。\n复杂度分析\n\n\n时间复杂度：O(N^2)，",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Hash Table",
+          "nameTranslated": "哈希表",
+          "slug": "hash-table",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "String",
+          "nameTranslated": "字符串",
+          "slug": "string",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "旋转字符串",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 19,
+        "id": 38831,
+        "viewCount": 9860
+      },
+      "uuid": "SQGCtS",
+      "videosInfo": []
+    }
+  }
+}

@@ -1,0 +1,103 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "zerotrac 🌸",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/zerotrac2/avatar_1628749564.png",
+          "userSlug": "zerotrac2"
+        },
+        "username": "zerotrac2"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法一：暴力枚举\n\n**思路与算法**\n\n枚举子串在 $s$ 中的起始位置 $i$，$t$ 中的起始位置 $j$。随后同时遍历两个字符串，统计对应位置不同的字符的数量：\n\n- 如果数量为 $0$，继续遍历；\n- 如果数量为 $1$，计入一次答案；\n- 如果数量为 $2$，退出遍历。\n\n**代码**\n\n```C++ [sol1-C++]\nclass Solution {\npublic:\n    int countSubstrings(string s, string t) {\n        int m = s.size();\n        int n = t.size();\n        int ans = 0;\n        for (int i = 0; i < m; ++i) {\n            for (int j = 0; j < n; ++j) {\n                int diff = 0;\n                for (int k = 0; i + k < m && j + k < n; ++k) {\n                    diff += (s[i + k] != t[j + k]);\n                    if (diff > 1) {\n                        break;\n                    }\n                    if (diff == 1) {\n                        ++ans;\n                    }\n                }\n            }\n        }\n        return ans;\n    }\n};\n```\n\n```Python [sol1-Python3]\nclass Solution:\n    def countSubstrings(self, s: str, t: str) -> int:\n        m, n = len(s), len(t)\n        ans = 0\n        for i in range(m):\n            for j in range(n):\n                diff = 0\n                k = 0\n                while i + k < m and j + k < n:\n                    diff += int(s[i + k] != t[j + k])\n                    if diff > 1:\n                        break\n                    if diff == 1:\n                        ans += 1\n                    k += 1\n        return ans\n```\n\n**复杂度分析**\n\n- 时间复杂度：$O\\big(mn \\min(m, n)\\big)$，其中 $m$ 和 $n$ 分别是字符串 $s$ 和 $t$ 的长度。\n\n- 空间复杂度：$O(1)$。\n\n#### 方法二：枚举优化\n\n**思路与算法**\n\n我们可以对方法一的枚举过程进行优化。为了方便「正向」思考，我们枚举子串在 $s$ 中的**结束**位置 $i$，$t$ 中的**结束**位置 $j$，记固定了结束位置 $(i, j)$ 时，满足要求的子串数目为 $f(i, j)$。\n\n假设我们已经知道了 $f(i, j)$，那么它可以帮我们快速得到哪些其它的 $f$ 值呢？直观上来说，我们可以联想到 $f(i+1, j+1)$，这是因为：\n\n- 如果 $s[i+1]=t[j+1]$，那么 $f(i+1,j+1)=f(i,j)$。因为每一个结束位置为 $(i,j)$ 的子串，往后扩展一个位置，就是一个结束位置为 $(i+1,j+1)$ 的子串，反之亦然。\n\n但如果 $s[i+1]\\neq t[j+1]$ 怎么办？仔细想一想，当 $s[i+1]\\neq t[j+1]$ 时，**以 $(i+1,j+1)$ 为结束位置的子串数目，等于从 $s[i]$ 以及 $t[j]$ 开始往左看，最长连续的完全相同的子串的长度再加上 $1$**。这是因为 $s[i+1]$ 和 $t[j+1]$ 本身不相同，因此如果结束位置为 $(i+1,j+1)$，那么**前面的所有字符必须都完全相同**。特别地，我们也可以不取任何前面的字符，因此需要加上 $1$。\n\n因此我们可以用 $g(i,j)$ 表示**从 $s[i]$ 以及 $t[j]$ 开始往左看，最长连续的完全相同的子串的长度**，其实它就是 $s[0..i]$ 和 $t[0..j]$ 的最长公共后缀的长度。$g(i,j)$ 的求解方法非常简单：\n\n$$\ng(i,j)=\\begin{cases}\ng(i-1,j-1)+1, & s[i] = t[j] \\\\\n0, & s[i] \\neq t[j]\n\\end{cases}\n$$\n\n这样从 $f(i,j)$ 转移到 $f(i+1,j+1)$ 的时间复杂度为 $O(1)$。只要我们处理好边界条件，就可以在 $O(mn)$ 的时间得到所有的 $f$ 和 $g$ 值，其中 $f$ 值的和即为答案。\n\n我们当然可以用二重循环加上两个二维数组 $f$ 和 $g$ 实现上面的算法，但是我们发现一个非常有趣的性质，即 $f$ 和 $g$ 都是类似 $(i,j) \\leftarrow (i-1,j-1)$ 这样的转移过程，那么我们其实根本不需要二维数组，甚至不需要数组：\n\n- 我们每次从 $(i, 0)$ 或者 $(0, j)$ 这样开始计算，其上一个状态无论是 $(i-1,-1)$ 还是 $(-1,j-1)$ 都是答案为 $0$ 的边界状态（因为结束位置在字符串之外）。这样从边界状态开始进行 $(i,j) \\leftarrow (i-1,j-1)$ 的转移即可。\n\n这样空间复杂度就可以达到完美的 $O(1)$。\n\n**代码**\n\n```C++ [sol2-C++]\nclass Solution {\npublic:\n    int countSubstrings(string s, string t) {\n        int m = s.size();\n        int n = t.size();\n        int ans = 0;\n        for (int delta = -m + 1; delta < n; ++delta) {\n            // 我们枚举每一个边界条件 (i,0) 以及 (0,j)\n            int i = 0, j = 0;\n            if (delta > 0) {\n                j = delta;\n            }\n            else {\n                i = -delta;\n            }\n            // f(i,j) 和 g(i,j) 的初始值均为 0\n            int fij = 0, gij = 0;\n            for (; i < m && j < n; ++i, ++j) {\n                if (s[i] == t[j]) {\n                    // f(i,j) 不变，g(i,j) 加 1\n                    ++gij;\n                }\n                else {\n                    // f(i,j) 变为 g(i,j) 加 1，g(i,j) 置零\n                    fij = gij + 1;\n                    gij = 0;\n                }\n                ans += fij;\n            }\n        }\n        return ans;\n    }\n};\n```\n\n```Python [sol2-Python3]\nclass Solution:\n    def countSubstrings(self, s: str, t: str) -> int:\n        m, n = len(s), len(t)\n        ans = 0\n        for delta in range(-m + 1, n):\n            # 我们枚举每一个边界条件 (i,0) 以及 (0,j)\n            i = j = 0\n            if delta > 0:\n                j = delta\n            else:\n                i = -delta\n            # f(i,j) 和 g(i,j) 的初始值均为 0\n            fij = gij = 0\n            while i < m and j < n:\n                if s[i] == t[j]:\n                    # f(i,j) 不变，g(i,j) 加 1\n                    gij += 1\n                else:\n                    # f(i,j) 变为 g(i,j) 加 1，g(i,j) 置零\n                    fij = gij + 1\n                    gij = 0\n                ans += fij\n                i += 1\n                j += 1\n        \n        return ans\n```\n\n**复杂度分析**\n\n- 时间复杂度：$O\\big((m+n) \\min(m, n)\\big) = O(mn)$，其中 $m$ 和 $n$ 分别是字符串 $s$ 和 $t$ 的长度。\n\n- 空间复杂度：$O(1)$。",
+      "createdAt": "2020-10-31T16:10:51.157159+00:00",
+      "hitCount": 3707,
+      "identifier": "uJj3Qj",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "mei-ju-fen-qi-dian-xiang-liang-ce-kuo-zhan-by-luci",
+        "title": "枚举分歧点，向两侧扩展"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "count-substrings-that-differ-by-one-character"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 33,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "AWESOME"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "CONFUSED"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "tong-ji-zhi-chai-yi-ge-zi-fu-de-zi-chuan-shu-mu-by",
+      "status": "PUBLISHED",
+      "summary": "方法一：暴力枚举\n思路与算法\n枚举子串在 s 中的起始位置 i，t 中的起始位置 j。随后同时遍历两个字符串，统计对应位置不同的字符的数量：\n\n如果数量为 0，继续遍历；\n如果数量为 1，计入一次答案；\n如果数量为 2，退出遍历。\n\n代码\n复杂度分析\n\n\n时间复杂度：O\\big(mn \\min(m, n)\\big)，",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "String",
+          "nameTranslated": "字符串",
+          "slug": "string",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Dynamic Programming",
+          "nameTranslated": "动态规划",
+          "slug": "dynamic-programming",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "统计只差一个字符的子串数目",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 20,
+        "id": 468537,
+        "viewCount": 2630
+      },
+      "uuid": "uJj3Qj",
+      "videosInfo": []
+    }
+  }
+}

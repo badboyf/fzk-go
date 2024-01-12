@@ -1,0 +1,72 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "vanilla111",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/vanilla111/avatar_1566265236.png",
+          "userSlug": "vanilla111"
+        },
+        "username": "vanilla111"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 解题思路\n\n中学就学过了的小数用二进制表示，将转换过程编写成代码即可\n\n``` go\nfunc printBin(num float64) string {\n\tsb := strings.Builder{}\n\tsb.WriteString(\"0.\")\n\tfor i := 0; i < 31; i++ {\n\t\tnum *= 2\n\t\tif num >= 1 {\n\t\t\tsb.WriteString(\"1\")\n\t\t\tnum -= 1\n\t\t} else {\n\t\t\tsb.WriteString(\"0\")\n\t\t}\n\t\tif num == 0 {\n\t\t\tbreak\n\t\t}\n\t}\n\tif num != 0 {\n\t\treturn \"ERROR\"\n\t}\n\treturn sb.String()\n}\n```\n",
+      "createdAt": "2021-10-07T08:51:55.375924+00:00",
+      "hitCount": 237,
+      "identifier": "Xh4GOS",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "er-jin-zhi-xiao-shu-jian-dan-zhuan-huan-4hol5",
+        "title": "二进制小数简单转换"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "bianry-number-to-string-lcci"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "go-chu-zhong-shu-xue-xiao-shu-er-jin-zhi-o8h2",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n中学就学过了的小数用二进制表示，将转换过程编写成代码即可",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Go",
+          "nameTranslated": "",
+          "slug": "golang",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "Go 小数用二进制表示",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1034957,
+        "viewCount": 205
+      },
+      "uuid": "Xh4GOS",
+      "videosInfo": []
+    }
+  }
+}

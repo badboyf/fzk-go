@@ -1,0 +1,79 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "Veyron",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/da-jia-hao-158/avatar_1598412397.png",
+          "userSlug": "da-jia-hao-158"
+        },
+        "username": "da-jia-hao-158"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "时间复杂度O(n)\r\n\r\n核心就是把矩阵的每一行构造成上一题的“直方图最大矩形”。每一行矩形的高度建立在是否同上一行都为“1”上\r\n```\r\n                if(nums[j] == '1'){\r\n                    rectangular[j]++;\r\n                }else{\r\n                    rectangular[j]=0;//这一行的某个字符为“0”，那就矩形高度清0\r\n                }\r\n```\r\n完整代码：\r\n```\r\nclass Solution {\r\npublic:\r\n    int maximalRectangle(vector<string>& matrix) {\r\n        int area=0;\r\n        if(matrix.size() ==0 || matrix[0].size() ==0)return 0;\r\n        int rows = matrix.size();\r\n        int cols = matrix[0].size();\r\n        vector<int> rectangular(cols);\r\n        \r\n        for(string nums:matrix){\r\n            int i=0;\r\n            for(int j=0; j<cols; ++j){//把矩阵的矩阵形式，构造成同上一题的“直方图最大矩形”\r\n            //也就是每次看一行数据，这一行看做直方图。下一行“1”能和上一行接上就累加，数值就代表矩形高度\r\n            //不然下一行的高度就归零。\r\n                if(nums[j] == '1'){\r\n                    rectangular[j]++;\r\n                }else{\r\n                    rectangular[j]=0;\r\n                }\r\n            }\r\n            ++i;\r\n            area = max(area, largestRectangleArea(rectangular));\r\n        }\r\n        return area;\r\n    }\r\n    //下面的函数，同上面一道题。\r\n    int largestRectangleArea(vector<int>& heights) {\r\n        int len = heights.size();\r\n        int area=0;\r\n        //栈的目的:不用重复遍历所有匹配，查找可得左右边界情况\r\n        stack<int> stk;//存储的是数组的索引值。单调栈，从底到顶，数字为从小到大\r\n        stk.push(-1);\r\n        int wide, height;\r\n        int i=0;\r\n        for(; i<len; ++i){//数组遍历（可能会计算之间部分面积）\r\n        // 新添加元素小于栈顶元素：栈顶元素为height的，矩形右边界能确定\r\n            while(stk.top() !=-1 && heights[stk.top()]>=heights[i]){\r\n                height = heights[stk.top()];stk.pop();\r\n                wide = i - stk.top()-1;\r\n                area = max(area, height*wide);\r\n            }\r\n        // 新元素大于栈顶元素：栈顶元素为height的矩形右边界没法确定。（直接入栈）\r\n            stk.push(i);\r\n        }\r\n\r\n        while(stk.top() != -1){//再遍历栈中剩下的元素，栈中都是从小到大排列，计算面积就很有规律了\r\n            height = heights[stk.top()];stk.pop();\r\n            wide = len - stk.top()-1;\r\n            area = max(area, height*wide);\r\n        }\r\n        return area;\r\n    }\r\n};\r\n```\r\n",
+      "createdAt": "2021-10-11T12:15:18.201627+00:00",
+      "hitCount": 486,
+      "identifier": "XvRpzw",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "jian-zhi-offer-ii-040-ju-zhen-zhong-zui-v3wg2",
+        "title": "剑指 Offer II 040. 矩阵中最大的矩形"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "PLYXKQ"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 3,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "c-miao-dong-he-xin-jiu-san-ju-hua-040-ju-mjld",
+      "status": "PREPUBLISH",
+      "summary": "时间复杂度O(n)\n核心就是把矩阵的每一行构造成上一题的“直方图最大矩形”。每一行矩形的高度建立在是否同上一行都为“1”上\n完整代码：",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Monotonic Stack",
+          "nameTranslated": "单调栈",
+          "slug": "monotonic-stack",
+          "tagType": "TOPIC"
+        }
+      ],
+      "thumbnail": "",
+      "title": "C++ 秒懂 核心就三句话（ 040. 矩阵中最大的矩形）",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 1,
+        "id": 1042230,
+        "viewCount": 409
+      },
+      "uuid": "XvRpzw",
+      "videosInfo": []
+    }
+  }
+}

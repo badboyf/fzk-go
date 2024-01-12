@@ -1,0 +1,79 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "用DFS搜到<锅包又>",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/yzboostforest/avatar_1625113111.png",
+          "userSlug": "yzboostforest"
+        },
+        "username": "YZBoostForest"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n此处撰写解题思路\n\n### 代码\n\n```python3\nclass Solution:\n    def mergeAlternately(self, word1: str, word2: str) -> str:\n        m, n = len(word1), len(word2)\n        p1, p2 = 0, 0\n        res = \"\"\n\n        while p1 < m and p2 < n:\n            if p1<=p2:\n                res += word1[p1]\n                p1+=1\n            else:\n                res += word2[p2]\n                p2+=1\n\n        if p1<m:\n            res += word1[p1:]\n        elif p2<n:\n            res += word2[p2:] \n\n        return res\n```",
+      "createdAt": "2021-11-26T11:12:39.964840+00:00",
+      "hitCount": 4,
+      "identifier": "mucpO0",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "zhe-ge-ren-hen-lan-jiu-zhi-xie-liao-7xin-ezvb",
+        "title": "这个人很懒就只写了7行代码..."
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "merge-strings-alternately"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "shuang-zhi-zhen-wen-ti-python-by-yzboost-yt1e",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n此处撰写解题思路\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Two Pointers",
+          "nameTranslated": "双指针",
+          "slug": "two-pointers",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "双指针问题 Python",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1123919,
+        "viewCount": 4
+      },
+      "uuid": "mucpO0",
+      "videosInfo": []
+    }
+  }
+}

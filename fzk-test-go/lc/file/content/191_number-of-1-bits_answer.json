@@ -1,0 +1,114 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣官方题解",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/leetcode-solution/avatar_1582018938.png",
+          "userSlug": "leetcode-solution"
+        },
+        "username": "LeetCode-Solution"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法一：循环检查二进制位\n\n**思路及解法**\n\n我们可以直接循环检查给定整数 $n$ 的二进制位的每一位是否为 $1$。\n\n具体代码中，当检查第 $i$ 位时，我们可以让 $n$ 与 $2^i$ 进行与运算，当且仅当 $n$ 的第 $i$ 位为 $1$ 时，运算结果不为 $0$。\n\n**代码**\n\n```C++ [sol1-C++]\nclass Solution {\npublic:\n    int hammingWeight(uint32_t n) {\n        int ret = 0;\n        for (int i = 0; i < 32; i++) {\n            if (n & (1 << i)) {\n                ret++;\n            }\n        }\n        return ret;\n    }\n};\n```\n\n```Java [sol1-Java]\npublic class Solution {\n    public int hammingWeight(int n) {\n        int ret = 0;\n        for (int i = 0; i < 32; i++) {\n            if ((n & (1 << i)) != 0) {\n                ret++;\n            }\n        }\n        return ret;\n    }\n}\n```\n\n```Python [sol1-Python3]\nclass Solution:\n    def hammingWeight(self, n: int) -> int:\n        ret = sum(1 for i in range(32) if n & (1 << i)) \n        return ret\n```\n\n```go [sol1-Golang]\nfunc hammingWeight(num uint32) (ones int) {\n    for i := 0; i < 32; i++ {\n        if 1<<i&num > 0 {\n            ones++\n        }\n    }\n    return\n}\n```\n\n```JavaScript [sol1-JavaScript]\nvar hammingWeight = function(n) {\n    let ret = 0;\n    for (let i = 0; i < 32; i++) {\n        if ((n & (1 << i)) !== 0) {\n            ret++;\n        }\n    }\n    return ret;\n};\n```\n\n```C [sol1-C]\nint hammingWeight(uint32_t n) {\n    int ret = 0;\n    for (int i = 0; i < 32; i++) {\n        if (n & (1u << i)) {\n            ret++;\n        }\n    }\n    return ret;\n}\n```\n\n**复杂度分析**\n\n- 时间复杂度：$O(k)$，其中 $k$ 是 $\\texttt{int}$ 型的二进制位数，$k=32$。我们需要检查 $n$ 的二进制位的每一位，一共需要检查 $32$ 位。\n\n- 空间复杂度：$O(1)$，我们只需要常数的空间保存若干变量。\n\n#### 方法二：位运算优化\n\n**思路及解法**\n\n观察这个运算：$n~\\&~(n - 1)$，其运算结果恰为把 $n$ 的二进制位中的最低位的 $1$ 变为 $0$ 之后的结果。\n\n如：$6~\\&~(6-1) = 4, 6 = (110)_2, 4 = (100)_2$，运算结果 $4$ 即为把 $6$ 的二进制位中的最低位的 $1$ 变为 $0$ 之后的结果。\n\n这样我们可以利用这个位运算的性质加速我们的检查过程，在实际代码中，我们不断让当前的 $n$ 与 $n - 1$ 做与运算，直到 $n$ 变为 $0$ 即可。因为每次运算会使得 $n$ 的最低位的 $1$ 被翻转，因此运算次数就等于 $n$ 的二进制位中 $1$ 的个数。\n\n**代码**\n\n```C++ [sol2-C++]\nclass Solution {\npublic:\n    int hammingWeight(uint32_t n) {\n        int ret = 0;\n        while (n) {\n            n &= n - 1;\n            ret++;\n        }\n        return ret;\n    }\n};\n```\n\n```Java [sol2-Java]\npublic class Solution {\n    public int hammingWeight(int n) {\n        int ret = 0;\n        while (n != 0) {\n            n &= n - 1;\n            ret++;\n        }\n        return ret;\n    }\n}\n```\n\n```Python [sol2-Python3]\nclass Solution:\n    def hammingWeight(self, n: int) -> int:\n        ret = 0\n        while n:\n            n &= n - 1\n            ret += 1\n        return ret\n```\n\n```go [sol2-Golang]\nfunc hammingWeight(num uint32) (ones int) {\n    for ; num > 0; num &= num - 1 {\n        ones++\n    }\n    return\n}\n```\n\n```JavaScript [sol2-JavaScript]\nvar hammingWeight = function(n) {\n    let ret = 0;\n    while (n) {\n        n &= n - 1;\n        ret++;\n    }\n    return ret;\n};\n```\n\n```C [sol2-C]\nint hammingWeight(uint32_t n) {\n    int ret = 0;\n    while (n) {\n        n &= n - 1;\n        ret++;\n    }\n    return ret;\n}\n```\n\n**复杂度分析**\n\n- 时间复杂度：$O(\\log n)$。循环次数等于 $n$ 的二进制位中 $1$ 的个数，最坏情况下 $n$ 的二进制位全部为 $1$。我们需要循环 $\\log n$ 次。\n\n- 空间复杂度：$O(1)$，我们只需要常数的空间保存若干变量。",
+      "createdAt": "2021-03-21T15:18:42.525913+00:00",
+      "hitCount": 58895,
+      "identifier": "tYhLRA",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "fu-xue-ming-zhu-xiang-jie-wei-yun-suan-f-ci7i",
+        "title": "【负雪明烛】详解位运算，附本题躲坑指南"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "number-of-1-bits"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 88,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "wei-1de-ge-shu-by-leetcode-solution-jnwf",
+      "status": "PREPUBLISH",
+      "summary": "方法一：循环检查二进制位\n思路及解法\n我们可以直接循环检查给定整数 n 的二进制位的每一位是否为 1。\n具体代码中，当检查第 i 位时，我们可以让 n 与 2^i 进行与运算，当且仅当 n 的第 i 位为 1 时，运算结果不为 0。\n代码\n复杂度分析\n\n\n时间复杂度：O(k)，其中 k 是 \\texttt{int}",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Bit Manipulation",
+          "nameTranslated": "位运算",
+          "slug": "bit-manipulation",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C",
+          "nameTranslated": "",
+          "slug": "c",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Go",
+          "nameTranslated": "",
+          "slug": "golang",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "JavaScript",
+          "nameTranslated": "",
+          "slug": "javascript",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "位1的个数",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 145,
+        "id": 672082,
+        "viewCount": 46026
+      },
+      "uuid": "tYhLRA",
+      "videosInfo": []
+    }
+  }
+}

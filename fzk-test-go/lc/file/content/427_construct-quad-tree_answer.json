@@ -1,0 +1,86 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "LvLin",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/da-yi-zhu-jia/avatar_1540522147.png",
+          "userSlug": "da-yi-zhu-jia"
+        },
+        "username": "da-yi-zhu-jia"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "\r\n思路主要是分两步：\r\n1. 判断是否是叶子节点\r\n2. 构造四个子节点\r\n\r\n**判断是否是叶子节点**\r\n\r\n1. 通过top和left坐标，以及区域长度n，可以确定判断的区域范围\r\n2. 拿到左上角的值，然后遍历整个区域，只要有一个值与它不同，就返回0，即非叶子节点\r\n3. 否则返回 1， 即叶子节点\r\n\r\n```js\r\nconst isLeaf = function (top, left, n) {\r\n    let a = grid[top][left];\r\n    for (let i = top; i < top+n; i++) {\r\n        for (let j = left; j < left+n; j++) {\r\n            if (a !== grid[i][j]) return 0;\r\n        }\r\n    }\r\n    return 1;\r\n};\r\n```\r\n\r\n**构造四个子节点**\r\n\r\n为了方便进行递归，在默认的函数参数上加上了几个参数，系统调用的时候这几个参数值为 undefined，需要进行初始化。\r\n\r\n\r\n接下来创建一个树节点，val 直接赋区域左上角的值， isLeaf 任意赋值，这里赋值为 1，初始化 4 个子节点为 null。\r\n\r\n\r\n判断该区域是否是叶子节点，如果不是则 利用 top， left，n 进行新的区域划分，这里 `n>>1` 等价于 `Math.ceil(n/2)`。\r\n\r\n\r\n最后返回创建好的节点，作为父级的子节点，或者是最终结果。 \r\n\r\n```js\r\nvar construct = function (grid, top, left, n) {\r\n    // console.log({top, left, n});\r\n    if (top == undefined) { // 第一次传进来\r\n        top = 0;\r\n        left = 0;\r\n        n = grid.length;\r\n    }\r\n\r\n    // ... isLeaf()\r\n\r\n    let node = new Node(grid[top][left], 1, null, null, null, null);\r\n\r\n    node.isLeaf = isLeaf(top, left, n);\r\n\r\n    if (!node.isLeaf) {\r\n        node.topLeft = construct(grid, top, left, n>>1);\r\n        node.topRight = construct(grid, top, left+(n>>1), n>>1);\r\n        node.bottomLeft = construct(grid, top+(n>>1), left, n>>1);\r\n        node.bottomRight = construct(grid, top+(n>>1), left+(n>>1), n>>1);    \r\n    }\r\n\r\n    return node;\r\n};\r\n```\r\n\r\n**完整代码**\r\n```\r\nvar construct = function (grid, top, left, n) {\r\n    // console.log({top, left, n});\r\n    if (top == undefined) { // 第一次传进来\r\n        top = 0;\r\n        left = 0;\r\n        n = grid.length;\r\n    }\r\n\r\n    const isLeaf = function (top, left, n) {\r\n        let a = grid[top][left];\r\n        for (let i = top; i < top+n; i++) {\r\n            for (let j = left; j < left+n; j++) {\r\n                if (a !== grid[i][j]) return 0;\r\n            }\r\n        }\r\n        return 1;\r\n    }\r\n\r\n    let node = new Node(grid[top][left], 1, null, null, null, null);\r\n\r\n    node.isLeaf = isLeaf(top, left, n);\r\n\r\n    if (!node.isLeaf) {\r\n        node.topLeft = construct(grid, top, left, n>>1);\r\n        node.topRight = construct(grid, top, left+(n>>1), n>>1);\r\n        node.bottomLeft = construct(grid, top+(n>>1), left, n>>1);\r\n        node.bottomRight = construct(grid, top+(n>>1), left+(n>>1), n>>1);    \r\n    }\r\n    return node;\r\n};\r\n```\r\n**运行结果**\r\n![image.png](https://pic.leetcode-cn.com/1634966864-KOTuHP-image.png)\r\n",
+      "createdAt": "2021-10-23T05:25:23.820444+00:00",
+      "hitCount": 94,
+      "identifier": "eJIttS",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "dfs-by-xrocket-7k19",
+        "title": "DFS"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "construct-quad-tree"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "js-pan-duan-xie-zi-jie-dian-fen-zhi-gou-7k53q",
+      "status": "PREPUBLISH",
+      "summary": "思路主要是分两步：\n\n判断是否是叶子节点\n构造四个子节点\n\n判断是否是叶子节点\n\n通过top和left坐标，以及区域长度n，可以确定判断的区域范围\n拿到左上角的值，然后遍历整个区域，只要有一个值与它不同，就返回0，即非叶子节点\n否则返回 1， 即叶子节点\n\n构造四个子节点\n为了方便进行递归，在默认的函数参数上加上了几个",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Recursion",
+          "nameTranslated": "递归",
+          "slug": "recursion",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Divide and Conquer",
+          "nameTranslated": "分治",
+          "slug": "divide-and-conquer",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "JavaScript",
+          "nameTranslated": "",
+          "slug": "javascript",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1634966864-KOTuHP-image.png",
+      "title": "【LvLin】javascript题解：判断叶子节点，分治构造子节点",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1062600,
+        "viewCount": 69
+      },
+      "uuid": "eJIttS",
+      "videosInfo": []
+    }
+  }
+}

@@ -1,0 +1,81 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "Creep in",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/yuangongzhen/avatar_1636433103.png",
+          "userSlug": "yuangongzhen"
+        },
+        "username": "yuangongzhen"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n1.判断当前节点左右孩子的深度，相等则当前节点为最近公共祖先；\n2.左孩子深度大于右孩子深度则公共祖先则必在左子树上；\n3.左孩子深度小于右孩子深度则公共祖先则必在右子树上；\n遍历树找到一个左右子树深度相等的节点即可。\n### 代码\n\n```c\n/**\n * Definition for a binary tree node.\n * struct TreeNode {\n *     int val;\n *     struct TreeNode *left;\n *     struct TreeNode *right;\n * };\n */\nint getDepth(struct TreeNode* root){\n    if(!root)return 0;\n    return fmax(getDepth(root->left),getDepth(root->right))+1;\n}\n\nstruct TreeNode* lcaDeepestLeaves(struct TreeNode* root){\n    struct TreeNode* res=root,*cur=root;\n    while(cur){\n        int left=getDepth(cur->left);\n        int right=getDepth(cur->right);\n        if(left==right){\n            res=cur;\n            break;\n        }else if(left>right){\n            cur=cur->left;\n        }else cur=cur->right;\n    }\n    return res;\n}\n```",
+      "createdAt": "2021-10-26T04:32:08.711763+00:00",
+      "hitCount": 149,
+      "identifier": "g98DNH",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "wei-shi-yao-shi-100-by-wiper-j9xc",
+        "title": "为什么是100%？"
+      },
+      "position": 24,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "java-mo-ban-jie-jue-gong-gong-zu-xian-we-23it",
+        "title": "JAVA 模板解决公共祖先问题"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "lowest-common-ancestor-of-deepest-leaves"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "AWESOME"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 0,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "ckuai-su-jie-jue-by-yuangongzhen-l2gt",
+      "status": "PUBLISHED",
+      "summary": "解题思路\n1.判断当前节点左右孩子的深度，相等则当前节点为最近公共祖先；\n2.左孩子深度大于右孩子深度则公共祖先则必在左子树上；\n3.左孩子深度小于右孩子深度则公共祖先则必在右子树上；\n遍历树找到一个左右子树深度相等的节点即可。\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "C",
+          "nameTranslated": "",
+          "slug": "c",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "C快速解决",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1067397,
+        "viewCount": 123
+      },
+      "uuid": "g98DNH",
+      "videosInfo": []
+    }
+  }
+}

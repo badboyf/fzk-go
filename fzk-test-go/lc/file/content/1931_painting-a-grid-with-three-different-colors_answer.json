@@ -1,0 +1,100 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣官方题解",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/leetcode-solution/avatar_1582018938.png",
+          "userSlug": "leetcode-solution"
+        },
+        "username": "LeetCode-Solution"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法一：状态压缩动态规划\n\n**提示 $1$**\n\n要使得任意两个相邻的格子的颜色均不相同，我们需要保证：\n\n- 同一行内任意两个相邻格子的颜色互不相同；\n\n- 相邻的两行之间，同一列上的两个格子的颜色互不相同。\n\n因此，我们可以考虑：\n\n- 首先通过枚举的方法，找出所有对一行进行涂色的方案数；\n\n- 然后通过动态规划的方法，计算出对整个 $m \\times n$ 的方格进行涂色的方案数。\n\n在本题中，$m$ 和 $n$ 的最大值分别是 $5$ 和 $1000$，我们需要将较小的 $m$ 看成行的长度，较大的 $n$ 看成列的长度，这样才可以对一行进行枚举。\n\n**思路与算法**\n\n我们首先枚举对一行进行涂色的方案数。\n\n对于我们可以选择红绿蓝三种颜色，我们可以将它们看成 $0, 1, 2$。这样一来，一种涂色方案就对应着一个长度为 $m$ 的三进制数，其十进制的范围为 $[0, 3^m)$。\n\n因此，我们可以枚举 $[0, 3^m)$ 范围内的所有整数，将其转换为长度为 $m$ 的三进制串，再判断其是否满足任意相邻的两个数位均不相同即可。\n\n随后我们就可以使用动态规划来计算方案数了。我们用 $f[i][\\textit{mask}]$ 表示我们已经对 $0, 1, \\cdots, i$ 行进行了涂色，并且第 $i$ 行的涂色方案对应的三进制表示为 $\\textit{mask}$ 的前提下的总方案数。在进行状态转移时，我们可以考虑第 $i-1$ 行的涂色方案 $\\textit{mask}'$：\n\n$$\nf[i][\\textit{mask}] = \\sum_{\\textit{mask} ~与~ \\textit{mask}' 同一数位上的数字均不相同} f[i-1][\\textit{mask}']\n$$\n\n只要 $\\textit{mask}'$ 与 $\\textit{mask}$ 同一数位上的数字均不相同，就说明这两行可以相邻，我们就可以进行状态转移。\n\n最终的答案即为所有满足 $\\textit{mask} \\in [0, 3^m)$ 的 $f[n-1][\\textit{mask}]$ 之和。\n\n**细节**\n\n上述动态规划中的边界条件在于第 $0$ 行的涂色。当 $i=0$ 时，$f[i-1][..]$ 不是合法状态，无法进行转移，我们需要对它们进行特判：即如果 $\\textit{mask}$ 任意相邻的两个数位均不相同，那么 $f[0][\\textit{mask}] = 1$，否则 $f[0][\\textit{mask}] = 0$。\n\n在其余情况下的状态转移时，对于给定的 $\\textit{mask}$，我们总是要找出所有满足要求的 $\\textit{mask}'$，因此我们不妨也把它们预处理出来，具体可以参考下方给出的代码。\n\n最后需要注意的是，在状态转移方程中，$f[i][..]$ 只会从 $f[i-1][..]$ 转移而来，因此我们可以使用两个长度为 $3^m$ 的一维数组，交替地进行状态转移。\n\n**代码**\n\n```C++ [sol1-C++]\nclass Solution {\nprivate:\n    static constexpr int mod = 1000000007;\n\npublic:\n    int colorTheGrid(int m, int n) {\n        // 哈希映射 valid 存储所有满足要求的对一行进行涂色的方案\n        // 键表示 mask，值表示 mask 的三进制串（以列表的形式存储）\n        unordered_map<int, vector<int>> valid;\n\n        // 在 [0, 3^m) 范围内枚举满足要求的 mask\n        int mask_end = pow(3, m);\n        for (int mask = 0; mask < mask_end; ++mask) {\n            vector<int> color;\n            int mm = mask;\n            for (int i = 0; i < m; ++i) {\n                color.push_back(mm % 3);\n                mm /= 3;\n            }\n            bool check = true;\n            for (int i = 0; i < m - 1; ++i) {\n                if (color[i] == color[i + 1]) {\n                    check = false;\n                    break;\n                }\n            }\n            if (check) {\n                valid[mask] = move(color);\n            }\n        }\n\n        // 预处理所有的 (mask1, mask2) 二元组，满足 mask1 和 mask2 作为相邻行时，同一列上两个格子的颜色不同\n        unordered_map<int, vector<int>> adjacent;\n        for (const auto& [mask1, color1]: valid) {\n            for (const auto& [mask2, color2]: valid) {\n                bool check = true;\n                for (int i = 0; i < m; ++i) {\n                    if (color1[i] == color2[i]) {\n                        check = false;\n                        break;\n                    }\n                }\n                if (check) {\n                    adjacent[mask1].push_back(mask2);\n                }\n            }\n        }\n\n        vector<int> f(mask_end);\n        for (const auto& [mask, _]: valid) {\n            f[mask] = 1;\n        }\n        for (int i = 1; i < n; ++i) {\n            vector<int> g(mask_end);\n            for (const auto& [mask2, _]: valid) {\n                for (int mask1: adjacent[mask2]) {\n                    g[mask2] += f[mask1];\n                    if (g[mask2] >= mod) {\n                        g[mask2] -= mod;\n                    }\n                }\n            }\n            f = move(g);\n        }\n\n        int ans = 0;\n        for (int num: f) {\n            ans += num;\n            if (ans >= mod) {\n                ans -= mod;\n            }\n        }\n        return ans;\n    }\n};\n```\n\n```Python [sol1-Python3]\nclass Solution:\n    def colorTheGrid(self, m: int, n: int) -> int:\n        mod = 10**9 + 7\n        # 哈希映射 valid 存储所有满足要求的对一行进行涂色的方案\n        # 键表示 mask，值表示 mask 的三进制串（以列表的形式存储）\n        valid = dict()\n        \n        # 在 [0, 3^m) 范围内枚举满足要求的 mask\n        for mask in range(3**m):\n            color = list()\n            mm = mask\n            for i in range(m):\n                color.append(mm % 3)\n                mm //= 3\n            if any(color[i] == color[i + 1] for i in range(m - 1)):\n                continue\n            valid[mask] = color\n        \n        # 预处理所有的 (mask1, mask2) 二元组，满足 mask1 和 mask2 作为相邻行时，同一列上两个格子的颜色不同\n        adjacent = defaultdict(list)\n        for mask1, color1 in valid.items():\n            for mask2, color2 in valid.items():\n                if not any(x == y for x, y in zip(color1, color2)):\n                    adjacent[mask1].append(mask2)\n        \n        f = [int(mask in valid) for mask in range(3**m)]\n        for i in range(1, n):\n            g = [0] * (3**m)\n            for mask2 in valid.keys():\n                for mask1 in adjacent[mask2]:\n                    g[mask2] += f[mask1]\n                    if g[mask2] >= mod:\n                        g[mask2] -= mod\n            f = g\n            \n        return sum(f) % mod\n```\n\n**复杂度分析**\n\n- 时间复杂度：$O(3^{2m} \\cdot n)$。\n\n    - 预处理 $\\textit{mask}$ 的时间复杂度为 $O(m \\cdot 3^m)$；\n\n    - 预处理 $(\\textit{mask}, \\textit{mask}')$ 二元组的时间复杂度为 $O(3^{2m})$；\n\n    - 动态规划的时间复杂度为 $O(3^{2m} \\cdot n)$，其在渐近意义下大于前两者。\n\n- 空间复杂度：$O(3^{2m})$。\n\n    - 存储 $\\textit{mask}$ 的哈希映射需要的空间为 $O(m \\cdot 3^m)$；\n\n    - 存储 $(\\textit{mask}, \\textit{mask}')$ 二元组需要的空间为 $O(3^{2m})$，在渐进意义下大于其余两者；\n\n    - 动态规划存储状态需要的空间为 $O(3^m)$。\n\n不过需要注意的是，在实际的情况下，当 $m=5$ 时，满足要求的 $\\textit{mask}$ 仅有 $48$ 个，远小于 $3^m=324$；满足要求的 $(\\textit{mask}, \\textit{mask}')$ 二元组仅有 $486$ 对，远小于 $3^{2m}=59049$。因此该算法的实际运行时间会较快。",
+      "createdAt": "2021-07-11T07:17:39.590543+00:00",
+      "hitCount": 4370,
+      "identifier": "bO3oZf",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "onda-cong-ming-suan-fa-tui-liao-ge-xiao-nvfk0",
+        "title": "O(2^m*n)大聪明解法，推了个小时，0ms用时，绝对双百"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "painting-a-grid-with-three-different-colors"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 16,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "yong-san-chong-bu-tong-yan-se-wei-wang-g-7nb2",
+      "status": "PUBLISHED",
+      "summary": "方法一：状态压缩动态规划 提示 $1$ 要使得任意两个相邻的格子的颜色均不相同，我们需要保证： 同一行内任意两个相邻格子的颜色互不相同； 相邻的两行之间，同一列上的两个格子的颜色互不相同。 因此，我们可以考虑： 首先通过枚举的方法，找出所有对一行进行涂色的方案数； 然后通过动态规划的方法，计算出对整个 $m \\time",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Hash Table",
+          "nameTranslated": "哈希表",
+          "slug": "hash-table",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Dynamic Programming",
+          "nameTranslated": "动态规划",
+          "slug": "dynamic-programming",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Bitmask",
+          "nameTranslated": "状态压缩",
+          "slug": "bitmask",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "用三种不同颜色为网格涂色",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 14,
+        "id": 870045,
+        "viewCount": 2844
+      },
+      "uuid": "bO3oZf",
+      "videosInfo": []
+    }
+  }
+}

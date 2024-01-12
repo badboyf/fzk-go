@@ -1,0 +1,79 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "@翼",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/leo-ucf/avatar_1618712681.png",
+          "userSlug": "leo-ucf"
+        },
+        "username": "leo-ucf"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "![捕获.PNG](https://pic.leetcode-cn.com/1637896664-EkjAGc-%E6%8D%95%E8%8E%B7.PNG)\n\n### 解题思路\n此题使用golang并查集 并按照秩合并，最后把最大的秩输出到结果数组ans里面，并对ans排序。\n\n由于题目要求上下左右斜对角线都可以，定义方向数组如下：\n\n```golang\n  dx := []int{-1,0,0,1,1,-1,1,-1}\n  dy := []int{0,-1,1,0,1,-1,-1,1}\n```\n\n### 代码\n\n```golang\nfunc pondSizes(land [][]int) []int {\n\n  m := len(land)\n  n := len(land[0])\n  ans := make([]int, 0)\n  //方向数组 上下左右、斜对角线\n  dx := []int{-1,0,0,1,1,-1,1,-1}\n  dy := []int{0,-1,1,0,1,-1,-1,1}\n\n   //初始化并查集\n   fa := make([]int, m*n+1)\n   rank := make([]int, m*n+1)\n    for i:=0;i<=m*n;i++{\n        fa[i] = i\n    }\n    for i:=0;i<=m*n;i++{\n        rank[i] = 1\n    }\n\n   //循环网格\n\n    for i:=0;i<m;i++{\n        for j:=0;j<n;j++{\n           //如果碰到水则continue\n           if (land[i][j] != 0){continue}\n\n           for k:=0;k<8;k++{\n\n               nx := i + dx[k]\n               ny := j + dy[k]\n\n               //到了边界continue\n               if (nx>=m || ny >=n||nx<0||ny<0){\n                   continue\n\n                //如果相邻是1，则加入并查集 uninonset   \n               }\n\n                if land[nx][ny] == 0{\n                       unionSet(fa,rank, nums(n, i, j), nums(n,nx,ny))\n                   }\n               }\n           }\n  \n        }\n    \n    //最后查找并查集的最大秩即可，最大秩在根节点上\n    for i:=0;i<m;i++{\n      for j:=0;j<n;j++{\n\n          if (land[i][j] ==0&&Find(fa, nums(n,i,j)) == nums(n,i,j)){\n              //把池塘的大小都append到ans数组里面\n              ans = append(ans, rank[nums(n,i,j)])\n          }\n\n      }\n\n    }\n    //对池塘大小排序\n\n    sort.Ints(ans)\n\n    return ans\n\n}\n\nfunc nums(n, i, j int) int {\n    return i*n+j\n}\n\nfunc max(a, b int) int{\n    if (a>b){\n        return a\n    }else{\n        return b \n    }\n}\n\n\nfunc Find(fa []int, x int ) int {\n    if (fa[x]==x){return  x}\n     fa[x] = Find(fa, fa[x])\n     return fa[x]\n}  \n//并查集按照秩合并，小的秩加到大的里面\n\nfunc unionSet(fa []int, rank []int , x, y int ) {\n    x, y = Find(fa, x), Find(fa, y) \n    if (x !=y){\n        if (rank[x]<=rank[y]){\n            fa[x] = y\n            rank[y] += rank[x]\n        }else {\n            fa[y] = x\n            rank[x] += rank[y]\n        }\n    }\n}\n```",
+      "createdAt": "2021-11-26T03:20:09.658778+00:00",
+      "hitCount": 20,
+      "identifier": "NQ1WYx",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "java-bing-cha-ji-dai-quan-zhong-by-lyl-3-d7zp",
+        "title": "JAVA 并查集 带权重"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "pond-sizes-lcci"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "mian-shi-ti-1619-shui-yu-da-xiao-bing-ch-1ro7",
+      "status": "PUBLISHED",
+      "summary": "解题思路\n此题使用golang并查集 并按照秩合并，最后把最大的秩输出到结果数组ans里面，并对ans排序。\n由于题目要求上下左右斜对角线都可以，定义方向数组如下：\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Union Find",
+          "nameTranslated": "并查集",
+          "slug": "union-find",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Go",
+          "nameTranslated": "",
+          "slug": "golang",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1637896664-EkjAGc-%E6%8D%95%E8%8E%B7.PNG",
+      "title": "【面试题 16.19. 水域大小】【并查集按秩合并】Golang简单模板实现",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1123111,
+        "viewCount": 15
+      },
+      "uuid": "NQ1WYx",
+      "videosInfo": []
+    }
+  }
+}

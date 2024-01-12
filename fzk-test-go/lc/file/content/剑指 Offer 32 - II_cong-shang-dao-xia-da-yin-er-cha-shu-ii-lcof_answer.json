@@ -1,0 +1,115 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "Krahets",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/jyd/avatar_1589712294.png",
+          "userSlug": "jyd"
+        },
+        "username": "jyd"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 解题思路：\r\n\r\n> 建议先做 [面试题32 - I. 从上到下打印二叉树](https://leetcode-cn.com/problems/cong-shang-dao-xia-da-yin-er-cha-shu-lcof/solution/mian-shi-ti-32-i-cong-shang-dao-xia-da-yin-er-ch-4/) 再做此题，两题仅有微小区别，即本题需将 **每一层打印到一行** 。\r\n\r\n**I. 按层打印：** 题目要求的二叉树的 **从上至下** 打印（即按层打印），又称为二叉树的 **广度优先搜索**（BFS）。BFS 通常借助 **队列** 的先入先出特性来实现。\r\n\r\n**II. 每层打印到一行：** 将本层全部节点打印到一行，并将下一层全部节点加入队列，以此类推，即可分为多行打印。\r\n\r\n![Picture1.png](https://pic.leetcode-cn.com/59e0600588ffdc2f34b4b563193b56c1f678743637e2754e2a9be0e7facc5d48-Picture1.png){:width=400}\r\n\r\n##### 算法流程：\r\n\r\n1. **特例处理：** 当根节点为空，则返回空列表 `[]` ；\r\n2. **初始化：** 打印结果列表 `res = []` ，包含根节点的队列 `queue = [root]` ；\r\n3. **BFS 循环：** 当队列 `queue` 为空时跳出；\r\n   1. 新建一个临时列表 `tmp` ，用于存储当前层打印结果；\r\n   2. **当前层打印循环：** 循环次数为当前层节点数（即队列 `queue` 长度）；\r\n      1. **出队：** 队首元素出队，记为 `node`；\r\n      2. **打印：** 将 `node.val` 添加至 `tmp` 尾部；\r\n      3. **添加子节点：** 若 `node` 的左（右）子节点不为空，则将左（右）子节点加入队列 `queue` ；\r\n   3. 将当前层结果 `tmp` 添加入 `res` 。\r\n4. **返回值：** 返回打印结果列表 `res` 即可。\r\n\r\n<![Picture2.png](https://pic.leetcode-cn.com/518365dc6b377e3cf145e5123705a11b43e6345580102f39f47d9e3e8bcc10d4-Picture2.png),![Picture3.png](https://pic.leetcode-cn.com/daa869d68c1e7cab9012da66433a2ba349558ffcb39828420f6ef0f7ad90b859-Picture3.png),![Picture4.png](https://pic.leetcode-cn.com/eb7be0d5b4c6278a9da8a2697907493560065f483fc34d039e10bea312f232c0-Picture4.png),![Picture5.png](https://pic.leetcode-cn.com/c54e39bd83b6f4a8c1cd579d367237e70ebba926bddcadec1259b36abacd41e9-Picture5.png),![Picture6.png](https://pic.leetcode-cn.com/2eb5541ccbc7306ae73eb16e54d1f412f66197d8608233c3e7c95f0278e37c7d-Picture6.png),![Picture7.png](https://pic.leetcode-cn.com/a40595df65cf7494d388dd5c6e3425825629eee94f3508478e140f60447d044d-Picture7.png),![Picture8.png](https://pic.leetcode-cn.com/b10a53ea9c733110accd66115a8b5131b2d1f893f27409d4151e94fb1d9d12e0-Picture8.png),![Picture9.png](https://pic.leetcode-cn.com/c357fd6520b06a4baca39a17a084e1ea6bbd4d9a0204cc261c4b4e9f35b8152d-Picture9.png),![Picture10.png](https://pic.leetcode-cn.com/84d88e40de8045d3c68f8aa90bc17141907b83b3b1ac1c897650e632e3bb837a-Picture10.png),![Picture11.png](https://pic.leetcode-cn.com/d689358fcf0e23feb51bf04f2e504f5871a196696665477d70629ab14f03186f-Picture11.png)>\r\n\r\n##### 复杂度分析：\r\n\r\n- **时间复杂度 $O(N)$ ：** $N$ 为二叉树的节点数量，即 BFS 需循环 $N$ 次。\r\n- **空间复杂度 $O(N)$ ：** 最差情况下，即当树为平衡二叉树时，最多有 $N/2$ 个树节点**同时**在 `queue` 中，使用 $O(N)$ 大小的额外空间。\r\n\r\n#### 代码：\r\n\r\n> Python 中使用 collections 中的双端队列 `deque()` ，其 `popleft()` 方法可达到 $O(1)$ 时间复杂度；列表 list 的 `pop(0)` 方法时间复杂度为 $O(N)$ 。\r\n\r\n```python []\r\nclass Solution:\r\n    def levelOrder(self, root: TreeNode) -> List[List[int]]:\r\n        if not root: return []\r\n        res, queue = [], collections.deque()\r\n        queue.append(root)\r\n        while queue:\r\n            tmp = []\r\n            for _ in range(len(queue)):\r\n                node = queue.popleft()\r\n                tmp.append(node.val)\r\n                if node.left: queue.append(node.left)\r\n                if node.right: queue.append(node.right)\r\n            res.append(tmp)\r\n        return res\r\n```\r\n\r\n```java []\r\nclass Solution {\r\n    public List<List<Integer>> levelOrder(TreeNode root) {\r\n        Queue<TreeNode> queue = new LinkedList<>();\r\n        List<List<Integer>> res = new ArrayList<>();\r\n        if(root != null) queue.add(root);\r\n        while(!queue.isEmpty()) {\r\n            List<Integer> tmp = new ArrayList<>();\r\n            for(int i = queue.size(); i > 0; i--) {\r\n                TreeNode node = queue.poll();\r\n                tmp.add(node.val);\r\n                if(node.left != null) queue.add(node.left);\r\n                if(node.right != null) queue.add(node.right);\r\n            }\r\n            res.add(tmp);\r\n        }\r\n        return res;\r\n    }\r\n}\r\n```",
+      "createdAt": "2020-03-07T13:42:16.692031+00:00",
+      "hitCount": 106737,
+      "identifier": "uf8gB8",
+      "isEditorsPick": true,
+      "isMostPopular": true,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "jian-zhi-offer-32-ii-cong-shang-dao-xia-12mu5",
+        "title": "剑指 Offer 32 - II. 从上到下打印二叉树 II（BFS / 广度优先搜索 / 层序遍历）"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "cong-shang-dao-xia-da-yin-er-cha-shu-ii-lcof"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 249,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 30,
+          "reactionType": "AWESOME"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "THUMBS_DOWN"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "CONFUSED"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "mian-shi-ti-32-ii-cong-shang-dao-xia-da-yin-er-c-5",
+      "status": "PUBLISHED",
+      "summary": " 解题思路：\n\n建议先做 面试题32 - I. 从上到下打印二叉树 再做此题，两题仅有微小区别，即本题需将 每一层打印到一行 。\n\nI. 按层打印： 题目要求的二叉树的 从上至下 打印（即按层打印），又称为二叉树的 广度优先搜索（BFS）。BFS 通常借助 队列 的先入先出特性来实现。\nII. 每层打印到一行： 将本层",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Breadth-First Search",
+          "nameTranslated": "广度优先搜索",
+          "slug": "breadth-first-search",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Queue",
+          "nameTranslated": "队列",
+          "slug": "queue",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python3",
+          "nameTranslated": "",
+          "slug": "python3",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/59e0600588ffdc2f34b4b563193b56c1f678743637e2754e2a9be0e7facc5d48-Picture1.png",
+      "title": "面试题32 - II. 从上到下打印二叉树 II（层序遍历 BFS，清晰图解）",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 242,
+        "id": 137255,
+        "viewCount": 74994
+      },
+      "uuid": "uf8gB8",
+      "videosInfo": []
+    }
+  }
+}

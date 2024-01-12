@@ -1,0 +1,72 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "哄哄",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/hong-hong-184/avatar_1583678811.png",
+          "userSlug": "hong-hong-184"
+        },
+        "username": "hong-hong-184"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n破坏回文结构，实际上只要让任意一个位置违背回文要求即可（但是要注意长度为奇数的情况，变化中间那位没有效果，直接跳过即可），\n1. 从头开始比较每一个位置是否能变为a，可以的话就直接返回将其变为a的字符串；\n2. 如果都不行，说明长度为奇数且都为a（除了中间那位），只需要变化最后一位就可以了，将其变化为+1的字母即可。\n3. 当然不要忘了例子中给出的边界case，长度为一的情况\n\n### 代码\n\n```golang\nfunc breakPalindrome(palindrome string) string {\n    if len(palindrome) == 1 {\n        return \"\"\n    }\n\n    for i, c := range palindrome {\n        smaller := getSmallerChar(c)\n        if len(smaller) > 0 {\n            if i == len(palindrome) / 2 && len(palindrome) % 2 != 0 {\n                continue\n            }\n            return palindrome[:i] + smaller + palindrome[i+1:]\n        }\n    }\n\n    i := len(palindrome) - 1\n    bigger := getBiggerChar(rune(palindrome[i]))\n    if len(bigger) == 0 {\n        return \"\"\n    }\n    return palindrome[:i] + bigger\n}\n\nfunc getSmallerChar(c rune) string {\n    if 'a' < c {\n        return \"a\"\n    } else if 'a' == c {\n        return \"\"\n    }\n    return \"\"\n}\n\nfunc getBiggerChar(c rune) string {\n    if 'z' > c {\n        return string(c + 1)\n    } else if 'z' == c {\n        return \"\"\n    }\n    return \"\"\n}\n```",
+      "createdAt": "2021-10-07T07:17:40.600018+00:00",
+      "hitCount": 143,
+      "identifier": "0gQMps",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "di-yi-ge-fei-abian-cheng-aji-ke-ruo-bu-n-hhnq",
+        "title": "第一个非a变成a即可，若不能变将最后一个变成b"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "break-a-palindrome"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "zhu-yi-qi-shu-qing-kuang-jiu-neng-shun-l-za2w",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n破坏回文结构，实际上只要让任意一个位置违背回文要求即可（但是要注意长度为奇数的情况，变化中间那位没有效果，直接跳过即可），\n\n从头开始比较每一个位置是否能变为a，可以的话就直接返回将其变为a的字符串；\n如果都不行，说明长度为奇数且都为a（除了中间那位），只需要变化最后一位就可以了，将其变化为+1的字母即可。",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Go",
+          "nameTranslated": "",
+          "slug": "golang",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "注意奇数情况就能顺利求解",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 1,
+        "id": 1034788,
+        "viewCount": 129
+      },
+      "uuid": "0gQMps",
+      "videosInfo": []
+    }
+  }
+}

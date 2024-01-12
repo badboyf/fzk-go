@@ -1,0 +1,76 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "Hoyt",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/default_avatar.png",
+          "userSlug": "hoyt-lin"
+        },
+        "username": "hoyt-lin"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n此处撰写解题思路\n\n### 代码\n\n```java\nclass Solution {\n    int n;\n    public void wiggleSort(int[] nums) {\n        n = nums.length;\n        quicksort(nums, 0, n-1);\n    }\n    void quicksort(int[] nums, int left, int right){\n        if(left<right){\n            int pivot = nums[map(left)];\n            int idx = left;\n            for(int i=left+1;i<=right;i++){\n                if(nums[map(i)]<pivot){\n                    idx++;\n                    int tmp = nums[map(idx)];\n                    nums[map(idx)] = nums[map(i)];\n                    nums[map(i)] = tmp;\n                }\n            }\n            int tmp = nums[map(idx)];\n            nums[map(idx)] = nums[map(left)];\n            nums[map(left)] = tmp;\n            quicksort(nums, left, idx-1);\n            quicksort(nums, idx+1, right);\n        }\n    }\n    int map(int k){\n        if(k<=(n-1)/2){\n            return ((n-1)/2-k)*2;\n        }else{\n            return (n/2-k+(n-1)/2)*2+1;\n        }\n    }\n}\n```",
+      "createdAt": "2021-09-29T13:32:11.689772+00:00",
+      "hitCount": 238,
+      "identifier": "W0ft7I",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "yi-ci-bian-li-qi-ou-pan-duan-feng-gu-pan-ulq2",
+        "title": "一次遍历 + 奇偶判断 + 峰谷判断不满足则交换"
+      },
+      "position": 3,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "onsuan-fa-qiu-jie-by-whut_hj",
+        "title": "O（n）算法求解"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "peaks-and-valleys-lcci"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "java-kuai-pai-xu-di-zhi-ying-she-by-hoyt-yw72",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n此处撰写解题思路\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "java 快排+虚地址映射",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1024522,
+        "viewCount": 215
+      },
+      "uuid": "W0ft7I",
+      "videosInfo": []
+    }
+  }
+}

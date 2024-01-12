@@ -1,0 +1,121 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "Hanxin",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/hanxin_hanxin/avatar_1628523481.png",
+          "userSlug": "hanxin_hanxin"
+        },
+        "username": "Hanxin_Hanxin"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "思路和心得：\r\n\r\n1.模拟，遍历\r\n\r\n没什么技巧。记录好就ok\r\n\r\n\r\n```python3 []\r\nclass Solution:\r\n    def bestCoordinate(self, towers: List[List[int]], radius: int) -> List[int]:\r\n        max_signal = 0\r\n        res = [0, 0]\r\n        ################ 遍历所有网格点\r\n        for x in range(51):\r\n            for y in range(51):\r\n                cur = 0\r\n                for [xi, yi, qi] in towers:\r\n                    d = ( (x - xi)**2 + (y - yi)**2 ) ** 0.5\r\n                    ## 距离在范围内\r\n                    if d <= radius:\r\n                        cur += floor(qi / (1 + d))\r\n                #### 更新res\r\n                if cur > max_signal:\r\n                    max_signal = cur\r\n                    res = [x, y]\r\n        return res\r\n```\r\n\r\n```c++ []\r\nclass Solution \r\n{\r\npublic:\r\n    vector<int> bestCoordinate(vector<vector<int>>& towers, int radius) \r\n    {\r\n        double max_signal = 0;\r\n        vector<int> res = vector<int>{0, 0};\r\n        //////////////// 遍历所有网格点\r\n        for (int x = 0; x < 51; x ++)\r\n        {\r\n            for (int y = 0; y < 51; y ++)\r\n            {\r\n                double cur = 0;\r\n                for (auto t: towers)\r\n                {\r\n                    int xi = t[0],  yi = t[1],  qi = t[2];\r\n                    double d =pow( (x-xi) * (x-xi) + (y-yi) * (y-yi) , 0.5);\r\n                    //// 距离在范围内\r\n                    if (d <= (double)radius)\r\n                        cur += floor((double)qi / (1+d) );\r\n                    \r\n                }\r\n                //////// 更新res\r\n                if (cur > max_signal)\r\n                {\r\n                    max_signal = cur;\r\n                    res = vector<int>{x, y};\r\n                }\r\n            }\r\n        }\r\n        return res;\r\n    }\r\n};\r\n```\r\n",
+      "createdAt": "2021-04-19T16:39:21.756449+00:00",
+      "hitCount": 398,
+      "identifier": "CjTqil",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "python3xian-pai-xu-hou-mo-ni-by-airesearcherjhm",
+        "title": "Python3暴力模拟，遍历坐标格（只遍历塔的坐标的算法是不正确的）"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "coordinate-with-maximum-network-quality"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "cpython-mo-ni-bian-li-bi-jiao-by-hanxin_-jlaq",
+      "status": "PUBLISHED",
+      "summary": "思路和心得：\n1.模拟，遍历\n没什么技巧。记录好就ok",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Greedy",
+          "nameTranslated": "贪心",
+          "slug": "greedy",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Minimax",
+          "nameTranslated": "极小化极大",
+          "slug": "minimax",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Geometry",
+          "nameTranslated": "几何",
+          "slug": "geometry",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Array",
+          "nameTranslated": "数组",
+          "slug": "array",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Math",
+          "nameTranslated": "数学",
+          "slug": "math",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python3",
+          "nameTranslated": "",
+          "slug": "python3",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "c++/python 模拟，遍历，比较",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 732342,
+        "viewCount": 320
+      },
+      "uuid": "CjTqil",
+      "videosInfo": []
+    }
+  }
+}

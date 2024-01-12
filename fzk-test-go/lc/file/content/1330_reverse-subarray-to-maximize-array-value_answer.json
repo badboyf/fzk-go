@@ -1,0 +1,86 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "ffreturn",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/ffreturn/avatar_1608859813.png",
+          "userSlug": "ffreturn"
+        },
+        "username": "ffreturn"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "![image.png](https://pic.leetcode-cn.com/1636788232-ElEzco-image.png)\n\n\n### 解题思路\n贪心思路\n- 确定指导思路\n   - 本质上翻转后，唯一受影响的其实就是子数组的首位两个元素引发的差异， 所以问题就变成了找了任意两个数字翻转取最大值\n- 三种情况\n   - 在中间部分中翻转\n      - 举个例子相邻的两个数字对分别是： [a,b]，[c,d] 差值就是 abs(b-c)*2\n      - 找到最大的c(区间小值的最大值)和最大的b（区间大值的最小值）的就是差值\n   - 和第一个元素翻转\n   - 和最后一个元素翻转\n      - 后面两种方式只要单次遍历找两种可能取最大值即可\n\n### 代码\n\n```cpp\nclass Solution {\npublic:\n    int maxValueAfterReverse(vector<int>& nums) {\n        int n = nums.size();\n        int a = -100000;\n        int b = 1000000;\n        // 计算原始sum作为基准\n        int sum = 0;\n        for (int i = 0; i < n-1; ++i)\n        {\n            sum += abs(nums[i] - nums[i+1]);\n            a = max(a, min(nums[i], nums[i+1]));\n            b = min(b, max(nums[i], nums[i+1]));\n        } \n\n        int res = max(sum, sum + (a-b)*2);\n        // 忽略要被交换的0和n-1\n        for (int i = 1; i < n-1; ++i)\n        {\n            // 考虑和 0交换\n            res = max(res, sum + abs(nums[0]-nums[i+1]) - abs(nums[i]-nums[i+1]));\n            // 考虑和 n-1交换\n            res = max(res, sum + abs(nums[n-1]-nums[i+1]) - abs(nums[i]-nums[i+1]));\n        }\n\n        return res;\n    }\n};\n```",
+      "createdAt": "2021-11-13T07:24:39.481741+00:00",
+      "hitCount": 54,
+      "identifier": "Yy9EoH",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "onzuo-fa-jie-jue-ci-wen-ti-by-hu-tu-tu-7",
+        "title": "O(n)做法解决此问题"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "reverse-subarray-to-maximize-array-value"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "1330-cjian-dan-yi-dong-de-tan-xin-jie-fa-jpjx",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n贪心思路\n\n确定指导思路\n\n本质上翻转后，唯一受影响的其实就是子数组的首位两个元素引发的差异， 所以问题就变成了找了任意两个数字翻转取最大值\n\n\n三种情况\n\n在中间部分中翻转\n\n举个例子相邻的两个数字对分别是： [a,b]，[c,d] 差值就是 abs(b-c)*2\n找到最大的c(区间小值的最大值)和最大的b",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Greedy",
+          "nameTranslated": "贪心",
+          "slug": "greedy",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "梦想",
+          "nameTranslated": "",
+          "slug": "meng-xiang",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1636788232-ElEzco-image.png",
+      "title": "1330. c++简单易懂的贪心解法",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1099291,
+        "viewCount": 30
+      },
+      "uuid": "Yy9EoH",
+      "videosInfo": []
+    }
+  }
+}

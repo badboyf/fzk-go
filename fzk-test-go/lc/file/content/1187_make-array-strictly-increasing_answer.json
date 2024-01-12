@@ -1,0 +1,90 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "ffreturn",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/ffreturn/avatar_1608859813.png",
+          "userSlug": "ffreturn"
+        },
+        "username": "ffreturn"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "![image.png](https://pic.leetcode-cn.com/1634464589-qKYJzM-image.png)\n\n\n### 解题思路\n预处理\n\n- arr1：\n   - 最后增加一个最大元素，来覆盖考虑arr1[n-1]也被替换的情况，否则只考虑了arr1[n-1]保留，但没保留\n   - 开头也增加一个元素 -1, 一个最小值， 这是为了避免开头边缘情况的覆盖，后续就能理解了\n- arr2：考虑到需要严格增长，对于arr2按照升序排列且去重\n\n***\n\n动态规划\n\n- 定义\nd[i]表示 保留arr1[i]的情况下满足条件的最小替换次数\n\n- 初始化\n   - 第一个数值是 0, 没有元素无需交换\n   - 其他默认都是一个大值，例如 0x11111111\n\n- 计算\n   - 从小到大开始计算\n   - 如何推导d[i]\n      - 保留当前i元素\n        - 考虑不同交换的个数k从i-1到更小，而且这个交换次数不能大于arr2里小于等于arr1[i]的个数j（有点绕，本质就是下边界的个数）\n        - 综合考虑，交换个数k的范围是 [1, min(i-1, j)]\n        - 排除k个元素后下一个元素  arr1[i-1-k] 一旦小于arr[j-k]（arr2使用了k个元素后下一个元素）,则满足条件，d[i] = d[i-k-1]+k\n      - 保留i情况\n         - 必须满足 arr1[i-1] < arr1[i], 则 d[i] = d[i-1]  \n         - 其他情况，则不满足，无法从之前d[i-1]推导而来\n\n- 结果\nd[n-1] 需要判断是否是有效值，无效则返回-1\n\n\n\n### 代码\n\n```cpp\n#define MAXVAL 0x3f3f3f3f\n\nclass Solution {\nprivate:\n    // 升序排列且去重\n    vector<int> sortReduplicated(vector<int>& arr)\n    {\n        set<int> s;\n        for (int a : arr)\n        {\n            s.insert(a);\n        }\n        vector<int> res(s.size(), 0);\n        int i = 0;\n        for (auto iter = s.begin(); iter != s.end(); ++iter, ++i)\n        {\n            res[i] = *iter;\n        }   \n\n        return res;\n    }\n\npublic:\n    int makeArrayIncreasing(vector<int>& arr1, vector<int>& arr22) {\n        vector<int> arr2 = sortReduplicated(arr22);\n        // for (int i : arr2)\n        // {\n        //     cout << i << \" \";\n        // }\n        // cout << endl;\n\n        // 插入前后元素\n        arr1.insert(arr1.begin(), -1);\n        arr1.push_back(MAXVAL);\n        int n = arr1.size();\n\n        int d[n];\n        memset(d, MAXVAL, sizeof(d));\n        d[0] = 0;\n\n        // n-1其实是我们插入的无效值，所以不需要去计算保留的情况\n        for (int i = 1; i < n; ++i)\n        {\n            // 找到arr2对应的下边界，即>= arr1[i]， 然后得到对应的数量（即可以交换的部分）\n            int j = lower_bound(arr2.begin(), arr2.end(), arr1[i]) - arr2.begin();\n            // 保留i的时候，遍历各种交换可能性\n            for (int k = 1; k <= min(i-1, j); ++k)\n            {\n                // 只考虑满足条件情况，则从i-k-1去推导\n                if (arr1[i-1-k] < arr2[j-k])\n                {\n                    d[i] = min(d[i], d[i-k-1]+k);\n                }\n            }\n            // cout << i <<\"[\" << arr1[i] << \"] \" << j << \" \" << d[i];\n            // 保留i的时候，必须满足有序\n            if (arr1[i-1] < arr1[i])\n            {\n                d[i] = min(d[i], d[i-1]);\n            }\n            // cout << \" \" << d[i] << endl;\n        }\n\n        return d[n-1] >= MAXVAL ? -1 : d[n-1];\n    }\n};\n```",
+      "createdAt": "2021-10-17T09:57:30.213078+00:00",
+      "hitCount": 121,
+      "identifier": "7a2t7K",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "yi-wei-dp-si-lu-xiang-jie-cpy3-by-newhar",
+        "title": "一维 dp 思路详解（一步一步详细推导 ）"
+      },
+      "position": 2,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "n2dong-tai-gui-hua-xiang-xi-fen-xi-he-tu-8p9z",
+        "title": "n^2动态规划(详细分析和图示)"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "make-array-strictly-increasing"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "1187-cchao-88de-dong-tai-gui-hua-jie-fa-eow17",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n预处理\n\narr1：\n\n最后增加一个最大元素，来覆盖考虑arr1[n-1]也被替换的情况，否则只考虑了arr1[n-1]保留，但没保留\n开头也增加一个元素 -1, 一个最小值， 这是为了避免开头边缘情况的覆盖，后续就能理解了\n\n\narr2：考虑到需要严格增长，对于arr2按照升序排列且去重\n\n动态规划\n\n\n定",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Dynamic Programming",
+          "nameTranslated": "动态规划",
+          "slug": "dynamic-programming",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "梦想",
+          "nameTranslated": "",
+          "slug": "meng-xiang",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1634464589-qKYJzM-image.png",
+      "title": "1187. c++超88的动态规划解法",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1052156,
+        "viewCount": 97
+      },
+      "uuid": "7a2t7K",
+      "videosInfo": []
+    }
+  }
+}

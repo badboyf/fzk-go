@@ -1,0 +1,72 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "阚凯",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/user2601f/avatar_1525678239.png",
+          "userSlug": "erke"
+        },
+        "username": "erke"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n先累计所有猜测的包含的算作伪猜中，在循环猜中的，伪猜中-猜中=正真的伪猜中\n\n### 代码\n\n```typescript\nfunction masterMind(solution: string, guess: string): number[] {\n    let a:number = 0;//猜中\n    let b:number = 0;//伪猜中\n    let c:Array<string> = solution.split('');\n    for (let i:number = 0 ; i < guess.length ; i++) {//循环计算所有包含的算作伪猜中\n        let eq = c.indexOf(guess[i])\n        if (eq >= 0) {\n            b++;\n            c.splice(eq, 1);\n        }\n    }\n    for (let i:number = 0 ; i < solution.length ; i++) {\n        if (solution[i] === guess[i]) {\n            a++;//累计猜中的\n            b--;//猜中的不算伪猜中\n        }\n    }\n    return [a, b];\n};\n```",
+      "createdAt": "2021-10-22T03:09:54.279980+00:00",
+      "hitCount": 185,
+      "identifier": "YNVUNk",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "yi-ding-gei-ni-jiang-qing-chu-by-si-zhou-syu6",
+        "title": "一定给你讲清楚"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "master-mind-lcci"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "xian-lei-ji-suo-you-cai-ce-de-bao-han-de-ff4h",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n先累计所有猜测的包含的算作伪猜中，在循环猜中的，伪猜中-猜中=正真的伪猜中\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "TypeScript",
+          "nameTranslated": "",
+          "slug": "typescript",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "先累计所有猜测的包含的算作伪猜中，在循环猜中的，伪猜中-猜中=正真的伪猜中",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1060716,
+        "viewCount": 157
+      },
+      "uuid": "YNVUNk",
+      "videosInfo": []
+    }
+  }
+}

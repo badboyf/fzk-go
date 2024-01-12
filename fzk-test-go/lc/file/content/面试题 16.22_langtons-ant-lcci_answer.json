@@ -1,0 +1,86 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "SKX",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/skx/avatar_1558610408.png",
+          "userSlug": "skx"
+        },
+        "username": "skx"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "代码逐行注释\r\n\r\n这道题是逻辑简单，流程复杂的一类题目，没有涉及高深的算法知识，但是需要对问题的深入理解以及较好的编码风格。本例将蚂蚁和网格实例化，可以更容易理解代码的逻辑。\r\n\r\n蚂蚁的实例化对象Ant主要包含左转，右转和前进等方法，以及当前位置和当前方向等属性；网格的实例化对象Board包含获取某个位置处颜色，设置某个位置处颜色，翻转某个位置处颜色，更新网格边界等方法，以及蚂蚁足迹，网格边界以及获取结果等属性。\r\n\r\n有一些要点需要留意：\r\n\r\n1. 我们用向量乘以矩阵的方式实现左转和右转，因为矩阵的本质就代表了旋转；\r\n\r\n2. 我们按照题目的要求进行模拟即可，留意在最后将蚂蚁所在位置设置成蚂蚁的朝向。\r\n\r\n```python3\r\nfrom typing import List\r\n\r\n\r\nclass Solution:\r\n    def printKMoves(self, K: int) -> List[str]:\r\n\r\n        white, black = \"_\", \"X\"                     # 白色用“_”表示，黑色用“X”表示\r\n        ant = Ant()                                 # 实例化一只蚂蚁\r\n        board = Board(white=white, black=black)     # 实例化一个网格\r\n        for _ in range(K):                          # 重复K次\r\n            color = board.get_color(ant.location)   # 获取网格中蚂蚁所在位置处的颜色\r\n            if color == white:                      # 如果是白色\r\n                ant.turn_right()                    # 蚂蚁需要右转\r\n            elif color == black:                    # 如果是黑色\r\n                ant.turn_left()                     # 蚂蚁需要左转\r\n            else:                                   # 非法颜色\r\n                raise Exception(color)              # 提示报错\r\n            board.change_color(ant.location)        # 翻转蚂蚁所在位置颜色\r\n            ant.step()                              # 蚂蚁向前一步走\r\n        board.set_color(ant.location, ant.current_direction)    # 最后，要把蚂蚁所在位置处的颜色设置成蚂蚁的当前方向\r\n        ans = board.get_ans                         # 根据网格中记录的蚂蚁足迹获取最终结果\r\n        return ans                                  # 返回结果\r\n\r\n\r\nclass Ant:                                          # 定义一只蚂蚁\r\n    def __init__(self):                             # 蚂蚁的初始化\r\n        self.location = (0, 0)                      # 位置属性：初始化为原点\r\n        self.direction = (0, 1)                     # 方向属性：初始化为向右\r\n\r\n    @staticmethod\r\n    def matmul(vector, mat):                        # 实现向量乘以矩阵，因为向量乘以矩阵可以实现旋转\r\n        dh, dw = vector\r\n        [[a, b], [c, d]] = mat\r\n        return dh * a + dw * c, dh * b + dw * d\r\n\r\n    def turn_left(self):                            # 当前方向左转，需要将当前方向乘以左转矩阵\r\n        self.direction = self.matmul(self.direction, [[0, 1], [-1, 0]])\r\n\r\n    def turn_right(self):                           # 当前方向右转，需要将当前方向乘以右转矩阵\r\n        self.direction = self.matmul(self.direction, [[0, -1], [1, 0]])\r\n\r\n    def step(self):                                 # 基于当前的方向，向前一步走\r\n        self.location = (self.location[0] + self.direction[0], self.location[1] + self.direction[1])\r\n\r\n    @property\r\n    def current_direction(self):                    # 获取当前方向的字母表示\r\n        d = {(0, 1): \"R\",                           # 右\r\n             (0, -1): \"L\",                          # 左\r\n             (1, 0): \"D\",                           # 下\r\n             (-1, 0): \"U\",                          # 上\r\n             }\r\n        return d[self.direction]                    # 索引查找\r\n\r\n\r\nclass Board:                                        # 定义一个网格\r\n    def __init__(self, white=\"_\", black=\"X\"):       # 网格的初始化函数\r\n        self.footprint = dict()                     # 蚂蚁在网格上留下的足迹，即每个位置点及其对应的颜色，默认颜色是白色\r\n        self.white = white                          # 白色默认用“_”表示\r\n        self.black = black                          # 黑色默认用“X”表示\r\n        self.top = 0                                # 网格的上边界\r\n        self.left = 0                               # 网格的左边界\r\n        self.bottom = 0                             # 网格的下边界\r\n        self.right = 0                              # 网格的右边界\r\n\r\n    def get_color(self, pos):                       # 获取某个位置处网格颜色，默认颜色为白色\r\n        return self.footprint.get(pos, self.white)\r\n\r\n    def set_color(self, pos, color):                # 设置网格某个位置pos处颜色为color\r\n        self.footprint[pos] = color\r\n        self.update_border(pos)                     # 每次设置pos处颜色，需要根据pos更新一下边界\r\n\r\n    def change_color(self, pos):                    # 翻转网格的颜色\r\n        color = self.get_color(pos)                 # 当前颜色，非黑即白，否则报错\r\n        if color == self.white:                     # 如果当前位置pos处颜色是白色\r\n            self.set_color(pos, self.black)         # 设置当前位置pos处颜色为黑色\r\n        elif color == self.black:                   # 如果当前位置pos处颜色为黑色\r\n            self.set_color(pos, self.white)         # 设置当前位置pos处颜色为白色\r\n        else:                                       # 如果是其他颜色\r\n            raise Exception(color)                  # 则会报错\r\n\r\n    def update_border(self, pos):                   # 更新网格边界\r\n        h, w = pos                                  # pos处的h和w坐标\r\n        self.top = min(self.top, h)                 # 更新上边界\r\n        self.bottom = max(self.bottom, h)           # 更新下边界\r\n        self.left = min(self.left, w)               # 更新左边界\r\n        self.right = max(self.right, w)             # 更新右边界\r\n\r\n    @property\r\n    def get_ans(self):                              # 根据足迹获取结果\r\n        ans = []                                    # 结果列表\r\n        for h in range(self.top, self.bottom + 1):  # 逐行研究\r\n            line = \"\"                               # 当前行结果\r\n            for w in range(self.left, self.right + 1):              # 逐列研究\r\n                line += self.get_color((h, w))      # 获取当前位置(h, w)结果\r\n            ans.append(line)\r\n        return ans\r\n\r\n\r\ns = Solution()\r\nfor i in range(6):\r\n    print()\r\n    print(\"\\n\".join(s.printKMoves(i)))\r\n```\r\n",
+      "createdAt": "2021-10-08T06:17:03.577719+00:00",
+      "hitCount": 186,
+      "identifier": "I3WnlN",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "28miao-shuang-100nei-bu-lei-san-lie-ji-he-by-1ujin",
+        "title": "28秒，双100%，内部类+散列集合"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "langtons-ant-lcci"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "lan-dun-ma-yi-shi-li-hua-bing-mo-ni-dai-08uhk",
+      "status": "PUBLISHED",
+      "summary": "代码逐行注释\n这道题是逻辑简单，流程复杂的一类题目，没有涉及高深的算法知识，但是需要对问题的深入理解以及较好的编码风格。本例将蚂蚁和网格实例化，可以更容易理解代码的逻辑。\n蚂蚁的实例化对象Ant主要包含左转，右转和前进等方法，以及当前位置和当前方向等属性；网格的实例化对象Board包含获取某个位置处颜色，设置某个位置处",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python3",
+          "nameTranslated": "",
+          "slug": "python3",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Simulation",
+          "nameTranslated": "模拟",
+          "slug": "simulation",
+          "tagType": "TOPIC"
+        }
+      ],
+      "thumbnail": "",
+      "title": "兰顿蚂蚁：实例化并模拟，思路清晰，编码白话，代码逐行注释",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 2,
+        "id": 1036220,
+        "viewCount": 143
+      },
+      "uuid": "I3WnlN",
+      "videosInfo": []
+    }
+  }
+}

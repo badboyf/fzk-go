@@ -1,0 +1,77 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣 (LeetCode)",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/uploaded_files/2021/03/73c9f099-abbe-4d94-853f-f8abffd459cd/leetcode.png",
+          "userSlug": "leetcode"
+        },
+        "username": "LeetCode"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法一：使用 `GROUP BY` 和临时表\n\n**算法**\n\n重复的电子邮箱存在多次。要计算每封电子邮件的存在次数，我们可以使用以下代码。\n\n```mysql [d8EiS4CT-MySQL]\nselect Email, count(Email) as num\nfrom Person\ngroup by Email;\n```\n\n\n```\n| Email   | num |\n|---------|-----|\n| a@b.com | 2   |\n| c@d.com | 1   |\n```\n\n以此作为临时表，我们可以得到下面的解决方案。\n\n```mysql [GeXvS7ji-MySQL]\nselect Email from\n(\n  select Email, count(Email) as num\n  from Person\n  group by Email\n) as statistic\nwhere num > 1\n;\n```\n\n\n#### 方法二：使用 `GROUP BY` 和 `HAVING` 条件\n\n向 `GROUP BY` 添加条件的一种更常用的方法是使用 `HAVING` 子句，该子句更为简单高效。\n\n所以我们可以将上面的解决方案重写为：\n\n```mysql [ShYdkDn6-MySQL]\nselect Email\nfrom Person\ngroup by Email\nhaving count(Email) > 1;\n```\n",
+      "createdAt": "2018-11-14T14:45:33.486694+00:00",
+      "hitCount": 97771,
+      "identifier": "GY4557",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "cha-zhao-zhong-fu-de-you-xiang-by-xue-yi-of4t",
+        "title": "查找重复的邮箱"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "duplicate-emails"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 92,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 3,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "cha-zhao-zhong-fu-de-dian-zi-you-xiang-by-leetcode",
+      "status": "PUBLISHED",
+      "summary": "算法\n重复的电子邮箱存在多次。要计算每封电子邮件的存在次数，我们可以使用以下代码。\n以此作为临时表，我们可以得到下面的解决方案。\n向 GROUP BY 添加条件的一种更常用的方法是使用 HAVING 子句，该子句更为简单高效。\n所以我们可以将上面的解决方案重写为：",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "MySQL",
+          "nameTranslated": "",
+          "slug": "mysql",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "查找重复的电子邮箱",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 78,
+        "id": 3575,
+        "viewCount": 75004
+      },
+      "uuid": "GY4557",
+      "videosInfo": []
+    }
+  }
+}

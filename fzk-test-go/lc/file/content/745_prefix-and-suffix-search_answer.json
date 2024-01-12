@@ -1,0 +1,91 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣 (LeetCode)",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/uploaded_files/2021/03/73c9f099-abbe-4d94-853f-f8abffd459cd/leetcode.png",
+          "userSlug": "leetcode"
+        },
+        "username": "LeetCode"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "####  方法一：单词查找树 + 集合交集 [超出时间限制]\n**算法：**\n- 我们使用两个单词查找树找出所有前缀匹配的单词和后缀匹配的单词。再通过取集合的交集找到其中权值最大的单词，并返回权重。\n- 然而，集合的元素可能会过大，导致超出时间限制。\n\n```Python [ ]\nTrie = lambda: collections.defaultdict(Trie)\nWEIGHT = False\n\nclass WordFilter(object):\n    def __init__(self, words):\n        self.trie1 = Trie() #prefix\n        self.trie2 = Trie() #suffix\n        for weight, word in enumerate(words):\n            cur = self.trie1\n            self.addw(cur, weight)\n            for letter in word:\n                cur = cur[letter]\n                self.addw(cur, weight)\n\n            cur = self.trie2\n            self.addw(cur, weight)\n            for letter in word[::-1]:\n                cur = cur[letter]\n                self.addw(cur, weight)\n\n    def addw(self, node, w):\n        if WEIGHT not in node:\n            node[WEIGHT] = {w}\n        else:\n            node[WEIGHT].add(w)\n\n    def f(self, prefix, suffix):\n        cur1 = self.trie1\n        for letter in prefix:\n            if letter not in cur1: return -1\n            cur1 = cur1[letter]\n\n        cur2 = self.trie2\n        for letter in suffix[::-1]:\n            if letter not in cur2: return -1\n            cur2 = cur2[letter]\n\n        return max(cur1[WEIGHT] & cur2[WEIGHT])\n```\n\n```Java [ ]\nclass WordFilter {\n    TrieNode trie1, trie2;\n    public WordFilter(String[] words) {\n        trie1 = new TrieNode();\n        trie2 = new TrieNode();\n        int wt = 0;\n        for (String word: words) {\n            char[] ca = word.toCharArray();\n\n            TrieNode cur = trie1;\n            cur.weight.add(wt);\n            for (char letter: ca) {\n                if (cur.children[letter - 'a'] == null)\n                    cur.children[letter - 'a'] = new TrieNode();\n                cur = cur.children[letter - 'a'];\n                cur.weight.add(wt);\n            }\n\n            cur = trie2;\n            cur.weight.add(wt);\n            for (int j = ca.length - 1; j >= 0; --j) {\n                char letter = ca[j];\n                if (cur.children[letter - 'a'] == null)\n                    cur.children[letter - 'a'] = new TrieNode();\n                cur = cur.children[letter - 'a'];\n                cur.weight.add(wt);\n            }\n            wt++;\n        }\n    }\n\n    public int f(String prefix, String suffix) {\n        TrieNode cur1 = trie1, cur2 = trie2;\n        for (char letter: prefix.toCharArray()) {\n            if (cur1.children[letter - 'a'] == null) return -1;\n            cur1 = cur1.children[letter - 'a'];\n        }\n        char[] ca = suffix.toCharArray();\n        for (int j = ca.length - 1; j >= 0; --j) {\n            char letter = ca[j];\n            if (cur2.children[letter - 'a'] == null) return -1;\n            cur2 = cur2.children[letter - 'a'];\n        }\n\n        int ans = -1;\n        for (int w1: cur1.weight)\n            if (w1 > ans && cur2.weight.contains(w1))\n                ans = w1;\n\n        return ans;\n    }\n}\n\nclass TrieNode {\n    TrieNode[] children;\n    Set<Integer> weight;\n    public TrieNode() {\n        children = new TrieNode[26];\n        weight = new HashSet();\n    }\n}\n```\n\n**复杂度分析**\n\n* 时间复杂度：$O(NK + Q(N+K))$。其中 $N$ 指的是单词的个数，$K$ 指的是单词中的最大长度，$Q$ 指的是搜索的次数。\n* 空间复杂度：$O(NK)$，单词查找树使用的空间大小。\n\n\n####  方法二：成对的单词查找树 [通过]\n**算法：**\n- 假设我们插入了 `apple` 这个单词。我们可以在单词查找树中插入 `('a', 'e'), ('p', 'l'), ('p', 'p'), ('l', 'p'), ('e', 'a')`。然后，如果我们有像 `prefix = \"ap\", suffix = \"le\"` 这样的等长查询，我们可以在单词查找树中找到节点 `trie['a'，e']['p'，l']`。\n- 如果是不等长的查询呢？例如，要查询 `prefix = \"app\", suffix = \"e\"` 这样的情况，我们可以创建节点 `trie['a'，'e']['p'，None]['p'，None]`。\n- 在将节点插入单词查找树之后，我们的搜索会很简单。\n\n\n```Python [ ]\nTrie = lambda: collections.defaultdict(Trie)\nWEIGHT = False\n\nclass WordFilter(object):\n    def __init__(self, words):\n        self.trie = Trie()\n\n        for weight, word in enumerate(words):\n            cur = self.trie\n            cur[WEIGHT] = weight\n            for i, x in enumerate(word):\n                #Put all prefixes and suffixes\n                tmp = cur\n                for letter in word[i:]:\n                    tmp = tmp[letter, None]\n                    tmp[WEIGHT] = weight\n\n                tmp = cur\n                for letter in word[:-i or None][::-1]:\n                    tmp = tmp[None, letter]\n                    tmp[WEIGHT] = weight\n\n                #Advance letters\n                cur = cur[x, word[~i]]\n                cur[WEIGHT] = weight\n\n    def search(self, prefix, suffix):\n        cur = self.trie\n        for a, b in map(None, prefix, suffix[::-1]):\n            if (a, b) not in cur: return -1\n            cur = cur[a, b]\n        return cur[WEIGHT]\n```\n\n```Java [ ]\nclass WordFilter {\n    TrieNode trie;\n    public WordFilter(String[] words) {\n        trie = new TrieNode();\n        int wt = 0;\n        for (String word: words) {\n            TrieNode cur = trie;\n            cur.weight = wt;\n            int L = word.length();\n            char[] chars = word.toCharArray();\n            for (int i = 0; i < L; ++i) {\n\n                TrieNode tmp = cur;\n                for (int j = i; j < L; ++j) {\n                    int code = (chars[j] - '`') * 27;\n                    if (tmp.children.get(code) == null)\n                        tmp.children.put(code, new TrieNode());\n                    tmp = tmp.children.get(code);\n                    tmp.weight = wt;\n                }\n\n                tmp = cur;\n                for (int k = L - 1 - i; k >= 0; --k) {\n                    int code = (chars[k] - '`');\n                    if (tmp.children.get(code) == null)\n                        tmp.children.put(code, new TrieNode());\n                    tmp = tmp.children.get(code);\n                    tmp.weight = wt;\n                }\n\n                int code = (chars[i] - '`') * 27 + (chars[L - 1 - i] - '`');\n                if (cur.children.get(code) == null)\n                    cur.children.put(code, new TrieNode());\n                cur = cur.children.get(code);\n                cur.weight = wt;\n\n            }\n            wt++;\n        }\n    }\n\n    public int f(String prefix, String suffix) {\n        TrieNode cur = trie;\n        int i = 0, j = suffix.length() - 1;\n        while (i < prefix.length() || j >= 0) {\n            char c1 = i < prefix.length() ? prefix.charAt(i) : '`';\n            char c2 = j >= 0 ? suffix.charAt(j) : '`';\n            int code = (c1 - '`') * 27 + (c2 - '`');\n            cur = cur.children.get(code);\n            if (cur == null) return -1;\n            i++; j--;\n        }\n        return cur.weight;\n    }\n}\n\nclass TrieNode {\n    Map<Integer, TrieNode> children;\n    int weight;\n    public TrieNode() {\n        children = new HashMap();\n        weight = 0;\n    }\n}\n```\n\n**复杂度分析**\n\n* 时间复杂度：$O(NK^2 + QK)$。其中 $N$ 指的是单词的个数，$K$ 指的是单词中的最大长度，$Q$ 指的是搜索的次数。\n* 空间复杂度：$O(NK^2)$，单词查找树使用的空间大小。\n\n\n####  方法三：后缀修饰的单词查找树 [通过]\n**算法：**\n- 对于 `apple` 这个单词，我们可以在单词查找树插入每个后缀，后跟 `“#”` 和单词。\n- 例如，我们将在单词查找树中插入 `'#apple', 'e#apple', 'le#apple', 'ple#apple', 'pple#apple', 'apple#apple'`。然后对于 `prefix = \"ap\", suffix = \"le\"` 这样的查询，我们可以通过查询单词查找树找到 `le#ap`。\n\n```Python [ ]\nTrie = lambda: collections.defaultdict(Trie)\nWEIGHT = False\n\nclass WordFilter(object):\n    def __init__(self, words):\n        self.trie = Trie()\n\n        for weight, word in enumerate(words):\n            word += '#'\n            for i in xrange(len(word)):\n                cur = self.trie\n                cur[WEIGHT] = weight\n                for j in xrange(i, 2 * len(word) - 1):\n                    cur = cur[word[j % len(word)]]\n                    cur[WEIGHT] = weight\n\n    def f(self, prefix, suffix):\n        cur = self.trie\n        for letter in suffix + '#' + prefix:\n            if letter not in cur:\n                return -1\n            cur = cur[letter]\n        return cur[WEIGHT]\n```\n\n```Java [ ]\nclass WordFilter {\n    TrieNode trie;\n    public WordFilter(String[] words) {\n        trie = new TrieNode();\n        for (int weight = 0; weight < words.length; ++weight) {\n            String word = words[weight] + \"{\";\n            for (int i = 0; i < word.length(); ++i) {\n                TrieNode cur = trie;\n                cur.weight = weight;\n                for (int j = i; j < 2 * word.length() - 1; ++j) {\n                    int k = word.charAt(j % word.length()) - 'a';\n                    if (cur.children[k] == null)\n                        cur.children[k] = new TrieNode();\n                    cur = cur.children[k];\n                    cur.weight = weight;\n                }\n            }\n        }\n    }\n    public int f(String prefix, String suffix) {\n        TrieNode cur = trie;\n        for (char letter: (suffix + '{' + prefix).toCharArray()) {\n            if (cur.children[letter - 'a'] == null) return -1;\n            cur = cur.children[letter - 'a'];\n        }\n        return cur.weight;\n    }\n}\n\nclass TrieNode {\n    TrieNode[] children;\n    int weight;\n    public TrieNode() {\n        children = new TrieNode[27];\n        weight = 0;\n    }\n}\n```\n\n\n**复杂度分析**\n\n* 时间复杂度：$O(NK^2 + QK)$。其中 $N$ 指的是单词的个数，$K$ 指的是单词中的最大长度，$Q$ 指的是搜索的次数。\n* 空间复杂度：$O(NK^2)$，单词查找树使用的空间大小。",
+      "createdAt": "2019-12-16T06:16:07.277918+00:00",
+      "hitCount": 4435,
+      "identifier": "ItTBba",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "dui-shu-ji-fu-za-du-de-jie-fa-pai-xu-er-41c5x",
+        "title": "对数级复杂度的解法 排序+二分查找+线段树套字典树"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "prefix-and-suffix-search"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 9,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "CONFUSED"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "qian-zhui-he-hou-zhui-sou-suo-by-leetcode",
+      "status": "PUBLISHED",
+      "summary": " 方法一：单词查找树 + 集合交集 [超出时间限制]\n算法：\n\n我们使用两个单词查找树找出所有前缀匹配的单词和后缀匹配的单词。再通过取集合的交集找到其中权值最大的单词，并返回权重。\n然而，集合的元素可能会过大，导致超出时间限制。\n\n复杂度分析\n\n时间复杂度：O(NK + Q(N+K))。其中 N 指的是单词的个数，K ",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Trie",
+          "nameTranslated": "字典树",
+          "slug": "trie",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "前缀和后缀搜索",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 7,
+        "id": 56171,
+        "viewCount": 3157
+      },
+      "uuid": "ItTBba",
+      "videosInfo": []
+    }
+  }
+}

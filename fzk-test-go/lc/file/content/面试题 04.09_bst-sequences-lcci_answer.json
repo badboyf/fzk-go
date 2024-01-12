@@ -1,0 +1,76 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "Luh Kel",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/luh-kel/avatar_1619361927.png",
+          "userSlug": "luh-kel"
+        },
+        "username": "luh-kel"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n运用bstree的左右子树的性质求解；\n根节点是确定的则拆分其左右子树并将左右子树生成的数组排列组合\n最后加上根节点即可；\n\n### 代码\n\n```cpp\n/**\n * Definition for a binary tree node.\n * struct TreeNode {\n *     int val;\n *     TreeNode *left;\n *     TreeNode *right;\n *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}\n * };\n */\nclass Solution {\npublic:\n    void mergeSequences(vector<int> &l,int lind,vector<int> &r,\n    int rind,vector<int> &buff,vector<vector<int>> &ans){\n        if(lind==l.size() && rind==r.size()){\n            ans.push_back(buff);\n            return ;//当左右子树元素数量与其数组长度相等时，则所有左右子树的元素均被提取，此时加上根节点返回即可\n        }\n        if(lind<l.size()){\n            buff.push_back(l[lind]);//将新加入的左子树元素添加进缓冲数组\n            mergeSequences(l,lind+1,r,rind,buff,ans);//继续递归\n            buff.pop_back();//清空缓冲数组；\n        }\n        if(rind<r.size()){\n            buff.push_back(r[rind]);\n            mergeSequences(l,lind,r,rind+1,buff,ans);\n            buff.pop_back();\n        }\n        return ;\n    }\n\n    vector<vector<int>> BSTSequences(TreeNode* root) {\n        vector<vector<int>> ans;//生成一个答案数组；\n        if(root==nullptr){//边界判断\n            ans.push_back(vector<int>());\n            return ans;\n        }\n        vector<vector<int>> l_arr=BSTSequences(root->left);//遍历左子树\n        vector<vector<int>> r_arr=BSTSequences(root->right);//遍历右子树\n        for(auto l:l_arr){\n            for(auto r:r_arr){\n                vector<int> buff;//建立一个缓冲数组\n                buff.push_back(root->val);//将根节点加入\n                mergeSequences(l,0,r,0,buff,ans);\n            }\n        }\n        return ans;\n    }\n};\n```",
+      "createdAt": "2021-10-21T14:05:29.841592+00:00",
+      "hitCount": 125,
+      "identifier": "gMgMy8",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "er-cha-sou-suo-shu-xu-lie-jian-ji-di-gui-xanc",
+        "title": "[二叉搜索树序列] 简洁递归 举例说明 Python"
+      },
+      "position": 3,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "mei-yi-ge-jie-dian-du-bi-xu-pai-zai-ta-d-n679",
+        "title": "「每一个节点都必须排在它的子孙结点前面」Java超过100%"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "bst-sequences-lcci"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "chang-gui-si-lu-by-luh-kel-ltp8",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n运用bstree的左右子树的性质求解；\n根节点是确定的则拆分其左右子树并将左右子树生成的数组排列组合\n最后加上根节点即可；\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "常规思路",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1060024,
+        "viewCount": 100
+      },
+      "uuid": "gMgMy8",
+      "videosInfo": []
+    }
+  }
+}

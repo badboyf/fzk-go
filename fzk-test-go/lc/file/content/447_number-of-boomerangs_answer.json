@@ -1,0 +1,133 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣官方题解",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/leetcode-solution/avatar_1582018938.png",
+          "userSlug": "leetcode-solution"
+        },
+        "username": "LeetCode-Solution"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法一：枚举 + 哈希表\n\n题目所描述的回旋镖可以视作一个 $\\texttt{V}$ 型的折线。我们可以枚举每个 $\\textit{points}[i]$，将其当作 $\\texttt{V}$ 型的拐点。设 $\\textit{points}$ 中有 $m$ 个点到 $\\textit{points}[i]$ 的距离均相等，我们需要从这 $m$ 点中选出 $2$ 个点当作回旋镖的 $2$ 个端点，由于题目要求考虑元组的顺序，因此方案数即为在 $m$ 个元素中选出 $2$ 个不同元素的排列数，即：\n\n$$\nA_m^2 = m\\cdot(m-1)\n$$\n\n据此，我们可以遍历 $\\textit{points}$，计算并统计所有点到 $\\textit{points}[i]$ 的距离，将每个距离的出现次数记录在哈希表中，然后遍历哈希表，并用上述公式计算并累加回旋镖的个数。\n\n在代码实现时，我们可以直接保存距离的平方，避免复杂的开方运算。\n\n```Python [sol1-Python3]\nclass Solution:\n    def numberOfBoomerangs(self, points: List[List[int]]) -> int:\n        ans = 0\n        for p in points:\n            cnt = defaultdict(int)\n            for q in points:\n                dis = (p[0] - q[0]) * (p[0] - q[0]) + (p[1] - q[1]) * (p[1] - q[1])\n                cnt[dis] += 1\n            for m in cnt.values():\n                ans += m * (m - 1)\n        return ans\n```\n\n```C++ [sol1-C++]\nclass Solution {\npublic:\n    int numberOfBoomerangs(vector<vector<int>> &points) {\n        int ans = 0;\n        for (auto &p : points) {\n            unordered_map<int, int> cnt;\n            for (auto &q : points) {\n                int dis = (p[0] - q[0]) * (p[0] - q[0]) + (p[1] - q[1]) * (p[1] - q[1]);\n                ++cnt[dis];\n            }\n            for (auto &[_, m] : cnt) {\n                ans += m * (m - 1);\n            }\n        }\n        return ans;\n    }\n};\n```\n\n```Java [sol1-Java]\nclass Solution {\n    public int numberOfBoomerangs(int[][] points) {\n        int ans = 0;\n        for (int[] p : points) {\n            Map<Integer, Integer> cnt = new HashMap<Integer, Integer>();\n            for (int[] q : points) {\n                int dis = (p[0] - q[0]) * (p[0] - q[0]) + (p[1] - q[1]) * (p[1] - q[1]);\n                cnt.put(dis, cnt.getOrDefault(dis, 0) + 1);\n            }\n            for (Map.Entry<Integer, Integer> entry : cnt.entrySet()) {\n                int m = entry.getValue();\n                ans += m * (m - 1);\n            }\n        }\n        return ans;\n    }\n}\n```\n\n```C# [sol1-C#]\npublic class Solution {\n    public int NumberOfBoomerangs(int[][] points) {\n        int ans = 0;\n        foreach (int[] p in points) {\n            Dictionary<int, int> cnt = new Dictionary<int, int>();\n            foreach (int[] q in points) {\n                int dis = (p[0] - q[0]) * (p[0] - q[0]) + (p[1] - q[1]) * (p[1] - q[1]);\n                if (!cnt.ContainsKey(dis)) {\n                    cnt.Add(dis, 1);\n                } else {\n                    ++cnt[dis];\n                }\n            }\n            foreach (KeyValuePair<int, int> kv in cnt) {\n                int m = kv.Value;\n                ans += m * (m - 1);\n            }\n        }\n        return ans;\n    }\n}\n```\n\n```go [sol1-Golang]\nfunc numberOfBoomerangs(points [][]int) (ans int) {\n    for _, p := range points {\n        cnt := map[int]int{}\n        for _, q := range points {\n            dis := (p[0]-q[0])*(p[0]-q[0]) + (p[1]-q[1])*(p[1]-q[1])\n            cnt[dis]++\n        }\n        for _, m := range cnt {\n            ans += m * (m - 1)\n        }\n    }\n    return\n}\n```\n\n```JavaScript [sol1-JavaScript]\nvar numberOfBoomerangs = function(points) {\n    let ans = 0;\n    for (const p of points) {\n        const cnt = new Map();\n        for (const q of points) {\n            const dis = (p[0] - q[0]) * (p[0] - q[0]) + (p[1] - q[1]) * (p[1] - q[1]);\n            cnt.set(dis, (cnt.get(dis) || 0) + 1);\n        }\n        for (const [_, m] of cnt.entries()) {\n            ans += m * (m - 1);\n        }\n    }\n    return ans;\n};\n```\n\n**复杂度分析**\n\n- 时间复杂度：$O(n^2)$，其中 $n$ 是数组 $\\textit{points}$ 的长度。\n\n- 空间复杂度：$O(n)$。",
+      "createdAt": "2021-09-12T15:51:10.116853+00:00",
+      "hitCount": 30681,
+      "identifier": "inpN4u",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "447-hui-xuan-biao-de-shu-liang-by-chen-w-zynj",
+        "title": "447. 回旋镖的数量"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "number-of-boomerangs"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 38,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 5,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "hui-xuan-biao-de-shu-liang-by-leetcode-s-lft5",
+      "status": "PREPUBLISH",
+      "summary": "方法一：枚举 + 哈希表 题目所描述的回旋镖可以视作一个 $\\texttt{V}$ 型的折线。我们可以枚举每个 $\\textit{points}[i]$，将其当作 $\\texttt{V}$ 型的拐点。设 $\\textit{points}$ 中有 $m$ 个点到 $\\textit{points}[i]$ 的距离均相等，我",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Array",
+          "nameTranslated": "数组",
+          "slug": "array",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Hash Table",
+          "nameTranslated": "哈希表",
+          "slug": "hash-table",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Enumeration",
+          "nameTranslated": "枚举",
+          "slug": "enumeration",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C#",
+          "nameTranslated": "",
+          "slug": "csharp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Go",
+          "nameTranslated": "",
+          "slug": "golang",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "JavaScript",
+          "nameTranslated": "",
+          "slug": "javascript",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "回旋镖的数量",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 132,
+        "id": 994189,
+        "viewCount": 20214
+      },
+      "uuid": "inpN4u",
+      "videosInfo": []
+    }
+  }
+}

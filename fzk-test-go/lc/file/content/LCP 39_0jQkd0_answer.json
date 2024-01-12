@@ -1,0 +1,84 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "东南吴彦祖",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/dong-nan-wu-yan-zu-a/avatar_1630740155.png",
+          "userSlug": "dong-nan-wu-yan-zu-a"
+        },
+        "username": "dong-nan-wu-yan-zu-a"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n1. 题目说了target[i][j]<10的4次方，开辟数组p[10005]\n2. 如果sorcesorce[i][j]出现，p[i*m+j]就加一\n3. 如果target[i][j]出现，p[i*m+j]就减一\n4. p数组为正的值，就是多出来没有找到相应灯的***，遍历一遍，相加即可\n\n\n### 代码\n\n```java\nclass Solution {\n    public int minimumSwitchingTimes(int[][] source, int[][] target) {\n        int n=source.length,m=source[0].length,sum=0;\n        int[] p=new int[10005];\n        for(int i=0;i<n*m;i++){\n            p[source[i/m][i%m]]++;\n            p[target[i/m][i%m]]--;\n        }\n        for(int i=0;i<10005;i++){\n            if(p[i]>0) sum+=p[i];\n        }\n        return sum;\n    }\n}\n```\n![截屏2021-09-11 下午8.52.26.png](https://pic.leetcode-cn.com/1631364784-FMoHPY-%E6%88%AA%E5%B1%8F2021-09-11%20%E4%B8%8B%E5%8D%888.52.26.png)\n",
+      "createdAt": "2021-09-11T12:57:52.076720+00:00",
+      "hitCount": 549,
+      "identifier": "jxBsa4",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "find-what-you-love-by-xiaoweixiang-4yz3",
+        "title": "find what you love"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "0jQkd0"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 9,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "hashbiao-shu-zu-shi-xian-ji-bai-shuang-b-5qko",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n\n题目说了target[i][j]<10的4次方，开辟数组p[10005]\n如果sorcesorce[i][j]出现，p[i*m+j]就加一\n如果target[i][j]出现，p[i*m+j]就减一\np数组为正的值，就是多出来没有找到相应灯的***，遍历一遍，相加即可\n\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Hash Table",
+          "nameTranslated": "哈希表",
+          "slug": "hash-table",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1631364784-FMoHPY-%E6%88%AA%E5%B1%8F2021-09-11%20%E4%B8%8B%E5%8D%888.52.26.png",
+      "title": "Hash表，数组实现,击败双百",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 5,
+        "id": 992049,
+        "viewCount": 434
+      },
+      "uuid": "jxBsa4",
+      "videosInfo": []
+    }
+  }
+}

@@ -1,0 +1,90 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "程序员小熊",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/dine/avatar_1626888489.png",
+          "userSlug": "dine"
+        },
+        "username": "Dine"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "# 解题思路\n典型的**滑动窗口**题目，因此可以用滑窗去求解。\n\n# 方法一：滑动窗口   \n\n步骤：\n\n1. 设置两个下标（指针）left(0) 和 right(1)；\n\n2. 当两个下标**指向的字符相同**时，**右移 right，将 s[right] 纳入到滑动窗口中，以增大滑窗**，否则**右移 left，来刨除不满足条件的 s[left],继续向右寻找较大的滑窗**，移动过程中记录**当前滑窗最大值**。\n\n3. 遍历一遍之后，得出滑动窗口的最大值。\n\n# Show me the Code\n\n```c\nint maxPower(char * s){\n    int maxLen = 1;\n    int len = strlen(s);\n    int left = 0, right = 1;          // 滑窗区间 [left, right]\n    while (right < len) {             // 遍历字符串\n        /* 相同，右移 right，以获取更大的滑窗 */\n        if (s[right] == s[left]) {\n            right++;\n        /* 不相同，右移 left，刨除不满足条件的字符，继续向右寻找更大的滑窗 */\n        } else {\n            left++;\n        }\n\n        maxLen = fmax(maxLen, right - left);\n    }\n\n    return maxLen;\n}\n```\n\n上述代码设置 maxLen 的初值为 1，原因有二：\n\n1. 题目已提示 1 <= s.length <= 500，即字符串 s 的**最小长度为 1**；\n\n2. 当**字符串 s 的长度为 1 时**，循环直接不进行（因为 right = 1 不小于 len(1)），直接**返回 maxLen**。\n\n# 方法二：迭代法\n\n1. 定义两个变量 curLen 和 maxLen，并初始化为 1（1 <= s.length <= 500）；\n\n2. 遍历字符串，如果**前一字符 s[i - 1] 跟当前字符 s[i] 相同**，则 curLen **加 1**，否则将 curLen **置为 1**；\n\n3. 遍历的同时，记录当前最长非空子字符串的长度 maxLen。\n\n# Show me the Code\n```c\nint maxPower(char * s){\n    int curLen = 1;   // 当前最长非空子字符串的长度\n    int maxLen = 1;   // 最长非空子字符串的长度\n    for (int i = 1; s[i] != '\\0'; ++i) {\n        /* 前一字符跟当前字符相同，curLen增大 1，否则置 1*/\n        curLen = (s[i] == s[i - 1]) ? curLen + 1 : 1;\n\n        /* 不断更新最长非空子字符串的长度*/\n        maxLen = fmax(curLen, maxLen);\n    }\n\n    return maxLen;\n}\n```\n\n# 方法三：双指针\n其实方法一也可以说是双指针法。\n\n# 步骤\n1. 定义两个指针（下标） left 和 right，并分别初始化为 0 和 1；\n\n2. 遍历字符串，当两个下标对应的字符相同时，不断增加 right，获取更长的连续子字符串；\n\n3. 不断更新当前最长非空子字符串的长度 maxLen 和 left。\n\n# 说明\n步骤 3 中用 right 去更新 left 的原因是：\n\ns[right] ≠ s[left] 时，从 right 开始重新寻找最长非空子字符串。\n\n```c\nint maxPower(char * s){\n    int maxLen = 1;\n    int len = strlen(s);\n    int left = 0, right = 1;\n    while (right < len) {\n        while (right < len && s[right] == s[left]) {\n            right++;\n        } \n\n        maxLen = fmax(maxLen, right - left);\n        left = right;\n    }\n\n    return maxLen;\n}\n```\n# 复杂度分析\n时间复杂度：O(n)， 其中 n 为数组的长度，即数组中元素的个数。\n\n空间复杂度：O(1)，未额外开辟存储空间。",
+      "createdAt": "2021-10-22T03:59:21.533091+00:00",
+      "hitCount": 254,
+      "identifier": "vFn5y1",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "shuang-zhi-zhen-ji-qiao-zheng-ze-groupby-by-boille",
+        "title": "双指针技巧、正则、groupby"
+      },
+      "position": 2,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "cshuang-zhi-zhen-by-rayarsonlee-ansy",
+        "title": "C++双指针"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "consecutive-characters"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": true,
+      "slug": "1446-lian-xu-zi-fu-by-dine-cevo",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n典型的滑动窗口题目，因此可以用滑窗去求解。\n方法一：滑动窗口\n步骤：\n\n\n设置两个下标（指针）left(0) 和 right(1)；\n\n\n当两个下标指向的字符相同时，右移 right，将 s[right] 纳入到滑动窗口中，以增大滑窗，否则右移 left，来刨除不满足条件的 s[left],继续向右寻找较大的",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "String",
+          "nameTranslated": "字符串",
+          "slug": "string",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Sliding Window",
+          "nameTranslated": "滑动窗口",
+          "slug": "sliding-window",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C",
+          "nameTranslated": "",
+          "slug": "c",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "1446. 连续字符",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1060820,
+        "viewCount": 211
+      },
+      "uuid": "vFn5y1",
+      "videosInfo": []
+    }
+  }
+}

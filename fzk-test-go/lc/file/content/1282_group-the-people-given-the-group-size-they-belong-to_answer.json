@@ -1,0 +1,84 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣官方题解",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/leetcode-solution/avatar_1582018938.png",
+          "userSlug": "leetcode-solution"
+        },
+        "username": "LeetCode-Solution"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "**方法一：哈希映射**\n\n对于两个用户 `x` 和 `y`，如果 `groupSize[x] != groupSize[y]`，它们用户组的大小不同，那么它们一定不在同一个用户组中。因此我们可以首先对所有的用户进行一次【粗分组】，用一个哈希映射（HashMap）来存储所有的用户。哈希映射中键值对为 `(gsize, users)`，其中 `gsize` 表示用户组的大小，`users` 表示满足用户组大小为 `gsize`，即 `groupSize[x] == gsize` 的所有用户。这样以来，我们就把所有用户组大小相同的用户都暂时放在了同一个组中。\n\n在进行了【粗分组】后，我们可以将每个键值对 `(gsize, users)` 中的 `users` 进行【细分组】。由于题目保证了给出的数据至少存在一种方案，因此我们的【细分组】可以变得很简单：只要每次从 `users` 中取出 `gsize` 个用户，把它们放在一个组中就可以了。在进行完所有的【细分组】后，我们就得到了一种满足条件的分组方案。\n\n```C++ [sol1]\nclass Solution {\npublic:\n    vector<vector<int>> groupThePeople(vector<int>& groupSizes) {\n        unordered_map<int, vector<int>> groups;\n        for (int i = 0; i < groupSizes.size(); ++i) {\n            groups[groupSizes[i]].push_back(i);\n        }\n\n        vector<vector<int>> ans;\n        for (auto group = groups.begin(); group != groups.end(); ++group) {\n            const int& gsize = group->first;\n            vector<int>& users = group->second;\n            for (auto iter = users.begin(); iter != users.end(); iter = next(iter, gsize)) {\n                vector<int> dummy(iter, next(iter, gsize));\n                ans.push_back(dummy);\n            }\n        }\n        return ans;\n    }\n};\n```\n\n```C++ [sol1]\n// C++17 Standard\nclass Solution {\npublic:\n    vector<vector<int>> groupThePeople(vector<int>& groupSizes) {\n        unordered_map<int, vector<int>> groups;\n        for (int i = 0; i < groupSizes.size(); ++i) {\n            groups[groupSizes[i]].push_back(i);\n        }\n\n        vector<vector<int>> ans;\n        for (auto& [gsize, users]: groups) {\n            for (auto iter = users.begin(); iter != users.end(); iter = next(iter, gsize)) {\n                ans.emplace_back(iter, next(iter, gsize));\n            }\n        }\n        return ans;\n    }\n};\n```\n\n```Python [sol1]\nclass Solution:\n    def groupThePeople(self, groupSizes: List[int]) -> List[List[int]]:\n        groups = collections.defaultdict(list)\n        for i, _id in enumerate(groupSizes):\n            groups[_id].append(i)\n        \n        ans = list()\n        for gsize, users in groups.items():\n            for it in range(0, len(users), gsize):\n                ans.append(users[it : it + gsize])\n        return ans\n```\n\n**复杂度分析**\n\n- 时间复杂度：$O(N)$。\n\n- 空间复杂度：$O(N)$。",
+      "createdAt": "2020-02-18T13:45:50.849870+00:00",
+      "hitCount": 7354,
+      "identifier": "YEbQTe",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "shi-yong-mapunordered_maphe-vectorlai-ji-d54t",
+        "title": "使用map（unordered_map）和vector来解决"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "group-the-people-given-the-group-size-they-belong-to"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 5,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "yong-hu-fen-zu-by-leetcode-solution",
+      "status": "PUBLISHED",
+      "summary": "方法一：哈希映射\n对于两个用户 x 和 y，如果 groupSize[x] != groupSize[y]，它们用户组的大小不同，那么它们一定不在同一个用户组中。因此我们可以首先对所有的用户进行一次【粗分组】，用一个哈希映射（HashMap）来存储所有的用户。哈希映射中键值对为 (gsize, users)，其中 gs",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python3",
+          "nameTranslated": "",
+          "slug": "python3",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "用户分组",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 15,
+        "id": 101355,
+        "viewCount": 5996
+      },
+      "uuid": "YEbQTe",
+      "videosInfo": []
+    }
+  }
+}

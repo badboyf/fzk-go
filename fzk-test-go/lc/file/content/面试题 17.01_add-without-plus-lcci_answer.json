@@ -1,0 +1,86 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "zzu",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/123-2621/avatar_1628486303.png",
+          "userSlug": "123-2621"
+        },
+        "username": "123-2621"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "**借鉴K神的题解**\r\n\r\n*同类题 ：剑指 Offer 65. 不用加减乘除做加法*\r\n[https://leetcode-cn.com/problems/bu-yong-jia-jian-cheng-chu-zuo-jia-fa-lcof/solution/mian-shi-ti-65-bu-yong-jia-jian-cheng-chu-zuo-ji-7/]()\r\n\r\n```python []\r\nclass Solution:\r\n    def add(self, a: int, b: int) -> int:\r\n        x = 0xffffffff\r\n\r\n        a, b = a & x, b & x\r\n        while b != 0:\r\n            c = a & b\r\n            a = a ^ b\r\n            b = (c << 1) & x\r\n        return a if a <= 0x7fffffff else ~(a ^ x)\r\n```\r\n```java []\r\nclass Solution {\r\n    public int add(int a, int b) {\r\n        while(b != 0) {\r\n            int c = (a & b) << 1;\r\n            a ^= b;\r\n            b = c; \r\n        }\r\n        return a;\r\n    }\r\n}\r\n```\r\n",
+      "createdAt": "2021-11-20T09:36:38.098952+00:00",
+      "hitCount": 113,
+      "identifier": "a1TVis",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "die-dai-di-gui-wei-yun-suan-javascript-b-20d7",
+        "title": "【迭代+递归+位运算】JavaScript"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "add-without-plus-lcci"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "wei-yun-suan-by-123-2621-8f4n",
+      "status": "PUBLISHED",
+      "summary": "借鉴K神的题解\n同类题 ：剑指 Offer 65. 不用加减乘除做加法\nhttps://leetcode-cn.com/problems/bu-yong-jia-jian-cheng-chu-zuo-jia-fa-lcof/solution/mian-shi-ti-65-bu-yong-jia-jian-cheng-c",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python3",
+          "nameTranslated": "",
+          "slug": "python3",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "位运算",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1112374,
+        "viewCount": 99
+      },
+      "uuid": "a1TVis",
+      "videosInfo": []
+    }
+  }
+}

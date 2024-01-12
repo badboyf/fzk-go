@@ -1,0 +1,86 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣 (LeetCode)",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/uploaded_files/2021/03/73c9f099-abbe-4d94-853f-f8abffd459cd/leetcode.png",
+          "userSlug": "leetcode"
+        },
+        "username": "LeetCode"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法 1：遍历矩阵\n\n**想法和算法**\n\n对于矩阵中的每一个单元格，找所有 9 个包括它自身在内的紧邻的格子。\n\n然后，我们要将所有邻居的和保存在 `ans[r][c]` 中，同时记录邻居的数目 `count`。最终的答案就是和除以邻居数目。\n\n```Python []\nclass Solution(object):\n    def imageSmoother(self, M):\n        R, C = len(M), len(M[0])\n        ans = [[0] * C for _ in M]\n\n        for r in xrange(R):\n            for c in xrange(C):\n                count = 0\n                for nr in (r-1, r, r+1):\n                    for nc in (c-1, c, c+1):\n                        if 0 <= nr < R and 0 <= nc < C:\n                            ans[r][c] += M[nr][nc]\n                            count += 1\n                ans[r][c] /= count\n\n        return ans\n```\n\n```Java []\nclass Solution {\n    public int[][] imageSmoother(int[][] M) {\n        int R = M.length, C = M[0].length;\n        int[][] ans = new int[R][C];\n\n        for (int r = 0; r < R; ++r)\n            for (int c = 0; c < C; ++c) {\n                int count = 0;\n                for (int nr = r-1; nr <= r+1; ++nr)\n                    for (int nc = c-1; nc <= c+1; ++nc) {\n                        if (0 <= nr && nr < R && 0 <= nc && nc < C) {\n                            ans[r][c] += M[nr][nc];\n                            count++;\n                        }\n                    }\n                ans[r][c] /= count;\n            }\n        return ans;\n    }\n}\n```\n\n**复杂度分析**\n\n* 时间复杂度：$O(N)$，其中 $N$ 是图片中像素的数目。我们需要将每个像素都遍历一遍。\n\n* 空间复杂度：$O(N)$，我们答案的大小。\n",
+      "createdAt": "2019-09-28T15:19:30.015792+00:00",
+      "hitCount": 12191,
+      "identifier": "eaoWeE",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "661-tu-pian-ping-hua-qi-jian-dan-mo-ni-b-977r",
+        "title": "661. 图片平滑器 - 简单模拟"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "image-smoother"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 14,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "tu-pian-ping-hua-qi-by-leetcode",
+      "status": "PUBLISHED",
+      "summary": "§ 方法 1：遍历矩阵\n想法和算法\n对于矩阵中的每一个单元格，找所有 9 个包括它自身在内的紧邻的格子。\n然后，我们要将所有邻居的和保存在 ans[r][c] 中，同时记录邻居的数目 count。最终的答案就是和除以邻居数目。\n复杂度分析\n\n\n时间复杂度：O(N)，其中 N 是图片中像素的数目。我们需要将每个像素都遍历",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Array",
+          "nameTranslated": "数组",
+          "slug": "array",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "图片平滑器",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 33,
+        "id": 30899,
+        "viewCount": 9246
+      },
+      "uuid": "eaoWeE",
+      "videosInfo": []
+    }
+  }
+}

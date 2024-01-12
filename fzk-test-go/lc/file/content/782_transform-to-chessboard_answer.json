@@ -1,0 +1,84 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣 (LeetCode)",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/uploaded_files/2021/03/73c9f099-abbe-4d94-853f-f8abffd459cd/leetcode.png",
+          "userSlug": "leetcode"
+        },
+        "username": "LeetCode"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法一：分维度计算【通过】\n\n**思路**\n\n首先需要思考的是一次交换之后，棋盘会发生什么变化。为了简单起见，这里用交换列来做例子。在对任意两列进行交换之后，可以看到列交换是不会改变任意两行之间的状态的，简单的来说如果这两行原本就相同，列交换之后这两行依旧相同，如果这两行本来就不同，列交换之后也还是不同。由于最终的棋盘只有两种不同的行，最初的棋盘也一定只有两种不同的行，否则不管怎么做列交换都不会得到最终的棋盘。\n\n之后再来看棋盘行的规律，棋盘有两种行，这两种行每一位都互相不同。同时对于每一行来说，一定有一半为 `1`，一半为 `0`（如果长度为奇数，会多一个 `1` 或多一个 `0`）。对于棋盘的列也是同样的规律。\n\n可以观察到，先换行再换列跟先换列再换行结果是一样的。在这里先将所有的行调到正确的位置，再将所有的列调到正确的位置。\n\n考虑到只有两种不同的行，可以分别用 0，1 对其表示。要达成最终的棋盘实际上等价于将棋盘的行表示成 0，1相隔的状态。假设在将棋盘的行用 0，1 表示之后得到数组为 `[0, 1, 1, 1, 0, 0]`，那么只需求这个数组变成 `[0, 1, 0, 1, 0, 1]` 和 `[1, 0, 1, 0, 1, 0]` 的代价，之后取其中最小的代价就好了。同理，对列也是如此，这就将二维问题变成了两个一维问题。\n\n**算法**\n\n首先需要确认是否有且只有两种行（列）存在，且这两种行（列）的 0，1 排布合法，如果不符合条件直接返回 `-1`。之后需要生成理想的行（列）的状态（即0，1相隔的数组排列），对于每种理想状态，计算其与初始状态之间变换的代价。举个例子，对于 `[0, 1, 1, 1, 0, 0]` 初始状态来说，有两种理想状态，分别是 `[0, 1, 0, 1, 0, 1]` 和 `[1, 0, 1, 0, 1, 0]`，对于 `[0, 1, 1, 1, 0]` 初始状态只有一种理想状态 `[1, 0, 1, 0, 1]`。\n\n在 Java 实现中，用整型来表示每行。之后将其与 `0b010101010101.....01` 进行异或来计算初始状态转换到理想状态的代价。为了代码简洁，这里统一使用 `0xAAAAAAAA` 和 `0x55555555`，为了不引入额外的转换代价，还需要根据行的长度 `N` 生成 `0b00...0011...11` 掩码与结果做与运算。\n\n```java [solution1-Java]\nclass Solution {\n    public int movesToChessboard(int[][] board) {\n        int N = board.length;\n\n        // count[code] = v, where code is an integer\n        // that represents the row in binary, and v\n        // is the number of occurrences of that row\n        Map<Integer, Integer> count = new HashMap();\n        for (int[] row: board) {\n            int code = 0;\n            for (int x: row)\n                code = 2 * code + x;\n            count.put(code, count.getOrDefault(code, 0) + 1);\n        }\n\n        int k1 = analyzeCount(count, N);\n        if (k1 == -1) return -1;\n\n        // count[code], as before except with columns\n        count = new HashMap();\n        for (int c = 0; c < N; ++c) {\n            int code = 0;\n            for (int r = 0; r < N; ++r)\n                code = 2 * code + board[r][c];\n            count.put(code, count.getOrDefault(code, 0) + 1);\n        }\n\n        int k2 = analyzeCount(count, N);\n        return k2 >= 0 ? k1 + k2 : -1;\n    }\n\n    public int analyzeCount(Map<Integer, Integer> count, int N) {\n        // Return -1 if count is invalid\n        // Otherwise, return number of swaps required\n        if (count.size() != 2) return -1;\n\n        List<Integer> keys = new ArrayList(count.keySet());\n        int k1 = keys.get(0), k2 = keys.get(1);\n\n        // If lines aren't in the right quantity\n        if (!(count.get(k1) == N/2 && count.get(k2) == (N+1)/2) &&\n                !(count.get(k2) == N/2 && count.get(k1) == (N+1)/2))\n            return -1;\n        // If lines aren't opposite\n        if ((k1 ^ k2) != (1<<N) - 1)\n            return -1;\n\n        int Nones = (1 << N) - 1;\n        int ones = Integer.bitCount(k1 & Nones); // bitCount统计二进制中1的个数\n        int cand = Integer.MAX_VALUE;\n        if (N%2 == 0 || ones * 2 < N) // zero start\n            cand = Math.min(cand, Integer.bitCount(k1 ^ 0xAAAAAAAA & Nones) / 2);\n\n        if (N%2 == 0 || ones * 2 > N) // ones start\n            cand = Math.min(cand, Integer.bitCount(k1 ^ 0x55555555 & Nones) / 2);\n\n        return cand;\n    }\n}\n```\n\n```python [solution1-Python]\nclass Solution(object):\n    def movesToChessboard(self, board):\n        N = len(board)\n        ans = 0\n        # For each count of lines from {rows, columns}...\n        for count in (collections.Counter(map(tuple, board)),\n                      collections.Counter(zip(*board))):\n\n            # If there are more than 2 kinds of lines,\n            # or if the number of kinds is not appropriate ...\n            if len(count) != 2 or sorted(count.values()) != [N/2, (N+1)/2]:\n                return -1\n\n            # If the lines are not opposite each other, impossible\n            line1, line2 = count\n            if not all(x ^ y for x, y in zip(line1, line2)):\n                return -1\n\n            # starts = what could be the starting value of line1\n            # If N is odd, then we have to start with the more\n            # frequent element\n            starts = [+(line1.count(1) * 2 > N)] if N%2 else [0, 1]\n\n            # To transform line1 into the ideal line [i%2 for i ...],\n            # we take the number of differences and divide by two\n            ans += min(sum((i-x) % 2 for i, x in enumerate(line1, start))\n                       for start in starts) / 2\n\n        return ans\n```\n\n\n**复杂度分析**\n\n* 时间复杂度：$O(N^2)$，其中 $N$ 是 `board` 的行（或列）的长度。\n\n* 空间复杂度：$O(N)$，`count` 的空间。",
+      "createdAt": "2019-11-20T07:17:11.196402+00:00",
+      "hitCount": 4207,
+      "identifier": "84nBsa",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "c-by-jushuai_lfx-widf",
+        "title": "c++"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "transform-to-chessboard"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 4,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "CONFUSED"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "bian-cheng-qi-pan-by-leetcode",
+      "status": "PUBLISHED",
+      "summary": "§ 方法一：分维度计算【通过】\n思路\n首先需要思考的是一次交换之后，棋盘会发生什么变化。为了简单起见，这里用交换列来做例子。在对任意两列进行交换之后，可以看到列交换是不会改变任意两行之间的状态的，简单的来说如果这两行原本就相同，列交换之后这两行依旧相同，如果这两行本来就不同，列交换之后也还是不同。由于最终的棋盘只有两种",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "变成棋盘",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 5,
+        "id": 45564,
+        "viewCount": 3128
+      },
+      "uuid": "84nBsa",
+      "videosInfo": []
+    }
+  }
+}

@@ -1,0 +1,79 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "陈信安",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/chen-xin-an/avatar_1578494773.png",
+          "userSlug": "chen-xin-an"
+        },
+        "username": "chen-xin-an"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "![image.png](https://pic.leetcode-cn.com/1636032738-IcqMpE-image.png)\n\n### 代码\n\n```javascript\nvar shortestAlternatingPaths = function (n, red_edges, blue_edges) {\n    const map = Array.from({ length: n }, () => []);\n    for (const [f, t] of red_edges) {\n        map[f].push(t);\n    }\n    for (const [f, t] of blue_edges) {\n        map[f].push(t | 128);\n    }\n    const ans = new Array(n).fill(-1);\n    const vis = new Set();\n    let queue = [0, 128];\n    let step = -1;\n    while (queue.length) {\n        const tmp = [];\n        step++;\n        for (const f of queue) {\n            vis.add(f);\n            const idx = f & -129;\n            if (ans[idx] === -1) ans[idx] = step;\n            for (const t of map[idx]) {\n                if (vis.has(t)) continue;\n                // 同色\n                if ((f & 128) === (t & 128)) continue;\n                tmp.push(t);\n            }\n        }\n        queue = tmp;\n    }\n    return ans;\n};\n```",
+      "createdAt": "2021-11-04T13:36:31.986817+00:00",
+      "hitCount": 123,
+      "identifier": "mYer5P",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "c-bellmanford-suan-fa-qiu-hong-lan-jiao-9t94f",
+        "title": "C++ BellmanFord 算法求红蓝交替路径"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "shortest-path-with-alternating-colors"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "js-gei-lan-se-da-shang-biao-ji-yong-hong-d6eb",
+      "status": "PREPUBLISH",
+      "summary": "代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "JavaScript",
+          "nameTranslated": "",
+          "slug": "javascript",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "二进制",
+          "nameTranslated": "",
+          "slug": "er-jin-zhi",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1636032738-IcqMpE-image.png",
+      "title": "【js】给蓝色打上标记，用红和蓝节点开始BFS",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1084478,
+        "viewCount": 97
+      },
+      "uuid": "mYer5P",
+      "videosInfo": []
+    }
+  }
+}

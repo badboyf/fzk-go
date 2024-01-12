@@ -1,0 +1,86 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣 (LeetCode)",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/uploaded_files/2021/03/73c9f099-abbe-4d94-853f-f8abffd459cd/leetcode.png",
+          "userSlug": "leetcode"
+        },
+        "username": "LeetCode"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法一：贪心\n\n对于每一列，我们检查它是否是有序的。如果它有序，则将答案增加 1，否则它必须被删除。\n\n```Java [sol1]\nclass Solution {\n    public int minDeletionSize(String[] A) {\n        int ans = 0;\n        for (int c = 0; c < A[0].length(); ++c)\n            for (int r = 0; r < A.length - 1; ++r)\n                if (A[r].charAt(c) > A[r+1].charAt(c)) {\n                    ans++;\n                    break;\n                }\n\n        return ans;\n    }\n}\n```\n\n```Python [sol1]\nclass Solution(object):\n    def minDeletionSize(self, A):\n        ans = 0\n        for col in zip(*A):\n            if any(col[i] > col[i+1] for i in xrange(len(col) - 1)):\n                ans += 1\n        return ans\n```\n\n**复杂度分析**\n\n* 时间复杂度：$O(N)$，其中 $N$ 是数组 `A` 中的元素个数。\n\n* 空间复杂度：$O(1)$。",
+      "createdAt": "2019-07-22T09:15:25.507062+00:00",
+      "hitCount": 10267,
+      "identifier": "enXoVr",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "zheng-chang-bian-li-yi-bian-ji-ke-c-by-z-38d1",
+        "title": "【正常遍历一遍即可】【C++】"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "delete-columns-to-make-sorted"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 3,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "shan-lie-zao-xu-by-leetcode",
+      "status": "PUBLISHED",
+      "summary": "§ 方法一：贪心\n对于每一列，我们检查它是否是有序的。如果它有序，则将答案增加 1，否则它必须被删除。\n复杂度分析\n\n\n时间复杂度：O(N)，其中 N 是数组 A 中的元素个数。\n\n\n空间复杂度：O(1)。\n\n",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Greedy",
+          "nameTranslated": "贪心",
+          "slug": "greedy",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "删列造序",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 29,
+        "id": 16000,
+        "viewCount": 8395
+      },
+      "uuid": "enXoVr",
+      "videosInfo": []
+    }
+  }
+}

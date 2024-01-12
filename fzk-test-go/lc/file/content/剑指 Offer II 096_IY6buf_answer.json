@@ -1,0 +1,79 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "路人甲",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/lu-ren-jia-7/avatar_1551249528.png",
+          "userSlug": "lu-ren-jia-7"
+        },
+        "username": "lu-ren-jia-7"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n根据题意，当两个字符串$s1$和$s2$交错时\n1. 每个字符串都会被分割成若干**非空**的子字符串。\n2. 两个字符串被分隔的段数最多相差为一，以保证属于同一个字符串的子字符串不会相邻拼接。\n\n如果从“分割字符串”的角度考虑这个问题，会比较复杂，可以直接从交错的过程考虑。\n\n可以把题目进行一定的**等效转换**。\n约定从$s1$和$s2$中按**从头到尾的顺序**，依次取出一个字符（每次可以从$s1$中取，也可以从$s2$中取），加入字符串$s3$中，这样$s3$一定是$s1$和$s2$交错组成的结果。\n\n那么问题就转换为**在按顺序取的情况**下，$s1$的前$i$个字符和$s2$的前$j$个字符是否能构成$s3$的前$i+j$个字符？\n\n**状态转移方程**\n用$f(i,j)$表示`s1[0:i]`和`s2[0:j]`能否组成`s3[0:i+j+1]`\n```\nif s3[i+j+1] == s1[i]\n    f(i,j) = f(i-1,j)\nif s3[i+j+1] == s2[j]\n    f(i,j) = f(i,j-1)\nif s3[i+j+1] == s1[i] == s2[j]\n    f(i,j) = f(i-1,j) || f(i,j-1)\n```\n\n**状态转移方程的原理**\n对于字符串`s3[0:i+j+1]`的最后一个字符：\n- 如果该字符等于$s1$最后一个字符，原问题变为子问题1： `s3[0:i+j]`是否可以由`s1[0:i-1]`与`s2[0:j]`构成；\n- 如果该字符等于$s2$最后一个字符，原问题变为子问题2： `s3[0:i+j]`可以由`s1[0:i]`与`s2[0:j-1]`构成。\n- 如果该字符等于$s2$最后一个字符，也等于$s1$最后一个字符，那么子问题1和子问题2中任何一个成立，都可以推出原问题成立\n\n**初始状态：**\n$f(-1,j)$的含义是当字符串$s1$的子字符串为空，它和字符串$s2$的子字符串`s2[0..j]`能否组成字符串$s3$的子字符串`s3[0..j]`。\n$f(-1,j)$的值取决于子字符串`s2[0..j]`和`s3[0..j]`是否相同。\n```伪代码\nif s2[j] == s3[j]\n    f(-1,j) = f(-1, j-1)\nelse\n    f(-1,j) = false \n```\n$f(i,-1)$的初始化方式类似。\n$f(-1,-1)$表示两个空字符串能否组成一个空字符串，显然可以，所以$f(-1,-1) = true$。\n\n### 代码\n#### 1. 普通二维dp数组的思路\n将上述动态规划的分析写成代码即得。\n```java []\nclass Solution {\n    public boolean isInterleave(String s1, String s2, String s3) {\n        int m = s1.length();\n        int n = s2.length();\n        if(s3.length() != m+n){\n            return false;\n        }\n        boolean[][] dp = new boolean[m+1][n+1];\n        // 初始化\n        dp[0][0] = true;\n        for(int i = 1; i <= m; i++){\n            if(s1.charAt(i-1) == s3.charAt(i-1)){\n                dp[i][0] = dp[i-1][0];\n            }else{\n                break;\n            }\n        }\n        for(int j = 1; j <= n; j++){\n            if(s2.charAt(j-1) == s3.charAt(j-1)){\n                dp[0][j] = dp[0][j-1];\n            }else{\n                break;\n            }\n        }\n        // 进行状态转移的计算\n        for(int i = 1; i <= m; i++){\n            char a = s1.charAt(i-1);\n            for(int j = 1; j <= n; j++){\n                char b = s2.charAt(j-1);\n                char c = s3.charAt(i+j-1);\n                dp[i][j]= (b == c && dp[i][j-1]) || (a == c && dp[i-1][j]);\n            }\n        }\n        return dp[m][n];\n    }\n}\n```\n\n#### 2. 使用一维滚动数组优化空间效率\n直接在二维DP的代码基础上稍作修改，因为我们无需保存中间的过程，将`dp[i][j]`变为循环第$i$轮的`dp[j]`即可。\n\n```java []\nclass Solution {\n    public boolean isInterleave(String s1, String s2, String s3) {\n        int m = s1.length();\n        int n = s2.length();\n        if(s3.length() != m+n){\n            return false;\n        }\n        boolean[] dp = new boolean[n+1];\n        dp[0] = true;\n        for(int j = 1; j <= n; j++){\n            if(s2.charAt(j-1) == s3.charAt(j-1)){\n                dp[j] = dp[j-1];\n            }else{\n                break;\n            }\n        }\n        for(int i = 1; i <= m; i++){\n            char a = s1.charAt(i-1);\n            dp[0] = dp[0] && (a == s3.charAt(i-1));\n            for(int j = 1; j <= n; j++){\n                char b = s2.charAt(j-1);\n                char c = s3.charAt(i+j-1);\n                dp[j] = (b == c && dp[j-1]) || (a == c && dp[j]);\n            }\n        }\n        return dp[n];\n    }\n}\n```",
+      "createdAt": "2021-11-25T09:23:07.252892+00:00",
+      "hitCount": 51,
+      "identifier": "7jaPBG",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "aiera-tu-jie-dong-tai-gui-hua-by-tang-bo-owx1",
+        "title": "【AIEra】【图解】动态规划"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "IY6buf"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "jian-zhi-offerguan-jie-de-ge-ren-li-jie-gpspb",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n根据题意，当两个字符串s1和s2交错时\n\n每个字符串都会被分割成若干非空的子字符串。\n两个字符串被分隔的段数最多相差为一，以保证属于同一个字符串的子字符串不会相邻拼接。\n\n如果从“分割字符串”的角度考虑这个问题，会比较复杂，可以直接从交错的过程考虑。\n可以把题目进行一定的等效转换。\n约定从s1和s2中按从头到",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Dynamic Programming",
+          "nameTranslated": "动态规划",
+          "slug": "dynamic-programming",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "剑指offer官解的个人理解",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1121886,
+        "viewCount": 32
+      },
+      "uuid": "7jaPBG",
+      "videosInfo": []
+    }
+  }
+}

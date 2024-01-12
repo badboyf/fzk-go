@@ -1,0 +1,83 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "浑元形意太极门马保国",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/default_avatar.png",
+          "userSlug": "shi-zi-bo-tu-r"
+        },
+        "username": "shi-zi-bo-tu-r"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n执行用时：136 ms, 在所有 Python3 提交中击败了84.04%的用户\n内存消耗：15.1 MB, 在所有 Python3 提交中击败了67.02%的用户\n通过测试用例：\n55 / 55\n**使用r，o，a，k四个变量来保存当前状态，分别代表之前有几只青蛙进入了要读出r，o，a，k这几个个字符\n某个青蛙叫出c时，r状态会+1，叫出r时，r会-1，但r之后的字符o会+1\n最多的青蛙数量是四个状态在遍历时的最大值**\n\n### 代码\n\n```python3\nclass Solution:\n    def minNumberOfFrogs(self, croakOfFrogs: str) -> int:\n        guagua = []\n        count = 0\n        r = 0\n        o = 0\n        a = 0\n        k = 0\n        for i in range(len(croakOfFrogs)):\n            s = r+o+a+k\n            if s>count:\n                count = s\n            if croakOfFrogs[i] == 'c':\n                r += 1\n            elif croakOfFrogs[i] == 'r':\n                if r==0:\n                    return -1\n                else:\n                    r-=1\n                    o+=1\n            elif croakOfFrogs[i] == 'o':\n                if o==0:\n                    return -1\n                else:\n                    o-=1\n                    a+=1\n            elif croakOfFrogs[i] == 'a':\n                if a==0:\n                    return -1\n                else:\n                    a-=1\n                    k+=1\n            else:\n                if k==0:\n                    return -1\n                else:\n                    k-=1\n        if r != 0 or o !=0 or a!=0 or k!=0:\n            return -1\n        return count\n```",
+      "createdAt": "2021-10-21T12:44:33.903816+00:00",
+      "hitCount": 119,
+      "identifier": "5z2L8o",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "c-ru-he-que-ding-qing-wa-shu-liang-ru-he-n31u",
+        "title": "c++ 如何确定青蛙数量/如何确定是否有效"
+      },
+      "position": 2,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "cai-ji-gong-xian-ge-chun-onzuo-fa-by-imcover",
+        "title": "菜鸡贡献个纯O(n)做法"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "minimum-number-of-frogs-croaking"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "si-ge-zhuang-tai-bian-liang-jie-jue-by-s-53kf",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n执行用时：136 ms, 在所有 Python3 提交中击败了84.04%的用户\n内存消耗：15.1 MB, 在所有 Python3 提交中击败了67.02%的用户\n通过测试用例：\n55 / 55\n使用r，o，a，k四个变量来保存当前状态，分别代表之前有几只青蛙进入了要读出r，o，a，k这几个个字符\n某个青蛙",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python3",
+          "nameTranslated": "",
+          "slug": "python3",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "四个状态变量解决",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1059857,
+        "viewCount": 103
+      },
+      "uuid": "5z2L8o",
+      "videosInfo": []
+    }
+  }
+}

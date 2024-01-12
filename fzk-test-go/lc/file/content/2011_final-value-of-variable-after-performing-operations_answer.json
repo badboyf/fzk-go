@@ -1,0 +1,79 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "想做凌波丽小姐的🐶",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/gan-shi-san/avatar_1635206263.png",
+          "userSlug": "gan-shi-san"
+        },
+        "username": "gan-shi-san"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "![QQ截图20211115163250.png](https://pic.leetcode-cn.com/1636965589-yGMTnS-QQ%E6%88%AA%E5%9B%BE20211115163250.png)\n\n### 解题思路\n\n![QQ截图20211115164050.png](https://pic.leetcode-cn.com/1636965697-CTITiV-QQ%E6%88%AA%E5%9B%BE20211115164050.png)\n由题目可知：\n列表中存在的运算符仅有4种：\n1. \"++X\"\n2. \"X++\"\n3. \"--X\"\n4. \"X--\"\n由案例得————1和2，3和4都是运算规则相同的运算符。由此易得运算结果只受运算符种类影响，不受运算符位置的影响。\n由于运算符长度都为3，因此可以用operations[i].charAt(1)提取各运算符的符号。\n随后问题就被简化为：如何将\"+\"和\"-\"转化为\"+1\"和\"-1\"？\n又 因为\",\"的ascii码(44)处于\"+\"(43)和\"-\"(45)之间，答案便显而易见。\n综上，代码如下：\n### 代码\n\n```java\nclass Solution {\n    public int finalValueAfterOperations(String[] operations) {\n        int X=0;\n        for(int i=0;i<operations.length;i++){\n            X+=(44-operations[i].charAt(1));\n        }\n        return X;\n    }\n}\n```",
+      "createdAt": "2021-11-15T09:01:08.972640+00:00",
+      "hitCount": 142,
+      "identifier": "pnUVFq",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "bian-li-yi-bian-kan-stringde-di-er-ge-yu-7793",
+        "title": "遍历一遍，看string的第二个元素"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "final-value-of-variable-after-performing-operations"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "zhi-xing-cao-zuo-hou-de-bian-liang-zhi-j-od41",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n\n由题目可知：\n列表中存在的运算符仅有4种：\n\n\"++X\"\n\"X++\"\n\"--X\"\n\"X--\"\n由案例得————1和2，3和4都是运算规则相同的运算符。由此易得运算结果只受运算符种类影响，不受运算符位置的影响。\n由于运算符长度都为3，因此可以用operations[i].charAt(1)提取各运算符的符号。",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "String",
+          "nameTranslated": "字符串",
+          "slug": "string",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1636965589-yGMTnS-QQ%E6%88%AA%E5%9B%BE20211115163250.png",
+      "title": "执行操作后的变量值(接近双百)",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 2,
+        "id": 1103253,
+        "viewCount": 117
+      },
+      "uuid": "pnUVFq",
+      "videosInfo": []
+    }
+  }
+}

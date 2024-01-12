@@ -1,0 +1,93 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣 (LeetCode)",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/uploaded_files/2021/03/73c9f099-abbe-4d94-853f-f8abffd459cd/leetcode.png",
+          "userSlug": "leetcode"
+        },
+        "username": "LeetCode"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 简单计数：\n\n我们统计出每个单词出现的次数，忽略所有的标点符号和大小写，答案即为出现次数最多且不在禁用列表中的那个单词。\n\n统计单词的方法有两种。在第一种方法中，我们首先对整个段落按照空格进行分词（split），然后对于分出的每个单词，我们移除标点符号并忽略大小写。在第二种方法中，我们逐字符扫描整个段落，如果遇到一个非字母的符号，那就把之前遇到的字母作为一个单词。\n\n对于每一个单词，我们会放入哈希映射（`Java` 中的 `HashMap` 或者 `Python` 中的 `Counter`）中进行计数。在每次放入单词之后，如果这个单词不在禁用列表中，我们就可以更新一次答案。\n\n\n```Java [sol1]\nclass Solution {\n    public String mostCommonWord(String paragraph, String[] banned) {\n        paragraph += \".\";\n\n        Set<String> banset = new HashSet();\n        for (String word: banned) banset.add(word);\n        Map<String, Integer> count = new HashMap();\n\n        String ans = \"\";\n        int ansfreq = 0;\n\n        StringBuilder word = new StringBuilder();\n        for (char c: paragraph.toCharArray()) {\n            if (Character.isLetter(c)) {\n                word.append(Character.toLowerCase(c));\n            } else if (word.length() > 0) {\n                String finalword = word.toString();\n                if (!banset.contains(finalword)) {\n                    count.put(finalword, count.getOrDefault(finalword, 0) + 1);\n                    if (count.get(finalword) > ansfreq) {\n                        ans = finalword;\n                        ansfreq = count.get(finalword);\n                    }\n                }\n                word = new StringBuilder();\n            }\n        }\n\n        return ans;\n    }\n}\n```\n\n```Python [sol1]\nclass Solution(object):\n    def mostCommonWord(self, paragraph, banned):\n        banset = set(banned)\n        for c in \"!?',;.\":\n            paragraph = paragraph.replace(c, \" \")\n        count = collections.Counter(\n            word for word in paragraph.lower().split())\n\n        ans, best = '', 0\n        for word in count:\n            if count[word] > best and word not in banset:\n                ans, best = word, count[word]\n\n        return ans\n```\n\n**复杂度分析**\n\n- 时间复杂度：$O(P + B)$，其中 $P$ 是段落 `paragraph` 的长度，$B$ 是禁用列表 `banned` 的长度。\n\n- 空间复杂度：$O(P + B)$，用来进行计数以及存储禁用列表 `banned`。",
+      "createdAt": "2019-10-29T06:25:15.999543+00:00",
+      "hitCount": 15430,
+      "identifier": "Nl4VLa",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "zui-chang-jian-de-dan-ci-by-xiao-xiu-8-sl5n",
+        "title": "最长见的单词"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "most-common-word"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 11,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "zui-chang-jian-de-dan-ci-by-leetcode",
+      "status": "PUBLISHED",
+      "summary": "§ 简单计数：\n我们统计出每个单词出现的次数，忽略所有的标点符号和大小写，答案即为出现次数最多且不在禁用列表中的那个单词。\n统计单词的方法有两种。在第一种方法中，我们首先对整个段落按照空格进行分词（split），然后对于分出的每个单词，我们移除标点符号并忽略大小写。在第二种方法中，我们逐字符扫描整个段落，如果遇到一个非",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Hash Table",
+          "nameTranslated": "哈希表",
+          "slug": "hash-table",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "String",
+          "nameTranslated": "字符串",
+          "slug": "string",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "最常见的单词",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 28,
+        "id": 38855,
+        "viewCount": 11365
+      },
+      "uuid": "Nl4VLa",
+      "videosInfo": []
+    }
+  }
+}

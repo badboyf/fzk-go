@@ -1,0 +1,77 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣 (LeetCode)",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/uploaded_files/2021/03/73c9f099-abbe-4d94-853f-f8abffd459cd/leetcode.png",
+          "userSlug": "leetcode"
+        },
+        "username": "LeetCode"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法：计数\n\n**思路和算法**\n\n让我们试着表述一个特殊等价的字符串 $S$，通过找到函数 $\\mathcal{C}$ 使得 $S \\equiv T \\iff \\mathcal{C}(S) = \\mathcal{C}(T)$。\n\n通过交换，我们可以排列偶数索引字母和奇数索引字母。这些排列的特征在于字母的数量：所有这样的排列都有相同的数量，不同的数量会产生不同的排列。\n\n因此，函数 $\\mathcal{C}(S) =$（S 中偶数索引字母的数量，其后是 S 中奇数索引字母的数量）成功地刻画了这一等价关系。\n\n然后，我们统计出满足 $S \\in A$ 的 $\\mathcal{C}(S)$ 的数量。\n\n```java [mfQicAZA-Java]\nclass Solution {\n    public int numSpecialEquivGroups(String[] A) {\n        Set<String> seen = new HashSet();\n        for (String S: A) {\n            int[] count = new int[52];\n            for (int i = 0; i < S.length(); ++i)\n                count[S.charAt(i) - 'a' + 26 * (i % 2)]++;\n            seen.add(Arrays.toString(count));\n        }\n        return seen.size();\n    }\n}\n```\n```python [mfQicAZA-Python]\nclass Solution(object):\n    def numSpecialEquivGroups(self, A):\n        def count(A):\n            ans = [0] * 52\n            for i, letter in enumerate(A):\n                ans[ord(letter) - ord('a') + 26 * (i%2)] += 1\n            return tuple(ans)\n\n        return len({count(word) for word in A})\n```\n\n\n**复杂度分析**\n\n* 时间复杂度：$O(\\sum\\limits_{i} (A_i)\\text{.length})$。\n\n* 空间复杂度：$O(N)$，其中 $N$ 是 `A` 的长度。",
+      "createdAt": "2018-10-04T15:06:20.726772+00:00",
+      "hitCount": 9743,
+      "identifier": "aoWD0N",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "893-cji-hu-shuang-bai-de-pai-xu-jia-setj-qxxg",
+        "title": "893. c++几乎双百的排序加set解法"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "groups-of-special-equivalent-strings"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 17,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "te-shu-deng-jie-zi-fu-chuan-zu-by-leetcode",
+      "status": "PUBLISHED",
+      "summary": "思路和算法\n让我们试着表述一个特殊等价的字符串 S，通过找到函数 \\mathcal{C} 使得 S \\equiv T \\iff \\mathcal{C}(S) = \\mathcal{C}(T)。\n通过交换，我们可以排列偶数索引字母和奇数索引字母。这些排列的特征在于字母的数量：所有这样的排列都有相同的数量，不同的数量会产生",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "特殊等价字符串组",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 36,
+        "id": 3560,
+        "viewCount": 6159
+      },
+      "uuid": "aoWD0N",
+      "videosInfo": []
+    }
+  }
+}

@@ -1,0 +1,76 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "粉粉哒小裙子",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/default_avatar.png",
+          "userSlug": "fen-fen-da-xiao-qun-zi"
+        },
+        "username": "fen-fen-da-xiao-qun-zi"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "看了题解，好多大神各种解法。\r\n看了一下题目要求的数据量都不大，按照字符串长度筛选一下暴力也能过。\r\n在此展示一下渣渣代码~\r\n```\r\nclass MagicDictionary {\r\n\r\n    /** Initialize your data structure here. */\r\n    Map<Integer, HashSet<String>> wordMap;\r\n    public MagicDictionary() {\r\n        wordMap = new HashMap<>();\r\n    }\r\n\r\n    public void buildDict(String[] dictionary) {\r\n        for(String str:dictionary){\r\n            int len = str.length();\r\n            HashSet<String> words = wordMap.getOrDefault(len,new HashSet<>());\r\n            words.add(str);\r\n            wordMap.put(len,words);\r\n        }\r\n    }\r\n\r\n    public boolean search(String searchWord) {\r\n        int len = searchWord.length();\r\n        if(!wordMap.containsKey(len)){\r\n            return false;\r\n        }\r\n        HashSet<String> words = wordMap.get(len);\r\n        char[] srr = searchWord.toCharArray();\r\n        for(String str:words){\r\n            char[] arr = str.toCharArray();\r\n            int sum = 0;\r\n            for(int i = 0;i<len;i++){\r\n                if(srr[i] != arr[i]){\r\n                    sum++;\r\n                }\r\n                if(sum > 1){\r\n                    break;\r\n                }\r\n            }\r\n            if(sum == 1){\r\n                return true;\r\n            }\r\n        }\r\n        return false;\r\n    }\r\n}\r\n\r\n\r\n/**\r\n * Your MagicDictionary object will be instantiated and called as such:\r\n * MagicDictionary obj = new MagicDictionary();\r\n * obj.buildDict(dictionary);\r\n * boolean param_2 = obj.search(searchWord);\r\n */\r\n```\r\n\r\n",
+      "createdAt": "2021-10-23T14:57:45.211980+00:00",
+      "hitCount": 250,
+      "identifier": "27qhYF",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "jian-zhi-offer-2-mian-shi-ti-64-shu-zhon-uctz",
+        "title": "《剑指offer 2 面试题64》 书中算法C++实现"
+      },
+      "position": 2,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "bian-li-zi-dian-bi-jiao-liang-ge-zi-fu-c-i45o",
+        "title": "遍历字典，比较两个字符串，当且仅当两个字符串只有一处相同位置的字符不同时可以转换"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "US1pGT"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "hashmapyi-zi-fu-chuan-chang-du-wei-keyva-jjz7",
+      "status": "PREPUBLISH",
+      "summary": "看了题解，好多大神各种解法。\n看了一下题目要求的数据量都不大，按照字符串长度筛选一下暴力也能过。\n在此展示一下渣渣代码~",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "HashMap，以字符串长度为key，values是set，保存改长度的字符串们",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1063435,
+        "viewCount": 211
+      },
+      "uuid": "27qhYF",
+      "videosInfo": []
+    }
+  }
+}

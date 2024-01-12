@@ -1,0 +1,79 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "Jomheo",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/jomheo/avatar_1619411394.png",
+          "userSlug": "jomheo"
+        },
+        "username": "jomheo"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "找规律题目，没什么好说的。\n```go\nfunc squareIsWhite1(coordinates string) bool {\n\treturn (coordinates[1]-'0'+coordinates[0]-'a'+1)%2 != 0\n}\n```",
+      "createdAt": "2021-11-13T09:09:33.105922+00:00",
+      "hitCount": 45,
+      "identifier": "6GrRxY",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "zhi-jie-bian-li-pan-duan-qi-ou-by-vigoro-wulb",
+        "title": "直接遍历，判断奇偶"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "determine-color-of-a-chessboard-square"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "go-yi-xing-by-jomheo-j71n",
+      "status": "PREPUBLISH",
+      "summary": "找规律题目，没什么好说的。",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Brainteaser",
+          "nameTranslated": "脑筋急转弯",
+          "slug": "brainteaser",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Go",
+          "nameTranslated": "",
+          "slug": "golang",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "Go 一行",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 1,
+        "id": 1099490,
+        "viewCount": 39
+      },
+      "uuid": "6GrRxY",
+      "videosInfo": []
+    }
+  }
+}

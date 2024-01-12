@@ -1,0 +1,86 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "WineForEver  九一久一",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/wineforever-jiu-yi-jiu-yi/avatar_1569120404.png",
+          "userSlug": "wineforever-jiu-yi-jiu-yi"
+        },
+        "username": "wineforever-jiu-yi-jiu-yi"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "本题问最小的跳跃次数，显然肯定可以跳到最后一个元素并且最大也只需要n-1次。\r\n有三种跳跃方式，我们可以类比“图”中求最短路径的方法，能够一次跳跃到的两点就是相邻的两个节点。\r\n因此采用BFS来解决本题。BFS的一般步骤，使用一个queue，以及一个记录访问情况的数组，避免重复访问。\r\n同时我们需要step记录跳跃次数，step可以随pos一同放入queue中，也可以单独使用一个数组存放step。\r\n我们将0节点放入queue中，每次取出节点，根据三种跳跃方式，在queue中放入新的节点，当新节点为n-1节点时返回结果，将节点放入的同时改变节点的访问状态。\r\n由于第三种跳跃方式，我们需要知道与i节点值相同的j节点的位置，因此我们在BFS之前用hash表记录所有具有相同值的节点位置。\r\n然而，尽管上面的方法每个节点只访问了一次，但是仍然会超时，原因是会卡在7777...77 11这个示例中。\r\n而许多重复的7其实可以等价于两个7，原因在于中间的7只能跳到两边的7，因此从其他位置跳到这一长串7只会选择跳到首位或者末位，因此基于这一结论，我们对数组进行预处理，连续的相同数字只记录首尾。\r\n\r\n```\r\nclass Solution {\r\npublic:\r\n    int minJumps(vector<int>& arr) {\r\n        if(arr.size()==1)\r\n            return 0;\r\n        else if(arr.size()==2)\r\n            return 1;\r\n        vector<int> temp{arr[0],arr[1]};\r\n        for(int i=2;i<arr.size();++i)\r\n        {\r\n            if(arr[i]!=arr[i-1]||arr[i]!=arr[i-2])\r\n                temp.push_back(arr[i]);\r\n        }\r\n        arr=temp;\r\n        int n=arr.size();\r\n        unordered_map<int,vector<int>> m;\r\n        vector<int> v(n,0);\r\n        for(int i=0;i<n;++i)\r\n            m[arr[i]].push_back(i);\r\n        queue<pair<int,int>> q;\r\n        q.push(make_pair(0,0));\r\n        int step;\r\n        int pos;\r\n        v[0]=1;\r\n        while(!q.empty())\r\n        {\r\n            step=q.front().second;\r\n            pos=q.front().first;\r\n            q.pop();\r\n            if(pos==n-2)\r\n                return step+1;\r\n            if(pos>=1&&v[pos-1]==0)\r\n            {\r\n                q.push(make_pair(pos-1,step+1));\r\n                v[pos-1]=1;\r\n            }\r\n            if(pos<n-1&&v[pos+1]==0)\r\n            {\r\n                q.push(make_pair(pos+1,step+1));\r\n                v[pos+1]=1;\r\n            }\r\n            if(m.find(arr[pos])!=m.end())\r\n            {\r\n                for(int i=0;i<m[arr[pos]].size();++i)\r\n                {\r\n                    if(m[arr[pos]][i]==n-1)\r\n                        return step+1;\r\n                    if(v[m[arr[pos]][i]]==0)\r\n                    {\r\n                        q.push(make_pair(m[arr[pos]][i],step+1));\r\n                        v[m[arr[pos]][i]]=1;\r\n                    }\r\n                }\r\n            }\r\n        }\r\n        return 0;\r\n    }\r\n};\r\n```\r\n\r\n",
+      "createdAt": "2021-11-22T13:36:02.564174+00:00",
+      "hitCount": 43,
+      "identifier": "tJBoYy",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "python-bfs-hashji-lu-lian-xu-you-hua-by-e1ei1",
+        "title": "Python + BFS + hash记录（连续优化）"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "jump-game-iv"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "c-bfsha-xi-biao-yu-chu-li-xiang-jie-by-w-dyku",
+      "status": "PUBLISHED",
+      "summary": "本题问最小的跳跃次数，显然肯定可以跳到最后一个元素并且最大也只需要n-1次。\n有三种跳跃方式，我们可以类比“图”中求最短路径的方法，能够一次跳跃到的两点就是相邻的两个节点。\n因此采用BFS来解决本题。BFS的一般步骤，使用一个queue，以及一个记录访问情况的数组，避免重复访问。\n同时我们需要step记录跳跃次数，st",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Hash Table",
+          "nameTranslated": "哈希表",
+          "slug": "hash-table",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "BFS",
+          "nameTranslated": "",
+          "slug": "bfs",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "",
+      "title": "C++ BFS+哈希表+预处理 详解",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1116386,
+        "viewCount": 34
+      },
+      "uuid": "tJBoYy",
+      "videosInfo": []
+    }
+  }
+}

@@ -1,0 +1,83 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "angela",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/angela-x/avatar_1632561041.png",
+          "userSlug": "angela-x"
+        },
+        "username": "angela-x"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n- 输入的k个排序链表，可以分成两部分，前k/2个链表和后k/2个链表\n- 如果将这前k/2个链表和后k/2个链表分别合并成两个排序的链表，再将两个排序的链表合并，那么所有链表都合并了\n- 下面代码中递归调用栈的深度为O(logn)，所以空间复杂度为O(logn)\n- 因为使用的是归并排序的思路，所以它的时间复杂度为O(nlogn)\n\n### 代码\n\n```javascript\n/**\n * @param {ListNode[]} lists\n * @return {ListNode}\n */\nvar mergeKLists = function (lists) {\n  // 当是空数组的情况下\n  if (!lists.length) {\n    return null;\n  }\n  // 合并两个排序链表\n  const merge = (head1, head2) => {\n    let dummy = new ListNode(0);\n    let cur = dummy;\n    // 新链表，新的值小就先接谁\n    while (head1 && head2) {\n      if (head1.val < head2.val) {\n        cur.next = head1;\n        head1 = head1.next;\n      } else {\n        cur.next = head2;\n        head2 = head2.next;\n      }\n      cur = cur.next;\n    }\n    // 如果后面还有剩余的就把剩余的接上\n    cur.next = head1 == null ? head2 : head1;\n    return dummy.next;\n  };\n  const mergeLists = (lists, start, end) => {\n    if (start + 1 == end) {\n      return lists[start];\n    }\n    // 输入的k个排序链表，可以分成两部分，前k/2个链表和后k/2个链表\n    // 如果将这前k/2个链表和后k/2个链表分别合并成两个排序的链表，再将两个排序的链表合并，那么所有链表都合并了\n    let mid = (start + end) >> 1;\n    let head1 = mergeLists(lists, start, mid);\n    let head2 = mergeLists(lists, mid, end);\n    return merge(head1, head2);\n  };\n  return mergeLists(lists, 0, lists.length);\n};\n```",
+      "createdAt": "2021-10-06T01:46:08.684045+00:00",
+      "hitCount": 1114,
+      "identifier": "tdoM1F",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "dui-by-3smemcobbler-ux2d",
+        "title": "堆"
+      },
+      "position": 38,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "jian-dan-yi-dong-liang-liang-rong-he-by-3wslg",
+        "title": "简单易懂，两两融合"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "vvXgSW"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "shi-yong-gui-bing-si-lu-he-bing-pai-xu-l-zfit",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n\n输入的k个排序链表，可以分成两部分，前k/2个链表和后k/2个链表\n如果将这前k/2个链表和后k/2个链表分别合并成两个排序的链表，再将两个排序的链表合并，那么所有链表都合并了\n下面代码中递归调用栈的深度为O(logn)，所以空间复杂度为O(logn)\n因为使用的是归并排序的思路，所以它的时间复杂度为O(n",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "JavaScript",
+          "nameTranslated": "",
+          "slug": "javascript",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "归并",
+          "nameTranslated": "",
+          "slug": "gui-bing",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "",
+      "title": "使用归并思路合并排序链表",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1032769,
+        "viewCount": 937
+      },
+      "uuid": "tdoM1F",
+      "videosInfo": []
+    }
+  }
+}

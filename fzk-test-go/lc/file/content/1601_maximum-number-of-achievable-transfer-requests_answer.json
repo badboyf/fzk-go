@@ -1,0 +1,84 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "何逊",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/heltion/avatar_1587213058.png",
+          "userSlug": "heltion"
+        },
+        "username": "Heltion"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "考虑将所有边加入答案,此时某些点可能流量不平衡.\r\n\r\n对每个点定义$\\text{diff}_i=\\text{out\\_degree}_i-\\text{in\\_degree}_i$.\r\n新增源点$S$和汇点$T$.\r\n对每个$\\text{diff}_i>0$的点$i$,从$s$向$i$连流量为$\\text{diff}_i$费用为0的边.\r\n对每个$\\text{diff}_i<0$的点$i$,从$i$向$t$连流量为$-\\text{diff}_i$费用为0的边.\r\n原图的边流量和费用为$1$.\r\n\r\n新建的图中除$S$和$T$外的点都是流量平衡的.\r\n为了使得原图流量平衡,必须去掉与$S$和$T$相连的边且保持流量平衡,也就是从网络中去掉一个$S$到$T$最大流.\r\n由于代价就是去掉的边数,因此原图的边需要费用$1$.\r\n\r\n答案为```request.length```减去最小费用.\r\n\r\n最小费用流的连续最短路算法复杂度为```流量*最短路算法复杂度```,这里最短路算法可以使用0-1BFS,\r\n因此复杂度为$O(\\text{request.length}(\\text{request.length} + n))$.\r\n\r\n在下面的实现中使用最直接的方法,将每条边拆成流量为$1$后暴力进行边的反向操作.\r\n参考代码:\r\n```C++\r\nstruct Edge{\r\n    int from, to, cost;\r\n};\r\nclass Solution {\r\npublic:\r\n    int maximumRequests(int n, vector<vector<int>>& requests) {\r\n        int s = n, t = n + 1, N = n + 2, K = 0;\r\n\r\n        //calculate the diff array\r\n        vector<int> diff(n);\r\n        for(auto v : requests){\r\n            diff[v[0]] += 1;\r\n            diff[v[1]] -= 1;\r\n        }\r\n\r\n        //create the edges\r\n        vector<Edge> edges;\r\n        for(int i = 0; i < n; i += 1){\r\n            if(diff[i] > 0) for(int j = 0; j < diff[i]; j += 1) edges.push_back({s, i, 0});\r\n            if(diff[i] < 0) for(int j = 0; j < -diff[i]; j += 1) edges.push_back({i, t, 0});\r\n            K += max(diff[i], 0);\r\n        }\r\n        for(auto v : requests) edges.push_back({v[0], v[1], 1});\r\n\r\n        //build the graph\r\n        vector<vector<int>> G(N);\r\n        for(int i = 0; i < edges.size(); i += 1){\r\n            G[edges[i].from].push_back(i);\r\n            G[edges[i].to].push_back(i);\r\n        }\r\n        \r\n        int ans = requests.size();\r\n        //using ssp algorithm with 01BFS to find the min-cost max-flow\r\n        vector<int> h(N, 0);\r\n        for(int k = 0; k < K; k += 1){\r\n            vector<int> distance(N, N), pre(N, -1), done(N, 0);\r\n            distance[s] = 0;\r\n            deque<int> q;\r\n            q.push_front(s);\r\n            while(not q.empty()){\r\n                int u = q.front();\r\n                q.pop_front();\r\n                if(done[u]) continue;\r\n                done[u] = 1;\r\n                for(int i : G[u]) if(edges[i].from == u){\r\n                    int w = edges[i].cost + h[u] - h[edges[i].to];\r\n                    if(distance[edges[i].to] > distance[u] + w){\r\n                        distance[edges[i].to] = distance[u] + w;\r\n                        if(w) q.push_back(edges[i].to);\r\n                        else q.push_front(edges[i].to);\r\n                        pre[edges[i].to] = i;\r\n                    }\r\n                }\r\n            }\r\n            for(int i = 0; i < N; i += 1) h[i] += distance[i];\r\n            ans -= h[t];\r\n            for(int u = t; u != s; u = edges[pre[u]].to){\r\n                edges[pre[u]].cost = -edges[pre[u]].cost;\r\n                swap(edges[pre[u]].from, edges[pre[u]].to);\r\n            };\r\n        }\r\n        return ans;\r\n    }\r\n};\r\n```",
+      "createdAt": "2020-09-27T18:28:25.130531+00:00",
+      "hitCount": 2312,
+      "identifier": "gng2aH",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "zhe-zhou-bi-sai-suo-you-wei-ti-du-ke-yi-bao-li-qiu",
+        "title": "这周比赛所有问题都可以暴力求解，包括最后一题"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "maximum-number-of-achievable-transfer-requests"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 24,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 4,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "zui-xiao-fei-yong-zui-da-liu-onm2-c-by-heltion",
+      "status": "PUBLISHED",
+      "summary": "考虑将所有边加入答案,此时某些点可能流量不平衡.\n对每个点定义\\text{diff}_i=\\text{out\\_degree}_i-\\text{in\\_degree}_i.\n新增源点S和汇点T.\n对每个\\text{diff}_i>0的点i,从s向i连流量为\\text{diff}_i费用为0的边.\n对每个\\text{di",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "cpp",
+          "nameTranslated": "",
+          "slug": "additional_cpp",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "",
+      "title": "最小费用最大流 O((n+m)m) C++ 8ms",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 17,
+        "id": 429890,
+        "viewCount": 1753
+      },
+      "uuid": "gng2aH",
+      "videosInfo": []
+    }
+  }
+}

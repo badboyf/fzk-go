@@ -1,0 +1,84 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣 (LeetCode)",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/uploaded_files/2021/03/73c9f099-abbe-4d94-853f-f8abffd459cd/leetcode.png",
+          "userSlug": "leetcode"
+        },
+        "username": "LeetCode"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "####  方法：边界计数\n**算法：**\n- 当我们预定一个新的日程安排 `[start, end)`，则执行 `delta[start]++` 和 `delta[end]--`。其中 `delta` 是按照 `key` 值从小到大排序的结构，我们用 `active` 来记录当前正在进行的日程安排数，然后动态记录  `active` 的最大值。\n- 在 python 中我们每次对数据进行排序，因为没有 TreeMap。\n\n```Python [ ]\nclass MyCalendarThree(object):\n\n    def __init__(self):\n        self.delta = collections.Counter()\n\n    def book(self, start, end):\n        self.delta[start] += 1\n        self.delta[end] -= 1\n\n        active = ans = 0\n        for x in sorted(self.delta):\n            active += self.delta[x]\n            if active > ans: ans = active\n\n        return ans\n\n```\n\n```Java [ ]\nclass MyCalendarThree {\n    TreeMap<Integer, Integer> delta;\n\n    public MyCalendarThree() {\n        delta = new TreeMap();\n    }\n\n    public int book(int start, int end) {\n        delta.put(start, delta.getOrDefault(start, 0) + 1);\n        delta.put(end, delta.getOrDefault(end, 0) - 1);\n\n        int active = 0, ans = 0;\n        for (int d: delta.values()) {\n            active += d;\n            if (active > ans) ans = active;\n        }\n        return ans;\n    }\n}\n```\n\n**复杂度分析**\n\n* 时间复杂度：$O(N^2)$。$N$ 指的是日程安排的数量。对于每个新的日程安排，我们遍历 `delta` 需要 $O(N)$ 的时间，在 python 中，由于额外的排序步骤使时间复杂度是 $O(N^2 \\log N)$ 。\n* 空间复杂度：$O(N)$，`delta` 所使用的空间。",
+      "createdAt": "2019-10-29T06:28:39.301793+00:00",
+      "hitCount": 5178,
+      "identifier": "dGYDpB",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "yi-fa-jie-nti-by-laughhhh-kv91",
+        "title": "[ 一法解N题] ✔"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "my-calendar-iii"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 8,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "CONFUSED"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "wo-de-ri-cheng-an-pai-biao-iii-by-leetcode",
+      "status": "PUBLISHED",
+      "summary": "§ 方法：边界计数\n算法：\n\n当我们预定一个新的日程安排 [start, end)，则执行 delta[start]++ 和 delta[end]--。其中 delta 是按照 key 值从小到大排序的结构，我们用 active 来记录当前正在进行的日程安排数，然后动态记录  active 的最大值。\n在 python",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "我的日程安排表 III",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 7,
+        "id": 38864,
+        "viewCount": 3707
+      },
+      "uuid": "dGYDpB",
+      "videosInfo": []
+    }
+  }
+}

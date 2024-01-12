@@ -1,0 +1,129 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣官方题解",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/leetcode-solution/avatar_1582018938.png",
+          "userSlug": "leetcode-solution"
+        },
+        "username": "LeetCode-Solution"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 前言\n\n本题和 [122. 买卖股票的最佳时机 II](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-ii/) 是非常类似的题，唯一的区别就在于本题有「手续费」而第 122 题没有。\n\n#### 方法一：动态规划\n\n**思路与算法**\n\n考虑到「不能同时参与多笔交易」，因此每天交易结束后只可能存在手里有一支股票或者没有股票的状态。\n\n定义状态 $\\textit{dp}[i][0]$ 表示第 $i$ 天交易完后手里没有股票的最大利润，$\\textit{dp}[i][1]$ 表示第 $i$ 天交易完后手里持有一支股票的最大利润（$i$ 从 $0$ 开始）。\n\n考虑 $\\textit{dp}[i][0]$ 的转移方程，如果这一天交易完后手里没有股票，那么可能的转移状态为前一天已经没有股票，即 $\\textit{dp}[i-1][0]$，或者前一天结束的时候手里持有一支股票，即 $\\textit{dp}[i-1][1]$，这时候我们要将其卖出，并获得 $\\textit{prices}[i]$ 的收益，但需要支付 $\\textit{fee}$ 的手续费。因此为了收益最大化，我们列出如下的转移方程：\n\n$$\n\\textit{dp}[i][0]=\\max\\{\\textit{dp}[i-1][0],\\textit{dp}[i-1][1]+\\textit{prices}[i]-\\textit{fee}\\}\n$$\n\n再来按照同样的方式考虑 $\\textit{dp}[i][1]$ 按状态转移，那么可能的转移状态为前一天已经持有一支股票，即 $\\textit{dp}[i-1][1]$，或者前一天结束时还没有股票，即 $\\textit{dp}[i-1][0]$，这时候我们要将其买入，并减少 $\\textit{prices}[i]$ 的收益。可以列出如下的转移方程：\n\n$$\n\\textit{dp}[i][1]=\\max\\{\\textit{dp}[i-1][1],\\textit{dp}[i-1][0]-\\textit{prices}[i]\\}\n$$\n\n对于初始状态，根据状态定义我们可以知道第 $0$ 天交易结束的时候有 $\\textit{dp}[0][0]=0$ 以及 $\\textit{dp}[0][1]=-\\textit{prices}[0]$。\n\n因此，我们只要从前往后依次计算状态即可。由于全部交易结束后，持有股票的收益一定低于不持有股票的收益，因此这时候 $\\textit{dp}[n-1][0]$ 的收益必然是大于 $\\textit{dp}[n-1][1]$ 的，最后的答案即为 $\\textit{dp}[n-1][0]$。\n\n**代码**\n\n```C++ [sol1-C++]\nclass Solution {\npublic:\n    int maxProfit(vector<int>& prices, int fee) {\n        int n = prices.size();\n        vector<vector<int>> dp(n, vector<int>(2));\n        dp[0][0] = 0, dp[0][1] = -prices[0];\n        for (int i = 1; i < n; ++i) {\n            dp[i][0] = max(dp[i - 1][0], dp[i - 1][1] + prices[i] - fee);\n            dp[i][1] = max(dp[i - 1][1], dp[i - 1][0] - prices[i]);\n        }\n        return dp[n - 1][0];\n    }\n};\n```\n\n```Java [sol1-Java]\nclass Solution {\n    public int maxProfit(int[] prices, int fee) {\n        int n = prices.length;\n        int[][] dp = new int[n][2];\n        dp[0][0] = 0;\n        dp[0][1] = -prices[0];\n        for (int i = 1; i < n; ++i) {\n            dp[i][0] = Math.max(dp[i - 1][0], dp[i - 1][1] + prices[i] - fee);\n            dp[i][1] = Math.max(dp[i - 1][1], dp[i - 1][0] - prices[i]);\n        }\n        return dp[n - 1][0];\n    }\n}\n```\n\n```JavaScript [sol1-JavaScript]\nvar maxProfit = function(prices, fee) {\n    const n = prices.length;\n    const dp = new Array(n).fill(0).map(v => new Array(2).fill(0));\n    dp[0][0] = 0, dp[0][1] = -prices[0];\n    for (let i = 1; i < n; ++i) {\n        dp[i][0] = Math.max(dp[i - 1][0], dp[i - 1][1] + prices[i] - fee);\n        dp[i][1] = Math.max(dp[i - 1][1], dp[i - 1][0] - prices[i]);\n    }\n    return dp[n - 1][0];\n};\n```\n\n```Python [sol1-Python3]\nclass Solution:\n    def maxProfit(self, prices: List[int], fee: int) -> int:\n        n = len(prices)\n        dp = [[0, -prices[0]]] + [[0, 0] for _ in range(n - 1)]\n        for i in range(1, n):\n            dp[i][0] = max(dp[i - 1][0], dp[i - 1][1] + prices[i] - fee)\n            dp[i][1] = max(dp[i - 1][1], dp[i - 1][0] - prices[i])\n        return dp[n - 1][0]\n```\n\n```Go [sol1-Golang]\nfunc maxProfit(prices []int, fee int) int {\n    n := len(prices)\n    dp := make([][2]int, n)\n    dp[0][1] = -prices[0]\n    for i := 1; i < n; i++ {\n        dp[i][0] = max(dp[i-1][0], dp[i-1][1]+prices[i]-fee)\n        dp[i][1] = max(dp[i-1][1], dp[i-1][0]-prices[i])\n    }\n    return dp[n-1][0]\n}\n\nfunc max(a, b int) int {\n    if a > b {\n        return a\n    }\n    return b\n}\n```\n\n```C [sol1-C]\nint maxProfit(int* prices, int pricesSize, int fee){\n    int dp[pricesSize][2];\n    dp[0][0] = 0, dp[0][1] = -prices[0];\n    for (int i = 1; i < pricesSize; ++i) {\n        dp[i][0] = fmax(dp[i - 1][0], dp[i - 1][1] + prices[i] - fee);\n        dp[i][1] = fmax(dp[i - 1][1], dp[i - 1][0] - prices[i]);\n    }\n    return dp[pricesSize - 1][0];\n}\n```\n\n注意到在状态转移方程中，$\\textit{dp}[i][0]$ 和 $\\textit{dp}[i][1]$ 只会从 $\\textit{dp}[i-1][0]$ 和 $\\textit{dp}[i-1][1]$ 转移而来，因此我们不必使用数组存储所有的状态，而是使用两个变量 $\\textit{sell}$ 以及 $\\textit{buy}$ 分别表示 $\\textit{dp}[..][0]$ 和 $\\textit{dp}[..][1]$ 直接进行状态转移即可。\n\n```C++ [sol2-C++]\nclass Solution {\npublic:\n    int maxProfit(vector<int>& prices, int fee) {\n        int n = prices.size();\n        int sell = 0, buy = -prices[0];\n        for (int i = 1; i < n; ++i) {\n            tie(sell, buy) = pair(max(sell, buy + prices[i] - fee), max(buy, sell - prices[i]));\n        }\n        return sell;\n    }\n};\n```\n\n```Java [sol2-Java]\nclass Solution {\n    public int maxProfit(int[] prices, int fee) {\n        int n = prices.length;\n        int sell = 0, buy = -prices[0];\n        for (int i = 1; i < n; ++i) {\n            sell = Math.max(sell, buy + prices[i] - fee);\n            buy = Math.max(buy, sell - prices[i]);\n        }\n        return sell;\n    }\n}\n```\n\n```JavaScript [sol2-JavaScript]\nvar maxProfit = function(prices, fee) {\n    const n = prices.length;\n    let [sell, buy] = [0, -prices[0]];\n    for (let i = 1; i < n; i++) {\n        [sell, buy] = [Math.max(sell, buy + prices[i] - fee), Math.max(buy, sell - prices[i])]\n    }\n    return sell;\n};\n```\n\n```Python [sol2-Python3]\nclass Solution:\n    def maxProfit(self, prices: List[int], fee: int) -> int:\n        n = len(prices)\n        sell, buy = 0, -prices[0]\n        for i in range(1, n):\n            sell, buy = max(sell, buy + prices[i] - fee), max(buy, sell - prices[i])\n        return sell\n```\n\n```Go [sol2-Golang]\nfunc maxProfit(prices []int, fee int) int {\n    n := len(prices)\n    sell, buy := 0, -prices[0]\n    for i := 1; i < n; i++ {\n        sell = max(sell, buy+prices[i]-fee)\n        buy = max(buy, sell-prices[i])\n    }\n    return sell\n}\n\nfunc max(a, b int) int {\n    if a > b {\n        return a\n    }\n    return b\n}\n```\n\n```C [sol2-C]\nint maxProfit(int* prices, int pricesSize, int fee) {\n    int sell = 0, buy = -prices[0];\n    for (int i = 1; i < pricesSize; ++i) {\n        sell = fmax(sell, buy + prices[i] - fee);\n        buy = fmax(buy, sell - prices[i]);\n    }\n    return sell;\n}\n```\n\n**复杂度分析**\n\n- 时间复杂度：$O(n)$，其中 $n$ 为数组的长度。一共有 $2n$ 个状态，每次状态转移的时间复杂度为 $O(1)$，因此时间复杂度为 $O(2n)=O(n)$。\n\n- 空间复杂度：$O(n)$ 或 $O(1)$，取决于是否使用数组存储所有的状态。\n\n#### 方法二：贪心算法\n\n**思路与算法**\n\n方法一中，我们将手续费放在卖出时进行计算。如果我们换一个角度考虑，将手续费放在买入时进行计算，那么就可以得到一种基于贪心的方法。\n\n我们用 $\\textit{buy}$ 表示**在最大化收益的前提下，如果我们手上拥有一支股票，那么它的最低买入价格是多少**。在初始时，$\\textit{buy}$ 的值为 $\\textit{prices}[0]$ 加上手续费 $\\textit{fee}$。那么当我们遍历到第 $i~(i>0)$ 天时：\n\n- 如果当前的股票价格 $\\textit{prices}[i]$ 加上手续费 $\\textit{fee}$ 小于 $\\textit{buy}$，那么与其使用 $\\textit{buy}$ 的价格购买股票，我们不如以 $\\textit{prices}[i] + \\textit{fee}$ 的价格购买股票，因此我们将 $\\textit{buy}$ 更新为 $\\textit{prices}[i] + \\textit{fee}$；\n\n- 如果当前的股票价格 $\\textit{prices}[i]$ 大于 $\\textit{buy}$，那么我们直接卖出股票并且获得 $\\textit{prices}[i] - \\textit{buy}$ 的收益。但实际上，我们此时卖出股票可能并不是全局最优的（例如下一天股票价格继续上升），因此我们可以提供一个反悔操作，看成**当前手上拥有一支买入价格为 $\\textit{prices}[i]$ 的股票**，将 $\\textit{buy}$ 更新为 $\\textit{prices}[i]$。这样一来，如果下一天股票价格继续上升，我们会获得 $\\textit{prices}[i+1] - \\textit{prices}[i]$ 的收益，加上这一天 $\\textit{prices}[i] - \\textit{buy}$ 的收益，**恰好就等于在这一天不进行任何操作，而在下一天卖出股票的收益**；\n\n- 对于其余的情况，$\\textit{prices}[i]$ 落在区间 $[\\textit{buy}-\\textit{fee}, \\textit{buy}]$ 内，它的价格没有低到我们放弃手上的股票去选择它，也没有高到我们可以通过卖出获得收益，因此我们不进行任何操作。\n\n上面的贪心思想可以浓缩成一句话，即**当我们卖出一支股票时，我们就立即获得了以相同价格并且免除手续费买入一支股票的权利**。在遍历完整个数组 $\\textit{prices}$ 之后之后，我们就得到了最大的总收益。\n\n**代码**\n\n```C++ [sol3-C++]\nclass Solution {\npublic:\n    int maxProfit(vector<int>& prices, int fee) {\n        int n = prices.size();\n        int buy = prices[0] + fee;\n        int profit = 0;\n        for (int i = 1; i < n; ++i) {\n            if (prices[i] + fee < buy) {\n                buy = prices[i] + fee;\n            }\n            else if (prices[i] > buy) {\n                profit += prices[i] - buy;\n                buy = prices[i];\n            }\n        }\n        return profit;\n    }\n};\n```\n\n```Java [sol3-Java]\nclass Solution {\n    public int maxProfit(int[] prices, int fee) {\n        int n = prices.length;\n        int buy = prices[0] + fee;\n        int profit = 0;\n        for (int i = 1; i < n; ++i) {\n            if (prices[i] + fee < buy) {\n                buy = prices[i] + fee;\n            } else if (prices[i] > buy) {\n                profit += prices[i] - buy;\n                buy = prices[i];\n            }\n        }\n        return profit;\n    }\n}\n```\n\n```JavaScript [sol3-JavaScript]\nvar maxProfit = function(prices, fee) {\n    const n = prices.length;\n    let buy = prices[0] + fee;\n    let profit = 0;\n    for (let i = 1; i < n; i++) {\n        if (prices[i] + fee < buy) {\n            buy = prices[i] + fee;\n        } else if (prices[i] > buy) {\n            profit += prices[i] - buy;\n            buy = prices[i];\n        }\n    }\n    return profit;\n};\n```\n\n```Python [sol3-Python3]\nclass Solution:\n    def maxProfit(self, prices: List[int], fee: int) -> int:\n        n = len(prices)\n        buy = prices[0] + fee\n        profit = 0\n        for i in range(1, n):\n            if prices[i] + fee < buy:\n                buy = prices[i] + fee\n            elif prices[i] > buy:\n                profit += prices[i] - buy\n                buy = prices[i]\n        return profit\n```\n\n```Go [sol3-Golang]\nfunc maxProfit(prices []int, fee int) int {\n    n := len(prices)\n    buy := prices[0] + fee;\n    profit := 0;\n    for i := 1; i < n; i++ {\n        if prices[i]+fee < buy {\n            buy = prices[i]+fee\n        } else if prices[i] > buy {\n            profit += prices[i]-buy\n            buy = prices[i]\n        }\n    }\n    return profit\n}\n```\n\n```C [sol3-C]\nint maxProfit(int* prices, int pricesSize, int fee) {\n    int buy = prices[0] + fee;\n    int profit = 0;\n    for (int i = 1; i < pricesSize; ++i) {\n        if (prices[i] + fee < buy) {\n            buy = prices[i] + fee;\n        } else if (prices[i] > buy) {\n            profit += prices[i] - buy;\n            buy = prices[i];\n        }\n    }\n    return profit;\n}\n```\n\n**复杂度分析**\n\n- 时间复杂度：$O(n)$，其中 $n$ 为数组的长度。\n\n- 空间复杂度：$O(1)$。",
+      "createdAt": "2020-12-16T15:47:02.140105+00:00",
+      "hitCount": 54659,
+      "identifier": "HrXeMu",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "jian-dan-dpmiao-dong-gu-piao-mai-mai-by-tejdo",
+        "title": "简单dp，秒懂股票买卖！🤷‍♀️"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "best-time-to-buy-and-sell-stock-with-transaction-fee"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 82,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 19,
+          "reactionType": "CONFUSED"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 10,
+          "reactionType": "AWESOME"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 6,
+          "reactionType": "THUMBS_DOWN"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "mai-mai-gu-piao-de-zui-jia-shi-ji-han-sh-rzlz",
+      "status": "PUBLISHED",
+      "summary": "前言 本题和 122. 买卖股票的最佳时机 II 是非常类似的题，唯一的区别就在于本题有「手续费」而第 122 题没有。 方法一：动态规划 思路与算法 考虑到「不能同时参与多笔交易」，因此每天交易结束后只可能存在手里有一支股票或者没有股票的状态。 定义状态 $\\textit{dp}[i][0]$ 表示第 $i$ 天交易",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Dynamic Programming",
+          "nameTranslated": "动态规划",
+          "slug": "dynamic-programming",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C",
+          "nameTranslated": "",
+          "slug": "c",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Go",
+          "nameTranslated": "",
+          "slug": "golang",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "JavaScript",
+          "nameTranslated": "",
+          "slug": "javascript",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "买卖股票的最佳时机含手续费",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 202,
+        "id": 524669,
+        "viewCount": 36576
+      },
+      "uuid": "HrXeMu",
+      "videosInfo": []
+    }
+  }
+}

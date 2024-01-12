@@ -1,0 +1,84 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣 (LeetCode)",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/uploaded_files/2021/03/73c9f099-abbe-4d94-853f-f8abffd459cd/leetcode.png",
+          "userSlug": "leetcode"
+        },
+        "username": "LeetCode"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法一： 平衡法\n\n**思路和算法**\n\n保证左右括号数量的 *平衡*： 计算 `'('` 出现的次数减去 `')'` 出现的次数。如果值为 `0`，那就是平衡的，如果小于 `0`，就要在前面补上缺少的 `'('`。\n\n计算 `S` 每个前缀子数组的 *平衡度*。如果值是负数（比如说，-1），那就得在前面加上一个 `'('`。同样的，如果值是正数（比如说，`+B`），那就得在末尾处加上 `B` 个 `')'` 。\n\n```java [solution1-Java]\nclass Solution {\n    public int minAddToMakeValid(String S) {\n        int ans = 0, bal = 0;\n        for (int i = 0; i < S.length(); ++i) {\n            bal += S.charAt(i) == '(' ? 1 : -1;\n            // It is guaranteed bal >= -1\n            if (bal == -1) {\n                ans++;\n                bal++;\n            }\n        }\n\n        return ans + bal;\n    }\n}\n```\n\n```python [solution1-Python]\nclass Solution(object):\n    def minAddToMakeValid(self, S):\n        ans = bal = 0\n        for symbol in S:\n            bal += 1 if symbol == '(' else -1\n            # It is guaranteed bal >= -1\n            if bal == -1:\n                ans += 1\n                bal += 1\n        return ans + bal\n```\n\n**复杂度分析**\n\n* 时间复杂度： $O(N)$，其中 $N$ 是 `S` 的长度。\n\n* 空间复杂度： $O(1)$。",
+      "createdAt": "2019-08-06T05:52:05.389014+00:00",
+      "hitCount": 9663,
+      "identifier": "sweP07",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "liang-ju-hua-shuo-qing-si-lu-dai-ma-zhu-8ae5w",
+        "title": "两句话说清思路：代码注释详细"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "minimum-add-to-make-parentheses-valid"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 26,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 5,
+          "reactionType": "CONFUSED"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "shi-gua-hao-you-xiao-de-zui-shao-tian-jia-by-leetc",
+      "status": "PUBLISHED",
+      "summary": "§ 方法一： 平衡法\n思路和算法\n保证左右括号数量的 平衡： 计算 '(' 出现的次数减去 ')' 出现的次数。如果值为 0，那就是平衡的，如果小于 0，就要在前面补上缺少的 '('。\n计算 S 每个前缀子数组的 平衡度。如果值是负数（比如说，-1），那就得在前面加上一个 '('。同样的，如果值是正数（比如说，+B），",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "使括号有效的最少添加",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 22,
+        "id": 18750,
+        "viewCount": 7978
+      },
+      "uuid": "sweP07",
+      "videosInfo": []
+    }
+  }
+}

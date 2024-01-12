@@ -1,0 +1,93 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣 (LeetCode)",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/uploaded_files/2021/03/73c9f099-abbe-4d94-853f-f8abffd459cd/leetcode.png",
+          "userSlug": "leetcode"
+        },
+        "username": "LeetCode"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法一：二分查找\n\n我们用 `w[i]` 表示第 `i` 个矩形 `rect[i]` 中整数点的数目，那么我们的随机算法需要使得每个矩形被选到的概率与 `w[i]` 成正比（这样也就保证了空间中的每个整数点被选到的概率都是相等的）。具体地，`rect[i]` 被选到的概率应当为 `w[i] / sum(w[i])`，其中 `sum(w[i])` 表示空间中的整数点数目之和。\n\n令 `tot = sum(w[i])`，我们可以在 `[0, tot)` 区间内生成随机整数。假设生成的数为 `x`，那么我们需要找到满足 `prefix(w[i - 1]) <= x < prefix(w[i])` 的 `i`，其中 `prefix(w[i])` 表示前 `i` 个矩形中整数点的数目之和，此时我们选中了第 `i` 个矩形。我们可以使用二分查找，找出对应的 `i`。\n\n在选中了第 `i` 个矩形后，我们也可以在 `[0, w[i])` 中再次生成随机数，来在这个矩形中随机选择一个点。更好的做法是我们仍然使用之前生成的数 `x`，令 `y = x - prefix(w[i - 1])`，我们只需要选择第 `i` 个矩形中的第 `y` 个点即可，对应的坐标为：\n\n```\nx_coord = x_start + y % (x_end - x_start + 1)\ny_coord = y_start + y / (x_end - x_start + 1)\n```\n\n这相当于把第 `i` 个矩形中的坐标按照 `y` 轴优先的顺序依次排列，每一个点都可以通过上述的方式恢复到矩形中的坐标。\n\n![bla](https://pic.leetcode-cn.com/Figures/882/targToPoint.png){:width=260px}\n\n```C++ [sol1]\nclass Solution {\npublic:\n\n    vector<vector<int>> rects;\n    vector<int> psum;\n    int tot = 0;\n    //c++11 random integer generation\n    mt19937 rng{random_device{}()};\n    uniform_int_distribution<int> uni;\n\n    Solution(vector<vector<int>> rects) {\n        this->rects = rects;\n        for (auto& x : rects) {\n            tot += (x[2] - x[0] + 1) * (x[3] - x[1] + 1);\n            psum.push_back(tot);\n        }\n        uni = uniform_int_distribution<int>{0, tot - 1};\n    }\n\n    vector<int> pick() {\n        int targ = uni(rng);\n\n        int lo = 0;\n        int hi = rects.size() - 1;\n        while (lo != hi) {\n            int mid = (lo + hi) / 2;\n            if (targ >= psum[mid]) lo = mid + 1;\n            else hi = mid;\n        }\n\n        auto& x = rects[lo];\n        int width = x[2] - x[0] + 1;\n        int height = x[3] - x[1] + 1;\n        int base = psum[lo] - width * height;\n        return {x[0] + (targ - base) % width, x[1] + (targ - base) / width};\n    }\n};\n```\n\n```Java [sol1]\nclass Solution {\n\n    int[][] rects;\n    List<Integer> psum = new ArrayList<>();\n    int tot = 0;\n    Random rand = new Random();\n\n    public Solution(int[][] rects) {\n        this.rects = rects;\n        for (int[] x : rects){\n            tot += (x[2] - x[0] + 1) * (x[3] - x[1] + 1);\n            psum.add(tot);\n        }\n    }\n\n    public int[] pick() {\n        int targ = rand.nextInt(tot);\n\n        int lo = 0;\n        int hi = rects.length - 1;\n        while (lo != hi) {\n            int mid = (lo + hi) / 2;\n            if (targ >= psum.get(mid)) lo = mid + 1;\n            else hi = mid;\n        }\n\n        int[] x = rects[lo];\n        int width = x[2] - x[0] + 1;\n        int height = x[3] - x[1] + 1;\n        int base = psum.get(lo) - width * height;\n        return new int[]{x[0] + (targ - base) % width, x[1] + (targ - base) / width};\n    }\n}\n```\n\n**复杂度分析**\n\n* 时间复杂度：预处理的时间复杂度为 $O(N)$，随机选取的单次时间复杂度为 $O(\\log N)$。\n\n* 空间复杂度：$O(N)$。",
+      "createdAt": "2019-11-12T07:33:13.804786+00:00",
+      "hitCount": 4334,
+      "identifier": "uevHPd",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "497-fei-zhong-die-ju-xing-zhong-de-sui-j-gcnm",
+        "title": "【497. 非重叠矩形中的随机点】【蓄水池抽样】Java简单实现"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "random-point-in-non-overlapping-rectangles"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 6,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "fei-zhong-die-ju-xing-zhong-de-sui-ji-dian-by-leet",
+      "status": "PUBLISHED",
+      "summary": "§ 方法一：二分查找\n我们用 w[i] 表示第 i 个矩形 rect[i] 中整数点的数目，那么我们的随机算法需要使得每个矩形被选到的概率与 w[i] 成正比（这样也就保证了空间中的每个整数点被选到的概率都是相等的）。具体地，rect[i] 被选到的概率应当为 w[i] / sum(w[i])，其中 sum(w[i])",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Binary Search",
+          "nameTranslated": "二分查找",
+          "slug": "binary-search",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Random",
+          "nameTranslated": "",
+          "slug": "random",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/Figures/882/targToPoint.png",
+      "title": "非重叠矩形中的随机点",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 9,
+        "id": 42965,
+        "viewCount": 3010
+      },
+      "uuid": "uevHPd",
+      "videosInfo": []
+    }
+  }
+}

@@ -1,0 +1,86 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "Bobby",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/angel-20/avatar_1576118816.png",
+          "userSlug": "bobby996"
+        },
+        "username": "bobby996"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n先判断长度是否相同，不相同返回false，其次拼接两个s2，则如果是由s1旋转而成，则拼接后的s一定包含s1.\n\n![image.png](https://pic.leetcode-cn.com/1605661443-DwVnRs-image.png)\n\n\n### 代码\n\n```java\nclass Solution {\n    public boolean isFlipedString(String s1, String s2) {\n            if(s1.length() != s2.length()) {\n            return false;\n        }\n        String s = s2 + s2;\n        return s.contains(s1);\n    }\n}\n```",
+      "createdAt": "2020-11-18T01:05:19.521392+00:00",
+      "hitCount": 5683,
+      "identifier": "74nqtF",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "yi-xing-jiu-gou-liao-by-yzwz",
+        "title": "一行就够了"
+      },
+      "position": 3,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "pin-jie-s2-javascript-by-lzxjack-iyyh",
+        "title": "【拼接s2】JavaScript"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "string-rotation-lcci"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 36,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 5,
+          "reactionType": "AWESOME"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 0,
+          "reactionType": "CONFUSED"
+        }
+      ],
+      "rewardEnabled": true,
+      "slug": "10000-8542-by-bobby996",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n先判断长度是否相同，不相同返回false，其次拼接两个s2，则如果是由s1旋转而成，则拼接后的s一定包含s1.\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1605661443-DwVnRs-image.png",
+      "title": "100.00%  85.42%",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 24,
+        "id": 488462,
+        "viewCount": 5048
+      },
+      "uuid": "74nqtF",
+      "videosInfo": []
+    }
+  }
+}

@@ -1,0 +1,76 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "大黑",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/da-hei-9/avatar_1616632477.png",
+          "userSlug": "da-hei-9"
+        },
+        "username": "da-hei-9"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "```\r\nclass Solution {\r\npublic:\r\n    string modifyString(string s) {\r\n        // 特殊情况\r\n        if (s == \"?\") {\r\n            return \"a\";\r\n        }\r\n        int n = s.length();\r\n        for (int i = 0; i<n; i++) {\r\n            if (s[i]!='?') {\r\n                continue;\r\n            }\r\n            // 只处理 ？的情况\r\n            if (i == 0) {\r\n                // 假设前边还有个 “？”\r\n                s[i] = replace('?', s[i+1]);\r\n            }else if (i == n-1 ) {\r\n                // 假设后边还有个 “？”\r\n                s[i] = replace(s[i-1],'?');\r\n            } else {\r\n                // 跟两边不一样就中\r\n                s[i] = replace(s[i-1], s[i+1]);\r\n            }\r\n        }\r\n        return s;\r\n    }\r\n    char replace(char a, char b) {\r\n        // 只要跟两边不一样就行，所以用随便三个字母替换就足够了\r\n        char choices[3] = {'a', 'b', 'c'};\r\n        for (int i = 0; i<3; i++) {\r\n            if (choices[i] != a && choices[i] != b) {\r\n                return choices[i];\r\n            }\r\n        }\r\n        return '-';\r\n    }\r\n};\r\n```\r\n",
+      "createdAt": "2021-11-02T14:15:12.281809+00:00",
+      "hitCount": 121,
+      "identifier": "15F3iY",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "jian-dan-de-ji-xing-dai-ma-by-jayceondu",
+        "title": "简单的几行代码  "
+      },
+      "position": 2,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "1576ti-huan-suo-you-de-wen-hao-duo-chong-co6m",
+        "title": "1576.替换所有的问号 多种场景下，通过抽离方法，保证代码整洁！"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "replace-all-s-to-avoid-consecutive-repeating-characters"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "yong-san-ge-zi-fu-lai-ti-huan-jiu-gou-yo-r1l0",
+      "status": "PREPUBLISH",
+      "summary": "[该用户太懒了，只写了 37 行代码]",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "用三个字符来替换\"?\" 就够用了",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1080865,
+        "viewCount": 103
+      },
+      "uuid": "15F3iY",
+      "videosInfo": []
+    }
+  }
+}

@@ -1,0 +1,82 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣 (LeetCode)",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/uploaded_files/2021/03/73c9f099-abbe-4d94-853f-f8abffd459cd/leetcode.png",
+          "userSlug": "leetcode"
+        },
+        "username": "LeetCode"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法一：深度优先搜索\n\n**思路与算法**\n\n我们先进行一次深度优先搜索，获取这颗树中的所有节点的值。然后，就可以判断所有节点的值是不是都相等了。\n\n```java [himT7fHE-Java]\nclass Solution {\n    List<Integer> vals;\n    public boolean isUnivalTree(TreeNode root) {\n        vals = new ArrayList();\n        dfs(root);\n        for (int v: vals)\n            if (v != vals.get(0))\n                return false;\n        return true;\n    }\n\n    public void dfs(TreeNode node) {\n        if (node != null) {\n            vals.add(node.val);\n            dfs(node.left);\n            dfs(node.right);\n        }\n    }\n}\n```\n```python [himT7fHE-Python]\nclass Solution(object):\n    def isUnivalTree(self, root):\n        vals = []\n\n        def dfs(node):\n            if node:\n                vals.append(node.val)\n                dfs(node.left)\n                dfs(node.right)\n\n        dfs(root)\n        return len(set(vals)) == 1\n```\n\n\n**复杂度分析**\n\n* 时间复杂度：$O(N)$，其中 $N$ 是给定树中节点的数量。\n\n* 空间复杂度：$O(N)$。\n\n\n\n\n\n---\n#### 方法二：递归\n\n**思路与算法**\n\n一颗树是单值的，当且仅当根节点的子节点所在的子树也是单值的，同时根节点的值与子节点的值相同。\n\n我们可以使用递归实现这个判断的过程。`left_correct` 表示当前节点的左孩子是正确的，也就是说：左孩子所在的子树是单值的，并且当前节点的值等于左孩子的值。`right_correct` 对当前节点的右孩子表示同样的事情。递归处理之后，当根节点的这两种属性都为真的时候，我们就可以判定这颗二叉树是单值的。\n\n```java [5GyAMr2y-Java]\nclass Solution {\n    public boolean isUnivalTree(TreeNode root) {\n        boolean left_correct = (root.left == null ||\n                (root.val == root.left.val && isUnivalTree(root.left)));\n        boolean right_correct = (root.right == null ||\n                (root.val == root.right.val && isUnivalTree(root.right)));\n        return left_correct && right_correct;\n    }\n}\n```\n```python [5GyAMr2y-Python]\nclass Solution(object):\n    def isUnivalTree(self, root):\n        left_correct = (not root.left or root.val == root.left.val\n                and self.isUnivalTree(root.left))\n        right_correct = (not root.right or root.val == root.right.val\n                and self.isUnivalTree(root.right))\n        return left_correct and right_correct\n```\n\n\n**复杂度分析**\n\n* 时间复杂度：$O(N)$，其中 $N$ 是给定树中节点的数量。\n\n* 空间复杂度：$O(H)$，其中 $H$ 是给定树的高度。\n\n\n\n",
+      "createdAt": "2019-01-18T07:18:58.320442+00:00",
+      "hitCount": 13499,
+      "identifier": "GF6Tx3",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "dan-zhi-er-cha-shu-python-dfs-by-mei-56-a0gs",
+        "title": "单值二叉树 python dfs"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "univalued-binary-tree"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 7,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "CONFUSED"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "dan-zhi-er-cha-shu-by-leetcode",
+      "status": "PUBLISHED",
+      "summary": "思路与算法\n我们先进行一次深度优先搜索，获取这颗树中的所有节点的值。然后，就可以判断所有节点的值是不是都相等了。\n复杂度分析\n思路与算法\n一颗树是单值的，当且仅当根节点的子节点所在的子树也是单值的，同时根节点的值与子节点的值相同。\n我们可以使用递归实现这个判断的过程。left_correct 表示当前节点的左孩子是正确",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "单值二叉树",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 17,
+        "id": 3591,
+        "viewCount": 10222
+      },
+      "uuid": "GF6Tx3",
+      "videosInfo": []
+    }
+  }
+}

@@ -1,0 +1,93 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣官方题解",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/leetcode-solution/avatar_1582018938.png",
+          "userSlug": "leetcode-solution"
+        },
+        "username": "LeetCode-Solution"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法一：贪心\n\n**思路与算法**\n\n我们可以对字符串 $\\textit{street}$ 从左到右进行一次遍历。\n\n每当我们遍历到一个房屋时，我们可以有如下的选择：\n\n- 如果房屋的两侧已经有水桶，那么我们无需再放置水桶了；\n\n- 如果房屋的两侧没有水桶，那么我们优先在房屋的「右侧」放置水桶，这是因为我们是从左到右进行遍历的，即当我们遍历到第 $i$ 个位置时，前 $i-1$ 个位置的房屋周围都是有水桶的。因此我们在左侧放置水桶没有任何意义，而在右侧放置水桶可以让之后的房屋使用该水桶。\n\n    如果房屋的右侧无法放置水桶（例如是另一栋房屋或者边界），那么我们只能在左侧放置水桶。如果左侧也不能放置，说明无解。\n\n我们可以通过修改字符串来表示水桶的放置，从而实现上述算法。一种无需修改字符串的方法是，每当我们在房屋的右侧放置水桶时，可以直接「跳过」后续的两个位置，因为如果字符串形如 $\\texttt{H.H}$，我们在第一栋房屋的右侧（即两栋房屋的中间）放置水桶后，就无需考虑第二栋房屋；如果字符串形如 $\\text{H..}$，后续没有房屋，我们也可以全部跳过。\n\n**代码**\n\n```C++ [sol1-C++]\nclass Solution {\npublic:\n    int minimumBuckets(string street) {\n        int n = street.size();\n        int ans = 0;\n        for (int i = 0; i < n; ++i) {\n            if (street[i] == 'H') {\n                if (i + 1 < n && street[i + 1] == '.') {\n                    ++ans;\n                    // 直接跳过后续的两个位置\n                    i += 2;\n                }\n                else if (i - 1 >= 0 && street[i - 1] == '.') {\n                    ++ans;\n                }\n                else {\n                    return -1;\n                }\n            }\n        }\n        return ans;\n    }\n};\n```\n\n```Python [sol1-Python3]\nclass Solution:\n    def minimumBuckets(self, street: str) -> int:\n        n = len(street)\n        i = ans = 0\n        while i < n:\n            if street[i] == \"H\":\n                if i + 1 < n and street[i + 1] == \".\":\n                    ans += 1\n                    # 直接跳过后续的两个位置\n                    i += 2\n                elif i - 1 >= 0 and street[i - 1] == \".\":\n                    ans += 1\n                else:\n                    return -1\n            i += 1\n        return ans\n```\n\n**复杂度分析**\n\n- 时间复杂度：$O(n)$，其中 $n$ 是字符串 $\\textit{street}$ 的长度。\n\n- 空间复杂度：$O(1)$。",
+      "createdAt": "2021-11-28T10:17:26.006153+00:00",
+      "hitCount": 124,
+      "identifier": "6vHlG6",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "java-tan-xin-by-xiaoxi666-9qy6",
+        "title": "[Java] 简单代码。直接计数，无需贪心"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "minimum-number-of-buckets-required-to-collect-rainwater-from-houses"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "cong-fang-wu-shou-ji-yu-shui-xu-yao-de-z-w2vj",
+      "status": "PREPUBLISH",
+      "summary": "方法一：贪心 思路与算法 我们可以对字符串 $\\textit{street}$ 从左到右进行一次遍历。 每当我们遍历到一个房屋时，我们可以有如下的选择： 如果房屋的两侧已经有水桶，那么我们无需再放置水桶了； 如果房屋的两侧没有水桶，那么我们优先在房屋的「右侧」放置水桶，这是因为我们是从左到右进行遍历的，即当我们遍历到第",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Greedy",
+          "nameTranslated": "贪心",
+          "slug": "greedy",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Enumeration",
+          "nameTranslated": "枚举",
+          "slug": "enumeration",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "从房屋收集雨水需要的最少水桶数",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 1,
+        "id": 1127122,
+        "viewCount": 93
+      },
+      "uuid": "6vHlG6",
+      "videosInfo": []
+    }
+  }
+}

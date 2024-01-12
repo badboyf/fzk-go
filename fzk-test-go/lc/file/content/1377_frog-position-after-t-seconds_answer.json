@@ -1,0 +1,72 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "草莓奶昔",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/cao-mei-nai-xi-i/avatar_1626248666.png",
+          "userSlug": "cao-mei-nai-xi-i"
+        },
+        "username": "cao-mei-nai-xi-i"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n1. dfs后序遍历 获取到下面传上来的概率\n2. 此节点处的概率就是 总概率/下一步的分支数\n\n### 代码\n\n```python3\nfrom typing import List\n\n# 一棵由 n 个顶点组成的无向树，顶点编号从 1 到 n\n# 青蛙从 顶点 1 开始起跳。规则如下：\n# 如果青蛙可以跳到多个不同顶点，那么它跳到其中任意一个顶点上的机率都相同。\n# 如果青蛙不能跳到任何未访问过的顶点上，那么它每次跳跃都会停留在原地。\n# 返回青蛙在 t 秒后位于目标顶点 target 上的概率。\nclass Solution:\n    def frogPosition(self, n: int, edges: List[List[int]], t: int, target: int) -> float:\n        if n == 1:\n            return 1\n\n        adjlist = [[] for _ in range(n + 1)]\n        for u, v in edges:\n            adjlist[u].append(v)\n            adjlist[v].append(u)\n\n        visited = [False] * (n + 1)\n\n        def dfs(cur: int, time: int) -> float:\n            if time == t or (len(adjlist[cur]) - (cur != 1)) == 0:\n                return cur == target\n            visited[cur] = True\n            res = sum(dfs(next, time + 1) for next in adjlist[cur] if not visited[next])\n            return res / (len(adjlist[cur]) - (cur != 1))  # - (cur != 1) 表示减去来的路，起点没有来的路所以不减\n\n        return dfs(1, 0)\n```",
+      "createdAt": "2021-11-26T12:09:29.805928+00:00",
+      "hitCount": 8,
+      "identifier": "J1f2yT",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "1377-cchao-98de-yan-du-you-xian-jie-fa-b-cz7k",
+        "title": "1377. c++超98的广度优先解法"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "frog-position-after-t-seconds"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "guo-wai-jing-jian-jie-fa-by-cao-mei-nai-3f8xf",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n\ndfs后序遍历 获取到下面传上来的概率\n此节点处的概率就是 总概率/下一步的分支数\n\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "国外精简解法",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 1,
+        "id": 1123995,
+        "viewCount": 7
+      },
+      "uuid": "J1f2yT",
+      "videosInfo": []
+    }
+  }
+}

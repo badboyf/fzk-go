@@ -1,0 +1,82 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣 (LeetCode)",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/uploaded_files/2021/03/73c9f099-abbe-4d94-853f-f8abffd459cd/leetcode.png",
+          "userSlug": "leetcode"
+        },
+        "username": "LeetCode"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "####  方法一：暴力法\n**算法：**\n\n最简单的解决方案是对于集合中的每个区间，我们扫描所有区间找到其起点大于当前区间的终点的区间（具有最先差值）。在扫描的过程中，我们跟踪满足给定条件区间的索引。每个区间的结果存储在 `res` 数组中。\n\n```java [solution1-Java]\nclass Solution {\n    public int[] findRightInterval(int[][] intervals) {\n        int[] res = new int[intervals.length];\n        for (int i = 0; i < intervals.length; i++) {\n            int min = Integer.MAX_VALUE;\n            int minindex = -1;\n            for (int j = 0; j < intervals.length; j++) {\n                if (intervals[j][0] >= intervals[i][1] && intervals[j][0] < min) {\n                    min = intervals[j][0];\n                    minindex = j;\n                }\n            }\n            res[i] = minindex;\n        }\n        return res;\n    }\n}\n```\n\n**复杂度分析**\n\n* 时间复杂度：$\\mathcal{O}(n^2)$。找到每个区间的答案需要扫描整个区间集合。\n* 空间复杂度：$\\mathcal{O}(n)$，数组 $\\text{res}$ 具有 $n$ 个元素。\n\n\n####  方法二：排序 + 扫描\n**算法：**\n\n我们使用一个哈希表 $\\text{hash}$，存储的数据形式的键值对。在这里，$\\text{Key}$ 对应区间，而 $\\text{Value}$ 对应在  $\\text{intervals}$ 数组中特定区间的索引。我们将 $\\text{intervals}$ 中的每个元素存储在哈希表中。\n\n我们根据区间的起点对 $\\text{intervals}$ 数组进行排序。我们需要将数组的索引存储在哈希表中，以便排序后也能获得对应的索引。\n\n然后，依次遍历数组中的区间，并找到在该区间结束位置后的一个区间。怎么找？由于 $\\text{intervals}$ 数组是基于起点排序的，并且对于给定的区间，结束点总是大于起始点。因此我们只需要使用索引 $j$ 搜索区间，$i+1< j < n$，这样按升序扫描时遇到第一个区间就是所需的结果。\n\n然后，我们可以在哈希表中获取该区间对应的索引，将该索引存储到 $res$ 数组中。\n```java [solution2-Java]\nclass Solution {\n    public int[] findRightInterval(int[][] intervals) {\n        int[] res = new int[intervals.length];\n        Map<int[], Integer> hash = new HashMap<>();\n        for (int i = 0; i < intervals.length; i++) {\n            hash.put(intervals[i], i);\n        }\n        Arrays.sort(intervals, (a, b) -> a[0] - b[0]);\n        for (int i = 0; i < intervals.length; i++) {\n            int min = Integer.MAX_VALUE;\n            int minindex = -1;\n            for (int j = i + 1; j < intervals.length; j++) {\n                if (intervals[j][0] >= intervals[i][1] && intervals[j][0] < min) {\n                    min = intervals[j][0];\n                    minindex = hash.get(intervals[j]);\n                }\n            }\n            res[hash.get(intervals[i])] = minindex;\n        }\n        return res;\n    }\n}\n```\n\n**复杂度分析**\n\n* 时间复杂度：$O(n^2)$。\n\t* 排序使用了 $O\\big(nlog(n)\\big)$ 的时间。\n\t* 对于第一个区间，我们需要在 $n-1$ 个元素中搜索。\n\t* 对于第二个元素，我们需要在 $n-2$ 个元素中搜索，等等总共是 $(n-1) + (n-2) + ... + 1 = \\frac{n.(n-1)}{2} = O(n^2)$。\n* 空间复杂度：$O(n)$，$\\text{res}$ 和 $\\text{hash}$ 均存储了 $n$ 个元素。\n\n\n\n####  方法三：排序 + 二分查找\n**算法：**\n\n我们可以在一定程度上优化上述方法，因为 $\\text{intervals}$ 有序，则我们不必用线性的方法来搜索所需的区间，而是可以利用二分查找来找到我们所需的区间。\n\n如果找到所需的区间，则从哈希表中获取对用的所有添加到 $\\text{res}$ 中，反之则添加 $\\text{-1}$。\n\n**复杂度分析**\n\n* 时间复杂度：$O\\big((n.log(n)\\big)$。排序花费了 $O\\big(n.log(n)\\big)$ 的时间，二分查找花费了 $O\\big(log(n)\\big)$ 的时间。\n* 空间复杂度：$O(n)$，$\\text{res}$ 和 $\\text{hash}$ 均存储了 $n$ 个元素。\n\n\n####  方法四：使用 TreeMap\n**算法：**\n\n在该方法中，我们不使用 hashmap，而是使用 TreeMap，底层是由红黑树（一种平衡的二叉搜索树）实现的。TreeMap 以 $\\text{(Key, Value)}$ 的形式存储数据，并始终根据键值排序。这样我们将数组中的区间存储到 TreeMap 中，这样就可以获得排序的序列。\n\n现在，我们遍历 $\\text{intervals}$ 中的每个区间，并使用函数 `TreeMap.ceilingEntry(end_point)`，若 $\\text{Key}$ 刚刚好大于所选区间 $\\text{end\\_point}$，则 返回 `Key`。反之，返回 `null`。\n\n如果是非空值返回，则我们从 $\\text{(Key, Value)}$ 对中获得 $\\text{Value}$。然后添加到 $res$ 数组中。反之添加 $\\text{-1}$ 到 $res$ 数组中。\n\n**复杂度分析**\n\n* 时间复杂度：$O\\big(N \\cdot \\log{N}\\big)$。TreeMap 的插入操作需要 $O\\big(\\log{N}\\big)$ 的时间。TreeMap 的 `ceilingEntry` 操作需要 $O\\big(\\log{N}\\big)$ 的时间。\n* 空间复杂度：$O(n)$，$\\text{res}$ 和 $\\text{hash}$ 均存储了 $n$ 个元素。\n\n\n\n####  方法五：使用两个数组\n**算法：**\n\n我们保持两个数组：\n1. $\\text{intervals}$，基于起始点排序。\n2. $\\text{endIntervals}$，基于结束点排序\n\n我们从 $\\text{endIntervals}$ 数组中取出 $i^{th}$ 个区间，就可以从左到右扫描 $\\text{intervals}$ 数组中的区间来找到满足右区间条件的区间。因为 $\\text{intervals}$ 是基于起始点排序的。比如，从 $\\text{intervals}$ 数组中选择的区间索引是 $j$。\n\n现在，当我们从 $\\text{endIntervals}$ 数组中获取下一个区间时（即 $(i+1)^{th}$ 个区间），我们不需要从第一个索引开始扫描 $\\text{intervals}$ 数组。相反，我们可以直接从 $j^{th}$ 索引开始，上一次搜索在 $\\text{intervals}$ 数组中停止在这个索引。\n\n我们还是用了 hashmap $\\text{hash}$ 保留了最初的区间和索引对应关系。\n\n我们通过看图来了解该算法是如何工作的：\n\n<![在这里插入图片描述](https://imgconvert.csdnimg.cn/aHR0cHM6Ly9waWMubGVldGNvZGUtY24uY29tL0ZpZ3VyZXMvNDM2X0ZpbmRTbGlkZTEuSlBH?x-oss-process=image/format,png),![在这里插入图片描述](https://imgconvert.csdnimg.cn/aHR0cHM6Ly9waWMubGVldGNvZGUtY24uY29tL0ZpZ3VyZXMvNDM2X0ZpbmRTbGlkZTIuSlBH?x-oss-process=image/format,png),![在这里插入图片描述](https://imgconvert.csdnimg.cn/aHR0cHM6Ly9waWMubGVldGNvZGUtY24uY29tL0ZpZ3VyZXMvNDM2X0ZpbmRTbGlkZTMuSlBH?x-oss-process=image/format,png),![在这里插入图片描述](https://imgconvert.csdnimg.cn/aHR0cHM6Ly9waWMubGVldGNvZGUtY24uY29tL0ZpZ3VyZXMvNDM2X0ZpbmRTbGlkZTMuSlBH?x-oss-process=image/format,png),![在这里插入图片描述](https://imgconvert.csdnimg.cn/aHR0cHM6Ly9waWMubGVldGNvZGUtY24uY29tL0ZpZ3VyZXMvNDM2X0ZpbmRTbGlkZTQuSlBH?x-oss-process=image/format,png),![在这里插入图片描述](https://imgconvert.csdnimg.cn/aHR0cHM6Ly9waWMubGVldGNvZGUtY24uY29tL0ZpZ3VyZXMvNDM2X0ZpbmRTbGlkZTUuSlBH?x-oss-process=image/format,png),![在这里插入图片描述](https://imgconvert.csdnimg.cn/aHR0cHM6Ly9waWMubGVldGNvZGUtY24uY29tL0ZpZ3VyZXMvNDM2X0ZpbmRTbGlkZTYuSlBH?x-oss-process=image/format,png),![在这里插入图片描述](https://imgconvert.csdnimg.cn/aHR0cHM6Ly9waWMubGVldGNvZGUtY24uY29tL0ZpZ3VyZXMvNDM2X0ZpbmRTbGlkZTcuSlBH?x-oss-process=image/format,png),![在这里插入图片描述](https://imgconvert.csdnimg.cn/aHR0cHM6Ly9waWMubGVldGNvZGUtY24uY29tL0ZpZ3VyZXMvNDM2X0ZpbmRTbGlkZTkuSlBH?x-oss-process=image/format,png),![在这里插入图片描述](https://imgconvert.csdnimg.cn/aHR0cHM6Ly9waWMubGVldGNvZGUtY24uY29tL0ZpZ3VyZXMvNDM2X0ZpbmRTbGlkZTEwLkpQRw?x-oss-process=image/format,png),![在这里插入图片描述](https://imgconvert.csdnimg.cn/aHR0cHM6Ly9waWMubGVldGNvZGUtY24uY29tL0ZpZ3VyZXMvNDM2X0ZpbmRTbGlkZTExLkpQRw?x-oss-process=image/format,png),![在这里插入图片描述](https://imgconvert.csdnimg.cn/aHR0cHM6Ly9waWMubGVldGNvZGUtY24uY29tL0ZpZ3VyZXMvNDM2X0ZpbmRTbGlkZTEyLkpQRw?x-oss-process=image/format,png),![在这里插入图片描述](https://imgconvert.csdnimg.cn/aHR0cHM6Ly9waWMubGVldGNvZGUtY24uY29tL0ZpZ3VyZXMvNDM2X0ZpbmRTbGlkZTEzLkpQRw?x-oss-process=image/format,png),![在这里插入图片描述](https://imgconvert.csdnimg.cn/aHR0cHM6Ly9waWMubGVldGNvZGUtY24uY29tL0ZpZ3VyZXMvNDM2X0ZpbmRTbGlkZTE0LkpQRw?x-oss-process=image/format,png),![在这里插入图片描述](https://imgconvert.csdnimg.cn/aHR0cHM6Ly9waWMubGVldGNvZGUtY24uY29tL0ZpZ3VyZXMvNDM2X0ZpbmRTbGlkZTE1LkpQRw?x-oss-process=image/format,png),![在这里插入图片描述](https://imgconvert.csdnimg.cn/aHR0cHM6Ly9waWMubGVldGNvZGUtY24uY29tL0ZpZ3VyZXMvNDM2X0ZpbmRTbGlkZTE2LkpQRw?x-oss-process=image/format,png)>\n\n\n**复杂度分析**\n\n* 时间复杂度：$O\\big(N \\cdot \\log{N}\\big)$。排序花费了 $O\\big(N \\cdot \\log{N}\\big)$ 的时间。\n* 空间复杂度：$O(n)$，$\\text{intervals}$，$\\text{endIntervals}$，$\\text{res}$ 和 $\\text{hash}$ 均存储了 $n$ 个元素。",
+      "createdAt": "2019-07-27T06:58:06.340496+00:00",
+      "hitCount": 8306,
+      "identifier": "zLr0Th",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "436-xun-zhao-you-qu-jian-er-fen-sou-suo-vii4u",
+        "title": "【436. 寻找右区间】【二分搜索】【排序】Java简单实现"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "find-right-interval"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 14,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "CONFUSED"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "THUMBS_DOWN"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "xun-zhao-you-qu-jian-by-leetcode",
+      "status": "PUBLISHED",
+      "summary": "方法一：暴力法 【超时】\n最简单的解法是对集合中的每一个区间进行判断，通过作差找到起始点比待判断区间的终点更大的区间。在扫描过程中，跟踪满足要求的区间中起点最小的那个，以及其下标。最终按照要求存储输出答案。\n复杂度分析\n\n时间复杂度：$O(n^2)$。对每个（$n$）区间扫描全部 $n$ 个区间。\n空间复杂度：$O(n",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/4cebecee82dee9cd1eb94ca2288988614f482f6caa95fa16d5fa6accb8f26524-image.png",
+      "title": "寻找右区间",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 36,
+        "id": 17100,
+        "viewCount": 6128
+      },
+      "uuid": "zLr0Th",
+      "videosInfo": []
+    }
+  }
+}

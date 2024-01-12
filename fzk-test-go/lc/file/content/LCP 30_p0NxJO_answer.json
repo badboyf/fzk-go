@@ -1,0 +1,91 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "轻舞扶尘",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/58888/avatar_1542456911.png",
+          "userSlug": "58888"
+        },
+        "username": "58888"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "![image.png](https://pic.leetcode-cn.com/1617620534-BhagEv-image.png)\r\n\r\n# 思路\r\n首先，我们计算一遍所有回合之后的血量，如果是负数，则直接返回-1\r\n然后我们模拟过程，将之前扣减的血量都放入优先队列中，每次快死之前，就取出堆顶的元素（扣最多的血）给自己加上，这样的贪心思想能保证我们移动到尾部的元素是最少的。\r\n\r\n# 代码\r\n``` java\r\nclass Solution {\r\n    public int magicTower(int[] nums) {\r\n        int sum = 1;\r\n        for(int i = 0 ; i < nums.length ; i ++){\r\n            sum += nums[i];\r\n        }\r\n        if(sum <= 0) return -1; //算出所有回合后的血量是否为正数\r\n\r\n        //开始模拟\r\n        long blood = 1;\r\n        PriorityQueue<Integer> pq = new PriorityQueue<>();\r\n        int last = 0;\r\n        for(int i = 0 ; i < nums.length ; i ++){\r\n            if(nums[i] < 0){\r\n                pq.offer(nums[i]);\r\n                if(blood + nums[i] <= 0){ //这回合过后就要死了，需要把前面扣最多的血移到最后去\r\n                    last ++; //记录移动的次数\r\n                    blood -= pq.poll(); //加回之前扣除最多的血量\r\n                }\r\n            }\r\n            blood += nums[i];\r\n        }\r\n        return last;\r\n    }\r\n}\r\n```\r\n\r\n# 复杂度分析\r\n\r\n时间复杂度 O(n*logn) //优先队列插入时的复杂度\r\n空间复杂度 O(n)\r\n\r\n> 如果你觉得对你有帮助，麻烦动动小手点个赞呗！！\r\n",
+      "createdAt": "2021-04-05T11:07:12.895494+00:00",
+      "hitCount": 3033,
+      "identifier": "Wu8OmG",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "java-tan-xin-by-feilue-mawl",
+        "title": "Java 贪心"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "p0NxJO"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 21,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "javatan-xin-you-xian-dui-lie-shuang-bai-3r7fb",
+      "status": "PREPUBLISH",
+      "summary": "思路\n首先，我们计算一遍所有回合之后的血量，如果是负数，则直接返回-1\n然后我们模拟过程，将之前扣减的血量都放入优先队列中，每次快死之前，就取出堆顶的元素（扣最多的血）给自己加上，这样的贪心思想能保证我们移动到尾部的元素是最少的。\n代码\n复杂度分析\n时间复杂度 O(n*logn) //优先队列插入时的复杂度\n空间复杂度",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Heap",
+          "nameTranslated": "堆",
+          "slug": "heap",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "优先队列",
+          "nameTranslated": "",
+          "slug": "you-xian-dui-lie",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1617620534-BhagEv-image.png",
+      "title": "JAVA，贪心+优先队列，双百解法，通俗易懂",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 23,
+        "id": 702009,
+        "viewCount": 2202
+      },
+      "uuid": "Wu8OmG",
+      "videosInfo": []
+    }
+  }
+}

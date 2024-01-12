@@ -1,0 +1,84 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣 (LeetCode)",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/uploaded_files/2021/03/73c9f099-abbe-4d94-853f-f8abffd459cd/leetcode.png",
+          "userSlug": "leetcode"
+        },
+        "username": "LeetCode"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法：二分查找\n\n**思路**\n\n如果珂珂能以 `K` 的进食速度最终吃完所有的香蕉（在 `H` 小时内），那么她也可以用更快的速度吃完。\n\n当珂珂能以 `K` 的进食速度吃完香蕉时，我们令 `possible(K)` 为 `true`，那么就存在 `X` 使得当 `K >= X` 时， `possible(K) = True`。\n\n举个例子，当初始条件为 `piles = [3, 6, 7, 11]` 和 `H = 8` 时，存在 `X = 4` 使得 `possible(1) = possible(2) = possible(3) = False`，且 `possible(4) = possible(5) = ... = True`。\n\n**算法**\n\n我们可以二分查找 `possible(K)` 的值来找到第一个使得 `possible(X)` 为 `True` 的 `X`：这将是我们的答案。我们的循环中，不变量 `possible(hi)` 总为 `True`， `lo` 总小于等于答案。有关二分查找的更多信息，请参阅[《力扣探索：二分查找》](https://leetcode-cn.com/explore/learn/card/binary-search/)。\n\n为了找到 `possible(K)` 的值， (即`珂珂`是否能以 `K` 的进食速度在 `H` 小时内吃完所有的香蕉），我们模拟这一情景。对于每一堆（大小 `p > 0`），我们可以推断出珂珂将在 `Math.ceil(p / K) = ((p-1) // K) + 1` 小时内吃完这一堆，我们将每一堆的完成时间加在一起并与 `H` 进行比较。\n\n\n```cpp [2q2E5AzB-C++]\nclass Solution {\npublic:\n    int minEatingSpeed(vector<int>& piles, int H) {\n        int lo = 1, hi = pow(10, 9);\n        while (lo < hi) {\n            int mi = lo + (hi - lo) / 2;\n            if (!possible(piles, H, mi))\n                lo = mi + 1;\n            else\n                hi = mi;\n        }\n\n        return lo;\n    }\n\n    // Can Koko eat all bananas in H hours with eating speed K?\n    bool possible(vector<int>& piles, int H, int K) {\n        int time = 0;\n        for (int p: piles)\n            time += (p - 1) / K + 1;\n        return time <= H;\n    }\n};\n```\n```java [2q2E5AzB-Java]\nclass Solution {\n    public int minEatingSpeed(int[] piles, int H) {\n        int lo = 1;\n        int hi = 1_000_000_000;\n        while (lo < hi) {\n            int mi = (lo + hi) / 2;\n            if (!possible(piles, H, mi))\n                lo = mi + 1;\n            else\n                hi = mi;\n        }\n\n        return lo;\n    }\n\n    // Can Koko eat all bananas in H hours with eating speed K?\n    public boolean possible(int[] piles, int H, int K) {\n        int time = 0;\n        for (int p: piles)\n            time += (p-1) / K + 1;\n        return time <= H;\n    }\n}\n```\n```python [2q2E5AzB-Python]\nclass Solution(object):\n    def minEatingSpeed(self, piles, H):\n        # Can Koko eat all bananas in H hours with eating speed K?\n        def possible(K):\n            return sum((p-1) / K + 1 for p in piles) <= H\n\n        lo, hi = 1, max(piles)\n        while lo < hi:\n            mi = (lo + hi) / 2\n            if not possible(mi):\n                lo = mi + 1\n            else:\n                hi = mi\n        return lo\n```\n\n\n**复杂度分析**\n\n* 时间复杂度：$O(N \\log W)$，其中 $N$ 是香蕉堆的数量，$W$ 最大的香蕉堆的大小。\n\n* 空间复杂度：$O(1)$。",
+      "createdAt": "2018-07-29T17:05:12.324873+00:00",
+      "hitCount": 39492,
+      "identifier": "gTBZYC",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "er-fen-cha-zhao-ding-wei-su-du-by-liweiwei1419",
+        "title": "二分查找定位速度（最大值最小化问题，Java）"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "koko-eating-bananas"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 24,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "CONFUSED"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "ai-chi-xiang-jiao-de-ke-ke-by-leetcode",
+      "status": "PUBLISHED",
+      "summary": "思路\n如果珂珂能以 K 的进食速度最终吃完所有的香蕉（在 H 小时内），那么她也可以用更快的速度吃完。\n当珂珂能以 K 的进食速度吃完香蕉时，我们令 possible(K) 为 true，那么就存在 X 使得当 K >= X 时， possible(K) = True。\n举个例子，当初始条件为 piles = [3, ",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Binary Search",
+          "nameTranslated": "二分查找",
+          "slug": "binary-search",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "爱吃香蕉的珂珂",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 56,
+        "id": 3533,
+        "viewCount": 25401
+      },
+      "uuid": "gTBZYC",
+      "videosInfo": []
+    }
+  }
+}

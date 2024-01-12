@@ -1,0 +1,84 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "Monologue",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/monologue-3/avatar_1592906875.png",
+          "userSlug": "monologue-s"
+        },
+        "username": "Monologue-S"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "## 思路：\r\n\r\n- 记录`knowledge`到哈希表中，遍历字符串进行替换单词就可以了\r\n\r\n```c++\r\nclass Solution {\r\npublic:\r\n    string evaluate(string s, vector<vector<string>>& knowledge) {\r\n        unordered_map<string, string> mp;\r\n        for(auto& ev: knowledge){\r\n            mp[ev[0]] = ev[1];\r\n        }\r\n        string ans;\r\n        for(int i = 0; i < s.size(); ++i){\r\n            if(s[i] == '('){\r\n                string last;\r\n                for(int j = i + 1; j < s.size(); ++j){\r\n                    if(s[j] != ')') last += s[j];\r\n                    else {\r\n                        i = j;\r\n                        break;\r\n                    }\r\n                }\r\n                if(mp.count(last)) ans += mp[last];\r\n                else ans += \"?\";\r\n            } else {\r\n                ans += s[i];\r\n            }\r\n        }\r\n        return ans;\r\n    }\r\n};\r\n```\r\n\r\n",
+      "createdAt": "2021-03-28T04:10:13.582570+00:00",
+      "hitCount": 1031,
+      "identifier": "YRFZbb",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "ti-huan-zi-fu-chuan-zhong-de-gua-hao-nei-77vy",
+        "title": "替换字符串中的括号内容：正则&遍历双解"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "evaluate-the-bracket-pairs-of-a-string"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 9,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "cha-xi-biao-bian-li-ti-huan-by-monologue-xm65",
+      "status": "PREPUBLISH",
+      "summary": "思路：\n\n记录knowledge到哈希表中，遍历字符串进行替换单词就可以了",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Hash Table",
+          "nameTranslated": "哈希表",
+          "slug": "hash-table",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "c++哈希表+遍历替换",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 2,
+        "id": 684761,
+        "viewCount": 878
+      },
+      "uuid": "YRFZbb",
+      "videosInfo": []
+    }
+  }
+}

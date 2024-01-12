@@ -1,0 +1,93 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "Flash500",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/wang-xu/avatar_1531443842.png",
+          "userSlug": "flash500"
+        },
+        "username": "flash500"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n此处撰写解题思路\n\n### 代码\n\n```golang\nfunc numColor(root *TreeNode) int {\n\thashMap := make(map[int]bool)\n\tvar dfs func(node *TreeNode)\n\tdfs = func(node *TreeNode) {\n\t\tif node == nil {\n\t\t\treturn\n\t\t}\n\t\thashMap[node.Val] = true\n\t\tdfs(node.Left)\n\t\tdfs(node.Right)\n\t}\n\tdfs(root)\n\treturn len(hashMap)\n}\n```",
+      "createdAt": "2021-11-21T07:56:40.229670+00:00",
+      "hitCount": 63,
+      "identifier": "tLxSIQ",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "di-gui-bian-li-er-cha-shu-by-best-jin-xi-f4q2",
+        "title": "递归遍历二叉树"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "sZ59z6"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "lcp2021qiu-ji-tuan-dui-sai-t1golangdfsha-zrnf",
+      "status": "PUBLISHED",
+      "summary": "解题思路\n此处撰写解题思路\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Go",
+          "nameTranslated": "",
+          "slug": "golang",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "DFS",
+          "nameTranslated": "",
+          "slug": "dfs",
+          "tagType": "ADDITIONAL_TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Golang",
+          "nameTranslated": "",
+          "slug": "golang-2",
+          "tagType": "ADDITIONAL_TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "go",
+          "nameTranslated": "",
+          "slug": "go-3",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "",
+      "title": "LCP，2021，秋季，团队赛，T1，Golang，dfs，哈希",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1114004,
+        "viewCount": 56
+      },
+      "uuid": "tLxSIQ",
+      "videosInfo": []
+    }
+  }
+}

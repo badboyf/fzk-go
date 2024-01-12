@@ -1,0 +1,76 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "RiufStp",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/riufstp-9/avatar_1616213897.png",
+          "userSlug": "riufstp-9"
+        },
+        "username": "riufstp-9"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n此处撰写解题思路\n\n### 代码\n\n```java\nclass Solution {\n    public int closedIsland(int[][] grid) {\n        int res = 0;\n        int r = grid.length;\n        int c = grid[0].length;\n        for (int i = 0; i < r; i++) {\n            for (int j = 0; j < c; j++) {\n                if (grid[i][j] == 0 && recur(grid, i, j)) {\n                    res++;\n                }\n            }\n        }\n        return res;\n    }\n\n    boolean recur(int[][] grid, int r, int c) {\n        if (r < 0 || r >= grid.length || c < 0 || c >= grid[0].length) return false;\n        if (grid[r][c] != 0) return true;\n        grid[r][c] = 2;\n        boolean b1 = recur(grid, r + 1, c);\n        boolean b2 = recur(grid, r - 1, c);\n        boolean b3 = recur(grid, r, c - 1);\n        boolean b4 = recur(grid, r, c + 1); \n        return b1 && b2 && b3 && b4;//不能图方便将上述合并一起写，因为会无法遍历全部可能，导致新一轮条件判断时出现问题。\n    }\n}\n```",
+      "createdAt": "2021-11-06T09:06:09.260793+00:00",
+      "hitCount": 204,
+      "identifier": "Y8Oxov",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "java-dfs100-by-adoring-lederbergck6-mzoz",
+        "title": "java DFS(100%）"
+      },
+      "position": 2,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "1254-tong-ji-feng-bi-dao-yu-de-shu-mu-bi-cdwz",
+        "title": "【1254. 统计封闭岛屿的数目】【并查集】Java注释详解"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "number-of-closed-islands"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 4,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "zhi-xing-yong-shi-1-ms-zai-suo-you-java-wzjx9",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n此处撰写解题思路\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "执行用时： 1 ms , 在所有 Java 提交中击败了 100.00% 的用户",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1087422,
+        "viewCount": 144
+      },
+      "uuid": "Y8Oxov",
+      "videosInfo": []
+    }
+  }
+}

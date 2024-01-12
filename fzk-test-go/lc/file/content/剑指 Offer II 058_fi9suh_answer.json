@@ -1,0 +1,88 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "angela",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/angela-x/avatar_1632561041.png",
+          "userSlug": "angela-x"
+        },
+        "username": "angela-x"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n- 添加事项的时候按照顺序添加进去，查找的时候就能利用二分查找来快速定位区间\n- 根据时间区间的开始时间进行排序，通过排序之后能够优化查找我效率\n![image.png](https://pic.leetcode-cn.com/1634711524-XVyyfz-image.png)\n\n\n![image.png](https://pic.leetcode-cn.com/1634711544-mmYNQs-image.png)\n\n上面两个图片对应代码中的重叠条件\n\n\n### 代码\n\n```javascript\nvar MyCalendar = function () {\n  this.events = [];\n};\n// 查找要插入的点的最左侧边界\nMyCalendar.prototype.findInsertIndex = function (start) {\n  var left = 0;\n  var right = this.events.length - 1;\n  // 左闭右闭区间\n  while (left <= right) {\n    let mid = left + ((right - left) >> 1);\n    // 如果要插入的区间的起始点刚好跟当前区间的起始点相同，则找到了要插入的区间位置\n    if (this.events[mid][0] === start) {\n      return mid;\n    } else if (this.events[mid][0] < start) {\n      //  在后半段中查找\n      left = mid + 1;\n    } else {\n      // 在前半段中查找\n      right = mid - 1;\n    }\n  }\n  return left;\n};\n\nMyCalendar.prototype.book = function (start, end) {\n  let index = this.findInsertIndex(start);\n  if (\n    // 当前要插入的区间的起始点小于要插入的区间前一个区间的结束点\n    (this.events[index - 1] && start < this.events[index - 1][1]) ||\n    // 当前要插入的区间的结束点大于要插入的区间的起始点\n    (this.events[index] && end > this.events[index][0])\n  ) {\n    // 表示有重叠  则不能插入（预订）\n    return false;\n  }\n  this.events.splice(index, 0, [start, end]);\n  return true;\n};\n\n```",
+      "createdAt": "2021-10-20T06:33:20.717402+00:00",
+      "hitCount": 351,
+      "identifier": "oVserh",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "offerii058ri-cheng-biao-by-logilong-cp5g",
+        "title": "🗡☞OfferⅡ058.日程表"
+      },
+      "position": 5,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "zhu-ge-bian-li-pan-duan-shi-fou-man-zu-t-kotf",
+        "title": "逐个遍历判断是否满足条件即可"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "fi9suh"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "AWESOME"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "li-yong-er-fen-fa-lai-ji-lu-ri-cheng-bia-b9nm",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n\n添加事项的时候按照顺序添加进去，查找的时候就能利用二分查找来快速定位区间\n根据时间区间的开始时间进行排序，通过排序之后能够优化查找我效率\n\n\n上面两个图片对应代码中的重叠条件\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "JavaScript",
+          "nameTranslated": "",
+          "slug": "javascript",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "二分搜索",
+          "nameTranslated": "",
+          "slug": "er-fen-sou-suo",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1634711524-XVyyfz-image.png",
+      "title": "利用二分法来记录日程表",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1057159,
+        "viewCount": 293
+      },
+      "uuid": "oVserh",
+      "videosInfo": []
+    }
+  }
+}

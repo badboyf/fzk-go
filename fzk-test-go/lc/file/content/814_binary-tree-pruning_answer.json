@@ -1,0 +1,91 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣 (LeetCode)",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/uploaded_files/2021/03/73c9f099-abbe-4d94-853f-f8abffd459cd/leetcode.png",
+          "userSlug": "leetcode"
+        },
+        "username": "LeetCode"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 递归：\n\n我们可以使用递归来解决这个问题。我们用 `containsOne(node)` 函数来判断以 `node` 为根的子树中是否包含 `1`，其不包含 `1` 当且仅当以 `node` 的左右孩子为根的子树均不包含 `1`，并且 `node` 节点本身的值也不为 `1`。\n\n如果 `node` 的左右孩子为根的子树不包含 `1`，那我们就需要把对应的指针置为空。例如当 `node` 的左孩子为根的子树不包含 `1` 时，我们将 `node.left` 置为 `null`。\n\n在递归结束之后，如果整颗二叉树都不包含 `1`，那么我们返回 `null`，否则我们返回原来的根节点。\n\n```Java [sol1]\nclass Solution {\n    public TreeNode pruneTree(TreeNode root) {\n        return containsOne(root) ? root : null;\n    }\n\n    public boolean containsOne(TreeNode node) {\n        if (node == null) return false;\n        boolean a1 = containsOne(node.left);\n        boolean a2 = containsOne(node.right);\n        if (!a1) node.left = null;\n        if (!a2) node.right = null;\n        return node.val == 1 || a1 || a2;\n    }\n}\n```\n\n```Python [sol1]\nclass Solution(object):\n    def pruneTree(self, root):\n        def containsOne(node):\n            if not node: return False\n            a1 = containsOne(node.left)\n            a2 = containsOne(node.right)\n            if not a1: node.left = None\n            if not a2: node.right = None\n            return node.val == 1 or a1 or a2\n\n        return root if containsOne(root) else None\n```\n\n**复杂度分析**\n\n* 时间复杂度：$O(N)$，其中 $N$ 是树中节点的个数。\n\n* 空间复杂度：$O(H)$，其中 $H$ 是树的高度，为我们在递归时使用的栈空间大小。",
+      "createdAt": "2019-10-29T06:23:16.497508+00:00",
+      "hitCount": 12860,
+      "identifier": "dExIYE",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "814-er-cha-shu-jian-zhi-di-gui-by-wo-yao-rh57",
+        "title": "814. 二叉树剪枝（递归）"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "binary-tree-pruning"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 11,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "CONFUSED"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "er-cha-shu-jian-zhi-by-leetcode",
+      "status": "PUBLISHED",
+      "summary": "§ 递归：\n我们可以使用递归来解决这个问题。我们用 containsOne(node) 函数来判断以 node 为根的子树中是否包含 1，其不包含 1 当且仅当以 node 的左右孩子为根的子树均不包含 1，并且 node 节点本身的值也不为 1。\n如果 node 的左右孩子为根的子树不包含 1，那我们就需要把对应的指",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Recursion",
+          "nameTranslated": "递归",
+          "slug": "recursion",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "二叉树剪枝",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 46,
+        "id": 38849,
+        "viewCount": 10162
+      },
+      "uuid": "dExIYE",
+      "videosInfo": []
+    }
+  }
+}

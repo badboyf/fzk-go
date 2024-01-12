@@ -1,0 +1,86 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣 (LeetCode)",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/uploaded_files/2021/03/73c9f099-abbe-4d94-853f-f8abffd459cd/leetcode.png",
+          "userSlug": "leetcode"
+        },
+        "username": "LeetCode"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法：迭代\n\n由于递归实现 `N` 叉树的前序遍历较为简单，因此我们只讲解如何使用迭代的方法得到 `N` 叉树的前序遍历。\n\n我们使用栈来帮助我们得到前序遍历，需要保证栈顶的节点就是我们当前遍历到的节点。\n\n我们首先把根节点入栈，因为根节点是前序遍历中的第一个节点。随后每次我们从栈顶取出一个节点 `u`，它是我们当前遍历到的节点，并把 `u` 的所有子节点逆序推入栈中。例如 `u` 的子节点从左到右为 `v1, v2, v3`，那么推入栈的顺序应当为 `v3, v2, v1`，这样就保证了下一个遍历到的节点（即 `u` 的第一个子节点 `v1`）出现在栈顶的位置。\n\n```Java [sol1]\nclass Solution {\n    public List<Integer> preorder(Node root) {\n        LinkedList<Integer> output = new LinkedList<>();\n        if (root == null) {\n            return output;\n        }\n\n        LinkedList<Node> stack = new LinkedList<>();\n        stack.add(root);\n        while (!stack.isEmpty()) {\n            Node node = stack.pollLast();\n            output.add(node.val);\n            Collections.reverse(node.children);\n            for (Node item : node.children) {\n                stack.add(item);\n            }\n        }\n        return output;\n    }\n}\n```\n```Python [sol1]\nclass Solution(object):\n    def preorder(self, root):\n        \"\"\"\n        :type root: Node\n        :rtype: List[int]\n        \"\"\"\n        if root is None:\n            return []\n        \n        stack, output = [root, ], []            \n        while stack:\n            root = stack.pop()\n            output.append(root.val)\n            stack.extend(root.children[::-1])\n                \n        return output\n```\n\n\n\n**复杂度分析**\n\n* 时间复杂度：时间复杂度：$O(M)$，其中 $M$ 是 `N` 叉树中的节点个数。每个节点只会入栈和出栈各一次。\n\n* 空间复杂度：$O(M)$。在最坏的情况下，这棵 `N` 叉树只有 `2` 层，所有第 `2` 层的节点都是根节点的孩子。将根节点推出栈后，需要将这些节点都放入栈，共有 $M - 1$ 个节点，因此栈的大小为 $O(M)$。",
+      "createdAt": "2019-10-29T06:09:06.901710+00:00",
+      "hitCount": 43787,
+      "identifier": "4srFoV",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "yi-tao-quan-fa-shua-diao-nge-bian-li-shu-de-wen--3",
+        "title": "一套拳法👊刷掉n个遍历树的问题"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "n-ary-tree-preorder-traversal"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 18,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "ncha-shu-de-qian-xu-bian-li-by-leetcode",
+      "status": "PUBLISHED",
+      "summary": "方法：迭代\n由于递归实现 N 叉树的前序遍历较为简单，因此我们只讲解如何使用迭代的方法得到 N 叉树的前序遍历。\n我们使用栈来帮助我们得到前序遍历，需要保证栈顶的节点就是我们当前遍历到的节点。\n我们首先把根节点入栈，因为根节点是前序遍历中的第一个节点。随后每次我们从栈顶取出一个节点 u，它是我们当前遍历到的节点，并把",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Tree",
+          "nameTranslated": "树",
+          "slug": "tree",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "N叉树的前序遍历",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 58,
+        "id": 38805,
+        "viewCount": 32269
+      },
+      "uuid": "4srFoV",
+      "videosInfo": []
+    }
+  }
+}

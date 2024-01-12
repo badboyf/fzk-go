@@ -1,0 +1,138 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣官方题解",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/leetcode-solution/avatar_1582018938.png",
+          "userSlug": "leetcode-solution"
+        },
+        "username": "LeetCode-Solution"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 📺 视频题解  \n![371.两整数之和-仲耀晖.mp4](2c177210-86d6-46ef-a3c3-4779c339d456)\n\n### 📖 文字题解\n#### 方法一：位运算\n\n**预备知识**\n\n有符号整数通常用补码来表示和存储，补码具有如下特征：\n\n- 正整数的补码与原码相同；负整数的补码为其原码除符号位外的所有位取反后加 $1$。\n\n- 可以将减法运算转化为补码的加法运算来实现。\n\n- 符号位与数值位可以一起参与运算。\n\n**思路和算法**\n\n虽然题目只要求了不能使用运算符 $\\texttt{+}$ 和 $\\texttt{-}$，但是原则上来说也不宜使用类似的运算符 $\\texttt{+=}$ 和 $\\texttt{-=}$ 以及 $\\texttt{sum}$ 等方法。于是，我们使用位运算来处理这个问题。\n\n首先，考虑两个二进制位相加的四种情况如下：\n\n```\n0 + 0 = 0\n0 + 1 = 1\n1 + 0 = 1\n1 + 1 = 0 (进位)\n```\n\n可以发现，对于整数 $a$ 和 $b$：\n\n- 在不考虑进位的情况下，其**无进位加法结果**为 $\\texttt{a} \\oplus \\texttt{b}$。\n\n- 而所有需要进位的位为 $\\texttt{a \\& b}$，进位后的**进位结果**为 $\\texttt{(a \\& b) << 1}$。\n\n于是，我们可以将整数 $a$ 和 $b$ 的和，拆分为 $a$ 和 $b$ 的**无进位加法结果**与**进位结果**的和。因为每一次拆分都可以让需要进位的最低位至少左移一位，又因为 $a$ 和 $b$ 可以取到负数，所以我们最多需要 $\\log (max\\_int)$ 次拆分即可完成运算。\n\n因为有符号整数用补码来表示，所以以上算法也可以推广到 $0$ 和负数。\n\n**实现**\n\n在 $\\texttt{C++}$ 的实现中，当我们赋给带符号类型一个超出它表示范围的值时，结果是 $\\text{undefined}$；而当我们赋给无符号类型一个超出它表示范围的值时，结果是初始值对无符号类型表示数值总数取模的余数。因此，我们可以使用无符号类型来防止溢出。\n\n在 $\\texttt{Python}$ 的实现中，因为 $\\texttt{Python}$ 的整数类型为是无限长的，所以无论怎样左移位都不会溢出。因此，我们需要对 $\\texttt{Python}$ 中的整数进行额外处理，以模拟用补码表示的 $32$ 位有符号整数类型。具体地，我们将整数对 $2^{32}$ 取模，从而使第 $33$ 位及更高位均为 $0$；因为此时最终结果为用补码表示的包含符号位的 $32$ 位整数，所以我们还需要再次将其换算为 $\\texttt{Python}$ 的整数。\n\n**代码**\n\n```C++ [sol1-C++]\nclass Solution {\npublic:\n    int getSum(int a, int b) {\n        while (b != 0) {\n            unsigned int carry = (unsigned int)(a & b) << 1;\n            a = a ^ b;\n            b = carry;\n        }\n        return a;\n    }\n};\n```\n\n```Java [sol1-Java]\nclass Solution {\n    public int getSum(int a, int b) {\n        while (b != 0) {\n            int carry = (a & b) << 1;\n            a = a ^ b;\n            b = carry;\n        }\n        return a;\n    }\n}\n```\n\n```C# [sol1-C#]\npublic class Solution {\n    public int GetSum(int a, int b) {\n        while (b != 0) {\n            int carry = (a & b) << 1;\n            a = a ^ b;\n            b = carry;\n        }\n        return a;\n    }\n}\n```\n\n```Python [sol1-Python3]\nMASK1 = 4294967296  # 2^32\nMASK2 = 2147483648  # 2^31\nMASK3 = 2147483647  # 2^31-1\n\nclass Solution:\n    def getSum(self, a: int, b: int) -> int:\n        a %= MASK1\n        b %= MASK1\n        while b != 0:\n            carry = ((a & b) << 1) % MASK1\n            a = (a ^ b) % MASK1\n            b = carry\n        if a & MASK2:  # 负数\n            return ~((a ^ MASK2) ^ MASK3)\n        else:  # 正数\n            return a\n```\n\n```JavaScript [sol1-JavaScript]\nvar getSum = function(a, b) {\n    while (b != 0) {\n        const carry = (a & b) << 1;\n        a = a ^ b;\n        b = carry;\n    }\n    return a;\n};\n```\n\n```go [sol1-Golang]\nfunc getSum(a, b int) int {\n    for b != 0 {\n        carry := uint(a&b) << 1\n        a ^= b\n        b = int(carry)\n    }\n    return a\n}\n```\n\n**复杂度分析**\n\n- 时间复杂度：$O(\\log (max\\_int))$，其中我们将执行位运算视作原子操作。\n\n- 空间复杂度：$O(1)$。",
+      "createdAt": "2021-09-25T15:48:00.252556+00:00",
+      "hitCount": 34139,
+      "identifier": "zmotxQ",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "wei-yun-suan-xiang-jie-yi-ji-zai-python-zhong-xu-y",
+        "title": "位运算详解以及在 Python 中需要的特殊处理"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "sum-of-two-integers"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 53,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 3,
+          "reactionType": "AWESOME"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "CONFUSED"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "liang-zheng-shu-zhi-he-by-leetcode-solut-c1s3",
+      "status": "PUBLISHED",
+      "summary": "📺 视频题解 📖 文字题解 方法一：位运算 预备知识 有符号整数通常用补码来表示和存储，补码具有如下特征： 正整数的补码与原码相同；负整数的补码为其原码除符号位外的所有位取反后加 $1$。 可以将减法运算转化为补码的加法运算来实现。 符号位与数值位可以一起参与运算。 思路和算法 虽然题目只要求了不能使用运算符 $\\te",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Bit Manipulation",
+          "nameTranslated": "位运算",
+          "slug": "bit-manipulation",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Math",
+          "nameTranslated": "数学",
+          "slug": "math",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C#",
+          "nameTranslated": "",
+          "slug": "csharp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Go",
+          "nameTranslated": "",
+          "slug": "golang",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "JavaScript",
+          "nameTranslated": "",
+          "slug": "javascript",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "两整数之和",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 121,
+        "id": 1017617,
+        "viewCount": 23686
+      },
+      "uuid": "zmotxQ",
+      "videosInfo": [
+        {
+          "__typename": "VideoInfoNode",
+          "coverUrl": "https://video.leetcode-cn.com/image/cover/C5EF9CE7E8164A1395703DF38EEFD2D5-6-2.png",
+          "duration": 343.68,
+          "videoId": "88d1a6bef68242f1a34a994f90e03920"
+        }
+      ]
+    }
+  }
+}

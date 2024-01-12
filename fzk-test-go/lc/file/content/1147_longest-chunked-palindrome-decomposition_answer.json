@@ -1,0 +1,97 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "ffreturn",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/ffreturn/avatar_1608859813.png",
+          "userSlug": "ffreturn"
+        },
+        "username": "ffreturn"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "![image.png](https://pic.leetcode-cn.com/1633578196-lMVzgM-image.png)\n\n\n### 解题思路\n递归\n- 判断不同的字符的长度 1~len/2,一旦相等，则立刻返回（这里体现了贪心，发现就可以计算在内）\n- 如果都没有相等\n   - 字符串大于0， 则返回1（单个字符串也是1）\n   - 等于0，则返回0（空字符串的情况）\n\n### 代码\n\n```cpp\nclass Solution {\nprivate:\n    // 优化取代substr比较来提速\n    bool isEqual(const string& text, int i1, int i2, int len)\n    {\n        for (int i = 0; i < len; ++i)\n        {\n            if (text[i1+i] != text[i2+i])\n            {\n                return false;\n            }\n        }\n\n        return true;\n    }\npublic:\n    int longestDecomposition(string text) {\n        int n = text.size();\n        for (int i = 1; i <= (n>>1); ++i)\n        {\n            //if (text.substr(0, i) == text.substr(n-i, i))\n            if (isEqual(text, 0, n-i, i))\n            {\n                return 2 + longestDecomposition(text.substr(i, n - (i<<1)));\n            }\n        }\n        // 兜底的默认逻辑\n        return n > 0 ? 1 : 0;\n    }\n};\n```",
+      "createdAt": "2021-10-07T03:41:22.314267+00:00",
+      "hitCount": 161,
+      "identifier": "W7Vhwu",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "tan-xin-neng-fen-kai-ma-shang-fen-kai-di-p9g3",
+        "title": "【贪心能分开马上分开】【递归】"
+      },
+      "position": 2,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "wa-pian-1147-duan-shi-hui-wen-java-zhong-mbyz",
+        "title": "【瓦片】1147. 段式回文 - Java 中击败了 85.02% - 双指针"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "longest-chunked-palindrome-decomposition"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "1147-cjian-dan-yi-dong-de-di-gui-jie-fa-ly39o",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n递归\n\n判断不同的字符的长度 1~len/2,一旦相等，则立刻返回（这里体现了贪心，发现就可以计算在内）\n如果都没有相等\n\n字符串大于0， 则返回1（单个字符串也是1）\n等于0，则返回0（空字符串的情况）\n\n\n\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Recursion",
+          "nameTranslated": "递归",
+          "slug": "recursion",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "String",
+          "nameTranslated": "字符串",
+          "slug": "string",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "梦想",
+          "nameTranslated": "",
+          "slug": "meng-xiang",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1633578196-lMVzgM-image.png",
+      "title": "1147. c++超100的递归解法",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1034510,
+        "viewCount": 130
+      },
+      "uuid": "W7Vhwu",
+      "videosInfo": []
+    }
+  }
+}

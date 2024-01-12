@@ -1,0 +1,98 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣 (LeetCode)",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/uploaded_files/2021/03/73c9f099-abbe-4d94-853f-f8abffd459cd/leetcode.png",
+          "userSlug": "leetcode"
+        },
+        "username": "LeetCode"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法一：动态规划\n\n我们用 `dp[i][j]` 表示字符串 `s1[i:]` 和 `s2[j:]`（`s1[i:]` 表示字符串 `s1` 从第 $i$ 位到末尾的子串，`s2[j:]` 表示字符串 `s2` 从第 $j$ 位到末尾的子串，字符串下标从 0 开始）达到相等所需删除的字符的 ASCII 值的最小和，最终的答案为 `dp[0][0]`。\n\n当 `s1[i:]` 和 `s2[j:]` 中的某一个字符串为空时，`dp[i][j]` 的值即为另一个非空字符串的所有字符的 ASCII 值之和。例如当 `s2[j:]` 为空时，此时有 `j = s2.length()`，状态转移方程为\n\n    dp[i][j] = s1.asciiSumFromPos(i)\n\n也可以写成递推的形式，即\n\n    dp[i][j] = dp[i + 1][j] + s1.asciiAtPos(i)\n\n对于其余的情况，即两个字符串都非空时，如果有 `s1[i] == s2[j]`，那么当前位置的两个字符相同，它们不需要被删除，状态转移方程为\n\n    dp[i][j] = dp[i + 1][j + 1]\n\n如果 `s1[i] != s2[j]`，那么我们至少要删除 `s1[i]` 和 `s2[j]` 两个字符中的一个，因此状态转移方程为\n\n    dp[i][j] = min(dp[i + 1][j] + s1.asciiAtPos(i), dp[i][j + 1] + s2.asciiAtPos(j))\n\n```Python [sol1]\nclass Solution(object):\n    def minimumDeleteSum(self, s1, s2):\n        dp = [[0] * (len(s2) + 1) for _ in xrange(len(s1) + 1)]\n\n        for i in xrange(len(s1) - 1, -1, -1):\n            dp[i][len(s2)] = dp[i+1][len(s2)] + ord(s1[i])\n        for j in xrange(len(s2) - 1, -1, -1):\n            dp[len(s1)][j] = dp[len(s1)][j+1] + ord(s2[j])\n\n        for i in xrange(len(s1) - 1, -1, -1):\n            for j in xrange(len(s2) - 1, -1, -1):\n                if s1[i] == s2[j]:\n                    dp[i][j] = dp[i+1][j+1]\n                else:\n                    dp[i][j] = min(dp[i+1][j] + ord(s1[i]),\n                                   dp[i][j+1] + ord(s2[j]))\n\n        return dp[0][0]\n```\n\n```Java [sol1]\nclass Solution {\n    public int minimumDeleteSum(String s1, String s2) {\n        int[][] dp = new int[s1.length() + 1][s2.length() + 1];\n\n        for (int i = s1.length() - 1; i >= 0; i--) {\n            dp[i][s2.length()] = dp[i+1][s2.length()] + s1.codePointAt(i);\n        }\n        for (int j = s2.length() - 1; j >= 0; j--) {\n            dp[s1.length()][j] = dp[s1.length()][j+1] + s2.codePointAt(j);\n        }\n        for (int i = s1.length() - 1; i >= 0; i--) {\n            for (int j = s2.length() - 1; j >= 0; j--) {\n                if (s1.charAt(i) == s2.charAt(j)) {\n                    dp[i][j] = dp[i+1][j+1];\n                } else {\n                    dp[i][j] = Math.min(dp[i+1][j] + s1.codePointAt(i),\n                                        dp[i][j+1] + s2.codePointAt(j));\n                }\n            }\n        }\n        return dp[0][0];\n    }\n}\n```\n\n**复杂度分析**\n\n* 时间复杂度：$O(|S_1|* |S_2|)$。动态规划中用到了两重循环，它们的时间复杂度分别为 $O(|S_1|)$ 和 $O(|S_2|)$，因此总的时间复杂度为 $O(|S_1|* |S_2|)$。\n* 空间复杂度：$O(|S_1|* |S_2|)$。动态规划中用到的 `dp` 为 $|S_1| * |S_2|$ 的二维数组。",
+      "createdAt": "2019-06-30T15:27:26.310297+00:00",
+      "hitCount": 14669,
+      "identifier": "moHv1V",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "yuan-lai-zhe-ye-shi-lcs-by-laughhhh-bpe1",
+        "title": "「这咋这么像 LCS 呢」"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "minimum-ascii-delete-sum-for-two-strings"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 19,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 0,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "liang-ge-zi-fu-chuan-de-zui-xiao-asciishan-chu-he-",
+      "status": "PUBLISHED",
+      "summary": "方法一：动态规划\n我们用 dp[i][j] 表示字符串 s1[i:] 和 s2[j:]（s1[i:] 表示字符串 s1 从第 $i$ 位到末尾的子串，s2[j:] 表示字符串 s2 从第 $j$ 位到末尾的子串，字符串下标从 0 开始）达到相等所需删除的字符的 ASCII 值的最小和，最终的答案为 dp[0][0]。\n",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "String",
+          "nameTranslated": "字符串",
+          "slug": "string",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Dynamic Programming",
+          "nameTranslated": "动态规划",
+          "slug": "dynamic-programming",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "两个字符串的最小 ASCII 删除和",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 31,
+        "id": 11603,
+        "viewCount": 10222
+      },
+      "uuid": "moHv1V",
+      "videosInfo": []
+    }
+  }
+}

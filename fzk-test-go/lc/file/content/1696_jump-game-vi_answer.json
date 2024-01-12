@@ -1,0 +1,97 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "Ellie Feng",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/s7ven/avatar_1594613934.png",
+          "userSlug": "elliefeng"
+        },
+        "username": "EllieFeng"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解法一（单调队列）\n从题目意思比较容易想到用动态规划来求解(类似打家劫舍等序列DP),但是此处$1<=nums.length, k<=10^5$，两层循环一定会TLE\n所以我们要优化下这个递推的过程。观察可以发现，**$i$这个位置的最佳得分其实是前面$[i-k,i-1]$区间最大值加$nums[i]$得到的，问题就转变成了我们要求$[i-k,i-1]$这个滑动区间的最大值，也就是滑动窗口最大值问题**。\n这个问题一般通过单调队列和优先级队列两种方式来求解，这边我解释下单调队列解法，优先级队列的就直接贴代码了。\n我们维护一个双端的单调递减队列（从队头到队尾的值递减，但是这里只保存下标）对于每个入队的元素，我们依次将其的值与队列尾部元素的值去做比较，如果当前元素更大，我们就将队尾元素弹出，重复这个过程，直到队列为空或者当前元素小于队尾元素，再插入当前元素，最后取出符合条件的队头元素（最大值）即可。\n这是单调队列常用解法，但是这题稍微有一些变化，我们在遍历$nums[i]$时，其实是求解的前面$[i-k,i-1]$区间的情况，i的情况不需要加入到队列里面，所以是顺序改为**取队头元素=》求答案=》插入当前$i$元素下标**\n\n注：\n如果对单调队列求滑动窗口最大值原理不理解，可以参考下239题的题解[239. 滑动窗口最大值](https://leetcode-cn.com/problems/sliding-window-maximum/solution/c-you-xian-ji-dui-lie-he-dan-diao-dui-li-t8o8/)\n### 代码\n\n```cpp\nclass Solution {\npublic:\n    int maxResult(vector<int>& nums, int k) {\n        int n = nums.size();\n        vector<int> f(n);\n        for (int i = 0; i < n; ++i) {\n            f[i] = nums[i]; // 因为队列只保存下标，所以f[i]初始化为nums[i]的值，方便取元素计算\n        }\n        deque<int> q;\n        q.push_back(0);\n        for (int i = 1; i < n; ++i) {\n            while (q.size() && i - q.front() > k) { // 取出队头合法元素\n                q.pop_front();\n            }\n            f[i] = f[q.front()] + nums[i]; // 计算答案\n            while (q.size() && f[i] > f[q.back()]) { // 找到插入位置\n                q.pop_back();\n            }\n            q.push_back(i); // 插入\n        }\n        return f[n - 1];\n    }\n};\n```\n### 解法二（优先级队列）\n### 代码二\n```c++\nclass Solution {\npublic:\n    int maxResult(vector<int>& nums, int k) {\n        int n = nums.size();\n        vector<int> f(n, INT_MIN / 2);\n        f[0] = nums[0];\n        priority_queue<pair<int, int>> heap;\n        heap.emplace(nums[0], 0);\n        for (int i = 1; i < n; ++i) {\n            while (i - heap.top().second > k) {\n                heap.pop();\n            }\n            f[i] = heap.top().first + nums[i];\n            heap.emplace(f[i], i);\n        }\n        return f[n - 1];\n    }\n};\n```",
+      "createdAt": "2021-09-25T09:01:37.583284+00:00",
+      "hitCount": 632,
+      "identifier": "kvQUHH",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "tiao-yue-you-xi-cong-dong-tai-gui-hua-da-3hc3",
+        "title": "跳跃游戏——从动态规划到滑动窗口"
+      },
+      "position": 2,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "tiao-yue-you-xi-vi-by-zerotrac2-r1kq",
+        "title": "跳跃游戏 VI"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "jump-game-vi"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 3,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": true,
+      "slug": "c-you-xian-ji-dui-lie-dan-diao-dui-lie-d-kjgs",
+      "status": "PREPUBLISH",
+      "summary": "解法一（单调队列）\n从题目意思比较容易想到用动态规划来求解(类似打家劫舍等序列DP),但是此处1<=nums.length, k<=10^5，两层循环一定会TLE\n所以我们要优化下这个递推的过程。观察可以发现，i这个位置的最佳得分其实是前面[i-k,i-1]区间最大值加nums[i]得到的，问题就转变成了我们要求[i-",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Dynamic Programming",
+          "nameTranslated": "动态规划",
+          "slug": "dynamic-programming",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "优先队列",
+          "nameTranslated": "",
+          "slug": "you-xian-dui-lie",
+          "tagType": "ADDITIONAL_TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Monotonic Queue",
+          "nameTranslated": "单调队列",
+          "slug": "monotonic-queue",
+          "tagType": "TOPIC"
+        }
+      ],
+      "thumbnail": "",
+      "title": "【C++】优先级队列/单调队列+动态规划",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 1,
+        "id": 1016842,
+        "viewCount": 430
+      },
+      "uuid": "kvQUHH",
+      "videosInfo": []
+    }
+  }
+}

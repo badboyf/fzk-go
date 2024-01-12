@@ -1,0 +1,79 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "xiaowufeixia",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/default_avatar.png",
+          "userSlug": "xiaowufeixia"
+        },
+        "username": "xiaowufeixia"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "## 解题思路\r\n看了下大家的做法, 我的思路可能比较原始。\r\n\r\n首先对两个字符串的字母统计频率, 可以加一步预处理将两者的同一个字母频率减去较小值, 即同一个字母的频率只保留差值。这样可以省去找相同字母去对冲的部分(就是将题目中的\"打破\"条件的大于等于号变大于号)。\r\n\r\n然后思路如下: 假设现在s1可以打破s2, 则对于s2中的每一个字母x, 如果freq2[x] 为正, 则说明需要在s1中找字典序大于x的字母去对冲。对s1遍历字典序大于x的字母的频率, 直到对冲掉freq2[x]为止, 如果对冲不掉, 说明s1无法打破s2。反之亦然。\r\n\r\n\r\n时间复杂度: 记字母表大小为A(题目中为26), 字符串长度为n, 时间复杂度为O( n + A * A ), n即为统计频率的部分。A*A表示在遍历每一个字母的时候, 如果遇到需要对冲的字母, 都需要遍历一次频率数组, 频率数组的大小为A, 所以这里耗时 A * A。\r\n\r\n空间复杂度: O(1), 存储两个字符串的各字母出现频率\r\n\r\n\r\n## 代码\r\n\r\n```java\r\nclass Solution{\r\n\r\n    // LC1433\r\n    public boolean checkIfCanBreak(String s1, String s2) {\r\n        int[] freq1 = new int[26], freq2 = new int[26];\r\n        char[] ca1 = s1.toCharArray(), ca2 = s2.toCharArray();\r\n        int n = ca1.length;\r\n        for (int i = 0; i < n; i++) {\r\n            freq1[ca1[i] - 'a']++;\r\n            freq2[ca2[i] - 'a']++;\r\n        }\r\n        for (int i = 0; i < 26; i++) {\r\n            int min = Math.min(freq1[i], freq2[i]);\r\n            freq1[i] -= min;\r\n            freq2[i] -= min;\r\n        }\r\n        int[] origFreq1 = Arrays.copyOf(freq1, 26);\r\n        int[] origFreq2 = Arrays.copyOf(freq2, 26);\r\n\r\n        // 预处理完之后, freq 的同一个位置只能是一正 一零, 或者两个0\r\n        // 对于正数的位置, 如freq2[b] 的位置为正, 现在假设s1压制s2, 则从freq1[c....z] 的位置借数, 贪心地从小开始借, 直到能够把freq2[b]的正对冲掉\r\n        // 如果对冲不掉, 则s1压制s2失败\r\n\r\n        // 如果s1压制s2\r\n        boolean s1BreakS2 = true;\r\n        for (int i = 0; i < 26; i++) {\r\n            if (freq1[i] == 0 && freq2[i] == 0) continue;\r\n\r\n            if (freq2[i] > 0) {\r\n                int count = freq2[i];\r\n                for (int j = i + 1; j < 26; j++) {\r\n                    if (freq1[j] > 0) {\r\n                        int min = Math.min(count, freq1[j]);\r\n                        count -= min;\r\n                        freq1[j] -= min;\r\n                        if (count == 0) break;\r\n                    }\r\n                }\r\n                if (count > 0) {\r\n                    s1BreakS2 = false;\r\n                    break;\r\n                }\r\n            }\r\n        }\r\n        if (s1BreakS2) return true;\r\n\r\n        freq1 = Arrays.copyOf(origFreq1, 26);\r\n        freq2 = Arrays.copyOf(origFreq2, 26);\r\n\r\n        boolean s2BreakS1 = true;\r\n        for (int i = 0; i < 26; i++) {\r\n            if (freq1[i] == 0 && freq2[i] == 0) continue;\r\n\r\n            if (freq1[i] > 0) {\r\n                int count = freq1[i];\r\n                for (int j = i + 1; j < 26; j++) {\r\n                    if (freq2[j] > 0) {\r\n                        int min = Math.min(count, freq2[j]);\r\n                        count -= min;\r\n                        freq2[j] -= min;\r\n                        if (count == 0) break;\r\n                    }\r\n                }\r\n                if (count > 0) {\r\n                    s2BreakS1 = false;\r\n                    break;\r\n                }\r\n            }\r\n        }\r\n        if (s2BreakS1) return true;\r\n\r\n        return false;\r\n    }\r\n\r\n}\r\n```",
+      "createdAt": "2021-11-18T06:53:54.567306+00:00",
+      "hitCount": 18,
+      "identifier": "ceeWRb",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "c-zhong-gui-zhong-ju-de-76msjie-fa-pai-xu-ji-shu-k",
+        "title": "C++ 中规中矩的72ms解法（排序+计数 时间O(n)）"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "check-if-a-string-can-break-another-string"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "gen-ju-zi-mu-pin-lu-bi-jiao-pan-duan-by-03qyu",
+      "status": "PUBLISHED",
+      "summary": "解题思路\n看了下大家的做法, 我的思路可能比较原始。\n首先对两个字符串的字母统计频率, 可以加一步预处理将两者的同一个字母频率减去较小值, 即同一个字母的频率只保留差值。这样可以省去找相同字母去对冲的部分(就是将题目中的\"打破\"条件的大于等于号变大于号)。\n然后思路如下: 假设现在s1可以打破s2, 则对于s2中的每一",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "String",
+          "nameTranslated": "字符串",
+          "slug": "string",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "根据字母频率比较判断",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1108539,
+        "viewCount": 15
+      },
+      "uuid": "ceeWRb",
+      "videosInfo": []
+    }
+  }
+}

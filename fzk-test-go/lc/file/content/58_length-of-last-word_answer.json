@@ -1,0 +1,112 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣官方题解",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/leetcode-solution/avatar_1582018938.png",
+          "userSlug": "leetcode-solution"
+        },
+        "username": "LeetCode-Solution"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法一：反向遍历\n\n题目要求得到字符串中最后一个单词的长度，可以反向遍历字符串，寻找最后一个单词并计算其长度。\n\n由于字符串中至少存在一个单词，因此字符串中一定有字母。首先找到字符串中的最后一个字母，该字母即为最后一个单词的最后一个字母。\n\n从最后一个字母开始继续反向遍历字符串，直到遇到空格或者到达字符串的起始位置。遍历到的每个字母都是最后一个单词中的字母，因此遍历到的字母数量即为最后一个单词的长度。\n\n```Java [sol1-Java]\nclass Solution {\n    public int lengthOfLastWord(String s) {\n        int index = s.length() - 1;\n        while (s.charAt(index) == ' ') {\n            index--;\n        }\n        int wordLength = 0;\n        while (index >= 0 && s.charAt(index) != ' ') {\n            wordLength++;\n            index--;\n        }\n        return wordLength;\n    }\n}\n```\n\n```C# [sol1-C#]\npublic class Solution {\n    public int LengthOfLastWord(string s) {\n        int index = s.Length - 1;\n        while (s[index] == ' ') {\n            index--;\n        }\n        int wordLength = 0;\n        while (index >= 0 && s[index] != ' ') {\n            wordLength++;\n            index--;\n        }\n        return wordLength;\n    }\n}\n```\n\n```JavaScript [sol1-JavaScript]\nvar lengthOfLastWord = function(s) {\n    let index = s.length - 1;\n    while (s[index] === ' ') {\n        index--;\n    }\n    let wordLength = 0;\n    while (index >= 0 && s[index] !== ' ') {\n        wordLength++;\n        index--;\n    }\n    return wordLength;\n};\n```\n\n```C++ [sol1-C++]\nclass Solution {\npublic:\n    int lengthOfLastWord(string s) {\n        int index = s.size() - 1;\n\n        while (s[index] == ' ') {\n            index--;\n        }\n        int wordLength = 0;\n        while (index >= 0 && s[index] != ' ') {\n            wordLength++;\n            index--;\n        }\n\n        return wordLength;\n    }\n};\n```\n\n```go [sol1-Golang]\nfunc lengthOfLastWord(s string) (ans int) {\n    index := len(s) - 1\n    for s[index] == ' ' {\n        index--\n    }\n    for index >= 0 && s[index] != ' ' {\n        ans++\n        index--\n    }\n    return\n}\n```\n\n**复杂度分析**\n\n- 时间复杂度：$O(n)$，其中 $n$ 是字符串的长度。最多需要反向遍历字符串一次。\n\n- 空间复杂度：$O(1)$。",
+      "createdAt": "2021-09-20T14:35:27.924599+00:00",
+      "hitCount": 19978,
+      "identifier": "VtooTq",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "hua-jie-suan-fa-58-zui-hou-yi-ge-dan-ci-de-chang-d",
+        "title": "画解算法：58. 最后一个单词的长度"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "length-of-last-word"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 15,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "zui-hou-yi-ge-dan-ci-de-chang-du-by-leet-51ih",
+      "status": "PUBLISHED",
+      "summary": "方法一：反向遍历 题目要求得到字符串中最后一个单词的长度，可以反向遍历字符串，寻找最后一个单词并计算其长度。 由于字符串中至少存在一个单词，因此字符串中一定有字母。首先找到字符串中的最后一个字母，该字母即为最后一个单词的最后一个字母。 从最后一个字母开始继续反向遍历字符串，直到遇到空格或者到达字符串的起始位置。遍历到的",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "String",
+          "nameTranslated": "字符串",
+          "slug": "string",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C#",
+          "nameTranslated": "",
+          "slug": "csharp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Go",
+          "nameTranslated": "",
+          "slug": "golang",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "JavaScript",
+          "nameTranslated": "",
+          "slug": "javascript",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "最后一个单词的长度",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 101,
+        "id": 1008504,
+        "viewCount": 16218
+      },
+      "uuid": "VtooTq",
+      "videosInfo": []
+    }
+  }
+}

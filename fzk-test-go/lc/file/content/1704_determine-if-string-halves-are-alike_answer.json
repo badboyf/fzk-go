@@ -1,0 +1,83 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "浑元形意太极门马保国",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/default_avatar.png",
+          "userSlug": "shi-zi-bo-tu-r"
+        },
+        "username": "shi-zi-bo-tu-r"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "\n### 代码\n\n```python3\nclass Solution:\n    def halvesAreAlike(self, s: str) -> bool:\n        c1 = 0\n        for i in range(len(s)//2):\n            if s[i] == 'a' or s[i] == 'e' or s[i] == 'i' or s[i] == 'o' or s[i] == 'u' or s[i] == 'A' or s[i] == 'E' or s[i] == 'I' or s[i] == 'O' or s[i] == 'U':\n                c1 += 1\n        c2 = 0\n        for i in range(len(s)//2,len(s)):\n            if s[i] == 'a' or s[i] == 'e' or s[i] == 'i' or s[i] == 'o' or s[i] == 'u' or s[i] == 'A' or s[i] == 'E' or s[i] == 'I' or s[i] == 'O' or s[i] == 'U':\n                c2 += 1\n        return c1 == c2\n```",
+      "createdAt": "2021-10-31T13:03:39.088106+00:00",
+      "hitCount": 70,
+      "identifier": "xIRHGg",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "3-xing-dai-ma-shuang-bai-ti-jie-by-liu-y-8vvr",
+        "title": "3 行代码。。。。双百题解"
+      },
+      "position": 2,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "shuang-zhi-zhen-dui-abzi-fu-chuan-jin-xi-h9ms",
+        "title": "双指针对a,b字符串进行遍历"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "determine-if-string-halves-are-alike"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "zhi-you-wo-yong-zhe-yao-duo-orma-by-shi-cr0lr",
+      "status": "PREPUBLISH",
+      "summary": "代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python3",
+          "nameTranslated": "",
+          "slug": "python3",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "只有我用这么多or吗？",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1076815,
+        "viewCount": 66
+      },
+      "uuid": "xIRHGg",
+      "videosInfo": []
+    }
+  }
+}

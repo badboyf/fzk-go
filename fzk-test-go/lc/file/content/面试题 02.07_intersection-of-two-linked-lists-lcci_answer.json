@@ -1,0 +1,83 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "LinNew",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/linzeqin/avatar_1628132360.png",
+          "userSlug": "linniu"
+        },
+        "username": "linniu"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\na为相交前的节点数，c为相交点到链表结尾的节点数。\n- 若相交，链表A： a+c, 链表B : b+c\n  a+c+b+c = b+c+a+c 。则会在公共处c起点相遇。\n- 若不相交，a+b = b+a 。因此相遇处是NULL\n\n### 代码\n\n```java\n/**\n * Definition for singly-linked list.\n * public class ListNode {\n *     int val;\n *     ListNode next;\n *     ListNode(int x) {\n *         val = x;\n *         next = null;\n *     }\n * }\n */\npublic class Solution {\n    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {\n        ListNode h1 = headA;\n        ListNode h2 = headB;\n        while(h1 != h2){\n            h1 = h1 == null ? headB : h1.next; \n            h2 = h2 == null ? headA : h2.next; \n        }\n        return h1;\n    }\n}\n```",
+      "createdAt": "2021-10-05T03:33:52.088389+00:00",
+      "hitCount": 2286,
+      "identifier": "Qz6ZWG",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "cji-hu-shuang-bai-de-dan-ci-bian-li-jie-ups5w",
+        "title": " 02.07 c++几乎双百的单次遍历解法"
+      },
+      "position": 2,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "tu-jie-shuang-zhi-zhen-javascript-by-lzx-zd6z",
+        "title": "【图解：双指针】JavaScript"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "intersection-of-two-linked-lists-lcci"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 5,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "shuang-zhi-zhen-by-linniu-m06u",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\na为相交前的节点数，c为相交点到链表结尾的节点数。\n\n若相交，链表A： a+c, 链表B : b+c\na+c+b+c = b+c+a+c 。则会在公共处c起点相遇。\n若不相交，a+b = b+a 。因此相遇处是NULL\n\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Two Pointers",
+          "nameTranslated": "双指针",
+          "slug": "two-pointers",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "[Lin]双指针",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 3,
+        "id": 1031633,
+        "viewCount": 1795
+      },
+      "uuid": "Qz6ZWG",
+      "videosInfo": []
+    }
+  }
+}

@@ -1,0 +1,90 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "悠一木碧",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/you-yi-mu-bi/avatar_1607316621.png",
+          "userSlug": "you-yi-mu-bi"
+        },
+        "username": "you-yi-mu-bi"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "## 解题思路\r\n其实和前面两个题目一样, 也是顺序问题.\r\n题目给定三个线程异步调用同一个对象的三个方法, 要求在输出 1 ~ n 的奇偶数前, 先输出 0。\r\n对于每个输出, 我们**先执行 zero() 方法**, 后续执行的方法, 根据要输出的数的奇偶性而定\r\n\r\n## 过程\r\n对于线程并发问题, 不急着写代码, 先搞清楚线程并发的目标。必须清楚并发的要求, 才能明白怎么做。\r\n现在来分析下:\r\n给定一个数 n\r\n我们再假设一个数 x, 初始值设为 1, 从 0 开始, 逐次递增至 n \r\n - 我们要确保先执行 zero() 输出 0 (**zero()必须先执行, even() 和 odd() 方法必须在 zero() 方法执行后再执行**)\r\n - 执行完 zero() 的输出部分后, 对 x 自增,  然后需要根据 x 的奇偶性, 唤醒相关阻塞线程\r\n - 我们需要确保 zero() 循环执行 n 次\r\n - zero() 输出0后, 需要等输出 x 完成后才能继续执行(**也就是 zero() 也要进入阻塞**)\r\n\r\n这里我们可以使用信号量进行控制, C++中可以使用信号量 sem_t 进行实现, sem_t 的具体使用方法可以参照\r\n[百度百科](https://baike.baidu.com/item/sem_t/6876569?fr=aladdin)\r\n这里给出简略的解释:\r\n**sem_wait(sem_t * s)** : 将信号量值 - 1, 如果信号量 < 0, 则进入阻塞状态; 否则, 继续执行\r\n**sem_post(sem_t * s)** : 将信号量值 + 1, 如果有与此信号量相关的线程处于阻塞, 则唤醒其中之一\r\n**同时, 这两个方法是原子执行的, 要么全部执行, 要么都没有执行**\r\n\r\n题目给出的三个方法都使用信号量进行控制, 使得zero()可以先执行, 然后控制其他两个方法的信号量, 来控制他们是阻塞还是执行, 同时 odd() 和 even() 方法执行完成时, 要唤醒 zero()\r\n\r\n## 其他细节\r\n如果 n 是偶数, 那么 odd() 应当执行 (n / 2) 次, even() 也应当执行 (n / 2)次\r\n如果 n 是奇数, 那么 odd() 应当执行 (n / 2 + 1) 次, even() 应当执行 (n / 2) 次\r\n\r\n## 代码实现\r\n```C++ []\r\n#include \"semaphore.h\"\r\n#include \"math.h\"\r\n\r\nclass ZeroEvenOdd {\r\nprivate:\r\n    int n;\r\n    int count;\r\n    sem_t zeroSem;\r\n    sem_t evenSem;\r\n    sem_t oddSem;\r\n\r\npublic:\r\n    ZeroEvenOdd(int n) {\r\n        this->n = n;\r\n        this->count = 0;\r\n        // 初始化三个信号量\r\n        // zeroSem 的初始值设为 1, 这样 zeroSem 可以先执行, 且执行完后, 需要等待 sem_post(&zeroSem)才能继续执行;\r\n        // evenSem/oddSem 初始值设为 0, 这样在 zero() 线程调用 sem_post() 前, 都会进入阻塞状态\r\n        sem_init(&zeroSem, 0, 1);\r\n        sem_init(&evenSem, 0, 0);\r\n        sem_init(&oddSem, 0, 0);\r\n    }\r\n\r\n    // printNumber(x) outputs \"x\", where x is an integer.\r\n    void zero(function<void(int)> printNumber) {\r\n        for (int i = 0; i < n; i++) {\r\n            sem_wait(&zeroSem);\r\n            printNumber(0);\r\n            ++count;\r\n            if (count % 2 != 0) {\r\n                sem_post(&oddSem);\r\n            } else {\r\n                sem_post(&evenSem);\r\n            }\r\n        }\r\n        \r\n    }\r\n\r\n    void even(function<void(int)> printNumber) {\r\n        for (int i = 0; i < (n/2); i++) {\r\n            sem_wait(&evenSem);\r\n            printNumber(count);\r\n            sem_post(&zeroSem);\r\n        }\r\n        \r\n    }\r\n\r\n    void odd(function<void(int)> printNumber) {\r\n        // 奇数执行次数, 使用向上取整\r\n        for (int i = 0; i < (int) ceil(n / 2.0); i++) {\r\n            sem_wait(&oddSem);\r\n            printNumber(count);\r\n            sem_post(&zeroSem);\r\n        }\r\n        \r\n    }\r\n};\r\n```\r\n\r\n## 运行结果\r\n![image.png](https://pic.leetcode-cn.com/1633770368-ewTHaQ-image.png)\r\n",
+      "createdAt": "2021-10-09T09:05:01.164191+00:00",
+      "hitCount": 491,
+      "identifier": "Fi1CkD",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "da-yin-ling-yu-qi-ou-shu-by-skyshine94-xvab",
+        "title": "打印零与奇偶数"
+      },
+      "position": 6,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "java-san-chong-xing-neng-you-yue-de-jie-h4pxx",
+        "title": "Java 三种性能优越的解法"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "print-zero-even-odd"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "c-xin-hao-liang-jie-jue-duo-xian-cheng-s-39av",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n其实和前面两个题目一样, 也是顺序问题.\n题目给定三个线程异步调用同一个对象的三个方法, 要求在输出 1 ~ n 的奇偶数前, 先输出 0。\n对于每个输出, 我们先执行 zero() 方法, 后续执行的方法, 根据要输出的数的奇偶性而定\n过程\n对于线程并发问题, 不急着写代码, 先搞清楚线程并发的目标。必须清",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "线程锁",
+          "nameTranslated": "",
+          "slug": "xian-cheng-suo",
+          "tagType": "ADDITIONAL_TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "并发",
+          "nameTranslated": "",
+          "slug": "bing-fa",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1633770368-ewTHaQ-image.png",
+      "title": "[C++] 并发问题之顺序输出问题 (28ms, 6.7MB)",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 4,
+        "id": 1038313,
+        "viewCount": 351
+      },
+      "uuid": "Fi1CkD",
+      "videosInfo": []
+    }
+  }
+}

@@ -1,0 +1,72 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/default_avatar.png",
+          "userSlug": "li-kou-175"
+        },
+        "username": "li-kou-175"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "```\r\nint oddCells(int m, int n, int** indices, int indicesSize, int* indicesColSize){\r\n    int *mapRow = malloc(sizeof(int) * (m)); // 用于分别存储每行下发的次数，由于偶数相当于没操作，其实最终只为0或1\r\n    int *mapCol = malloc(sizeof(int) * (n)); // 用于分别存储每列下发的次数，由于偶数相当于没操作，其实最终只为0或1\r\n\r\n    memset(mapRow, 0, sizeof(int) * (m));\r\n    memset(mapCol, 0, sizeof(int) * (n));\r\n\r\n    int numRow = 0;\r\n    int numCol = 0;\r\n\r\n    for (int i = 0; i < indicesSize; i++) {\r\n        mapRow[indices[i][0]]++;\r\n        mapCol[indices[i][1]]++;\r\n        numRow++;\r\n        numCol++;\r\n        // 因为对一行做偶数的操作相当于没操作，所以只需要统计奇数的行和列即可，分别做-2操作\r\n        if (mapRow[indices[i][0]] == 2) {\r\n            mapRow[indices[i][0]] = 0;\r\n            numRow -= 2;\r\n        }\r\n        if (mapCol[indices[i][1]] == 2) {\r\n            mapCol[indices[i][1]] = 0;\r\n            numCol -= 2;\r\n        }\r\n    }\r\n\r\n    return m * numCol + n * numRow - 2 * numRow * numCol; // 这里需要穷举几个就能得到该公式\r\n}\r\n\r\n```",
+      "createdAt": "2021-11-24T08:52:25.737973+00:00",
+      "hitCount": 13,
+      "identifier": "zRKYKK",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "1252-cji-hu-shuang-bai-de-mo-ni-jie-fa-b-bvyy",
+        "title": "1252. c++几乎双百的模拟解法"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "cells-with-odd-values-in-a-matrix"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "kan-dao-ke-yi-jin-jie-ye-jiu-bu-xie-bao-9f3lx",
+      "status": "PUBLISHED",
+      "summary": "[该用户太懒了，只写了 28 行代码]",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "C",
+          "nameTranslated": "",
+          "slug": "c",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "看到可以进阶，也就不写暴力算法了，时间复杂度只需要indicesSize就足够了",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1119988,
+        "viewCount": 9
+      },
+      "uuid": "zRKYKK",
+      "videosInfo": []
+    }
+  }
+}

@@ -1,0 +1,84 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣 (LeetCode)",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/uploaded_files/2021/03/73c9f099-abbe-4d94-853f-f8abffd459cd/leetcode.png",
+          "userSlug": "leetcode"
+        },
+        "username": "LeetCode"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法一：枚举\n\n我们枚举 $n$ 的所有因数，并计算它们的和。\n\n在枚举时，我们只需要从 $1$ 到 $\\sqrt{n}$ 进行枚举。这是因为如果 $n$ 有一个大于 $\\sqrt{n}$ 的因数 $x$，那么它一定有一个小于 $\\sqrt{n}$ 的因数 $n / x$。因此我们可以从 $1$ 到 $\\sqrt{n}$ 枚举 $n$ 的因数，当出现一个 $n$ 的因数 $x$ 时，我们还需要算上 $n / x$。此外还需要考虑特殊情况，即 $x = n / x$，这时我们不能重复计算。\n\n**代码**\n\n```Java [sol1]\nclass Solution {\n    public boolean checkPerfectNumber(int num) {\n        if (num == 1) {\n            return false;\n        }\n\n        int sum = 1;\n        for (int i = 2; i * i <= num; i++) {\n            if (num % i == 0) {\n                sum += i;\n                if (i * i != num) {\n                    sum += num / i;\n                }\n\n            }\n        }\n        return sum == num;\n    }\n}\n```\n\n**复杂度分析**\n\n* 时间复杂度：$O(\\sqrt{N})$。\n\n* 空间复杂度：$O(1)$。\n\n#### 方法二：欧几里得-欧拉定理\n\n欧几里得-欧拉定理告诉我们，每个偶数是完全数都可以写成\n\n$$\n2^{p-1}(2^p-1)\n$$\n \n的形式，其中 $p$ 为素数，$2^p-1$ 也是素数，称为梅森素数。\n\n\n例如，前 4 个完全数可以写成如下形式：\n\n$$\n6 = 2^1 * (2^2 - 1) \\\\\n28 = 2^2 * (2^3 - 1) \\\\\n496 = 2^4 * (2^5 - 1)\\\\\n8128 = 2^6 * (2^7 - 1)\n$$\n\n由于目前奇完全数还未被发现，因此所有的完全数都可以写成上述形式。当 $n$ 不超过 $10^8$ 时，$p$ 也不会很大，因此我们只要带入最小的若干个梅森素数 $2, 3, 5, 7, 13, 17, 19, 31$（形如 $2^p - 1$ 的素数，这里 $p$ 是素数），将不超过 $10^8$ 的所有完全数计算出来即可。\n\n**代码**\n\n```Java [sol2]\nclass Solution {\n    public int pn(int p) {\n        return (1 << (p - 1)) * ((1 << p) - 1);\n    }\n\n    public boolean checkPerfectNumber(int num) {\n        int[] primes = new int[]{2, 3, 5, 7, 13, 17, 19, 31};\n        for (int prime : primes) {\n            if (pn(prime) == num) {\n                return true;\n            }\n        }\n        return false;\n    }\n}\n```\n\n**复杂度分析**\n\n* 时间复杂度：$O(1)$。\n\n* 空间复杂度：$O(1)$。",
+      "createdAt": "2019-11-12T07:33:14.866861+00:00",
+      "hitCount": 15171,
+      "identifier": "fggnga",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "hua-jie-suan-fa-507-wan-mei-shu-by-guanpengchn",
+        "title": "画解算法：507. 完美数"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "perfect-number"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 20,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "wan-mei-shu-by-leetcode",
+      "status": "PUBLISHED",
+      "summary": "方法一：枚举\n我们枚举 n 的所有因数，并计算它们的和。\n在枚举时，我们只需要从 1 到 \\sqrt{n} 进行枚举。这是因为如果 n 有一个大于 \\sqrt{n} 的因数 x，那么它一定有一个小于 \\sqrt{n} 的因数 n / x。因此我们可以从 1 到 \\sqrt{n} 枚举 n 的因数，当出现一个 n 的因",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Math",
+          "nameTranslated": "数学",
+          "slug": "math",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "完美数",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 30,
+        "id": 42967,
+        "viewCount": 11878
+      },
+      "uuid": "fggnga",
+      "videosInfo": []
+    }
+  }
+}

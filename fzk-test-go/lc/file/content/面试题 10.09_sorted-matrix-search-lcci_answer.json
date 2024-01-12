@@ -1,0 +1,76 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "雪鹰领主",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/xue-ying-ling-zhu/avatar_1628654629.png",
+          "userSlug": "weiwo20010101"
+        },
+        "username": "weiwo20010101"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "**解法一：递归**\r\n这是我一开始的解法，但是其实和暴力解法无异，没有用到排序的条件\r\n一般情况下已知排序要你去查找，二分呗。\r\n即使我使用了visited数组来优化，也并不能显著提高时间效率，\r\n但是内存超过100%\r\n```java\r\nclass Solution {\r\n    public boolean searchMatrix(int[][] matrix, int target) {\r\n  int m =matrix.length;\r\n  if(m==0) return false;\r\n  int n=matrix[0].length;\r\n     boolean [][] visited=new boolean[m][n];\r\n     return dfs(matrix,target,0,0,visited);\r\n }\r\n public boolean dfs(int[][]matrix,int target,int i,int j,boolean[][]visited){\r\n        if(i>=matrix.length||j>=matrix[0].length) return false;\r\n        if(visited[i][j]) return false;\r\n     if(matrix[i][j]==target) return true;\r\n     visited[i][j]=true;\r\n     return dfs(matrix,target,i+1,j,visited)|| dfs(matrix,target,i,j+1,visited);\r\n }\r\n}\r\n\r\n```\r\n**解法二 ：利用题目中的条件**\r\n首先我们要了解二叉搜索树的概念与性质。\r\n二叉搜索树可以实现很容易的搜索出某个元素。\r\n当我们以左下角为起点，只有向上和向右两种选择，对应节点的二个子节点，上边的值严格的小，右边的值严格的大，对应二叉搜索树的性质。\r\n因此可以抽象成一个矩阵格式的二叉搜索树来理解，解答\r\n```java\r\nclass Solution {\r\n    public boolean searchMatrix(int[][] matrix, int target) {\r\n\r\n        int m=matrix.length;\r\n        if(m==0) return false;//防止[]的情况\r\n        int n=matrix[0].length;\r\n        if(n==0) return false;//防止[[]]的情况\r\n     int i=matrix.length-1;\r\n     int j=0;\r\n     while(i>=0&&j<=matrix[0].length-1){\r\n         int v=matrix[i][j];\r\n         if(v==target){\r\n            return true;\r\n         }\r\n         if(v>target){\r\n             i--;\r\n         }else{\r\n             j++;\r\n         }\r\n     }\r\n     return false;\r\n    }\r\n}\r\n```\r\n![image.png](https://pic.leetcode-cn.com/1633764260-DQlzce-image.png)\r\n\r\n",
+      "createdAt": "2021-10-09T07:26:33.538478+00:00",
+      "hitCount": 304,
+      "identifier": "7Pognw",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "java-bao-li-po-jie-shi-jian-you-dian-man-lowo",
+        "title": "JAVA 暴力破解 时间有点慢"
+      },
+      "position": 2,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "jian-jian-dan-dan-by-aibcd9djpf-bkzx",
+        "title": "简简单单"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "sorted-matrix-search-lcci"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "jie-fa-can-kao-er-cha-sou-suo-shu-by-xue-luz9",
+      "status": "PREPUBLISH",
+      "summary": "解法一：递归\n这是我一开始的解法，但是其实和暴力解法无异，没有用到排序的条件\n一般情况下已知排序要你去查找，二分呗。\n即使我使用了visited数组来优化，也并不能显著提高时间效率，\n但是内存超过100%\n解法二 ：利用题目中的条件\n首先我们要了解二叉搜索树的概念与性质。\n二叉搜索树可以实现很容易的搜索出某个元素。\n当",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1633764260-DQlzce-image.png",
+      "title": "解法参考，二叉搜索树",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1038052,
+        "viewCount": 256
+      },
+      "uuid": "7Pognw",
+      "videosInfo": []
+    }
+  }
+}

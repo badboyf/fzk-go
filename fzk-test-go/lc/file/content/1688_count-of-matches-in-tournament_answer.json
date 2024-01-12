@@ -1,0 +1,89 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "终点到达",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/zhong-dian-dao-da/avatar_1599558167.png",
+          "userSlug": "zhong-dian-dao-da"
+        },
+        "username": "zhong-dian-dao-da"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "共有n个队伍，一个冠军，需要淘汰n-1个 队伍。\r\n每一场比赛淘汰一个队伍，因此进行了n-1场比赛。\r\n所以共有n-1个配对。\r\n```\r\nclass Solution {\r\n    public int numberOfMatches(int n) {\r\n        return n-1;\r\n    }\r\n}\r\n```\r\n",
+      "createdAt": "2020-12-13T04:52:04.240024+00:00",
+      "hitCount": 3624,
+      "identifier": "ajnEjY",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "bi-sai-zhong-de-pei-dui-ci-shu-whilexun-60gui",
+        "title": "比赛中的配对次数【while循环】"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "count-of-matches-in-tournament"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 77,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 14,
+          "reactionType": "AWESOME"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 0,
+          "reactionType": "CONFUSED"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "java-n-1-by-zhong-dian-dao-da-xpfz",
+      "status": "PUBLISHED",
+      "summary": "共有n个队伍，一个冠军，需要淘汰n-1个 队伍。\n每一场比赛淘汰一个队伍，因此进行了n-1场比赛。\n所以共有n-1个配对。",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Math",
+          "nameTranslated": "数学",
+          "slug": "math",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "Java n-1",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 42,
+        "id": 519675,
+        "viewCount": 3378
+      },
+      "uuid": "ajnEjY",
+      "videosInfo": []
+    }
+  }
+}

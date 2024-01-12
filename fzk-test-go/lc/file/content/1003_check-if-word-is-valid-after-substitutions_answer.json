@@ -1,0 +1,72 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "大魔王",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/da-mo-wang-uc/avatar_1631583848.png",
+          "userSlug": "da-mo-wang-uc"
+        },
+        "username": "da-mo-wang-uc"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n注意到，每一个字符'c'的前面都有一个字符'b'，所以遇到字符'c'的时候，只要判断栈顶的字符是否为'b',栈顶下一个字符是否为'a'即可。\n\n### 代码\n\n```cpp\nclass Solution {//注意到，每一个字符'c'的前面都有一个字符'b'，所以遇到字符'c'的时候，只要判断栈顶的字符是否为'b',栈顶下一个字符是否为'a'即可，\npublic:\n    bool isValid(string s) {\n   stack<char>dp;\n   for(int i=0;i<s.size();i++)\n   {\n       if(s[i]=='c')\n       {    if(dp.empty())return false;\n           else if(dp.size()==1)return false;//\n           else {\n               if(dp.top()=='b')dp.pop();\n               else return false;\n               if(dp.top()=='a')dp.pop();\n               else return false;\n           }\n       }\n       else\n       dp.push(s[i]);\n   }\n   if(dp.size())return false;\n   return true;\n    }\n};\n```",
+      "createdAt": "2021-10-07T02:54:26.644166+00:00",
+      "hitCount": 104,
+      "identifier": "ysZ9Bu",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "1003-cchao-91de-tan-xin-de-zhan-jie-fa-b-v7jn",
+        "title": "1003. c++超91的贪心的栈解法"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "check-if-word-is-valid-after-substitutions"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "jian-cha-ti-huan-hou-de-ci-shi-fou-you-x-st2s",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n注意到，每一个字符'c'的前面都有一个字符'b'，所以遇到字符'c'的时候，只要判断栈顶的字符是否为'b',栈顶下一个字符是否为'a'即可。\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "检查替换后 的词是否有效（C++与栈）",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1034407,
+        "viewCount": 91
+      },
+      "uuid": "ysZ9Bu",
+      "videosInfo": []
+    }
+  }
+}

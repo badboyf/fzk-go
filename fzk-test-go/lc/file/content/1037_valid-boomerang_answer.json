@@ -1,0 +1,72 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "刷题就此开始吧！",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/liu-yong-qi/avatar_1634986562.png",
+          "userSlug": "liu-yong-qi"
+        },
+        "username": "liu-yong-qi"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n数学解法\n\n斜度计算 x1-x2/y1-y2 = x3-x2/y3-y2 等价于 (x1-x2)*(y3-y2) == (x3-x2)*(y1-y2)\n不等的时候就是不在一条直接上，构成回旋镖\n\n\n\n### 代码\n\n```cpp\nclass Solution {\npublic:\n    bool isBoomerang(vector<vector<int>>& points) {\n        return (points[0][0]-points[1][0])*(points[2][1]-points[1][1]) != (points[2][0]-points[1][0])*(points[0][1]-points[1][1]);\n    }\n};\n```\n\n### 致敬作者\n作者：ffreturn\n链接：https://leetcode-cn.com/problems/valid-boomerang/solution/1037-cjian-dan-yi-dong-de-yi-xing-dai-ma-gj2s/\n来源：力扣（LeetCode）\n著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。",
+      "createdAt": "2021-11-09T08:27:00.284721+00:00",
+      "hitCount": 72,
+      "identifier": "0MKUxl",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "1037-cjian-dan-yi-dong-de-yi-xing-dai-ma-gj2s",
+        "title": "1037. c++简单易懂的一行代码"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "valid-boomerang"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "1-xing-dai-ma-shuang-bai-ti-jie-by-liu-y-0vmy",
+      "status": "PUBLISHED",
+      "summary": "解题思路\n数学解法\n斜度计算 x1-x2/y1-y2 = x3-x2/y3-y2 等价于 (x1-x2)(y3-y2) == (x3-x2)(y1-y2)\n不等的时候就是不在一条直接上，构成回旋镖\n代码\n致敬作者\n作者：ffreturn\n链接：https://leetcode-cn.com/problems/valid",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "1 行代码。。。。双百题解。",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1092615,
+        "viewCount": 64
+      },
+      "uuid": "0MKUxl",
+      "videosInfo": []
+    }
+  }
+}

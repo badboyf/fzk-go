@@ -1,0 +1,136 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣官方题解",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/leetcode-solution/avatar_1582018938.png",
+          "userSlug": "leetcode-solution"
+        },
+        "username": "LeetCode-Solution"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法一：计数\n\n首先遍历字符串 $s$，对其中的每个字符都将计数值加 $1$；然后遍历字符串 $t$，对其中的每个字符都将计数值减 $1$。当发现某个字符计数值为负数时，说明该字符在字符串 $t$ 中出现的次数大于在字符串 $s$ 中出现的次数，因此该字符为被添加的字符。\n\n```C++ [sol1-C++]\nclass Solution {\npublic:\n    char findTheDifference(string s, string t) {\n        vector<int> cnt(26, 0);\n        for (char ch: s) {\n            cnt[ch - 'a']++;\n        }\n        for (char ch: t) {\n            cnt[ch - 'a']--;\n            if (cnt[ch - 'a'] < 0) {\n                return ch;\n            }\n        }\n        return ' ';\n    }\n};\n```\n\n```Java [sol1-Java]\nclass Solution {\n    public char findTheDifference(String s, String t) {\n        int[] cnt = new int[26];\n        for (int i = 0; i < s.length(); ++i) {\n            char ch = s.charAt(i);\n            cnt[ch - 'a']++;\n        }\n        for (int i = 0; i < t.length(); ++i) {\n            char ch = t.charAt(i);\n            cnt[ch - 'a']--;\n            if (cnt[ch - 'a'] < 0) {\n                return ch;\n            }\n        }\n        return ' ';\n    }\n}\n```\n\n```Go [sol1-Golang]\nfunc findTheDifference(s, t string) byte {\n    cnt := [26]int{}\n    for _, ch := range s {\n        cnt[ch-'a']++\n    }\n    for i := 0; ; i++ {\n        ch := t[i]\n        cnt[ch-'a']--\n        if cnt[ch-'a'] < 0 {\n            return ch\n        }\n    }\n}\n```\n\n```JavaScript [sol1-JavaScript]\nvar findTheDifference = function(s, t) {\n    const cnt = new Array(26).fill(0);\n    for (const ch of s) {\n        cnt[ch.charCodeAt() - 'a'.charCodeAt()]++;\n    }\n    for (const ch of t) {\n        cnt[ch.charCodeAt() - 'a'.charCodeAt()]--;\n        if (cnt[ch.charCodeAt() - 'a'.charCodeAt()] < 0) {\n            return ch;\n        }\n    }\n    return ' ';\n};\n```\n\n```C [sol1-C]\nchar findTheDifference(char* s, char* t) {\n    int cnt[26];\n    memset(cnt, 0, sizeof(cnt));\n    int n = strlen(s), m = strlen(t);\n    for (int i = 0; i < n; i++) {\n        cnt[s[i] - 'a']++;\n    }\n    for (int i = 0; i < m; i++) {\n        cnt[t[i] - 'a']--;\n        if (cnt[t[i] - 'a'] < 0) {\n            return t[i];\n        }\n    }\n    return ' ';\n}\n```\n\n**复杂度分析**\n\n- 时间复杂度：$O(N)$，其中 $N$ 为字符串的长度。\n\n- 空间复杂度：$O(|\\Sigma|)$，其中 $\\Sigma$ 是字符集，这道题中字符串只包含小写字母，$|\\Sigma|=26$。需要使用数组对每个字符计数。\n\n#### 方法二：求和\n\n将字符串 $s$ 中每个字符的 ASCII 码的值求和，得到 $A_s$；对字符串 $t$ 同样的方法得到 $A_t$。两者的差值 $A_t-A_s$ 即代表了被添加的字符。\n\n```C++ [sol2-C++]\nclass Solution {\npublic:\n    char findTheDifference(string s, string t) {\n        int as = 0, at = 0;\n        for (char ch: s) {\n            as += ch;\n        }\n        for (char ch: t) {\n            at += ch;\n        }\n        return at - as;\n    }\n};\n```\n\n```Java [sol2-Java]\nclass Solution {\n    public char findTheDifference(String s, String t) {\n        int as = 0, at = 0;\n        for (int i = 0; i < s.length(); ++i) {\n            as += s.charAt(i);\n        }\n        for (int i = 0; i < t.length(); ++i) {\n            at += t.charAt(i);\n        }\n        return (char) (at - as);\n    }\n}\n```\n\n```Go [sol2-Golang]\nfunc findTheDifference(s, t string) byte {\n    sum := 0\n    for _, ch := range s {\n        sum -= int(ch)\n    }\n    for _, ch := range t {\n        sum += int(ch)\n    }\n    return byte(sum)\n}\n```\n\n```JavaScript [sol2-JavaScript]\nvar findTheDifference = function(s, t) {\n    let as = 0, at = 0;\n    for (let i = 0; i < s.length; i++) {\n        as += s[i].charCodeAt();\n    }\n    for (let i = 0; i < t.length; i++) {\n        at += t[i].charCodeAt();\n    }\n    return String.fromCharCode(at - as);\n};\n```\n\n```C [sol2-C]\nchar findTheDifference(char* s, char* t) {\n    int n = strlen(s), m = strlen(t);\n    int as = 0, at = 0;\n    for (int i = 0; i < n; i++) {\n        as += s[i];\n    }\n    for (int i = 0; i < m; i++) {\n        at += t[i];\n    }\n    return at - as;\n}\n```\n\n**复杂度分析**\n\n- 时间复杂度：$O(N)$。\n\n- 空间复杂度：$O(1)$。\n\n#### 方法三：位运算\n\n如果将两个字符串拼接成一个字符串，则问题转换成求字符串中出现奇数次的字符。类似于「[136. 只出现一次的数字](https://leetcode-cn.com/problems/single-number/)」，我们使用位运算的技巧解决本题。\n\n```C++ [sol3-C++]\nclass Solution {\npublic:\n    char findTheDifference(string s, string t) {\n        int ret = 0;\n        for (char ch: s) {\n            ret ^= ch;\n        }\n        for (char ch: t) {\n            ret ^= ch;\n        }\n        return ret;\n    }\n};\n```\n\n```Java [sol3-Java]\nclass Solution {\n    public char findTheDifference(String s, String t) {\n        int ret = 0;\n        for (int i = 0; i < s.length(); ++i) {\n            ret ^= s.charAt(i);\n        }\n        for (int i = 0; i < t.length(); ++i) {\n            ret ^= t.charAt(i);\n        }\n        return (char) ret;\n    }\n}\n```\n\n```Go [sol3-Golang]\nfunc findTheDifference(s, t string) (diff byte) {\n    for i := range s {\n        diff ^= s[i] ^ t[i]\n    }\n    return diff ^ t[len(t)-1]\n}\n```\n\n```JavaScript [sol3-JavaScript]\nvar findTheDifference = function(s, t) {\n    let ret = 0;\n    for (const ch of s) {\n        ret ^= ch.charCodeAt();\n    }\n    for (const ch of t) {\n        ret ^= ch.charCodeAt();\n    }\n    return String.fromCharCode(ret);\n};\n```\n\n```C [sol3-C]\nchar findTheDifference(char* s, char* t) {\n    int n = strlen(s), m = strlen(t);\n    int ret = 0;\n    for (int i = 0; i < n; i++) {\n        ret ^= s[i];\n    }\n    for (int i = 0; i < m; i++) {\n        ret ^= t[i];\n    }\n    return ret;\n}\n```\n\n**复杂度分析**\n\n- 时间复杂度：$O(N)$。\n\n- 空间复杂度：$O(1)$。",
+      "createdAt": "2020-12-17T14:30:46.173139+00:00",
+      "hitCount": 33457,
+      "identifier": "WIVD0z",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "yi-ju-hua-zhao-bu-tong-reduce-gao-qi-lai-eqok",
+        "title": "来看姨(1)句话找不同！reduce 搞起来 💪"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "find-the-difference"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 45,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 5,
+          "reactionType": "AWESOME"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "CONFUSED"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 0,
+          "reactionType": "THUMBS_DOWN"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "zhao-bu-tong-by-leetcode-solution-mtqf",
+      "status": "PUBLISHED",
+      "summary": "方法一：计数 首先遍历字符串 $s$，对其中的每个字符都将计数值加 $1$；然后遍历字符串 $t$，对其中的每个字符都将计数值减 $1$。当发现某个字符计数值为负数时，说明该字符在字符串 $t$ 中出现的次数大于在字符串 $s$ 中出现的次数，因此该字符为被添加的字符。 C++ [sol1-C++] class Sol",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Bit Manipulation",
+          "nameTranslated": "位运算",
+          "slug": "bit-manipulation",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Hash Table",
+          "nameTranslated": "哈希表",
+          "slug": "hash-table",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "String",
+          "nameTranslated": "字符串",
+          "slug": "string",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C",
+          "nameTranslated": "",
+          "slug": "c",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Go",
+          "nameTranslated": "",
+          "slug": "golang",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "JavaScript",
+          "nameTranslated": "",
+          "slug": "javascript",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "找不同",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 171,
+        "id": 525705,
+        "viewCount": 25629
+      },
+      "uuid": "WIVD0z",
+      "videosInfo": []
+    }
+  }
+}

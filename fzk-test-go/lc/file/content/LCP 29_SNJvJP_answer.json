@@ -1,0 +1,84 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "温柔一刀123",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/wen-rou-yi-dao-123/avatar_1602559228.png",
+          "userSlug": "wen-rou-yi-dao-123"
+        },
+        "username": "wen-rou-yi-dao-123"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\r\n\r\n![1.png](https://pic.leetcode-cn.com/1634562159-iMVPCx-1.png)\r\n\r\n1、如图，我们要确定目标点的序列号seq。首先确定目标点处于那一圈，显然：\r\ncircle = min({ xPos, num - 1 - xPos, yPos, num - 1 - yPos });\r\n  \r\n2、每一圈由4条边组成，最外层的圈边长side为num - 1，周长为4 * side，往内side依次减2。在目标点外围有circle个完整的圈，最里面一个完整圈的边长是num - 1 - (circle - 1) * 2 = num - 2 * circle + 1。这些圈的周长是等差数列，所以总共：\r\nseq = 4 * (num - 1 + num - 2 * circle + 1) * circle / 2 = 4 * (num - circle) * circle\r\n  \r\n3、然后计算目标点所在不完整圈的seq。该圈左上角的坐标为vertex = {circle, circle}，边长side = num - 2 * circle - 1。\r\n如果在side1，seq += yPos + 1 - circle\r\n如果在side2，seq += (side + xPos + 1 - circle)\r\n如果在side3，seq += (side * 2 + circle + side + 1 - yPos)\r\n如果在side4，seq += (side * 3 + circle + side + 1 - xPos)\r\n  \r\n4、最后目标点的seq对9取余即可。注意题目数据范围，整型会溢出，所以seq要使用long long型数据结构。\r\n\r\n### 复杂度分析\r\n  \r\n时间复杂度：简单数学计算即可，O(1)。\r\n  \r\n空间复杂度：有限几个变量，O(1)。\r\n\r\n### 代码\r\n```\r\nclass Solution {\r\npublic:\r\n    int orchestraLayout(int num, int xPos, int yPos) {\r\n        long long circle = min({ xPos, num - 1 - xPos, yPos, num - 1 - yPos });\r\n        long long seq = 4 * (num - circle) * circle;\r\n        long long side = num - 2 * circle - 1, xVertex = circle, yVertex = circle;\r\n\r\n        if (xPos == xVertex && yPos < yVertex + side) {\r\n            seq += ((long long)yPos + 1 - yVertex);\r\n        }\r\n        else {\r\n            seq += side;\r\n            if (yPos == yVertex + side && xPos < xVertex + side) {\r\n                seq += ((long long)xPos + 1 - xVertex);\r\n            }\r\n            else {\r\n                seq += side;\r\n                if (xPos == xVertex + side && yPos > yVertex) {\r\n                    seq += (yVertex + side + 1 - yPos);\r\n                }\r\n                else {\r\n                    seq += (side + xVertex + side + 1 - xPos);\r\n                }\r\n            }\r\n        }\r\n\r\n        seq %= 9;\r\n        return (int)(seq == 0 ? 9 : seq);\r\n    }\r\n};\r\n```\r\n\r\n",
+      "createdAt": "2021-10-18T13:06:56.324643+00:00",
+      "hitCount": 656,
+      "identifier": "skwUDk",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "shu-xue-yi-ge-gong-shi-ji-ke-by-ivon_shi-mo6a",
+        "title": "数学：一个公式即可"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "SNJvJP"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 0,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "tu-wen-bing-mao-jiang-jiang-shu-xue-fang-dt8e",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n1、如图，我们要确定目标点的序列号seq。首先确定目标点处于那一圈，显然：\ncircle = min({ xPos, num - 1 - xPos, yPos, num - 1 - yPos });\n2、每一圈由4条边组成，最外层的圈边长side为num - 1，周长为4 * side，往内side依次减2。",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Math",
+          "nameTranslated": "数学",
+          "slug": "math",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1634562159-iMVPCx-1.png",
+      "title": "图文并茂，讲讲数学方法O(1)快速计算",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1054223,
+        "viewCount": 467
+      },
+      "uuid": "skwUDk",
+      "videosInfo": []
+    }
+  }
+}

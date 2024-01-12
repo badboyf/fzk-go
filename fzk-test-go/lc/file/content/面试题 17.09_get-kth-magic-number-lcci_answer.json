@@ -1,0 +1,79 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "jerryluan",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/jerryluan/avatar_1592929016.png",
+          "userSlug": "jerryluan"
+        },
+        "username": "jerryluan"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "```\r\nclass Solution:\r\n    def getKthMagicNumber(self, k: int) -> int:\r\n        from heapq import heappush,heappop,heapify\r\n        if k==0:return 0\r\n        h=[1]\r\n        ans=0\r\n        s=set()\r\n        while k:\r\n            k-=1\r\n            ans=heappop(h)\r\n            s.add(ans)\r\n            t5=ans*5\r\n            t=t5-ans-ans\r\n            t7=t5+ans+ans\r\n            if t not in s:\r\n                heappush(h,t)\r\n                s.add(t)\r\n            if t5 not in s:\r\n                heappush(h,t5)\r\n                s.add(t5)\r\n            heappush(h,t7)  #少一个if \r\n            s.add(t7)\r\n        return ans\r\n```\r\n",
+      "createdAt": "2021-11-18T15:21:36.746160+00:00",
+      "hitCount": 34,
+      "identifier": "gRP17a",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "di-k-ge-shu-jiu-shi-xiang-bu-tong-wei-he-san-zhi-z",
+        "title": "[第 k 个数]:就是想不通为何三指针？"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "get-kth-magic-number-lcci"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "xiao-ding-dui-jia-ha-xi-by-jerryluan-qnxs",
+      "status": "PUBLISHED",
+      "summary": "[该用户太懒了，只写了 23 行代码]",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python3",
+          "nameTranslated": "",
+          "slug": "python3",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "小顶堆加哈希",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1109531,
+        "viewCount": 33
+      },
+      "uuid": "gRP17a",
+      "videosInfo": []
+    }
+  }
+}

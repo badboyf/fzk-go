@@ -1,0 +1,66 @@
+{
+  "data": {
+    "question": {
+      "__typename": "QuestionNode",
+      "book": null,
+      "boundTopicId": 687194,
+      "categoryTitle": "Database",
+      "codeSnippets": null,
+      "companyTagStats": null,
+      "content": null,
+      "contributors": [],
+      "dailyRecordStatus": null,
+      "difficulty": "Easy",
+      "dislikes": 0,
+      "editorType": "CKEDITOR",
+      "enableRunCode": true,
+      "envInfo": "{\"mysql\":[\"MySQL\",\"<p>\\u7248\\u672c\\uff1a<code>MySQL 8.0<\\/code><\\/p>\"],\"mssql\":[\"MS SQL Server\",\"<p>mssql server 2019.<\\/p>\"],\"oraclesql\":[\"Oracle\",\"<p>Oracle Sql 11.2.<\\/p>\"]}",
+      "exampleTestcases": "{\"headers\":{\"Playback\":[\"session_id\",\"customer_id\",\"start_time\",\"end_time\"],\"Ads\":[\"ad_id\",\"customer_id\",\"timestamp\"]},\"rows\":{\"Playback\":[[1,1,1,5],[2,1,15,23],[3,2,10,12],[4,2,17,28],[5,2,2,8]],\"Ads\":[[1,1,5],[2,2,17],[3,2,20]]}}",
+      "hints": [],
+      "isDailyQuestion": false,
+      "isLiked": null,
+      "isPaidOnly": true,
+      "isSubscribed": false,
+      "judgeType": "large",
+      "judgerAvailable": true,
+      "langToValidPlayground": null,
+      "likes": 6,
+      "metaData": "{\n  \"mysql\": [\n    \"Create table If Not Exists Playback(session_id int,customer_id int,start_time int,end_time int)\",\n    \"Create table If Not Exists Ads (ad_id int, customer_id int, timestamp int)\"\n  ],\n  \"mssql\": [\n    \"Create table Playback(session_id int,customer_id int,start_time int,end_time int)\",\n    \"Create table Ads (ad_id int, customer_id int, timestamp int)\"\n  ],\n  \"oraclesql\": [\n    \"Create table Playback(session_id int,customer_id int,start_time int,end_time int)\",\n    \"Create table Ads (ad_id int, customer_id int, timestamp int)\"\n  ],\n  \"database\": true\n}",
+      "mysqlSchemas": [
+        "Create table If Not Exists Playback(session_id int,customer_id int,start_time int,end_time int)",
+        "Create table If Not Exists Ads (ad_id int, customer_id int, timestamp int)",
+        "Truncate table Playback",
+        "insert into Playback (session_id, customer_id, start_time, end_time) values ('1', '1', '1', '5')",
+        "insert into Playback (session_id, customer_id, start_time, end_time) values ('2', '1', '15', '23')",
+        "insert into Playback (session_id, customer_id, start_time, end_time) values ('3', '2', '10', '12')",
+        "insert into Playback (session_id, customer_id, start_time, end_time) values ('4', '2', '17', '28')",
+        "insert into Playback (session_id, customer_id, start_time, end_time) values ('5', '2', '2', '8')",
+        "Truncate table Ads",
+        "insert into Ads (ad_id, customer_id, timestamp) values ('1', '1', '5')",
+        "insert into Ads (ad_id, customer_id, timestamp) values ('2', '2', '17')",
+        "insert into Ads (ad_id, customer_id, timestamp) values ('3', '2', '20')"
+      ],
+      "questionFrontendId": "1809",
+      "questionId": "1958",
+      "sampleTestCase": "{\"headers\":{\"Playback\":[\"session_id\",\"customer_id\",\"start_time\",\"end_time\"],\"Ads\":[\"ad_id\",\"customer_id\",\"timestamp\"]},\"rows\":{\"Playback\":[[1,1,1,5],[2,1,15,23],[3,2,10,12],[4,2,17,28],[5,2,2,8]],\"Ads\":[[1,1,5],[2,2,17],[3,2,20]]}}",
+      "similarQuestions": "[]",
+      "solution": null,
+      "stats": "{\"totalAccepted\": \"2K\", \"totalSubmission\": \"3.2K\", \"totalAcceptedRaw\": 2015, \"totalSubmissionRaw\": 3230, \"acRate\": \"62.4%\"}",
+      "status": null,
+      "style": "LEETCODE",
+      "title": "Ad-Free Sessions",
+      "titleSlug": "ad-free-sessions",
+      "topicTags": [
+        {
+          "__typename": "TopicTagNode",
+          "name": "Database",
+          "slug": "database",
+          "translatedName": "数据库"
+        }
+      ],
+      "translatedContent": null,
+      "translatedTitle": "没有广告的剧集",
+      "ugcQuestionId": null
+    }
+  }
+}

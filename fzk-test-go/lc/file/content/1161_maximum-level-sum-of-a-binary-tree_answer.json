@@ -1,0 +1,84 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣 (LeetCode)",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/uploaded_files/2021/03/73c9f099-abbe-4d94-853f-f8abffd459cd/leetcode.png",
+          "userSlug": "leetcode"
+        },
+        "username": "LeetCode"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 概述\n\n 遍历树的两种通用策略：\n     \n- *深度优先遍历*（`DFS`）\n\n    这种方法以深度 `depth` 优先为策略，从根节点开始一直遍历到某个叶子节点，然后回到根节点，再遍历另外一个分支。\n\n    根据根节点，左子节点和右子节点的访问顺序又可以将 DFS 细分为先序遍历 `preorder`，中序遍历 `inorder` 和后序遍历 `postorder`。\n\n    DFS 遍历通常有三种实现方式：递归 `recursion`，迭代 `iteration`，`Morris`，其中最简单的是递归。\n\n![](https://pic.leetcode-cn.com/Figures/1161/dfs2.png){:width=500}\n\n\n- *广度优先遍历*（`BFS`）\n\n    按照高度顺序，从上往下逐层遍历节点。先遍历上层节点再遍历下层节点。\n\n    最标准的实现方法是使用队列进行迭代。\n   \n下图中按照不同的方法遍历对应子树，得到的遍历顺序都是 `1-2-3-4-5`。根据不同子树结构比较不同遍历方法的特点。\n\n![](https://pic.leetcode-cn.com/Figures/1161/bfs_dfs2.png){:width=500}\n\n本题可以使用两种策略解决：DFS 和 BFS。这里使用 DFS 的中序遍历和队列实现的 BFS 解答。\n\n\n#### 方法一：DFS：递归实现的中序遍历\n\n递归实现的中序遍历非常简单：遵循 `Left->Node->Right` 的顺序。例如：首先递归访问 *左孩子*，然后访问父节点，再递归访问 *右孩子*。\n\n遍历时需要记录当前层节点之和。由于 Java 中 HashMap 的性能问题，在 Java 中使用数组，在 Python 中使用 hashmap。\n\n**算法**\n\n- 创建方法 `inorder(node, level)`，实现递归的中序遍历。该方法输入当前节点和当前节点层级，然后递归更新 `level_sum[level]`。\n\n- 返回数组 `level_sum` 的最大值。\n\n```python [solution1-Pyhton]\nfrom collections import defaultdict\nclass Solution:\n    def maxLevelSum(self, root: TreeNode) -> int:\n        def inorder(node, level):\n            if node:\n                inorder(node.left, level + 1)\n                level_sum[level] += node.val\n                inorder(node.right, level + 1)\n            \n        level_sum = defaultdict(int)\n        inorder(root, 1)\n        return max(level_sum, key = level_sum.get)\n```\n\n```java [solution1-Java]\nclass Solution {\n  int n = 10000;\n  int[] levelSum = new int[n];\n\n  public void inorder(TreeNode node, int level) {\n    if (node != null) {\n      inorder(node.left, level + 1);\n      levelSum[level] += node.val;\n      inorder(node.right, level + 1);\n    }\n  }\n  \n  public int maxLevelSum(TreeNode root) {\n    inorder(root, 1);\n\n    int maxIdx = 0;\n    for (int i = 0; i < n; ++i)\n      maxIdx = levelSum[i] > levelSum[maxIdx] ? i : maxIdx;\n    return maxIdx;\n  }\n}\n```\n\n**复杂度分析**\n\n* 时间复杂度：$\\mathcal{O}(N)$，中序遍历每个节点只访问一次，然后遍历 `level_sum`。\n\n* 空间复杂度：$\\mathcal{O}(10000) = \\mathcal{O}(1)$ 为 Java 中 `level_sum` 的空间。$\\mathcal{O}(D)$ 为 Python 的空间，其中 $D$ 是树的深度。树是平衡的情况下，空间复杂度为 $\\mathcal{O}(\\log N)$ ，最坏情况下为 $\\mathcal{O}(N)$。\n\n\n#### 方法二：BFS：使用队列实现的层序遍历\n\nDFS 的缺点是必须保存所有层节点之和，BFS 逐层计算之和不需要同时保存每层之和：\n\n- 初始 `max_sum = 0`。\n\n- 使用 BFS 逐层遍历，计算每层的累加和 `curr_sum`，在每层结束时更新 `max_sum = max(max_sum, curr_sum)`。\n\n使用队列（先进先出结构）实现 BFS：\n\n1. 把当前层所有的节点压入队列。\n\n2. 遍历队列。每从队列中弹出一个节点，就将该节点的子节点压入队列。\n\n![](https://pic.leetcode-cn.com/Figures/1161/bfs_queue2.png){:width=500}\n\n这种方法可以从根节点逐层遍历到叶节点，不过需要设置标记在每层末尾计算该层节点的累加和。\n\n> 面试技巧。可以使用 *标记* 分离队列/链表/树中的节点。\n   例子：LRU Cache。\n\n这里使用空节点作为每层结束的标记。\n\n**算法** \n\n- 初始化变量：\n\n    - 令当前层级与最大累加和层级为 1。\n    \n    - 令当前累加和为 0，最大累加和为根节点的值。\n    \n    - 使用空节点作为标记，初始化队列：压入根节点和标记节点，标记当前层数为 1。\n    \n- 当前队列长度大于 1：\n\n    - 从队列左端弹出一个节点。\n    \n    - 如果它不是标记节点，则在当前层继续：\n        \n        - 更新当前层累加和。\n        \n        - 将该节点的子节点压入队列右端。\n    \n    - 如果它是标记节点，则当前层结束。\n        \n        - 根据当前层累加和更新最大和。\n        \n        - 设置当前累加和为 0。\n        \n        - 层数加 1，向队列中压入标记节点，表示下一层节点结束。\n        \n- 返回最大累加和层序号。\n\n```python [solution2-Python]\nfrom collections import deque\nclass Solution:\n    def maxLevelSum(self, root: TreeNode) -> int:\n        curr_level = max_level = 1\n        max_sum = float('-inf')\n        curr_sum = 0\n        \n        marker = None\n        queue = deque([root, marker])\n        \n        while len(queue) > 1:\n            x = queue.popleft()\n            # continue current level\n            if x != marker:\n                curr_sum += x.val\n                if x.left:\n                    queue.append(x.left)\n                if x.right:\n                    queue.append(x.right)\n            # end of current level, go to the next level\n            else:\n                if curr_sum > max_sum:\n                    max_sum, max_level = curr_sum, curr_level  \n                curr_sum = 0\n                curr_level += 1\n                queue.append(marker)\n            \n        return max_level\n```\n\n```java [solution2-Java]\nclass Solution {\n  public int maxLevelSum(TreeNode root) {\n    int currLevel = 1, maxLevel = 1;\n    int maxSum = root.val, currSum = 0;\n\n    LinkedList<TreeNode> queue = new LinkedList();\n    TreeNode marker = null, x = root;\n    queue.addLast(root);\n    queue.addLast(marker);\n\n    while (queue.size() > 1) {\n      x = queue.removeFirst();\n      // continue current level\n      if (x != marker) {\n        currSum += x.val;\n        if (x.left != null) queue.addLast(x.left);\n        if (x.right != null) queue.addLast(x.right);\n      }\n      // end of current level, go to the next level\n      else {\n        if (currSum > maxSum) {\n          maxSum = currSum;\n          maxLevel = currLevel;\n        }\n        currSum = 0;\n        currLevel++;\n        queue.addLast(marker);\n      }\n    }\n\n    return maxLevel;\n  }\n}\n```\n\n**复杂度分析**\n\n* 时间复杂度：$\\mathcal{O}(N)$，每个节点只被访问两次，入队列和出队列。\n\n* 空间复杂度：$\\mathcal{O}(N)$，队列的存储空间。任意时刻，队列最多只包含一层的所有节点。完美树中一层节点最多有 $(N + 1)/2$ 个。\n\n\n#### 方法三：BFS：简洁的 Python 解法\n\n重写方法二中 Python 代码。\n\n```python [solution3-Python]\nclass Solution:\n    def maxLevelSum(self, root: TreeNode) -> int:\n        curr_level = max_level = 1\n        max_sum = float('-inf')\n        queue = [root, ]\n        \n        while queue:\n            # sum up all the nodes on the current level\n            curr_sum = sum([x.val for x in queue])\n            # update max_sum \n            if curr_sum > max_sum:\n                max_sum, max_level = curr_sum, curr_level\n            # build next level\n            queue = [y for x in queue for y in [x.left, x.right] if y]\n            curr_level += 1\n            \n        return max_level\n```\n\n**复杂度分析**\n\n* 时间复杂度：$\\mathcal{O}(N)$。\n\n* 空间复杂度：$\\mathcal{O}(N)$，队列的存储空间。任意时刻，队列最多只包含一层的所有节点。完美树中一层节点最多有 $(N + 1)/2$ 个。",
+      "createdAt": "2020-02-17T05:41:26.907348+00:00",
+      "hitCount": 3718,
+      "identifier": "i289or",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "bfsceng-xu-bian-li-zhu-ceng-qiu-he-bi-ji-8owr",
+        "title": "BFS层序遍历，逐层求和比较并更新层号即可"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "maximum-level-sum-of-a-binary-tree"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 6,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "zui-da-ceng-nei-yuan-su-he-by-leetcode",
+      "status": "PUBLISHED",
+      "summary": " 概述\n遍历树的两种通用策略：\n\n\n深度优先遍历（DFS）\n这种方法以深度 depth 优先为策略，从根节点开始一直遍历到某个叶子节点，然后回到根节点，再遍历另外一个分支。\n根据根节点，左子节点和右子节点的访问顺序又可以将 DFS 细分为先序遍历 preorder，中序遍历 inorder 和后序遍历 postorde",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/Figures/1161/dfs2.png",
+      "title": "最大层内元素和",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 19,
+        "id": 99456,
+        "viewCount": 2942
+      },
+      "uuid": "i289or",
+      "videosInfo": []
+    }
+  }
+}

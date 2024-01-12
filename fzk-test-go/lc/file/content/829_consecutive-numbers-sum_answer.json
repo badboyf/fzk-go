@@ -1,0 +1,86 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣 (LeetCode)",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/uploaded_files/2021/03/73c9f099-abbe-4d94-853f-f8abffd459cd/leetcode.png",
+          "userSlug": "leetcode"
+        },
+        "username": "LeetCode"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法一：枚举 [超出时间限制]\n\n我们枚举连续正整数的开始值 `start`，并进行累加，直到结果大于等于 `N`。如果结果刚好等于 `N`，我们就找到了一组答案。\n\n例如当 `N = 6` 时，若开始值为 `1`，我们会累加得到 `1 + 2 + 3 = 6`，得到一组答案；若开始值为 `2`，我们会累加得到 `2 + 3 + 4 = 9`，超出了 `6`。以此类推，直到开始值超过 `N`。\n\n这种方法会超出时间限制。\n\n```Java [sol1]\nclass Solution {\n    public int consecutiveNumbersSum(int N) {\n        int ans = 0;\n        for (int start = 1; start <= N; ++start) {\n            int target = N, x = start;\n            while (target > 0)\n                target -= x++;\n            if (target == 0) ans++;\n        }\n        return ans;\n    }\n}\n```\n\n```Python [sol1]\nclass Solution(object):\n    def consecutiveNumbersSum(self, N):\n        ans = 0\n        for start in xrange(1, N+1):\n            target = N\n            while target > 0:\n                target -= start\n                start += 1\n            if target == 0: ans += 1\n        return ans\n```\n\n\n**复杂度分析**\n\n* 时间复杂度：$O(N\\sqrt{N})$。\n\n* 空间复杂度：$O(1)$。\n\n#### 方法二：简单数学 [超出时间限制]\n\n假设 $k$ 个连续正整数的和为 $N$，即 $N = (x + 1) + (x + 2) + \\cdots + (x + k)$，其中 $x \\geq 0$，$k \\geq 1$。上式经过拆分可以得到 $N = kx + \\frac{1}{2}k(k + 1)$，即 $2N = k(2x + k + 1)$。\n\n我们可以枚举 $k$，根据上面的等式，$k$ 的取值范围为 $1 \\leq k \\leq 2N$。对于每一个 $k$，我们计算出 $x = \\frac{1}{2}(\\frac{2N}{k} - k - 1)$，如果得到的 $x$ 是一个非负整数，那么我们就找到了一组解。\n\n```Java [sol2]\nclass Solution {\n    public int consecutiveNumbersSum(int N) {\n        // 2N = k(2x + k + 1)\n        int ans = 0;\n        for (int k = 1; k <= 2*N; ++k)\n            if (2 * N % k == 0) {\n                int y = 2 * N / k - k - 1;\n                if (y % 2 == 0 && y >= 0)\n                    ans++;\n            }\n        return ans;\n    }\n}\n```\n\n```Python [sol2]\nclass Solution(object):\n    def consecutiveNumbersSum(self, N):\n        # 2N = k(2x + k + 1)\n        ans = 0\n        for k in xrange(1, 2*N + 1):\n            if 2*N % k == 0:\n                y = 2 * N / k - k - 1\n                if y % 2 == 0 and y >= 0:\n                    ans += 1\n        return ans\n```\n\n**复杂度分析**\n\n* 时间复杂度：$O(N)$。\n\n* 空间复杂度：$O(1)$。\n\n\n#### 方法三：进阶数学\n\n在 $2N = k(2x + k + 1)$ 中，我们可以发现 $k < 2x + k + 1$，因此有 $k < \\sqrt{2N}$，即我们只需要枚举 $1 \\leq k \\leq \\lfloor \\sqrt{2N} \\rfloor$ 即可，此时通过枚举可以通过本题。\n\n我们还可以继续挖掘一些性质。由于 $k$ 和 $2x + k + 1$ 的奇偶性不同，此时将 $2N$ 写成 $2^\\alpha * M$ 的形式，其中 $\\alpha$ 为 $2N$ 中因子 $2$ 的个数，$M$ 为一个奇数。对于 $M$ 的一种拆分 $M = a * b, a \\leq b$，可以将 $2N$ 分成奇数 $a$ 和偶数 $2^\\alpha * b$ 或者奇数 $b$ 和偶数 $2^\\alpha * a$，每一种分配方法中，将小的那个数给 $k$，大的那个数给 $2x + k + 1$，就对应了一组解，那么一种拆分方法对应了两组解。如果不限制 $a \\leq b$，那么可以看作一种拆分方法对应了一组解。有一种特殊情况是 $a = b$，此时这种拆分方法只对应了一组解，但仍然和之前的对应（一对一）相同。因此，我们只需要求出 $M$ 的拆分方法即可，其中 $M$ 为 $N$ 的最大奇因子。$M$ 的拆分方法等价于 $M$ 的因子个数。\n\n```Java [sol3]\nclass Solution {\n    public int consecutiveNumbersSum(int N) {\n        while ((N & 1) == 0) N >>= 1;\n        int ans = 1, d = 3;\n\n        while (d * d <= N) {\n            int e = 0;\n            while (N % d == 0) {\n                N /= d;\n                e++;\n            }\n            ans *= e + 1;\n            d += 2;\n        }\n\n        if (N > 1) ans <<= 1;\n        return ans;\n    }\n}\n```\n\n```Python [sol3]\nclass Solution(object):\n    def consecutiveNumbersSum(self, N):\n        while N & 1 == 0:\n            N >>= 1\n\n        ans = 1    \n        d = 3\n        while d * d <= N:\n            e = 0\n            while N % d == 0:\n                N /= d\n                e += 1\n            ans *= e + 1\n            d += 2\n\n        if N > 1: ans *= 2\n        return ans\n```\n\n**复杂度分析**\n\n* 时间复杂度：$O(\\sqrt{N})$。\n\n* 空间复杂度：$O(1)$。",
+      "createdAt": "2019-08-23T10:00:14.216609+00:00",
+      "hitCount": 12618,
+      "identifier": "teqGfo",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "pythonchao-hao-li-jie-de-onsuan-fa-by-yybeta",
+        "title": "Python，超好理解的O(√n)算法"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "consecutive-numbers-sum"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 11,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "lian-xu-zheng-shu-qiu-he-by-leetcode",
+      "status": "PUBLISHED",
+      "summary": "§ 方法一：枚举 [超出时间限制]\n我们枚举连续正整数的开始值 start，并进行累加，直到结果大于等于 N。如果结果刚好等于 N，我们就找到了一组答案。\n例如当 N = 6 时，若开始值为 1，我们会累加得到 1 + 2 + 3 = 6，得到一组答案；若开始值为 2，我们会累加得到 2 + 3 + 4 = 9，超出了",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Math",
+          "nameTranslated": "数学",
+          "slug": "math",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "连续整数求和",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 23,
+        "id": 22531,
+        "viewCount": 9253
+      },
+      "uuid": "teqGfo",
+      "videosInfo": []
+    }
+  }
+}

@@ -1,0 +1,72 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "颜如玉",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/default_avatar.png",
+          "userSlug": "kaslanla"
+        },
+        "username": "kaslanla"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "\n### 代码\n\n```java\nclass Solution {\n    public int sumOfUnique(int[] nums) {\n        int[] num = new int[101];\n        int ans = 0;\n        for(int i = 0; i < nums.length; i++) {\n            if(num[nums[i]] == 1) {\n                ans -= nums[i];\n            }else if(num[nums[i]] == 0){\n                ans += nums[i];\n            }\n            num[nums[i]] ++;\n        }\n        return ans;\n    }\n}\n```",
+      "createdAt": "2021-11-24T08:48:37.735197+00:00",
+      "hitCount": 13,
+      "identifier": "J1O1av",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "hashha-xi-ji-shu-by-zhanhongzhu-pvcx",
+        "title": "hash哈希计数"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "sum-of-unique-elements"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "java-yi-ci-bian-li-by-kaslanla-emrl",
+      "status": "PUBLISHED",
+      "summary": "代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "Java 一次遍历",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1119980,
+        "viewCount": 12
+      },
+      "uuid": "J1O1av",
+      "videosInfo": []
+    }
+  }
+}

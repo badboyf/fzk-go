@@ -1,0 +1,124 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣官方题解",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/leetcode-solution/avatar_1582018938.png",
+          "userSlug": "leetcode-solution"
+        },
+        "username": "LeetCode-Solution"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法一：双栈\n\n**思路和算法**\n\n维护两个栈，第一个栈支持插入操作，第二个栈支持删除操作。\n\n根据栈先进后出的特性，我们每次往第一个栈里插入元素后，第一个栈的底部元素是最后插入的元素，第一个栈的顶部元素是下一个待删除的元素。为了维护队列先进先出的特性，我们引入第二个栈，用第二个栈维护待删除的元素，在执行删除操作的时候我们首先看下第二个栈是否为空。如果为空，我们将第一个栈里的元素一个个弹出插入到第二个栈里，这样第二个栈里元素的顺序就是待删除的元素的顺序，要执行删除操作的时候我们直接弹出第二个栈的元素返回即可。\n\n**成员变量**\n\n* 维护两个栈 `stack1` 和 `stack2`，其中 `stack1` 支持插入操作，`stack2` 支持删除操作\n\n**构造方法**\n\n* 初始化 `stack1` 和 `stack2` 为空\n\n**插入元素**\n\n插入元素对应方法 `appendTail`\n\n* `stack1` 直接插入元素\n\n**删除元素**\n\n删除元素对应方法 `deleteHead`\n\n* 如果 `stack2` 为空，则将 `stack1` 里的所有元素弹出插入到 `stack2` 里\n* 如果 `stack2` 仍为空，则返回 `-1`，否则从 `stack2` 弹出一个元素并返回\n\n![fig1](https://assets.leetcode-cn.com/solution-static/jianzhi_09/jianzhi_9.gif)\n\n```Java [sol1-Java]\nclass CQueue {\n    Deque<Integer> stack1;\n    Deque<Integer> stack2;\n    \n    public CQueue() {\n        stack1 = new LinkedList<Integer>();\n        stack2 = new LinkedList<Integer>();\n    }\n    \n    public void appendTail(int value) {\n        stack1.push(value);\n    }\n    \n    public int deleteHead() {\n        // 如果第二个栈为空\n        if (stack2.isEmpty()) {\n            while (!stack1.isEmpty()) {\n                stack2.push(stack1.pop());\n            }\n        } \n        if (stack2.isEmpty()) {\n            return -1;\n        } else {\n            int deleteItem = stack2.pop();\n            return deleteItem;\n        }\n    }\n}\n```\n\n```C++ [sol1-C++]\nclass CQueue {\n    stack<int> stack1,stack2;\npublic:\n    CQueue() {\n        while (!stack1.empty()) {\n            stack1.pop();\n        }\n        while (!stack2.empty()) {\n            stack2.pop();\n        }\n    }\n    \n    void appendTail(int value) {\n        stack1.push(value);\n    }\n    \n    int deleteHead() {\n        // 如果第二个栈为空\n        if (stack2.empty()) {\n            while (!stack1.empty()) {\n                stack2.push(stack1.top());\n                stack1.pop();\n            }\n        } \n        if (stack2.empty()) {\n            return -1;\n        } else {\n            int deleteItem = stack2.top();\n            stack2.pop();\n            return deleteItem;\n        }\n    }\n};\n```\n\n```csharp [sol1-C#]\npublic class CQueue \n{\n\n    private Stack<int> stack1;\n    private Stack<int> stack2;\n\n    public CQueue() \n    {\n        stack1 = new Stack<int>();\n        stack2 = new Stack<int>();\n    }\n    \n    public void AppendTail(int value) \n    {\n        stack1.Push(value);\n    }\n    \n    public int DeleteHead() \n    {\n        if (stack2.Count == 0) \n        {\n            while (stack1.Count != 0) \n            {\n                stack2.Push(stack1.Pop());\n            }\n        } \n        if (stack2.Count == 0) \n        {\n            return -1;\n        } \n        else \n        {\n            int deleteItem = stack2.Pop();\n            return deleteItem;\n        }\n    }\n}\n```\n\n```golang [sol1-Golang]\ntype CQueue struct {\n    stack1, stack2 *list.List\n}\n\nfunc Constructor() CQueue {\n    return CQueue{\n        stack1: list.New(),\n        stack2: list.New(),\n    }\n}\n\nfunc (this *CQueue) AppendTail(value int)  {\n    this.stack1.PushBack(value)\n}\n\nfunc (this *CQueue) DeleteHead() int {\n    // 如果第二个栈为空\n    if this.stack2.Len() == 0 {\n        for this.stack1.Len() > 0 {\n            this.stack2.PushBack(this.stack1.Remove(this.stack1.Back()))\n        }\n    }\n    if this.stack2.Len() != 0 {\n        e := this.stack2.Back()\n        this.stack2.Remove(e)\n        return e.Value.(int)\n    }\n    return -1\n}\n```\n\n**复杂度分析**\n\n* 时间复杂度：对于插入和删除操作，时间复杂度均为 $O(1)$。插入不多说，对于删除操作，虽然看起来是 $O(n)$ 的时间复杂度，但是仔细考虑下每个元素只会「至多被插入和弹出 `stack2` 一次」，因此均摊下来每个元素被删除的时间复杂度仍为 $O(1)$。\n\n* 空间复杂度：$O(n)$。需要使用两个栈存储已有的元素。",
+      "createdAt": "2020-02-20T04:21:51.340115+00:00",
+      "hitCount": 210318,
+      "identifier": "xlT603",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "mian-shi-ti-09-yong-liang-ge-zhan-shi-xian-dui-l-2",
+        "title": "面试题09. 用两个栈实现队列（清晰图解）"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "yong-liang-ge-zhan-shi-xian-dui-lie-lcof"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 97,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 7,
+          "reactionType": "AWESOME"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 3,
+          "reactionType": "CONFUSED"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "mian-shi-ti-09-yong-liang-ge-zhan-shi-xian-dui-l-3",
+      "status": "PUBLISHED",
+      "summary": "方法一：双栈 思路和算法 维护两个栈，第一个栈支持插入操作，第二个栈支持删除操作。 根据栈先进后出的特性，我们每次往第一个栈里插入元素后，第一个栈的底部元素是最后插入的元素，第一个栈的顶部元素是下一个待删除的元素。为了维护队列先进先出的特性，我们引入第二个栈，用第二个栈维护待删除的元素，在执行删除操作的时候我们首先看下",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Stack",
+          "nameTranslated": "栈",
+          "slug": "stack",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Design",
+          "nameTranslated": "设计",
+          "slug": "design",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Queue",
+          "nameTranslated": "队列",
+          "slug": "queue",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C#",
+          "nameTranslated": "",
+          "slug": "csharp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Go",
+          "nameTranslated": "",
+          "slug": "golang",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "用两个栈实现队列",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 175,
+        "id": 103069,
+        "viewCount": 144862
+      },
+      "uuid": "xlT603",
+      "videosInfo": []
+    }
+  }
+}

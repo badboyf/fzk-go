@@ -1,0 +1,86 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "雀食蟀",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/yun-v7k/avatar_1616307682.png",
+          "userSlug": "wenhaokkking"
+        },
+        "username": "wenhaokkking"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "![微信截图_20211010163758.png](https://pic.leetcode-cn.com/1633855151-ISntaa-%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20211010163758.png)\r\n\r\n用100个int记录每个可能出现的数字的状态，每个数字的状态按如下编码：\r\n- 0：不出现\r\n- 1：在nums1中出现\r\n- 2：在nums2中出现\r\n- 3：在nums3中出现\r\n- 4：在nums1、2中出现\r\n- 5：在nums1、3中出现\r\n- 6：在nums2、3中出现\r\n- 大于7：在nums1、2、3中出现\r\n\r\n# 遍历nums1\r\n此时数组中均为状态0,对`int x:nums` ，`cache[x]`的值由0->1\r\n\r\n# 遍历nums2\r\n此时数组中状态为0,1。开始遍历，按照\r\n- 0->2\r\n- 1->4\r\n#  \r\n进行值的更新，**对于nums2重复出现的数字，之前已经进行过状态更新**，所以当遇到状态为2,4，说明已经更新过该数字的状态，跳过：`if (cache[x] <= 1)`。若更新后状态为4，符合题意，加入res。\r\n\r\n# 遍历nums3\r\n对于状态0->3，不满足题意，忽略。**状态4已经在遍历nums2中加入到结果中，忽略**。对于其他所有状态，按照下列规则更新后，均符合题意。\r\n- 1->5\r\n- 2->6\r\n\r\n```java []\r\nclass Solution {\r\n    public List<Integer> twoOutOfThree(int[] nums1, int[] nums2, int[] nums3) {\r\n        List<Integer> res = new ArrayList<>();\r\n        int[] cache = new int[101];\r\n        for (int x : nums1) {\r\n            cache[x] = 1;\r\n        }\r\n        for (int x : nums2) {\r\n            if (cache[x] <= 1) {\r\n                cache[x] += 1;\r\n                cache[x] <<= 1;\r\n                if(cache[x]==4) res.add(x);\r\n            }\r\n            \r\n        }\r\n        for (int x : nums3) {\r\n            if (cache[x]==1||cache[x]==2){\r\n                cache[x]+=4;\r\n                res.add(x);\r\n            }\r\n        }\r\n        return res;\r\n    }\r\n}\r\n```\r\n\r\n",
+      "createdAt": "2021-10-10T08:31:18.297143+00:00",
+      "hitCount": 1216,
+      "identifier": "mCZO19",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "shu-ju-liang-cai-100zhi-jie-yong-shu-zu-7x26j",
+        "title": "数据量才100，直接用数组它不香吗"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "two-out-of-three"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 10,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "shu-zu-ji-lu-zhuang-tai-bian-li-geng-xin-axg0",
+      "status": "PREPUBLISH",
+      "summary": "用100个int记录每个可能出现的数字的状态，每个数字的状态按如下编码：\n\n0：不出现\n1：在nums1中出现\n2：在nums2中出现\n3：在nums3中出现\n4：在nums1、2中出现\n5：在nums1、3中出现\n6：在nums2、3中出现\n大于7：在nums1、2、3中出现\n\n遍历nums1\n此时数组中均为状态0,",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Bit Manipulation",
+          "nameTranslated": "位运算",
+          "slug": "bit-manipulation",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Array",
+          "nameTranslated": "数组",
+          "slug": "array",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1633855151-ISntaa-%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20211010163758.png",
+      "title": "数组记录状态，遍历更新，1ms",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 1,
+        "id": 1039969,
+        "viewCount": 984
+      },
+      "uuid": "mCZO19",
+      "videosInfo": []
+    }
+  }
+}

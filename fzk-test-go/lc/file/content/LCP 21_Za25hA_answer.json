@@ -1,0 +1,126 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "算法小爱",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/helen_class/avatar_1631327629.png",
+          "userSlug": "helen_class"
+        },
+        "username": "Helen_Class"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "> 关注[小爱](https://leetcode-cn.com/u/helen_class/)，有新鲜算法视频题解呀！\r\n\r\n---\r\n\r\n###   题目分析\r\n\r\n一个隐藏条件：题干中说明景区中共有N个景点和N条小路，按照连通图的性质，这个图中必存在一个环。\r\n\r\n我们围绕这个环进行各种情况的讨论：\r\n\r\n1. `A（小力）`和`B（小扣）`的位置在游戏开始时相邻：这是最简单的情况，小力可以在第一回合就追到小扣。\r\n2. 图中的环由3个点组成：这种情况下，无论`B`进行怎样移动策略，`A`都可以追上`B`，大家可以画一个简单的图模拟一下。\r\n3. 图中的环由4个点或4个点以上组成：这种情况下，`B`是存在逃脱的可能的。如果`B`在`A`追上之前进入环，`B`就可以不停地绕着环移动来躲避A的追击。\r\n\r\n---\r\n\r\n### 实现细节：深搜+广搜\r\n\r\n针对以上的3种情况，我们简述一下算法流程：\r\n\r\n- 判断`A`和`B`之间是否存在一条边，这是对应于上面的情况1。\r\n- 想要区分情况2和3，我们要找到图中的这个环，并求出环的大小。由于此题约束图中只包含一个环，我们可以直接用深搜解决：从图中任意一个点出发，在深搜的过程中记录走过的路径，当访问到一个已经出现在路径中的点时，说明路径中出现了闭环，根据这段路径还可以得到环中点的编号。\r\n- 题目要求我们返回`A`追到`B`需要的回合数，实际上就是让我们找到距离`B`**最远的安全点**，`A`到达这个点的回合数就是我们的答案。首先，我们可以先明确一下什么是**安全点**，安全点就是`B`在前往该点的过程中不会被`A`追上，也就是`B`到达该点的距离比`A`要近，我们可以通过广搜分别算出`A`和`B`与各点之间的距离，进而进行比较找到所有的安全点，其中距离`B`最远的就是**最远安全点**。\r\n- 判断情况3中`B`是否能在`A`追上之前进入环中，我们只需要在环的所有入口点中，找到一个**安全点**就可以了。这样，`B`安全进入到环中，`A`就无法追上`B`了。\r\n\r\n---\r\n\r\n### 代码：\r\n\r\n```c++\r\nclass Solution {\r\nprivate:\r\n    vector<vector<int>> m;          // 邻接表存图\r\n    vector<int> circle;             // 判断点是否在环中，0为不在环中，1为在环中\r\n    int n,circle_size;              // 点的个数和环中点的个数\r\npublic:\r\n    // 调用深搜函数找环\r\n    void find_circle() {\r\n        vector<int> vis(m.size());\r\n        stack<int> path;\r\n        dfs(1, -1, vis, path);\r\n    }\r\n\r\n    /* \r\n        深搜找环，now是当前访问的点，frm是深搜过程中上一个点\r\n        vis标记点的访问情况，path是当前深搜的路径\r\n    */\r\n    bool dfs(int now, int frm, vector<int> &vis, stack<int> &path) {\r\n        \r\n        // 当前搜索到的点已经被访问过了，出现闭环，记录答案\r\n        if (vis[now]) {\r\n            circle[now] = 1;\r\n            while (! path.empty() && now != path.top()) {\r\n                int tmp = path.top();\r\n                path.pop();\r\n                circle[tmp] = 1;\r\n            }\r\n            return true;\r\n        }\r\n\r\n        vis[now] = 1;\r\n        path.push(now);\r\n        for (int i = 0; i < m[now].size(); i ++) {\r\n            if (m[now][i] != frm) {\r\n                if (dfs(m[now][i], now, vis, path)) return true;\r\n            }\r\n        }\r\n        path.pop();\r\n        vis[now] = 0;\r\n        return false;\r\n    }\r\n\r\n    // 广搜计算A和B点与图中其他点的距离\r\n    vector<int> bfs(int start) {\r\n        queue<pair<int, int>> q;\r\n        vector<int> vis(m.size(), 0), ans(m.size(), 0);\r\n        q.push({start, 0});\r\n        vis[start] = 1;\r\n        while (! q.empty()) {\r\n            int tmp = q.front().first;\r\n            int dis = q.front().second;\r\n            ans[tmp] = dis;\r\n            q.pop();\r\n            for (int i = 0; i < m[tmp].size(); i ++) {\r\n                if (! vis[m[tmp][i]]) {\r\n                    vis[m[tmp][i]] = 1;\r\n                    q.push({m[tmp][i], dis + 1});\r\n                }\r\n            }\r\n        }\r\n        return ans;\r\n    }\r\n\r\n    // 判断B是否可以安全进入环中\r\n    bool get_enterance_dis(vector<int> &disa, vector<int> &disb) {\r\n        int ans = 0;\r\n        // 遍历环的每一个入口，计算A和B的距离差，距离差大于1，说明B可以安全进入环\r\n        for (int i = 1; i < m.size(); i ++) {\r\n            if (m[i].size() > 2 && circle[i] && disa[i] - disb[i] > 1) {\r\n                return true;\r\n            }\r\n        }\r\n        return false;\r\n    }\r\n\r\n    int chaseGame(vector<vector<int>>& edges, int startA, int startB) {\r\n        n = edges.size();\r\n        circle_size = 0;\r\n        m = vector<vector<int>>(n+1);\r\n        circle = vector<int> (m.size()+1);\r\n\r\n        // 邻接表存无向图\r\n        for ( int i = 0; i < n; i ++) {\r\n            m[edges[i][0]].push_back(edges[i][1]);\r\n            m[edges[i][1]].push_back(edges[i][0]);\r\n        }\r\n\r\n        // 找到图中环，以及环中点的个数\r\n        find_circle();\r\n        for (int i = 1;i < circle.size(); i ++) {\r\n            if (circle[i] > 0) circle_size ++;\r\n        }\r\n\r\n        // 分别计算A和B与图中各点的距离\r\n        vector<int> disa = bfs(startA);\r\n        vector<int> disb = bfs(startB);\r\n\r\n        // 求B可以到达最远的安全点（maxn）\r\n        int maxn = 0;\r\n        for (int i = 1;i <= n; i ++) {\r\n            if (disa[i] - disb[i] > 1 && disa[i] > disa[maxn]) maxn = i;\r\n        }\r\n\r\n        // 不存在安全点，即A和B相邻\r\n        if (maxn == 0) return 1;\r\n\r\n        // 环中点数等于3，A必能追上B\r\n        if (circle_size==3) return disa[maxn];\r\n        // 环中点数大于等于4\r\n        else {\r\n            // 如果B本身就在环中，保持在环中移动即可逃脱\r\n            if (circle[startB]) return -1;\r\n            // 判断环中是否存在一个安全的入口，使B可以安全进入环中\r\n            else{\r\n                if (get_enterance_dis(disa, disb)) return -1;\r\n                else return disa[maxn];\r\n            }\r\n        }\r\n        return 0;\r\n    }\r\n};\r\n```\r\n\r\n---\r\n\r\n### 复杂度分析：\r\n\r\n- 时间复杂度：$O(N)$，建图、深搜和广搜的时间复杂度均为$O(N)$。\r\n- 空间复杂度：$O(N)$，存图、存环等操作的空间复杂度均为$O(N)$。\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n",
+      "createdAt": "2021-09-06T14:30:41.752715+00:00",
+      "hitCount": 427,
+      "identifier": "CF79FE",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "zhao-huan-ran-hou-fen-qing-kuang-tao-lun-by-lucife",
+        "title": "找环，然后分情况讨论"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "Za25hA"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 5,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "suan-fa-xiao-ai-li-kou-bei-li-jie-zhen-t-hdcb",
+      "status": "PUBLISHED",
+      "summary": "关注小爱，有新鲜算法视频题解呀！\n\n题目分析\n一个隐藏条件：题干中说明景区中共有N个景点和N条小路，按照连通图的性质，这个图中必存在一个环。\n我们围绕这个环进行各种情况的讨论：\n\nA（小力）和B（小扣）的位置在游戏开始时相邻：这是最简单的情况，小力可以在第一回合就追到小扣。\n图中的环由3个点组成：这种情况下，无论B进",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Greedy",
+          "nameTranslated": "贪心",
+          "slug": "greedy",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Depth-First Search",
+          "nameTranslated": "深度优先搜索",
+          "slug": "depth-first-search",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Breadth-First Search",
+          "nameTranslated": "广度优先搜索",
+          "slug": "breadth-first-search",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Graph",
+          "nameTranslated": "图",
+          "slug": "graph",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Topological Sort",
+          "nameTranslated": "拓扑排序",
+          "slug": "topological-sort",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "BFS",
+          "nameTranslated": "",
+          "slug": "bfs",
+          "tagType": "ADDITIONAL_TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "搜索",
+          "nameTranslated": "",
+          "slug": "search",
+          "tagType": "ADDITIONAL_TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "DFS",
+          "nameTranslated": "",
+          "slug": "dfs",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "",
+      "title": " 【算法小爱-力扣杯历届真题视频题解】DFS + BFS",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 1,
+        "id": 982308,
+        "viewCount": 279
+      },
+      "uuid": "CF79FE",
+      "videosInfo": []
+    }
+  }
+}

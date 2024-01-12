@@ -1,0 +1,90 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "ffreturn",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/ffreturn/avatar_1608859813.png",
+          "userSlug": "ffreturn"
+        },
+        "username": "ffreturn"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "![image.png](https://pic.leetcode-cn.com/1635950981-IeWpKV-image.png)\n\n\n### 解题思路\n格雷码 i ^ (i>>1) ^ start\n\n### 代码\n\n```cpp\n\nclass Solution {\npublic:\n    vector<int> circularPermutation(int n, int start) {\n        int nn = 1<<n;\n        vector<int> res(nn, 0);\n        for (int i = 0; i < nn; ++i)\n        {\n            res[i] = i ^ (i>>1) ^ start;\n        }\n\n        return res;\n    }\n};\n```",
+      "createdAt": "2021-11-03T14:50:21.524165+00:00",
+      "hitCount": 87,
+      "identifier": "a7O6aq",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "dfshui-su-yi-huo-qu-fan-by-zhouzihong-rgbc",
+        "title": "【dfs回溯】【异或取反】"
+      },
+      "position": 2,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "java-jian-jian-dan-dan-hui-ge-su-by-fei-s5tqa",
+        "title": "[java] 简简单单回个溯"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "circular-permutation-in-binary-representation"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "1238-cjian-dan-yi-dong-de-ge-lei-ma-by-f-n4f6",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n格雷码 i ^ (i>>1) ^ start\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Math",
+          "nameTranslated": "数学",
+          "slug": "math",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "梦想",
+          "nameTranslated": "",
+          "slug": "meng-xiang",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1635950981-IeWpKV-image.png",
+      "title": "1238. c++简单易懂的格雷码",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 1,
+        "id": 1082700,
+        "viewCount": 67
+      },
+      "uuid": "a7O6aq",
+      "videosInfo": []
+    }
+  }
+}

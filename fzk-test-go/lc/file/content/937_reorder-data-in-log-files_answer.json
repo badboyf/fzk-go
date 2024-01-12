@@ -1,0 +1,96 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣 (LeetCode)",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/uploaded_files/2021/03/73c9f099-abbe-4d94-853f-f8abffd459cd/leetcode.png",
+          "userSlug": "leetcode"
+        },
+        "username": "LeetCode"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法：自定义排序\n\n**思路和算法**\n\n我们按照指定的自定义顺序进行排序，而不是按默认顺序排序。\n\n排序规则如下：\n\n* 字母日志先于数字日志；\n* 字母日志按字母数字顺序排列，先按内容排序，再按标识符排序；\n* 数字日志的顺序保持不变。\n\n这些想法很容易转化为代码。\n\n```Java [solution1]\nclass Solution {\n    public String[] reorderLogFiles(String[] logs) {\n        Arrays.sort(logs, (log1, log2) -> {\n            String[] split1 = log1.split(\" \", 2);\n            String[] split2 = log2.split(\" \", 2);\n            boolean isDigit1 = Character.isDigit(split1[1].charAt(0));\n            boolean isDigit2 = Character.isDigit(split2[1].charAt(0));\n            if (!isDigit1 && !isDigit2) {\n                int cmp = split1[1].compareTo(split2[1]);\n                if (cmp != 0) return cmp;\n                return split1[0].compareTo(split2[0]);\n            }\n            return isDigit1 ? (isDigit2 ? 0 : 1) : -1;\n        });\n        return logs;\n    }\n}\n```\n\n```Python [solution1]\nclass Solution(object):\n    def reorderLogFiles(self, logs):\n        def f(log):\n            id_, rest = log.split(\" \", 1)\n            return (0, rest, id_) if rest[0].isalpha() else (1,)\n\n        return sorted(logs, key = f)\n```\n\n**复杂度分析**\n\n* 时间复杂度：$O(\\mathcal{A}\\log \\mathcal{A})$，其中 $\\mathcal{A}$ 是 `logs` 的内容总和。\n\n* 空间复杂度：$O(\\mathcal{A})$。",
+      "createdAt": "2019-05-16T08:33:47.992121+00:00",
+      "hitCount": 11306,
+      "identifier": "Bb5itZ",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "linqshi-ge-hao-dong-xi-jiu-shi-lao-xiang-4nh5",
+        "title": "Linq才是这道题最优的解法，虽然不是双100，但代码行最少不到10行，思路最清晰！不服来战！！"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "reorder-data-in-log-files"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 23,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 3,
+          "reactionType": "CONFUSED"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 3,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "zhong-xin-pai-lie-ri-zhi-wen-jian-by-leetcode",
+      "status": "PUBLISHED",
+      "summary": "方法：自定义排序\n思路和算法\n我们按照指定的自定义顺序进行排序，而不是按默认顺序排序。\n排序规则如下：\n\n字母日志先于数字日志；\n字母日志按字母数字顺序排列，先按内容排序，再按标识符排序；\n数字日志的顺序保持不变。\n\n这些想法很容易转化为代码。\n复杂度分析\n\n\n时间复杂度：$O(\\mathcal{A}\\log \\mat",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "String",
+          "nameTranslated": "字符串",
+          "slug": "string",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "重新排列日志文件",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 35,
+        "id": 5026,
+        "viewCount": 8533
+      },
+      "uuid": "Bb5itZ",
+      "videosInfo": []
+    }
+  }
+}

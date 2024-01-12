@@ -1,0 +1,108 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣 (LeetCode)",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/uploaded_files/2021/03/73c9f099-abbe-4d94-853f-f8abffd459cd/leetcode.png",
+          "userSlug": "leetcode"
+        },
+        "username": "LeetCode"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法一：二分查找\n\n**分析**\n\n我们可以使用二分查找解决这道题目，即对于固定的 $i$，二分查找出最大的 $j$ 满足 $\\mathrm{nums}[i]$ 到 $\\mathrm{nums}[j]$ 的乘积小于 $k$。但由于乘积可能会非常大（在最坏情况下会达到 $1000^{50000}$），会导致数值溢出，因此我们需要对 $\\mathrm{nums}$ 数组取对数，将乘法转换为加法，即 $\\log(\\prod_i \\mathrm{nums}[i]) = \\sum_i \\log \\mathrm{nums}[i]$，这样就不会出现数值溢出的问题了。\n\n**算法**\n\n对 $\\mathrm{nums}$ 中的每个数取对数后，我们存储它的前缀和 $\\mathrm{prefix}$，即 $\\mathrm{prefix}[i + 1] = \\sum_{x=0}^i \\mathrm{nums}[x]$，这样在二分查找时，对于 $i$ 和 $j$，我们可以用 $\\mathrm{prefix}[j + 1] - \\mathrm{prefix}[i]$ 得到 $\\mathrm{nums}[i]$ 到 $\\mathrm{nums}[j]$ 的乘积的对数。对于固定的 $i$，当找到最大的满足条件的 $j$ 后，它会包含 $j-i+1$ 个乘积小于 $k$ 的连续子数组。\n\n下面的代码和算法中下标的定义略有不同。\n\n```Python [sol1]\nclass Solution(object):\n    def numSubarrayProductLessThanK(self, nums, k):\n        if k == 0: return 0\n        k = math.log(k)\n\n        prefix = [0]\n        for x in nums:\n            prefix.append(prefix[-1] + math.log(x))\n\n        ans = 0\n        for i, x in enumerate(prefix):\n            j = bisect.bisect(prefix, x + k - 1e-9, i+1)\n            ans += j - i - 1\n        return ans\n```\n\n```Java [sol1]\nclass Solution {\n    public int numSubarrayProductLessThanK(int[] nums, int k) {\n        if (k == 0) return 0;\n        double logk = Math.log(k);\n        double[] prefix = new double[nums.length + 1];\n        for (int i = 0; i < nums.length; i++) {\n            prefix[i+1] = prefix[i] + Math.log(nums[i]);\n        }\n\n        int ans = 0;\n        for (int i = 0; i < prefix.length; i++) {\n            int lo = i + 1, hi = prefix.length;\n            while (lo < hi) {\n                int mi = lo + (hi - lo) / 2;\n                if (prefix[mi] < prefix[i] + logk - 1e-9) lo = mi + 1;\n                else hi = mi;\n            }\n            ans += lo - i - 1;\n        }\n        return ans;\n    }\n}\n```\n\n**复杂度分析**\n\n* 时间复杂度：$O(n\\log n)$，其中 $n$ 是 $\\mathrm{nums}$ 数组的长度。由于二分查找的时间复杂度为 $O(\\log n)$，需要进行 $n$ 次，因此总的时间复杂度为 $O(n\\log n)$。\n* 空间复杂度：$O(n)$，用来存储前缀和数组 $\\mathrm{prefix}$。\n\n#### 方法二：双指针\n\n**分析**\n\n对于每个 $\\mathrm{right}$，我们需要找到最小的 $\\mathrm{left}$，满足 $\\prod_{i=\\mathrm{left}}^\\mathrm{right} \\mathrm{nums}[i] < k$。由于当 $\\mathrm{left}$ 增加时，这个乘积是单调不增的，因此我们可以使用双指针的方法，单调地移动 $\\mathrm{left}$。\n\n**算法**\n\n我们使用一重循环枚举 $\\mathrm{right}$，同时设置 $\\mathrm{left}$ 的初始值为 0。在循环的每一步中，表示 $\\mathrm{right}$ 向右移动了一位，将乘积乘以 $\\mathrm{nums}[\\mathrm{right}]$。此时我们需要向右移动 $\\mathrm{left}$，直到满足乘积小于 $k$ 的条件。在每次移动时，需要将乘积除以 $\\mathrm{nums}[\\mathrm{left}]$。当 $\\mathrm{left}$ 移动完成后，对于当前的 $\\mathrm{right}$，就包含了 $\\mathrm{right} - \\mathrm{left} + 1$ 个乘积小于 $k$ 的连续子数组。\n\n```Python [sol2]\nclass Solution(object):\n    def numSubarrayProductLessThanK(self, nums, k):\n        if k <= 1: return 0\n        prod = 1\n        ans = left = 0\n        for right, val in enumerate(nums):\n            prod *= val\n            while prod >= k:\n                prod /= nums[left]\n                left += 1\n            ans += right - left + 1\n        return ans\n```\n\n```Java [sol2]\nclass Solution {\n    public int numSubarrayProductLessThanK(int[] nums, int k) {\n        if (k <= 1) return 0;\n        int prod = 1, ans = 0, left = 0;\n        for (int right = 0; right < nums.length; right++) {\n            prod *= nums[right];\n            while (prod >= k) prod /= nums[left++];\n            ans += right - left + 1;\n        }\n        return ans;\n    }\n}\n```\n\n**复杂度分析**\n\n* 时间复杂度：$O(n)$，其中 $n$ 是 $\\mathrm{nums}$ 数组的长度。循环的时间复杂度为 $O(n)$，而 $\\mathrm{left}$ 最多移动 $n$ 次，因此总的时间复杂度为 $O(n)$。\n* 空间复杂度：$O(1)$。",
+      "createdAt": "2019-06-30T15:27:39.384042+00:00",
+      "hitCount": 29931,
+      "identifier": "VM8KeX",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "shuang-zhi-zhen-javascript-by-lzxjack-5gqx",
+        "title": "【双指针】JavaScript"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "subarray-product-less-than-k"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 44,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "AWESOME"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "CONFUSED"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 0,
+          "reactionType": "THUMBS_DOWN"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "cheng-ji-xiao-yu-kde-zi-shu-zu-by-leetcode",
+      "status": "PUBLISHED",
+      "summary": "方法一：二分查找\n分析\n我们可以使用二分查找解决这道题目，即对于固定的 $i$，二分查找出最大的 $j$ 满足 $\\mathrm{nums}[i]$ 到 $\\mathrm{nums}[j]$ 的乘积小于 $k$。但由于乘积可能会非常大（在最坏情况下会达到 $1000^{50000}$），会导致数值溢出，因此我们需要对 ",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Two Pointers",
+          "nameTranslated": "双指针",
+          "slug": "two-pointers",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Binary Search",
+          "nameTranslated": "二分查找",
+          "slug": "binary-search",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "乘积小于K的子数组",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 86,
+        "id": 11604,
+        "viewCount": 19235
+      },
+      "uuid": "VM8KeX",
+      "videosInfo": []
+    }
+  }
+}

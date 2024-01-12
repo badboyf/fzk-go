@@ -1,0 +1,131 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣官方题解",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/leetcode-solution/avatar_1582018938.png",
+          "userSlug": "leetcode-solution"
+        },
+        "username": "LeetCode-Solution"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法一：链地址法\n\n我们假定读者已经完成了「[705. 设计哈希集合](https://leetcode-cn.com/problems/design-hashset/)」这一题目。\n\n「设计哈希映射」与「设计哈希集合」解法接近，唯一的区别在于我们存储的不是 $\\textit{key}$ 本身，而是 $(\\textit{key}, \\textit{value})$ 对。除此之外，代码基本是类似的。\n\n```C++ [sol1-C++]\nclass MyHashMap {\nprivate:\n    vector<list<pair<int, int>>> data;\n    static const int base = 769;\n    static int hash(int key) {\n        return key % base;\n    }\npublic:\n    /** Initialize your data structure here. */\n    MyHashMap(): data(base) {}\n    \n    /** value will always be non-negative. */\n    void put(int key, int value) {\n        int h = hash(key);\n        for (auto it = data[h].begin(); it != data[h].end(); it++) {\n            if ((*it).first == key) {\n                (*it).second = value;\n                return;\n            }\n        }\n        data[h].push_back(make_pair(key, value));\n    }\n    \n    /** Returns the value to which the specified key is mapped, or -1 if this map contains no mapping for the key */\n    int get(int key) {\n        int h = hash(key);\n        for (auto it = data[h].begin(); it != data[h].end(); it++) {\n            if ((*it).first == key) {\n                return (*it).second;\n            }\n        }\n        return -1;\n    }\n    \n    /** Removes the mapping of the specified value key if this map contains a mapping for the key */\n    void remove(int key) {\n        int h = hash(key);\n        for (auto it = data[h].begin(); it != data[h].end(); it++) {\n            if ((*it).first == key) {\n                data[h].erase(it);\n                return;\n            }\n        }\n    }\n};\n```\n\n```Java [sol1-Java]\nclass MyHashMap {\n    private class Pair {\n        private int key;\n        private int value;\n\n        public Pair(int key, int value) {\n            this.key = key;\n            this.value = value;\n        }\n\n        public int getKey() {\n            return key;\n        }\n\n        public int getValue() {\n            return value;\n        }\n\n        public void setValue(int value) {\n            this.value = value;\n        }\n    }\n\n    private static final int BASE = 769;\n    private LinkedList[] data;\n\n    /** Initialize your data structure here. */\n    public MyHashMap() {\n        data = new LinkedList[BASE];\n        for (int i = 0; i < BASE; ++i) {\n            data[i] = new LinkedList<Pair>();\n        }\n    }\n    \n    /** value will always be non-negative. */\n    public void put(int key, int value) {\n        int h = hash(key);\n        Iterator<Pair> iterator = data[h].iterator();\n        while (iterator.hasNext()) {\n            Pair pair = iterator.next();\n            if (pair.getKey() == key) {\n                pair.setValue(value);\n                return;\n            }\n        }\n        data[h].offerLast(new Pair(key, value));\n    }\n    \n    /** Returns the value to which the specified key is mapped, or -1 if this map contains no mapping for the key */\n    public int get(int key) {\n        int h = hash(key);\n        Iterator<Pair> iterator = data[h].iterator();\n        while (iterator.hasNext()) {\n            Pair pair = iterator.next();\n            if (pair.getKey() == key) {\n                return pair.value;\n            }\n        }\n        return -1;\n    }\n    \n    /** Removes the mapping of the specified value key if this map contains a mapping for the key */\n    public void remove(int key) {\n        int h = hash(key);\n        Iterator<Pair> iterator = data[h].iterator();\n        while (iterator.hasNext()) {\n            Pair pair = iterator.next();\n            if (pair.key == key) {\n                data[h].remove(pair);\n                return;\n            }\n        }\n    }\n\n    private static int hash(int key) {\n        return key % BASE;\n    }\n}\n```\n\n```go [sol1-Golang]\nconst base = 769\n\ntype entry struct {\n    key, value int\n}\n\ntype MyHashMap struct {\n    data []list.List\n}\n\nfunc Constructor() MyHashMap {\n    return MyHashMap{make([]list.List, base)}\n}\n\nfunc (m *MyHashMap) hash(key int) int {\n    return key % base\n}\n\nfunc (m *MyHashMap) Put(key, value int) {\n    h := m.hash(key)\n    for e := m.data[h].Front(); e != nil; e = e.Next() {\n        if et := e.Value.(entry); et.key == key {\n            e.Value = entry{key, value}\n            return\n        }\n    }\n    m.data[h].PushBack(entry{key, value})\n}\n\nfunc (m *MyHashMap) Get(key int) int {\n    h := m.hash(key)\n    for e := m.data[h].Front(); e != nil; e = e.Next() {\n        if et := e.Value.(entry); et.key == key {\n            return et.value\n        }\n    }\n    return -1\n}\n\nfunc (m *MyHashMap) Remove(key int) {\n    h := m.hash(key)\n    for e := m.data[h].Front(); e != nil; e = e.Next() {\n        if e.Value.(entry).key == key {\n            m.data[h].Remove(e)\n        }\n    }\n}\n```\n\n```JavaScript [sol1-JavaScript]\nvar MyHashMap = function() {\n    this.BASE = 769;\n    this.data = new Array(this.BASE).fill(0).map(() => new Array());\n};\n\nMyHashMap.prototype.put = function(key, value) {\n    const h = this.hash(key);\n    for (const it of this.data[h]) {\n        if (it[0] === key) {\n            it[1] = value;\n            return;\n        }\n    }\n    this.data[h].push([key, value]);\n};\n\nMyHashMap.prototype.get = function(key) {\n    const h = this.hash(key);\n    for (const it of this.data[h]) {\n        if (it[0] === key) {\n            return it[1];\n        }\n    }\n    return -1;\n};\n\nMyHashMap.prototype.remove = function(key) {\n    const h = this.hash(key);\n    for (const it of this.data[h]) {\n        if (it[0] === key) {\n            const idx = this.data[h].indexOf(it);\n            this.data[h].splice(idx, 1);\n            return;\n        }\n    }\n};\n\nMyHashMap.prototype.hash = function(key) {\n    return key % this.BASE;\n}\n```\n\n```C [sol1-C]\nstruct List {\n    int key;\n    int val;\n    struct List* next;\n};\n\nvoid listPush(struct List* head, int key, int val) {\n    struct List* tmp = malloc(sizeof(struct List));\n    tmp->key = key;\n    tmp->val = val;\n    tmp->next = head->next;\n    head->next = tmp;\n}\n\nvoid listDelete(struct List* head, int key) {\n    for (struct List* it = head; it->next; it = it->next) {\n        if (it->next->key == key) {\n            struct List* tmp = it->next;\n            it->next = tmp->next;\n            free(tmp);\n            break;\n        }\n    }\n}\n\nstruct List* listFind(struct List* head, int key) {\n    for (struct List* it = head; it->next; it = it->next) {\n        if (it->next->key == key) {\n            return it->next;\n        }\n    }\n    return NULL;\n}\n\nvoid listFree(struct List* head) {\n    while (head->next) {\n        struct List* tmp = head->next;\n        head->next = tmp->next;\n        free(tmp);\n    }\n}\n\nconst int base = 769;\n\nint hash(int key) {\n    return key % base;\n}\n\ntypedef struct {\n    struct List* data;\n} MyHashMap;\n\nMyHashMap* myHashMapCreate() {\n    MyHashMap* ret = malloc(sizeof(MyHashMap));\n    ret->data = malloc(sizeof(struct List) * base);\n    for (int i = 0; i < base; i++) {\n        ret->data[i].key = 0;\n        ret->data[i].val = 0;\n        ret->data[i].next = NULL;\n    }\n    return ret;\n}\n\nvoid myHashMapPut(MyHashMap* obj, int key, int value) {\n    int h = hash(key);\n    struct List* rec = listFind(&(obj->data[h]), key);\n    if (rec == NULL) {\n        listPush(&(obj->data[h]), key, value);\n    } else {\n        rec->val = value;\n    }\n}\n\nint myHashMapGet(MyHashMap* obj, int key) {\n    int h = hash(key);\n    struct List* rec = listFind(&(obj->data[h]), key);\n    if (rec == NULL) {\n        return -1;\n    } else {\n        return rec->val;\n    }\n}\n\nvoid myHashMapRemove(MyHashMap* obj, int key) {\n    int h = hash(key);\n    listDelete(&(obj->data[h]), key);\n}\n\nvoid myHashMapFree(MyHashMap* obj) {\n    for (int i = 0; i < base; i++) {\n        listFree(&(obj->data[i]));\n    }\n    free(obj->data);\n}\n```\n\n**复杂度分析**\n\n- 时间复杂度：$O(\\frac{n}{b})$。其中 $n$ 为哈希表中的元素数量，$b$ 为链表的数量。假设哈希值是均匀分布的，则每个链表大概长度为 $\\frac{n}{b}$。\n\n- 空间复杂度：$O(n+b)$。",
+      "createdAt": "2021-03-13T11:16:29.238360+00:00",
+      "hitCount": 39867,
+      "identifier": "M3l1uB",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "wu-tu-guan-fang-tui-jian-ti-jie-she-ji-h-guuw",
+        "title": "【链地址法】设计哈希映射  "
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "design-hashmap"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 17,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "AWESOME"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "CONFUSED"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "she-ji-ha-xi-ying-she-by-leetcode-soluti-klu9",
+      "status": "PREPUBLISH",
+      "summary": "方法一：链地址法 我们假定读者已经完成了「705. 设计哈希集合」这一题目。 「设计哈希映射」与「设计哈希集合」解法接近，唯一的区别在于我们存储的不是 $\\textit{key}$ 本身，而是 $(\\textit{key}, \\textit{value})$ 对。除此之外，代码基本是类似的。 ```C++ [sol1-",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Design",
+          "nameTranslated": "设计",
+          "slug": "design",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Hash Table",
+          "nameTranslated": "哈希表",
+          "slug": "hash-table",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Linked List",
+          "nameTranslated": "链表",
+          "slug": "linked-list",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C",
+          "nameTranslated": "",
+          "slug": "c",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Go",
+          "nameTranslated": "",
+          "slug": "golang",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "JavaScript",
+          "nameTranslated": "",
+          "slug": "javascript",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "设计哈希映射",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 156,
+        "id": 654139,
+        "viewCount": 28779
+      },
+      "uuid": "M3l1uB",
+      "videosInfo": []
+    }
+  }
+}

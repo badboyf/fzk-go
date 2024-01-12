@@ -1,0 +1,79 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "skylys",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/skylys/avatar_1546247984.png",
+          "userSlug": "skylys"
+        },
+        "username": "skylys"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n此处撰写解题思路\n\n### 代码\n\n```javascript\n/**\n * Definition for a binary tree node.\n * function TreeNode(val, left, right) {\n *     this.val = (val===undefined ? 0 : val)\n *     this.left = (left===undefined ? null : left)\n *     this.right = (right===undefined ? null : right)\n * }\n */\n/**\n * @param {TreeNode} root\n * @return {number}\n */\nvar goodNodes = function(root) {\n    if (root == null) return 0;\n    /* 因为根节点也是好节点 */\n    let res = 0; \n    const dfs = (root, max) => {\n        if (root == null) return;\n\n        if (root.val >= max) {\n            res += 1;\n            max = root.val;\n        }\n        dfs(root.left, max);\n        dfs(root.right, max);\n    }\n    dfs(root, Number.MIN_SAFE_INTEGER);\n    return res;\n};\n```",
+      "createdAt": "2021-11-20T03:20:40.319570+00:00",
+      "hitCount": 23,
+      "identifier": "0PqrXt",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "c-dfs-10xing-dai-ma-by-yuangongzhen-qx70",
+        "title": "C-DFS 10行代码"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "count-good-nodes-in-binary-tree"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "javascript-qian-xu-bian-li-by-skylys-dqfv",
+      "status": "PUBLISHED",
+      "summary": "解题思路\n此处撰写解题思路\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "JavaScript",
+          "nameTranslated": "",
+          "slug": "javascript",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "DFS",
+          "nameTranslated": "",
+          "slug": "dfs",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "",
+      "title": "javascript 前序遍历",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1111777,
+        "viewCount": 19
+      },
+      "uuid": "0PqrXt",
+      "videosInfo": []
+    }
+  }
+}

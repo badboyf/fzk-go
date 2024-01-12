@@ -1,0 +1,91 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣 (LeetCode)",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/uploaded_files/2021/03/73c9f099-abbe-4d94-853f-f8abffd459cd/leetcode.png",
+          "userSlug": "leetcode"
+        },
+        "username": "LeetCode"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法框架\n\n**解释**\n\n由于我们需要将给定树中的每个节点都访问一遍，我们需要遍历树。我们可以用深度优先搜索或者宽度优先搜索将树遍历。\n\n这个问题中的主要想法是给每个节点一个 `position` 值，如果我们走向左子树，那么 `position -> position * 2`，如果我们走向右子树，那么 `position -> positon * 2 + 1`。当我们在看同一层深度的位置值 `L` 和 `R` 的时候，宽度就是 `R - L + 1`。\n\n#### 方法 1：宽度优先搜索 [Accepted]\n\n**想法和算法**\n\n宽度优先搜索顺序遍历每个节点的过程中，我们记录节点的 position 信息，对于每一个深度，第一个遇到的节点是最左边的节点，最后一个到达的节点是最右边的节点。\n\n```Python []\ndef widthOfBinaryTree(self, root):\n    queue = [(root, 0, 0)]\n    cur_depth = left = ans = 0\n    for node, depth, pos in queue:\n        if node:\n            queue.append((node.left, depth+1, pos*2))\n            queue.append((node.right, depth+1, pos*2 + 1))\n            if cur_depth != depth:\n                cur_depth = depth\n                left = pos\n            ans = max(pos - left + 1, ans)\n\n    return ans\n```\n\n```Java []\nclass Solution {\n    public int widthOfBinaryTree(TreeNode root) {\n        Queue<AnnotatedNode> queue = new LinkedList();\n        queue.add(new AnnotatedNode(root, 0, 0));\n        int curDepth = 0, left = 0, ans = 0;\n        while (!queue.isEmpty()) {\n            AnnotatedNode a = queue.poll();\n            if (a.node != null) {\n                queue.add(new AnnotatedNode(a.node.left, a.depth + 1, a.pos * 2));\n                queue.add(new AnnotatedNode(a.node.right, a.depth + 1, a.pos * 2 + 1));\n                if (curDepth != a.depth) {\n                    curDepth = a.depth;\n                    left = a.pos;\n                }\n                ans = Math.max(ans, a.pos - left + 1);\n            }\n        }\n        return ans;\n    }\n}\n\nclass AnnotatedNode {\n    TreeNode node;\n    int depth, pos;\n    AnnotatedNode(TreeNode n, int d, int p) {\n        node = n;\n        depth = d;\n        pos = p;\n    }\n}\n```\n\n**复杂度分析**\n\n* 时间复杂度： $O(N)$，其中 $N$ 是输入树的节点数目，我们遍历每个节点一遍。\n\n* 空间复杂度： $O(N)$，这是 `queue` 的大小。\n\n#### 方法 2：深度优先搜索 [Accepted]\n\n**想法和算法**\n\n按照深度优先的顺序，我们记录每个节点的 position 。对于每一个深度，第一个到达的位置会被记录在 `left[depth]` 中。\n\n然后对于每一个节点，它对应这一层的可能宽度是 `pos - left[depth] + 1` 。我们将每一层这些可能的宽度去一个最大值就是答案。\n\n```Python []\nclass Solution(object):\n    def widthOfBinaryTree(self, root):\n        self.ans = 0\n        left = {}\n        def dfs(node, depth = 0, pos = 0):\n            if node:\n                left.setdefault(depth, pos)\n                self.ans = max(self.ans, pos - left[depth] + 1)\n                dfs(node.left, depth + 1, pos * 2)\n                dfs(node.right, depth + 1, pos * 2 + 1)\n\n        dfs(root)\n        return self.ans\n```\n\n```Java []\nclass Solution {\n    int ans;\n    Map<Integer, Integer> left;\n    public int widthOfBinaryTree(TreeNode root) {\n        ans = 0;\n        left = new HashMap();\n        dfs(root, 0, 0);\n        return ans;\n    }\n    public void dfs(TreeNode root, int depth, int pos) {\n        if (root == null) return;\n        left.computeIfAbsent(depth, x-> pos);\n        ans = Math.max(ans, pos - left.get(depth) + 1);\n        dfs(root.left, depth + 1, 2 * pos);\n        dfs(root.right, depth + 1, 2 * pos + 1);\n    }\n}\n```\n\n**复杂度分析**\n\n* 时间复杂度： $O(N)$ ，其中 $N$ 是树中节点的数目，我们需要遍历每个节点。\n\n* 空间复杂度： $O(N)$ ，这部分空间是因为我们 DFS 递归过程中有 $N$ 层的栈。\n\n此分析方法由 [@awice](https://leetcode.com/awice) 提供。\n",
+      "createdAt": "2019-10-05T16:29:43.347738+00:00",
+      "hitCount": 39913,
+      "identifier": "bwSVom",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "zhong-xu-bian-li-qiu-chu-mei-ceng-zui-zu-gf81",
+        "title": "中序遍历"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "maximum-width-of-binary-tree"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 37,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "er-cha-shu-zui-da-kuan-du-by-leetcode",
+      "status": "PUBLISHED",
+      "summary": "§ 方法框架\n解释\n由于我们需要将给定树中的每个节点都访问一遍，我们需要遍历树。我们可以用深度优先搜索或者宽度优先搜索将树遍历。\n这个问题中的主要想法是给每个节点一个 position 值，如果我们走向左子树，那么 position -> position * 2，如果我们走向右子树，那么 position -> po",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Depth-First Search",
+          "nameTranslated": "深度优先搜索",
+          "slug": "depth-first-search",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "二叉树最大宽度",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 55,
+        "id": 32299,
+        "viewCount": 26152
+      },
+      "uuid": "bwSVom",
+      "videosInfo": []
+    }
+  }
+}

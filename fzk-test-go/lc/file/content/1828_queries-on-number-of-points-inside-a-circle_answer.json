@@ -1,0 +1,72 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "努力追上zjw",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/cai-zhu-e/avatar_1630909290.png",
+          "userSlug": "cai-zhu-e"
+        },
+        "username": "cai-zhu-e"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "```c\n\n\n/**\n * Note: The returned array must be malloced, assume caller calls free().\n */\nint distance(int x1,int y1,int x2,int y2){\n    int x=fabs(x1-x2);\n    int y=fabs(y1-y2);\n    return x*x+y*y;\n}\nint* countPoints(int** points, int pointsSize, int* pointsColSize, int** queries, int queriesSize, int* queriesColSize, int* returnSize){\n    *returnSize=0;\n    int *ans=malloc(sizeof(int)*queriesSize);\n    for(int i=0;i<queriesSize;i++)\n        ans[i]=0;\n    for(int i=0;i<queriesSize;i++){\n        for(int j=0;j<pointsSize;j++){\n            int dist=distance(queries[i][0],queries[i][1],\n                              points[j][0],points[j][1]);\n            int radius=queries[i][2];\n            if(radius*radius>=dist){\n                ans[(*returnSize)]++;\n            }\n        }\n        (*returnSize)++;\n    }\n    return ans;\n}\n```",
+      "createdAt": "2021-11-16T09:02:20.884667+00:00",
+      "hitCount": 53,
+      "identifier": "a0jhdU",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "python3-by-eimy-v-y87s",
+        "title": "python3"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "queries-on-number-of-points-inside-a-circle"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "bai-fen-zhi-liu-dian-er-by-cai-zhu-e-4lca",
+      "status": "PUBLISHED",
+      "summary": "",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "C",
+          "nameTranslated": "",
+          "slug": "c",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "百分之六点二……",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1105132,
+        "viewCount": 42
+      },
+      "uuid": "a0jhdU",
+      "videosInfo": []
+    }
+  }
+}

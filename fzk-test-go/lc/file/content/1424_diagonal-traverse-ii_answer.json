@@ -1,0 +1,86 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "GGbreaker",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/mybiggg/avatar_1543299138.png",
+          "userSlug": "806748118"
+        },
+        "username": "806748118"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n使用bfs进行遍历，因为上一个层的点的索引为(i,j)，那么下一个层级的索引为(i+1,j)和(i,j+1)\n### 代码\n```python3\nclass Solution:\n    def findDiagonalOrder(self, nums: List[List[int]]) -> List[int]:\n        n = len(nums)\n        #初始化起点索引\n        q = [(0,0)]\n        ans = []\n        #已经遍历过的点\n        viewed=set()\n        #进行bfs\n        while q:\n            i,j = q.pop(0)\n            ans.append(nums[i][j])\n            #判断第一个可加入的下一级别的点\n            if i+1<=n-1 and j<=len(nums[i+1])-1 and (i+1,j) not in viewed: \n                q.append((i+1,j))\n                viewed.add((i+1,j))\n            #判断第二个可加入的下一级别的点\n            if j+1<=len(nums[i])-1 and (i,j+1) not in viewed:\n                q.append((i,j+1))\n                viewed.add((i,j+1))\n        #返回答案\n        return ans\n```",
+      "createdAt": "2021-11-24T09:52:23.550376+00:00",
+      "hitCount": 9,
+      "identifier": "IYFuOh",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "python3-ji-bai-100-by-arthurchow-qjiw",
+        "title": "python3 击败100%"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "diagonal-traverse-ii"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "python3bfsbu-zou-shuo-ming-by-806748118-9acj",
+      "status": "PUBLISHED",
+      "summary": "解题思路\n使用bfs进行遍历，因为上一个层的点的索引为(i,j)，那么下一个层级的索引为(i+1,j)和(i,j+1)\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Breadth-First Search",
+          "nameTranslated": "广度优先搜索",
+          "slug": "breadth-first-search",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python3",
+          "nameTranslated": "",
+          "slug": "python3",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "python3+bfs+步骤说明",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1120105,
+        "viewCount": 9
+      },
+      "uuid": "IYFuOh",
+      "videosInfo": []
+    }
+  }
+}

@@ -1,0 +1,88 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "江锋",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/jiang-feng-17/avatar_1625360790.png",
+          "userSlug": "jiang-feng-17"
+        },
+        "username": "jiang-feng-17"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "###### 既然是写题目，还是有必要练习造轮子。\n主要逻辑就是遇到 '&' 就将新来的字符们临时存储起来，直到:\n1. **下一个'&' 出现**，表示当前活跃的替换字符串法无法成功替换\n2. **';' 出现**，并查看当前存储的字符串是否能成功被替换。成功则将替换后的字符串加入结果字符串，失败则直接将字符串加入结果字符串\n3. **字符串扫描结束**，表示本次替换将无法成功\n\n```java\nclass Solution {\n    public String entityParser(String text) {\n        // 建立替换池\n        HashMap<String, String> parsePool = new HashMap<>();\n        parsePool.put(\"&quot;\", \"\\\"\");\n        parsePool.put(\"&apos;\", \"'\");\n        parsePool.put(\"&amp;\", \"&\");\n        parsePool.put(\"&gt;\", \">\");\n        parsePool.put(\"&lt;\", \"<\");\n        parsePool.put(\"&frasl;\", \"/\");\n        // result 存储结果\n        StringBuilder result = new StringBuilder();\n        // temp 存储等待替换的字符串\n        StringBuilder temp = new StringBuilder();\n        char[] charArray = text.toCharArray();\n        for(char c: charArray){\n            if(c == '&'){\n                // 当检测到 '&' 启动新一轮替换\n                // temp.length != 0 表示上一轮替换未结束且无法成功\n                if(temp.length() != 0){\n                    // 将上一轮等待替换的字符串不做修改加入结果\n                    result.append(temp);\n                    // 清空等待替换的字符串\n                    temp = new StringBuilder();\n                }\n                // 开始新一轮替换\n                temp.append(\"&\");\n            }else if(c == ';'){\n                // 当检测到 ';' 结束活跃中的替换\n                if(temp.length() != 0){\n                    // temp.length != 0 表示有等待替换的字符串\n                    temp.append(\";\");\n                    // 添加完 ';' 后，从替换池中寻找相应的替换字符串\n                    if(parsePool.containsKey(temp.toString())){\n                        // 当前字符串可替换\n                        String replaceString = parsePool.get(temp.toString());\n                        // 将替换后的字符串加入结果字符串\n                        result.append(replaceString);\n                    }else{\n                        // 当前字符串不可替换，将字符串不做更改直接添加入结果字符串\n                        result.append(temp);\n                    }\n                    // 清空等待替换的字符串\n                    temp = new StringBuilder();\n                }else{\n                    // temp.length == 0 表示没有等待替换的字符串，直接将';'加入结果字符串\n                    result.append(\";\");\n                }\n            }else{\n                // 当前是普通字符\n                if(temp.length() != 0){\n                    // temp.length != 0 表示有等待替换的字符串，将当前的字符加入，等待替换\n                    temp.append(c);\n                }else{\n                    // temp.length == 0 表示没有等待替换的字符串，将当前的字符直接加入结果字符串\n                    result.append(c);\n                }\n            }\n        }\n        // 如果结束时还有等待替换的字符串，无法替换成功，直接加入结果字符串\n        if(temp.length() != 0){\n            result.append(temp);\n        }\n        return result.toString();\n    }\n}\n```\n如果有帮助，求点赞，谢谢 ^_^",
+      "createdAt": "2021-06-22T04:16:33.174588+00:00",
+      "hitCount": 368,
+      "identifier": "mWVzoX",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "jsliang-chong-shi-xian-fang-shi-by-a-che-gyk3",
+        "title": "JS两种实现方式"
+      },
+      "position": 32,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "html-shi-ti-jie-xi-qi-by-nipzn-03hc",
+        "title": "HTML 实体解析器"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "html-entity-parser"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "AWESOME"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 0,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "java-mo-ni-ti-huan-guo-cheng-by-jiang-fe-nje7",
+      "status": "PUBLISHED",
+      "summary": "既然是写题目，还是有必要练习造轮子。\n主要逻辑就是遇到 '&' 就将新来的字符们临时存储起来，直到:\n\n下一个'&' 出现，表示当前活跃的替换字符串法无法成功替换\n';' 出现，并查看当前存储的字符串是否能成功被替换。成功则将替换后的字符串加入结果字符串，失败则直接将字符串加入结果字符串\n字符串扫描结束，表示本次替换",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Simulation",
+          "nameTranslated": "模拟",
+          "slug": "simulation",
+          "tagType": "TOPIC"
+        }
+      ],
+      "thumbnail": "",
+      "title": "Java 模拟替换过程",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 839467,
+        "viewCount": 307
+      },
+      "uuid": "mWVzoX",
+      "videosInfo": []
+    }
+  }
+}

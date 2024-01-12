@@ -1,0 +1,91 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "灵茶山艾府",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/endlesscheng/avatar_1589367048.png",
+          "userSlug": "endlesscheng"
+        },
+        "username": "endlesscheng"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "```go\r\nfunc platesBetweenCandles(s string, queries [][]int) []int {\r\n\tn := len(s)\r\n\tsum := make([]int, n+1) // sum[i] 表示 s[:i] 中盘子的个数\r\n\tleft := make([]int, n) // left[i] 表示 i 左侧最近蜡烛位置\r\n\tp := -1\r\n\tfor i, b := range s {\r\n\t\tsum[i+1] = sum[i]\r\n\t\tif b == '|' {\r\n\t\t\tp = i\r\n\t\t} else {\r\n\t\t\tsum[i+1]++\r\n\t\t}\r\n\t\tleft[i] = p\r\n\t}\r\n\r\n\tright := make([]int, n) // right[i] 表示 i 右侧最近蜡烛位置\r\n\tfor i, p := n-1, n; i >= 0; i-- {\r\n\t\tif s[i] == '|' {\r\n\t\t\tp = i\r\n\t\t}\r\n\t\tright[i] = p\r\n\t}\r\n\r\n\tans := make([]int, len(queries))\r\n\tfor i, q := range queries {\r\n\t\tl, r := right[q[0]], left[q[1]] // 用最近蜡烛位置来代替查询的范围，从而去掉不符合要求的盘子\r\n\t\tif l < r {\r\n\t\t\tans[i] = sum[r] - sum[l]\r\n\t\t}\r\n\t}\r\n\treturn ans\r\n}\r\n```",
+      "createdAt": "2021-10-30T23:53:10.010526+00:00",
+      "hitCount": 826,
+      "identifier": "JTbr08",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "java-qian-zhui-he-ji-hashmapde-shi-yong-xqqst",
+        "title": "java-前缀和及hashmap的使用，线性时间复杂度"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "plates-between-candles"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 10,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "xian-xing-zuo-fa-qian-zhui-he-mei-ge-wei-b2if",
+      "status": "PREPUBLISH",
+      "summary": "[该用户太懒了，只写了 32 行代码]",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "String",
+          "nameTranslated": "字符串",
+          "slug": "string",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Prefix Sum",
+          "nameTranslated": "前缀和",
+          "slug": "prefix-sum",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Go",
+          "nameTranslated": "",
+          "slug": "golang",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "线性做法：前缀和+每个位置的最近蜡烛",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 1,
+        "id": 1075392,
+        "viewCount": 638
+      },
+      "uuid": "JTbr08",
+      "videosInfo": []
+    }
+  }
+}

@@ -1,0 +1,77 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "逗比克星",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/wo-shi-xie-wu-rui-la-wang-chai/avatar_1618042786.png",
+          "userSlug": "master_xue"
+        },
+        "username": "master_xue"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "# **暴力解法**\r\n暴力解法比较直观，只要确定矩阵的宽度和高度就可以确定矩阵的面积。使用两重循环遍历所有的矩形，比较它们的面积大小。代码如下，时间复杂度为 O(n^2)，空间复杂度为 O(1)，时间复杂度过高超时。\r\n\r\n```\r\nclass Solution {\r\npublic:\r\n    int largestRectangleArea(vector<int>& heights) {\r\n        int maxArea = 0;\r\n        for (int left = 0; left < heights.size(); ++left) {\r\n            int minHeight = heights[left];\r\n            for (int right = left; right < heights.size(); ++right) {\r\n                minHeight = min(minHeight, heights[right]);\r\n                maxArea = max(maxArea, (right - left + 1) * minHeight);\r\n            }\r\n        }\r\n        return maxArea;\r\n    }\r\n};\r\n```\r\n\r\n# **分治法**\r\n以 [2, 1, 5, 6, 2, 3] 为例，可以发现最短的矩形高度 1 的下标为 1，那么最大面积矩形存在三种可能，第一种可能是该最大矩阵通过最低高度，宽度为数组长度 6（图中绿色部分），另一种是矩形完全落在最矮矩阵的左边（即图中标记的 left 部分），另一种是矩形完全落在最矮矩阵的右边（即图中标记的 right 部分）。第二种和第三种其本质和原问题是一样的，所以可以调用递归函数完成。\r\n![ba8d3989c9ea4d6a95570b3aa90feb3.jpg](https://pic.leetcode-cn.com/1629447714-RYskhx-ba8d3989c9ea4d6a95570b3aa90feb3.jpg)\r\n\r\n代码如下，代码的平均时间复杂度为 O(nlogn)，柱子高度为有序时最差为 O(n^2)，平均空间复杂度为 O(logn)，有序时最差为 O(n)。同样也是时间复杂度过高，会超时。\r\n```\r\nclass Solution {\r\npublic:\r\n    int largestRectangleArea(vector<int>& heights) {\r\n        return helper(heights, 0, heights.size());\r\n    }\r\n\r\n    int helper(vector<int>& heights, int start, int end) {\r\n        if (start == end) {\r\n            return 0;\r\n        }\r\n        if (start + 1 == end) {\r\n            return heights[start];\r\n        }\r\n        int minHeight = heights[start];\r\n        int minIndx = start;\r\n        for (int i = start + 1; i < end; ++i) {\r\n            if (heights[i] < minHeight) {\r\n                minHeight = heights[i];\r\n                minIndx = i;\r\n            }\r\n        }\r\n        int mid = (end - start) * minHeight;\r\n        int left = helper(heights, start, minIndx);\r\n        int right = helper(heights, minIndx + 1, end);\r\n        return max(mid, max(left, right));\r\n    }\r\n};\r\n```\r\n# **单调栈**\r\n下面介绍单调栈解法可以把时间复杂度降为 O(n)，单调栈顾名思义就是栈中保存的数是单调有序的。在这里使用单调栈保存柱子的高度，使其呈单调递增，为了方便计算矩阵宽度，所以栈出实际保存的是柱子在数组内的下标值。\r\n\r\n单调栈的基本思想就是保证存在栈中的柱子的高度是递增的。基础操作为，从左往右扫描数组内的柱子高度，若当前柱高大于栈顶柱高，那么该柱子下标入栈；反之，将栈顶柱子出栈，并计算栈顶柱子为顶的最高矩阵面积，直至可入栈。\r\n\r\n如何确定栈顶柱高为顶的最高矩阵面积？该矩阵的宽度一定是，从栈顶柱子的两边出发直到遇到比该柱高矮的柱子所夹成的宽度。因为单调栈中保存的柱高是递增的，所以栈中位于栈顶柱子前面的柱子一定比栈顶柱子矮，同样当前扫描到的柱子也矮于位于栈顶的柱子，所以顶柱子为顶的最高矩阵的宽度就确定了，那么面积也就确定了。\r\n\r\n下面以 [2, 1, 5, 6, 2, 3] 为例说明，过程如图所示。\r\n![image.png](https://pic.leetcode-cn.com/1629450891-DTWpaG-image.png)\r\n\r\n可以发现，最后栈中除了为了处理方便而加入的初始化的 -1 以外，还有 1, 4, 5 三个元素，说明以 1, 2, 3 柱高为顶的最大矩阵还未计算。这时候只要多想一步，它们未被计算是因为还未出现比它们矮的柱子。若假设最后再加入一个高度为 0 的柱高，那么栈中除了 -1 以外，所有的元素都会出栈，那么所有的柱子均被计算，计算完毕，继续的过程如下\r\n![image.png](https://pic.leetcode-cn.com/1629451413-pOKglw-image.png)\r\n\r\n代码如下，时间复杂度为 O(n)，空间复杂度为 O(n)。\r\n```\r\nclass Solution {\r\npublic:\r\n    int largestRectangleArea(vector<int>& heights) {\r\n        stack<int> sta;\r\n        sta.push(-1);\r\n        int maxArea = 0;\r\n        for (int i = 0; i < heights.size(); ++i) {\r\n            while (sta.top() != -1 && heights[sta.top()] >= heights[i]) {\r\n                int height = heights[sta.top()];\r\n                sta.pop();\r\n                int width = i - sta.top() - 1;\r\n                maxArea = max(maxArea, height * width);\r\n            }\r\n            sta.push(i);\r\n        }\r\n\r\n        while (sta.top() != -1) {\r\n            int height = heights[sta.top()];\r\n            sta.pop();\r\n            int width = heights.size() - sta.top() - 1;\r\n            maxArea = max(maxArea, height * width);\r\n        }\r\n        return maxArea;\r\n    }\r\n};\r\n```\r\n",
+      "createdAt": "2021-08-20T09:24:47.960618+00:00",
+      "hitCount": 2891,
+      "identifier": "IM4STc",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "jian-zhi-offer-ii-039-zhi-fang-tu-zui-da-t26h",
+        "title": "剑指 Offer II 039. 直方图最大矩形面积-单调栈经典题"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "0ynMMM"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 14,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "jian-zhi-offer-2-mian-shi-ti-39-shu-zhon-qzaw",
+      "status": "PREPUBLISH",
+      "summary": "暴力解法\n暴力解法比较直观，只要确定矩阵的宽度和高度就可以确定矩阵的面积。使用两重循环遍历所有的矩形，比较它们的面积大小。代码如下，时间复杂度为 O(n^2)，空间复杂度为 O(1)，时间复杂度过高超时。\n分治法\n以 [2, 1, 5, 6, 2, 3] 为例，可以发现最短的矩形高度 1 的下标为 1，那么最大面积矩形",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1629447714-RYskhx-ba8d3989c9ea4d6a95570b3aa90feb3.jpg",
+      "title": "《剑指offer 2 面试题39》 书中算法C++实现",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 2,
+        "id": 947913,
+        "viewCount": 1767
+      },
+      "uuid": "IM4STc",
+      "videosInfo": []
+    }
+  }
+}

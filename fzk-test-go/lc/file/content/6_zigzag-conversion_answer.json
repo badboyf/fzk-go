@@ -1,0 +1,94 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣 (LeetCode)",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/uploaded_files/2021/03/73c9f099-abbe-4d94-853f-f8abffd459cd/leetcode.png",
+          "userSlug": "leetcode"
+        },
+        "username": "LeetCode"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法一：按行排序\n\n**思路**\n\n通过从左向右迭代字符串，我们可以轻松地确定字符位于 Z 字形图案中的哪一行。\n\n**算法**\n\n我们可以使用 $\\text{min}( \\text{numRows}, \\text{len}(s))$ 个列表来表示 Z 字形图案中的非空行。\n\n从左到右迭代 $s$，将每个字符添加到合适的行。可以使用当前行和当前方向这两个变量对合适的行进行跟踪。\n\n只有当我们向上移动到最上面的行或向下移动到最下面的行时，当前方向才会发生改变。\n\n```cpp [jG99vE4g-C++]\nclass Solution {\npublic:\n    string convert(string s, int numRows) {\n\n        if (numRows == 1) return s;\n\n        vector<string> rows(min(numRows, int(s.size())));\n        int curRow = 0;\n        bool goingDown = false;\n\n        for (char c : s) {\n            rows[curRow] += c;\n            if (curRow == 0 || curRow == numRows - 1) goingDown = !goingDown;\n            curRow += goingDown ? 1 : -1;\n        }\n\n        string ret;\n        for (string row : rows) ret += row;\n        return ret;\n    }\n};\n```\n```java [jG99vE4g-Java]\nclass Solution {\n    public String convert(String s, int numRows) {\n\n        if (numRows == 1) return s;\n\n        List<StringBuilder> rows = new ArrayList<>();\n        for (int i = 0; i < Math.min(numRows, s.length()); i++)\n            rows.add(new StringBuilder());\n\n        int curRow = 0;\n        boolean goingDown = false;\n\n        for (char c : s.toCharArray()) {\n            rows.get(curRow).append(c);\n            if (curRow == 0 || curRow == numRows - 1) goingDown = !goingDown;\n            curRow += goingDown ? 1 : -1;\n        }\n\n        StringBuilder ret = new StringBuilder();\n        for (StringBuilder row : rows) ret.append(row);\n        return ret.toString();\n    }\n}\n```\n\n\n**复杂度分析**\n\n* 时间复杂度：$O(n)$，其中 $n == \\text{len}(s)$\n* 空间复杂度：$O(n)$\n\n---\n\n#### 方法二：按行访问\n\n**思路**\n\n按照与逐行读取 Z 字形图案相同的顺序访问字符串。\n\n**算法**\n\n首先访问 `行 0` 中的所有字符，接着访问 `行 1`，然后 `行 2`，依此类推...\n\n对于所有整数 $k$，\n\n- 行 $0$ 中的字符位于索引 $k \\; (2 \\cdot \\text{numRows} - 2)$ 处; \n- 行 $\\text{numRows}-1$ 中的字符位于索引 $k \\; (2 \\cdot \\text{numRows} - 2) + \\text{numRows} - 1$ 处; \n- 内部的 行 $i$ 中的字符位于索引 $k \\; (2 \\cdot \\text{numRows}-2)+i$ 以及 $(k+1)(2 \\cdot \\text{numRows}-2)- i$ 处; \n\n```cpp [heMTwrqW-C++]\nclass Solution {\npublic:\n    string convert(string s, int numRows) {\n\n        if (numRows == 1) return s;\n\n        string ret;\n        int n = s.size();\n        int cycleLen = 2 * numRows - 2;\n\n        for (int i = 0; i < numRows; i++) {\n            for (int j = 0; j + i < n; j += cycleLen) {\n                ret += s[j + i];\n                if (i != 0 && i != numRows - 1 && j + cycleLen - i < n)\n                    ret += s[j + cycleLen - i];\n            }\n        }\n        return ret;\n    }\n};\n```\n```java [heMTwrqW-Java]\nclass Solution {\n    public String convert(String s, int numRows) {\n\n        if (numRows == 1) return s;\n\n        StringBuilder ret = new StringBuilder();\n        int n = s.length();\n        int cycleLen = 2 * numRows - 2;\n\n        for (int i = 0; i < numRows; i++) {\n            for (int j = 0; j + i < n; j += cycleLen) {\n                ret.append(s.charAt(j + i));\n                if (i != 0 && i != numRows - 1 && j + cycleLen - i < n)\n                    ret.append(s.charAt(j + cycleLen - i));\n            }\n        }\n        return ret.toString();\n    }\n}\n```\n\n\n**复杂度分析**\n\n* 时间复杂度：$O(n)$，其中 $n == \\text{len}(s)$。每个索引被访问一次。\n* 空间复杂度：$O(n)$。对于 C++ 实现，如果返回字符串不被视为额外空间，则复杂度为 $O(1)$。",
+      "createdAt": "2018-06-15T19:30:37.987817+00:00",
+      "hitCount": 299755,
+      "identifier": "p4yrZm",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "zzi-xing-bian-huan-by-jyd",
+        "title": "Z 字形变换（清晰图解）"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "zigzag-conversion"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 337,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 14,
+          "reactionType": "AWESOME"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 12,
+          "reactionType": "CONFUSED"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 0,
+          "reactionType": "THUMBS_DOWN"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "z-zi-xing-bian-huan-by-leetcode",
+      "status": "PUBLISHED",
+      "summary": "§ 方法一：按行排序\n思路\n通过从左向右迭代字符串，我们可以轻松地确定字符位于 Z 字形图案中的哪一行。\n算法\n我们可以使用 \\text{min}( \\text{numRows}, \\text{len}(s)) 个列表来表示 Z 字形图案中的非空行。\n从左到右迭代 s，将每个字符添加到合适的行。可以使用当前行和当前方向",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "Z 字形变换",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 515,
+        "id": 3521,
+        "viewCount": 180398
+      },
+      "uuid": "p4yrZm",
+      "videosInfo": []
+    }
+  }
+}

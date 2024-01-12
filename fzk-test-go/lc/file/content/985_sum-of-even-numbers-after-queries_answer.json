@@ -1,0 +1,72 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣 (LeetCode)",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/uploaded_files/2021/03/73c9f099-abbe-4d94-853f-f8abffd459cd/leetcode.png",
+          "userSlug": "leetcode"
+        },
+        "username": "LeetCode"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法：调整数组和\n\n**思路与算法**\n\n让我们尝试不断调整 `S`，即每一步操作之后整个数组的偶数和。\n\n我们操作数组中的某一个元素 `A[index]` 的时候，数组 `A` 其他位置的元素都应保持不变。如果 `A[index]` 是偶数，我们就从 `S` 中减去它，然后计算 `A[index] + val` 对 `S` 的影响（如果是偶数则在 `S` 中加上它）。\n\n这里有一些例子：\n\n* 如果当前情况为 `A = [2,2,2,2,2]`、`S = 10`，并且需要执行 `A[0] += 4` 操作：我们应该先令 `S -= 2`，然后令 `S += 6`。最后得到 `A = [6,2,2,2,2]` 与 `S = 14`。\n\n* 如果当前情况为 `A = [1,2,2,2,2]`、`S = 8`，同时需要执行 `A[0] += 3` 操作：我们会跳过第一次更新 `S` 的步骤（因为 `A[0]` 是奇数），然后令 `S += 4`。 最后得到 `A = [4,2,2,2,2]` 与 `S = 12`。\n\n* 如果当前情况为 `A = [2,2,2,2,2]`、`S = 10`，同时需要执行 `A[0] += 1` 操作：我们先令 `S -= 2`，然后跳过第二次更新 `S` 的操作（因为 `A[0] + 1` 是奇数）。最后得到 `A = [3,2,2,2,2]` 与 `S = 8`。\n\n* 如果当前情况为 `A = [1,2,2,2,2]`、`S = 8`，同时需要执行 `A[0] += 2` 操作：我们跳过第一次更新 `S` 的操作（因为 `A[0]` 是奇数），然后再跳过第二次更新 `S` 的操作（因为 `A[0] + 2` 是奇数）。最后得到 `A = [3,2,2,2,2]` 与 `S = 8`。\n\n这些例子充分展现了我们的算法在每一次询问操作之后应该如何调整 `S` 。\n\n```java [ZscGXmuD-Java]\nclass Solution {\n    public int[] sumEvenAfterQueries(int[] A, int[][] queries) {\n        int S = 0;\n        for (int x: A)\n            if (x % 2 == 0)\n                S += x;\n\n        int[] ans = new int[queries.length];\n\n        for (int i = 0; i < queries.length; ++i) {\n            int val = queries[i][0], index = queries[i][1];\n            if (A[index] % 2 == 0) S -= A[index];\n            A[index] += val;\n            if (A[index] % 2 == 0) S += A[index];\n            ans[i] = S;\n        }\n\n        return ans;\n    }\n}\n```\n```python [ZscGXmuD-Python]\nclass Solution(object):\n    def sumEvenAfterQueries(self, A, queries):\n        S = sum(x for x in A if x % 2 == 0)\n        ans = []\n\n        for x, k in queries:\n            if A[k] % 2 == 0: S -= A[k]\n            A[k] += x\n            if A[k] % 2 == 0: S += A[k]\n            ans.append(S)\n\n        return ans\n```\n\n\n**复杂度分析**\n\n* 时间复杂度：$O(N+Q)$，其中 $N$ 是数组 `A` 的长度， $Q$ 是询问 `queries` 的数量。\n\n* 空间复杂度：$O(N+Q)$，事实上我们只使用了 $O(1)$ 的额外空间。\n\n\n\n",
+      "createdAt": "2019-02-03T14:30:42.772622+00:00",
+      "hitCount": 7430,
+      "identifier": "WwHG9F",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "985-cji-hu-shuang-bai-de-mo-ni-jie-fa-by-ngmk",
+        "title": "985. c++几乎双百的模拟解法"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "sum-of-even-numbers-after-queries"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 3,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "cha-xun-hou-de-ou-shu-he-by-leetcode",
+      "status": "PUBLISHED",
+      "summary": "思路与算法\n让我们尝试不断调整 S，即每一步操作之后整个数组的偶数和。\n我们操作数组中的某一个元素 A[index] 的时候，数组 A 其他位置的元素都应保持不变。如果 A[index] 是偶数，我们就从 S 中减去它，然后计算 A[index] + val 对 S 的影响（如果是偶数则在 S 中加上它）。\n这里有一些",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "查询后的偶数和",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 8,
+        "id": 3605,
+        "viewCount": 4969
+      },
+      "uuid": "WwHG9F",
+      "videosInfo": []
+    }
+  }
+}

@@ -1,0 +1,86 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣 (LeetCode)",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/uploaded_files/2021/03/73c9f099-abbe-4d94-853f-f8abffd459cd/leetcode.png",
+          "userSlug": "leetcode"
+        },
+        "username": "LeetCode"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法 1：按块扫描\n\n**想法**\n\n问题等价于，找到最长的子序列，最多含有两种“类型”（`tree[i]` 的值）。\n\n不单独考虑每个元素，转而考虑相同类型的相连块。\n\n比如说，`tree = [1, 1, 1, 1, 2, 2, 3, 3, 3]` 可以看成是 `blocks = [(1, weight = 4), (2, weight = 2), (3, weight = 3)]`。\n\n现在可以使用暴力，从左往右扫描。我们会有类似于 `blocks = [1, _2_, 1, 2, 1, 2, _1_, 3, ...]` 以及对应权重。\n\n处理的核心思想是，当我们考虑 `3` 的时候，我们不需要从第二个元素 `2` （也就是标记成 `_2_` 的数字）开始考虑，我们可以从 `3` 之前的第一个元素开始考虑（`_1_`）。这是因为如果我们从前两个或更多元素开始，这个序列一定包含类型 `1` 和 `2`，所以序列一定会在 `3` 处停止，这就比已经考虑的序列更短了。\n\n从每个开始点（块的最左端点）开始考虑，这个结果一定是对的。\n\n**算法**\n\nPython 和 Java 的实现方法，符号和策略有所不同，可以查看代码内的注释。\n\n```Java []\nclass Solution {\n    public int totalFruit(int[] tree) {\n        // We'll make a list of indexes for which a block starts.\n        List<Integer> blockLefts = new ArrayList();\n\n        // Add the left boundary of each block\n        for (int i = 0; i < tree.length; ++i)\n            if (i == 0 || tree[i-1] != tree[i])\n                blockLefts.add(i);\n\n        // Add tree.length as a sentinel for convenience\n        blockLefts.add(tree.length);\n\n        int ans = 0, i = 0;\n        search: while (true) {\n            // We'll start our scan at block[i].\n            // types : the different values of tree[i] seen\n            // weight : the total number of trees represented\n            //          by blocks under consideration\n            Set<Integer> types = new HashSet();\n            int weight = 0;\n\n            // For each block from the i-th and going forward,\n            for (int j = i; j < blockLefts.size() - 1; ++j) {\n                // Add each block to consideration\n                types.add(tree[blockLefts.get(j)]);\n                weight += blockLefts.get(j+1) - blockLefts.get(j);\n\n                // If we have 3+ types, this is an illegal subarray\n                if (types.size() >= 3) {\n                    i = j - 1;\n                    continue search;\n                }\n\n                // If it is a legal subarray, record the answer\n                ans = Math.max(ans, weight);\n            }\n\n            break;\n        }\n\n        return ans;\n    }\n}\n```\n\n```Python []\nclass Solution(object):\n    def totalFruit(self, tree):\n        blocks = [(k, len(list(v)))\n                  for k, v in itertools.groupby(tree)]\n\n        ans = i = 0\n        while i < len(blocks):\n            # We'll start our scan at block[i].\n            # types : the different values of tree[i] seen\n            # weight : the total number of trees represented\n            #          by blocks under consideration\n            types, weight = set(), 0\n\n            # For each block from i and going forward,\n            for j in xrange(i, len(blocks)):\n                # Add each block to consideration\n                types.add(blocks[j][0])\n                weight += blocks[j][1]\n\n                # If we have 3 types, this is not a legal subarray\n                if len(types) >= 3:\n                    i = j-1\n                    break\n\n                ans = max(ans, weight)\n\n            # If we go to the last block, then stop\n            else:\n                break\n\n        return ans\n```\n\n**复杂度分析**\n\n* 时间复杂度：$O(N)$，其中 $N$ 是 `tree` 的长度。\n* 空间复杂度：$O(N)$。\n\n#### 方法 2：滑动窗口\n\n**想法**\n\n在*方法 1*中，我们希望找到最长的包含两种不同“类型”的子序列，我们称这样的子序列为*合法的*。\n\n假设我们考虑所有以下标 `j` 为结尾的合法子序列，那么一定有一个最小的开始下标 `i`：称之为 `opt(j) = i`。\n\n我们会发现这个 `opt(j)` 是一个单调递增的函数，这是因为所有合法子序列的子序列一定也是合法的。\n\n**算法**\n\n模拟一个滑动窗口，维护变量 `i` 是最小的下标满足 `[i, j]` 是合法的子序列。\n\n维护 `count` 是序列中各种类型的个数，这使得我们可以很快知道子序列中是否含有 3 中类型。\n\n```Java []\nclass Solution {\n    public int totalFruit(int[] tree) {\n        int ans = 0, i = 0;\n        Counter count = new Counter();\n        for (int j = 0; j < tree.length; ++j) {\n            count.add(tree[j], 1);\n            while (count.size() >= 3) {\n                count.add(tree[i], -1);\n                if (count.get(tree[i]) == 0)\n                    count.remove(tree[i]);\n                i++;\n            }\n\n            ans = Math.max(ans, j - i + 1);\n        }\n\n        return ans;\n    }\n}\n\nclass Counter extends HashMap<Integer, Integer> {\n    public int get(int k) {\n        return containsKey(k) ? super.get(k) : 0;\n    }\n\n    public void add(int k, int v) {\n        put(k, get(k) + v);\n    }\n}\n```\n\n```Python []\nclass Solution(object):\n    def totalFruit(self, tree):\n        ans = i = 0\n        count = collections.Counter()\n        for j, x in enumerate(tree):\n            count[x] += 1\n            while len(count) >= 3:\n                count[tree[i]] -= 1\n                if count[tree[i]] == 0:\n                    del count[tree[i]]\n                i += 1\n            ans = max(ans, j - i + 1)\n        return ans\n```\n\n**复杂度分析**\n\n* 时间复杂度：$O(N)$，其中 $N$ 是 `tree` 的长度。\n* 空间复杂度：$O(N)$。",
+      "createdAt": "2019-08-09T13:58:22.861942+00:00",
+      "hitCount": 20607,
+      "identifier": "QtRVzE",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "904-shui-guo-cheng-lan-by-chen-wei-f-t185",
+        "title": "904. 水果成篮"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "fruit-into-baskets"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 5,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "shui-guo-cheng-lan-by-leetcode",
+      "status": "PUBLISHED",
+      "summary": "§ 方法 1：按块扫描\n想法\n问题等价于，找到最长的子序列，最多含有两种“类型”（tree[i] 的值）。\n不单独考虑每个元素，转而考虑相同类型的相连块。\n比如说，tree = [1, 1, 1, 1, 2, 2, 3, 3, 3] 可以看成是 blocks = [(1, weight = 4), (2, weight",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Sliding Window",
+          "nameTranslated": "滑动窗口",
+          "slug": "sliding-window",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "水果成篮",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 25,
+        "id": 19520,
+        "viewCount": 13712
+      },
+      "uuid": "QtRVzE",
+      "videosInfo": []
+    }
+  }
+}

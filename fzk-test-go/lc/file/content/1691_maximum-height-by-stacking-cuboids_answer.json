@@ -1,0 +1,84 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "zerotrac 🌸",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/zerotrac2/avatar_1628749564.png",
+          "userSlug": "zerotrac2"
+        },
+        "username": "zerotrac2"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法一：动态规划 + 自定义排序\n\n**思路与算法**\n\n由于我们要最大化的是「高度」，因此很容易想到**将每个长方体的最长边做为高度**是最优的。但这样做真的是对的吗？\n\n我们可以尝试证明这一点，credit to [@han3000](/u/han3000/)：\n\n对于任意一种堆叠方法，假设长方体的数目为 $k$，这些长方体分别为 $(w_1, l_1, h_1), \\cdots, (w_n, l_n, h_n)$，如果将每一个长方体**内部的三条边按照从小到大的顺序重新排列**，记为 $(w_i, l_i, h_i) \\to (w_i', l_i', h_i')$，其中 $w_i', l_i', h_i'$ 分别是三者中的最小值、中间值、最大值，那么得到的 $(w_1', l_1', h_1'), \\cdots, (w_n', l_n', h_n')$ 仍然是满足堆叠要求的。\n\n证明略。对于任意的 $j < i$，枚举一下所有 $(w_j, l_j, h_j, w_i, l_i, h_i)$ 的相对顺序即可。\n\n当所有长方体**内部的三条边按照从小到大的顺序重新排列**之后，由于此时高度对应了最大值，那么整个堆叠的高度之和一定不会比重新排列以前要矮，因此**最优的堆叠方法一定是基于重新排列的**。\n\n那么我们怎么计算这个堆叠高度呢？我们可以使用动态规划并写出状态转移方程：\n\n$$\nf(i) = \\max_{w_j'\\leq w_i', l_j'\\leq l_i', h_j'\\leq h_i'} \\big\\{ f(j) \\big\\} + h_i\n$$\n\n其中 $f(i)$ 表示以 $(w_i', l_i', h_i')$ 为最后一个长方体的最大高度。我们需要找到某个索引 $j$ 作为倒数第二个长方体，并且它可以放在第 $i$ 个长方体上。特别地，如果不存在这样的索引 $j$，那么我们可以只放第 $i$ 个长方体就行了，状态转移方程简化为 $f(i) = h_i'$。最终的答案即为 $\\max f$。\n\n要想实现上面这个动态规划，我们需要保证当枚举到第 $i$ 个长方体时，**所有可以堆叠在第 $i$ 个长方体之上的**长方体都应该枚举过，因此在动态规划之前，我们还需要将所有的长方体按照 $(w_i', l_i', h_i')$ 三个关键字进行升序排序。其实这里有非常多的排序方法，只要保证枚举关系的拓扑性即可，例如我们可以仅使用两个关键字 $(h_i', w_i'+l_i')$ 进行排序也能达到同样的效果。\n\n**代码**\n\n```C++ [sol1-C++]\nclass Solution {\npublic:\n    int maxHeight(vector<vector<int>>& cuboids) {\n        int n = cuboids.size();\n        for (auto& cubic: cuboids) {\n            sort(cubic.begin(), cubic.end());\n        }\n        \n        // 保证枚举关系拓扑性的排序都可以\n        // sort(cuboids.begin(), cuboids.end());\n        sort(cuboids.begin(), cuboids.end(), [](const auto& u, const auto& v) {\n            return pair(u[2], u[0] + u[1]) < pair(v[2], v[0] + v[1]);\n        });\n        \n        vector<int> f(n);\n        for (int i = 0; i < n; ++i) {\n            for (int j = 0; j < i; ++j) {\n                if (cuboids[j][0] <= cuboids[i][0] && cuboids[j][1] <= cuboids[i][1] && cuboids[j][2] <= cuboids[i][2]) {\n                    f[i] = max(f[i], f[j]);\n                }\n            }\n            f[i] += cuboids[i][2];\n        }\n        \n        return *max_element(f.begin(), f.end());\n    }\n};\n```\n\n**复杂度分析**\n\n- 时间复杂度：$O(n^2)$。\n\n- 空间复杂度：$O(n)$。\n\n#### 方法二：懒得思考的动态规划\n\n**思路与算法**\n\n其实我们也可以放弃思考，把每一个 $(w_i, l_i, h_i)$ 的六种排列情况全部放在一个数组中进行排序，然后再动态规划。由于本题 $n\\leq 100$ 因此这样的方法是可以通过的，但如果 $n \\leq 1000$ 或者 $2000$ 那么就只有方法一可以通过了。\n\n**代码**\n\n```C++ [sol2-C++]\nclass Solution {\npublic:\n    int maxHeight(vector<vector<int>>& cuboids) {\n        int n = cuboids.size();\n        vector<tuple<int, int, int, int>> v;\n        for (int i = 0; i < n; ++i) {\n            const auto& cubic = cuboids[i];\n            v.emplace_back(cubic[0], cubic[1], cubic[2], i);\n            v.emplace_back(cubic[0], cubic[2], cubic[1], i);\n            v.emplace_back(cubic[1], cubic[0], cubic[2], i);\n            v.emplace_back(cubic[1], cubic[2], cubic[0], i);\n            v.emplace_back(cubic[2], cubic[0], cubic[1], i);\n            v.emplace_back(cubic[2], cubic[1], cubic[0], i);\n        }\n        \n        sort(v.begin(), v.end());\n        \n        vector<int> f(n * 6);\n        for (int i = 0; i < n * 6; ++i) {\n            auto [wi, li, hi, idi] = v[i];\n            for (int j = 0; j < i; ++j) {\n                auto [wj, lj, hj, idj] = v[j];\n                if (wj <= wi && lj <= li && hj <= hi && idj != idi) {\n                    f[i] = max(f[i], f[j]);\n                }\n            }\n            f[i] += hi;\n        }\n        \n        return *max_element(f.begin(), f.end());\n    }\n};\n```\n\n**复杂度分析**\n\n- 时间复杂度：$O(n^2)$。\n\n- 空间复杂度：$O(n)$。",
+      "createdAt": "2020-12-13T04:51:53.769732+00:00",
+      "hitCount": 3953,
+      "identifier": "01jFEW",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "liang-ci-pai-xu-dong-tai-gui-hua-by-luci-al7u",
+        "title": "两次排序+动态规划"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "maximum-height-by-stacking-cuboids"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 28,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "dui-die-chang-fang-ti-de-zui-da-gao-du-b-qzgy",
+      "status": "PUBLISHED",
+      "summary": "方法一：动态规划 + 自定义排序\n思路与算法\n由于我们要最大化的是「高度」，因此很容易想到将每个长方体的最长边做为高度是最优的。但这样做真的是对的吗？\n我们可以尝试证明这一点，credit to @han3000：\n对于任意一种堆叠方法，假设长方体的数目为 k，这些长方体分别为 (w_1, l_1, h_1), \\c",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Dynamic Programming",
+          "nameTranslated": "动态规划",
+          "slug": "dynamic-programming",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "堆叠长方体的最大高度",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 13,
+        "id": 519674,
+        "viewCount": 2791
+      },
+      "uuid": "01jFEW",
+      "videosInfo": []
+    }
+  }
+}

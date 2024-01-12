@@ -1,0 +1,72 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "我要出去乱说",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/wo-yao-chu-qu-luan-shuo/avatar_1613985810.png",
+          "userSlug": "wo-yao-chu-qu-luan-shuo"
+        },
+        "username": "wo-yao-chu-qu-luan-shuo"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "> 思路：用队列对二叉树进行层序遍历，每一层用一个`maxVal`变量来存当前层的最大值，每遍历完一层就把当前层的最大值存入结果数组中。\r\n\r\n```\r\nclass Solution {\r\npublic:\r\n    vector<int> largestValues(TreeNode* root) {\r\n        vector<int> res;\r\n        if (root == nullptr) return res;\r\n\r\n        queue<TreeNode*> q;\r\n        q.push(root);\r\n\r\n        while (!q.empty())\r\n        {\r\n            int size = q.size();\r\n            int maxVal = INT_MIN;               //要求最大值，所以初始化为最小\r\n            while (size -- )\r\n            {\r\n                TreeNode* t = q.front();\r\n                q.pop();\r\n                if (t->left) q.push(t->left);\r\n                if (t->right) q.push(t->right);\r\n\r\n                maxVal = max(maxVal, t->val);   //更新最大值\r\n            }\r\n\r\n            res.push_back(maxVal);              //当前层已遍历完毕，存入当前层最大值\r\n        }\r\n\r\n        return res;\r\n    }\r\n};\r\n```",
+      "createdAt": "2021-11-04T16:02:13.537833+00:00",
+      "hitCount": 273,
+      "identifier": "piBNdC",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "c-yu-yan-bfs-by-suckerfish-mini-r7zh",
+        "title": "C 语言 BFS"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "hPov7L"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 3,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": false,
+      "slug": "jian-zhi-offer-ii-044-er-cha-shu-mei-cen-ge3c",
+      "status": "PREPUBLISH",
+      "summary": "思路：用队列对二叉树进行层序遍历，每一层用一个maxVal变量来存当前层的最大值，每遍历完一层就把当前层的最大值存入结果数组中。",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "剑指 Offer II 044. 二叉树每层的最大值（层序遍历）",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1084750,
+        "viewCount": 220
+      },
+      "uuid": "piBNdC",
+      "videosInfo": []
+    }
+  }
+}

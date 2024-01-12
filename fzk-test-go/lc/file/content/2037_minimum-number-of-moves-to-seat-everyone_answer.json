@@ -1,0 +1,91 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "灵茶山艾府",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/endlesscheng/avatar_1589367048.png",
+          "userSlug": "endlesscheng"
+        },
+        "username": "endlesscheng"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "由于座位和学生数相同，一个萝卜一个坑，将座位和学生位置排序后，第 $i$ 个学生可以对应第 $i$ 个座位。\r\n\r\n由于交换任意两个学生对应的座位不会产生更少的移动次数（可以画一画，证明略），所以上述对应关系可以产生最少移动次数，累加位置之差即为答案。\r\n\r\n```go\r\nfunc minMovesToSeat(seats, students []int) (ans int) {\r\n\tsort.Ints(seats)\r\n\tsort.Ints(students)\r\n\tfor i, p := range seats {\r\n\t\tans += abs(p - students[i])\r\n\t}\r\n\treturn\r\n}\r\n\r\nfunc abs(x int) int {\r\n\tif x < 0 {\r\n\t\treturn -x\r\n\t}\r\n\treturn x\r\n}\r\n```",
+      "createdAt": "2021-10-16T16:08:19.507105+00:00",
+      "hitCount": 688,
+      "identifier": "4lQxe0",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "zui-wei-jian-dan-zhi-guan-de-jie-fa-by-s-gmcv",
+        "title": "最为简单直观的解法"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "minimum-number-of-moves-to-seat-everyone"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 5,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "pai-xu-tan-xin-by-endlesscheng-vv35",
+      "status": "PREPUBLISH",
+      "summary": "由于座位和学生数相同，一个萝卜一个坑，将座位和学生位置排序后，第 i 个学生可以对应第 i 个座位。\n由于交换任意两个学生对应的座位不会产生更少的移动次数（可以画一画，证明略），所以上述对应关系可以产生最少移动次数，累加位置之差即为答案。",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Greedy",
+          "nameTranslated": "贪心",
+          "slug": "greedy",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Math",
+          "nameTranslated": "数学",
+          "slug": "math",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Go",
+          "nameTranslated": "",
+          "slug": "golang",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "排序+贪心",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1050936,
+        "viewCount": 620
+      },
+      "uuid": "4lQxe0",
+      "videosInfo": []
+    }
+  }
+}

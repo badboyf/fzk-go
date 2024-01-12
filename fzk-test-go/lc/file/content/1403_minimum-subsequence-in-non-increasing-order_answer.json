@@ -1,0 +1,79 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "莞工杰仔",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/default_avatar.png",
+          "userSlug": "wan-gong-jie-zi-8"
+        },
+        "username": "wan-gong-jie-zi-8"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "```\r\nclass Solution {\r\n    public List<Integer> minSubsequence(int[] nums) {\r\n         //将数组排序\r\n         Arrays.sort(nums);\r\n         int size=nums.length;\r\n         int cout;\r\n         for(cout=size-1;cout>=0;cout--){\r\n             int sum1=0;\r\n             int sum2=0;\r\n                for(int i=0;i<cout;i++){\r\n                    sum1=sum1+nums[i];\r\n                }\r\n                for(int j=size-1;j>=cout;j--){\r\n                    sum2=sum2+nums[j];\r\n                }\r\n                if(sum2>sum1){\r\n                    break;\r\n                }\r\n         }\r\n         List<Integer> list=new ArrayList<Integer>();\r\n        for(int i=size-1;i>=cout;i--){\r\n            list.add(nums[i]);\r\n        }\r\n        return list;\r\n    }\r\n}\r\n```\r\n",
+      "createdAt": "2021-10-06T08:09:23.653316+00:00",
+      "hitCount": 152,
+      "identifier": "7nejKh",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "1403-fei-di-zeng-shun-xu-de-zui-xiao-zi-ymabs",
+        "title": "【1403. 非递增顺序的最小子序列】Java简单思路详解"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "minimum-subsequence-in-non-increasing-order"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "mei-ren-bi-wo-geng-dong-bao-li-by-wan-go-858g",
+      "status": "PREPUBLISH",
+      "summary": "[该用户太懒了，只写了 26 行代码]",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "暴力法",
+          "nameTranslated": "",
+          "slug": "bao-li-fa",
+          "tagType": "ADDITIONAL_TOPIC"
+        }
+      ],
+      "thumbnail": "",
+      "title": "没人比我更懂暴力",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1033375,
+        "viewCount": 138
+      },
+      "uuid": "7nejKh",
+      "videosInfo": []
+    }
+  }
+}

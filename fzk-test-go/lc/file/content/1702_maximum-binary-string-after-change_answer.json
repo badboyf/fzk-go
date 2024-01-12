@@ -1,0 +1,90 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "一欧",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/eill123/avatar_1608919613.png",
+          "userSlug": "eill123"
+        },
+        "username": "eill123"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n![image.png](https://pic.leetcode-cn.com/1629813656-aonijs-image.png)\n\n\n### 代码\n\n```python\nclass Solution(object):\n    def maximumBinaryString(self, binary):\n        # 从第一位开始就是1的不用管:\n        # 111100001 -> 看作1111-00001\n        # 两个变化形态：\n        # 1. 0000 -> 1110\n        # 2. 010101 -> 001101 -> 001011-> 000111 [由m个0和n个1组成的可以写成\"0\"*m + \"1\"*n]\n        n = len(binary)\n        start = -1\n        cnt = 0\n        for i in range(n):\n            if binary[i] == \"0\":\n                cnt += 1\n                if start == -1:\n                    start = i\n        if start == -1: return binary\n        # 左1个数：start\n        # 中和后面0的个数：cnt\n        # 组成部分\n        # 1.从第一位开始就有\"1\"，持续到几位：\"1\" * start\n        # 2.中后统计cnt个0可以转化为 => \"1\" * (cnt-1) + \"0\"\n        # 3.最后剩余的\"1\"全部都移到右边\n        return \"1\" * start + \"1\" * (cnt-1) + \"0\" + \"1\" * (n-(start+cnt))\n```",
+      "createdAt": "2021-08-24T14:01:12.542457+00:00",
+      "hitCount": 540,
+      "identifier": "rIUzZG",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "si-lu-jie-guo-11011-hou-mian-1de-ge-shu-k4d37",
+        "title": "思路:结果=1...101...1 目标就是找唯一一个0的位置"
+      },
+      "position": 3,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "c-yi-ci-xun-huan-xiang-xi-fen-xi-guo-che-ko88",
+        "title": "C++ 一次循环 详细分析过程"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "maximum-binary-string-after-change"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "1702-xiu-gai-hou-de-zui-da-er-jin-zhi-zi-otzs",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Math",
+          "nameTranslated": "数学",
+          "slug": "math",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python3",
+          "nameTranslated": "",
+          "slug": "python3",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "https://pic.leetcode-cn.com/1629813656-aonijs-image.png",
+      "title": "1702. 修改后的最大二进制字符串",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 956735,
+        "viewCount": 427
+      },
+      "uuid": "rIUzZG",
+      "videosInfo": []
+    }
+  }
+}

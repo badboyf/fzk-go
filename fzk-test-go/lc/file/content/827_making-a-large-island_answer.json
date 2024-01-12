@@ -1,0 +1,96 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣 (LeetCode)",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/uploaded_files/2021/03/73c9f099-abbe-4d94-853f-f8abffd459cd/leetcode.png",
+          "userSlug": "leetcode"
+        },
+        "username": "LeetCode"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "\n#### 方法 1：深度优先搜索【超时】\n\n**想法**\n\n对于每个 `0`，我们将它暂时变成 `1`，然后统计这个连通块的大小。\n\n**算法**\n\n对于每个 `0`，将它变成 `1`，然后做一次深度优先搜索计算出连通块的大小。答案就是找到的最大连通块。\n\n当然，如果没有 `0`，那么答案就是整个网格的大小。\n\n```Java []\nclass Solution {\n    int[] dr = new int[]{-1, 0, 1, 0};\n    int[] dc = new int[]{0, -1, 0, 1};\n\n    public int largestIsland(int[][] grid) {\n        int N = grid.length;\n\n        int ans = 0;\n        boolean hasZero = false;\n        for (int r = 0; r < N; ++r)\n            for (int c = 0; c < N; ++c)\n                if (grid[r][c] == 0) {\n                    hasZero = true;\n                    grid[r][c] = 1;\n                    ans = Math.max(ans, check(grid, r, c));\n                    grid[r][c] = 0;\n                }\n\n        return hasZero ? ans : N*N;\n    }\n\n    public int check(int[][] grid, int r0, int c0) {\n        int N = grid.length;\n        Stack<Integer> stack = new Stack();\n        Set<Integer> seen = new HashSet();\n        stack.push(r0 * N + c0);\n        seen.add(r0 * N + c0);\n\n        while (!stack.isEmpty()) {\n            int code = stack.pop();\n            int r = code / N, c = code % N;\n            for (int k = 0; k < 4; ++k) {\n                int nr = r + dr[k], nc = c + dc[k];\n                if (!seen.contains(nr * N + nc) && 0 <= nr && nr < N &&\n                        0 <= nc && nc < N && grid[nr][nc] == 1) {\n                    stack.push(nr * N + nc);\n                    seen.add(nr * N + nc);\n                }\n            }\n        }\n\n        return seen.size();\n    }\n}\n\n```\n\n```Python []\nclass Solution(object):\n    def largestIsland(self, grid):\n        N = len(grid)\n\n        def check(r, c):\n            seen = {(r, c)}\n            stack = [(r, c)]\n            while stack:\n                r, c = stack.pop()\n                for nr, nc in ((r-1, c), (r, c-1), (r+1, c), (r, c+1)):\n                    if (nr, nc) not in seen and 0 <= nr < N and 0 <= nc < N and grid[nr][nc]:\n                        stack.append((nr, nc))\n                        seen.add((nr, nc))\n            return len(seen)\n\n        ans = 0\n        has_zero = False\n        for r, row in enumerate(grid):\n            for c, val in enumerate(row):\n                if val == 0:\n                    has_zero = True\n                    grid[r][c] = 1\n                    ans = max(ans, check(r, c))\n                    grid[r][c] = 0\n\n        return ans if has_zero else N*N\n```\n\n\n**复杂度分析**\n\n* 时间复杂度：$O(N^4)$，其中 $N$ 是 `grid` 的长和宽。\n* 空间复杂度：$O(N^2)$，深度优先搜索需要的 `stack` 和 `seen` 的空间。\n\n#### 方法 2：连通块大小【通过】\n\n**想法**\n\n再上一个解法中，我们检查了每个 `0`。然而，我们也计算了每个组的大小，所以其实并不需要利用深度优先搜索重复计算所有的连通块。\n\n然而，这个方法会失败如果 `0` 和相同的连通块相交。例如，考虑 `grid = [[0,1],[1,1]]` 答案是 `4` 而不是 `1 + 3 + 3`，因为 `0` 右边的邻居和底下的邻居属于同一连通块。\n\n我们可以通过记录连通块编号来解决这个问题，不同的连通块编号不同。这样，我们就可以累加不同编号的连通块面积和。\n\n**算法**\n\n对于每个连通块，将所有格点赋值为 `index` 并记录他们的大小 `area[index] = dfs(...)`。\n\n然后对于每个 `0`，查看周围的邻居编号在 `seen` 并将这个区域的大小加入结果，改变 `seen` 的值。这就是当前节点的面积大小，在其中找到最大的。\n\n为了解决没有 `0` 的情况，我们只需要记录之前计算的最大面积并输出即可。\n\n\n```Java []\nclass Solution {\n    int[] dr = new int[]{-1, 0, 1, 0};\n    int[] dc = new int[]{0, -1, 0, 1};\n    int[][] grid;\n    int N;\n\n    public int largestIsland(int[][] grid) {\n        this.grid = grid;\n        N = grid.length;\n\n        int index = 2;\n        int[] area = new int[N*N + 2];\n        for (int r = 0; r < N; ++r)\n            for (int c = 0; c < N; ++c)\n                if (grid[r][c] == 1)\n                    area[index] = dfs(r, c, index++);\n\n        int ans = 0;\n        for (int x: area) ans = Math.max(ans, x);\n        for (int r = 0; r < N; ++r)\n            for (int c = 0; c < N; ++c)\n                if (grid[r][c] == 0) {\n                    Set<Integer> seen = new HashSet();\n                    for (Integer move: neighbors(r, c))\n                        if (grid[move / N][move % N] > 1)\n                            seen.add(grid[move / N][move % N]);\n\n                    int bns = 1;\n                    for (int i: seen) bns += area[i];\n                    ans = Math.max(ans, bns);\n                }\n\n        return ans;\n    }\n\n    public int dfs(int r, int c, int index) {\n        int ans = 1;\n        grid[r][c] = index;\n        for (Integer move: neighbors(r, c)) {\n            if (grid[move / N][move % N] == 1) {\n                grid[move / N][move % N] = index;\n                ans += dfs(move / N, move % N, index);\n            }\n        }\n\n        return ans;\n    }\n\n    public List<Integer> neighbors(int r, int c) {\n        List<Integer> ans = new ArrayList();\n        for (int k = 0; k < 4; ++k) {\n            int nr = r + dr[k];\n            int nc = c + dc[k];\n            if (0 <= nr && nr < N && 0 <= nc && nc < N)\n                ans.add(nr * N + nc);\n        }\n\n        return ans;\n    }\n}\n```\n\n```Python []\nclass Solution(object):\n    def largestIsland(self, grid):\n        N = len(grid)\n\n        def neighbors(r, c):\n            for nr, nc in ((r-1, c), (r+1, c), (r, c-1), (r, c+1)):\n                if 0 <= nr < N and 0 <= nc < N:\n                    yield nr, nc\n\n        def dfs(r, c, index):\n            ans = 1\n            grid[r][c] = index\n            for nr, nc in neighbors(r, c):\n                if grid[nr][nc] == 1:\n                    ans += dfs(nr, nc, index)\n            return ans\n\n        area = {}\n        index = 2\n        for r in xrange(N):\n            for c in xrange(N):\n                if grid[r][c] == 1:\n                    area[index] = dfs(r, c, index)\n                    index += 1\n\n        ans = max(area.values() or [0])\n        for r in xrange(N):\n            for c in xrange(N):\n                if grid[r][c] == 0:\n                    seen = {grid[nr][nc] for nr, nc in neighbors(r, c) if grid[nr][nc] > 1}\n                    ans = max(ans, 1 + sum(area[i] for i in seen))\n        return ans\n```\n\n**复杂度分析**\n\n* 时间复杂度：$O(N^2)$，其中 $N$ 是 `grid` 的长度和宽度。\n* 空间复杂度：$O(N^2)$，深度优先搜索需要的数组 `area` 的额外空间。",
+      "createdAt": "2019-08-23T08:28:51.325294+00:00",
+      "hitCount": 16529,
+      "identifier": "1v5I7V",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "bao-li-bing-cha-ji-xiang-xi-jie-xi-by-an-hg6w",
+        "title": "暴力并查集&详细解析"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "making-a-large-island"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 15,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "THUMBS_DOWN"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 0,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "zui-da-ren-gong-dao-by-leetcode",
+      "status": "PUBLISHED",
+      "summary": "§ 方法 1：深度优先搜索【超时】\n想法\n对于每个 0，我们将它暂时变成 1，然后统计这个连通块的大小。\n算法\n对于每个 0，将它变成 1，然后做一次深度优先搜索计算出连通块的大小。答案就是找到的最大连通块。\n当然，如果没有 0，那么答案就是整个网格的大小。\n复杂度分析\n\n时间复杂度：O(N^4)，其中 N 是 gri",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Depth-First Search",
+          "nameTranslated": "深度优先搜索",
+          "slug": "depth-first-search",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "最大人工岛",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 19,
+        "id": 22486,
+        "viewCount": 12236
+      },
+      "uuid": "1v5I7V",
+      "videosInfo": []
+    }
+  }
+}

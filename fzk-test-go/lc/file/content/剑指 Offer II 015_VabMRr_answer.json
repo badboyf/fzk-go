@@ -1,0 +1,123 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "清风Python",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/qingfengpython/avatar_1620226448.png",
+          "userSlug": "qingfengpython"
+        },
+        "username": "qingfengpython"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "# [剑指OfferII015.字符串中的所有变位词](https://leetcode-cn.com/problems/VabMRr/)\r\n> https://leetcode-cn.com/problems/VabMRr/\r\n> \r\n> 难度：中等\r\n\r\n## 题目：\r\n给定两个字符串 s 和 p，找到 s 中所有 p 的 变位词 的子串，返回这些子串的起始索引。不考虑答案输出的顺序。\r\n\r\n变位词 指字母相同，但排列不同的字符串。\r\n\r\n提示:\r\n- 1 <= s.length, p.length <= 3 * 10 ^ 4\r\n- s 和 p 仅包含小写字母\r\n\r\n## 示例：\r\n\r\n```\r\n示例 1:\r\n输入: s = \"cbaebabacd\", p = \"abc\"\r\n输出: [0,6]\r\n解释:\r\n起始索引等于 0 的子串是 \"cba\", 它是 \"abc\" 的变位词。\r\n起始索引等于 6 的子串是 \"bac\", 它是 \"abc\" 的变位词。\r\n\r\n示例 2:\r\n输入: s = \"abab\", p = \"ab\"\r\n输出: [0,1,2]\r\n解释:\r\n起始索引等于 0 的子串是 \"ab\", 它是 \"ab\" 的变位词。\r\n起始索引等于 1 的子串是 \"ba\", 它是 \"ab\" 的变位词。\r\n起始索引等于 2 的子串是 \"ab\", 它是 \"ab\" 的变位词。\r\n```\r\n\r\n## 分析\r\n昨天的文章中，我们学习使用长度为26的数组，来建立字符串数量与数组下标对应关系的操作。\r\n通过对应关系，判断数组相等的方式，来实现字母异位词的操作。如果忘记了可以复习下昨天的解题\r\n- [剑指OfferII014.字符串中的变位词](https://leetcode-cn.com/problems/MPnaiL/solution/shua-chuan-jian-zhi-offer-day08-zi-fu-ch-pasw/)\r\n\r\n那么今天的这道题，相比于14题有什么变化么？答案是几乎没有...\r\n昨天我们在循环过程中判断如果找到异位词立即返回，今天的题目，我们只需要在遇到异位词时记录此时的起始index，保存在数组。\r\n然后返回数组即可，就这么点差别，看我们ctrl c v 14题的解题，快速解题。\r\n\r\n## 解题：\r\n\r\n```python []\r\nclass Solution:\r\n    def findAnagrams(self, s: str, p: str) -> List[int]:\r\n        arr1, arr2, lg, ret = [0] * 26, [0] * 26, len(p), []\r\n        if lg > len(s):\r\n            return []\r\n        for i in range(lg):\r\n            arr1[ord(p[i]) - ord('a')] += 1\r\n            arr2[ord(s[i]) - ord('a')] += 1\r\n        if arr1 == arr2:\r\n            ret.append(0)\r\n        for i in range(lg,len(s)):\r\n            arr2[ord(s[i]) - ord('a')] += 1\r\n            arr2[ord(s[i - lg]) - ord('a')] -= 1\r\n            if arr1 == arr2:\r\n                ret.append(i - lg + 1)\r\n        return ret\r\n```\r\n\r\n```java []\r\nclass Solution {\r\n    public List<Integer> findAnagrams(String s, String p) {\r\n        int[] arr1 = new int[26];\r\n        int[] arr2 = new int[26];\r\n        List<Integer> list = new ArrayList<Integer>();\r\n        if (p.length() > s.length()) {\r\n            return list;\r\n        }\r\n        for (int i = 0; i < p.length(); i++) {\r\n            arr1[p.charAt(i) - 'a']++;\r\n            arr2[s.charAt(i) - 'a']++;\r\n        }\r\n        if (Arrays.equals(arr1, arr2)) {\r\n            list.add(0);\r\n        }\r\n        for (int i = p.length(); i < s.length(); i++) {\r\n            arr2[s.charAt(i - p.length()) - 'a']--;\r\n            arr2[s.charAt(i) - 'a']++;\r\n            if (Arrays.equals(arr1, arr2)) {\r\n                list.add(i - p.length() + 1);\r\n            }\r\n        }\r\n        return list;\r\n    }\r\n}\r\n```",
+      "createdAt": "2021-08-30T12:31:24.156560+00:00",
+      "hitCount": 1670,
+      "identifier": "WijIUb",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "jian-zhi-offer-ii-015-zi-fu-chuan-zhong-8x8xg",
+        "title": "剑指 Offer II 015. 字符串中的所有变位词（滑动窗口）"
+      },
+      "position": 3,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "python-hua-dong-chuang-kou-by-mei-56-etqx",
+        "title": "python 滑动窗口"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "VabMRr"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 5,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": false,
+      "slug": "shua-chuan-jian-zhi-offer-day09-zi-fu-ch-f3mv",
+      "status": "PREPUBLISH",
+      "summary": "剑指OfferII015.字符串中的所有变位词\n\nhttps://leetcode-cn.com/problems/VabMRr/\n难度：中等\n\n题目：\n给定两个字符串 s 和 p，找到 s 中所有 p 的 变位词 的子串，返回这些子串的起始索引。不考虑答案输出的顺序。\n变位词 指字母相同，但排列不同的字符串。\n提示:",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Array",
+          "nameTranslated": "数组",
+          "slug": "array",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Two Pointers",
+          "nameTranslated": "双指针",
+          "slug": "two-pointers",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "String",
+          "nameTranslated": "字符串",
+          "slug": "string",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Sliding Window",
+          "nameTranslated": "滑动窗口",
+          "slug": "sliding-window",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python3",
+          "nameTranslated": "",
+          "slug": "python3",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "刷穿剑指offer-Day09-字符串II-015.字符串中的所有变位词 014题的小扩展！",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 967821,
+        "viewCount": 825
+      },
+      "uuid": "WijIUb",
+      "videosInfo": []
+    }
+  }
+}

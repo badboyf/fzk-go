@@ -1,0 +1,84 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣 (LeetCode)",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/uploaded_files/2021/03/73c9f099-abbe-4d94-853f-f8abffd459cd/leetcode.png",
+          "userSlug": "leetcode"
+        },
+        "username": "LeetCode"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "####  方法一：暴力法\n**算法：**\n\n我们分别检查每 3x3 的网格。对于每个网格，所有数字必须不同，并且在 1 到 9 之间；且每一个行，列，对角线的和必须相同。\n\n**额外的加分项：**\n\n我们可以在代码中添加 `if grid[r+1][c+1] != 5: continue`，帮助我们略过一些循环，这是基于以下观察得出：\n- 网格的总和是 45，因为网格必须是 1 到 9 不同的数字。\n- 每一列和行加起来必须是 15，乘以 3 则是网格的总和。\n- 对角线的和也必须是 15，题目中说了对角线与列，行的和相同。\n- 将四条穿过中心的线的 12 个值相加（即一行一列两条对角线），这四条线加起来等于 60；而整个网格加起来为 45。则中心等于 $（60-45）/3 = 5$。\n\n```python [solution1-Python]\nclass Solution(object):\n    def numMagicSquaresInside(self, grid):\n        R, C = len(grid), len(grid[0])\n\n        def magic(a,b,c,d,e,f,g,h,i):\n            return (sorted([a,b,c,d,e,f,g,h,i]) == range(1, 10) and\n                (a+b+c == d+e+f == g+h+i == a+d+g ==\n                 b+e+h == c+f+i == a+e+i == c+e+g == 15))\n\n        ans = 0\n        for r in xrange(R-2):\n            for c in xrange(C-2):\n                if grid[r+1][c+1] != 5: continue  # optional skip\n                if magic(grid[r][c], grid[r][c+1], grid[r][c+2],\n                         grid[r+1][c], grid[r+1][c+1], grid[r+1][c+2],\n                         grid[r+2][c], grid[r+2][c+1], grid[r+2][c+2]):\n                    ans += 1\n        return ans\n```\n\n```java [solution1-Java]\nclass Solution {\n    public int numMagicSquaresInside(int[][] grid) {\n        int R = grid.length, C = grid[0].length;\n        int ans = 0;\n        for (int r = 0; r < R-2; ++r)\n            for (int c = 0; c < C-2; ++c) {\n                if (grid[r+1][c+1] != 5) continue;  // optional skip\n                if (magic(grid[r][c], grid[r][c+1], grid[r][c+2],\n                          grid[r+1][c], grid[r+1][c+1], grid[r+1][c+2],\n                          grid[r+2][c], grid[r+2][c+1], grid[r+2][c+2]))\n                    ans++;\n            }\n\n        return ans;\n    }\n\n    public boolean magic(int... vals) {\n        int[] count = new int[16];\n        for (int v: vals) count[v]++;\n        for (int v = 1; v <= 9; ++v)\n            if (count[v] != 1)\n                return false;\n\n        return (vals[0] + vals[1] + vals[2] == 15 &&\n                vals[3] + vals[4] + vals[5] == 15 &&\n                vals[6] + vals[7] + vals[8] == 15 &&\n                vals[0] + vals[3] + vals[6] == 15 &&\n                vals[1] + vals[4] + vals[7] == 15 &&\n                vals[2] + vals[5] + vals[8] == 15 &&\n                vals[0] + vals[4] + vals[8] == 15 &&\n                vals[2] + vals[4] + vals[6] == 15);\n    }\n}\n```\n\n**复杂度分析**\n\n* 时间复杂度：$O(R*C)$。其中 $R, C$ 指的是给定 `grid` 的行和列。\n* 空间复杂度：$O(1)$。",
+      "createdAt": "2020-02-24T02:36:06.406869+00:00",
+      "hitCount": 6156,
+      "identifier": "TUQDTv",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "java-bao-li-by-mei-56-qfju",
+        "title": "java 暴力"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "magic-squares-in-grid"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 1,
+          "reactionType": "AWESOME"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "ju-zhen-zhong-de-huan-fang-by-leetcode-2",
+      "status": "PUBLISHED",
+      "summary": "方法一：暴力法 算法： 我们分别检查每 3x3 的网格。对于每个网格，所有数字必须不同，并且在 1 到 9 之间；且每一个行，列，对角线的和必须相同。 额外的加分项： 我们可以在代码中添加 if grid[r+1][c+1] != 5: continue，帮助我们略过一些循环，这是基于以下观察得出： - 网格的总和是 ",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "矩阵中的幻方",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 13,
+        "id": 107797,
+        "viewCount": 4690
+      },
+      "uuid": "TUQDTv",
+      "videosInfo": []
+    }
+  }
+}

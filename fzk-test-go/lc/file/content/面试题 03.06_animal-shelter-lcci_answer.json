@@ -1,0 +1,76 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "Orange",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/orange-32/avatar_1559611313.png",
+          "userSlug": "orangeman"
+        },
+        "username": "OrangeMan"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "```\r\nclass AnimalShelf {\r\n    queue<pair<int,int>> queCat; //猫队列\r\n    queue<pair<int,int>> queDog; //狗队列\r\n    int cout = 0; //设置自增数\r\npublic:\r\n    AnimalShelf() {\r\n    }\r\n\r\n    void enqueue(vector<int> animal) {\r\n        if(animal[1]) queDog.push({cout,animal[0]});  //种类为狗\r\n        else queCat.push({cout,animal[0]});   //种类为猫\r\n        cout ++; //编号自增\r\n    }\r\n    \r\n    vector<int> dequeueAny() {\r\n        if(queDog.empty() && queCat.empty()) return {-1, -1};  //猫狗都为空\r\n        else if(queCat.empty() && queDog.size()) return dequeueDog(); //有狗无猫\r\n        else if(queDog.empty() && queCat.size()) return dequeueCat(); //有猫无狗\r\n        else if(queDog.front() < queCat.front()) return dequeueDog(); //有猫有狗，狗编号小\r\n        else return dequeueCat(); //有猫有狗，猫编号小\r\n    }\r\n    \r\n    vector<int> dequeueDog() {\r\n        if(queDog.empty()) return {-1, -1}; //无狗\r\n        int temp = queDog.front().first; //有狗，先进先出\r\n        queDog.pop();\r\n        return {temp, 1};\r\n    }\r\n    \r\n    vector<int> dequeueCat() {\r\n        if(queCat.empty()) return {-1, -1}; //无猫\r\n        int temp = queCat.front().first; //有猫先进先出\r\n        queCat.pop();\r\n        return {temp, 0};\r\n    }\r\n};\r\n",
+      "createdAt": "2021-08-24T11:32:34.711799+00:00",
+      "hitCount": 578,
+      "identifier": "XSD55I",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "mian-shi-ti-zui-jian-ji-zui-hao-li-jie-d-xbbi",
+        "title": "[面试题] 最简洁、最好理解的写法"
+      },
+      "position": 2,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "ut_hash-by-mere-h-1qc5",
+        "title": "UT_hash"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "animal-shelter-lcci"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "cjian-ji-dai-ma-by-orangeman-r5zp",
+      "status": "PREPUBLISH",
+      "summary": "[该用户太懒了，只写了 36 行代码]",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "C++简洁代码，双队列，pair",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 1,
+        "id": 956456,
+        "viewCount": 432
+      },
+      "uuid": "XSD55I",
+      "videosInfo": []
+    }
+  }
+}

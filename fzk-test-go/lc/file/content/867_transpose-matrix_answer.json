@@ -1,0 +1,114 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣官方题解",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/leetcode-solution/avatar_1582018938.png",
+          "userSlug": "leetcode-solution"
+        },
+        "username": "LeetCode-Solution"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法一：模拟\n\n如果矩阵 $\\textit{matrix}$ 为 $m$ 行 $n$ 列，则转置后的矩阵 $\\textit{matrix}^\\text{T}$ 为 $n$ 行 $m$ 列，且对任意 $0 \\le i<m$ 和 $0 \\le j<n$，都有 $\\textit{matrix}^\\text{T}[j][i]=\\textit{matrix}[i][j]$。\n\n创建一个 $n$ 行 $m$ 列的新矩阵，根据转置的规则对新矩阵中的每个元素赋值，则新矩阵为转置后的矩阵。\n\n```Java [sol1-Java]\nclass Solution {\n    public int[][] transpose(int[][] matrix) {\n        int m = matrix.length, n = matrix[0].length;\n        int[][] transposed = new int[n][m];\n        for (int i = 0; i < m; i++) {\n            for (int j = 0; j < n; j++) {\n                transposed[j][i] = matrix[i][j];\n            }\n        }\n        return transposed;\n    }\n}\n```\n\n```JavaScript [sol1-JavaScript]\nvar transpose = function(matrix) {\n    const m = matrix.length, n = matrix[0].length;\n    const transposed = new Array(n).fill(0).map(() => new Array(m).fill(0));\n    for (let i = 0; i < m; i++) {\n        for (let j = 0; j < n; j++) {\n            transposed[j][i] = matrix[i][j];\n        }\n    }\n    return transposed;\n};\n```\n\n```go [sol1-Golang]\nfunc transpose(matrix [][]int) [][]int {\n    n, m := len(matrix), len(matrix[0])\n    t := make([][]int, m)\n    for i := range t {\n        t[i] = make([]int, n)\n        for j := range t[i] {\n            t[i][j] = -1\n        }\n    }\n    for i, row := range matrix {\n        for j, v := range row {\n            t[j][i] = v\n        }\n    }\n    return t\n}\n```\n\n```Python [sol1-Python3]\nclass Solution:\n    def transpose(self, matrix: List[List[int]]) -> List[List[int]]:\n        m, n = len(matrix), len(matrix[0])\n        transposed = [[0] * m for _ in range(n)]\n        for i in range(m):\n            for j in range(n):\n                transposed[j][i] = matrix[i][j]\n        return transposed\n```\n\n```Python [sol1-Python3_oneline]\nclass Solution:\n    def transpose(self, matrix: List[List[int]]) -> List[List[int]]:\n        return list(list(row) for row in zip(*matrix))\n```\n\n```C++ [sol1-C++]\nclass Solution {\npublic:\n    vector<vector<int>> transpose(vector<vector<int>>& matrix) {\n        int m = matrix.size(), n = matrix[0].size();\n        vector<vector<int>> transposed(n, vector<int>(m));\n        for (int i = 0; i < m; i++) {\n            for (int j = 0; j < n; j++) {\n                transposed[j][i] = matrix[i][j];\n            }\n        }\n        return transposed;\n    }\n};\n```\n\n```C [sol1-C]\nint** transpose(int** matrix, int matrixSize, int* matrixColSize, int* returnSize, int** returnColumnSizes) {\n    int m = matrixSize, n = matrixColSize[0];\n    int** transposed = malloc(sizeof(int*) * n);\n    *returnSize = n;\n    *returnColumnSizes = malloc(sizeof(int) * n);\n    for (int i = 0; i < n; i++) {\n        transposed[i] = malloc(sizeof(int) * m);\n        (*returnColumnSizes)[i] = m;\n    }\n    for (int i = 0; i < m; i++) {\n        for (int j = 0; j < n; j++) {\n            transposed[j][i] = matrix[i][j];\n        }\n    }\n    return transposed;\n}\n```\n\n**复杂度分析**\n\n- 时间复杂度：$O(mn)$，其中 $m$ 和 $n$ 分别是矩阵 $\\textit{matrix}$ 的行数和列数。需要遍历整个矩阵，并对转置后的矩阵进行赋值操作。\n\n- 空间复杂度：$O(1)$。除了返回值以外，额外使用的空间为常数。",
+      "createdAt": "2021-02-25T01:28:51.631864+00:00",
+      "hitCount": 23896,
+      "identifier": "6VpD8V",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "zhuan-zhi-ju-zhen-xing-lie-hu-huan-by-hu-lfdh",
+        "title": "867. 转置矩阵：行列互换"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "transpose-matrix"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 16,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "zhuan-zhi-ju-zhen-by-leetcode-solution-85s2",
+      "status": "PREPUBLISH",
+      "summary": "方法一：模拟 如果矩阵 $\\textit{matrix}$ 为 $m$ 行 $n$ 列，则转置后的矩阵 $\\textit{matrix}^\\text{T}$ 为 $n$ 行 $m$ 列，且对任意 $0 \\le i<m$ 和 $0 \\le j<n$，都有 $\\textit{matrix}^\\text{T}[j][i]=\\",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Array",
+          "nameTranslated": "数组",
+          "slug": "array",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C",
+          "nameTranslated": "",
+          "slug": "c",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Go",
+          "nameTranslated": "",
+          "slug": "golang",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "JavaScript",
+          "nameTranslated": "",
+          "slug": "javascript",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "转置矩阵",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 107,
+        "id": 620604,
+        "viewCount": 19733
+      },
+      "uuid": "6VpD8V",
+      "videosInfo": []
+    }
+  }
+}

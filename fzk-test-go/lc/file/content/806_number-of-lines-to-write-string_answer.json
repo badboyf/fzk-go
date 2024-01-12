@@ -1,0 +1,93 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣 (LeetCode)",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/uploaded_files/2021/03/73c9f099-abbe-4d94-853f-f8abffd459cd/leetcode.png",
+          "userSlug": "leetcode"
+        },
+        "username": "LeetCode"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法一：简单遍历\n\n我们从左到右遍历字符串 `S` 中的每个字母，并用二元组 `(lines, width)` 实时统计当前的答案。当遍历到一个字母 `x` 时，如果 `width + widths[x] <= 100`，那么就更新 `width` 并保持 `lines` 不变；如果 `width + widths[x] > 100`，那么就将 `lines` 的值加 `1`，并将 `width` 置为 `widths[x]`。\n\n```Java [sol1]\nclass Solution {\n    public int[] numberOfLines(int[] widths, String S) {\n        int lines = 1, width = 0;\n        for (char c: S.toCharArray()) {\n            int w = widths[c - 'a'];\n            width += w;\n            if (width > 100) {\n                lines++;\n                width = w;\n            }\n        }\n\n        return new int[]{lines, width};\n    }\n}\n```\n\n```Python [sol1]\nclass Solution(object):\n    def numberOfLines(self, widths, S):\n        lines, width = 1, 0\n        for c in S:\n            w = widths[ord(c) - ord('a')]\n            width += w\n            if width > 100:\n                lines += 1\n                width = w\n\n        return lines, width\n```\n\n**复杂度分析**\n\n* 时间复杂度：$O(|S|)$。\n\n* 空间复杂度：$O(1)$。",
+      "createdAt": "2019-10-29T06:20:26.647357+00:00",
+      "hitCount": 3540,
+      "identifier": "ROyNhM",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "806-xie-zi-fu-chuan-xu-yao-de-xing-shu-b-r5w8",
+        "title": "806. 写字符串需要的行数"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "number-of-lines-to-write-string"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 5,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "xie-zi-fu-chuan-xu-yao-de-xing-shu-by-leetcode",
+      "status": "PUBLISHED",
+      "summary": "§ 方法一：简单遍历\n我们从左到右遍历字符串 S 中的每个字母，并用二元组 (lines, width) 实时统计当前的答案。当遍历到一个字母 x 时，如果 width + widths[x] <= 100，那么就更新 width 并保持 lines 不变；如果 width + widths[x] > 100，那么就将",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Array",
+          "nameTranslated": "数组",
+          "slug": "array",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "String",
+          "nameTranslated": "字符串",
+          "slug": "string",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "写字符串需要的行数",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 11,
+        "id": 38841,
+        "viewCount": 3116
+      },
+      "uuid": "ROyNhM",
+      "videosInfo": []
+    }
+  }
+}

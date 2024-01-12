@@ -1,0 +1,69 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣 (LeetCode)",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/uploaded_files/2021/03/73c9f099-abbe-4d94-853f-f8abffd459cd/leetcode.png",
+          "userSlug": "leetcode"
+        },
+        "username": "LeetCode"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "####  方法一：\n用一个数组 `W` 去考虑每个间隔的和，其中每个间隔都是给定的长度 `K`。要创建 `W`，我们可以使用前缀和，或者将间隔的和管理为沿数组滑动的窗口。\n\n我们讨论如何简化问题：给定数组 `W` 和整数 `W`，`i + K <= j` 和 `j + K <= k` 的索引 `(i, j, k)` 的字典最小元组是什么，它使 `W[i]+W[j]+W[k]` 最大化？ \n\n算法： \n\n**算法：**\n- 假设我们固定了 `j`。我们想知道在 $i \\in [0, j-K]$ 和 $k \\in [j+K, \\text{len}(W)-1]$ 之间的间隔，其中 $W[i]$ 和 $W[k]$ 最大值是第一次出现。（是指较小的索引）。 \n- 我们可以用动态规划来解决这些问题。例如，如果我们知道 $i$ 在 $[0，5]$ 上 $W[i]$ 是最大值，然后在 $[0，6]$ 上，若 $[0，6]$ 更大，那么我们将设置 `best = 6`。\n- 在结尾处，`left[z]` 将是第一个出现在间隔 $i \\in [0, z]$ 上的 `W[i]` 的最大值，`right[z]` 是第一个出现在 $i \\in [z, \\text{len}(W) - 1]$ 上`W[i]` 的最大值。这意味着对于某些选择 `j`，答案必须是 `(left[j-K], j, right[j+K])` 其中一个。我们选取产生最大 `W[i] + W[j] + W[k]` 的答案。 \n\n**复杂度分析**\n\n* 时间复杂度：$O(N)$。其中 $N$ 是数组的长度。每个循环的步数都以 $N$ 为界，并且执行 $O(1)$ 工作。 \n* 空间复杂度：$O(N)$，`W`，`left`，`right` 都需要 $O(N)$ 内存。",
+      "createdAt": "2019-08-23T09:47:25.903084+00:00",
+      "hitCount": 5286,
+      "identifier": "v5dFvx",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "condong-tai-gui-hua-by-monologue-s-dnyc",
+        "title": "c++O(n)动态规划"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "maximum-sum-of-3-non-overlapping-subarrays"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 4,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 3,
+          "reactionType": "THUMBS_DOWN"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "san-ge-wu-zhong-die-zi-shu-zu-de-zui-da-he-by-leet",
+      "status": "PUBLISHED",
+      "summary": "§ 方法一：\n用一个数组 W 去考虑每个间隔的和，其中每个间隔都是给定的长度 K。要创建 W，我们可以使用前缀和，或者将间隔的和管理为沿数组滑动的窗口。\n我们讨论如何简化问题：给定数组 W 和整数 W，i + K <= j 和 j + K <= k 的索引 (i, j, k) 的字典最小元组是什么，它使 W[i]+W[",
+      "sunk": false,
+      "tags": [],
+      "thumbnail": "",
+      "title": "三个无重叠子数组的最大和",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 9,
+        "id": 22514,
+        "viewCount": 4001
+      },
+      "uuid": "v5dFvx",
+      "videosInfo": []
+    }
+  }
+}

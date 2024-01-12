@@ -1,0 +1,86 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "zerotrac 🌸",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/zerotrac2/avatar_1628749564.png",
+          "userSlug": "zerotrac2"
+        },
+        "username": "zerotrac2"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 前言\n\n由于本题是「力扣杯」的竞赛题，因此只会给出提示、简要思路以及代码，不会对算法本身进行详细说明，希望读者多多思考。\n\n#### 方法一：拆点 + 最小割\n\n#### 提示 $1$\n\n我们希望「恶魔」无法到达城堡，即「城堡」和「恶魔」之间不连通，对应到图论模型上就是「割」问题。\n\n#### 思路\n\n使用最小割建模：\n\n- 将每一个非「障碍物」的格子拆分成两个点，一个作为「起点」一个作为「终点」。\n    - 如果该格子是「空地」，连接一条流量为 $1$ 的边。\n    - 否则，连接一条流量为 $\\infty$ 的边。\n- 相邻两个格子之间，从一个格子的「终点」到另一个格子的「起点」连接一条流量为 $\\infty$ 的边。\n- 对于所有「传送门」，它们的「终点」向「超级传送门节点」连接一条流量为 $\\infty$ 的边，并从该节点连回「起点」一条流量为 $\\infty$ 的边。\n- 所有「恶魔」的「终点」向「超级恶魔节点」连接一条流量为 $\\infty$ 的边。\n\n以「城堡」的「起点」为源点，「超级恶魔节点」为汇点，求出最小割。根据最小割最大流定理，求出最大流即可。如果最大流为 $\\infty$，说明答案为 $-1$。\n\n#### 代码\n\n下面的最大流模板参考自 [AtCoder Library](https://github.com/atcoder/ac-library)。\n\n```C++ [sol1-C++]\nnamespace atcoder {\n\nnamespace internal {\n\ntemplate <class T> struct simple_queue {\n    std::vector<T> payload;\n    int pos = 0;\n    void reserve(int n) { payload.reserve(n); }\n    int size() const { return int(payload.size()) - pos; }\n    bool empty() const { return pos == int(payload.size()); }\n    void push(const T& t) { payload.push_back(t); }\n    T& front() { return payload[pos]; }\n    void clear() {\n        payload.clear();\n        pos = 0;\n    }\n    void pop() { pos++; }\n};\n\n}  // namespace internal\n\n}  // namespace atcoder\n\nnamespace atcoder {\n\ntemplate <class Cap> struct mf_graph {\n  public:\n    mf_graph() : _n(0) {}\n    explicit mf_graph(int n) : _n(n), g(n) {}\n\n    int add_edge(int from, int to, Cap cap) {\n        // printf(\"edge = %d %d %d\\n\", from, to, cap);\n        assert(0 <= from && from < _n);\n        assert(0 <= to && to < _n);\n        assert(0 <= cap);\n        int m = int(pos.size());\n        pos.push_back({from, int(g[from].size())});\n        int from_id = int(g[from].size());\n        int to_id = int(g[to].size());\n        if (from == to) to_id++;\n        g[from].push_back(_edge{to, to_id, cap});\n        g[to].push_back(_edge{from, from_id, 0});\n        return m;\n    }\n\n    struct edge {\n        int from, to;\n        Cap cap, flow;\n    };\n\n    edge get_edge(int i) {\n        int m = int(pos.size());\n        assert(0 <= i && i < m);\n        auto _e = g[pos[i].first][pos[i].second];\n        auto _re = g[_e.to][_e.rev];\n        return edge{pos[i].first, _e.to, _e.cap + _re.cap, _re.cap};\n    }\n    std::vector<edge> edges() {\n        int m = int(pos.size());\n        std::vector<edge> result;\n        for (int i = 0; i < m; i++) {\n            result.push_back(get_edge(i));\n        }\n        return result;\n    }\n    void change_edge(int i, Cap new_cap, Cap new_flow) {\n        int m = int(pos.size());\n        assert(0 <= i && i < m);\n        assert(0 <= new_flow && new_flow <= new_cap);\n        auto& _e = g[pos[i].first][pos[i].second];\n        auto& _re = g[_e.to][_e.rev];\n        _e.cap = new_cap - new_flow;\n        _re.cap = new_flow;\n    }\n\n    Cap flow(int s, int t) {\n        return flow(s, t, std::numeric_limits<Cap>::max());\n    }\n    Cap flow(int s, int t, Cap flow_limit) {\n        assert(0 <= s && s < _n);\n        assert(0 <= t && t < _n);\n        assert(s != t);\n\n        std::vector<int> level(_n), iter(_n);\n        internal::simple_queue<int> que;\n\n        auto bfs = [&]() {\n            std::fill(level.begin(), level.end(), -1);\n            level[s] = 0;\n            que.clear();\n            que.push(s);\n            while (!que.empty()) {\n                int v = que.front();\n                que.pop();\n                for (auto e : g[v]) {\n                    if (e.cap == 0 || level[e.to] >= 0) continue;\n                    level[e.to] = level[v] + 1;\n                    if (e.to == t) return;\n                    que.push(e.to);\n                }\n            }\n        };\n        auto dfs = [&](auto self, int v, Cap up) {\n            if (v == s) return up;\n            Cap res = 0;\n            int level_v = level[v];\n            for (int& i = iter[v]; i < int(g[v].size()); i++) {\n                _edge& e = g[v][i];\n                if (level_v <= level[e.to] || g[e.to][e.rev].cap == 0) continue;\n                Cap d =\n                    self(self, e.to, std::min(up - res, g[e.to][e.rev].cap));\n                if (d <= 0) continue;\n                g[v][i].cap += d;\n                g[e.to][e.rev].cap -= d;\n                res += d;\n                if (res == up) return res;\n            }\n            level[v] = _n;\n            return res;\n        };\n\n        Cap flow = 0;\n        while (flow < flow_limit) {\n            bfs();\n            if (level[t] == -1) break;\n            std::fill(iter.begin(), iter.end(), 0);\n            Cap f = dfs(dfs, t, flow_limit - flow);\n            if (!f) break;\n            flow += f;\n        }\n        return flow;\n    }\n\n    std::vector<bool> min_cut(int s) {\n        std::vector<bool> visited(_n);\n        internal::simple_queue<int> que;\n        que.push(s);\n        while (!que.empty()) {\n            int p = que.front();\n            que.pop();\n            visited[p] = true;\n            for (auto e : g[p]) {\n                if (e.cap && !visited[e.to]) {\n                    visited[e.to] = true;\n                    que.push(e.to);\n                }\n            }\n        }\n        return visited;\n    }\n\n  private:\n    int _n;\n    struct _edge {\n        int to, rev;\n        Cap cap;\n    };\n    std::vector<std::pair<int, int>> pos;\n    std::vector<std::vector<_edge>> g;\n};\n\n}  // namespace atcoder\n\n\nclass Solution {\nprivate:\n    static constexpr int dirs[4][2] = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};\n    static constexpr int INF = 20010;\n    \npublic:\n    int guardCastle(vector<string>& grid) {\n        int n = grid[0].size();\n        // extra point for collecting portals & demons\n        // portal=n*4, demons=n*4+1\n        atcoder::mf_graph<int> g(n * 4 + 2);\n        int sx = -1, sy = -1;\n        for (int i = 0; i < 2; ++i) {\n            for (int j = 0; j < n; ++j) {\n                int base_id = i * n + j;\n                if(grid[i][j]=='#') continue;\n                if (grid[i][j] == '.') {\n                    g.add_edge(base_id * 2, base_id * 2 + 1, 1);\n                }\n                else if (grid[i][j] == 'C') {\n                    g.add_edge(base_id * 2, base_id * 2 + 1, INF);\n                    sx = i;\n                    sy = j;\n                }\n                else if (grid[i][j] == 'S' || grid[i][j] == 'P') {\n                    g.add_edge(base_id * 2, base_id * 2 + 1, INF);\n                }\n                \n                if (grid[i][j] == 'S') {\n                    g.add_edge(base_id * 2 + 1, n * 4 + 1, INF);\n                }\n                if (grid[i][j] == 'P') {\n                    g.add_edge(base_id * 2 + 1, n * 4, INF);\n                    g.add_edge(n * 4, base_id * 2, INF);\n                }\n                for (int d = 0; d < 4; ++d) {\n                    int ii = i + dirs[d][0];\n                    int jj = j + dirs[d][1];\n                    if (ii >= 0 && ii < 2 && jj >= 0 && jj < n) {\n                        if (grid[ii][jj] == '#') {\n                            continue;\n                        }\n                        int case_id = ii * n + jj;\n                        g.add_edge(base_id * 2 + 1, case_id * 2, INF);\n                    }\n                }\n            }\n        }\n        \n        int ans = g.flow((sx * n + sy) * 2, n * 4 + 1);\n        if (ans == INF) {\n            ans = -1;\n        }\n        return ans;\n    }\n};\n```\n\n#### 方法二：动态规划\n\n#### 提示 $1$\n\n如果「恶魔」能够走到「传送门」，那么「恶魔」就会支配所有的「传送门」。\n因此，我们可以考虑两种情况：即允许「恶魔」走到「传送门」，或者不允许「恶魔」走到「传送门」。\n- 对于第一种情况，我们可以将所有的「传送门」全部看成「恶魔」；\n- 对于第二种情况，我们可以将所有的「传送门」全部看成「城堡」。\n\n此时，网格中就只有「城堡」「恶魔」「空地」「障碍物」了，我们需要做的就是把「城堡」和「恶魔」之间互相分开。\n\n#### 提示 $2$\n\n使用两次动态规划解决上述问题，每一次动态规划考虑一种情况。\n\n#### 思路\n\n在动态规划之前（将「传送门」替换成「恶魔」或「城堡」之后），我们首先需要判断网格中是否有相邻的「城堡」和「恶魔」。如果有，那么显然是无法将它们分开的，因此无解；如果没有，那么把所有的「空地」都放上「障碍物」，显然可以将它们分开的，因此存在解。\n\n用 $f[i][s_1][s_2]$ 表示当前处理到第 $i$ 列，并且第 $i$ 列的两个格子的状态分别是 $s_1$ 和 $s_2$ 时，最小需要将「空地」放上「障碍物」的操作次数。状态有 $4$ 种：\n\n- $0$ 表示「空地」\n- $1$ 表示「城堡」或者之前的列存在「城堡」可以到达此位置\n- $2$ 表示「恶魔」或者之前的列存在「恶魔」可以到达此位置\n- $3$ 表示「障碍物」\n\n任意两种状态之间都是相互独立的。\n\n使用该状态的表示方法进行动态规划即可，其中的细节较为复杂，希望读者可以结合下面的细节部分以及代码部分自行思考。\n\n#### 细节\n\n这里介绍一种相对容易实现的状态转移方法。\n\n设第 $i-1$ 列的 $f$ 状态为 $s_1$ 和 $s_2$，第 $i$ 列本身的两个格子（不考虑第 $i-1$ 列的影响）的状态为 $t_1$ 和 $t_2$，我们需要判断 $s_1, s_2$ 是否可以和 $t_1, t_2$ 成为相邻的两列。如果可以，那么 $s_1, s_2$ 会对 $t_1, t_2$ 产生影响（例如 $s_1=1$ 且 $t_1=0$，那么「城堡」就可以到达 $t_1$ 的位置，会将 $t_1$ 的值更新为 $1$）。设影响后的状态为 $t_1', t_2'$，那么就有状态转移方程：\n\n$$\nf[i][t_1'][t_2'] = \\min\\big\\{ f[i-1][s_1][s_2] + \\Delta(t_1, t_2) \\big\\}\n$$\n\n其中 $\\Delta(t_1, t_2)$ 表示我们额外在第 $i$ 列放置的「障碍物」数量。\n\n#### 代码\n\n```C++ [sol2-C++]\nint f[10010][4][4];\n\nclass Solution {\nprivate:\n    static constexpr int dirs[4][2] = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};\n\npublic:\n    int check(const vector<string>& grid) {\n        int n = grid[0].size();\n        // check if no (castle, demon) neighbor pair exists\n        for (int i = 0; i < 2; ++i) {\n            for (int j = 0; j < n; ++j) {\n                for (int d = 0; d < 4; ++d) {\n                    int ni = i + dirs[d][0];\n                    int nj = j + dirs[d][1];\n                    if (ni >= 0 && ni < 2 && nj >= 0 && nj < n) {\n                        if (grid[i][j] == 'C' && grid[ni][nj] == 'S') {\n                            return INT_MAX;\n                        }\n                        if (grid[i][j] == 'S' && grid[ni][nj] == 'C') {\n                            return INT_MAX;\n                        }\n                    }\n                }\n            }\n        }\n\n        // f[i][s1][s2] = ith column, s1, s2, minimum barriers to put\n        // s1, s2 = (0=empty, 1=castle, 2=demon, 3=stone)\n        memset(f, 0x3f, sizeof(f));\n        f[0][0][0] = 0;\n        unordered_map<char, int> rep = {{'.', 0}, {'C', 1}, {'S', 2}, {'#', 3}};\n\n        auto update = [&](int i, int s1, int s2, int t1, int t2, int extra) {\n            if (s1 == 1 || s1 == 2) {\n                if (s1 + t1 == 3) {\n                    return;\n                }\n                if (t1 == 0) {\n                    t1 = s1;\n                }\n            }\n            if (s2 == 1 || s2 == 2) {\n                if (s2 + t2 == 3) {\n                    return;\n                }\n                if (t2 == 0) {\n                    t2 = s2;\n                }\n            }\n            if ((t1 == 1 || t1 == 2) && (t1 + t2 == 3)) {\n                return;\n            }\n            if ((t1 == 1 || t1 == 2) && t2 == 0) {\n                t2 = t1;\n            }\n            if ((t2 == 1 || t2 == 2) && t1 == 0) {\n                t1 = t2;\n            }\n            f[i][t1][t2] = min(f[i][t1][t2], f[i - 1][s1][s2] + extra);\n        };\n\n        for (int i = 1; i <= n; ++i) {\n            int t1 = rep[grid[0][i - 1]];\n            int t2 = rep[grid[1][i - 1]];\n            for (int s1 = 0; s1 < 4; ++s1) {\n                for (int s2 = 0; s2 < 4; ++s2) {\n                    update(i, s1, s2, t1, t2, 0);\n                    if (grid[0][i - 1] == '.') {\n                        update(i, s1, s2, 3, t2, 1);\n                    }\n                    if (grid[1][i - 1] == '.') {\n                        update(i, s1, s2, t1, 3, 1);\n                    }\n                    if (grid[0][i - 1] == '.' && grid[1][i - 1] == '.') {\n                        update(i, s1, s2, 3, 3, 2);\n                    }\n                }\n            }\n        }\n\n        int ans = INT_MAX;\n        for (int i = 0; i < 4; ++i) {\n            for (int j = 0; j < 4; ++j) {\n                ans = min(ans, f[n][i][j]);\n            }\n        }\n        return ans;\n    }\n\n    int guardCastle(vector<string>& grid) {\n        int n = grid[0].size();\n        int ans = INT_MAX;\n\n        // mark every portal as castle\n        auto g1 = grid;\n        for (int i = 0; i < 2; ++i) {\n            for (int j = 0; j < n; ++j) {\n                if (g1[i][j] == 'P') {\n                    g1[i][j] = 'C';\n                }\n            }\n        }\n        ans = min(ans, check(g1));\n\n        // mark every portal as demon\n        auto g2 = grid;\n        for (int i = 0; i < 2; ++i) {\n            for (int j = 0; j < n; ++j) {\n                if (g2[i][j] == 'P') {\n                    g2[i][j] = 'S';\n                }\n            }\n        }\n        ans = min(ans, check(g2));\n\n        if (ans == INT_MAX) {\n            ans = -1;\n        }\n        return ans;\n    }\n};\n```",
+      "createdAt": "2021-04-10T16:31:45.514298+00:00",
+      "hitCount": 1710,
+      "identifier": "Dh0jHD",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "zhuang-tai-ya-suo-dp-by-heyshb-2ron",
+        "title": "状态压缩DP"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "7rLGCR"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 23,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "lcp-38-shou-wei-cheng-bao-by-zerotrac2-kgv2",
+      "status": "PUBLISHED",
+      "summary": "前言\n由于本题是「力扣杯」的竞赛题，因此只会给出提示、简要思路以及代码，不会对算法本身进行详细说明，希望读者多多思考。\n 方法一：拆点 + 最小割\n 提示 1\n我们希望「恶魔」无法到达城堡，即「城堡」和「恶魔」之间不连通，对应到图论模型上就是「割」问题。\n 思路\n使用最小割建模：\n\n将每一个非「障碍物」的格子拆分成两",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Graph",
+          "nameTranslated": "图",
+          "slug": "graph",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Dynamic Programming",
+          "nameTranslated": "动态规划",
+          "slug": "dynamic-programming",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "LCP 38. 守卫城堡",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 714128,
+        "viewCount": 1227
+      },
+      "uuid": "Dh0jHD",
+      "videosInfo": []
+    }
+  }
+}

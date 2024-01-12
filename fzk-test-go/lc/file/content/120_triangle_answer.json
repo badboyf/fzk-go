@@ -1,0 +1,124 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣官方题解",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/leetcode-solution/avatar_1582018938.png",
+          "userSlug": "leetcode-solution"
+        },
+        "username": "LeetCode-Solution"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 前言\n\n本题是一道非常经典且历史悠久的动态规划题，其作为算法题出现，最早可以追溯到 1994 年的 IOI（国际信息学奥林匹克竞赛）的 [The Triangle](https://ioinformatics.org/files/ioi1994problem1.pdf)。时光飞逝，经过 20 多年的沉淀，往日的国际竞赛题如今已经变成了动态规划的入门必做题，不断督促着我们学习和巩固算法。\n\n在本题中，给定的三角形的行数为 $n$，并且第 $i$ 行（从 $0$ 开始编号）包含了 $i+1$ 个数。如果将每一行的左端对齐，那么会形成一个等腰直角三角形，如下所示：\n\n```\n[2]\n[3,4]\n[6,5,7]\n[4,1,8,3]\n```\n\n#### 方法一：动态规划\n\n**思路与算法**\n\n我们用 $f[i][j]$ 表示从三角形顶部走到位置 $(i, j)$ 的最小路径和。这里的位置 $(i, j)$ 指的是三角形中第 $i$ 行第 $j$ 列（均从 $0$ 开始编号）的位置。\n\n由于每一步只能移动到下一行「相邻的节点」上，因此要想走到位置 $(i, j)$，上一步就只能在位置 $(i - 1, j - 1)$ 或者位置 $(i - 1, j)$。我们在这两个位置中选择一个路径和较小的来进行转移，状态转移方程为：\n\n$$\nf[i][j] = \\min(f[i-1][j-1], f[i-1][j]) + c[i][j]\n$$\n\n其中 $c[i][j]$ 表示位置 $(i, j)$ 对应的元素值。\n\n注意第 $i$ 行有 $i+1$ 个元素，它们对应的 $j$ 的范围为 $[0, i]$。当 $j=0$ 或 $j=i$ 时，上述状态转移方程中有一些项是没有意义的。例如当 $j=0$ 时，$f[i-1][j-1]$ 没有意义，因此状态转移方程为：\n\n$$\nf[i][0] = f[i-1][0] + c[i][0]\n$$\n\n即当我们在第 $i$ 行的最左侧时，我们只能从第 $i-1$ 行的最左侧移动过来。当 $j=i$ 时，$f[i-1][j]$ 没有意义，因此状态转移方程为：\n\n$$\nf[i][i] = f[i-1][i-1] + c[i][i]\n$$\n\n即当我们在第 $i$ 行的最右侧时，我们只能从第 $i-1$ 行的最右侧移动过来。\n\n最终的答案即为 $f[n-1][0]$ 到 $f[n-1][n-1]$ 中的最小值，其中 $n$ 是三角形的行数。\n\n**细节**\n\n状态转移方程的边界条件是什么？由于我们已经去除了所有「没有意义」的状态，因此边界条件可以定为：\n\n$$\nf[0][0] = c[0][0]\n$$\n\n即在三角形的顶部时，最小路径和就等于对应位置的元素值。这样一来，我们从 $1$ 开始递增地枚举 $i$，并在 $[0, i]$ 的范围内递增地枚举 $j$，就可以完成所有状态的计算。\n\n```C++ [sol1-C++]\nclass Solution {\npublic:\n    int minimumTotal(vector<vector<int>>& triangle) {\n        int n = triangle.size();\n        vector<vector<int>> f(n, vector<int>(n));\n        f[0][0] = triangle[0][0];\n        for (int i = 1; i < n; ++i) {\n            f[i][0] = f[i - 1][0] + triangle[i][0];\n            for (int j = 1; j < i; ++j) {\n                f[i][j] = min(f[i - 1][j - 1], f[i - 1][j]) + triangle[i][j];\n            }\n            f[i][i] = f[i - 1][i - 1] + triangle[i][i];\n        }\n        return *min_element(f[n - 1].begin(), f[n - 1].end());\n    }\n};\n```\n\n```Java [sol1-Java]\nclass Solution {\n    public int minimumTotal(List<List<Integer>> triangle) {\n        int n = triangle.size();\n        int[][] f = new int[n][n];\n        f[0][0] = triangle.get(0).get(0);\n        for (int i = 1; i < n; ++i) {\n            f[i][0] = f[i - 1][0] + triangle.get(i).get(0);\n            for (int j = 1; j < i; ++j) {\n                f[i][j] = Math.min(f[i - 1][j - 1], f[i - 1][j]) + triangle.get(i).get(j);\n            }\n            f[i][i] = f[i - 1][i - 1] + triangle.get(i).get(i);\n        }\n        int minTotal = f[n - 1][0];\n        for (int i = 1; i < n; ++i) {\n            minTotal = Math.min(minTotal, f[n - 1][i]);\n        }\n        return minTotal;\n    }\n}\n```\n\n```Python [sol1-Python3]\nclass Solution:\n    def minimumTotal(self, triangle: List[List[int]]) -> int:\n        n = len(triangle)\n        f = [[0] * n for _ in range(n)]\n        f[0][0] = triangle[0][0]\n\n        for i in range(1, n):\n            f[i][0] = f[i - 1][0] + triangle[i][0]\n            for j in range(1, i):\n                f[i][j] = min(f[i - 1][j - 1], f[i - 1][j]) + triangle[i][j]\n            f[i][i] = f[i - 1][i - 1] + triangle[i][i]\n        \n        return min(f[n - 1])\n```\n\n```golang [sol1-Golang]\nfunc minimumTotal(triangle [][]int) int {\n    n := len(triangle)\n    f := make([][]int, n)\n    for i := 0; i < n; i++ {\n        f[i] = make([]int, n)\n    }\n    f[0][0] = triangle[0][0]\n    for i := 1; i < n; i++ {\n        f[i][0] = f[i - 1][0] + triangle[i][0]\n        for j := 1; j < i; j++ {\n            f[i][j] = min(f[i - 1][j - 1], f[i - 1][j]) + triangle[i][j]\n        }\n        f[i][i] = f[i - 1][i - 1] + triangle[i][i]\n    }\n    ans := math.MaxInt32\n    for i := 0; i < n; i++ {\n        ans = min(ans, f[n-1][i])\n    }\n    return ans\n}\n\nfunc min(x, y int) int {\n    if x < y {\n        return x\n    }\n    return y\n}\n```\n\n```C [sol1-C]\nint minimumTotal(int** triangle, int triangleSize, int* triangleColSize) {\n    int f[triangleSize][triangleSize];\n    memset(f, 0, sizeof(f));\n    f[0][0] = triangle[0][0];\n    for (int i = 1; i < triangleSize; ++i) {\n        f[i][0] = f[i - 1][0] + triangle[i][0];\n        for (int j = 1; j < i; ++j) {\n            f[i][j] = fmin(f[i - 1][j - 1], f[i - 1][j]) + triangle[i][j];\n        }\n        f[i][i] = f[i - 1][i - 1] + triangle[i][i];\n    }\n    int ret = f[triangleSize - 1][0];\n    for (int i = 1; i < triangleSize; i++)\n        ret = fmin(ret, f[triangleSize - 1][i]);\n    return ret;\n}\n```\n\n**复杂度分析**\n\n- 时间复杂度：$O(n^2)$，其中 $n$ 是三角形的行数。\n\n- 空间复杂度：$O(n^2)$。我们需要一个 $n*n$ 的二维数组存放所有的状态。\n\n\n#### 方法二：动态规划 + 空间优化\n\n**思路与算法**\n\n在题目描述中的「进阶」部分，提到了可以将空间复杂度优化至 $O(n)$。\n\n我们回顾方法一中的状态转移方程：\n\n$$\n\\begin{aligned}\nf[i][j] = \\begin{cases}\nf[i-1][0] + c[i][0], & j=0\\\\\nf[i-1][i-1] + c[i][i], & j=i \\\\\n\\min(f[i-1][j-1], f[i-1][j]) + c[i][j], & \\text{otherwise}\n\\end{cases}\n\\end{aligned}\n$$\n\n可以发现，$f[i][j]$ 只与 $f[i-1][..]$ 有关，而与 $f[i-2][..]$ 及之前的状态无关，因此我们不必存储这些无关的状态。具体地，我们使用两个长度为 $n$ 的一维数组进行转移，将 $i$ 根据奇偶性映射到其中一个一维数组，那么 $i-1$ 就映射到了另一个一维数组。这样我们使用这两个一维数组，交替地进行状态转移。\n\n```C++ [sol2-C++]\nclass Solution {\npublic:\n    int minimumTotal(vector<vector<int>>& triangle) {\n        int n = triangle.size();\n        vector<vector<int>> f(2, vector<int>(n));\n        f[0][0] = triangle[0][0];\n        for (int i = 1; i < n; ++i) {\n            int curr = i % 2;\n            int prev = 1 - curr;\n            f[curr][0] = f[prev][0] + triangle[i][0];\n            for (int j = 1; j < i; ++j) {\n                f[curr][j] = min(f[prev][j - 1], f[prev][j]) + triangle[i][j];\n            }\n            f[curr][i] = f[prev][i - 1] + triangle[i][i];\n        }\n        return *min_element(f[(n - 1) % 2].begin(), f[(n - 1) % 2].end());\n    }\n};\n```\n\n```Java [sol2-Java]\nclass Solution {\n    public int minimumTotal(List<List<Integer>> triangle) {\n        int n = triangle.size();\n        int[][] f = new int[2][n];\n        f[0][0] = triangle.get(0).get(0);\n        for (int i = 1; i < n; ++i) {\n            int curr = i % 2;\n            int prev = 1 - curr;\n            f[curr][0] = f[prev][0] + triangle.get(i).get(0);\n            for (int j = 1; j < i; ++j) {\n                f[curr][j] = Math.min(f[prev][j - 1], f[prev][j]) + triangle.get(i).get(j);\n            }\n            f[curr][i] = f[prev][i - 1] + triangle.get(i).get(i);\n        }\n        int minTotal = f[(n - 1) % 2][0];\n        for (int i = 1; i < n; ++i) {\n            minTotal = Math.min(minTotal, f[(n - 1) % 2][i]);\n        }\n        return minTotal;\n    }\n}\n```\n\n```Python [sol2-Python3]\nclass Solution:\n    def minimumTotal(self, triangle: List[List[int]]) -> int:\n        n = len(triangle)\n        f = [[0] * n for _ in range(2)]\n        f[0][0] = triangle[0][0]\n\n        for i in range(1, n):\n            curr, prev = i % 2, 1 - i % 2\n            f[curr][0] = f[prev][0] + triangle[i][0]\n            for j in range(1, i):\n                f[curr][j] = min(f[prev][j - 1], f[prev][j]) + triangle[i][j]\n            f[curr][i] = f[prev][i - 1] + triangle[i][i]\n        \n        return min(f[(n - 1) % 2])\n```\n\n```golang [sol2-Golang]\nfunc minimumTotal(triangle [][]int) int {\n    n := len(triangle)\n    f := [2][]int{}\n    for i := 0; i < 2; i++ {\n        f[i] = make([]int, n)\n    }\n    f[0][0] = triangle[0][0]\n    for i := 1; i < n; i++ {\n        curr := i % 2\n        prev := 1 - curr\n        f[curr][0] = f[prev][0] + triangle[i][0]\n        for j := 1; j < i; j++ {\n            f[curr][j] = min(f[prev][j - 1], f[prev][j]) + triangle[i][j]\n        }\n        f[curr][i] = f[prev][i - 1] + triangle[i][i]\n    }\n    ans := math.MaxInt32\n    for i := 0; i < n; i++ {\n        ans = min(ans, f[(n-1)%2][i])\n    }\n    return ans\n}\n\nfunc min(x, y int) int {\n    if x < y {\n        return x\n    }\n    return y\n}\n```\n\n```C [sol2-C]\nint minimumTotal(int** triangle, int triangleSize, int* triangleColSize) {\n    int f[2][triangleSize];\n    memset(f, 0, sizeof(f));\n    f[0][0] = triangle[0][0];\n    for (int i = 1; i < triangleSize; ++i) {\n        int curr = i % 2;\n        int prev = 1 - curr;\n        f[curr][0] = f[prev][0] + triangle[i][0];\n        for (int j = 1; j < i; ++j) {\n            f[curr][j] = fmin(f[prev][j - 1], f[prev][j]) + triangle[i][j];\n        }\n        f[curr][i] = f[prev][i - 1] + triangle[i][i];\n    }\n    int ret = f[(triangleSize - 1) % 2][0];\n    for (int i = 1; i < triangleSize; i++)\n        ret = fmin(ret, f[(triangleSize - 1) % 2][i]);\n    return ret;\n}\n```\n\n上述方法的空间复杂度为 $O(n)$，使用了 $2n$ 的空间存储状态。我们还可以继续进行优化吗？\n\n答案是可以的。我们从 $i$ 到 $0$ 递减地枚举 $j$，这样我们只需要一个长度为 $n$ 的一维数组 $f$，就可以完成状态转移。\n\n> 为什么只有在递减地枚举 $j$ 时，才能省去一个一维数组？当我们在计算位置 $(i, j)$ 时，$f[j+1]$ 到 $f[i]$ 已经是第 $i$ 行的值，而 $f[0]$ 到 $f[j]$ 仍然是第 $i-1$ 行的值。此时我们直接通过\n\n$$\nf[j] = \\min(f[j-1], f[j]) + c[i][j]\n$$\n\n> 进行转移，恰好就是在 $(i-1, j-1)$ 和 $(i-1, j)$ 中进行选择。但如果我们递增地枚举 $j$，那么在计算位置 $(i, j)$ 时，$f[0]$ 到 $f[j-1]$ 已经是第 $i$ 行的值。如果我们仍然使用上述状态转移方程，那么是在 $(i, j-1)$ 和 $(i-1, j)$ 中进行选择，就产生了错误。\n\n这样虽然空间复杂度仍然为 $O(n)$，但我们只使用了 $n$ 的空间存储状态，减少了一半的空间消耗。\n\n```C++ [sol3-C++]\nclass Solution {\npublic:\n    int minimumTotal(vector<vector<int>>& triangle) {\n        int n = triangle.size();\n        vector<int> f(n);\n        f[0] = triangle[0][0];\n        for (int i = 1; i < n; ++i) {\n            f[i] = f[i - 1] + triangle[i][i];\n            for (int j = i - 1; j > 0; --j) {\n                f[j] = min(f[j - 1], f[j]) + triangle[i][j];\n            }\n            f[0] += triangle[i][0];\n        }\n        return *min_element(f.begin(), f.end());\n    }\n};\n```\n\n```Java [sol3-Java]\nclass Solution {\n    public int minimumTotal(List<List<Integer>> triangle) {\n        int n = triangle.size();\n        int[] f = new int[n];\n        f[0] = triangle.get(0).get(0);\n        for (int i = 1; i < n; ++i) {\n            f[i] = f[i - 1] + triangle.get(i).get(i);\n            for (int j = i - 1; j > 0; --j) {\n                f[j] = Math.min(f[j - 1], f[j]) + triangle.get(i).get(j);\n            }\n            f[0] += triangle.get(i).get(0);\n        }\n        int minTotal = f[0];\n        for (int i = 1; i < n; ++i) {\n            minTotal = Math.min(minTotal, f[i]);\n        }\n        return minTotal;\n    }\n}\n```\n\n```Python [sol3-Python3]\nclass Solution:\n    def minimumTotal(self, triangle: List[List[int]]) -> int:\n        n = len(triangle)\n        f = [0] * n\n        f[0] = triangle[0][0]\n\n        for i in range(1, n):\n            f[i] = f[i - 1] + triangle[i][i]\n            for j in range(i - 1, 0, -1):\n                f[j] = min(f[j - 1], f[j]) + triangle[i][j]\n            f[0] += triangle[i][0]\n        \n        return min(f)\n```\n\n```golang [sol3-Golang]\nfunc minimumTotal(triangle [][]int) int {\n    n := len(triangle)\n    f := make([]int, n)\n    f[0] = triangle[0][0]\n    for i := 1; i < n; i++ {\n        f[i] = f[i - 1] + triangle[i][i]\n        for j := i - 1; j > 0; j-- {\n            f[j] = min(f[j - 1], f[j]) + triangle[i][j]\n        }\n        f[0] += triangle[i][0]\n    }\n    ans := math.MaxInt32\n    for i := 0; i < n; i++ {\n        ans = min(ans, f[i])\n    }\n    return ans\n}\n\nfunc min(x, y int) int {\n    if x < y {\n        return x\n    }\n    return y\n}\n```\n\n```C [sol3-C]\nint minimumTotal(int** triangle, int triangleSize, int* triangleColSize) {\n    int f[triangleSize];\n    memset(f, 0, sizeof(f));\n    f[0] = triangle[0][0];\n    for (int i = 1; i < triangleSize; ++i) {\n        f[i] = f[i - 1] + triangle[i][i];\n        for (int j = i - 1; j > 0; --j) {\n            f[j] = fmin(f[j - 1], f[j]) + triangle[i][j];\n        }\n        f[0] += triangle[i][0];\n    }\n    int ret = f[0];\n    for (int i = 1; i < triangleSize; i++) ret = fmin(ret, f[i]);\n    return ret;\n}\n```\n\n**复杂度分析**\n\n- 时间复杂度：$O(n^2)$，其中 $n$ 是三角形的行数。\n\n- 空间复杂度：$O(n)$。\n\n#### 结语\n\n本题还有一些其它的动态规划方法，例如：\n\n- 从三角形的底部开始转移，到顶部结束；\n\n- 直接在给定的三角形数组上进行状态转移，不使用额外的空间。\n\n读者可以自行尝试。如果在面试中遇到类似的题目，需要和面试官进行沟通，可以询问「是否有空间复杂度限制」「是否可以修改原数组」等问题，给出符合条件的算法。",
+      "createdAt": "2020-07-13T14:28:29.338485+00:00",
+      "hitCount": 95515,
+      "identifier": "uKeZyv",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "di-gui-ji-yi-hua-dp-bi-xu-miao-dong-by-sweetiee",
+        "title": "递归 + 记忆化 + DP，🤷‍♀️ 必须秒懂！"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "triangle"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 148,
+          "reactionType": "UPVOTE"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 11,
+          "reactionType": "AWESOME"
+        },
+        {
+          "__typename": "ReactionCountNode",
+          "count": 3,
+          "reactionType": "CONFUSED"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "san-jiao-xing-zui-xiao-lu-jing-he-by-leetcode-solu",
+      "status": "PUBLISHED",
+      "summary": "前言 本题是一道非常经典且历史悠久的动态规划题，其作为算法题出现，最早可以追溯到 1994 年的 IOI（国际信息学奥林匹克竞赛）的 The Triangle。时光飞逝，经过 20 多年的沉淀，往日的国际竞赛题如今已经变成了动态规划的入门必做题，不断督促着我们学习和巩固算法。 在本题中，给定的三角形的行数为 $n$，并",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Array",
+          "nameTranslated": "数组",
+          "slug": "array",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Dynamic Programming",
+          "nameTranslated": "动态规划",
+          "slug": "dynamic-programming",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C",
+          "nameTranslated": "",
+          "slug": "c",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "C++",
+          "nameTranslated": "",
+          "slug": "cpp",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Go",
+          "nameTranslated": "",
+          "slug": "golang",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Python",
+          "nameTranslated": "",
+          "slug": "python",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "三角形最小路径和",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 184,
+        "id": 329143,
+        "viewCount": 62670
+      },
+      "uuid": "uKeZyv",
+      "videosInfo": []
+    }
+  }
+}

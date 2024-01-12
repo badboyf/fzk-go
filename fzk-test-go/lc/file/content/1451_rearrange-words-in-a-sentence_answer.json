@@ -1,0 +1,83 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "寐",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/users/mei-56/avatar_1579317149.png",
+          "userSlug": "mei-56"
+        },
+        "username": "mei-56"
+      },
+      "byLeetcode": false,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "### 解题思路\n\n长度相同的拼在一起，再按大小顺序拼在一起\n\n1. 将text首字母转换为小写\n2. 顺序遍历每个单词并加入map中以，以字符长度为键，字符串加一个空格为值，这样就能保证题目要求的相同长度字符串保证顺序\n3. 从小到大遍历key，依次加到结果中\n4. 把结果首字母大写，删除末尾空格\n\n### 代码\n\n```java\nclass Solution {\n    public String arrangeWords(String text) {\n        StringBuilder sb = new StringBuilder();\n        Map<Integer, String> map = new HashMap<>();\n        // 首字母转换为小写\n        text = text.substring(0, 1).toLowerCase() + text.substring(1);\n        //添加到map中\n        String[] texts = text.split(\" \");\n        for (String s : texts) map.put(s.length(), map.getOrDefault(s.length(), \"\") + s + \" \");\n        //遍历键\n        int[] keys = new int[map.size()];\n        int idx = 0;\n        for (Integer key : map.keySet()) keys[idx++] = key;\n        Arrays.sort(keys);\n        for (int key : keys) sb.append(map.get(key));\n        // 首字母转换为大写\n        String res = sb.toString();\n        res = res.substring(0, 1).toUpperCase() + res.substring(1, res.length() - 1);\n        return res;\n    }\n}\n```",
+      "createdAt": "2021-11-06T05:50:05.107725+00:00",
+      "hitCount": 96,
+      "identifier": "EHv7bQ",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "zhong-xin-pai-lie-ju-zi-zhong-de-dan-ci-lon4m",
+        "title": "重新排列句子中的单词"
+      },
+      "position": 2,
+      "prev": {
+        "__typename": "BriefSolutionNode",
+        "slug": "ut_hash-by-chinhao-4hmn",
+        "title": "UT_HASH"
+      },
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "rearrange-words-in-a-sentence"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 2,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "java-ha-xi-biao-by-mei-56-sdez",
+      "status": "PREPUBLISH",
+      "summary": "解题思路\n长度相同的拼在一起，再按大小顺序拼在一起\n\n将text首字母转换为小写\n顺序遍历每个单词并加入map中以，以字符长度为键，字符串加一个空格为值，这样就能保证题目要求的相同长度字符串保证顺序\n从小到大遍历key，依次加到结果中\n把结果首字母大写，删除末尾空格\n\n代码",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Hash Table",
+          "nameTranslated": "哈希表",
+          "slug": "hash-table",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "java 哈希表",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 0,
+        "id": 1087054,
+        "viewCount": 76
+      },
+      "uuid": "EHv7bQ",
+      "videosInfo": []
+    }
+  }
+}

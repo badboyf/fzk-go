@@ -1,0 +1,86 @@
+{
+  "data": {
+    "solutionArticle": {
+      "__typename": "SolutionArticleNode",
+      "author": {
+        "__typename": "UserNode",
+        "profile": {
+          "__typename": "UserProfileNode",
+          "realName": "力扣 (LeetCode)",
+          "userAvatar": "https://assets.leetcode-cn.com/aliyun-lc-upload/uploaded_files/2021/03/73c9f099-abbe-4d94-853f-f8abffd459cd/leetcode.png",
+          "userSlug": "leetcode"
+        },
+        "username": "LeetCode"
+      },
+      "byLeetcode": true,
+      "canEdit": false,
+      "canEditReward": false,
+      "canSee": true,
+      "chargeType": "FREE",
+      "content": "#### 方法 1：暴力 [Accepted]\n\n**算法**\n\n这题的暴力方法是将列表分成 $left$ 和 $right$ 两部分并分别对它们调用函数。我们从 $start$ 到 $end$ 遍历 $i$ 并得到 $left=(start,i)$ 和 $right=(i+1,end)$。\n\n$left$ 和 $right$ 分别返回它们对应部分的最大和最小值和它们对应的字符串。\n\n最小值可以通过左边部分的最小值除以右边部分的最大值得到，也就是 $minVal=left.min/right.max$。\n\n类似的，最大值可以通过左边部分的最大值除以右边部分的最小值得到，也就是 $maxVal=left.max/right.min$。\n\n现在，怎么添加括号呢？由于出发运算是从左到右的，也就是最左边的除法默认先执行，所以我们不需要给左边部分添加括号，但我们需要给右边部分添加括号。\n\n比方假设左边部分是 \"2\" ，右边部分是 \"3/4\"，那么结果字符串 \"2/(3/4)\" 对应的是 左边部分+\"/\"+\"(\"+右边部分+\")\"。\n\n还有一点，如果右边部分只有一个数字，我们也不需要添加括号。\n\n也就是说，如果左边部分是 \"2\" 且右边部分是 \"3\" （只包含单个数字），那么答案应该是 \"2/3\" 而不是 \"2/(3)\"。\n\n```Java []\npublic class Solution {\n    public String optimalDivision(int[] nums) {\n        T t = optimal(nums, 0, nums.length - 1, \"\");\n        return t.max_str;\n    }\n    class T {\n        float max_val, min_val;\n        String min_str, max_str;\n    }\n    public T optimal(int[] nums, int start, int end, String res) {\n        T t = new T();\n        if (start == end) {\n            t.max_val = nums[start];\n            t.min_val = nums[start];\n            t.min_str = \"\" + nums[start];\n            t.max_str = \"\" + nums[start];\n            return t;\n        }\n        t.min_val = Float.MAX_VALUE;\n        t.max_val = Float.MIN_VALUE;\n        t.min_str = t.max_str = \"\";\n        for (int i = start; i < end; i++) {\n            T left = optimal(nums, start, i, \"\");\n            T right = optimal(nums, i + 1, end, \"\");\n            if (t.min_val > left.min_val / right.max_val) {\n                t.min_val = left.min_val / right.max_val;\n                t.min_str = left.min_str + \"/\" + (i + 1 != end ? \"(\" : \"\") + right.max_str + (i + 1 != end ? \")\" : \"\");\n            }\n            if (t.max_val < left.max_val / right.min_val) {\n                t.max_val = left.max_val / right.min_val;\n                t.max_str = left.max_str + \"/\" + (i + 1 != end ? \"(\" : \"\") + right.min_str + (i + 1 != end ? \")\" : \"\");\n            }\n        }\n        return t;\n    }\n}\n```\n\n**复杂度分析**\n\n* 时间复杂度： $O(n!)$。添加了括号以后所有表达式的数目为 $O(n!)$，其中 $n$ 是列表中元素的数目。\n\n* 空间复杂度： $O(n^2)$。递归树的深度为 $O(n)$ 且每一个节点都最多包含 $O(n)$ 长度的字符串。\n\n#### 方法 2：使用记忆化 [Accepted]\n\n**算法**\n\n上述方法中，我们对于每个 $start$ 和 $end$ 递归地使用了 optimal 函数。我们注意到有许多冗余的调用，所以我们使用记忆化的方法将相同参数的调用记录下来。这里 $memo$ 数组就是为了实现这一目的。\n\n```Java []\npublic class Solution {\n    class T {\n        float max_val, min_val;\n        String min_str, max_str;\n    }\n    public String optimalDivision(int[] nums) {\n        T[][] memo = new T[nums.length][nums.length];\n        T t = optimal(nums, 0, nums.length - 1, \"\", memo);\n        return t.max_str;\n    }\n    public T optimal(int[] nums, int start, int end, String res, T[][] memo) {\n        if (memo[start][end] != null)\n            return memo[start][end];\n        T t = new T();\n        if (start == end) {\n            t.max_val = nums[start];\n            t.min_val = nums[start];\n            t.min_str = \"\" + nums[start];\n            t.max_str = \"\" + nums[start];\n            memo[start][end] = t;\n            return t;\n        }\n        t.min_val = Float.MAX_VALUE;\n        t.max_val = Float.MIN_VALUE;\n        t.min_str = t.max_str = \"\";\n        for (int i = start; i < end; i++) {\n            T left = optimal(nums, start, i, \"\", memo);\n            T right = optimal(nums, i + 1, end, \"\", memo);\n            if (t.min_val > left.min_val / right.max_val) {\n                t.min_val = left.min_val / right.max_val;\n                t.min_str = left.min_str + \"/\" + (i + 1 != end ? \"(\" : \"\") + right.max_str + (i + 1 != end ? \")\" : \"\");\n            }\n            if (t.max_val < left.max_val / right.min_val) {\n                t.max_val = left.max_val / right.min_val;\n                t.max_str = left.max_str + \"/\" + (i + 1 != end ? \"(\" : \"\") + right.min_str + (i + 1 != end ? \")\" : \"\");\n            }\n        }\n        memo[start][end] = t;\n        return t;\n    }\n}\n```\n\n**复杂度分析**\n\n* 时间复杂度： $O(n^3)$。 $memo$ 数组的大小为 $n^2$ 且每一项的计算需要 $O(n)$ 的时间。\n\n* 空间复杂度度： $O(n^3)$。 $memo$ 数组的大小为 $n^2$，其中数组的每一个元素的长度都是 $O(n)$ 的。\n\n#### 方法 3：利用数学 [Accepted]\n\n**算法**\n\n使用一些简单的数学技巧，我们可以找到解决这个问题的简单解法。考虑输入形如 [a,b,c,d] 的列表，我们需要设置一些运算优先级来最大化 a/b/c/d。我们知道为了最大化 $p/q$，分母 $q$ 应该最小化，所以为了最大化 $a/b/c/d$ 我们首先需要最小化 b/c/d，现在我们的目标变成了最小化表达式 b/c/d。\n\n有 2 种可能的表达式组合方法，分别是 b/(c/d) 和 (b/c)/d。\n```\nb/(c/d)        (b/c)/d = b/c/d\n(b*d)/c        b/(d*c)\nd/c            1/(d*c)\n```\n\n显然，对于 $d>1$ 我们有 $d/c > 1/(d*c)$。\n\n我们可以发现只要数字大于 $1$，第二种组合肯定比第一种组合要小。所以答案是 $a/(b/c/d)$。类似的，对于形如 a/b/c/d/e/f... 的表达式，答案将是 a/(b/c/d/e/f...)。\n\n```Java []\npublic class Solution {\n    public String optimalDivision(int[] nums) {\n        if (nums.length == 1)\n            return nums[0] + \"\";\n        if (nums.length == 2)\n            return nums[0] + \"/\" + nums[1];\n        StringBuilder res = new StringBuilder(nums[0] + \"/(\" + nums[1]);\n        for (int i = 2; i < nums.length; i++) {\n            res.append(\"/\" + nums[i]);\n        }\n        res.append(\")\");\n        return res.toString();\n    }\n}\n```\n\n**复杂度分析**\n\n* 时间复杂度： $O(n)$。只需要遍历数组 $nums$ 一遍。\n\n* 空间复杂度： $O(n)$。使用 $res$ 变量来保存答案。\n",
+      "createdAt": "2019-10-15T04:57:10.995149+00:00",
+      "hitCount": 5763,
+      "identifier": "j4zPWD",
+      "isEditorsPick": false,
+      "isMostPopular": false,
+      "isMyFavorite": false,
+      "next": {
+        "__typename": "BriefSolutionNode",
+        "slug": "quan-shi-2suo-yi-ke-yi-tan-xin-by-zhouzi-hj5c",
+        "title": "全是>=2，所以可以贪心"
+      },
+      "position": 1,
+      "prev": null,
+      "question": {
+        "__typename": "QuestionNode",
+        "questionTitleSlug": "optimal-division"
+      },
+      "reactionType": null,
+      "reactionsV2": [
+        {
+          "__typename": "ReactionCountNode",
+          "count": 5,
+          "reactionType": "UPVOTE"
+        }
+      ],
+      "rewardEnabled": null,
+      "slug": "zui-you-chu-fa-by-leetcode",
+      "status": "PUBLISHED",
+      "summary": "§ 方法 1：暴力 [Accepted]\n算法\n这题的暴力方法是将列表分成 left 和 right 两部分并分别对它们调用函数。我们从 start 到 end 遍历 i 并得到 left=(start,i) 和 right=(i+1,end)。\nleft 和 right 分别返回它们对应部分的最大和最小值和它们对应的",
+      "sunk": false,
+      "tags": [
+        {
+          "__typename": "CommonTagNode",
+          "name": "Memoization",
+          "nameTranslated": "记忆化搜索",
+          "slug": "memoization",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Math",
+          "nameTranslated": "数学",
+          "slug": "math",
+          "tagType": "TOPIC"
+        },
+        {
+          "__typename": "CommonTagNode",
+          "name": "Java",
+          "nameTranslated": "",
+          "slug": "java",
+          "tagType": "LANGUAGE"
+        }
+      ],
+      "thumbnail": "",
+      "title": "最优除法",
+      "topic": {
+        "__typename": "TopicNode",
+        "commentCount": 9,
+        "id": 34816,
+        "viewCount": 4484
+      },
+      "uuid": "j4zPWD",
+      "videosInfo": []
+    }
+  }
+}
